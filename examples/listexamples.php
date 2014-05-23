@@ -1,7 +1,7 @@
 <?php
 
 require_once 'SPORestClient.php';
-require_once 'SPList.php';
+
 
 $username = 'username@tenant.onmicrosoft.com';
 $password = 'password';
@@ -9,6 +9,7 @@ $url = "https://tenant.sharepoint.com/project";
 
 
 
+//connectSPO($url,$username,$password);
 
 
 //printListItems($url,$username,$password);
@@ -23,6 +24,18 @@ $url = "https://tenant.sharepoint.com/project";
 //updateListItem($url,$username,$password);
 
 
+
+function connectSPO($url,$username,$password)
+{
+    try {
+        $client = new SPORestClient($url);
+        $client->signIn($username,$password);
+        echo 'You have authenticated successfully\n';
+    }
+    catch (Exception $e) {
+        echo 'Connection failed: ',  $e->getMessage(), "\n";
+    }
+}
 
 
 /**
@@ -56,7 +69,7 @@ function addListItem($url,$username,$password){
     $list = $client->getList($listTitle);
     $itemProperties = array('Title' => 'Order Approval', 'Body' => 'Order approval task');
     $item = $list->addItem($itemProperties);
-    
+    print "Task '{$item->Title}' has been created succesfully.\r\n";
 }
 
 /**

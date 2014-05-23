@@ -11,15 +11,45 @@ The current version is restricted to SharePoint Online, using claims based authe
 PHP:cURL library is used to make HTTP requests to performs CRUD operations on SharePoint data, using  SharePoint 2013 REST API
 
 
+### SPORestClient(url)
 
-Examples
+An object of this class represents a REST Service client for the specified SharePoint Online (SPO) site.
+
+Example:
+````
+$client = new SPORestClient($url);
+````
+
+### client.signIn (username, password)
+The signin method performs a claims-based authentication:
+
+- build a SAML request (using SAML.xml template included in module)
+- submit a SAML token request to Microsoft Online Security Token Service
+- receive a signed security token
+- POST the token to SharePoint Online
+- receive FedAuth and rtFa authentication cookies 
+- store the cookies in client for use in subsequent requests 
 
 
-The following examples demonstrates how to perform CRUD operations on SharePoint list data.
+Example:
+
+````
+try {
+    $client = new SPORestClient($url);
+    $client->signIn($username,$password);
+    echo 'You have authenticated successfully\n';
+}
+catch (Exception $e) {
+    echo 'Connection failed: ',  $e->getMessage(), "\n";
+}
+````
+
+
+The following examples demonstrates how to perform basic CRUD operations on SharePoint list data.
 
 ````
 require_once 'SPORestClient.php';
-require_once 'SPList.php';
+
 
 $username = 'username@tenant.onmicrosoft.com';
 $password = 'password';
