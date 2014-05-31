@@ -11,13 +11,13 @@ The current version is restricted to SharePoint Online, using claims based authe
 PHP:cURL library is used to make HTTP requests to performs CRUD operations on SharePoint data, using  SharePoint 2013 REST API
 
 
-### SPORestClient(url)
+### SPOClient(url)
 
 An object of this class represents a REST Service client for the specified SharePoint Online (SPO) site.
 
 Example:
 ````
-$client = new SPORestClient($url);
+$client = new SPOClient($url);
 ````
 
 ### client.signIn (username, password)
@@ -35,7 +35,7 @@ Example:
 
 ````
 try {
-    $client = new SPORestClient($url);
+    $client = new SPOClient($url);
     $client->signIn($username,$password);
     echo 'You have authenticated successfully\n';
 }
@@ -48,7 +48,7 @@ catch (Exception $e) {
 The following examples demonstrates how to perform basic CRUD operations on SharePoint list data.
 
 ````
-require_once 'SPORestClient.php';
+require_once 'SPOClient.php';
 
 
 $username = 'username@tenant.onmicrosoft.com';
@@ -58,7 +58,7 @@ $url = "https://tenant.sharepoint.com/";
 generateTasks($url,$username,$password);
 
 function generateTasks($url,$username,$password){
-    $client = new SPORestClient($url);
+    $client = new SPOClient($url);
     $client->signIn($username,$password);
     $listTitle = 'Tasks';
     $list = $client->getList($listTitle);
@@ -75,7 +75,7 @@ function generateTasks($url,$username,$password){
 How to create SharePoint list item:
 ````
 function addListItem($url,$username,$password){
-    $client = new SPORestClient($url);
+    $client = new SPOClient($url);
     $client->signIn($username,$password);
     $listTitle = 'Tasks';
     $list = $client->getList($listTitle);
@@ -88,7 +88,7 @@ function addListItem($url,$username,$password){
 How to delete SharePoint list item:
 ````
 function deleteListItem($url,$username,$password){
-    $client = new SPORestClient($url);
+    $client = new SPOClient($url);
     $client->signIn($username,$password);
     $listTitle = 'Tasks';
     $list = $client->getList($listTitle);
@@ -100,7 +100,7 @@ function deleteListItem($url,$username,$password){
 How to update SharePoint list item:
 ````
 function updateListItem($url,$username,$password){
-    $client = new SPORestClient($url);
+    $client = new SPOClient($url);
     $client->signIn($username,$password);
     $listTitle = 'Tasks';
     $list = $client->getList($listTitle);

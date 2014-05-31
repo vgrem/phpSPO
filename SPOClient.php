@@ -4,8 +4,10 @@
 require_once 'HttpUtilities.php';
 require_once 'SPList.php';
 
-
-class SPORestClient {
+/**
+ * SPO client
+ */
+class SPOClient {
     
     /**
      * External Security Token Service for SPO
@@ -53,13 +55,13 @@ class SPORestClient {
     public function __construct($url)
     {
         if (!function_exists('curl_init')) {
-            throw new Exception('CURL module not available! SPORestClient requires CURL. See http://php.net/manual/en/book.curl.php');
+            throw new Exception('CURL module not available! SPOClient requires CURL. See http://php.net/manual/en/book.curl.php');
         }
         $this->url = $url;  
     }
     
     /**
-     * Sign In operation
+     * SPO sign-in
      * @param mixed $username 
      * @param mixed $password 
      */
@@ -79,6 +81,11 @@ class SPORestClient {
     }
     
     
+    /**
+     * Request the SharePoint List data
+     * @param mixed $options 
+     * @return mixed
+     */
     public function requestList($options)
     {
         $url = $this->url . "/_api/web/Lists/getByTitle('" . $options['list'] . "')/items"; 
@@ -105,6 +112,10 @@ class SPORestClient {
         return $data->d->GetContextWebInformation;
     }
     
+    /**
+     * Save the SPO Form Digest 
+     * @param mixed $contextInfo 
+     */
     private function saveFormDigest($contextInfo)
     {
         $this->formDigest = $contextInfo->FormDigestValue;
@@ -190,7 +201,10 @@ class SPORestClient {
         return $header;
     }
     
-    
+    /**
+     * Save the SPO auth cookies
+     * @param mixed $header 
+     */
     private function saveAuthCookies($header){
         $cookies = cookie_parse($header); 
         $this->FedAuth = $cookies['FedAuth'];
@@ -221,18 +235,18 @@ class SPORestClient {
             throw new Exception(curl_error($ch));
         }
         curl_close($ch);
-        return $this->handleToken($result);
+        return $this->processToken($result);
     }
     
    
     
     
     /**
-     * Verify and extract security token from response
+     * Verify and extract security token from the HTTP response
      * @param mixed $body 
      * @return mixed
      */
-    private function handleToken($body)
+    private function processToken($body)
     {
         $xml = new DOMDocument();
         $xml->loadXML($body);
@@ -246,7 +260,7 @@ class SPORestClient {
     }
 
     /**
-     * Get the XML to request the security token
+     * Construct the XML to request the security token
      * 
      * @param string $username
      * @param string $password
