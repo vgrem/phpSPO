@@ -30,6 +30,21 @@ class SPList
     }
     
     /**
+     * Get Single List Item
+     * @return mixed
+     */
+    public function getItem($id)
+    {
+        $options = array(
+          'list' => $this->name,
+          'id' => $id,
+          'method' => 'GET'
+       );
+       $data = $this->service->requestList($options);
+       return $data->d; 
+    }      
+    
+    /**
      * Get List Item(s)
      * @return mixed
      */
