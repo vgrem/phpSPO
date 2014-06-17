@@ -65,7 +65,7 @@ class SPList
      */
     public function updateItem($id,$itemProperties)
     {
-        $itemProperties['__metadata'] = array('type' => $this->getListItemEntityType());  //append entity metadata type
+        $itemProperties['__metadata'] = array('type' => str_replace("%20","_x0020_",$this->getListItemEntityType()));  //append entity metadata type
         $options = array(
          'list' => $this->name,
          'id' => $id,
@@ -101,7 +101,7 @@ class SPList
      */
     public function addItem($itemProperties)
     {
-        $itemProperties['__metadata'] = array('type' => $this->getListItemEntityType());  //append entity metadata type
+        $itemProperties['__metadata'] = array('type' => str_replace("%20","_x0020_",$this->getListItemEntityType()));  //append entity metadata type
         $options = array(
          'list' => $this->name,
          'data' => $itemProperties,
