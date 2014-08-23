@@ -30,6 +30,21 @@ class SPList
     }
     
     /**
+     * Get Single List Item
+     * @return mixed
+     */
+    public function getItem($id)
+    {
+        $options = array(
+          'list' => $this->name,
+          'id' => $id,
+          'method' => 'GET'
+       );
+       $data = $this->service->requestList($options);
+       return $data->d; 
+    }      
+    
+    /**
      * Get List Item(s)
      * @return mixed
      */
@@ -50,7 +65,7 @@ class SPList
      */
     public function updateItem($id,$itemProperties)
     {
-        $itemProperties['__metadata'] = array('type' => $this->getListItemEntityType());  //append entity metadata type
+        $itemProperties['__metadata'] = array('type' => str_replace("%20","_x0020_",$this->getListItemEntityType()));  //append entity metadata type
         $options = array(
          'list' => $this->name,
          'id' => $id,
@@ -86,7 +101,7 @@ class SPList
      */
     public function addItem($itemProperties)
     {
-        $itemProperties['__metadata'] = array('type' => $this->getListItemEntityType());  //append entity metadata type
+        $itemProperties['__metadata'] = array('type' => str_replace("%20","_x0020_",$this->getListItemEntityType()));  //append entity metadata type
         $options = array(
          'list' => $this->name,
          'data' => $itemProperties,
