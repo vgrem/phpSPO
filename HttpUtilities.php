@@ -19,6 +19,18 @@ function cookie_parse( $header ) {
     return $cookies;
 }
 
+/**
+ * Encodes string 
+ * @param mixed $value 
+ * @return mixed
+ */
+function xmlEncode($value)
+{
+    $encName = rawurlencode($value);
+    $encName = str_replace("%20","_x0020_",$encName);
+    return $encName;
+}
+
  
 
 ?>

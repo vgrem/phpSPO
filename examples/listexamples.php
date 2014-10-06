@@ -31,7 +31,7 @@ function createTask($url,$username,$password){
     $client->signIn($username,$password);
     $listTitle = 'Tasks';
     $list = $client->getList($listTitle);
-    $itemProperties = array('Title' => 'Order Approval', 'Body' => 'Order approval task');
+    $itemProperties = array('Title' => 'Order Approval', 'Body' => 'Order approval task','__metadata' => array('type' => 'SP.Data.TasksListItem'));
     $item = $list->addItem($itemProperties);
     print "Task '{$item->Title}' has been created succesfully.\r\n";
 }
@@ -66,6 +66,7 @@ function updateTask($url,$username,$password){
     $list->updateItem(2,$itemProperties);
     
 }
+
 
 
 ?>
