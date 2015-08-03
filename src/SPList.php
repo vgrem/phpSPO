@@ -57,6 +57,10 @@ class SPList
             'method' => 'GET'
         );
         $data = $this->service->requestList($options);
+        if (!empty($data->error->code)) {
+            $msg = "Sharepoint Error: {$data->error->message->value} (code '{$data->error->code}'";
+            throw new \RuntimeException($msg);
+        }
 
         return $data->d->results;
     }

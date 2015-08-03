@@ -44,6 +44,13 @@ class SPOClient
      */
     public $formDigest;
 
+    /**
+     * SSL Version
+     * @var int
+     */
+    protected $sslVersion = null;
+
+
 
     /**
      * Class constructor
@@ -56,6 +63,15 @@ class SPOClient
             throw new \Exception('CURL module not available! SPOClient requires CURL. See http://php.net/manual/en/book.curl.php');
         }
         $this->url = $url;
+    }
+
+    public function setSslVersion($sslVersion)
+    {
+        if (!is_int($sslVersion)) {
+            throw new \InvalidArgumentException("SSL Version must be an integer");
+        }
+
+        $this->sslVersion = $sslVersion;
     }
 
     /**
@@ -93,8 +109,28 @@ class SPOClient
         }
 
         $options['url'] = $url;
+
         return $this->request($options);
     }
+
+    /**
+     * Init Curl with the default parameters
+     * @return    [type]    [description]
+     */
+    private function initCurl($url)
+    {
+        $ch = curl_init();
+        if (!is_null($this->sslVersion)) {
+            curl_setopt($ch, CURLOPT_SSLVERSION, $this->sslVersion);
+        }
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        return $ch;
+    }
+
 
     /**
      * Request the Context Info
@@ -152,9 +188,7 @@ class SPOClient
             $headers[] = 'X-Http-Method: ' . $options['xhttpmethod'];
         }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_URL, $options['url']);
+        $ch = $this->initCurl($options['url']);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         if ($options['method'] != 'GET') {
             curl_setopt($ch, CURLOPT_POST, 1);
@@ -162,8 +196,6 @@ class SPOClient
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             }
         }
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
         if ($result === false) {
             throw new \Exception(curl_error($ch));
@@ -187,12 +219,9 @@ class SPOClient
         $urlinfo = parse_url($this->url);
         $url =  $urlinfo['scheme'] . '://' . $urlinfo['host'] . self::$signInPageUrl;
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_URL, $url);
+        $ch = $this->initCurl($url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $token);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
         $result = curl_exec($ch);
         if ($result === false) {
@@ -229,12 +258,9 @@ class SPOClient
 
         $samlRequest = $this->buildSamlRequest($username, $password, $this->url);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_URL, self::$stsUrl);
+        $ch = $this->initCurl(self::$stsUrl);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $samlRequest);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
         if ($result === false) {
             throw new \Exception(curl_error($ch));
@@ -261,11 +287,15 @@ class SPOClient
             throw new \Exception($nodeErr->nodeValue);
         }
         $nodeToken = $xpath->query("//wsse:BinarySecurityToken")->item(0);
+        if (empty($nodeToken)) {
+            throw new \RuntimeException('Error trying to get a token, check your URL or credentials');
+        }
+
         return $nodeToken->nodeValue;
     }
 
     /**
-     * Construct the XML to request the security token
+     * Construct the XML to request the securitgit comy token
      *
      * @param string $username
      * @param string $password
@@ -274,7 +304,12 @@ class SPOClient
      */
     private function buildSamlRequest($username, $password, $address)
     {
-        $samlRequestTemplate = file_get_contents(__DIR__ . '../xml/SAML.xml');
+        $samlXML = __DIR__ . '/../xml/SAML.xml';
+        if (!file_exists($samlXML)) {
+            throw new \Exception("The file $samlXML does not exist");
+        }
+
+        $samlRequestTemplate = file_get_contents($samlXML);
         $samlRequestTemplate = str_replace('{username}', $username, $samlRequestTemplate);
         $samlRequestTemplate = str_replace('{password}', $password, $samlRequestTemplate);
         $samlRequestTemplate = str_replace('{address}', $address, $samlRequestTemplate);
