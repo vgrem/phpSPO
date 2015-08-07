@@ -1,13 +1,11 @@
 <?php
-
-
-require_once 'HttpUtilities.php';
-require_once 'SPList.php';
+namespace VGrem\phpSPO;
 
 /**
  * SPO client
  */
-class SPOClient {
+class SPOClient
+{
 
     /**
      * External Security Token Service for SPO
@@ -46,6 +44,13 @@ class SPOClient {
      */
     public $formDigest;
 
+    /**
+     * SSL Version
+     * @var int
+     */
+    protected $sslVersion = null;
+
+
 
     /**
      * Class constructor
@@ -55,9 +60,18 @@ class SPOClient {
     public function __construct($url)
     {
         if (!function_exists('curl_init')) {
-            throw new Exception('CURL module not available! SPOClient requires CURL. See http://php.net/manual/en/book.curl.php');
+            throw new \Exception('CURL module not available! SPOClient requires CURL. See http://php.net/manual/en/book.curl.php');
         }
         $this->url = $url;
+    }
+
+    public function setSslVersion($sslVersion)
+    {
+        if (!is_int($sslVersion)) {
+            throw new \InvalidArgumentException("SSL Version must be an integer");
+        }
+
+        $this->sslVersion = $sslVersion;
     }
 
     /**
@@ -74,12 +88,42 @@ class SPOClient {
         $this->saveFormDigest($contextInfo);
     }
 
+    /**
+     * Get a list by its name
+     * @param     string    $name    List's name
+     * @return    SPList             SPList Object
+     */
+    public function getList($name)
+    {
+        // Check first if the list exists
+        if ($this->listExists($name) === false) {
+            throw new \InvalidArgumentException("Can't retrieve the list '$name'. Check the name.");
+        }
 
-    public function getList($name) {
-        $list = new SPList($this, $name);
-        return $list;
+        // Then send back the list
+        return new SPList($this, $name);
     }
 
+    /**
+     * Request the SharePoint List data
+     * @param mixed $options
+     * @return mixed
+     */
+    public function listExists($name)
+    {
+        $options = array(
+            'url'  => $this->url . "/_api/web/Lists/getByTitle('{$name}')",
+            'method' => 'GET',
+        );
+
+        try {
+            $this->request($options);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * Request the SharePoint List data
@@ -89,26 +133,48 @@ class SPOClient {
     public function requestList($options)
     {
         $url = $this->url . "/_api/web/Lists/getByTitle('" . $options['list'] . "')/items";
-        if(array_key_exists('id', $options)){
+        if (array_key_exists('id', $options)) {
             $url = $url . "(" . $options['id'] . ")";
+        } elseif (array_key_exists('query', $options)) {
+            $url = $url."?".$options['query'];
         }
 
         $options['url'] = $url;
+
         return $this->request($options);
     }
+
+    /**
+     * Init Curl with the default parameters
+     * @return    [type]    [description]
+     */
+    protected function initCurl($url)
+    {
+        $ch = curl_init();
+        if (!is_null($this->sslVersion)) {
+            curl_setopt($ch, CURLOPT_SSLVERSION, $this->sslVersion);
+        }
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        return $ch;
+    }
+
 
     /**
      * Request the Context Info
      * @return mixed
      */
-    private function requestContextInfo()
+    protected function requestContextInfo()
     {
         $options = array(
          'url' => $this->url . "/_api/contextinfo",
          'method' => 'POST'
         );
 
-        $data = $this->request($options, FALSE);
+        $data = $this->request($options, false);
         return $data->d->GetContextWebInformation;
     }
 
@@ -116,7 +182,7 @@ class SPOClient {
      * Save the SPO Form Digest
      * @param mixed $contextInfo
      */
-    private function saveFormDigest($contextInfo)
+    protected function saveFormDigest($contextInfo)
     {
         $this->formDigest = $contextInfo->FormDigestValue;
     }
@@ -128,7 +194,7 @@ class SPOClient {
      * @throws Exception
      * @return mixed
      */
-    public function request($options, $pass_form_digest = TRUE)
+    protected function request($options, $pass_form_digest = true)
     {
         $data = array_key_exists('data', $options) ? json_encode($options['data']) : '';
         $headers = array(
@@ -144,35 +210,36 @@ class SPOClient {
         // Include X-RequestDigest header if formdigest is specified
         if (array_key_exists('formdigest', $options)) {
             $headers[] = 'X-RequestDigest: ' . $options['formdigest'];
-        }
-        elseif ($pass_form_digest == TRUE && ($options['method'] == 'POST' ||$options['method'] == 'DELETE')) {
-          $contextInfo = $this->requestContextInfo();
-          $headers[] = 'X-RequestDigest: ' . $contextInfo->FormDigestValue;
+        } elseif ($pass_form_digest == true && ($options['method'] == 'POST' ||$options['method'] == 'DELETE')) {
+            $contextInfo = $this->requestContextInfo();
+            $headers[] = 'X-RequestDigest: ' . $contextInfo->FormDigestValue;
         }
         // Include X-Http-Method header if xhttpmethod is specified
         if (array_key_exists('xhttpmethod', $options)) {
             $headers[] = 'X-Http-Method: ' . $options['xhttpmethod'];
         }
 
-        $ch = curl_init();
-        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,0);
-        curl_setopt($ch,CURLOPT_URL,$options['url']);
-        curl_setopt($ch,CURLOPT_HTTPHEADER,$headers);
-        if($options['method'] != 'GET') {
-            curl_setopt($ch,CURLOPT_POST,1);
-            if(array_key_exists('data', $options)){
-                curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
+        $ch = $this->initCurl($options['url']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        if ($options['method'] != 'GET') {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            if (array_key_exists('data', $options)) {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             }
         }
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
-        if($result === false) {
-            throw new Exception(curl_error($ch));
+        if ($result === false) {
+            throw new \Exception(curl_error($ch));
         }
 
         curl_close($ch);
-        return json_decode($result);
+        $result = json_decode($result);
+
+        if (isset($result->error)) {
+            throw new \RuntimeException("SharePoint Error: " . $result->error->message->value);
+        }
+
+        return $result;
     }
 
 
@@ -183,23 +250,21 @@ class SPOClient {
      * @param mixed $token
      * @throws Exception
      */
-    private function submitToken($token) {
+    protected function submitToken($token)
+    {
 
         $urlinfo = parse_url($this->url);
         $url =  $urlinfo['scheme'] . '://' . $urlinfo['host'] . self::$signInPageUrl;
 
-        $ch = curl_init();
-        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,false);
-        curl_setopt($ch,CURLOPT_URL,$url);
-        curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch,CURLOPT_POSTFIELDS,$token);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $ch = $this->initCurl($url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $token);
         curl_setopt($ch, CURLOPT_HEADER, true);
         $result = curl_exec($ch);
-        if($result === false) {
-            throw new Exception(curl_error($ch));
+        if ($result === false) {
+            throw new \Exception(curl_error($ch));
         }
-        $header=substr($result,0,curl_getinfo($ch,CURLINFO_HEADER_SIZE));
+        $header=substr($result, 0, curl_getinfo($ch, CURLINFO_HEADER_SIZE));
         curl_close($ch);
 
         return $header;
@@ -209,8 +274,9 @@ class SPOClient {
      * Save the SPO auth cookies
      * @param mixed $header
      */
-    private function saveAuthCookies($header){
-        $cookies = cookie_parse($header);
+    protected function saveAuthCookies($header)
+    {
+        $cookies = HttpUtilities::cookieParse($header);
         $this->FedAuth = $cookies['FedAuth'];
         $this->rtFa = $cookies['rtFa'];
     }
@@ -224,19 +290,17 @@ class SPOClient {
      * @return string
      * @throws Exception
      */
-    private function requestToken($username, $password) {
+    protected function requestToken($username, $password)
+    {
 
         $samlRequest = $this->buildSamlRequest($username, $password, $this->url);
 
-        $ch = curl_init();
-        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,false);
-        curl_setopt($ch,CURLOPT_URL,self::$stsUrl);
-        curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch,CURLOPT_POSTFIELDS,$samlRequest);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $ch = $this->initCurl(self::$stsUrl);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $samlRequest);
         $result = curl_exec($ch);
-        if($result === false) {
-            throw new Exception(curl_error($ch));
+        if ($result === false) {
+            throw new \Exception(curl_error($ch));
         }
         curl_close($ch);
         return $this->processToken($result);
@@ -250,35 +314,42 @@ class SPOClient {
      * @param mixed $body
      * @return mixed
      */
-    private function processToken($body)
+    protected function processToken($body)
     {
-        $xml = new DOMDocument();
+        $xml = new \DOMDocument();
         $xml->loadXML($body);
-        $xpath = new DOMXPath($xml);
-        if($xpath->query("//S:Fault")->length > 0) {
+        $xpath = new \DOMXPath($xml);
+        if ($xpath->query("//S:Fault")->length > 0) {
             $nodeErr = $xpath->query("//S:Fault/S:Detail/psf:error/psf:internalerror/psf:text")->item(0);
-            throw new Exception($nodeErr->nodeValue);
+            throw new \Exception($nodeErr->nodeValue);
         }
         $nodeToken = $xpath->query("//wsse:BinarySecurityToken")->item(0);
+        if (empty($nodeToken)) {
+            throw new \RuntimeException('Error trying to get a token, check your URL or credentials');
+        }
+
         return $nodeToken->nodeValue;
     }
 
     /**
-     * Construct the XML to request the security token
+     * Construct the XML to request the securitgit comy token
      *
      * @param string $username
      * @param string $password
      * @param string $address
      * @return type string
      */
-    private function buildSamlRequest($username, $password, $address) {
-        $samlRequestTemplate = file_get_contents('./SAML.xml');
+    protected function buildSamlRequest($username, $password, $address)
+    {
+        $samlXML = __DIR__ . '/../xml/SAML.xml';
+        if (!file_exists($samlXML)) {
+            throw new \Exception("The file $samlXML does not exist");
+        }
+
+        $samlRequestTemplate = file_get_contents($samlXML);
         $samlRequestTemplate = str_replace('{username}', $username, $samlRequestTemplate);
         $samlRequestTemplate = str_replace('{password}', $password, $samlRequestTemplate);
         $samlRequestTemplate = str_replace('{address}', $address, $samlRequestTemplate);
         return $samlRequestTemplate;
     }
-
-
-
 }
