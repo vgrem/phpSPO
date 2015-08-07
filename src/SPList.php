@@ -24,10 +24,33 @@ class SPList
      * @param mixed $service
      * @param string $name
      */
-    public function __construct($service, $name)
+    public function __construct(SPOClient $service, $name)
     {
         $this->service = $service;
         $this->name = $name;
+    }
+
+    /**
+     * Add List Item
+     * @param array $itemProperties
+     */
+    public function addItem(array $itemProperties)
+    {
+        //append entity metadata type
+        if (!isset($itemProperties['__metadata'])) {
+            $itemProperties['__metadata'] = array('type' => $this->getListItemEntityType());
+        }
+
+        $options = array(
+           'list' => $this->name,
+           'data' => $itemProperties,
+           'method' => 'POST',
+           'formdigest' => $this->service->formDigest
+        );
+
+        $data = $this->service->requestList($options);
+
+        return $data->d;
     }
 
     /**
@@ -47,6 +70,24 @@ class SPList
     }
 
     /**
+     * Get List Item(s) by Properties
+     * @param array $query
+     */
+
+    public function getItemsByQuery($query)
+    {
+        $options = array(
+            'list' => $this->name,
+            'query' => $query,
+            'method' => 'GET'
+        );
+
+        $data = $this->service->requestList($options);
+        return $data->d->results;
+    }
+
+
+    /**
      * Get List Item(s)
      * @return mixed
      */
@@ -57,10 +98,6 @@ class SPList
             'method' => 'GET'
         );
         $data = $this->service->requestList($options);
-        if (!empty($data->error->code)) {
-            $msg = "Sharepoint Error: {$data->error->message->value} (code '{$data->error->code}'";
-            throw new \RuntimeException($msg);
-        }
 
         return $data->d->results;
     }
@@ -102,28 +139,6 @@ class SPList
         $this->service->requestList($options);
     }
 
-    /**
-     * Add List Item
-     * @param array $itemProperties
-     */
-    public function addItem($itemProperties)
-    {
-        //append entity metadata type
-        if (!isset($itemProperties['__metadata'])) {
-            $itemProperties['__metadata'] = array('type' => $this->getListItemEntityType());
-        }
-
-        $options = array(
-           'list' => $this->name,
-           'data' => $itemProperties,
-           'method' => 'POST',
-           'formdigest' => $this->service->formDigest
-        );
-
-        $data = $this->service->requestList($options);
-
-        return $data->d;
-    }
 
     /**
      * Resolve ListItem entity type

@@ -88,13 +88,42 @@ class SPOClient
         $this->saveFormDigest($contextInfo);
     }
 
-
+    /**
+     * Get a list by its name
+     * @param     string    $name    List's name
+     * @return    SPList             SPList Object
+     */
     public function getList($name)
     {
-        $list = new SPList($this, $name);
-        return $list;
+        // Check first if the list exists
+        if ($this->listExists($name) === false) {
+            throw new \InvalidArgumentException("Can't retrieve the list '$name'. Check the name.");
+        }
+
+        // Then send back the list
+        return new SPList($this, $name);
     }
 
+    /**
+     * Request the SharePoint List data
+     * @param mixed $options
+     * @return mixed
+     */
+    public function listExists($name)
+    {
+        $options = array(
+            'url'  => $this->url . "/_api/web/Lists/getByTitle('{$name}')",
+            'method' => 'GET',
+        );
+
+        try {
+            $this->request($options);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * Request the SharePoint List data
@@ -106,6 +135,8 @@ class SPOClient
         $url = $this->url . "/_api/web/Lists/getByTitle('" . $options['list'] . "')/items";
         if (array_key_exists('id', $options)) {
             $url = $url . "(" . $options['id'] . ")";
+        } elseif (array_key_exists('query', $options)) {
+            $url = $url."?".$options['query'];
         }
 
         $options['url'] = $url;
@@ -117,7 +148,7 @@ class SPOClient
      * Init Curl with the default parameters
      * @return    [type]    [description]
      */
-    private function initCurl($url)
+    protected function initCurl($url)
     {
         $ch = curl_init();
         if (!is_null($this->sslVersion)) {
@@ -136,7 +167,7 @@ class SPOClient
      * Request the Context Info
      * @return mixed
      */
-    private function requestContextInfo()
+    protected function requestContextInfo()
     {
         $options = array(
          'url' => $this->url . "/_api/contextinfo",
@@ -151,7 +182,7 @@ class SPOClient
      * Save the SPO Form Digest
      * @param mixed $contextInfo
      */
-    private function saveFormDigest($contextInfo)
+    protected function saveFormDigest($contextInfo)
     {
         $this->formDigest = $contextInfo->FormDigestValue;
     }
@@ -163,7 +194,7 @@ class SPOClient
      * @throws Exception
      * @return mixed
      */
-    public function request($options, $pass_form_digest = true)
+    protected function request($options, $pass_form_digest = true)
     {
         $data = array_key_exists('data', $options) ? json_encode($options['data']) : '';
         $headers = array(
@@ -202,7 +233,13 @@ class SPOClient
         }
 
         curl_close($ch);
-        return json_decode($result);
+        $result = json_decode($result);
+
+        if (isset($result->error)) {
+            throw new \RuntimeException("SharePoint Error: " . $result->error->message->value);
+        }
+
+        return $result;
     }
 
 
@@ -213,7 +250,7 @@ class SPOClient
      * @param mixed $token
      * @throws Exception
      */
-    private function submitToken($token)
+    protected function submitToken($token)
     {
 
         $urlinfo = parse_url($this->url);
@@ -237,7 +274,7 @@ class SPOClient
      * Save the SPO auth cookies
      * @param mixed $header
      */
-    private function saveAuthCookies($header)
+    protected function saveAuthCookies($header)
     {
         $cookies = HttpUtilities::cookieParse($header);
         $this->FedAuth = $cookies['FedAuth'];
@@ -253,7 +290,7 @@ class SPOClient
      * @return string
      * @throws Exception
      */
-    private function requestToken($username, $password)
+    protected function requestToken($username, $password)
     {
 
         $samlRequest = $this->buildSamlRequest($username, $password, $this->url);
@@ -277,7 +314,7 @@ class SPOClient
      * @param mixed $body
      * @return mixed
      */
-    private function processToken($body)
+    protected function processToken($body)
     {
         $xml = new \DOMDocument();
         $xml->loadXML($body);
@@ -302,7 +339,7 @@ class SPOClient
      * @param string $address
      * @return type string
      */
-    private function buildSamlRequest($username, $password, $address)
+    protected function buildSamlRequest($username, $password, $address)
     {
         $samlXML = __DIR__ . '/../xml/SAML.xml';
         if (!file_exists($samlXML)) {
