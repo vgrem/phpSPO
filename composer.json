@@ -1,0 +1,23 @@
+{
+    "name": "vgrem/phpSPO",
+    "description": "This library provides a SharePoint client for PHP applications. This allows you to performs CRUD operations on SharePoint data, using an REST/OData based API for SharePoint 2013.",
+    "type": "library",
+    "keywords": ["sharepoint", "rest", "curl", "api"],
+    "authors": [
+        {
+            "name": "Vadim Gremyachev",
+            "email": "vvgrem@gmail.com"
+        }
+    ],
+    "license": "LGPL-3.0+",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "VGrem\\phpSPO\\": "src/"
+        }
+    }
+}
