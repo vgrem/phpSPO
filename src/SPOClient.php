@@ -242,9 +242,6 @@ class SPOClient
         return $result;
     }
 
-
-
-
     /**
      * Get the FedAuth and rtFa cookies
      * @param mixed $token
@@ -252,7 +249,6 @@ class SPOClient
      */
     protected function submitToken($token)
     {
-
         $urlinfo = parse_url($this->url);
         $url =  $urlinfo['scheme'] . '://' . $urlinfo['host'] . self::$signInPageUrl;
 
@@ -281,7 +277,6 @@ class SPOClient
         $this->rtFa = $cookies['rtFa'];
     }
 
-
     /**
      * Request the token
      *
@@ -305,9 +300,6 @@ class SPOClient
         curl_close($ch);
         return $this->processToken($result);
     }
-
-
-
 
     /**
      * Verify and extract security token from the HTTP response

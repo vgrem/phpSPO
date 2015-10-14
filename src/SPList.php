@@ -50,6 +50,11 @@ class SPList
 
         $data = $this->service->requestList($options);
 
+        // Unknown error
+        if (!isset($data->d)) {
+            throw new \RuntimeException("Can't add an item. Unknown Error");
+        }
+
         return $data->d;
     }
 
