@@ -3,14 +3,22 @@ This library provides a SharePoint REST client for PHP applications. This allows
 
 ### Installation
 
-## PHP version
+### PHP version
 - PHP 5.3 or later
 
 
 ### API
+
 -  PHP:cURL library is used to perform HTTP requests 
 -  `ClientContext` - represents a client context to to performs CRUD operations against SharePoint resources via SharePoint Online REST API
+-  `ClientRequest` - represents a client request (more low level compared to `ClientContext`) to to performs CRUD operations against SharePoint resources via SharePoint Online REST API
 -  `AuthenticationContext` - represents an object that provides credentials to access SharePoint Online resources.
+  
+
+There are **two** approaches available to perform REST queries:
+
+-   via `ClientRequest` class where you need to construct REST queries by specifing endpoint url, headers if required and payload (low level approach), see [renameFolder.php](https://github.com/vgrem/phpSPO/blob/master/examples/renameFolder.php) for a more details
+-   via `ClientContext` class where you target client object resources such as Web, ListItem and etc., see [listexamples.php](https://github.com/vgrem/phpSPO/blob/master/examples/listexamples.php) for a more details 
 
 
 Example:
