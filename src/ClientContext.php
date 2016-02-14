@@ -58,7 +58,7 @@ class ClientContext
         foreach ($this->queries as $qry) {
             $data = $this->getPendingRequest()->executeQuery($qry);
             if (!empty($data)){
-                $qry->setClientObjectProperties($data->d);
+                $qry->initClientObjectFromJson($data->d);
             }
         }
         $this->queries = array();

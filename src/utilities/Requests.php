@@ -19,7 +19,7 @@ class Requests
 	    self::$sslVersion = $sslVersion;
 	}
 
-	public static function post($url,$headers,$data,$passHeaders=false)
+	public static function post($url,$headers,$data=null,$passHeaders=false)
 	{
 		$ch = Requests::initCurl($url);
         curl_setopt($ch, CURLOPT_POST, 1);

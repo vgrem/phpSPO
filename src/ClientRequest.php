@@ -83,9 +83,7 @@ class ClientRequest
                 $this->addHeader($headers,'IF-MATCH','*');
             }
 
-            if (!isset($this->formDigest)) {
-                $this->requestFormDigest();
-            }
+            $this->ensureFormDigest();
             $this->addHeader($headers,'X-RequestDigest',$this->formDigest);
             $result = Requests::post($url,$headers,$data);
         }
@@ -106,6 +104,14 @@ class ClientRequest
     private function addHeader(&$headers,$key,$value)
     {
         $headers[] = $key . ':' . $value;
+    }
+
+
+    protected function ensureFormDigest()
+    {
+        if (!isset($this->formDigest)) {
+            $this->requestFormDigest();
+        }
     }
 
 

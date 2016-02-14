@@ -41,19 +41,27 @@ class ClientQuery
         return $this->operationType;
     }
 
-    public function setClientObjectProperties($properties)
+    public function initClientObjectFromJson($properties)
     {
-        $ctx = $this->resultObject->getContext();
+        $clientObjectClass = str_replace('Collection','',get_class($this->resultObject));
+        
+        $ctx = $this->getContext();
         if(isset($properties->results)){
             foreach($properties->results as $item){
-                $clientObject = new ListItem($ctx);
-                $clientObject->setProperties($item);
+                $clientObject = new $clientObjectClass($ctx);
+                $clientObject->fromJson($item);
                 $this->resultObject->addChild($clientObject);
             }
         }
         else {
-            $this->resultObject->setProperties($properties);
+            $this->resultObject->fromJson($properties);
         }
+    }
+
+
+    protected function getContext()
+    {
+        return $this->resultObject->getContext();
     }
     
 }

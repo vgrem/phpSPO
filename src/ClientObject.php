@@ -40,10 +40,9 @@ class ClientObject
         return $this->resourcePath;
     }
 
-    private function getEntityName()
+    public function getEntityName()
     {
-        $name = end(explode("\\",get_class($this)));
-        return $name;
+        return end(explode("\\",get_class($this)));
     }
 
     public function getQueryOptions()
@@ -51,10 +50,10 @@ class ClientObject
         return $this->queryOptions;
     }
 
-    public function setProperties($value)
+    public function fromJson($properties)
     {
-        foreach($value as $key => $value){
-            $this->$key = $value;
+        foreach($properties as $key => $properties){
+            $this->$key = $properties;
         }
     }
 
