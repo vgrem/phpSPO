@@ -14,7 +14,7 @@ try {
 
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 	printTasks($ctx);
-    //createTask($ctx);
+    createTask($ctx);
 	//updateTask($ctx);
     //deleteTask($ctx);
 }

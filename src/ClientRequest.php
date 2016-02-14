@@ -14,22 +14,48 @@ class ClientRequest
 
     private $formDigest;
 
-    private $headers;
+    private $defaultHeaders;
 
 
 	public function __construct($url, AuthenticationContext $authContext)
     {
 		$this->baseUrl = $url;
 		$this->authContext = $authContext;
-        $this->headers = array();
-        $this->addHeader($this->headers,'Accept', 'application/json; odata=verbose');
-        $this->addHeader($this->headers,'Content-type', 'application/json; odata=verbose');
-        $this->addHeader($this->headers,'Cookie', $authContext->getAuthenticationCookie());
+        $this->defaultHeaders = array();
+        $this->addHeader($this->defaultHeaders,'Accept', 'application/json; odata=verbose');
+        $this->addHeader($this->defaultHeaders,'Content-type', 'application/json; odata=verbose');
+        $this->addHeader($this->defaultHeaders,'Cookie', $authContext->getAuthenticationCookie());
     }
 
-    public function executeQueryDirect($url,$headers,$data)
+    public function executeQueryDirect($url,$headers=null,$data=null)
     {
-        throw new \Exception("Not implemented");
+        if(!isset($headers))
+            $headers = $this->defaultHeaders;
+        else {
+            $headers_local = $this->defaultHeaders;
+            foreach($headers as $key => $value){
+                $this->addHeader($headers_local,$key, $value);
+            }
+            $headers = $headers_local;
+        }
+
+        if(!empty($data) or array_key_exists('X-HTTP-Method',$headers)){
+            if (!isset($this->formDigest)) {
+                $this->requestFormDigest();
+            }
+            $this->addHeader($headers,'X-RequestDigest',$this->formDigest);
+            $dataJson = ($data != null ? json_encode($data) : '');
+            $result = Requests::post($url,$headers,$dataJson);
+        }
+        else{
+            $result = Requests::get($url,$headers);
+        }
+
+        $result = json_decode($result);
+        if (isset($result->error)) {
+            throw new \RuntimeException("Error: " . $result->error->message->value);
+        }
+        return $result;
     }
 
 	/**
@@ -42,7 +68,7 @@ class ClientRequest
     {
         $url = $query->buildUrl(); 
         $data =  $query->buildData();
-        $headers = $this->headers;
+        $headers = $this->defaultHeaders;
         $this->addHeader($headers,'Content-length', strlen($data));
 
         $opMethod = $query->getOperationType();
@@ -90,7 +116,7 @@ class ClientRequest
     protected function requestFormDigest()
     {
         $url = $this->baseUrl . "/_api/contextinfo";
-        $data = Requests::post($url,$this->headers);
+        $data = Requests::post($url,$this->defaultHeaders);
         $json = json_decode($data);
         $this->formDigest = $json->d->GetContextWebInformation->FormDigestValue;
     }
