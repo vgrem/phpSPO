@@ -1,70 +1,86 @@
 <?php
 
-require_once 'SPOClient.php';
+require_once(__DIR__.'/../src/ClientContext.php');
+require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
+require_once 'Settings.php';
+
+use SharePoint\PHP\Client\AuthenticationContext;
+use SharePoint\PHP\Client\ClientContext;
+
+
+try {
+	$authCtx = new AuthenticationContext($Settings['Url']);
+	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
+
+    $ctx = new ClientContext($Settings['Url'],$authCtx);
+	printTasks($ctx);
+    //createTask($ctx);
+	//updateTask($ctx);
+    //deleteTask($ctx);
+}
+catch (Exception $e) {
+	echo 'Error: ',  $e->getMessage(), "\n";
+}
+
+
 
 /**
  * Read list items operation example
- * @param mixed $url 
- * @param mixed $username 
- * @param mixed $password 
  */
-function printTasks($url,$username,$password){
-    $client = new SPOClient($url);
-    $client->signIn($username,$password);
-    $listTitle = 'Tasks';
+function printTasks(ClientContext $ctx){
+	
+	$listTitle = 'Tasks';
     
-    $list = $client->getList($listTitle);
-    $items = $list->getItems();
-    foreach( $items as $item ) {
-        print "Task: '{$item->Title}'\r\n";
-    }
+	$web = $ctx->getWeb();
+    $list = $web->getLists()->getByTitle($listTitle);
+	$items = $list->getItems();
+    $ctx->load($items);
+    $ctx->executeQuery();
+	foreach( $items->getData() as $item ) {
+	    print "Task: '{$item->Title}'\r\n";
+	}
 }
 
 /**
- * Create list item operation example
- * @param mixed $url 
- * @param mixed $username 
- * @param mixed $password 
+ * Create list item operation example 
  */
-function createTask($url,$username,$password){
-    $client = new SPOClient($url);
-    $client->signIn($username,$password);
-    $listTitle = 'Tasks';
-    $list = $client->getList($listTitle);
-    $itemProperties = array('Title' => 'Order Approval', 'Body' => 'Order approval task','__metadata' => array('type' => 'SP.Data.TasksListItem'));
-    $item = $list->addItem($itemProperties);
-    print "Task '{$item->Title}' has been created succesfully.\r\n";
+function createTask(ClientContext $ctx){
+	
+	$listTitle = 'Tasks';
+	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
+	$itemProperties = array('Title' => 'Order Approval', 'Body' => 'Order approval task','__metadata' => array('type' => 'SP.Data.TasksListItem'));
+	$item = $list->addItem($itemProperties);
+    $ctx->executeQuery();
+	print "Task '{$item->Title}' has been created.\r\n";
 }
 
 /**
  * Delete list item operation example
- * @param mixed $url 
- * @param mixed $username 
- * @param mixed $password 
  */
-function deleteTask($url,$username,$password){
-    $client = new SPOClient($url);
-    $client->signIn($username,$password);
-    $listTitle = 'Tasks';
-    $list = $client->getList($listTitle);
-    $list->deleteItem(2);
+function deleteTask(ClientContext $ctx){
+	
+	$listTitle = 'Tasks';
+	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
+    $itemId = 27;
+    $listItem = $list->getItemById($itemId);
+	$listItem->deleteObject();
+    $ctx->executeQuery();
+    print "Task has been deleted.\r\n";
     
 }
 
 /**
  * Update list item opeation example
- * @param mixed $url 
- * @param mixed $username 
- * @param mixed $password 
  */
-function updateTask($url,$username,$password){
-    $client = new SPOClient($url);
-    $client->signIn($username,$password);
-    $listTitle = 'Tasks';
-    $list = $client->getList($listTitle);
-    $itemProperties = array('PercentComplete' => 1);
-    $list->updateItem(2,$itemProperties);
-    
+function updateTask(ClientContext $ctx){
+	$listTitle = 'Tasks';
+    $itemId = 27;
+	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
+    $listItem = $list->getItemById($itemId);
+	$itemProperties = array('PercentComplete' => 1, '__metadata' => array('type' => 'SP.Data.TasksListItem'));
+	$listItem->update($itemProperties);
+    $ctx->executeQuery();
+    print "Task has been updated.\r\n";
 }
 
 
