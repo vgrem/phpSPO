@@ -8,9 +8,18 @@ namespace SharePoint\PHP\Client;
  */
 class Web extends ClientObject
 {
-    public function __construct($context)
+ 
+    public function update($webUpdationInformation)
     {
-        parent::__construct($context);
+        $this->payload = $webUpdationInformation;
+        $qry = new ClientQuery($this,ClientOperationType::Update);
+        $this->getContext()->addQuery($qry);
+    }
+
+    public function deleteObject()
+    {
+        $qry = new ClientQuery($this,ClientOperationType::Delete);
+        $this->getContext()->addQuery($qry);
     }
    
 
@@ -22,7 +31,16 @@ class Web extends ClientObject
         return $this->listCollection;
     }
 
+    public function getWebs()
+    {
+        if(!isset($this->webCollection)){
+            $this->webCollection = new WebCollection($this->getContext(),"/_api/web/webs");
+        }
+        return $this->webCollection;
+    }
 
 
     private $listCollection;
+
+    private $webCollection;
 }

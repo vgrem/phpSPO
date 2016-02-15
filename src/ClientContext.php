@@ -12,6 +12,7 @@ require_once('List.php');
 require_once('ListCollection.php');
 require_once('ListItem.php');
 require_once('ListItemCollection.php');
+require_once('WebCollection.php');
 require_once('ClientQuery.php');
 
 /**
@@ -68,7 +69,7 @@ class ClientContext
     public function getWeb()
     {
         if(!isset($this->web)){
-            $this->web = new Web($this);
+            $this->web = new Web($this,"/_api/web");
         }
         return $this->web;
     }

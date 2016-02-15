@@ -16,13 +16,15 @@ class ListCollection extends ClientObjectCollection
      */
     public function getByTitle($title)
     {
-        $resoursePath = sprintf("/_api/lists/getbytitle('%s')",$title);
-        $list = new SPList($this->getContext(),$resoursePath);
+        $resourcePath = "/_api/lists/getbytitle('{$title}')";
+        $list = new SPList($this->getContext(),$resourcePath);
         return $list;
     }
 
     public function getById($id)
     {
-        throw new \Exception("Not implemented");
+        $resourcePath = "/_api/lists/getbyid(guid'{$id}')";
+        $list = new SPList($this->getContext(),$resourcePath);
+        return $list;
     }
 }
