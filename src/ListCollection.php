@@ -27,4 +27,13 @@ class ListCollection extends ClientObjectCollection
         $list = new SPList($this->getContext(),$resourcePath);
         return $list;
     }
+
+    public function add(array $listCreationInformation)
+    {
+        $list = new SPList($this->getContext(),"/_api/web/lists",null,$listCreationInformation);
+        $qry = new ClientQuery($list,ClientOperationType::Create);
+        $this->getContext()->addQuery($qry);
+        $this->addChild($list);
+        return $list;
+    }
 }

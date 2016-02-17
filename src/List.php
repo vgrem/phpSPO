@@ -39,4 +39,17 @@ class SPList extends ClientObject
         $items = new ListItemCollection($this->getContext(),$resoursePath);
         return $items;
     }
+
+    public function update($listUpdationInformation)
+    {
+        $this->payload = $listUpdationInformation;
+        $qry = new ClientQuery($this,ClientOperationType::Update);
+        $this->getContext()->addQuery($qry);
+    }
+
+    public function deleteObject()
+    {
+        $qry = new ClientQuery($this,ClientOperationType::Delete);
+        $this->getContext()->addQuery($qry);
+    }
 }

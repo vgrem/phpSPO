@@ -26,7 +26,7 @@ class Web extends ClientObject
     public function getLists()
     {
         if(!isset($this->listCollection)){
-            $this->listCollection = new ListCollection($this->getContext());
+            $this->listCollection = new ListCollection($this->getContext(),"/_api/web/lists");
         }
         return $this->listCollection;
     }

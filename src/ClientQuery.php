@@ -44,6 +44,7 @@ class ClientQuery
     public function initClientObjectFromJson($properties)
     {
         $clientObjectClass = str_replace('Collection','',get_class($this->resultObject));
+        if($clientObjectClass == "SharePoint\PHP\Client\List") $clientObjectClass = "SharePoint\PHP\Client\SPList";
         
         $ctx = $this->getContext();
         if(isset($properties->results)){
