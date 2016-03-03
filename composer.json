@@ -1,6 +1,6 @@
 {
     "name": "vgrem/phpSPO",
-    "description": "This library provides a SharePoint REST client for PHP applications. This allows you to performs CRUD operations againts SharePoint resources via an REST/OData based API",
+    "description": "This library provides a SharePoint REST client for PHP applications. This allows you to performs CRUD operations against SharePoint resources via an REST/OData based API",
     "type": "library",
     "keywords": ["sharepoint", "rest", "curl", "api"],
     "authors": [
@@ -17,7 +17,8 @@
     },
     "autoload": {
         "psr-4": {
-            "VGrem\\phpSPO\\": "src/"
+            "SharePoint\\PHP\\Client\\": ["src/", "src/auth", "src/utilities"]
         }
     }
 }
+
