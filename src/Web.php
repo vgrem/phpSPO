@@ -40,6 +40,16 @@ class Web extends ClientObject
     }
 
 
+    public function getFileByUrl($serverRelativeUrl){
+        $serverRelativeUrl = rawurlencode($serverRelativeUrl);
+        $resPath = "/_api/web/getfilebyserverrelativeurl('$serverRelativeUrl')";
+        $file = new File($this->getContext(),$resPath);
+        $qry = new ClientQuery($file);
+        $this->getContext()->addQuery($qry);
+        return $file;
+    }
+
+
     private $listCollection;
 
     private $webCollection;

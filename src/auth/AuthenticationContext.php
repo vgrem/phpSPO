@@ -1,7 +1,7 @@
 <?php
 namespace SharePoint\PHP\Client;
 
-require_once(__DIR__.'/../Utilities/Requests.php');
+require_once(__DIR__.'/../utilities/Requests.php');
 
 
 /**

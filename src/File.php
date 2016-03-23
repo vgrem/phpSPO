@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace SharePoint\PHP\Client;
 
@@ -7,4 +7,5 @@ namespace SharePoint\PHP\Client;
  */
 class File extends ClientObject
 {
+
 }

@@ -13,10 +13,10 @@ try {
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
 
     $ctx = new ClientContext($Settings['Url'],$authCtx);
-	//printLists($ctx);
+	printLists($ctx);
     //createList($ctx);
 	//updateList($ctx);
-    deleteList($ctx);
+    //deleteList($ctx);
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
