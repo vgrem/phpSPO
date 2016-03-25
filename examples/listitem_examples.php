@@ -14,9 +14,9 @@ try {
 
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 	printTasks($ctx);
-    createTask($ctx);
-	//updateTask($ctx);
-    //deleteTask($ctx);
+    $itemId = createTask($ctx);
+	updateTask($ctx,$itemId);
+    deleteTask($ctx,$itemId);
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
@@ -52,16 +52,16 @@ function createTask(ClientContext $ctx){
 	$item = $list->addItem($itemProperties);
     $ctx->executeQuery();
 	print "Task '{$item->Title}' has been created.\r\n";
+	return $item->Id;
 }
 
 /**
  * Delete list item operation example
  */
-function deleteTask(ClientContext $ctx){
+function deleteTask(ClientContext $ctx,$itemId){
 	
 	$listTitle = 'Tasks';
 	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
-    $itemId = 27;
     $listItem = $list->getItemById($itemId);
 	$listItem->deleteObject();
     $ctx->executeQuery();
@@ -72,9 +72,8 @@ function deleteTask(ClientContext $ctx){
 /**
  * Update list item opeation example
  */
-function updateTask(ClientContext $ctx){
+function updateTask(ClientContext $ctx,$itemId){
 	$listTitle = 'Tasks';
-    $itemId = 27;
 	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
     $listItem = $list->getItemById($itemId);
 	$itemProperties = array('PercentComplete' => 1, '__metadata' => array('type' => 'SP.Data.TasksListItem'));

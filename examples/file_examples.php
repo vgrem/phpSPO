@@ -11,7 +11,8 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
-    readSharePointFile($ctx);
+    //readFileFromLibrary($ctx);
+    downloadFile($ctx);
 
 }
 catch (Exception $e) {
@@ -19,7 +20,14 @@ catch (Exception $e) {
 }
 
 
-function readSharePointFile(SharePoint\PHP\Client\ClientContext $ctx){
+function downloadFile(SharePoint\PHP\Client\ClientContext $ctx){
+    $sourceFileUrl = "/sites/news/Documents/SharePoint User Guide.docx";
+    $fileContent = SharePoint\PHP\Client\File::OpenBinaryDirect($ctx,$sourceFileUrl);
+    file_put_contents('./SharePoint User Guide.docx', $fileContent);
+    print "File has been downloaded'\r\n";
+}
+
+function readFileFromLibrary(SharePoint\PHP\Client\ClientContext $ctx){
     $sourceFileUrl = "/sites/news/Documents/SharePoint User Guide.docx";
     $file = $ctx->getWeb()->getFileByUrl($sourceFileUrl);
     $ctx->load($file);

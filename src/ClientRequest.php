@@ -3,6 +3,8 @@
 
 namespace SharePoint\PHP\Client;
 
+require_once('ClientFormatType.php');
+
 /**
  * Client Request.
  *
@@ -16,15 +18,17 @@ class ClientRequest
 
     private $defaultHeaders;
 
+    private $formatType;
+
 
 	public function __construct($url, AuthenticationContext $authContext)
     {
-		$this->baseUrl = $url;
-		$this->authContext = $authContext;
+        $this->baseUrl = $url;
+        $this->authContext = $authContext;
         $this->defaultHeaders = array();
-        $this->addHeader($this->defaultHeaders,'Accept', 'application/json; odata=verbose');
-        $this->addHeader($this->defaultHeaders,'Content-type', 'application/json; odata=verbose');
-        $this->addHeader($this->defaultHeaders,'Cookie', $authContext->getAuthenticationCookie());
+        $this->defaultHeaders['Cookie'] = $authContext->getAuthenticationCookie();
+        $this->defaultHeaders["Accept"] = "application/json; odata=verbose";
+        $this->defaultHeaders["Content-type"] = "application/json; odata=verbose";
     }
 
     public function executeQueryDirect($url,$headers=null,$data=null)
@@ -32,28 +36,20 @@ class ClientRequest
         if(!isset($headers))
             $headers = $this->defaultHeaders;
         else {
-            $headers_local = $this->defaultHeaders;
+            $finalHeaders = $this->defaultHeaders;
             foreach($headers as $key => $value){
-                $this->addHeader($headers_local,$key, $value);
+                $finalHeaders[$key] = $value;
             }
-            $headers = $headers_local;
+            $headers = $finalHeaders;
         }
 
         if(!empty($data) or array_key_exists('X-HTTP-Method',$headers)){
-            if (!isset($this->formDigest)) {
-                $this->requestFormDigest();
-            }
-            $this->addHeader($headers,'X-RequestDigest',$this->formDigest);
-            $dataJson = ($data != null ? json_encode($data) : '');
-            $result = Requests::post($url,$headers,$dataJson);
+            $this->ensureFormDigest();
+            $headers["X-RequestDigest"] = $this->formDigest;
+            $result = Requests::post($url,$this->prepareHeaders($headers),$data);
         }
         else{
-            $result = Requests::get($url,$headers);
-        }
-
-        $result = json_decode($result);
-        if (isset($result->error)) {
-            throw new \RuntimeException("Error: " . $result->error->message->value);
+            $result = Requests::get($url,$this->prepareHeaders($headers));
         }
         return $result;
     }
@@ -66,31 +62,21 @@ class ClientRequest
 	 */
     public function executeQuery(ClientQuery $query)
     {
-        $url = $query->buildUrl(); 
-        $data =  $query->buildData();
-        $headers = $this->defaultHeaders;
-        $this->addHeader($headers,'Content-length', strlen($data));
-
+        $url = $query->buildUrl();
+        $data = $query->buildData();
+        $headers = array();
         $opMethod = $query->getOperationType();
-        if (!empty($data) or $query->getOperationType() != ClientOperationType::Read ) {
 
-            if($opMethod == ClientOperationType::Update) {
-                $this->addHeader($headers,'X-HTTP-Method','MERGE');
-                $this->addHeader($headers,'IF-MATCH','*');
-            }
-            else if($opMethod == ClientOperationType::Delete) {
-                $this->addHeader($headers,'X-HTTP-Method','DELETE');
-                $this->addHeader($headers,'IF-MATCH','*');
-            }
-
-            $this->ensureFormDigest();
-            $this->addHeader($headers,'X-RequestDigest',$this->formDigest);
-            $result = Requests::post($url,$headers,$data);
-        }
-        else {
-            $result = Requests::get($url,$headers);
+        if ($opMethod == ClientOperationType::Update) {
+            $headers["IF-MATCH"] = "*";
+            $headers["X-HTTP-Method"] = "MERGE";
+        } else if ($opMethod == ClientOperationType::Delete) {
+            $headers["IF-MATCH"] = "*";
+            $headers["X-HTTP-Method"] = "DELETE";
         }
 
+        $result = $this->executeQueryDirect($url, $headers, $data);
+        //process results
         $result = json_decode($result);
         if (isset($result->error)) {
             throw new \RuntimeException("Error: " . $result->error->message->value);
@@ -99,12 +85,15 @@ class ClientRequest
     }
 
 
-
-
-    private function addHeader(&$headers,$key,$value)
-    {
-        $headers[] = $key . ':' . $value;
+    private function prepareHeaders($headers){
+        $headerLines = array();
+        foreach($headers as $key => $value){
+            $headerLines[] = $key . ':' . $value;
+        }
+        return $headerLines;
     }
+
+
 
 
     protected function ensureFormDigest()
@@ -122,7 +111,7 @@ class ClientRequest
     protected function requestFormDigest()
     {
         $url = $this->baseUrl . "/_api/contextinfo";
-        $data = Requests::post($url,$this->defaultHeaders);
+        $data = Requests::post($url,$this->prepareHeaders($this->defaultHeaders));
         $json = json_decode($data);
         $this->formDigest = $json->d->GetContextWebInformation->FormDigestValue;
     }
