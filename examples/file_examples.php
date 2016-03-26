@@ -12,11 +12,22 @@ try {
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
     //readFileFromLibrary($ctx);
-    downloadFile($ctx);
+    //downloadFile($ctx);
+    uploadFile($ctx);
 
 }
 catch (Exception $e) {
     echo 'Error: ',  $e->getMessage(), "\n";
+}
+
+
+
+function uploadFile(SharePoint\PHP\Client\ClientContext $ctx)
+{
+    $fileContent = file_get_contents('./SharePoint User Guide.docx');
+    $targetFileUrl = "/sites/news/Documents/SharePoint User Guide2.docx";
+    SharePoint\PHP\Client\File::SaveBinaryDirect($ctx,$targetFileUrl,$fileContent);
+    print "File has been uploaded'\r\n";
 }
 
 
