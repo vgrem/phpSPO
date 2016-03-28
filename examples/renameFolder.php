@@ -32,7 +32,6 @@ function renameFolder($url, $authCtx, $folderUrl,$folderNewName)
     $url = $url . "/_api/web/getFolderByServerRelativeUrl('{$folderUrl}')/ListItemAllFields";
     $data = $request->executeQueryDirect($url);
 
-    $itemPayload = array();
     $itemPayload = array( 
         '__metadata' => array ('type' => $data->d->__metadata->type),
         'Title' => $folderNewName,

@@ -11,10 +11,13 @@ class ClientQuery
 
     private $operationType;
 
+    private $binaryStringRequestBody;
+
     public function __construct(ClientObject $clientObject,$operationType=ClientOperationType::Read)
     {
         $this->resultObject = $clientObject;
         $this->operationType = $operationType;
+        $this->binaryStringRequestBody = false;
     }
 
     public function buildUrl()
@@ -31,6 +34,8 @@ class ClientQuery
     public function buildData()
     {
         $payload = $this->resultObject->getPayload();
+        if($this->binaryStringRequestBody)
+            return $payload;
         return ($payload != null ? json_encode($payload) : '');
     }
 
@@ -64,5 +69,11 @@ class ClientQuery
     {
         return $this->resultObject->getContext();
     }
-    
+
+    public function setBinaryStringRequestBody($value)
+    {
+        $this->binaryStringRequestBody = $value;
+    }
+
+
 }

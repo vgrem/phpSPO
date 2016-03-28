@@ -21,8 +21,21 @@ catch (Exception $e) {
 }
 
 
+function uploadFile(SharePoint\PHP\Client\ClientContext $ctx){
 
-function uploadFile(SharePoint\PHP\Client\ClientContext $ctx)
+    $fileCreationInformation = array(
+        'Content' => file_get_contents('./SharePoint User Guide.docx'),
+        'Url' => 'SharePoint User Guide.docx'
+    );
+
+    $list = $ctx->getWeb()->getLists()->getByTitle("Documents");
+    $uploadFile = $list->getRootFolder()->getFiles()->add($fileCreationInformation);
+    $ctx->executeQuery();
+    print "File {$uploadFile->Name} has been uploaded'\r\n";
+}
+
+
+function uploadFile2(SharePoint\PHP\Client\ClientContext $ctx)
 {
     $fileContent = file_get_contents('./SharePoint User Guide.docx');
     $targetFileUrl = "/sites/news/Documents/SharePoint User Guide2.docx";

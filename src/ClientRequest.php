@@ -26,14 +26,14 @@ class ClientRequest
         $this->baseUrl = $url;
         $this->authContext = $authContext;
         $this->defaultHeaders = array();
-        $this->defaultHeaders['Cookie'] = $authContext->getAuthenticationCookie();
-        $this->defaultHeaders["Accept"] = "application/json; odata=verbose";
-        $this->defaultHeaders["Content-type"] = "application/json; odata=verbose";
+        //$this->defaultHeaders['Cookie'] = $authContext->getAuthenticationCookie();
+        //$this->defaultHeaders["Accept"] = "application/json; odata=verbose";
+        //$this->defaultHeaders["Content-type"] = "application/json; odata=verbose";
     }
 
     public function executeQueryDirect($url,$headers=null,$data=null)
     {
-        if(!isset($headers))
+        /*if(!isset($headers))
             $headers = $this->defaultHeaders;
         else {
             $finalHeaders = $this->defaultHeaders;
@@ -41,7 +41,10 @@ class ClientRequest
                 $finalHeaders[$key] = $value;
             }
             $headers = $finalHeaders;
-        }
+        }*/
+
+        if(!isset($headers))
+            $headers = array();
 
         if(!empty($data) or array_key_exists('X-HTTP-Method',$headers)){
             $this->ensureFormDigest();
@@ -64,18 +67,18 @@ class ClientRequest
     {
         $url = $query->buildUrl();
         $data = $query->buildData();
-        $headers = array();
+        $headerOptions = array();
         $opMethod = $query->getOperationType();
 
         if ($opMethod == ClientOperationType::Update) {
-            $headers["IF-MATCH"] = "*";
-            $headers["X-HTTP-Method"] = "MERGE";
+            $headerOptions["IF-MATCH"] = "*";
+            $headerOptions["X-HTTP-Method"] = "MERGE";
         } else if ($opMethod == ClientOperationType::Delete) {
-            $headers["IF-MATCH"] = "*";
-            $headers["X-HTTP-Method"] = "DELETE";
+            $headerOptions["IF-MATCH"] = "*";
+            $headerOptions["X-HTTP-Method"] = "DELETE";
         }
 
-        $result = $this->executeQueryDirect($url, $headers, $data);
+        $result = $this->executeQueryDirect($url, $headerOptions, $data);
         //process results
         $result = json_decode($result);
         if (isset($result->error)) {
@@ -85,14 +88,24 @@ class ClientRequest
     }
 
 
-    private function prepareHeaders($headers){
-        $headerLines = array();
-        foreach($headers as $key => $value){
-            $headerLines[] = $key . ':' . $value;
+    private function prepareHeaders($options)
+    {
+        $headers = array();
+        $this->addHeader($headers, 'Cookie', $this->authContext->getAuthenticationCookie());
+        $this->addHeader($headers, "Accept", "application/json; odata=verbose");
+        $this->addHeader($headers, "Content-type", "application/json; odata=verbose");
+
+
+        foreach ($options as $key => $value) {
+            $this->addHeader($headers, $key, $value);
         }
-        return $headerLines;
+        return $headers;
     }
 
+    private function addHeader(&$headers,$key,$value)
+    {
+        $headers[] = $key . ':' . $value;
+    }
 
 
 

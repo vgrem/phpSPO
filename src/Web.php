@@ -25,18 +25,18 @@ class Web extends ClientObject
 
     public function getLists()
     {
-        if(!isset($this->listCollection)){
-            $this->listCollection = new ListCollection($this->getContext(),"/_api/web/lists");
+        if(!isset($this->Lists)){
+            $this->Lists = new ListCollection($this->getContext(),"/_api/web/lists");
         }
-        return $this->listCollection;
+        return $this->Lists;
     }
 
     public function getWebs()
     {
-        if(!isset($this->webCollection)){
-            $this->webCollection = new WebCollection($this->getContext(),"/_api/web/webs");
+        if(!isset($this->Webs)){
+            $this->Webs = new WebCollection($this->getContext(),"/_api/web/webs");
         }
-        return $this->webCollection;
+        return $this->Webs;
     }
 
 
@@ -50,7 +50,4 @@ class Web extends ClientObject
     }
 
 
-    private $listCollection;
-
-    private $webCollection;
 }

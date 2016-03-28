@@ -6,6 +6,7 @@ require_once('ClientOperationType.php');
 require_once('ClientRequest.php');
 require_once('ClientObject.php');
 require_once('File.php');
+require_once('Folder.php');
 require_once('Web.php');
 require_once('Site.php');
 require_once('ClientObjectCollection.php');
@@ -14,6 +15,7 @@ require_once('ListCollection.php');
 require_once('ListItem.php');
 require_once('ListItemCollection.php');
 require_once('WebCollection.php');
+require_once('FileCollection.php');
 require_once('ClientQuery.php');
 
 

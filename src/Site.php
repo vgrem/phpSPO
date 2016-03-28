@@ -7,4 +7,11 @@ namespace SharePoint\PHP\Client;
  */
 class Site extends ClientObject
 {
+    public function getRootWeb()
+    {
+        if(!isset($this->RootWeb)){
+            $this->RootWeb = new Web($this->getContext(),"/_api/site/rootWeb");
+        }
+        return $this->RootWeb;
+    }
 }

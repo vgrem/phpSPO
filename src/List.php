@@ -8,12 +8,6 @@ namespace SharePoint\PHP\Client;
  */
 class SPList extends ClientObject
 {
-    private $title;
-
-    public function setTitle($value)
-    {
-        $this->title = $value;
-    }
 
 
     public function addItem(array $listItemCreationInformation)
@@ -51,5 +45,13 @@ class SPList extends ClientObject
     {
         $qry = new ClientQuery($this,ClientOperationType::Delete);
         $this->getContext()->addQuery($qry);
+    }
+
+    public function getRootFolder()
+    {
+        if(!isset($this->RootFolder)){
+            $this->RootFolder = new Folder($this->getContext(),$this->getResourcePath() . "/rootFolder");
+        }
+        return $this->RootFolder;
     }
 }
