@@ -49,6 +49,16 @@ class Web extends ClientObject
     }
 
 
+    public function getSiteUsers()
+    {
+        if(!isset($this->SiteUsers)){
+            $this->SiteUsers = new UserCollection($this->getContext(),"/_api/web/siteusers");
+        }
+        return $this->SiteUsers;
+    }
+
+
+
     public function getFileByUrl($serverRelativeUrl){
         $encServerRelativeUrl = rawurlencode($serverRelativeUrl);
         $resPath = "/_api/web/getfilebyserverrelativeurl('$encServerRelativeUrl')";
