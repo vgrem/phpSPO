@@ -34,6 +34,16 @@ class SPList extends ClientObject
         return $items;
     }
 
+
+    public function getFields()
+    {
+        if(!isset($this->Fields)){
+            $this->Fields = new FieldCollection($this->getContext(),$this->getResourcePath() . "/fields");
+        }
+        return $this->Fields;
+    }
+
+
     public function update($listUpdationInformation)
     {
         $this->payload = $listUpdationInformation;

@@ -26,23 +26,11 @@ class ClientRequest
         $this->baseUrl = $url;
         $this->authContext = $authContext;
         $this->defaultHeaders = array();
-        //$this->defaultHeaders['Cookie'] = $authContext->getAuthenticationCookie();
-        //$this->defaultHeaders["Accept"] = "application/json; odata=verbose";
-        //$this->defaultHeaders["Content-type"] = "application/json; odata=verbose";
+        $this->formatType = ClientFormatType::Json;
     }
 
     public function executeQueryDirect($url,$headers=null,$data=null)
     {
-        /*if(!isset($headers))
-            $headers = $this->defaultHeaders;
-        else {
-            $finalHeaders = $this->defaultHeaders;
-            foreach($headers as $key => $value){
-                $finalHeaders[$key] = $value;
-            }
-            $headers = $finalHeaders;
-        }*/
-
         if(!isset($headers))
             $headers = array();
 
