@@ -40,9 +40,18 @@ class Web extends ClientObject
     }
 
 
+    public function getFields()
+    {
+        if(!isset($this->Fields)){
+            $this->Fields = new FieldCollection($this->getContext(),"/_api/web/fields");
+        }
+        return $this->Fields;
+    }
+
+
     public function getFileByUrl($serverRelativeUrl){
-        $serverRelativeUrl = rawurlencode($serverRelativeUrl);
-        $resPath = "/_api/web/getfilebyserverrelativeurl('$serverRelativeUrl')";
+        $encServerRelativeUrl = rawurlencode($serverRelativeUrl);
+        $resPath = "/_api/web/getfilebyserverrelativeurl('$encServerRelativeUrl')";
         $file = new File($this->getContext(),$resPath);
         $qry = new ClientQuery($file);
         $this->getContext()->addQuery($qry);

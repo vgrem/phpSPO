@@ -14,10 +14,26 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
-    getListFields($ctx);
+    getWebFields($ctx);
+    //getListFields($ctx);
+    //getListFieldByTitle($ctx);
+    //getListFieldByInternalName($ctx);
 }
 catch (Exception $e) {
     echo 'Error: ',  $e->getMessage(), "\n";
+}
+
+
+
+function getWebFields(ClientContext $ctx){
+
+    $web = $ctx->getWeb();
+    $fields = $web->getFields();
+    $ctx->load($fields);
+    $ctx->executeQuery();
+    foreach( $fields->getData() as $field ) {
+        print "Field title: '{$field->Title}'\r\n";
+    }
 }
 
 
@@ -33,4 +49,32 @@ function getListFields(ClientContext $ctx){
     foreach( $fields->getData() as $field ) {
         print "Field title: '{$field->Title}'\r\n";
     }
+}
+
+
+function getListFieldByTitle(ClientContext $ctx){
+
+    $listTitle = 'Tasks';
+    $fieldTitle = "Title";
+
+    $web = $ctx->getWeb();
+    $list = $web->getLists()->getByTitle($listTitle);
+    $field = $list->getFields()->getByTitle($fieldTitle);
+    $ctx->load($field);
+    $ctx->executeQuery();
+    print "Field: '{$field->Title}'\r\n";
+}
+
+
+function getListFieldByInternalName(ClientContext $ctx){
+
+    $listTitle = 'Tasks';
+    $fieldName = "FileRef";
+
+    $web = $ctx->getWeb();
+    $list = $web->getLists()->getByTitle($listTitle);
+    $field = $list->getFields()->getByInternalNameOrTitle($fieldName);
+    $ctx->load($field);
+    $ctx->executeQuery();
+    print "Field: '{$field->Title}'\r\n";
 }
