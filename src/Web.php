@@ -58,6 +58,13 @@ class Web extends ClientObject
     }
 
 
+    public function getSiteGroups()
+    {
+        if(!isset($this->SiteGroups)){
+            $this->SiteGroups = new GroupCollection($this->getContext(),"/_api/web/sitegroups");
+        }
+        return $this->SiteGroups;
+    }
 
     public function getFileByUrl($serverRelativeUrl){
         $encServerRelativeUrl = rawurlencode($serverRelativeUrl);

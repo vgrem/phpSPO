@@ -11,6 +11,7 @@ require_once('Web.php');
 require_once('Site.php');
 require_once('Field.php');
 require_once('User.php');
+require_once('Group.php');
 require_once('ClientObjectCollection.php');
 require_once('FieldCollection.php');
 require_once('List.php');
@@ -20,6 +21,7 @@ require_once('ListItemCollection.php');
 require_once('WebCollection.php');
 require_once('FileCollection.php');
 require_once('UserCollection.php');
+require_once('GroupCollection.php');
 require_once('ClientQuery.php');
 
 
