@@ -14,7 +14,9 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
-    getSiteGroups($ctx);
+    //getSiteGroups($ctx);
+    //getGroup($ctx);
+    removeGroup($ctx);
 
 }
 catch (Exception $e) {
@@ -32,6 +34,25 @@ function getSiteGroups(ClientContext $ctx){
     foreach( $groups->getData() as $group ) {
         print "Group title: '{$group->Title}'\r\n";
     }
+}
+
+
+function getGroup(ClientContext $ctx){
+
+    $web = $ctx->getWeb();
+    $group = $web->getSiteGroups()->getById(5);
+    $ctx->load($group);
+    $ctx->executeQuery();
+    print "Group title: '{$group->Title}'\r\n";
+}
+
+
+function removeGroup(ClientContext $ctx){
+
+    $web = $ctx->getWeb();
+    $web->getSiteGroups()->removeById(19);
+    $ctx->executeQuery();
+    print "Group has been deleted\r\n";
 }
 
 
