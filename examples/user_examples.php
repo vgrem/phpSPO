@@ -14,7 +14,9 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
-    getSiteUsers($ctx);
+    //getSiteUsers($ctx);
+    //getUser($ctx);
+    updateUser($ctx);
 
 }
 catch (Exception $e) {
@@ -34,4 +36,23 @@ function getSiteUsers(ClientContext $ctx){
     }
 }
 
+
+function getUser(ClientContext $ctx){
+
+    $web = $ctx->getWeb();
+    $user = $web->getSiteUsers()->getById(16);
+    $ctx->load($user);
+    $ctx->executeQuery();
+    print "User title: '{$user->Title}'\r\n";
+}
+
+function updateUser(ClientContext $ctx){
+
+    $web = $ctx->getWeb();
+    $user = $web->getSiteUsers()->getById(16);
+    $info = array( 'Title' => 'John Doe');
+    $user->update($info);
+    $ctx->executeQuery();
+    print "User has been updated'\r\n";
+}
 
