@@ -30,19 +30,19 @@ class ClientObject
 
     public function getPayload()
     {
+        $this->ensureEntityTypeName();
         return $this->payload;
     }
 
     public function getResourcePath()
     {
         if(!isset($this->resourcePath))
-            throw new \Exception("Resource Path is not defined for " . $this->getEntityName());
+            throw new \Exception("Resource Path is not defined for " . $this->getEntityTypeName());
         return $this->resourcePath;
     }
 
-    public function getEntityName()
-    {
-        return end(explode("\\",get_class($this)));
+    public function getEntityTypeName(){
+       return "SP." . end(explode("\\",get_class($this)));;
     }
 
     public function getQueryOptions()
@@ -56,5 +56,12 @@ class ClientObject
             $this->$key = $properties;
         }
     }
+
+    protected function ensureEntityTypeName(){
+        if(!is_null($this->payload) && !array_key_exists('__metadata',$this->payload)){
+            $this->payload['__metadata'] = array( 'type' => $this->getEntityTypeName() );
+        }
+    }
+
 
 }

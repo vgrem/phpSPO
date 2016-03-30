@@ -13,8 +13,8 @@ try {
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
 
     $ctx = new ClientContext($Settings['Url'],$authCtx);
-	//readWeb($ctx);
-    createWeb($ctx);
+	readWeb($ctx);
+    //createWeb($ctx);
 	//updateWeb($ctx);
     //deleteWeb($ctx);
 }
@@ -28,6 +28,14 @@ function readWeb(ClientContext $ctx){
     $ctx->load($web);
     $ctx->executeQuery();
 	print "Web title: '{$web->Title}'\r\n";
+
+
+    /*$roleAssignments = $web->getRoleAssignments();
+    $ctx->load($roleAssignments);
+    $ctx->executeQuery();
+    foreach( $roleAssignments->getData() as $roleAssignment ) {
+        print "Field title: '{$roleAssignment->Member}'\r\n";
+    }*/
 }
 
 function createWeb(ClientContext $ctx){

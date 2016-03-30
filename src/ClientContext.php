@@ -12,6 +12,7 @@ require_once('Site.php');
 require_once('Field.php');
 require_once('User.php');
 require_once('Group.php');
+require_once('RoleAssignment.php');
 require_once('ClientObjectCollection.php');
 require_once('FieldCollection.php');
 require_once('List.php');
@@ -20,8 +21,10 @@ require_once('ListItem.php');
 require_once('ListItemCollection.php');
 require_once('WebCollection.php');
 require_once('FileCollection.php');
+require_once('FolderCollection.php');
 require_once('UserCollection.php');
 require_once('GroupCollection.php');
+require_once('RoleAssignmentCollection.php');
 require_once('ClientQuery.php');
 
 
@@ -60,6 +63,9 @@ class ClientContext
 
     public function load($clientObject,$retrievals=null)
     {
+        if(!is_null($retrievals)){
+            //todo...
+        }
         $qry = new ClientQuery($clientObject);
         $this->addQuery($qry);
     }

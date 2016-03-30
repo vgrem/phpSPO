@@ -14,8 +14,8 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
-    //getSiteUsers($ctx);
-    //getUser($ctx);
+    getSiteUsers($ctx);
+    getUser($ctx);
     updateUser($ctx);
 
 }

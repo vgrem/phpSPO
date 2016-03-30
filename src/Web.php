@@ -4,10 +4,11 @@ namespace SharePoint\PHP\Client;
 
 
 /**
- * Web client object
+ * Represents a SharePoint site. A site is a type of SP.SecurableObject.
  */
 class Web extends ClientObject
 {
+
  
     public function update($webUpdationInformation)
     {
@@ -48,6 +49,18 @@ class Web extends ClientObject
         return $this->Fields;
     }
 
+    /**
+     * Gets the collection of all first-level folders in the Web site.
+     * @return FolderCollection
+     */
+    public function getFolders()
+    {
+        if(!isset($this->Folders)){
+            $this->Folders = new FolderCollection($this->getContext(),"/_api/web/folders");
+        }
+        return $this->Folders;
+    }
+
 
     public function getSiteUsers()
     {
@@ -66,6 +79,19 @@ class Web extends ClientObject
         return $this->SiteGroups;
     }
 
+    public function getRoleAssignments()
+    {
+        if(!isset($this->RoleAssignments)){
+            $this->RoleAssignments = new RoleAssignmentCollection($this->getContext(),"/_api/web/roleassignments");
+        }
+        return $this->RoleAssignments;
+    }
+
+
+
+
+
+
     public function getFileByUrl($serverRelativeUrl){
         $encServerRelativeUrl = rawurlencode($serverRelativeUrl);
         $resPath = "/_api/web/getfilebyserverrelativeurl('$encServerRelativeUrl')";
@@ -74,6 +100,5 @@ class Web extends ClientObject
         $this->getContext()->addQuery($qry);
         return $file;
     }
-
 
 }
