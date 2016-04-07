@@ -46,6 +46,8 @@ class ClientQuery
         return $this->operationType;
     }
 
+
+
     public function initClientObjectFromJson($properties)
     {
         $clientObjectClass = str_replace('Collection','',get_class($this->resultObject));

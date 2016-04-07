@@ -87,17 +87,10 @@ class Web extends ClientObject
         return $this->RoleAssignments;
     }
 
-
-
-
-
-
     public function getFileByUrl($serverRelativeUrl){
         $encServerRelativeUrl = rawurlencode($serverRelativeUrl);
-        $resPath = "/_api/web/getfilebyserverrelativeurl('$encServerRelativeUrl')";
-        $file = new File($this->getContext(),$resPath);
-        $qry = new ClientQuery($file);
-        $this->getContext()->addQuery($qry);
+        $path = "/_api/web/getfilebyserverrelativeurl('$encServerRelativeUrl')";
+        $file = new File($this->getContext(),$path);
         return $file;
     }
 

@@ -7,6 +7,15 @@ namespace SharePoint\PHP\Client;
  */
 class File extends ClientObject
 {
+
+
+     public function checkOut(){
+          $this->resourcePath =  $this->resourcePath . "/checkout";
+          $qry = new ClientQuery($this, ClientOperationType::Update);
+          $this->getContext()->addQuery($qry);
+     }
+
+
      public static function OpenBinaryDirect(ClientContext $ctx,$serverRelativeUrl){
           $serverRelativeUrl = rawurlencode($serverRelativeUrl);
           $url = $ctx->getUrl() . "/_api/web/getfilebyserverrelativeurl('$serverRelativeUrl')/\$value";

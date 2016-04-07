@@ -13,13 +13,22 @@ try {
 
     //readFileFromLibrary($ctx);
     //downloadFile($ctx);
-    uploadFile($ctx);
+    //uploadFile($ctx);
+    checkoutFile($ctx);
 
 }
 catch (Exception $e) {
     echo 'Error: ',  $e->getMessage(), "\n";
 }
 
+
+function checkoutFile(SharePoint\PHP\Client\ClientContext $ctx){
+    $fileUrl = "/sites/news/Documents/Guide.docx";
+    $file = $ctx->getWeb()->getFileByUrl($fileUrl);
+    $file->checkOut();
+    $ctx->executeQuery();
+    print "File has been checked out'\r\n";
+}
 
 function uploadFile(SharePoint\PHP\Client\ClientContext $ctx){
 
