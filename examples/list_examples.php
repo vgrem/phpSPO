@@ -11,17 +11,28 @@ use SharePoint\PHP\Client\ClientContext;
 try {
 	$authCtx = new AuthenticationContext($Settings['Url']);
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
-
     $ctx = new ClientContext($Settings['Url'],$authCtx);
-	printLists($ctx);
+
+	//printLists($ctx);
     //createList($ctx);
 	//updateList($ctx);
     //deleteList($ctx);
+	assignUniquePermissions($ctx);
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
 }
 
+
+
+
+function assignUniquePermissions(ClientContext $ctx){
+	$listTitle = 'Documents';
+	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
+	$list->breakRoleInheritance(true,true);
+	$ctx->executeQuery();
+	print "List has been assigned a unique permissions.\r\n";
+}
 
 
 /**
