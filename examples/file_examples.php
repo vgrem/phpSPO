@@ -11,10 +11,14 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
+    $fileUrl = "/sites/news/Documents/Guide.docx";
+
     //readFileFromLibrary($ctx);
     //downloadFile($ctx);
     //uploadFile($ctx);
-    checkoutFile($ctx);
+    //checkoutFile($ctx,$fileUrl);
+    //checkinFile($ctx,$fileUrl);
+    approveFile($ctx,$fileUrl);
 
 }
 catch (Exception $e) {
@@ -22,12 +26,26 @@ catch (Exception $e) {
 }
 
 
-function checkoutFile(SharePoint\PHP\Client\ClientContext $ctx){
-    $fileUrl = "/sites/news/Documents/Guide.docx";
+function checkoutFile(SharePoint\PHP\Client\ClientContext $ctx,$fileUrl){
     $file = $ctx->getWeb()->getFileByUrl($fileUrl);
     $file->checkOut();
     $ctx->executeQuery();
-    print "File has been checked out'\r\n";
+    print "File has been checked out\r\n";
+}
+
+
+function checkinFile(SharePoint\PHP\Client\ClientContext $ctx,$fileUrl){
+    $file = $ctx->getWeb()->getFileByUrl($fileUrl);
+    $file->checkIn('');
+    $ctx->executeQuery();
+    print "File has been checked in'\r\n";
+}
+
+function approveFile(SharePoint\PHP\Client\ClientContext $ctx,$fileUrl){
+    $file = $ctx->getWeb()->getFileByUrl($fileUrl);
+    $file->approve('');
+    $ctx->executeQuery();
+    print "File {$fileUrl} has been approved'\r\n";
 }
 
 function uploadFile(SharePoint\PHP\Client\ClientContext $ctx){
