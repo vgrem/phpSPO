@@ -20,8 +20,7 @@ class Folder extends ClientObject
      * Moves the list folder to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      */
     public function recycle(){
-        $this->resourcePath =  $this->resourcePath . "/recycle";
-        $qry = new ClientQuery($this, ClientOperationType::Update);
+        $qry = new ClientQuery($this, ClientOperationType::Update,"/recycle");
         $this->getContext()->addQuery($qry);
     }
 

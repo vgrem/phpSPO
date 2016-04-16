@@ -25,6 +25,8 @@ require_once('FolderCollection.php');
 require_once('UserCollection.php');
 require_once('GroupCollection.php');
 require_once('RoleAssignmentCollection.php');
+require_once('RoleDefinition.php');
+require_once('RoleDefinitionCollection.php');
 require_once('ClientQuery.php');
 require_once('ClientValueObject.php');
 require_once('BasePermissions.php');
@@ -114,6 +116,9 @@ class ClientContext
     {
         $this->queries[] = $query;
     }
+    
+     
+    
 
     public function getUrl()
     {

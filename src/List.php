@@ -47,9 +47,8 @@ class SPList extends ClientObject
      */
     public function breakRoleInheritance($copyroleassignments,$clearsubscopes)
     {
-        //$this->resourcePath =  $this->resourcePath . "/breakroleinheritance(" . var_export($copyroleassignments, true) . "," . var_export($clearsubscopes,true) . ")";
-        $this->resourcePath =  $this->resourcePath . "/breakroleinheritance($copyroleassignments,$clearsubscopes)";
-        $qry = new ClientQuery($this, ClientOperationType::Update);
+        $endpoint =  "/breakroleinheritance(" . var_export($copyroleassignments, true) . "," . var_export($clearsubscopes,true) . ")";
+        $qry = new ClientQuery($this, ClientOperationType::Update,$endpoint);
         $this->getContext()->addQuery($qry);
     }
 
@@ -96,7 +95,7 @@ class SPList extends ClientObject
     public function getUserEffectivePermissions($loginName)
     {
         $encLoginName = rawurlencode($loginName);
-        $path = $this->getResourcePath() . "/getusereffectivepermissions(@user)?@user='$encLoginName'";
+        $endpoint =  "/getusereffectivepermissions(@user)?@user='$encLoginName'";
         $permissions = new BasePermissions();
         //$this->getContext()->addQuery($qry);
         return $permissions;

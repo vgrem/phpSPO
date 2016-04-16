@@ -14,9 +14,9 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
-    getWebFields($ctx);
+    //getWebFields($ctx);
     //getListFields($ctx);
-    //getListFieldByTitle($ctx);
+    getListFieldByTitle($ctx);
     //getListFieldByInternalName($ctx);
 }
 catch (Exception $e) {
@@ -63,6 +63,10 @@ function getListFieldByTitle(ClientContext $ctx){
     $ctx->load($field);
     $ctx->executeQuery();
     print "Field: '{$field->Title}'\r\n";
+
+    
+    $field->setShowInDisplayForm(true);
+    $ctx->executeQuery();
 }
 
 

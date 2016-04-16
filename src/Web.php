@@ -71,6 +71,10 @@ class Web extends ClientObject
     }
 
 
+    /**
+     * Gets the collection of groups for the site collection.
+     * @return mixed|null|GroupCollection
+     */
     public function getSiteGroups()
     {
         if(!isset($this->SiteGroups)){
@@ -79,12 +83,27 @@ class Web extends ClientObject
         return $this->SiteGroups;
     }
 
+    /**
+     * @return mixed|null|RoleAssignmentCollection
+     */
     public function getRoleAssignments()
     {
         if(!isset($this->RoleAssignments)){
             $this->RoleAssignments = new RoleAssignmentCollection($this->getContext(),"/_api/web/roleassignments");
         }
         return $this->RoleAssignments;
+    }
+
+    /**
+     * Gets the collection of role definitions for the Web site.
+     * @return mixed|null|RoleAssignmentCollection
+     */
+    public function getRoleDefinitions()
+    {
+        if(!isset($this->RoleDefinitions)){
+            $this->RoleDefinitions = new RoleDefinitionCollection($this->getContext(),"/_api/web/roledefinitions");
+        }
+        return $this->RoleDefinitions;
     }
 
     /**

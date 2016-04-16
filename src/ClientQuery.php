@@ -11,24 +11,30 @@ class ClientQuery
 
     private $operationType;
 
+    private $operationEndpoint;
+
     private $binaryStringRequestBody;
 
-    public function __construct(ClientObject $clientObject,$operationType=ClientOperationType::Read)
+    public function __construct(ClientObject $clientObject,$operationType=ClientOperationType::Read,$operationEndpoint=null)
     {
         $this->resultObject = $clientObject;
         $this->operationType = $operationType;
+        $this->operationEndpoint = $operationEndpoint;
         $this->binaryStringRequestBody = false;
     }
 
+    
+
     public function buildUrl()
     {
-        $resourceUrl = $this->resultObject->getContext()->getUrl();
-        $resourceUrl = $resourceUrl .  $this->resultObject->getResourcePath();
+        $url = $this->resultObject->getContext()->getUrl();
+        $url = $url .  $this->resultObject->getResourcePath();
+        if(!is_null($this->operationEndpoint)) $url = $url . $this->operationEndpoint;
         if($this->resultObject->getQueryOptions() != null)
         {
             //todo:append url path from query options
         }
-        return $resourceUrl;
+        return $url;
     }
 
     public function prepareData()
@@ -79,3 +85,4 @@ class ClientQuery
 
 
 }
+
