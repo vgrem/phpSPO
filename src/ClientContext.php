@@ -26,6 +26,8 @@ require_once('UserCollection.php');
 require_once('GroupCollection.php');
 require_once('RoleAssignmentCollection.php');
 require_once('ClientQuery.php');
+require_once('ClientValueObject.php');
+require_once('BasePermissions.php');
 
 
 /**
@@ -43,17 +45,17 @@ class ClientContext
 
     private $pendingRequest;
 
-    private $web;
-
     private $site;
+
+    private $web;
 
     private $queries = array();
 
 
     /**
-     * Class constructor
-     * @param mixed $service
-     * @param string $name
+     * REST client context
+     * @param $url
+     * @param AuthenticationContext $authContext
      */
     public function __construct($url, AuthenticationContext $authContext)
     {
@@ -94,7 +96,7 @@ class ClientContext
     public function getSite()
     {
         if(!isset($this->site)){
-            $this->site = new Site($this);
+            $this->site = new Site($this,"/_api/site");
         }
         return $this->site;
     }
@@ -117,5 +119,5 @@ class ClientContext
     {
         return $this->baseUrl;
     }
-
+    
 }

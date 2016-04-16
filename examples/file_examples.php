@@ -11,15 +11,19 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
-    $fileUrl = "/sites/news/Documents/Guide.docx";
+    $fileUrl = "/sites/news/Documents/SharePoint User Guide.docx";
     $localFilePath = "./SharePoint User Guide.docx";
+    $folderUrl = "/sites/news/Documents/Archive";
+    $folderName = "Archive2014";
 
     //readFileFromLibrary($ctx);
-    downloadFile($ctx,$fileUrl,$localFilePath);
-    //uploadFile($ctx);
+    //downloadFile($ctx,$fileUrl,$localFilePath);
+    //uploadFile($ctx,$localFilePath,$fileUrl);
     //checkoutFile($ctx,$fileUrl);
     //checkinFile($ctx,$fileUrl);
     //approveFile($ctx,$fileUrl);
+    //deleteFolder($ctx,$folderUrl);
+    saveFile($ctx,$localFilePath,$fileUrl);
 
 }
 catch (Exception $e) {
@@ -27,8 +31,17 @@ catch (Exception $e) {
 }
 
 
+
+function deleteFolder(SharePoint\PHP\Client\ClientContext $ctx,$folderUrl){
+    $folder = $ctx->getWeb()->getFolderByServerRelativeUrl($folderUrl);
+    $folder->deleteObject();
+    $ctx->executeQuery();
+    print "Folder has been deleted\r\n";
+}
+
+
 function checkoutFile(SharePoint\PHP\Client\ClientContext $ctx,$fileUrl){
-    $file = $ctx->getWeb()->getFileByUrl($fileUrl);
+    $file = $ctx->getWeb()->getFileByServerRelativeUrl($fileUrl);
     $file->checkOut();
     $ctx->executeQuery();
     print "File has been checked out\r\n";
@@ -36,23 +49,23 @@ function checkoutFile(SharePoint\PHP\Client\ClientContext $ctx,$fileUrl){
 
 
 function checkinFile(SharePoint\PHP\Client\ClientContext $ctx,$fileUrl){
-    $file = $ctx->getWeb()->getFileByUrl($fileUrl);
+    $file = $ctx->getWeb()->getFileByServerRelativeUrl($fileUrl);
     $file->checkIn('');
     $ctx->executeQuery();
     print "File has been checked in\r\n";
 }
 
 function approveFile(SharePoint\PHP\Client\ClientContext $ctx,$fileUrl){
-    $file = $ctx->getWeb()->getFileByUrl($fileUrl);
+    $file = $ctx->getWeb()->getFileByServerRelativeUrl($fileUrl);
     $file->approve('');
     $ctx->executeQuery();
     print "File {$fileUrl} has been approved\r\n";
 }
 
-function uploadFile(SharePoint\PHP\Client\ClientContext $ctx){
+function uploadFile(SharePoint\PHP\Client\ClientContext $ctx,$localFilePath,$fileUrl){
 
     $fileCreationInformation = array(
-        'Content' => file_get_contents('./SharePoint User Guide.docx'),
+        'Content' => file_get_contents($localFilePath),
         'Url' => 'SharePoint User Guide.docx'
     );
 
@@ -79,7 +92,7 @@ function downloadFile(SharePoint\PHP\Client\ClientContext $ctx,$sourcefileUrl,$t
 
 function readFileFromLibrary(SharePoint\PHP\Client\ClientContext $ctx){
     $sourceFileUrl = "/sites/news/Documents/SharePoint User Guide.docx";
-    $file = $ctx->getWeb()->getFileByUrl($sourceFileUrl);
+    $file = $ctx->getWeb()->getFileByServerRelativeUrl($sourceFileUrl);
     $ctx->load($file);
     $ctx->executeQuery();
     print "File name: '{$file->Name}'\r\n";

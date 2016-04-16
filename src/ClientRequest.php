@@ -28,19 +28,16 @@ class ClientRequest
         $this->defaultHeaders = array();
         $this->formatType = ClientFormatType::Json;
     }
-
-    public function executeQueryDirect($url,$headers=null,$data=null)
+    
+    public function executeQueryDirect($options)
     {
-        if(!isset($headers))
-            $headers = array();
-
-        if(!empty($data) or array_key_exists('X-HTTP-Method',$headers)){
+        if(!empty($options["data"]) or array_key_exists('X-HTTP-Method',$options["headers"])){
             $this->ensureFormDigest();
-            $headers["X-RequestDigest"] = $this->formDigest;
-            $result = Requests::post($url,$this->prepareHeaders($headers),$data);
+            $options["headers"]["X-RequestDigest"] = $this->formDigest;
+            $result = Requests::post($options["url"],$this->prepareHeaders($options["headers"]),$options["data"]);
         }
         else{
-            $result = Requests::get($url,$this->prepareHeaders($headers));
+            $result = Requests::get($options["url"],$this->prepareHeaders($options["headers"]));
         }
         return $result;
     }
@@ -53,26 +50,37 @@ class ClientRequest
 	 */
     public function executeQuery(ClientQuery $query)
     {
-        $url = $query->buildUrl();
-        $data = $query->buildData();
-        $headerOptions = array();
-        $opMethod = $query->getOperationType();
-
-        if ($opMethod == ClientOperationType::Update) {
-            $headerOptions["IF-MATCH"] = "*";
-            $headerOptions["X-HTTP-Method"] = "MERGE";
-        } else if ($opMethod == ClientOperationType::Delete) {
-            $headerOptions["IF-MATCH"] = "*";
-            $headerOptions["X-HTTP-Method"] = "DELETE";
-        }
-
-        $result = $this->executeQueryDirect($url, $headerOptions, $data);
+        $options = $this->buildQuery($query);
+        $result = $this->executeQueryDirect($options);
         //process results
         $result = json_decode($result);
         if (isset($result->error)) {
             throw new \RuntimeException("Error: " . $result->error->message->value);
         }
         return $result;
+    }
+
+
+
+
+    private function buildQuery(ClientQuery $query){
+        $operationType = $query->getOperationType();
+
+        $requestOptions = array(
+            'url' => $query->buildUrl(),
+            'data' => $query->prepareData(),
+            'headers' => array(),
+            'method' => $operationType == ClientOperationType::Read ? 'GET' : 'POST'
+        );
+
+        if ($operationType == ClientOperationType::Update) {
+            $requestOptions['headers']["IF-MATCH"] = "*";
+            $requestOptions['headers']["X-HTTP-Method"] = "MERGE";
+        } else if ($operationType == ClientOperationType::Delete) {
+            $requestOptions['headers']["IF-MATCH"] = "*";
+            $requestOptions['headers']["X-HTTP-Method"] = "DELETE";
+        }
+        return $requestOptions;
     }
 
 

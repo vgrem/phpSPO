@@ -123,8 +123,12 @@ class File extends ClientObject
       */
      public static function openBinary(ClientContext $ctx,$serverRelativeUrl){
           $serverRelativeUrl = rawurlencode($serverRelativeUrl);
-          $url = $ctx->getUrl() . "/_api/web/getfilebyserverrelativeurl('$serverRelativeUrl')/\$value";
-          $data = $ctx->getPendingRequest()->executeQueryDirect($url,null,null);
+
+          $options = array(
+              'url' => $ctx->getUrl() . "/_api/web/getfilebyserverrelativeurl('$serverRelativeUrl')/\$value",
+              'method' => 'GET'
+          );
+          $data = $ctx->getPendingRequest()->executeQueryDirect($options);
           return $data;
      }
 
@@ -137,9 +141,15 @@ class File extends ClientObject
       */
      public static function saveBinary(ClientContext $ctx,$serverRelativeUrl,$content){
           $serverRelativeUrl = rawurlencode($serverRelativeUrl);
-          $url = $ctx->getUrl() . "/_api/web/getfilebyserverrelativeurl('$serverRelativeUrl')/\$value";
-          $headers = array();
-          $headers["X-HTTP-Method"] = "PUT";
-          $ctx->getPendingRequest()->executeQueryDirect($url,$headers,$content);
+          $options = array(
+              'url' => $ctx->getUrl() . "/_api/web/getfilebyserverrelativeurl('$serverRelativeUrl')/\$value",
+              'method' => 'POST',
+              'headers' => array(
+                  'X-HTTP-Method' => 'PUT'
+              ),
+              'data' => $content,
+              'binaryStringRequestBody' => true
+          );
+          $ctx->getPendingRequest()->executeQueryDirect($options);
      }
 }

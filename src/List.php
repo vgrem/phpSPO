@@ -20,6 +20,7 @@ class SPList extends ClientObject
     {
         $path = $this->getResourcePath() . "/items";
         $item = new ListItem($this->getContext(),$path,null,$listItemCreationInformation);
+        $item->setParentList($this);
         $qry = new ClientQuery($item,ClientOperationType::Create);
         $this->getContext()->addQuery($qry);
         return $item;
@@ -46,7 +47,8 @@ class SPList extends ClientObject
      */
     public function breakRoleInheritance($copyroleassignments,$clearsubscopes)
     {
-        $this->resourcePath =  $this->resourcePath . "/breakroleinheritance(" . var_export($copyroleassignments, true) . "," . var_export($clearsubscopes,true) . ")";
+        //$this->resourcePath =  $this->resourcePath . "/breakroleinheritance(" . var_export($copyroleassignments, true) . "," . var_export($clearsubscopes,true) . ")";
+        $this->resourcePath =  $this->resourcePath . "/breakroleinheritance($copyroleassignments,$clearsubscopes)";
         $qry = new ClientQuery($this, ClientOperationType::Update);
         $this->getContext()->addQuery($qry);
     }
@@ -85,6 +87,22 @@ class SPList extends ClientObject
     }
 
 
+    /**
+     * Gets the set of permissions for the specified user
+     * @param string $loginName
+     * @return ListItemCollection
+     * @throws \Exception
+     */
+    public function getUserEffectivePermissions($loginName)
+    {
+        $encLoginName = rawurlencode($loginName);
+        $path = $this->getResourcePath() . "/getusereffectivepermissions(@user)?@user='$encLoginName'";
+        $permissions = new BasePermissions();
+        //$this->getContext()->addQuery($qry);
+        return $permissions;
+    }
+
+
     public function getFields()
     {
         if(!isset($this->Fields)){
@@ -100,5 +118,9 @@ class SPList extends ClientObject
             $this->RootFolder = new Folder($this->getContext(),$this->getResourcePath() . "/rootFolder");
         }
         return $this->RootFolder;
+    }
+
+    public function getEntityTypeName(){
+        return "SP.List";
     }
 }

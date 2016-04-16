@@ -87,11 +87,31 @@ class Web extends ClientObject
         return $this->RoleAssignments;
     }
 
-    public function getFileByUrl($serverRelativeUrl){
+    /**
+     * Returns the file object located at the specified server-relative URL.
+     * @param $serverRelativeUrl The server relative URL of the file.
+     * @return File
+     */
+    public function getFileByServerRelativeUrl($serverRelativeUrl){
         $encServerRelativeUrl = rawurlencode($serverRelativeUrl);
         $path = "/_api/web/getfilebyserverrelativeurl('$encServerRelativeUrl')";
         $file = new File($this->getContext(),$path);
         return $file;
     }
+
+    /**
+     * Returns the folder object located at the specified server-relative URL.
+     * @param $serverRelativeUrl The server relative URL of the folder.
+     * @return File
+     */
+    public function getFolderByServerRelativeUrl($serverRelativeUrl){
+        $encServerRelativeUrl = rawurlencode($serverRelativeUrl);
+        $path = "/_api/web/getfolderbyserverrelativeurl('$encServerRelativeUrl')";
+        $folder = new Folder($this->getContext(),$path);
+        return $folder;
+    }
+
+
+    
 
 }

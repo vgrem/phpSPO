@@ -26,17 +26,17 @@ class ClientQuery
         $resourceUrl = $resourceUrl .  $this->resultObject->getResourcePath();
         if($this->resultObject->getQueryOptions() != null)
         {
-            //todo:append url path from query options 
+            //todo:append url path from query options
         }
         return $resourceUrl;
     }
 
-    public function buildData()
+    public function prepareData()
     {
         $payload = $this->resultObject->getPayload();
         if($this->binaryStringRequestBody)
             return $payload;
-        return ($payload != null ? json_encode($payload) : '');
+        return !is_null($payload) ? json_encode($payload) : '';
     }
 
     
@@ -67,7 +67,7 @@ class ClientQuery
     }
 
 
-    protected function getContext()
+    public function getContext()
     {
         return $this->resultObject->getContext();
     }

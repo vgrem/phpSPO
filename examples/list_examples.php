@@ -13,11 +13,15 @@ try {
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 
+
+	//$listTitle = 'Documents';
+
 	//printLists($ctx);
-    //createList($ctx);
-	//updateList($ctx);
-    //deleteList($ctx);
-	assignUniquePermissions($ctx);
+    $list = createList($ctx);
+	updateList($list);
+	//assignUniquePermissions($list);
+	//printPermissions($list,$Settings['UserName']);
+    deleteList($list);
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
@@ -25,13 +29,19 @@ catch (Exception $e) {
 
 
 
+function printPermissions(SharePoint\PHP\Client\SPList $list,$loginName){
+	$ctx = $list->getContext();
+	$permissions = $list->getUserEffectivePermissions($loginName);
+	$ctx->executeQuery();
 
-function assignUniquePermissions(ClientContext $ctx){
-	$listTitle = 'Documents';
-	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
+}
+
+
+function assignUniquePermissions(SharePoint\PHP\Client\SPList $list){
+	$ctx = $list->getContext();
 	$list->breakRoleInheritance(true,true);
 	$ctx->executeQuery();
-	print "List has been assigned a unique permissions.\r\n";
+	print "List '{$list->Title}' has been assigned a unique permissions.\r\n";
 }
 
 
@@ -51,36 +61,44 @@ function printLists(ClientContext $ctx){
  * Create list item operation example 
  */
 function createList(ClientContext $ctx){
-    $listProperties = array( '__metadata' => array( 'type' => 'SP.List' ), 'AllowContentTypes' => true, 'BaseTemplate'=>  100,
-    'ContentTypesEnabled' => true, 'Description' =>  'My list description', 'Title' => 'Test title' );
+	$listTitle = "Orders_" . rand(1,1000);
+    $listProperties = array(
+		'AllowContentTypes' => true,
+		'BaseTemplate'=>  100,
+		'ContentTypesEnabled' => true,
+		'Description' =>  'My list description',
+		'Title' => $listTitle
+	);
 	$list = $ctx->getWeb()->getLists()->add($listProperties);
     $ctx->executeQuery();
 	print "List '{$list->Title}' has been created.\r\n";
+	return $list;
 }
 
 /**
  * Delete list operation example
  */
-function deleteList(ClientContext $ctx){
-	
-	$listTitle = 'Test title';
-	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
+function deleteList(SharePoint\PHP\Client\SPList $list){
+	$ctx = $list->getContext();
 	$list->deleteObject();
     $ctx->executeQuery();
-    print "List has been deleted.\r\n";
+    print "List '{$list->Title}' has been deleted.\r\n";
 }
 
 /**
  * Update list operation example
  */
-function updateList(ClientContext $ctx){
-	$listTitle = 'Test title';
-	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
-	$listProperties = array( '__metadata' => array( 'type' => 'SP.List' ), 'AllowContentTypes' => true, 'BaseTemplate'=>  100,
-    'ContentTypesEnabled' => true, 'Title' => 'new Title');
+function updateList(SharePoint\PHP\Client\SPList $list){
+	$ctx = $list->getContext();
+	$listProperties = array(
+		'AllowContentTypes' => true,
+		'BaseTemplate'=>  100,
+		'ContentTypesEnabled' => true,
+		'Title' => 'New Orders'
+	);
 	$list->update($listProperties);
     $ctx->executeQuery();
-    print "List has been updated.\r\n";
+    print "List '{$list->Title}' has been updated.\r\n";
 }
 
 

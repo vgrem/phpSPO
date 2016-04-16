@@ -28,9 +28,10 @@ catch (Exception $e) {
 function renameFolder($url, $authCtx, $folderUrl,$folderNewName)
 {
     $request = new ClientRequest($url,$authCtx);
-   
-    $url = $url . "/_api/web/getFolderByServerRelativeUrl('{$folderUrl}')/ListItemAllFields";
-    $data = $request->executeQueryDirect($url);
+    $requestOptions = array(
+        'url' => $url . "/_api/web/getFolderByServerRelativeUrl('{$folderUrl}')/ListItemAllFields"
+    );
+    $data = $request->executeQueryDirect($requestOptions);
 
     $itemPayload = array( 
         '__metadata' => array ('type' => $data->d->__metadata->type),
@@ -38,11 +39,15 @@ function renameFolder($url, $authCtx, $folderUrl,$folderNewName)
         'FileLeafRef' => $folderNewName
         );
     $itemUrl = $data->d->__metadata->uri;
-
-    $headers = array();
-    $headers["X-HTTP-Method"] = "MERGE";
-    $headers["If-Match"] =  "*";
-    $data = $request->executeQueryDirect($itemUrl,$headers,$itemPayload);
+    $requestOptions = array(
+        'url' => $itemUrl,
+        'headers' => array(
+            "X-HTTP-Method" => "MERGE",
+            "If-Match" => "*"
+        ),
+        'data' => $itemPayload
+    );
+    $data = $request->executeQueryDirect($requestOptions);
 }
 
 ?>

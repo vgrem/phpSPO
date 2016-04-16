@@ -13,10 +13,11 @@ try {
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
 
     $ctx = new ClientContext($Settings['Url'],$authCtx);
-	printTasks($ctx);
+	//printTasks($ctx);
     $itemId = createTask($ctx);
-	updateTask($ctx,$itemId);
-    deleteTask($ctx,$itemId);
+	$item = getTask($ctx,$itemId);
+	updateTask($item);
+    deleteTask($item);
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
@@ -48,38 +49,52 @@ function createTask(ClientContext $ctx){
 	
 	$listTitle = 'Tasks';
 	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
-	$itemProperties = array('Title' => 'Order Approval', 'Body' => 'Order approval task','__metadata' => array('type' => 'SP.Data.TasksListItem'));
+	$itemProperties = array(
+		'Title' => 'Order Approval' . rand(1, 1000),
+		'Body' => 'Please review a task',
+		//'__metadata' => array('type' => 'SP.Data.TasksListItem')
+	);
 	$item = $list->addItem($itemProperties);
     $ctx->executeQuery();
 	print "Task '{$item->Title}' has been created.\r\n";
 	return $item->Id;
 }
 
+
+/**
+ * Read list item operation example
+ */
+function getTask(ClientContext $ctx,$itemId){
+
+	$listTitle = 'Tasks';
+	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
+	$listItem = $list->getItemById($itemId);
+	$ctx->load($listItem);
+	$ctx->executeQuery();
+	print "Task '{$listItem->Title}' has been retrieved.\r\n";
+	return $listItem;
+}
+
 /**
  * Delete list item operation example
  */
-function deleteTask(ClientContext $ctx,$itemId){
-	
-	$listTitle = 'Tasks';
-	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
-    $listItem = $list->getItemById($itemId);
-	$listItem->deleteObject();
+function deleteTask(\SharePoint\PHP\Client\ListItem $item){
+	$ctx = $item->getContext();
+	$item->deleteObject();
     $ctx->executeQuery();
-    print "Task has been deleted.\r\n";
+    print "Task '{$item->Title}' has been deleted.\r\n";
     
 }
 
 /**
  * Update list item opeation example
  */
-function updateTask(ClientContext $ctx,$itemId){
-	$listTitle = 'Tasks';
-	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
-    $listItem = $list->getItemById($itemId);
+function updateTask($item){
+	$ctx = $item->getContext();
 	$itemProperties = array('PercentComplete' => 1, '__metadata' => array('type' => 'SP.Data.TasksListItem'));
-	$listItem->update($itemProperties);
+	$item->update($itemProperties);
     $ctx->executeQuery();
-    print "Task has been updated.\r\n";
+    print "Task '{$item->Title}' has been updated.\r\n";
 }
 
 

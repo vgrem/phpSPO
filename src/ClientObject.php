@@ -15,6 +15,8 @@ class ClientObject
 
     protected $payload;
 
+    private $properties = array();
+
 	public function __construct(ClientContext $ctx,$resourcePath=null,$queryOptions=null,$payload=null)
     {
 		$this->ctx = $ctx;
@@ -52,16 +54,44 @@ class ClientObject
 
     public function fromJson($properties)
     {
-        foreach($properties as $key => $properties){
-            $this->$key = $properties;
+        foreach($properties as $key => $value){
+            $this->$key = $value;
         }
     }
 
     protected function ensureEntityTypeName(){
+        if(!is_null($this->payload['parameters']))
+            return;
         if(!is_null($this->payload) && !array_key_exists('__metadata',$this->payload)){
             $this->payload['__metadata'] = array( 'type' => $this->getEntityTypeName() );
         }
     }
+    
+    public function isPropertyAvailable($name){
+        return isset($this->properties[$name]);
+    }
+
+    public function __set($name, $value)
+    {
+        if($name == '__metadata' && array_key_exists('uri',$value)){
+            $this->resourcePath = str_replace($this->ctx->getUrl(), '', $value->uri); //sync resource path
+        }
+        $this->properties[$name] = $value;
+    }
+
+    public  function __get($name)
+    {
+        if (array_key_exists($name, $this->properties)) {
+            return $this->properties[$name];
+        }
+        return null;
+    }
+
+    public function __isset($name)
+    {
+        return isset($this->properties[$name]);
+    }
+
 
 
 }
