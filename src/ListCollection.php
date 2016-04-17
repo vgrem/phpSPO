@@ -10,9 +10,6 @@ class ListCollection extends ClientObjectCollection
 {
     /**
      * Get List by title
-     *
-     * @ResourceUri: /_api/lists/getbytitle('%s')
-     *
      */
     public function getByTitle($title)
     {
@@ -28,10 +25,23 @@ class ListCollection extends ClientObjectCollection
         return $list;
     }
 
-    public function add(array $listCreationInformation)
+
+    /**
+     * Creates a List resource
+     * @param ListCreationInformation $parameters
+     * @return SPList
+     */
+    public function add(ListCreationInformation $parameters)
     {
-        $list = new SPList($this->getContext(),"/_api/web/lists",null,$listCreationInformation);
-        $qry = new ClientQuery($list,ClientOperationType::Create);
+        $payload = array(
+            'AllowContentTypes' => $parameters->AllowContentTypes,
+            'BaseTemplate'=>  $parameters->BaseTemplate,
+            'ContentTypesEnabled' => $parameters->ContentTypesEnabled,
+            'Description' =>  $parameters->Description,
+            'Title' => $parameters->Title
+        );
+        $list = new SPList($this->getContext(),"/_api/web",null,$payload);
+        $qry = new ClientQuery($list,ClientOperationType::Create,"/lists");
         $this->getContext()->addQuery($qry);
         $this->addChild($list);
         return $list;

@@ -13,13 +13,16 @@ class ClientQuery
 
     private $operationEndpoint;
 
+    private $operationParameters;
+
     private $binaryStringRequestBody;
 
-    public function __construct(ClientObject $clientObject,$operationType=ClientOperationType::Read,$operationEndpoint=null)
+    public function __construct(ClientObject $clientObject,$operationType=ClientOperationType::Read,$operationEndpoint=null,$operationParameters=null)
     {
         $this->resultObject = $clientObject;
         $this->operationType = $operationType;
         $this->operationEndpoint = $operationEndpoint;
+        $this->operationParameters = $operationParameters;
         $this->binaryStringRequestBody = false;
     }
 

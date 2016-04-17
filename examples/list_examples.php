@@ -6,6 +6,7 @@ require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
 use SharePoint\PHP\Client\ClientContext;
+use SharePoint\PHP\Client\ListCreationInformation;
 
 
 try {
@@ -62,14 +63,10 @@ function printLists(ClientContext $ctx){
  */
 function createList(ClientContext $ctx){
 	$listTitle = "Orders_" . rand(1,1000);
-    $listProperties = array(
-		'AllowContentTypes' => true,
-		'BaseTemplate'=>  100,
-		'ContentTypesEnabled' => true,
-		'Description' =>  'My list description',
-		'Title' => $listTitle
-	);
-	$list = $ctx->getWeb()->getLists()->add($listProperties);
+	$info = new ListCreationInformation();
+	$info->Title = $listTitle;
+	$info->Description = "Orders list";
+	$list = $ctx->getWeb()->getLists()->add($info);
     $ctx->executeQuery();
 	print "List '{$list->Title}' has been created.\r\n";
 	return $list;

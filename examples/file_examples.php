@@ -1,5 +1,7 @@
 <?php
 
+use SharePoint\PHP\Client\ListCreationInformation;
+
 require_once(__DIR__.'/../src/ClientContext.php');
 require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
 require_once 'Settings.php';
@@ -11,10 +13,13 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
-    $fileUrl = "/sites/news/Documents/SharePoint User Guide.docx";
-    $localFilePath = "./SharePoint User Guide.docx";
-    $folderUrl = "/sites/news/Documents/Archive";
-    $folderName = "Archive2014";
+    //$fileUrl = "/sites/news/Documents/SharePoint User Guide.docx";
+    $localFilePath = "./data/SharePoint User Guide.docx";
+    $targetLibraryTitle = "My Documents";
+    //$folderUrl = "/sites/news/Documents/Archive";
+    //$folderName = "Archive2014";
+
+    $list = ensureList($ctx,$targetLibraryTitle);
 
     //readFileFromLibrary($ctx);
     //downloadFile($ctx,$fileUrl,$localFilePath);
@@ -23,11 +28,38 @@ try {
     //checkinFile($ctx,$fileUrl);
     //approveFile($ctx,$fileUrl);
     //deleteFolder($ctx,$folderUrl);
-    saveFile($ctx,$localFilePath,$fileUrl);
+    //saveFile($ctx,$localFilePath,$fileUrl);
 
 }
 catch (Exception $e) {
     echo 'Error: ',  $e->getMessage(), "\n";
+}
+
+
+
+function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
+
+    $list = null;
+    $lists = $ctx->getWeb()->getLists();
+    $ctx->load($lists);
+    $ctx->executeQuery();
+    foreach($lists->getData() as $l) {
+        if ($listTitle == $l->Title) {
+            $list = $l;
+            print "List {$list->Title} has been loaded\r\n";
+            break;
+        }
+    }
+    if(is_null($list)) {
+        $info = new ListCreationInformation();
+        $info->Title = $listTitle;
+        $info->BaseTemplate = 101;
+        $list = $ctx->getWeb()->getLists()->add($info);
+        $ctx->executeQuery();
+    }
+    return $list;
+
+
 }
 
 

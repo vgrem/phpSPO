@@ -31,9 +31,11 @@ require_once('UserCustomAction.php');
 require_once('UserCustomActionCollection.php');
 require_once('ClientQuery.php');
 require_once('ClientValueObject.php');
+require_once('ChangeLogItemQuery.php');
 require_once('BasePermissions.php');
 require_once('WebCreationInformation.php');
 require_once('GroupCreationInformation.php');
+require_once('ListCreationInformation.php');
 
 
 /**
