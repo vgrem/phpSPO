@@ -27,9 +27,12 @@ require_once('GroupCollection.php');
 require_once('RoleAssignmentCollection.php');
 require_once('RoleDefinition.php');
 require_once('RoleDefinitionCollection.php');
+require_once('UserCustomAction.php');
+require_once('UserCustomActionCollection.php');
 require_once('ClientQuery.php');
 require_once('ClientValueObject.php');
 require_once('BasePermissions.php');
+require_once('WebCreationInformation.php');
 
 
 /**

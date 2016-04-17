@@ -68,7 +68,7 @@ class ClientObject
     }
     
     public function isPropertyAvailable($name){
-        return isset($this->properties[$name]);
+        return isset($this->properties[$name]) && !isset($this->properties[$name]->__deferred);
     }
 
     public function __set($name, $value)

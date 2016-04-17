@@ -10,7 +10,7 @@ class Web extends ClientObject
 {
 
  
-    public function update($webUpdationInformation)
+    public function update(array $webUpdationInformation)
     {
         $this->payload = $webUpdationInformation;
         $qry = new ClientQuery($this,ClientOperationType::Update);
@@ -21,9 +21,14 @@ class Web extends ClientObject
     {
         $qry = new ClientQuery($this,ClientOperationType::Delete);
         $this->getContext()->addQuery($qry);
+        //$this->removeFromParentCollection();
     }
-   
 
+    /**
+     * Gets the collection of all lists that are contained in the Web site available to the current user
+     * based on the permissions of the current user.
+     * @return ListCollection
+     */
     public function getLists()
     {
         if(!isset($this->Lists)){
@@ -32,15 +37,23 @@ class Web extends ClientObject
         return $this->Lists;
     }
 
+    /**
+     * Gets a Web site collection object that represents all Web sites immediately beneath the Web site,
+     * excluding children of those Web sites.
+     * @return WebCollection
+     */
     public function getWebs()
     {
-        if(!isset($this->Webs)){
+        if(!$this->isPropertyAvailable('Webs')){
             $this->Webs = new WebCollection($this->getContext(),"/_api/web/webs");
         }
         return $this->Webs;
     }
 
-
+    /**
+     * Gets the collection of field objects that represents all the fields in the Web site.
+     * @return FieldCollection
+     */
     public function getFields()
     {
         if(!isset($this->Fields)){
@@ -62,6 +75,10 @@ class Web extends ClientObject
     }
 
 
+    /**
+     * Gets the collection of all users that belong to the site collection.
+     * @return UserCollection
+     */
     public function getSiteUsers()
     {
         if(!isset($this->SiteUsers)){
@@ -96,7 +113,7 @@ class Web extends ClientObject
 
     /**
      * Gets the collection of role definitions for the Web site.
-     * @return mixed|null|RoleAssignmentCollection
+     * @return RoleAssignmentCollection
      */
     public function getRoleDefinitions()
     {
@@ -104,6 +121,19 @@ class Web extends ClientObject
             $this->RoleDefinitions = new RoleDefinitionCollection($this->getContext(),"/_api/web/roledefinitions");
         }
         return $this->RoleDefinitions;
+    }
+
+
+    /**
+     * Gets a value that specifies the collection of user custom actions for the site.
+     * @return UserCustomActionCollection
+     */
+    public function getUserCustomActions()
+    {
+        if(!$this->isPropertyAvailable('UserCustomActions')){
+            $this->UserCustomActions = new UserCustomActionCollection($this->getContext(),"/_api/web/usercustomactions");
+        }
+        return $this->UserCustomActions;
     }
 
     /**
@@ -121,7 +151,7 @@ class Web extends ClientObject
     /**
      * Returns the folder object located at the specified server-relative URL.
      * @param $serverRelativeUrl The server relative URL of the folder.
-     * @return File
+     * @return Folder
      */
     public function getFolderByServerRelativeUrl($serverRelativeUrl){
         $encServerRelativeUrl = rawurlencode($serverRelativeUrl);
