@@ -40,6 +40,14 @@ function readUserProfiles(ClientContext $ctx){
     foreach( $properties->UserProfileProperties->results as $p ) {
         print "{$p->Key}: '{$p->Value}'\r\n";
     }
+
+
+    #follow
+    //$accountName = "jdoe@media16.onmicrosoft.com";
+    //$peopleManager->follow($accountName);
+    //$ctx->executeQuery();
+
+
 }
 
 

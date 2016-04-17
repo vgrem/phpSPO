@@ -21,4 +21,24 @@ class PeopleManager extends ClientObject
         return $personProperties;
     }
 
+
+    /**
+     * Gets the people who are following the current user.
+     * @return PersonProperties
+     */
+    public function getMyFollowers(){
+        $personProperties = new PersonProperties($this->getContext(),$this->resourcePath . "/getmyfollowers");
+        return $personProperties;
+    }
+
+
+    /**
+     * Adds the specified user to the current user's list of followed users.
+     * @param $accountName
+     */
+    public function follow($accountName){
+        $qry = new ClientQuery($this, ClientOperationType::Update,"/follow(@v)?@v='$accountName'");
+        $this->getContext()->addQuery($qry);
+    }
+
 }

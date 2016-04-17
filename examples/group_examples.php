@@ -14,9 +14,11 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
-    //getSiteGroups($ctx);
-    //getGroup($ctx);
-    removeGroup($ctx);
+    getSiteGroups($ctx);
+    $group = createGroup($ctx);
+    //getGroup($ctx,$group->Id);
+    removeGroup($group);
+    
 
 }
 catch (Exception $e) {
@@ -37,22 +39,34 @@ function getSiteGroups(ClientContext $ctx){
 }
 
 
-function getGroup(ClientContext $ctx){
+function createGroup(ClientContext $ctx){
 
     $web = $ctx->getWeb();
-    $group = $web->getSiteGroups()->getById(5);
+    $info = new \SharePoint\PHP\Client\GroupCreationInformation();
+    $info->Title = "Approver" . rand(1,1000);
+    $group = $web->getSiteGroups()->add($info);
+    $ctx->executeQuery();
+    print "Group : '{$group->Title}' has been created\r\n";
+    return $group;
+}
+
+
+function getGroup(ClientContext $ctx,$groupId){
+
+    $web = $ctx->getWeb();
+    $group = $web->getSiteGroups()->getById($groupId);
     $ctx->load($group);
     $ctx->executeQuery();
     print "Group title: '{$group->Title}'\r\n";
 }
 
 
-function removeGroup(ClientContext $ctx){
+function removeGroup(\SharePoint\PHP\Client\Group $group){
 
-    $web = $ctx->getWeb();
-    $web->getSiteGroups()->removeById(19);
+    $ctx = $group->getContext();
+    $ctx->getWeb()->getSiteGroups()->removeById($group->Id);
     $ctx->executeQuery();
-    print "Group has been deleted\r\n";
+    print "Group '{$group->Title}' has been deleted\r\n";
 }
 
 
