@@ -4,11 +4,10 @@ namespace SharePoint\PHP\Client;
 
 /**
  * ListItem client object
+ * @property SPList ParentList
  */
 class ListItem extends ClientObject
 {
-
-    
 
     /**
      * Gets the parent list that contains the list item.
@@ -16,8 +15,8 @@ class ListItem extends ClientObject
      * @throws \Exception
      */
     public function getParentList(){
-        if(!isset($this->ParentList)){
-            $this->ParentList = new SPList($this->getContext(),$this->getResourcePath() . "/parentlist");
+        if(!$this->isPropertyAvailable('ParentList')){
+            $this->ParentList = new SPList($this->getContext(),$this->getResourcePath(), "parentlist");
         }
         return $this->ParentList;
     }
@@ -36,14 +35,14 @@ class ListItem extends ClientObject
      */
     public function update($listItemUpdationInformation)
     {
-        $this->payload = $listItemUpdationInformation;
-        $qry = new ClientQuery($this,ClientOperationType::Update);
+        $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$listItemUpdationInformation);
+        $qry->addResultObject($this);
         $this->getContext()->addQuery($qry);
     }
 
     public function deleteObject()
     {
-        $qry = new ClientQuery($this,ClientOperationType::Delete);
+        $qry = new ClientQuery($this->getUrl(),ClientActionType::Delete);
         $this->getContext()->addQuery($qry);
     }
 
@@ -51,7 +50,7 @@ class ListItem extends ClientObject
     public function getEntityTypeName(){
         $list = $this->getParentList();
         $options = array(
-            'url' => $this->getContext()->getUrl() . $list->getResourcePath() . "?\$select=ListItemEntityTypeFullName",
+            'url' => $list->getUrl() . "?\$select=ListItemEntityTypeFullName",
             'method' => 'GET'
         );
         $result = $this->getContext()->getPendingRequest()->executeQueryDirect($options);

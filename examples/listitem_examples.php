@@ -16,7 +16,7 @@ try {
 	//printTasks($ctx);
     $itemId = createTask($ctx);
 	$item = getTask($ctx,$itemId);
-	updateTask($item);
+	//updateTask($item);
     deleteTask($item);
 }
 catch (Exception $e) {

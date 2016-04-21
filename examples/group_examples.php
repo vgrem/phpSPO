@@ -28,9 +28,7 @@ catch (Exception $e) {
 
 
 function getSiteGroups(ClientContext $ctx){
-
-    $web = $ctx->getWeb();
-    $groups = $web->getSiteGroups();
+    $groups = $ctx->getWeb()->getSiteGroups();
     $ctx->load($groups);
     $ctx->executeQuery();
     foreach( $groups->getData() as $group ) {

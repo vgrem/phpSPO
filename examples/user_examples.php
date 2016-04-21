@@ -40,7 +40,7 @@ function getSiteUsers(ClientContext $ctx){
 function getUser(ClientContext $ctx){
 
     $web = $ctx->getWeb();
-    $user = $web->getSiteUsers()->getById(16);
+    $user = $web->getSiteUsers()->getById(3);
     $ctx->load($user);
     $ctx->executeQuery();
     print "User title: '{$user->Title}'\r\n";
@@ -49,7 +49,7 @@ function getUser(ClientContext $ctx){
 function updateUser(ClientContext $ctx){
 
     $web = $ctx->getWeb();
-    $user = $web->getSiteUsers()->getById(16);
+    $user = $web->getSiteUsers()->getById(3);
     $info = array( 'Title' => 'John Doe');
     $user->update($info);
     $ctx->executeQuery();

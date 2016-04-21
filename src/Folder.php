@@ -4,6 +4,9 @@
 namespace SharePoint\PHP\Client;
 
 
+/**
+ * @property FileCollection Files
+ */
 class Folder extends ClientObject
 {
 
@@ -12,7 +15,7 @@ class Folder extends ClientObject
      * as shown in Folder request examples.
      */
     public function deleteObject(){
-        $qry = new ClientQuery($this,ClientOperationType::Delete);
+        $qry = new ClientQuery($this->getUrl(),ClientActionType::Delete);
         $this->getContext()->addQuery($qry);
     }
 
@@ -20,7 +23,7 @@ class Folder extends ClientObject
      * Moves the list folder to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      */
     public function recycle(){
-        $qry = new ClientQuery($this, ClientOperationType::Update,"/recycle");
+        $qry = new ClientQuery($this->getUrl(), ClientActionType::Update);
         $this->getContext()->addQuery($qry);
     }
 
@@ -32,8 +35,8 @@ class Folder extends ClientObject
      */
     public function getFiles()
     {
-        if(!isset($this->Files)){
-            $this->Files = new FileCollection($this->getContext(),$this->getResourcePath() . "/files");
+        if(!$this->isPropertyAvailable('Files')){
+            $this->Files = new FileCollection($this->getContext(),$this->getResourcePath(), "files");
         }
         return $this->Files;
     }

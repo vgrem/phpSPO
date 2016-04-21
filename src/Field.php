@@ -13,8 +13,8 @@ class Field extends ClientObject
      * @param $value true to show the field in the form; otherwise false.
      */
     public function setShowInDisplayForm($value){
-        $endpoint = "/setshowindisplayform(" . var_export($value, true) . ")";
-        $qry = new ClientQuery($this,ClientOperationType::Update,$endpoint);
+        $url = $this->getUrl() . "/setshowindisplayform(" . var_export($value, true) . ")";
+        $qry = new ClientQuery($url,ClientActionType::Update);
         $this->getContext()->addQuery($qry);
     }
 }

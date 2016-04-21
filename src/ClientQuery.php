@@ -7,52 +7,62 @@ namespace SharePoint\PHP\Client;
  */
 class ClientQuery
 {
-    private $resultObject;
+    protected $resultObject;
 
-    private $operationType;
+    protected $resultValueObject;
 
-    private $operationEndpoint;
+    private $actionType;
 
-    private $operationParameters;
+    private $resourceUrl;
+
+    private $parameters;
 
     private $binaryStringRequestBody;
 
-    public function __construct(ClientObject $clientObject,$operationType=ClientOperationType::Read,$operationEndpoint=null,$operationParameters=null)
+    public function __construct($resourceUrl, $type=ClientActionType::Read, $parameters=null)
     {
-        $this->resultObject = $clientObject;
-        $this->operationType = $operationType;
-        $this->operationEndpoint = $operationEndpoint;
-        $this->operationParameters = $operationParameters;
+        $this->resultObject = null;
+        $this->resourceUrl = $resourceUrl;
+        $this->actionType = $type;
+        $this->parameters = $parameters;
         $this->binaryStringRequestBody = false;
     }
 
-    
 
-    public function buildUrl()
+    public function addResultObject(ClientObject $clientObject){
+        $this->resultObject = $clientObject;
+    }
+
+    public function addResultValue(ClientValueObject $clientValueObject){
+        $this->resultValueObject = $clientValueObject;
+    }
+
+
+
+    public function getResourceUrl()
     {
-        $url = $this->resultObject->getContext()->getUrl();
-        $url = $url .  $this->resultObject->getResourcePath();
-        if(!is_null($this->operationEndpoint)) $url = $url . $this->operationEndpoint;
-        if($this->resultObject->getQueryOptions() != null)
-        {
-            //todo:append url path from query options
+        return $this->resourceUrl;
+    }
+
+
+    public function preparePayload()
+    {
+        $payload = null;
+        if(isset($this->parameters)){
+            if($this->binaryStringRequestBody)
+                $payload = $this->parameters;
+            else {
+                if(isset($this->resultObject))
+                    $this->ensureMetadataType($this->resultObject,$this->parameters);
+                $payload = json_encode($this->parameters);
+            }
         }
-        return $url;
+        return $payload;
     }
 
-    public function prepareData()
+    public function getActionType()
     {
-        $payload = $this->resultObject->getPayload();
-        if($this->binaryStringRequestBody)
-            return $payload;
-        return !is_null($payload) ? json_encode($payload) : '';
-    }
-
-    
-
-    public function getOperationType()
-    {
-        return $this->operationType;
+        return $this->actionType;
     }
 
 
@@ -81,10 +91,32 @@ class ClientQuery
         return $this->resultObject->getContext();
     }
 
+
+    public function getResultObject()
+    {
+        return $this->resultObject;
+    }
+
+
+
     public function setBinaryStringRequestBody($value)
     {
         $this->binaryStringRequestBody = $value;
     }
+
+
+    private function ensureMetadataType(ClientObject $clientObject, & $parameters)
+    {
+        if (array_key_exists('parameters', $parameters)) {
+            return $this->ensureMetadataType($clientObject,$parameters['parameters']);
+        }
+        if (!array_key_exists('__metadata', $parameters)) {
+            $parameters['__metadata'] = ['type' => $clientObject->getEntityTypeName()];
+        }
+        return $parameters;
+    }
+
+    
 
 
 }

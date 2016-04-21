@@ -6,8 +6,7 @@ require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
 use SharePoint\PHP\Client\ClientContext;
-
-
+use SharePoint\PHP\Client\ClientObject;
 
 
 
@@ -16,45 +15,61 @@ try {
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
 
     $ctx = new ClientContext($Settings['Url'],$authCtx);
-	//readWeb($ctx);
-    $web = createWeb($ctx);
-	updateWeb($web);
-    deleteWeb($web);
+    //create a workspace
+	$webUrl = "Workspace_" . date("Y-m-d") . rand(1,100);
+	$web = createWeb($ctx,$webUrl);
+	//$web = findWeb($ctx,$webUrl);
+	if(isset($web)){
+		print "Web site: '{$web->Title} has been found'\r\n";
+		//readWebProperties($ctx);
+		updateWeb($web);
+		deleteWeb($web);
+	}
+
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
 }
 
 
-function readWeb(ClientContext $ctx){
+function findWeb(ClientContext $ctx,$webUrl){
 	#read web properties
-	$web = $ctx->getWeb();
-    $ctx->load($web);
+	$webs = $ctx->getWeb()->getWebs();
+    $ctx->load($webs);
 	$ctx->executeQuery();
-	print "Web title: '{$web->Title}'\r\n";
+	foreach( $webs->getData() as $web ) {
+		print $web->getResourcePath();
+		if($web->Url == $webUrl){
+			return $web;
+		}
+	}
+	return null;
+}
 
-	#2. Read user custom actions
+
+function readWebProperties($web){
+
+	/*#2. Read user custom actions
 	$customActions = $web->getUserCustomActions();
 	$ctx->load($customActions);
 	$ctx->executeQuery();
 	foreach( $customActions->getData() as $customAction ) {
 		print "User custom action: '{$customAction->Title}'\r\n";
-	}
+	}*/
 
 
-    /*$roleAssignments = $web->getRoleAssignments();
+	/*$roleAssignments = $web->getRoleAssignments();
     $ctx->load($roleAssignments);
     $ctx->executeQuery();
     foreach( $roleAssignments->getData() as $roleAssignment ) {
         print "Field title: '{$roleAssignment->Member}'\r\n";
     }*/
+
 }
 
-function createWeb(ClientContext $ctx)
+function createWeb(ClientContext $ctx,$webUrl)
 {
 	$web = $ctx->getWeb();
-	$webUrl = "Workspace_" . rand(1, 1000);
-	
 	$info = new \SharePoint\PHP\Client\WebCreationInformation();
 	$info->Title = "Workspace";
 	$info->Description = "Workspace web site";
@@ -76,7 +91,7 @@ function updateWeb(\SharePoint\PHP\Client\Web $web)
 	$info = array(
 		Title => "Workspace_" . date("Y-m-d")
 	);
-	$web = $web->update($info);
+	$web->update($info);
 	$ctx->executeQuery();
 	print "Web site {$web->Url} has been updated'\r\n";
 	return $web;

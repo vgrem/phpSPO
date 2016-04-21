@@ -3,6 +3,8 @@
 
 namespace SharePoint\PHP\Client;
 
+use Exception;
+
 require_once('ClientFormatType.php');
 
 /**
@@ -54,6 +56,7 @@ class ClientRequest
         $result = $this->executeQueryDirect($options);
         //process results
         $result = json_decode($result);
+        //handle errors
         if (isset($result->error)) {
             throw new \RuntimeException("Error: " . $result->error->message->value);
         }
@@ -64,19 +67,20 @@ class ClientRequest
 
 
     private function buildQuery(ClientQuery $query){
-        $operationType = $query->getOperationType();
+        $operationType = $query->getActionType();
 
         $requestOptions = array(
-            'url' => $query->buildUrl(),
-            'data' => $query->prepareData(),
+            'url' => $query->getResourceUrl(),
+            'data' => $query->preparePayload(),
             'headers' => array(),
-            'method' => $operationType == ClientOperationType::Read ? 'GET' : 'POST'
+            'method' => $operationType == ClientActionType::Read ? 'GET' : 'POST'
         );
+        
 
-        if ($operationType == ClientOperationType::Update) {
+        if ($operationType == ClientActionType::Update) {
             $requestOptions['headers']["IF-MATCH"] = "*";
             $requestOptions['headers']["X-HTTP-Method"] = "MERGE";
-        } else if ($operationType == ClientOperationType::Delete) {
+        } else if ($operationType == ClientActionType::Delete) {
             $requestOptions['headers']["IF-MATCH"] = "*";
             $requestOptions['headers']["X-HTTP-Method"] = "DELETE";
         }

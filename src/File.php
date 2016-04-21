@@ -12,7 +12,8 @@ class File extends ClientObject
       * Checks out the file from a document library based on the check-out type.
       */
      public function checkOut(){
-          $qry = new ClientQuery($this, ClientOperationType::Update,"/checkout");
+
+          $qry = new ClientQuery($this->getUrl() . "/checkout", ClientActionType::Update);
           $this->getContext()->addQuery($qry);
      }
 
@@ -21,7 +22,7 @@ class File extends ClientObject
       * Reverts an existing checkout for the file.
       */
      public function undoCheckout(){
-          $qry = new ClientQuery($this, ClientOperationType::Update,"/undocheckout");
+          $qry = new ClientQuery($this->getUrl() . "/undocheckout", ClientActionType::Update);
           $this->getContext()->addQuery($qry);
      }
 
@@ -31,10 +32,9 @@ class File extends ClientObject
       * @param string $comment A comment for the check-in. Its length must be <= 1023.
       */
      public function checkIn($comment){
-          $qry = new ClientQuery($this, ClientOperationType::Update,"/checkin(comment='$comment',checkintype=0)");
+          $qry = new ClientQuery($this->getUrl() . "/checkin(comment='$comment',checkintype=0)", ClientActionType::Update);
           $this->getContext()->addQuery($qry);
      }
-
 
 
      /**
@@ -42,7 +42,7 @@ class File extends ClientObject
       * @param string $comment The comment for the approval.
       */
      public function approve($comment){
-          $qry = new ClientQuery($this, ClientOperationType::Update,"/approve(comment='$comment')");
+          $qry = new ClientQuery($this->getUrl() . "/approve(comment='$comment')", ClientActionType::Update);
           $this->getContext()->addQuery($qry);
      }
 
@@ -51,7 +51,7 @@ class File extends ClientObject
       * @param string $comment The comment for the denial.
       */
      public function deny($comment){
-          $qry = new ClientQuery($this, ClientOperationType::Update,"/deny(comment='$comment')");
+          $qry = new ClientQuery($this->getUrl() . "/deny(comment='$comment')", ClientActionType::Update);
           $this->getContext()->addQuery($qry);
      }
 
@@ -60,7 +60,7 @@ class File extends ClientObject
       * @param string $comment The comment for the published file. Its length must be <= 1023.
       */
      public function publish($comment){
-          $qry = new ClientQuery($this, ClientOperationType::Update,"/publish(comment='$comment')");
+          $qry = new ClientQuery($this->getUrl() . "/publish(comment='$comment')", ClientActionType::Update);
           $this->getContext()->addQuery($qry);
      }
 
@@ -70,7 +70,7 @@ class File extends ClientObject
       * @param string $comment The comment for the unpublish operation. Its length must be <= 1023.
       */
      public function unpublish($comment){
-          $qry = new ClientQuery($this, ClientOperationType::Update,"/unpublish(comment='$comment')");
+          $qry = new ClientQuery($this->getUrl() . "/unpublish(comment='$comment')", ClientActionType::Update);
           $this->getContext()->addQuery($qry);
      }
 
@@ -81,7 +81,7 @@ class File extends ClientObject
       * @param bool $bOverWrite true to overwrite a file with the same name in the same location; otherwise false.
       */
      public function copyTo($strNewUrl,$bOverWrite){
-          $qry = new ClientQuery($this, ClientOperationType::Update,"/copyto(strnewurl='$strNewUrl',boverwrite=$bOverWrite)");
+          $qry = new ClientQuery($this->getUrl() . "/copyto(strnewurl='$strNewUrl',boverwrite=$bOverWrite)", ClientActionType::Update);
           $this->getContext()->addQuery($qry);
      }
 
@@ -91,7 +91,7 @@ class File extends ClientObject
       * @param int $flags The bitwise SP.MoveOperations value for how to move the file. Overwrite = 1; AllowBrokenThickets (move even if supporting files are separated from the file) = 8.
       */
      public function moveTo($newUrl,$flags){
-          $qry = new ClientQuery($this, ClientOperationType::Update,"/moveto(newurl='$newUrl',flags=$flags)");
+          $qry = new ClientQuery($this->getUrl() . "/moveto(newurl='$newUrl',flags=$flags)", ClientActionType::Update);
           $this->getContext()->addQuery($qry);
      }
 
@@ -100,7 +100,7 @@ class File extends ClientObject
       * Moves the file to the Recycle Bin and returns the identifier of the new Recycle Bin item.
       */
      public function recycle(){
-          $qry = new ClientQuery($this, ClientOperationType::Update,"/recycle");
+          $qry = new ClientQuery($this->getUrl() . "/recycle", ClientActionType::Update);
           $this->getContext()->addQuery($qry);
      }
 

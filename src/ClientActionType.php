@@ -3,9 +3,9 @@
 namespace SharePoint\PHP\Client;
 
 /**
- * Client operation type
+ * Client action type
  */
-abstract class ClientOperationType
+abstract class ClientActionType
 {
     const Read = 1;
     const Create = 2;

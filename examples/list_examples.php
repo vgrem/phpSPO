@@ -66,6 +66,7 @@ function createList(ClientContext $ctx){
 	$info = new ListCreationInformation();
 	$info->Title = $listTitle;
 	$info->Description = "Orders list";
+	$info->BaseTemplate = \SharePoint\PHP\Client\ListTemplateType::Tasks;
 	$list = $ctx->getWeb()->getLists()->add($info);
     $ctx->executeQuery();
 	print "List '{$list->Title}' has been created.\r\n";
@@ -89,7 +90,7 @@ function updateList(SharePoint\PHP\Client\SPList $list){
 	$ctx = $list->getContext();
 	$listProperties = array(
 		'AllowContentTypes' => true,
-		'BaseTemplate'=>  100,
+		'BaseTemplate'=>  \SharePoint\PHP\Client\ListTemplateType::GenericList,
 		'ContentTypesEnabled' => true,
 		'Title' => 'New Orders'
 	);

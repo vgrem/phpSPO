@@ -13,20 +13,12 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
-    //$fileUrl = "/sites/news/Documents/SharePoint User Guide.docx";
-    $localFilePath = "./data/SharePoint User Guide.docx";
+    $localPath = "./data/";
     $targetLibraryTitle = "My Documents";
-    //$folderUrl = "/sites/news/Documents/Archive";
-    //$folderName = "Archive2014";
 
     $list = ensureList($ctx,$targetLibraryTitle);
-
-    //readFileFromLibrary($ctx);
-    //downloadFile($ctx,$fileUrl,$localFilePath);
-    //uploadFile($ctx,$localFilePath,$fileUrl);
-    //checkoutFile($ctx,$fileUrl);
-    //checkinFile($ctx,$fileUrl);
-    //approveFile($ctx,$fileUrl);
+    //uploadFiles($localPath,$list);
+    processFiles($list,$localPath);
     //deleteFolder($ctx,$folderUrl);
     //saveFile($ctx,$localFilePath,$fileUrl);
 
@@ -36,6 +28,23 @@ catch (Exception $e) {
 }
 
 
+function processFiles(\SharePoint\PHP\Client\SPList $list,$targetPath)
+{
+    $ctx = $list->getContext();
+    $files = $list->getRootFolder()->getFiles();
+    $ctx->load($files);
+    $ctx->executeQuery();
+
+    foreach ($files->getData() as $file) {
+        print "File name: '{$file->Name}'\r\n";
+
+        //checkoutFile($ctx,$file->ServerRelativeUrl);
+        //checkinFile($ctx,$file->ServerRelativeUrl);
+        //approveFile($ctx,$file->ServerRelativeUrl);
+        $fileName = $targetPath . "/" . basename($file->ServerRelativeUrl);
+        downloadFile($ctx,$file->ServerRelativeUrl,$fileName);
+    }
+}
 
 function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
 
@@ -51,8 +60,7 @@ function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
         }
     }
     if(is_null($list)) {
-        $info = new ListCreationInformation();
-        $info->Title = $listTitle;
+        $info = new ListCreationInformation($listTitle);
         $info->BaseTemplate = 101;
         $list = $ctx->getWeb()->getLists()->add($info);
         $ctx->executeQuery();
@@ -94,17 +102,23 @@ function approveFile(SharePoint\PHP\Client\ClientContext $ctx,$fileUrl){
     print "File {$fileUrl} has been approved\r\n";
 }
 
-function uploadFile(SharePoint\PHP\Client\ClientContext $ctx,$localFilePath,$fileUrl){
+function uploadFiles($localPath,\SharePoint\PHP\Client\SPList $targetList){
 
-    $fileCreationInformation = array(
-        'Content' => file_get_contents($localFilePath),
-        'Url' => 'SharePoint User Guide.docx'
-    );
+    $ctx = $targetList->getContext();
 
-    $list = $ctx->getWeb()->getLists()->getByTitle("Documents");
-    $uploadFile = $list->getRootFolder()->getFiles()->add($fileCreationInformation);
-    $ctx->executeQuery();
-    print "File {$uploadFile->Name} has been uploaded\r\n";
+    $searchPrefix = $localPath . '*.*';
+    foreach(glob($searchPrefix) as $filename) {
+        $fileCreationInformation = array(
+            'Content' => file_get_contents($filename),
+            'Url' => basename($filename)
+        );
+
+        $uploadFile = $targetList->getRootFolder()->getFiles()->add($fileCreationInformation);
+        $ctx->executeQuery();
+        print "File {$uploadFile->Name} has been uploaded\r\n";
+    }
+
+
 }
 
 
@@ -122,12 +136,6 @@ function downloadFile(SharePoint\PHP\Client\ClientContext $ctx,$sourcefileUrl,$t
     print "File has been downloaded\r\n";
 }
 
-function readFileFromLibrary(SharePoint\PHP\Client\ClientContext $ctx){
-    $sourceFileUrl = "/sites/news/Documents/SharePoint User Guide.docx";
-    $file = $ctx->getWeb()->getFileByServerRelativeUrl($sourceFileUrl);
-    $ctx->load($file);
-    $ctx->executeQuery();
-    print "File name: '{$file->Name}'\r\n";
-}
+
 
 ?>

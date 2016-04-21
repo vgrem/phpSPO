@@ -13,16 +13,12 @@ class ListCollection extends ClientObjectCollection
      */
     public function getByTitle($title)
     {
-        $resourcePath = "/_api/lists/getbytitle('{$title}')";
-        $list = new SPList($this->getContext(),$resourcePath);
-        return $list;
+        return new SPList($this->getContext(),$this->getResourcePath(),"getbytitle('{$title}')");
     }
 
     public function getById($id)
     {
-        $resourcePath = "/_api/lists/getbyid(guid'{$id}')";
-        $list = new SPList($this->getContext(),$resourcePath);
-        return $list;
+        return new SPList($this->getContext(),$this->getResourcePath(),"getbyid(guid'{$id}')");
     }
 
 
@@ -40,8 +36,9 @@ class ListCollection extends ClientObjectCollection
             'Description' =>  $parameters->Description,
             'Title' => $parameters->Title
         );
-        $list = new SPList($this->getContext(),"/_api/web",null,$payload);
-        $qry = new ClientQuery($list,ClientOperationType::Create,"/lists");
+        $list = new SPList($this->getContext());
+        $qry = new ClientQuery($this->getUrl(),ClientActionType::Create,$payload);
+        $qry->addResultObject($list);
         $this->getContext()->addQuery($qry);
         $this->addChild($list);
         return $list;

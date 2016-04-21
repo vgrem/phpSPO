@@ -7,5 +7,6 @@ namespace SharePoint\PHP\Client;
  */
 class UserCustomActionCollection extends ClientObjectCollection
 {
+    
 
 }

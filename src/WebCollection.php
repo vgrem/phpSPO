@@ -20,8 +20,9 @@ class WebCollection extends ClientObjectCollection
                 'Language' => $webCreationInformation->Language,
                 'UseSamePermissionsAsParentSite' => !$webCreationInformation->UseUniquePermissions
         ));
-        $web = new Web($this->getContext(),$this->getResourcePath(),null,$payload);
-        $qry = new ClientQuery($web,ClientOperationType::Create,"/add");
+        $web = new Web($this->getContext());
+        $qry = new ClientQuery($this->getUrl() . "/add",ClientActionType::Create,$payload);
+        $qry->addResultObject($web);
         $this->getContext()->addQuery($qry);
         $this->addChild($web);
         return $web;

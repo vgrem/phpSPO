@@ -5,10 +5,12 @@ namespace SharePoint\PHP\Client;
 
 /**
  * Represents a SharePoint list.
+ * @property FieldCollection Fields
+ * @property Folder RootFolder
  */
 class SPList extends ClientObject
 {
-
+    
 
     /**
      * The recommended way to add a list item is to send a POST request to the ListItemCollection resource endpoint, as shown in ListItemCollection request examples.
@@ -18,10 +20,10 @@ class SPList extends ClientObject
      */
     public function addItem(array $listItemCreationInformation)
     {
-        $path = $this->getResourcePath() . "/items";
-        $item = new ListItem($this->getContext(),$path,null,$listItemCreationInformation);
+        $item = new ListItem($this->getContext());
         $item->setParentList($this);
-        $qry = new ClientQuery($item,ClientOperationType::Create);
+        $qry = new ClientQuery($this->getUrl() . "/items",ClientActionType::Create,$listItemCreationInformation);
+        $qry->addResultObject($item);
         $this->getContext()->addQuery($qry);
         return $item;
     }
@@ -34,9 +36,7 @@ class SPList extends ClientObject
      */
     public function getItemById($id)
     {
-        $resoursePath = $this->getResourcePath() . "/items({$id})";
-        $item = new ListItem($this->getContext(),$resoursePath);
-        return $item;
+        return new ListItem($this->getContext(),$this->getResourcePath(),"items({$id})");
     }
 
     /**
@@ -47,8 +47,8 @@ class SPList extends ClientObject
      */
     public function breakRoleInheritance($copyroleassignments,$clearsubscopes)
     {
-        $endpoint =  "/breakroleinheritance(" . var_export($copyroleassignments, true) . "," . var_export($clearsubscopes,true) . ")";
-        $qry = new ClientQuery($this, ClientOperationType::Update,$endpoint);
+        $url = $this->getUrl() . "/breakroleinheritance(" . var_export($copyroleassignments, true) . "," . var_export($clearsubscopes,true) . ")";
+        $qry = new ClientQuery($url, ClientActionType::Update);
         $this->getContext()->addQuery($qry);
     }
 
@@ -59,9 +59,7 @@ class SPList extends ClientObject
      */
     public function getItems()
     {
-        $resoursePath = $this->getResourcePath() . "/items";
-        $items = new ListItemCollection($this->getContext(),$resoursePath);
-        return $items;
+        return new ListItemCollection($this->getContext(),$this->getResourcePath(),"items");
     }
 
 
@@ -71,8 +69,8 @@ class SPList extends ClientObject
      */
     public function update($listUpdationInformation)
     {
-        $this->payload = $listUpdationInformation;
-        $qry = new ClientQuery($this,ClientOperationType::Update);
+        $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$listUpdationInformation);
+        $qry->addResultObject($this);
         $this->getContext()->addQuery($qry);
     }
 
@@ -81,7 +79,7 @@ class SPList extends ClientObject
      */
     public function deleteObject()
     {
-        $qry = new ClientQuery($this,ClientOperationType::Delete);
+        $qry = new ClientQuery($this->getUrl(),ClientActionType::Delete);
         $this->getContext()->addQuery($qry);
     }
 
@@ -95,17 +93,18 @@ class SPList extends ClientObject
     public function getUserEffectivePermissions($loginName)
     {
         $encLoginName = rawurlencode($loginName);
-        $endpoint =  "/getusereffectivepermissions(@user)?@user='$encLoginName'";
         $permissions = new BasePermissions();
-        //$this->getContext()->addQuery($qry);
+        $qry = new ClientQuery($this->getUrl() . "/getusereffectivepermissions(@user)?@user='$encLoginName'",ClientActionType::Read);
+        $qry->addResultValue($permissions);
+        $this->getContext()->addQuery($qry);
         return $permissions;
     }
 
 
     public function getFields()
     {
-        if(!isset($this->Fields)){
-            $this->Fields = new FieldCollection($this->getContext(),$this->getResourcePath() . "/fields");
+        if(!$this->isPropertyAvailable('Fields')){
+            $this->Fields = new FieldCollection($this->getContext(),$this->getResourcePath(), "fields");
         }
         return $this->Fields;
     }
@@ -113,8 +112,8 @@ class SPList extends ClientObject
 
     public function getRootFolder()
     {
-        if(!isset($this->RootFolder)){
-            $this->RootFolder = new Folder($this->getContext(),$this->getResourcePath() . "/rootFolder");
+        if(!$this->isPropertyAvailable('RootFolder')){
+            $this->RootFolder = new Folder($this->getContext(),$this->getResourcePath(), "rootFolder");
         }
         return $this->RootFolder;
     }

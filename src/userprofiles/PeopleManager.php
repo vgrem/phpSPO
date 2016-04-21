@@ -8,8 +8,7 @@ class PeopleManager extends ClientObject
 {
     public function __construct(ClientContext $ctx)
     {
-        parent::__construct($ctx);
-        $this->resourcePath = "/_api/sp.userprofiles.peoplemanager";
+        parent::__construct($ctx,null,"sp.userprofiles.peoplemanager");
     }
 
     /**
@@ -17,8 +16,7 @@ class PeopleManager extends ClientObject
      * @return PersonProperties
      */
     public function getMyProperties(){
-        $personProperties = new PersonProperties($this->getContext(),$this->resourcePath . "/getmyproperties");
-        return $personProperties;
+        return new PersonProperties($this->getContext(),$this->getResourcePath(),"getmyproperties");
     }
 
 
@@ -27,8 +25,7 @@ class PeopleManager extends ClientObject
      * @return PersonProperties
      */
     public function getMyFollowers(){
-        $personProperties = new PersonProperties($this->getContext(),$this->resourcePath . "/getmyfollowers");
-        return $personProperties;
+        return new PersonProperties($this->getContext(),$this->getResourcePath(),"getmyfollowers");
     }
 
 
@@ -37,7 +34,7 @@ class PeopleManager extends ClientObject
      * @param $accountName
      */
     public function follow($accountName){
-        $qry = new ClientQuery($this, ClientOperationType::Update,"/follow(@v)?@v='$accountName'");
+        $qry = new ClientQuery($this, ClientActionType::Update,"follow(@v)?@v='$accountName'");
         $this->getContext()->addQuery($qry);
     }
 

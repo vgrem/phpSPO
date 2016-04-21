@@ -16,7 +16,7 @@ class Group extends ClientObject
     public function getUsers()
     {
         if(!$this->isPropertyAvailable('Users')){
-            $this->Users = new UserCollection($this->getContext(),$this->getResourcePath() . "/users");
+            $this->Users = new UserCollection($this->getContext(),$this->getResourcePath() , "users");
         }
         return $this->Users;
     }

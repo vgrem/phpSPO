@@ -10,15 +10,11 @@ class FieldCollection extends ClientObjectCollection
 {
     public function getByTitle($title)
     {
-        $resourcePath = $this->getResourcePath() . "/getbytitle('{$title}')";
-        $field = new Field($this->getContext(),$resourcePath);
-        return $field;
+        return new Field($this->getContext(),$this->getResourcePath(),"getbytitle('{$title}')");
     }
 
     public function getByInternalNameOrTitle($internalNameOrTitle)
     {
-        $resourcePath = $this->getResourcePath() . "/getbyinternalnameortitle('{$internalNameOrTitle}')";
-        $field = new Field($this->getContext(),$resourcePath);
-        return $field;
+        return new Field($this->getContext(),$this->getResourcePath(),"getbyinternalnameortitle('{$internalNameOrTitle}')");
     }
 }

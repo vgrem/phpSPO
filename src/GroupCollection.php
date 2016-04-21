@@ -23,8 +23,9 @@ class GroupCollection extends ClientObjectCollection
             'Title' => $parameters->Title,
             'Description' => $parameters->Description
         );
-        $group = new Group($this->getContext(),$this->getResourcePath(),null,$payload);
-        $qry = new ClientQuery($group,ClientOperationType::Create);
+        $group = new Group($this->getContext());
+        $qry = new ClientQuery($this->getUrl() . "/sitegroups",ClientActionType::Create,$payload);
+        $qry->addResultObject($group);
         $this->getContext()->addQuery($qry);
         $this->addChild($group);
         return $group;
@@ -63,8 +64,8 @@ class GroupCollection extends ClientObjectCollection
      */
     public function removeById($id)
     {
-        $groupToDelete = new Group($this->getContext(),$this->getResourcePath() . "/removebyid('{$id}')");
-        $qry = new ClientQuery($groupToDelete,ClientOperationType::Delete);
+        $groupToDelete = new Group($this->getContext());
+        $qry = new ClientQuery($groupToDelete,ClientActionType::Delete,"removebyid('{$id}')");
         $this->getContext()->addQuery($qry);
     }
 
@@ -76,7 +77,7 @@ class GroupCollection extends ClientObjectCollection
     public function removeByLoginName($groupName)
     {
         $groupToDelete = new Group($this->getContext(),$this->getResourcePath() . "/removebyloginname('{$groupName}')");
-        $qry = new ClientQuery($groupToDelete,ClientOperationType::Delete);
+        $qry = new ClientQuery($groupToDelete,ClientActionType::Delete);
         $this->getContext()->addQuery($qry);
     }
 }

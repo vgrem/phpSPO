@@ -2,7 +2,7 @@
 
 namespace SharePoint\PHP\Client;
 
-require_once('ClientOperationType.php');
+require_once('ClientActionType.php');
 require_once('ClientRequest.php');
 require_once('ClientObject.php');
 require_once('File.php');
@@ -36,6 +36,7 @@ require_once('BasePermissions.php');
 require_once('WebCreationInformation.php');
 require_once('GroupCreationInformation.php');
 require_once('ListCreationInformation.php');
+require_once('ListTemplateType.php'); 
 
 
 /**
@@ -59,6 +60,7 @@ class ClientContext
 
     private $queries = array();
 
+    public static $ServicePath = "/_api/";
 
     /**
      * REST client context
@@ -76,7 +78,8 @@ class ClientContext
         if(!is_null($retrievals)){
             //todo...
         }
-        $qry = new ClientQuery($clientObject);
+        $qry = new ClientQuery($clientObject->getUrl());
+        $qry->addResultObject($clientObject);
         $this->addQuery($qry);
     }
 
@@ -84,7 +87,7 @@ class ClientContext
     {
         foreach ($this->queries as $qry) {
             $data = $this->getPendingRequest()->executeQuery($qry);
-            if (!empty($data)){
+            if (!empty($data) && !is_null($qry->getResultObject())){
                 $qry->initClientObjectFromJson($data->d);
             }
         }
@@ -95,7 +98,7 @@ class ClientContext
     public function getWeb()
     {
         if(!isset($this->web)){
-            $this->web = new Web($this,"/_api/web");
+            $this->web = new Web($this);
         }
         return $this->web;
     }
@@ -104,7 +107,7 @@ class ClientContext
     public function getSite()
     {
         if(!isset($this->site)){
-            $this->site = new Site($this,"/_api/site");
+            $this->site = new Site($this);
         }
         return $this->site;
     }
@@ -123,9 +126,7 @@ class ClientContext
         $this->queries[] = $query;
     }
     
-     
     
-
     public function getUrl()
     {
         return $this->baseUrl;

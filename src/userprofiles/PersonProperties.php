@@ -7,6 +7,9 @@ namespace SharePoint\PHP\Client;
  */
 class PersonProperties extends ClientObject
 {
+
+   
+
     /**
      * The user's account name.
      */

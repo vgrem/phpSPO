@@ -19,8 +19,8 @@ class ListCreationInformation extends ClientValueObject
     public function __construct($title)
     {
         $this->Title = $title;
-        $this->Description = "";
-        $this->BaseTemplate = 100;
+        $this->Description = $title;
+        $this->BaseTemplate = ListTemplateType::GenericList;
         $this->AllowContentTypes = true;
         $this->ContentTypesEnabled = true;
     }
