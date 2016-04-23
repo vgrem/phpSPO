@@ -10,6 +10,7 @@ use SharePoint\PHP\Client\ChangeLogItemQuery;
 use SharePoint\PHP\Client\ChangeQuery;
 use SharePoint\PHP\Client\ChangeType;
 use SharePoint\PHP\Client\ClientContext;
+use SharePoint\PHP\Client\ClientRequest;
 use SharePoint\PHP\Client\ListCreationInformation;
 
 
@@ -21,12 +22,43 @@ try {
     
     $listTitle = "Tasks" ;
     $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
-    getListChanges($list);
-    getListItemChanges($list);
+    //getListChanges($list);
+    //getListItemChanges($list);
+    getListItemChangesAlt($Settings['Url'],$authCtx);
     //getWebChanges($ctx->getWeb());
 }
 catch (Exception $e) {
     echo 'Error: ',  $e->getMessage(), "\n";
+}
+
+
+function getListItemChangesAlt($webUrl, AuthenticationContext $authCtx)
+{
+    $listTitle = "Documents";
+    $payload = array(
+        'query' => array(
+            '__metadata' => array('type' => 'SP.ChangeLogItemQuery'),
+            'ViewName' => '',
+            'QueryOptions'=> '<QueryOptions><Folder>Shared Documents</Folder></QueryOptions>'
+        )
+    );
+
+    $request = new ClientRequest($webUrl,$authCtx);
+    $options = array(
+        'url' => $webUrl . "/_api/web/Lists/GetByTitle('$listTitle')/GetListItemChangesSinceToken",
+        'data' => json_encode($payload),
+        'method' => 'POST'
+    );
+    $response = $request->executeQueryDirect($options);
+
+    //process results
+    $xml = simplexml_load_string($response);
+    $xml->registerXPathNamespace('z', '#RowsetSchema');
+    $rows = $xml->xpath("//z:row");
+    foreach($rows as $row) {
+        print (string)$row->attributes()["ows_FileLeafRef"] . "\n";
+    }
+
 }
 
 function getListItemChanges(\SharePoint\PHP\Client\SPList $list)
