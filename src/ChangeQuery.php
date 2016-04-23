@@ -37,6 +37,7 @@ class ChangeQuery extends ClientValueObject
         $this->SystemUpdate = false;
         $this->User = false;
         $this->View = false;
+        $this->setMetadataType("SP.ChangeQuery");
     }
 
     public function toJson()

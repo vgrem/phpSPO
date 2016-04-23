@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../Faker/src/autoload.php';  //Faker library (https://github.com/fzaninotto/Faker)
-require_once(__DIR__.'/../src/ClientContext.php');
+require_once(__DIR__ . '/../src/ClientContext.php');
 require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
 require_once 'Settings.php';
 

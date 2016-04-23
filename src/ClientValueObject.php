@@ -11,6 +11,10 @@ namespace SharePoint\PHP\Client;
  */
 class ClientValueObject
 {
+
+    public function __construct()
+    {
+    }
     
     public function setMetadataType($value)
     {
@@ -23,7 +27,4 @@ class ClientValueObject
         return json_encode($this);
     }
     
-    
-    //private $metadataType;
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/../src/ClientRequest.php');
+require_once(__DIR__ . '/../src/ClientRequest.php');
 require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
 require_once 'Settings.php';
 

@@ -4,6 +4,7 @@
 namespace SharePoint\PHP\Client;
 
 use Exception;
+use stdClass;
 
 require_once('ClientFormatType.php');
 
@@ -54,16 +55,38 @@ class ClientRequest
     {
         $options = $this->buildQuery($query);
         $result = $this->executeQueryDirect($options);
-        //process results
-        $result = json_decode($result);
-        //handle errors
-        if (isset($result->error)) {
-            throw new \RuntimeException("Error: " . $result->error->message->value);
-        }
-        return $result;
+        if($query->getResponseFormatType() == ClientFormatType::Json)
+            return $this->processJsonResponse($result);
+        return $this->processXmlResponse($result);
     }
 
 
+    function processXmlResponse($response){
+        $data = new StdClass;
+        $data->d->results = array();
+
+        $xml = simplexml_load_string($response);
+        $xml->registerXPathNamespace('z', '#RowsetSchema');
+        $rows = $xml->xpath("//z:row");
+        foreach($rows as $row) {
+            $item = new StdClass;
+            foreach($row->attributes() as $k => $v) {
+                $normalizedFieldName = str_replace('ows_','',$k);
+                $item->{$normalizedFieldName} = (string)$v;
+            }
+            $data->d->results[] = $item;
+        }
+        return $data;
+    }
+
+    private function processJsonResponse($response){
+        $json = json_decode($response);
+        //handle errors
+        if (isset($json->error)) {
+            throw new \RuntimeException("Error: " . $json->error->message->value);
+        }
+        return $json;
+    }
 
 
     private function buildQuery(ClientQuery $query){
@@ -119,13 +142,12 @@ class ClientRequest
 
 	/**
 	 * Request the Context Info
-	 * @return mixed
 	 */
     protected function requestFormDigest()
     {
         $url = $this->baseUrl . "/_api/contextinfo";
-        $data = Requests::post($url,$this->prepareHeaders($this->defaultHeaders));
-        $json = json_decode($data);
+        $response = Requests::post($url,$this->prepareHeaders($this->defaultHeaders));
+        $json = $this->processJsonResponse($response);
         $this->formDigest = $json->d->GetContextWebInformation->FormDigestValue;
     }
 

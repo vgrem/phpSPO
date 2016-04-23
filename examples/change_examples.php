@@ -1,7 +1,7 @@
 <?php
 
 
-require_once(__DIR__.'/../src/ClientContext.php');
+require_once(__DIR__ . '/../src/ClientContext.php');
 require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
@@ -13,6 +13,7 @@ use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ListCreationInformation;
 
 
+
 try {
     $authCtx = new AuthenticationContext($Settings['Url']);
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
@@ -21,14 +22,30 @@ try {
     $listTitle = "Tasks" ;
     $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
     getListChanges($list);
+    getListItemChanges($list);
     //getWebChanges($ctx->getWeb());
 }
 catch (Exception $e) {
     echo 'Error: ',  $e->getMessage(), "\n";
 }
 
-function getListChanges(\SharePoint\PHP\Client\SPList $list){
+function getListItemChanges(\SharePoint\PHP\Client\SPList $list)
+{
     $ctx = $list->getContext();
+
+    $query = new ChangeLogItemQuery();
+    $query->ChangeToken = "1;3;e49a3225-13f6-47d4-a146-30d9caa05362;635969955256400000;10637059";
+    $items = $list->getListItemChangesSinceToken($query);
+    $ctx->executeQuery();
+    foreach ($items->getData() as $item) {
+        print "[List Item] $item->Title\r\n";
+    }
+}
+
+function getListChanges(\SharePoint\PHP\Client\SPList $list)
+{
+    $ctx = $list->getContext();
+
     $query = new ChangeQuery();
     $query->Add = true;
     $query->Update = true;
@@ -39,12 +56,10 @@ function getListChanges(\SharePoint\PHP\Client\SPList $list){
     $changes = $list->getChanges($query);
     $ctx->executeQuery();
 
-
-    foreach( $changes->getData() as $change ) {
-        $changeTypeName = ChangeType::toString($change->ChangeType);
-        print "Change type : $change->Time : $changeTypeName\r\n";
+    foreach ($changes->getData() as $change) {
+        $changeTypeName = ChangeType::parse($change->ChangeType);
+        print "Change ( {$change->Time} , {$changeTypeName} , {$change->ChangeToken->StringValue} )\r\n";
     }
-
 }
 
 
@@ -57,5 +72,9 @@ function getWebChanges(\SharePoint\PHP\Client\Web $web){
     $query->Web = true;
     $changes = $web->getChanges($query);
     $ctx->executeQuery();
-    print $changes;
+
+    foreach ($changes->getData() as $change) {
+        $changeTypeName = ChangeType::parse($change->ChangeType);
+        print "Change ( {$change->Time} , {$changeTypeName} , {$change->ChangeToken->StringValue} )\r\n";
+    }
 }

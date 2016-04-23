@@ -2,8 +2,9 @@
 
 namespace SharePoint\PHP\Client;
 
-require_once('ClientActionType.php');
-require_once('ClientRequest.php');
+require_once('utilities/Enum.php');
+require_once('runtime/ClientActionType.php');
+require_once('runtime/ClientRequest.php');
 require_once('ClientObject.php');
 require_once('File.php');
 require_once('Folder.php');
@@ -32,7 +33,7 @@ require_once('UserCustomActionCollection.php');
 require_once('Change.php');
 require_once('ChangeFile.php');
 require_once('ChangeCollection.php');
-require_once('ClientQuery.php');
+require_once('runtime/ClientQuery.php');
 require_once('ClientValueObject.php');
 require_once('ClientValueObjectCollection.php');
 require_once('ChangeQuery.php');
@@ -42,7 +43,7 @@ require_once('BasePermissions.php');
 require_once('WebCreationInformation.php');
 require_once('GroupCreationInformation.php');
 require_once('ListCreationInformation.php');
-require_once('ListTemplateType.php'); 
+require_once('ListTemplateType.php');
 
 
 /**

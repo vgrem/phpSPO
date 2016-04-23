@@ -19,6 +19,8 @@ class ClientQuery
 
     private $binaryStringRequestBody;
 
+    private $responseFormatType;
+
     public function __construct($resourceUrl, $type=ClientActionType::Read, $parameters=null)
     {
         $this->resultObject = null;
@@ -26,6 +28,7 @@ class ClientQuery
         $this->actionType = $type;
         $this->parameters = $parameters;
         $this->binaryStringRequestBody = false;
+        $this->responseFormatType = ClientFormatType::Json;
     }
 
 
@@ -52,7 +55,8 @@ class ClientQuery
             if($this->binaryStringRequestBody)
                 $payload = $this->parameters;
             else if($this->parameters instanceof ClientValueObject){
-                $this->parameters->setMetadataType($this->resultObject->getEntityTypeName());
+                //if(isset($this->resultObject))
+                //    $this->parameters->setMetadataType($this->resultObject->getEntityTypeName());
                 $payload = $this->parameters->toJson();
             }
             else {
@@ -102,12 +106,20 @@ class ClientQuery
     }
 
 
-
     public function setBinaryStringRequestBody($value)
     {
         $this->binaryStringRequestBody = $value;
     }
 
+    public function setResponseFormatType($value)
+    {
+        $this->responseFormatType = $value;
+    }
+
+    public function getResponseFormatType()
+    {
+        return $this->responseFormatType;
+    }
 
     private function ensureMetadataType(ClientObject $clientObject, & $parameters)
     {

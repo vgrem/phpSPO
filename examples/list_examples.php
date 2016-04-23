@@ -1,12 +1,10 @@
 <?php
 
-require_once(__DIR__.'/../src/ClientContext.php');
+require_once(__DIR__ . '/../src/ClientContext.php');
 require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
-use SharePoint\PHP\Client\ChangeLogItemQuery;
-use SharePoint\PHP\Client\ChangeQuery;
 use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ListCreationInformation;
 
@@ -20,7 +18,7 @@ try {
 	//$listTitle = "Orders_" . rand(1,1000);
 	$listTitle = "Tasks" ;
 
-	//printLists($ctx);
+	printLists($ctx);
     $list = ensureList($ctx,$listTitle);
 	//updateList($list);
 	//assignUniquePermissions($list);

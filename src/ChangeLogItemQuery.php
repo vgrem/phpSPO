@@ -8,11 +8,28 @@ namespace SharePoint\PHP\Client;
  */
 class ChangeLogItemQuery extends ClientValueObject
 {
+
+    function __construct()
+    {
+        $this->ViewName = "";
+        $this->Query = "";
+        $this->QueryOptions = "";
+        $this->Contains = "";
+        $this->setMetadataType("SP.ChangeLogItemQuery");
+    }
+
+    public function toJson()
+    {
+        $query = array('query' => $this);
+        return json_encode($query);
+    }
+
+
     /**
      * A string that contains either the title or the GUID for the list. When querying the UserInfo table,
      * the string contains UserInfo. Using the GUID results in better performance.
      */
-    public $ListName;
+    //public $ListName;
 
     /**
      * A string that contains the GUID for the view, which determines the view to use for the default view
