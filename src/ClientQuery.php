@@ -51,6 +51,10 @@ class ClientQuery
         if(isset($this->parameters)){
             if($this->binaryStringRequestBody)
                 $payload = $this->parameters;
+            else if($this->parameters instanceof ClientValueObject){
+                $this->parameters->setMetadataType($this->resultObject->getEntityTypeName());
+                $payload = $this->parameters->toJson();
+            }
             else {
                 if(isset($this->resultObject))
                     $this->ensureMetadataType($this->resultObject,$this->parameters);
@@ -116,7 +120,8 @@ class ClientQuery
         return $parameters;
     }
 
-    
+
+
 
 
 }

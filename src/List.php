@@ -94,10 +94,35 @@ class SPList extends ClientObject
     {
         $encLoginName = rawurlencode($loginName);
         $permissions = new BasePermissions();
-        $qry = new ClientQuery($this->getUrl() . "/getusereffectivepermissions(@user)?@user='$encLoginName'",ClientActionType::Read);
+        $qry = new ClientQuery($this->getUrl() . "/getusereffectivepermissions(@user)?@user='$loginName'",ClientActionType::Read);
         $qry->addResultValue($permissions);
         $this->getContext()->addQuery($qry);
         return $permissions;
+    }
+
+
+    /**
+     * @param ChangeLogItemQuery $query The query that contains the change token. Pass this parameter in the request body, as shown in the request example.
+     * @return BasePermissions
+     */
+    /*public function getListItemChangesSinceToken(ChangeLogItemQuery $query)
+    {
+        $result = new ClientValueObject();
+        $qry = new ClientQuery($this->getUrl() . "/getlistitemchangessincetoken",ClientActionType::Update,$query);
+        $qry->addResultValue($result);
+        $this->getContext()->addQuery($qry);
+        return $result;
+    }*/
+
+
+    public function getChanges(ChangeQuery $query)
+    {
+        $changes = new ChangeCollection($this->getContext());
+        //"{ 'query': { '__metadata': { 'type': 'SP.ChangeQuery' }, 'Web': true, 'Update': true } }"
+        $qry = new ClientQuery($this->getUrl() . "/getchanges",ClientActionType::PostRead,$query);
+        $qry->addResultObject($changes);
+        $this->getContext()->addQuery($qry);
+        return $changes;
     }
 
 

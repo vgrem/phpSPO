@@ -5,9 +5,8 @@ require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
+use SharePoint\PHP\Client\ChangeQuery;
 use SharePoint\PHP\Client\ClientContext;
-use SharePoint\PHP\Client\ClientObject;
-
 
 
 try {
@@ -17,13 +16,13 @@ try {
     $ctx = new ClientContext($Settings['Url'],$authCtx);
     //create a workspace
 	$webUrl = "Workspace_" . date("Y-m-d") . rand(1,100);
-	$web = createWeb($ctx,$webUrl);
-	//$web = findWeb($ctx,$webUrl);
+	//$web = createWeb($ctx,$webUrl);
+	$web = $ctx->getWeb(); //findWeb($ctx,$webUrl);
 	if(isset($web)){
 		print "Web site: '{$web->Title} has been found'\r\n";
-		//readWebProperties($ctx);
-		updateWeb($web);
-		deleteWeb($web);
+		//updateWeb($web);
+		readWebProperties($web);
+		//deleteWeb($web);
 	}
 
 }
@@ -47,7 +46,11 @@ function findWeb(ClientContext $ctx,$webUrl){
 }
 
 
-function readWebProperties($web){
+function readWebProperties(\SharePoint\PHP\Client\Web $web)
+{
+
+	$ctx = $web->getContext();
+	
 
 	/*#2. Read user custom actions
 	$customActions = $web->getUserCustomActions();

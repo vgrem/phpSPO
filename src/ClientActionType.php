@@ -11,4 +11,5 @@ abstract class ClientActionType
     const Create = 2;
     const Update = 4;
     const Delete = 8;
+    const PostRead = 16;
 }

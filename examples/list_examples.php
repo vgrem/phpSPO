@@ -5,6 +5,8 @@ require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
+use SharePoint\PHP\Client\ChangeLogItemQuery;
+use SharePoint\PHP\Client\ChangeQuery;
 use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ListCreationInformation;
 
@@ -15,18 +17,21 @@ try {
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 
 
-	//$listTitle = 'Documents';
+	//$listTitle = "Orders_" . rand(1,1000);
+	$listTitle = "Tasks" ;
 
 	//printLists($ctx);
-    $list = createList($ctx);
-	updateList($list);
+    $list = ensureList($ctx,$listTitle);
+	//updateList($list);
 	//assignUniquePermissions($list);
 	//printPermissions($list,$Settings['UserName']);
-    deleteList($list);
+    //deleteList($list);
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
 }
+
+
 
 
 
@@ -61,8 +66,7 @@ function printLists(ClientContext $ctx){
 /**
  * Create list item operation example 
  */
-function createList(ClientContext $ctx){
-	$listTitle = "Orders_" . rand(1,1000);
+function createList(ClientContext $ctx,$listTitle){
 	$info = new ListCreationInformation();
 	$info->Title = $listTitle;
 	$info->Description = "Orders list";
@@ -71,6 +75,22 @@ function createList(ClientContext $ctx){
     $ctx->executeQuery();
 	print "List '{$list->Title}' has been created.\r\n";
 	return $list;
+}
+
+
+function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
+
+	$list = null;
+	$lists = $ctx->getWeb()->getLists();
+	$ctx->load($lists);
+	$ctx->executeQuery();
+	foreach($lists->getData() as $curList) {
+		if ($listTitle == $curList->Title) {
+			print "List {$curList->Title} has been found\r\n";
+			return $curList;
+		}
+	}
+	return createList($ctx,$listTitle);
 }
 
 /**

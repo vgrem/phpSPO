@@ -26,6 +26,22 @@ class Web extends ClientObject
         //$this->removeFromParentCollection();
     }
 
+
+    /**
+     * Returns the collection of all changes from the change log that have occurred within the scope of the site, based on the specified query.
+     * @param ChangeQuery $query
+     * @return ChangeCollection
+     */
+    public function getChanges(ChangeQuery $query)
+    {
+        $changes = new ChangeCollection($this->getContext());
+        $qry = new ClientQuery($this->getUrl() . "/getchanges",ClientActionType::PostRead,$query);
+        $qry->addResultObject($changes);
+        $this->getContext()->addQuery($qry);
+        return $changes;
+    }
+
+
     /**
      * Gets the collection of all lists that are contained in the Web site available to the current user
      * based on the permissions of the current user.

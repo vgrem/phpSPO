@@ -62,8 +62,10 @@ abstract class ClientObject
         return $path;
     }
 
-
-
+    /**
+     * Gets resource uri
+     * @return string
+     */
     public function getUrl()
     {
         $url = $this->getServiceRootUrl() . $this->getResourcePath();
@@ -81,6 +83,11 @@ abstract class ClientObject
     public function getQueryOptions()
     {
         return $this->queryOptions;
+    }
+
+    public function getProperties()
+    {
+        return $this->properties;
     }
 
     public function getEntityTypeName(){

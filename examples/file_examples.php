@@ -14,11 +14,11 @@ try {
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
     $localPath = "./data/";
-    $targetLibraryTitle = "My Documents";
+    $targetLibraryTitle = "Documents";
 
     $list = ensureList($ctx,$targetLibraryTitle);
-    //uploadFiles($localPath,$list);
-    processFiles($list,$localPath);
+    uploadFiles($localPath,$list);
+    //processFiles($list,$localPath);
     //deleteFolder($ctx,$folderUrl);
     //saveFile($ctx,$localFilePath,$fileUrl);
 
@@ -66,8 +66,6 @@ function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
         $ctx->executeQuery();
     }
     return $list;
-
-
 }
 
 

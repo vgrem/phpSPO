@@ -34,7 +34,7 @@ class PeopleManager extends ClientObject
      * @param $accountName
      */
     public function follow($accountName){
-        $qry = new ClientQuery($this, ClientActionType::Update,"follow(@v)?@v='$accountName'");
+        $qry = new ClientQuery($this->getUrl() . "/follow(@v)?@v='$accountName'", ClientActionType::Update);
         $this->getContext()->addQuery($qry);
     }
 
