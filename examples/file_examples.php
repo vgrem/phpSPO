@@ -55,7 +55,7 @@ function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
     foreach($lists->getData() as $l) {
         if ($listTitle == $l->Title) {
             $list = $l;
-            print "List {$list->Title} has been loaded\r\n";
+            print "List '{$list->Title}' has been found\r\n";
             break;
         }
     }
@@ -64,6 +64,7 @@ function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
         $info->BaseTemplate = 101;
         $list = $ctx->getWeb()->getLists()->add($info);
         $ctx->executeQuery();
+        print "List '{$list->Title}' has been created\r\n";
     }
     return $list;
 }

@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SharePoint\\PHP\\Client\\": ["src/", "src/auth", "src/utilities", "src/runtime", "src/userprofiles"]
+            "SharePoint\\PHP\\Client\\": ["src/", "src/auth", "src/utilities", "src/runtime", "src/userprofiles", "src/taxonomy"]
         }
     }
 }

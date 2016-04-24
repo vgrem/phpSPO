@@ -1,6 +1,6 @@
 <?php
 
-namespace SharePoint\PHP\Client;
+namespace SharePoint\PHP\Client\UserProfiles;
 
 require_once('PersonProperties.php');
 

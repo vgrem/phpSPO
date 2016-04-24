@@ -15,15 +15,15 @@ try {
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 
 
-	//$listTitle = "Orders_" . rand(1,1000);
-	$listTitle = "Tasks" ;
+	$listTitle = "Orders_" . rand(1,1000);
+	//$listTitle = "Tasks" ;
 
 	printLists($ctx);
     $list = ensureList($ctx,$listTitle);
-	//updateList($list);
+	updateList($list);
 	//assignUniquePermissions($list);
 	//printPermissions($list,$Settings['UserName']);
-    //deleteList($list);
+    deleteList($list);
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";

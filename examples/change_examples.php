@@ -22,9 +22,9 @@ try {
     
     $listTitle = "Tasks" ;
     $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
-    //getListChanges($list);
-    //getListItemChanges($list);
-    getListItemChangesAlt($Settings['Url'],$authCtx);
+    getListChanges($list);
+    getListItemChanges($list);
+    //getListItemChangesAlt($Settings['Url'],$authCtx);
     //getWebChanges($ctx->getWeb());
 }
 catch (Exception $e) {
@@ -66,7 +66,7 @@ function getListItemChanges(\SharePoint\PHP\Client\SPList $list)
     $ctx = $list->getContext();
 
     $query = new ChangeLogItemQuery();
-    $query->ChangeToken = "1;3;e49a3225-13f6-47d4-a146-30d9caa05362;635969955256400000;10637059";
+    //$query->ChangeToken = "1;3;e49a3225-13f6-47d4-a146-30d9caa05362;635969955256400000;10637059";
     $items = $list->getListItemChangesSinceToken($query);
     $ctx->executeQuery();
     foreach ($items->getData() as $item) {
@@ -76,8 +76,8 @@ function getListItemChanges(\SharePoint\PHP\Client\SPList $list)
 
 function getListChanges(\SharePoint\PHP\Client\SPList $list)
 {
+    print "Getting list changes\n";
     $ctx = $list->getContext();
-
     $query = new ChangeQuery();
     $query->Add = true;
     $query->Update = true;
@@ -89,8 +89,9 @@ function getListChanges(\SharePoint\PHP\Client\SPList $list)
     $ctx->executeQuery();
 
     foreach ($changes->getData() as $change) {
-        $changeTypeName = ChangeType::parse($change->ChangeType);
-        print "Change ( {$change->Time} , {$changeTypeName} , {$change->ChangeToken->StringValue} )\r\n";
+        $changeTypeName = ChangeType::getName($change->ChangeType);
+        $changeName = basename(get_class($change));
+        print "{$changeName} ( {$change->Time} , {$changeTypeName} , {$change->ChangeToken->StringValue} )\r\n";
     }
 }
 
@@ -102,11 +103,12 @@ function getWebChanges(\SharePoint\PHP\Client\Web $web){
     $query->Update = true;
     $query->DeleteObject = true;
     $query->Web = true;
+    $query->List = true;
     $changes = $web->getChanges($query);
     $ctx->executeQuery();
 
     foreach ($changes->getData() as $change) {
-        $changeTypeName = ChangeType::parse($change->ChangeType);
+        $changeTypeName = ChangeType::getName($change->ChangeType);
         print "Change ( {$change->Time} , {$changeTypeName} , {$change->ChangeToken->StringValue} )\r\n";
     }
 }

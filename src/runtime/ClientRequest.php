@@ -73,6 +73,7 @@ class ClientRequest
             foreach($row->attributes() as $k => $v) {
                 $normalizedFieldName = str_replace('ows_','',$k);
                 $item->{$normalizedFieldName} = (string)$v;
+                $item->__metadata->type = "SP.ListItem";
             }
             $data->d->results[] = $item;
         }

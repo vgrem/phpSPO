@@ -7,7 +7,7 @@ namespace SharePoint\PHP\Client;
  * Specifies the type of a list definition or a list template and assigns each an underlying Int32 value that corresponds to
  * the list type’s ID number.
  */
-abstract class ListTemplateType
+abstract class ListTemplateType extends Enum
 {
     const InvalidType = -1;
     const NoListTemplate = 0;

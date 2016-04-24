@@ -18,8 +18,8 @@ try {
 	$listTitle = 'Tasks';
 	$list = ensureList($ctx,$listTitle);
 
-	//printTasks($list);
-	generateTasks($list);
+	printTasks($list);
+	//generateTasks($list);
     //$itemId = createTask($list);
 	//$item = getTask($list,$itemId);
 	//updateTask($item);
@@ -78,12 +78,8 @@ function generateTasks(\SharePoint\PHP\Client\SPList $list)
 /**
  * Read list items operation example
  */
-function printTasks(ClientContext $ctx){
-	
-	$listTitle = 'Tasks';
-    
-	$web = $ctx->getWeb();
-    $list = $web->getLists()->getByTitle($listTitle);
+function printTasks(\SharePoint\PHP\Client\SPList $list){
+	$ctx = $list->getContext();
 	$items = $list->getItems();
     $ctx->load($items);
     $ctx->executeQuery();

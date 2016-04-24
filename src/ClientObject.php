@@ -102,6 +102,27 @@ abstract class ClientObject
         }
     }
     
+    
+    public static function createTypedObject(ClientContext $ctx, \stdClass $properties){
+        $nsName = "SharePoint\\PHP\\Client\\";
+        $parts = explode(".", $properties->__metadata->type);
+        $clsName = $parts[1];
+        if(count($parts) == 3){
+            if($parts[1] == "Data"){
+                $clsName = "ListItem";
+            }
+            else {
+                $nsName = $nsName . $parts[1] . "\\";
+                $clsName = $parts[2];
+            }
+        }
+        if($clsName == "List") $clsName = "SPList";
+        $clientObjectType = $nsName . $clsName;
+        $clientObject = new $clientObjectType($ctx);
+        $clientObject->fromJson($properties);
+        return $clientObject;
+    }
+    
     public function isPropertyAvailable($name){
         return isset($this->properties[$name]) && !isset($this->properties[$name]->__deferred);
     }

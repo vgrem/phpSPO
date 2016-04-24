@@ -14,10 +14,16 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
 
-    //listWebFields($ctx);
-    //listListFields($ctx);
-    getListFieldByTitle($ctx);
-    getListFieldByInternalName($ctx);
+    $listTitle = 'Tasks';
+    $fieldTitle = "Title";
+    $fieldName = "FileRef";
+
+    $web = $ctx->getWeb();
+    //listWebFields($web);
+    $list = $web->getLists()->getByTitle($listTitle);
+    listListFields($list);
+    getListFieldByTitle($list,$fieldTitle);
+    getListFieldByInternalName($list,$fieldName);
 }
 catch (Exception $e) {
     echo 'Error: ',  $e->getMessage(), "\n";
@@ -25,24 +31,20 @@ catch (Exception $e) {
 
 
 
-function listWebFields(ClientContext $ctx){
-
-    $web = $ctx->getWeb();
+function listWebFields(\SharePoint\PHP\Client\Web $web){
+    $ctx = $web->getContext();
     $fields = $web->getFields();
     $ctx->load($fields);
     $ctx->executeQuery();
     foreach( $fields->getData() as $field ) {
         print "Field title: '{$field->Title}'\r\n";
     }
+    //print "Completed\r\n";
 }
 
 
-function listListFields(ClientContext $ctx){
-
-    $listTitle = 'Tasks';
-
-    $web = $ctx->getWeb();
-    $list = $web->getLists()->getByTitle($listTitle);
+function listListFields(\SharePoint\PHP\Client\SPList $list){
+    $ctx = $list->getContext();
     $fields = $list->getFields();
     $ctx->load($fields);
     $ctx->executeQuery();
@@ -52,31 +54,21 @@ function listListFields(ClientContext $ctx){
 }
 
 
-function getListFieldByTitle(ClientContext $ctx){
-
-    $listTitle = 'Tasks';
-    $fieldTitle = "Title";
-
-    $web = $ctx->getWeb();
-    $list = $web->getLists()->getByTitle($listTitle);
+function getListFieldByTitle(\SharePoint\PHP\Client\SPList $list, $fieldTitle){
+    print "Getting field from list by title:\r\n";
+    $ctx = $list->getContext();
     $field = $list->getFields()->getByTitle($fieldTitle);
     $ctx->load($field);
     $ctx->executeQuery();
     print "Field title: '{$field->Title}'\r\n";
-
-    
     $field->setShowInDisplayForm(true);
     $ctx->executeQuery();
 }
 
 
-function getListFieldByInternalName(ClientContext $ctx){
-
-    $listTitle = 'Tasks';
-    $fieldName = "FileRef";
-
-    $web = $ctx->getWeb();
-    $list = $web->getLists()->getByTitle($listTitle);
+function getListFieldByInternalName(\SharePoint\PHP\Client\SPList $list, $fieldName){
+    print "Getting field from list by internal name:\r\n";
+    $ctx = $list->getContext();
     $field = $list->getFields()->getByInternalNameOrTitle($fieldName);
     $ctx->load($field);
     $ctx->executeQuery();
