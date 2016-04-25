@@ -29,7 +29,7 @@ catch (Exception $e) {
 function readUserProfiles(ClientContext $ctx){
     #read my user profile properties
     
-    $peopleManager = new \SharePoint\PHP\Client\PeopleManager($ctx);
+    $peopleManager = new \SharePoint\PHP\Client\UserProfiles\PeopleManager($ctx);
     $properties = $peopleManager->getMyProperties();
     $ctx->load($properties);
     $ctx->executeQuery();

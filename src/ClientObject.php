@@ -69,9 +69,18 @@ abstract class ClientObject
     public function getUrl()
     {
         $url = $this->getServiceRootUrl() . $this->getResourcePath();
-        if($this->getQueryOptions() != null)
+        if(!empty($this->queryOptions))
         {
-            //todo:append url path from query options
+            $queryOptionsUrl = implode('&', array_map(
+                function ($v, $k) {
+                    return "\${$k}=$v"; 
+                },
+                $this->queryOptions,
+                array_keys($this->queryOptions)
+            ));
+
+
+            $url = $url . "?" . $queryOptionsUrl;
         }
         return $url;
     }

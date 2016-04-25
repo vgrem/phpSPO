@@ -1,6 +1,7 @@
 <?php
 
-namespace SharePoint\PHP\Client;
+namespace SharePoint\PHP\Client\UserProfiles;
+use SharePoint\PHP\Client\ClientObject;
 
 /**
  * Represents user properties.

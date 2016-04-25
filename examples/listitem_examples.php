@@ -18,16 +18,68 @@ try {
 	$listTitle = 'Tasks';
 	$list = ensureList($ctx,$listTitle);
 
-	printTasks($list);
+	//printTasks($list);
 	//generateTasks($list);
     //$itemId = createTask($list);
 	//$item = getTask($list,$itemId);
 	//updateTask($item);
     //deleteTask($item);
+	queryListItems($list);
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
 }
+
+
+
+function queryListItems(\SharePoint\PHP\Client\SPList $list)
+{
+	$ctx = $list->getContext();
+    
+	print "1. Retrieve top number of list items..\r\n";
+	$items = $list->getItems()->top(5);  //apply top query option
+	$ctx->load($items);
+	$ctx->executeQuery();
+	foreach( $items->getData() as $item ) {
+		print "Task: '{$item->Title}'\r\n";
+	}
+
+	/*print "2. Skip the number of list items..\r\n";
+	$items = $list->getItems()->skip(40);  //apply skip query option
+	$ctx->load($items);
+	$ctx->executeQuery();
+	foreach( $items->getData() as $item ) {
+		print "Task: '{$item->Title}'\r\n";
+	}*/
+
+
+	print "3. Select specific fields of list items..\r\n";
+	$items = $list->getItems()->select('Title,Id');  //apply select query option
+	$ctx->load($items);
+	$ctx->executeQuery();
+	foreach( $items->getData() as $item ) {
+		print "Task: {$item->Id}, {$item->Title}\r\n";
+	}
+
+	print "4. Filter list items..\r\n";
+	$items = $list->getItems()->filter('ID eq 1');  //apply filter query option
+	$ctx->load($items);
+	$ctx->executeQuery();
+	foreach( $items->getData() as $item ) {
+		print "Task: '{$item->Title}'\r\n";
+	}
+
+	print "5. Select projected user field value properties..\r\n";
+	$items = $list->getItems()->select('Title,AssignedTo/Id,AssignedTo/Title')->expand('AssignedTo');  //apply select & expand query options
+	$ctx->load($items);
+	$ctx->executeQuery();
+	foreach( $items->getData() as $item ) {
+		print "Task: '{$item->Title}, {$item->AssignedTo->results[0]->Title}'\r\n";
+		$j = $item->getProperties();
+	}
+}
+
+
 
 function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
 
@@ -48,8 +100,7 @@ function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
  * Create list item operation example
  */
 function createList(ClientContext $ctx,$listTitle){
-	$info = new ListCreationInformation();
-	$info->Title = $listTitle;
+	$info = new ListCreationInformation($listTitle);
 	$info->Description = "Orders list";
 	$info->BaseTemplate = \SharePoint\PHP\Client\ListTemplateType::Tasks;
 	$list = $ctx->getWeb()->getLists()->add($info);

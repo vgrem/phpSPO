@@ -18,4 +18,71 @@ class ClientObjectCollection extends ClientObject
     {
         return $this->data;
     }
+
+
+    /**
+     * Specifies a subset of properties to return.
+     * @param $value
+     * @return ListItemCollection $this
+     */
+    public function select($value)
+    {
+        $this->queryOptions['select'] = $value;
+        return $this;
+    }
+
+    /**
+     * Specifies an expression or function that must evaluate to true for a record to be returned in the collection.
+     * @param $value
+     * @return ListItemCollection $this
+     */
+    public function filter($value)
+    {
+        $this->queryOptions['filter'] = rawurlencode($value);
+        return $this;
+    }
+
+    /**
+     * Directs that related records should be retrieved in the record or collection being retrieved.
+     * @param $value
+     * @return ListItemCollection $this
+     */
+    public function expand($value)
+    {
+        $this->queryOptions['expand'] = $value;
+        return $this;
+    }
+
+    /**
+     * Determines the maximum number of records to return.
+     * @param $value
+     * @return ListItemCollection $this
+     */
+    public function orderBy($value)
+    {
+        $this->queryOptions['orderby'] = $value;
+        return $this;
+    }
+
+    /**
+     * Determines the maximum number of records to return.
+     * @param $value
+     * @return ListItemCollection $this
+     */
+    public function top($value)
+    {
+        $this->queryOptions['top'] = $value;
+        return $this;
+    }
+
+    /**
+     * Sets the number of records to skip before it retrieves records in a collection.
+     * @param $value
+     * @return ListItemCollection $this
+     */
+    public function skip($value)
+    {
+        $this->queryOptions['skip'] = $value; 
+        return $this;
+    }
 }

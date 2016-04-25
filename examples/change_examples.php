@@ -76,7 +76,7 @@ function getListItemChanges(\SharePoint\PHP\Client\SPList $list)
 
 function getListChanges(\SharePoint\PHP\Client\SPList $list)
 {
-    print "Getting list changes\n";
+    print "Getting list changes...\n";
     $ctx = $list->getContext();
     $query = new ChangeQuery();
     $query->Add = true;

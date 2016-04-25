@@ -28,4 +28,30 @@ class ContextWebInformation
      * @var string
      */
     public $LibraryVersion;
+
+
+    /**
+     * The amount of time in seconds that the form digest will timeout.
+     * @var int
+     */
+    public $FormDigestTimeoutSeconds;
+
+    /**
+     * The full URL of the site collection context.
+     * @var string
+     */
+    public $SiteFullUrl;
+
+    /**
+     * The supported client-side object model request schema version.
+     * @var array
+     */
+    public $SupportedSchemaVersions;
+
+
+    /**
+     * The full URL of the site context.
+     * @var string
+     */
+    public $WebFullUrl;
 }

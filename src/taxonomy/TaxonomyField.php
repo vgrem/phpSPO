@@ -2,9 +2,11 @@
 
 namespace SharePoint\PHP\Client\Taxonomy;
 
-use SharePoint\PHP\Client\Field;
 
-class TaxonomyField extends Field
+
+use SharePoint\PHP\Client\FieldLookup;
+
+class TaxonomyField extends FieldLookup
 {
 
 }
