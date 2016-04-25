@@ -4,6 +4,7 @@
 namespace SharePoint\PHP\Client;
 
 use Exception;
+use SharePoint\PHP\Client\Runtime\ContextWebInformation;
 use stdClass;
 
 require_once('ClientFormatType.php');
@@ -15,11 +16,18 @@ require_once('ClientFormatType.php');
 class ClientRequest
 {
 
+    /**
+     * @var string
+     */
     private $baseUrl;
 
-    private $formDigest;
+    /**
+     * @var ContextWebInformation
+     */
+    private $contextWebInformation;
 
     private $defaultHeaders;
+
 
     private $formatType;
 
@@ -36,7 +44,7 @@ class ClientRequest
     {
         if(!empty($options["data"]) or array_key_exists('X-HTTP-Method',$options["headers"])){
             $this->ensureFormDigest();
-            $options["headers"]["X-RequestDigest"] = $this->formDigest;
+            $options["headers"]["X-RequestDigest"] = $this->contextWebInformation->FormDigestValue;
             $result = Requests::post($options["url"],$this->prepareHeaders($options["headers"]),$options["data"]);
         }
         else{
@@ -149,7 +157,8 @@ class ClientRequest
         $url = $this->baseUrl . "/_api/contextinfo";
         $response = Requests::post($url,$this->prepareHeaders($this->defaultHeaders));
         $json = $this->processJsonResponse($response);
-        $this->formDigest = $json->d->GetContextWebInformation->FormDigestValue;
+        $this->contextWebInformation = new ContextWebInformation();
+        $this->contextWebInformation->fromJson($json->d->GetContextWebInformation);
     }
 
 }
