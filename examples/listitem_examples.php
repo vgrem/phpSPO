@@ -9,6 +9,7 @@ use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ListCreationInformation;
 
 
+
 try {
 	$authCtx = new AuthenticationContext($Settings['Url']);
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
@@ -53,7 +54,7 @@ function queryListItems(\SharePoint\PHP\Client\SPList $list)
 	}*/
 
 
-	print "3. Select specific fields of list items..\r\n";
+	print "3. Select a specific set of fields from list items..\r\n";
 	$items = $list->getItems()->select('Title,Id');  //apply select query option
 	$ctx->load($items);
 	$ctx->executeQuery();
@@ -62,7 +63,7 @@ function queryListItems(\SharePoint\PHP\Client\SPList $list)
 	}
 
 	print "4. Filter list items..\r\n";
-	$items = $list->getItems()->filter('ID eq 1');  //apply filter query option
+	$items = $list->getItems()->filter("ID eq 1");  //apply filter query option
 	$ctx->load($items);
 	$ctx->executeQuery();
 	foreach( $items->getData() as $item ) {
@@ -75,7 +76,6 @@ function queryListItems(\SharePoint\PHP\Client\SPList $list)
 	$ctx->executeQuery();
 	foreach( $items->getData() as $item ) {
 		print "Task: '{$item->Title}, {$item->AssignedTo->results[0]->Title}'\r\n";
-		$j = $item->getProperties();
 	}
 }
 

@@ -42,6 +42,9 @@ class ClientRequest
     
     public function executeQueryDirect($options)
     {
+        if (!isset($options["headers"])) {
+            $options["headers"] = [];
+        }
         if(!empty($options["data"]) or array_key_exists('X-HTTP-Method',$options["headers"])){
             $this->ensureFormDigest();
             $options["headers"]["X-RequestDigest"] = $this->contextWebInformation->FormDigestValue;

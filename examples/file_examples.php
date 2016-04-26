@@ -18,7 +18,7 @@ try {
 
     $list = ensureList($ctx,$targetLibraryTitle);
     uploadFiles($localPath,$list);
-    //processFiles($list,$localPath);
+    processFiles($list,$localPath);
     //deleteFolder($ctx,$folderUrl);
     //saveFile($ctx,$localFilePath,$fileUrl);
 

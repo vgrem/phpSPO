@@ -1,6 +1,7 @@
 <?php
 
 namespace SharePoint\PHP\Client;
+use SharePoint\PHP\Client\Runtime\ODataQueryOptions;
 
 /**
  * Base client object 
@@ -24,7 +25,7 @@ abstract class ClientObject
 		$this->ctx = $ctx;
         $this->resourcePath = $resourcePath;
         $this->parentResourcePath = $parentResourcePath;
-        $this->queryOptions = array();
+        $this->queryOptions = new ODataQueryOptions();
     }
 
     public function getContext()
@@ -54,7 +55,8 @@ abstract class ClientObject
     {
         $path = $this->resourcePath;
         if(!isset($path)){
-            $path = strtolower(end(explode("\\",get_class($this))));
+            $typeNames = explode("\\",get_class($this));
+            $path = strtolower(end($typeNames));
         }
         if(isset($this->parentResourcePath)) {
             $path = $this->parentResourcePath . "/" . $path;
@@ -69,29 +71,19 @@ abstract class ClientObject
     public function getUrl()
     {
         $url = $this->getServiceRootUrl() . $this->getResourcePath();
-        if(!empty($this->queryOptions))
-        {
-            $queryOptionsUrl = implode('&', array_map(
-                function ($v, $k) {
-                    return "\${$k}=$v"; 
-                },
-                $this->queryOptions,
-                array_keys($this->queryOptions)
-            ));
-
-
+        $queryOptionsUrl = $this->getQueryOptionsUrl();
+        if(!empty($queryOptionsUrl))
             $url = $url . "?" . $queryOptionsUrl;
-        }
         return $url;
     }
 
 
     /**
-     * @return array
+     * @return string
      */
-    public function getQueryOptions()
+    public function getQueryOptionsUrl()
     {
-        return $this->queryOptions;
+        return $this->queryOptions->toUrl();
     }
 
     public function getProperties()

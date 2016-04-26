@@ -27,7 +27,7 @@ class ClientObjectCollection extends ClientObject
      */
     public function select($value)
     {
-        $this->queryOptions['select'] = $value;
+        $this->queryOptions->Select = $value;
         return $this;
     }
 
@@ -38,7 +38,7 @@ class ClientObjectCollection extends ClientObject
      */
     public function filter($value)
     {
-        $this->queryOptions['filter'] = rawurlencode($value);
+        $this->queryOptions->Filter = rawurlencode($value);
         return $this;
     }
 
@@ -49,7 +49,7 @@ class ClientObjectCollection extends ClientObject
      */
     public function expand($value)
     {
-        $this->queryOptions['expand'] = $value;
+        $this->queryOptions->Expand = $value;
         return $this;
     }
 
@@ -60,7 +60,7 @@ class ClientObjectCollection extends ClientObject
      */
     public function orderBy($value)
     {
-        $this->queryOptions['orderby'] = $value;
+        $this->queryOptions->OrderBy = $value;
         return $this;
     }
 
@@ -71,7 +71,7 @@ class ClientObjectCollection extends ClientObject
      */
     public function top($value)
     {
-        $this->queryOptions['top'] = $value;
+        $this->queryOptions->Top = $value;
         return $this;
     }
 
@@ -82,7 +82,7 @@ class ClientObjectCollection extends ClientObject
      */
     public function skip($value)
     {
-        $this->queryOptions['skip'] = $value; 
+        $this->queryOptions->Skip = $value; 
         return $this;
     }
 }

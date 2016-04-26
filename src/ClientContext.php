@@ -6,6 +6,7 @@ require_once('utilities/Enum.php');
 require_once('runtime/ClientActionType.php');
 require_once('runtime/ClientRequest.php');
 require_once('runtime/ContextWebInformation.php');
+require_once('runtime/ODataQueryOptions.php');
 require_once('ClientObject.php');
 require_once('File.php');
 require_once('Folder.php');
