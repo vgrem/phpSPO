@@ -18,7 +18,7 @@ This library provides a SharePoint REST client for PHP applications. This allows
 There are **two** approaches available to perform REST queries:
 
 -   via `ClientRequest` class where you need to construct REST queries by specifing endpoint url, headers if required and payload (low level approach), see [renameFolder.php](https://github.com/vgrem/phpSPO/blob/master/examples/renameFolder.php) for a more details
--   via `ClientContext` class where you target client object resources such as Web, ListItem and etc., see [listexamples.php](https://github.com/vgrem/phpSPO/blob/master/examples/listexamples.php) for a more details 
+-   via `ClientContext` class where you target client object resources such as Web, ListItem and etc., see [list_examples.php](https://github.com/vgrem/phpSPO/blob/master/examples/list_examples.php) for a more details 
 
 
 Example:
