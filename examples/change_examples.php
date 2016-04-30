@@ -45,7 +45,7 @@ function getListItemChangesAlt($webUrl, AuthenticationContext $authCtx)
 
     $request = new ClientRequest($webUrl,$authCtx);
     $options = array(
-        'url' => $webUrl . "/_api/web/Lists/GetByTitle('$listTitle')/GetListItemChangesSinceToken",
+        'url' => $webUrl . "/_api/web/Lists/getbytitle('$listTitle')/GetListItemChangesSinceToken",
         'data' => json_encode($payload),
         'method' => 'POST'
     );

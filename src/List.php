@@ -5,12 +5,13 @@ namespace SharePoint\PHP\Client;
 
 /**
  * Represents a SharePoint list.
- * @property FieldCollection Fields
- * @property Folder RootFolder
  */
 class SPList extends ClientObject
 {
-    
+    private $Views;
+    private $Fields;
+    private $RootFolder;
+
 
     /**
      * The recommended way to add a list item is to send a POST request to the ListItemCollection resource endpoint, as shown in ListItemCollection request examples.
@@ -30,7 +31,7 @@ class SPList extends ClientObject
 
     /**
      * Returns the list item with the specified list item identifier.
-     * @param $id  List Item id
+     * @param $id  SPList Item id
      * @return ListItem  List Item resource
      * @throws \Exception
      */
@@ -94,7 +95,7 @@ class SPList extends ClientObject
     {
         $encLoginName = rawurlencode($loginName);
         $permissions = new BasePermissions();
-        $qry = new ClientQuery($this->getUrl() . "/getusereffectivepermissions(@user)?@user='$loginName'",ClientActionType::Read);
+        $qry = new ClientQuery($this->getUrl() . "/getusereffectivepermissions(@user)?@user='$encLoginName'",ClientActionType::Read);
         $qry->addResultValue($permissions);
         $this->getContext()->addQuery($qry);
         return $permissions;
@@ -141,6 +142,15 @@ class SPList extends ClientObject
             $this->RootFolder = new Folder($this->getContext(),$this->getResourcePath(), "rootFolder");
         }
         return $this->RootFolder;
+    }
+
+
+    public function getViews()
+    {
+        if(!$this->isPropertyAvailable('Views')){
+            $this->Views = new ViewCollection($this->getContext(),$this->getResourcePath(), "views");
+        }
+        return $this->Views;
     }
 
     public function getEntityTypeName(){
