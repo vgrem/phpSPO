@@ -5,13 +5,13 @@ namespace SharePoint\PHP\Client;
 
 /**
  * Represents a SharePoint site. A site is a type of SP.SecurableObject.
- * @property ListCollection Lists
  * @property WebCollection Webs
  * @property FieldCollection Fields
+ * @property ListCollection Lists
  */
 class Web extends ClientObject
 {
-    
+
     public function update(array $webUpdationInformation)
     {
         $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$webUpdationInformation);

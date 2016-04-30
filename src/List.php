@@ -5,12 +5,14 @@ namespace SharePoint\PHP\Client;
 
 /**
  * Represents a SharePoint list.
+ * @property FieldCollection Fields
+ * @property Folder RootFolder
+ * @property ViewCollection Views
+ * @property InformationRightsManagementSettings InformationRightsManagementSettings
  */
 class SPList extends ClientObject
 {
-    private $Views;
-    private $Fields;
-    private $RootFolder;
+
 
 
     /**
@@ -151,6 +153,14 @@ class SPList extends ClientObject
             $this->Views = new ViewCollection($this->getContext(),$this->getResourcePath(), "views");
         }
         return $this->Views;
+    }
+
+    public function getInformationRightsManagementSettings()
+    {
+        if(!$this->isPropertyAvailable('InformationRightsManagementSettings')){
+            $this->InformationRightsManagementSettings = new InformationRightsManagementSettings($this->getContext(),$this->getResourcePath(), "InformationRightsManagementSettings");
+        }
+        return $this->InformationRightsManagementSettings;
     }
 
     public function getEntityTypeName(){

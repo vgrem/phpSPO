@@ -15,21 +15,30 @@ try {
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 
 
-	$listTitle = "Orders_" . rand(1,1000);
-	//$listTitle = "Tasks" ;
+	//$listTitle = "Orders_" . rand(1,1000);
+	$listTitle = "Tasks" ;
 
-	printLists($ctx);
-    $list = ensureList($ctx,$listTitle);
+	//printLists($ctx);
+    /*$list = ensureList($ctx,$listTitle);
 	updateList($list);
 	//assignUniquePermissions($list);
 	//printPermissions($list,$Settings['UserName']);
-    deleteList($list);
+    deleteList($list);*/
+	printListDetails($ctx,$listTitle);
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
 }
 
 
+function printListDetails(ClientContext $ctx,$listTitle){
+	$list = $lists = $ctx->getWeb()->getLists()->getByTitle($listTitle);
+	$irmSettings = $list->getInformationRightsManagementSettings();
+	$ctx->load($irmSettings);
+	$ctx->executeQuery();
+
+	print $irmSettings;
+}
 
 
 
@@ -37,7 +46,6 @@ function printPermissions(SharePoint\PHP\Client\SPList $list,$loginName){
 	$ctx = $list->getContext();
 	$permissions = $list->getUserEffectivePermissions($loginName);
 	$ctx->executeQuery();
-
 }
 
 
@@ -57,7 +65,7 @@ function printLists(ClientContext $ctx){
     $ctx->load($lists);
     $ctx->executeQuery();
 	foreach( $lists->getData() as $list ) {
-	    print "Task: '{$list->Title}'\r\n";
+	    print "List title: '{$list->Title}'\r\n";
 	}
 }
 
@@ -65,8 +73,7 @@ function printLists(ClientContext $ctx){
  * Create list item operation example 
  */
 function createList(ClientContext $ctx,$listTitle){
-	$info = new ListCreationInformation();
-	$info->Title = $listTitle;
+	$info = new ListCreationInformation($listTitle);
 	$info->Description = "Orders list";
 	$info->BaseTemplate = \SharePoint\PHP\Client\ListTemplateType::Tasks;
 	$list = $ctx->getWeb()->getLists()->add($info);

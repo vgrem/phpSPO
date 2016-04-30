@@ -33,6 +33,7 @@ require_once('ClientObjectCollection.php');
 require_once('FieldCollection.php');
 require_once('List.php');
 require_once('ListCollection.php');
+require_once('InformationRightsManagementSettings.php');
 require_once('View.php');
 require_once('ViewCollection.php');
 require_once('ViewFieldCollection.php');
