@@ -15,16 +15,16 @@ try {
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 
 
-	//$listTitle = "Orders_" . rand(1,1000);
-	$listTitle = "Tasks" ;
+	$listTitle = "Orders_" . rand(1,1000);
+	//$listTitle = "Tasks" ;
 
 	//printLists($ctx);
-    /*$list = ensureList($ctx,$listTitle);
+    $list = ensureList($ctx,$listTitle);
 	updateList($list);
 	//assignUniquePermissions($list);
 	//printPermissions($list,$Settings['UserName']);
-    deleteList($list);*/
-	printListDetails($ctx,$listTitle);
+    deleteList($list);
+	//printListDetails($ctx,$listTitle);
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
@@ -113,15 +113,10 @@ function deleteList(SharePoint\PHP\Client\SPList $list){
  */
 function updateList(SharePoint\PHP\Client\SPList $list){
 	$ctx = $list->getContext();
-	$listProperties = array(
-		'AllowContentTypes' => true,
-		'BaseTemplate'=>  \SharePoint\PHP\Client\ListTemplateType::GenericList,
-		'ContentTypesEnabled' => true,
-		'Title' => 'New Orders'
-	);
-	$list->update($listProperties);
+	$list->setProperty('Title','New Orders');
+	$list->update();
     $ctx->executeQuery();
-    print "List '{$list->Title}' has been updated.\r\n";
+    print "List {$list->getProperty('Title')} has been updated.\r\n";
 }
 
 

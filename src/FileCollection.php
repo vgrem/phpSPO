@@ -15,9 +15,8 @@ class FileCollection extends ClientObjectCollection
         $fileUrl = rawurlencode($fileCreationInformation['Url']);
         $file = new File($this->getContext());
         $qry = new ClientQuery($this->getUrl() . "/add(overwrite=true,url='{$fileUrl}')",ClientActionType::Create,$fileCreationInformation['Content']);
-        $qry->addResultObject($file);
         $qry->setBinaryStringRequestBody(true);
-        $this->getContext()->addQuery($qry);
+        $this->getContext()->addQuery($qry,$file);
         //$this->addChild($file);
         return $file;
     }

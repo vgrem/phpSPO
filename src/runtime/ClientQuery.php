@@ -7,10 +7,7 @@ namespace SharePoint\PHP\Client;
  */
 class ClientQuery
 {
-    protected $resultObject;
-
-    protected $resultValueObject;
-
+    
     private $actionType;
 
     private $resourceUrl;
@@ -23,25 +20,19 @@ class ClientQuery
 
     public function __construct($resourceUrl, $type=ClientActionType::Read, $parameters=null)
     {
-        $this->resultObject = null;
         $this->resourceUrl = $resourceUrl;
         $this->actionType = $type;
         $this->parameters = $parameters;
         $this->binaryStringRequestBody = false;
         $this->responseFormatType = ClientFormatType::Json;
     }
-
-
-    public function addResultObject(ClientObject $clientObject){
-        $this->resultObject = $clientObject;
-    }
-
-    public function addResultValue(ClientValueObject $clientValueObject){
-        $this->resultValueObject = $clientValueObject;
-    }
-
-
-
+    
+    
+    public function getId(){
+        return spl_object_hash($this);
+    } 
+    
+    
     public function getResourceUrl()
     {
         return $this->resourceUrl;
@@ -54,15 +45,11 @@ class ClientQuery
         if(isset($this->parameters)){
             if($this->binaryStringRequestBody)
                 $payload = $this->parameters;
-            else if($this->parameters instanceof ClientValueObject){
-                //if(isset($this->resultObject))
-                //    $this->parameters->setMetadataType($this->resultObject->getEntityTypeName());
+            else if($this->parameters instanceof ClientValueObject || $this->parameters instanceof ClientObject){
                 $payload = $this->parameters->toJson();
             }
-            else {
-                if(isset($this->resultObject))
-                    $this->ensureMetadataType($this->resultObject,$this->parameters);
-                $payload = json_encode($this->parameters);
+            else{
+                $payload = json_encode($payload);
             }
         }
         return $payload;
@@ -72,38 +59,6 @@ class ClientQuery
     {
         return $this->actionType;
     }
-
-
-
-    public function initClientObjectFromJson($properties)
-    {
-        $ctx = $this->getContext();
-        if(isset($properties->results)){
-            foreach($properties->results as $item){
-                $clientObject = ClientObject::createTypedObject($ctx,$item);
-                $this->resultObject->addChild($clientObject);
-            }
-        }
-        else {
-            $this->resultObject->fromJson($properties);
-        }
-    }
-
-
-
-
-
-    public function getContext()
-    {
-        return $this->resultObject->getContext();
-    }
-
-
-    public function getResultObject()
-    {
-        return $this->resultObject;
-    }
-
 
     public function setBinaryStringRequestBody($value)
     {
@@ -119,21 +74,6 @@ class ClientQuery
     {
         return $this->responseFormatType;
     }
-
-    private function ensureMetadataType(ClientObject $clientObject, & $parameters)
-    {
-        if (array_key_exists('parameters', $parameters)) {
-            return $this->ensureMetadataType($clientObject,$parameters['parameters']);
-        }
-        if (!array_key_exists('__metadata', $parameters)) {
-            $parameters['__metadata'] = ['type' => $clientObject->getEntityTypeName()];
-        }
-        return $parameters;
-    }
-
-
-
-
-
+    
 }
 

@@ -64,7 +64,8 @@ require_once('WebCreationInformation.php');
 require_once('GroupCreationInformation.php');
 require_once('ListCreationInformation.php');
 require_once('ListTemplateType.php');
-
+require_once('ListItemCollectionPosition.php');
+require_once('CamlQuery.php');
 
 /**
  * Client context
@@ -87,7 +88,10 @@ class ClientContext
 
     private $queries = array();
 
+    private $resultObjects = array();
+
     public static $ServicePath = "/_api/";
+
 
     /**
      * REST client context
@@ -100,25 +104,32 @@ class ClientContext
 		$this->authContext = $authContext;
     }
 
-    public function load($clientObject,$retrievals=null)
+    public function load(ClientObject $clientObject)
     {
-        if(!is_null($retrievals)){
-            //todo...
+        if( !in_array( $clientObject ,$this->resultObjects ) ) {
+            $qry = new ClientQuery($clientObject->getUrl());
+            $this->addQuery($qry,$clientObject);
         }
-        $qry = new ClientQuery($clientObject->getUrl());
-        $qry->addResultObject($clientObject);
-        $this->addQuery($qry);
     }
 
     public function executeQuery()
     {
         foreach ($this->queries as $qry) {
             $data = $this->getPendingRequest()->executeQuery($qry);
-            if (!empty($data) && !is_null($qry->getResultObject())){
-                $qry->initClientObjectFromJson($data->d);
+            $resultObject = $this->getResultObjectByQuery($qry);
+            if (!empty($data) && !is_null($resultObject)){
+                if($resultObject instanceof ClientObject)
+                    $resultObject->fromJson($data->d);
             }
         }
         $this->queries = array();
+    }
+
+
+    private function getResultObjectByQuery(ClientQuery $query){
+        if(array_key_exists($query->getId(),$this->resultObjects))
+            return $this->resultObjects[$query->getId()];
+        return null;
     }
 
 
@@ -148,8 +159,12 @@ class ClientContext
         return $this->pendingRequest;
     }
 
-    public function addQuery($query)
+    public function addQuery(ClientQuery $query,$resultObject=null)
     {
+        if(isset($resultObject)){
+            $queryId = $query->getId();
+            $this->resultObjects[$queryId] = $resultObject;
+        }
         $this->queries[] = $query;
     }
     

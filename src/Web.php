@@ -12,11 +12,10 @@ namespace SharePoint\PHP\Client;
 class Web extends ClientObject
 {
 
-    public function update(array $webUpdationInformation)
+    public function update()
     {
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$webUpdationInformation);
-        $qry->addResultObject($this);
-        $this->getContext()->addQuery($qry);
+        $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$this);
+        $this->getContext()->addQuery($qry,$this);
     }
 
     public function deleteObject()
@@ -36,8 +35,7 @@ class Web extends ClientObject
     {
         $changes = new ChangeCollection($this->getContext());
         $qry = new ClientQuery($this->getUrl() . "/getchanges",ClientActionType::PostRead,$query);
-        $qry->addResultObject($changes);
-        $this->getContext()->addQuery($qry);
+        $this->getContext()->addQuery($qry,$changes);
         return $changes;
     }
 

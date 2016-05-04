@@ -15,15 +15,14 @@ class ChangeLogItemQuery extends ClientValueObject
         $this->Query = "";
         $this->QueryOptions = "";
         $this->Contains = "";
-        $this->setMetadataType("SP.ChangeLogItemQuery");
     }
+
 
     public function toJson()
     {
-        $query = array('query' => $this);
-        return json_encode($query);
+        return parent::toJson('query');
     }
-
+    
 
     /**
      * A string that contains either the title or the GUID for the list. When querying the UserInfo table,

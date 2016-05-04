@@ -26,8 +26,10 @@ class ListItem extends ClientObject
      * @param SPList $list
      */
     public function setParentList(SPList $list){
-        $this->ParentList = $list;
+        $this->setProperty('ParentList',$list,false);
     }
+    
+       
 
     /**
      * Updates list item resource
@@ -36,8 +38,7 @@ class ListItem extends ClientObject
     public function update($listItemUpdationInformation)
     {
         $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$listItemUpdationInformation);
-        $qry->addResultObject($this);
-        $this->getContext()->addQuery($qry);
+        $this->getContext()->addQuery($qry,$this);
     }
 
     public function deleteObject()

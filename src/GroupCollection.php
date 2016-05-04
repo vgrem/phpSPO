@@ -25,8 +25,7 @@ class GroupCollection extends ClientObjectCollection
         );
         $group = new Group($this->getContext());
         $qry = new ClientQuery($this->getUrl() . "/sitegroups",ClientActionType::Create,$payload);
-        $qry->addResultObject($group);
-        $this->getContext()->addQuery($qry);
+        $this->getContext()->addQuery($qry,$group);
         $this->addChild($group);
         return $group;
     }

@@ -1,6 +1,8 @@
 <?php
 namespace SharePoint\PHP\Client;
 
+use Exception;
+
 require_once(__DIR__.'/../utilities/Requests.php');
 
 

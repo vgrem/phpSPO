@@ -12,8 +12,7 @@ class User  extends ClientObject
     public function update($userInformation)
     {
         $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$userInformation);
-        $qry->addResultObject($this);
-        $this->getContext()->addQuery($qry);
+        $this->getContext()->addQuery($qry,$this);
     }
 
     /**

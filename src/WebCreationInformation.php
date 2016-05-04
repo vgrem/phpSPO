@@ -6,7 +6,7 @@ namespace SharePoint\PHP\Client;
 /**
  * Represents metadata about site creation.
  */
-class WebCreationInformation
+class WebCreationInformation extends ClientValueObject
 {
 
     /**
@@ -39,7 +39,7 @@ class WebCreationInformation
      * Indicates whether the site inherits permissions from its parent.
      * @var boolean
      */
-    public $UseUniquePermissions;
+    public $UseSamePermissionsAsParentSite;
 
 
     /**
@@ -56,7 +56,13 @@ class WebCreationInformation
         $this->Description = $title;
         $this->Language = 1033;
         $this->WebTemplate = "STS";
-        $this->UseUniquePermissions = false;
+        $this->UseSamePermissionsAsParentSite = true;
+    }
+    
+    
+    public function toJson()
+    {
+        return parent::toJson('parameters'); 
     }
 
 }

@@ -39,5 +39,11 @@ class ListCreationInformation extends ClientValueObject
         $this->BaseTemplate = ListTemplateType::GenericList;
         $this->AllowContentTypes = true;
         $this->ContentTypesEnabled = true;
+        $this->setMetadataType("SP.List");
+    }
+    
+    public function toJson()
+    {
+        return parent::toJson(null); 
     }
 }

@@ -25,9 +25,11 @@ class SPList extends ClientObject
     {
         $item = new ListItem($this->getContext());
         $item->setParentList($this);
-        $qry = new ClientQuery($this->getUrl() . "/items",ClientActionType::Create,$listItemCreationInformation);
-        $qry->addResultObject($item);
-        $this->getContext()->addQuery($qry);
+        foreach($listItemCreationInformation as $key => $value){
+            $item->setProperty($key,$value);
+        }
+        $qry = new ClientQuery($this->getUrl() . "/items",ClientActionType::Create,$item);
+        $this->getContext()->addQuery($qry,$item);
         return $item;
     }
 
@@ -57,23 +59,27 @@ class SPList extends ClientObject
 
     /**
      * Returns a collection of items from the list based on the specified query.
+     * @param CamlQuery $camlQuery
      * @return ListItemCollection
-     * @throws \Exception
      */
-    public function getItems()
+    public function getItems(CamlQuery $camlQuery = null)
     {
+        if(isset($camlQuery)){
+            $items = new ListItemCollection($this->getContext());
+            $qry = new ClientQuery($this->getUrl() . "/GetItems",ClientActionType::PostRead,$camlQuery);
+            $this->getContext()->addQuery($qry,$items);
+            return $items;
+        }
         return new ListItemCollection($this->getContext(),$this->getResourcePath(),"items");
     }
 
 
     /**
      * Updates a list resource
-     * @param array $listUpdationInformation
      */
-    public function update($listUpdationInformation)
+    public function update()
     {
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$listUpdationInformation);
-        $qry->addResultObject($this);
+        $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$this);
         $this->getContext()->addQuery($qry);
     }
 
@@ -98,8 +104,7 @@ class SPList extends ClientObject
         $encLoginName = rawurlencode($loginName);
         $permissions = new BasePermissions();
         $qry = new ClientQuery($this->getUrl() . "/getusereffectivepermissions(@user)?@user='$encLoginName'",ClientActionType::Read);
-        $qry->addResultValue($permissions);
-        $this->getContext()->addQuery($qry);
+        $this->getContext()->addQuery($qry,$permissions);
         return $permissions;
     }
 
@@ -113,8 +118,7 @@ class SPList extends ClientObject
         $result = new ListItemCollection($this->getContext());
         $qry = new ClientQuery($this->getUrl() . "/getlistitemchangessincetoken",ClientActionType::PostRead,$query);
         $qry->setResponseFormatType(ClientFormatType::Xml);
-        $qry->addResultObject($result);
-        $this->getContext()->addQuery($qry);
+        $this->getContext()->addQuery($qry,$result);
         return $result;
     }
 
@@ -123,8 +127,7 @@ class SPList extends ClientObject
     {
         $changes = new ChangeCollection($this->getContext());
         $qry = new ClientQuery($this->getUrl() . "/getchanges",ClientActionType::PostRead,$query);
-        $qry->addResultObject($changes);
-        $this->getContext()->addQuery($qry);
+        $this->getContext()->addQuery($qry,$changes);
         return $changes;
     }
 

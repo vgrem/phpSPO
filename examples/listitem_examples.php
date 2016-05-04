@@ -20,12 +20,13 @@ try {
 	$list = ensureList($ctx,$listTitle);
 
 	//printTasks($list);
-	//generateTasks($list);
+	//queryListViaCAMLQuery($list);
+	generateTasks($list);
     //$itemId = createTask($list);
 	//$item = getTask($list,$itemId);
 	//updateTask($item);
     //deleteTask($item);
-	queryListItems($list);
+	//queryListItems($list);
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
@@ -98,6 +99,9 @@ function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
 
 /**
  * Create list item operation example
+ * @param ClientContext $ctx
+ * @param $listTitle
+ * @return \SharePoint\PHP\Client\SPList
  */
 function createList(ClientContext $ctx,$listTitle){
 	$info = new ListCreationInformation($listTitle);
@@ -114,14 +118,15 @@ function createList(ClientContext $ctx,$listTitle){
 
 function generateTasks(\SharePoint\PHP\Client\SPList $list)
 {
+	print "Creating a new list items..\r\n";
 	$ctx = $list->getContext();
-	for ($i = 0; $i < 32; $i++) {
+	for ($i = 0; $i < 2; $i++) {
 		$itemProperties = array(
 			'Title' => 'Order Approval' . rand(1, 1000),
 			'Body' => 'Please review a task',
 			//'__metadata' => array('type' => 'SP.Data.TasksListItem')
 		);
-		createTask($list, $itemProperties);
+		createListItem($list, $itemProperties);
 	}
 }
 
@@ -130,6 +135,7 @@ function generateTasks(\SharePoint\PHP\Client\SPList $list)
  * Read list items operation example
  */
 function printTasks(\SharePoint\PHP\Client\SPList $list){
+	print "Getting list items from the list..\r\n";
 	$ctx = $list->getContext();
 	$items = $list->getItems();
     $ctx->load($items);
@@ -139,14 +145,29 @@ function printTasks(\SharePoint\PHP\Client\SPList $list){
 	}
 }
 
+function queryListViaCAMLQuery(\SharePoint\PHP\Client\SPList $list){
+	print "Querying list items from the list..\r\n";
+	$ctx = $list->getContext();
+	$query = new \SharePoint\PHP\Client\CamlQuery();
+	$items = $list->getItems($query);
+	$ctx->load($items);
+	$ctx->executeQuery();
+	foreach( $items->getData() as $item ) {
+		print "Task: '{$item->Title}'\r\n";
+	}
+}
+
 /**
- * Create list item operation example 
+ * Create list item operation example
+ * @param \SharePoint\PHP\Client\SPList $list
+ * @param array $itemProperties
+ * @return mixed|null
  */
-function createTask(\SharePoint\PHP\Client\SPList $list,array $itemProperties){
+function createListItem(\SharePoint\PHP\Client\SPList $list, array $itemProperties){
 	$ctx = $list->getContext();
 	$item = $list->addItem($itemProperties);
     $ctx->executeQuery();
-	print "Task '{$item->Title}' has been created.\r\n";
+	print "Task {$item->getProperty('Title')} has been created.\r\n";
 	return $item->Id;
 }
 

@@ -6,7 +6,7 @@ namespace SharePoint\PHP\Client;
 /**
  * An object used to facilitate creation of a cross-site group.
  */
-class GroupCreationInformation
+class GroupCreationInformation extends ClientValueObject
 {
     /**
      * Gets or sets a string that contains the description of the group to be created.

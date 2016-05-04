@@ -25,7 +25,7 @@ try {
     getListChanges($list);
     getListItemChanges($list);
     //getListItemChangesAlt($Settings['Url'],$authCtx);
-    //getWebChanges($ctx->getWeb());
+    getWebChanges($ctx->getWeb());
 }
 catch (Exception $e) {
     echo 'Error: ',  $e->getMessage(), "\n";
@@ -63,8 +63,8 @@ function getListItemChangesAlt($webUrl, AuthenticationContext $authCtx)
 
 function getListItemChanges(\SharePoint\PHP\Client\SPList $list)
 {
+    print "Getting list items changes...\n";
     $ctx = $list->getContext();
-
     $query = new ChangeLogItemQuery();
     //$query->ChangeToken = "1;3;e49a3225-13f6-47d4-a146-30d9caa05362;635969955256400000;10637059";
     $items = $list->getListItemChangesSinceToken($query);
@@ -97,6 +97,7 @@ function getListChanges(\SharePoint\PHP\Client\SPList $list)
 
 
 function getWebChanges(\SharePoint\PHP\Client\Web $web){
+    print "Getting web changes...\n";
     $ctx = $web->getContext();
     $query = new ChangeQuery();
     $query->Add = true;

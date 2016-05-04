@@ -29,17 +29,16 @@ class ListCollection extends ClientObjectCollection
      */
     public function add(ListCreationInformation $parameters)
     {
-        $payload = array(
+        /*$payload = array(
             'AllowContentTypes' => $parameters->AllowContentTypes,
             'BaseTemplate'=>  $parameters->BaseTemplate,
             'ContentTypesEnabled' => $parameters->ContentTypesEnabled,
             'Description' =>  $parameters->Description,
             'Title' => $parameters->Title
-        );
+        );*/
         $list = new SPList($this->getContext());
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Create,$payload);
-        $qry->addResultObject($list);
-        $this->getContext()->addQuery($qry);
+        $qry = new ClientQuery($this->getUrl(),ClientActionType::Create,$parameters);
+        $this->getContext()->addQuery($qry,$list);
         $this->addChild($list);
         return $list;
     }

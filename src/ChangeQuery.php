@@ -37,14 +37,14 @@ class ChangeQuery extends ClientValueObject
         $this->SystemUpdate = false;
         $this->User = false;
         $this->View = false;
-        $this->setMetadataType("SP.ChangeQuery");
     }
+
 
     public function toJson()
     {
-        $query = array('query' => $this);
-        return json_encode($query);
+        return parent::toJson('query');
     }
+    
 
     /**
      * Gets or sets a value that specifies whether add changes are included in the query.
