@@ -21,7 +21,7 @@ php:
 # optionally set up exclutions and allowed failures in the matrix
 matrix:
   exclude:
-    - php: hhvm
+    - php: 5.3
 
 # omitting "script:" will default to phpunit
 script: phpunit --configuration phpunit_o365.xml --coverage-text
