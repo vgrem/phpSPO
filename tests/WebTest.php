@@ -29,7 +29,7 @@ class WebTest extends PHPUnit_Framework_TestCase
 
     public function testCreateWeb()
     {
-        $targetWebUrl = "Workspace_" . date("Y-m-d") . rand(1,1000);
+        $targetWebUrl = "Workspace_" . date("Y-m-d") . rand(1,10000);
         $targetWeb = $this->createWeb($targetWebUrl);
         $this->assertEquals($targetWeb->getProperty('Url'),$this->context->getUrl() . $targetWebUrl);
         return $targetWeb;
