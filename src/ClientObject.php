@@ -21,25 +21,37 @@ abstract class ClientObject
     protected $parentResourcePath;
 
     protected $queryOptions;
-    
+
     private $properties = array();
 
     private $changed_properties = array();
 
-	public function __construct(ClientContext $ctx,$parentResourcePath=null,$resourcePath=null)
+    /**
+     * @var ClientObjectCollection
+     */
+    protected $parentCollection;
+
+    public function __construct(ClientContext $ctx, $parentResourcePath = null, $resourcePath = null)
     {
-		$this->ctx = $ctx;
+        $this->ctx = $ctx;
         $this->resourcePath = $resourcePath;
         $this->parentResourcePath = $parentResourcePath;
         $this->queryOptions = new ODataQueryOptions();
         $this->serverObjectLoaded = false;
     }
-    
-    
+
 
     public function getContext()
     {
         return $this->ctx;
+    }
+
+
+    protected function removeFromParentCollection()
+    {
+        if (is_null($this->parentCollection == null))
+           return;
+        $this->parentCollection->removeChild($this);
     }
 
 
@@ -49,7 +61,7 @@ abstract class ClientObject
      */
     protected function getServiceRootUrl()
     {
-        if(!isset($this->serviceRootUrl)){
+        if (!isset($this->serviceRootUrl)) {
             $this->serviceRootUrl = $this->getContext()->getUrl() . ClientContext::$ServicePath;
         }
         return $this->serviceRootUrl;
@@ -63,11 +75,11 @@ abstract class ClientObject
     public function getResourcePath()
     {
         $path = $this->resourcePath;
-        if(!isset($path)){
-            $typeNames = explode("\\",get_class($this));
+        if (!isset($path)) {
+            $typeNames = explode("\\", get_class($this));
             $path = strtolower(end($typeNames));
         }
-        if(isset($this->parentResourcePath)) {
+        if (isset($this->parentResourcePath)) {
             $path = $this->parentResourcePath . "/" . $path;
         }
         return $path;
@@ -81,7 +93,7 @@ abstract class ClientObject
     {
         $url = $this->getServiceRootUrl() . $this->getResourcePath();
         $queryOptionsUrl = $this->getQueryOptionsUrl();
-        if(!empty($queryOptionsUrl))
+        if (!empty($queryOptionsUrl))
             $url = $url . "?" . $queryOptionsUrl;
         return $url;
     }
@@ -96,7 +108,6 @@ abstract class ClientObject
     }
 
 
-
     /**
      * Gets entity type name for a resource
      * @return string
@@ -107,22 +118,22 @@ abstract class ClientObject
             return $this->resourceType;
         return "SP." . end(explode("\\", get_class($this)));
     }
-    
-    
-    public static function createTypedObject(ClientContext $ctx, \stdClass $properties){
+
+
+    public static function createTypedObject(ClientContext $ctx, \stdClass $properties)
+    {
         $baseNsName = __NAMESPACE__;
         $parts = explode(".", $properties->__metadata->type);
         $clsName = $parts[1];
-        if(count($parts) == 3){
-            if($parts[1] == "Data"){
+        if (count($parts) == 3) {
+            if ($parts[1] == "Data") {
                 $clsName = "ListItem";
-            }
-            else {
+            } else {
                 $nsName = $baseNsName . "\\" . $parts[1] . "\\";
                 $clsName = $parts[2];
             }
         }
-        if($clsName == "List") $clsName = "SPList";
+        if ($clsName == "List") $clsName = "SPList";
         $clientObjectType = $baseNsName . "\\" . $clsName;
         $clientObject = new $clientObjectType($ctx);
         $clientObject->initClientObjectProperties($properties);
@@ -132,22 +143,23 @@ abstract class ClientObject
 
     public function fromJson($properties)
     {
+        if($this instanceof ClientObjectCollection)
+            $this->clearData();
         $this->serverObjectLoaded = true;
         $ctx = $this->getContext();
-        if(isset($properties->results)){
-            foreach($properties->results as $item){
-                $clientObject = ClientObject::createTypedObject($ctx,$item);
+        if (isset($properties->results)) {
+            foreach ($properties->results as $item) {
+                $clientObject = ClientObject::createTypedObject($ctx, $item);
                 $this->addChild($clientObject);
             }
-        }
-        else {
+        } else {
             $this->initClientObjectProperties($properties);
         }
     }
 
 
-
-    public function toJson(){
+    public function toJson()
+    {
         $this->ensureMetadataType($this->changed_properties);
         return json_encode($this->changed_properties);
     }
@@ -155,7 +167,7 @@ abstract class ClientObject
 
     protected function initClientObjectProperties($properties)
     {
-        foreach($properties as $key => $value){
+        foreach ($properties as $key => $value) {
             $this->$key = $value;
         }
     }
@@ -177,7 +189,8 @@ abstract class ClientObject
      * @param $name
      * @return bool
      */
-    public function isPropertyAvailable($name){
+    public function isPropertyAvailable($name)
+    {
         return isset($this->properties[$name]) && !isset($this->properties[$name]->__deferred);
     }
 
@@ -187,7 +200,8 @@ abstract class ClientObject
      * @param $name
      * @return mixed|null
      */
-    public function getProperty($name){
+    public function getProperty($name)
+    {
         return $this->{$name};
     }
 
@@ -198,8 +212,9 @@ abstract class ClientObject
      * @param $value
      * @param bool $trackChanges
      */
-    public function setProperty($name, $value, $trackChanges = true){
-        if($trackChanges){
+    public function setProperty($name, $value, $trackChanges = true)
+    {
+        if ($trackChanges) {
             $this->changed_properties[$name] = $value;
         }
         $this->{$name} = $value;
@@ -208,8 +223,8 @@ abstract class ClientObject
 
     public function __set($name, $value)
     {
-        if($name == '__metadata'){
-            $uriParts = explode(ClientContext::$ServicePath,strtolower($value->uri));
+        if ($name == '__metadata') {
+            $uriParts = explode(ClientContext::$ServicePath, strtolower($value->uri));
             $this->serviceRootUrl = $uriParts[0] . ClientContext::$ServicePath;
             $this->resourcePath = $uriParts[1];
             $this->parentResourcePath = null;
@@ -218,7 +233,7 @@ abstract class ClientObject
         $this->properties[$name] = $value;
     }
 
-    public  function __get($name)
+    public function __get($name)
     {
         if (array_key_exists($name, $this->properties)) {
             return $this->properties[$name];

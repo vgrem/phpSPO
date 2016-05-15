@@ -20,17 +20,7 @@ class ListItem extends ClientObject
         }
         return $this->ParentList;
     }
-
-    /**
-     * Sets the parent list that contains the list item.
-     * @param SPList $list
-     */
-    public function setParentList(SPList $list){
-        $this->setProperty('ParentList',$list,false);
-    }
     
-       
-
     /**
      * Updates list item resource
      * @param $listItemUpdationInformation

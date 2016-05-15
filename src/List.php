@@ -24,7 +24,7 @@ class SPList extends ClientObject
     public function addItem(array $listItemCreationInformation)
     {
         $item = new ListItem($this->getContext());
-        $item->setParentList($this);
+        $item->setProperty('ParentList',$this,false);
         foreach($listItemCreationInformation as $key => $value){
             $item->setProperty($key,$value);
         }

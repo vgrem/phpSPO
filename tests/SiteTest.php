@@ -26,7 +26,7 @@ class SiteTest extends PHPUnit_Framework_TestCase
         $this->context = new ClientContext($Settings['Url'],$authCtx);
     }
 
-    public function testWebLoad()
+    public function testIfSiteLoaded()
     {
         $site = $this->context->getSite();
         $this->context->load($site);

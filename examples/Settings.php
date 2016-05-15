@@ -1,7 +1,7 @@
 <?php
 
 $Settings = array(
-	'Url' => "https://contoso.sharepoint.com/",
-	'Password' => "password",
-	'UserName' => "jdoe@contoso.onmicrosoft.com"
+	'Url' => "https://media17.sharepoint.com/sites/news/",
+	'Password' => "P@ssw0rd",
+	'UserName' => "tester@media17.onmicrosoft.com"
 );

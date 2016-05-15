@@ -12,6 +12,13 @@ class ClientObjectCollection extends ClientObject
     public function addChild(ClientObject $clientObject)
     {
         $this->data[] = $clientObject;
+        if (is_null($clientObject->parentCollection))
+            $clientObject->parentCollection = $this;
+    }
+
+    public function removeChild(ClientObject $clientObject)
+    {
+        $this->data[] = array_diff($this->data, array($clientObject));
     }
 
     public function getData()
@@ -19,6 +26,10 @@ class ClientObjectCollection extends ClientObject
         return $this->data;
     }
 
+    public function clearData()
+    {
+        $this->data = array();
+    }
 
     /**
      * Specifies a subset of properties to return.

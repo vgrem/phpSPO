@@ -1,6 +1,10 @@
 ﻿### About
 This library provides a SharePoint REST client for PHP applications. This allows you to performs CRUD operations againts SharePoint Online resources via an REST/OData based API. 
 
+### Status
+
+[![Build Status](https://travis-ci.org/vgrem/phpSPO.svg?branch=master)](https://travis-ci.org/vgrem/phpSPO)
+
 ### Installation
 
 ### PHP version

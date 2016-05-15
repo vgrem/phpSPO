@@ -26,54 +26,47 @@ class WebTest extends PHPUnit_Framework_TestCase
         $this->context = new ClientContext($Settings['Url'],$authCtx);
     }
 
-    public function testWebLoad()
+
+    public function testCreateWeb()
     {
-        $web = $this->context->getWeb();
-        $this->context->load($web);
-        $this->context->executeQuery();
-        $this->assertNotNull($web,"Web resource could not be loaded");
-    }
-
-
-    public function testWebCreate()
-    {
-        $webUrl = "Workspace_" . date("Y-m-d") . rand(1,100);
-
-        $web = $this->context->getWeb();
-        $info = new \SharePoint\PHP\Client\WebCreationInformation($webUrl,"Workspace");
-        $info->WebTemplate = "STS";
-        $info->UseSamePermissionsAsParentSite = false;
-
-        $web = $web->getWebs()->add($info);
-        $this->context->executeQuery();
-
-        $this->assertNotNull($web->getProperty('Title'));
-
-        $this->deleteWeb($web);
+        $targetWebUrl = "Workspace_" . date("Y-m-d") . rand(1,1000);
+        $targetWeb = $this->createWeb($targetWebUrl);
+        $this->assertEquals($targetWeb->getProperty('Url'),$this->context->getUrl() . $targetWebUrl);
+        return $targetWeb;
     }
 
     /**
-     * Delete web operation example
-     * @param \SharePoint\PHP\Client\Web $web
-     */
-    private function deleteWeb(SharePoint\PHP\Client\Web $web){
-        $ctx = $web->getContext();
-        $web->deleteObject();
-        $ctx->executeQuery();
-    }
-
-
-    /**
-     * @param \SharePoint\PHP\Client\Web $web
+     * @depends testCreateWeb
+     * @param \SharePoint\PHP\Client\Web $targetWeb
      * @return \SharePoint\PHP\Client\Web
      */
-    private function loadWeb(SharePoint\PHP\Client\Web $web){
-        $ctx = $web->getContext();
-        $ctx->load($web);
+    public function testIfWebExist(\SharePoint\PHP\Client\Web $targetWeb)
+    {
+        $ctx = $targetWeb->getContext();
+        $webTitle = $targetWeb->getProperty('Title');
+        $webs = $ctx->getWeb()->getWebs()->filter("Title eq '$webTitle'");
+        $ctx->load($webs);
         $ctx->executeQuery();
-        return $web;
+        $this->assertCount(1,$webs->getData());
+        return $targetWeb;
     }
 
+    /**
+     * @depends testCreateWeb
+     * @param \SharePoint\PHP\Client\Web $targetWeb
+     */
+    public function testTryDeleteWeb(\SharePoint\PHP\Client\Web $targetWeb){
+        $ctx = $targetWeb->getContext();
+        $targetWeb->deleteObject();
+        $ctx->executeQuery();
+    }
 
-
+    private function createWeb($webUrl)
+    {
+        $web = $this->context->getWeb();
+        $info = new \SharePoint\PHP\Client\WebCreationInformation($webUrl,$webUrl);
+        $web = $web->getWebs()->add($info);
+        $this->context->executeQuery();
+        return $web;
+    }
 }
