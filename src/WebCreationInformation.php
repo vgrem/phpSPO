@@ -60,9 +60,9 @@ class WebCreationInformation extends ClientValueObject
     }
     
     
-    public function toJson()
+    public function toJson($rootElement='parameters')
     {
-        return parent::toJson('parameters'); 
+        return parent::toJson($rootElement);
     }
 
 }

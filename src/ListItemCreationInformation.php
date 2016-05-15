@@ -6,7 +6,7 @@ namespace SharePoint\PHP\Client;
 /**
  * Specifies the properties of the new list item.
  */
-class ListItemCreationInformation
+class ListItemCreationInformation extends ClientValueObject
 {
     /**
      * Gets or sets a value that specifies the folder for the new list item.

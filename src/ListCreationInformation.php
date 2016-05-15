@@ -42,8 +42,4 @@ class ListCreationInformation extends ClientValueObject
         $this->setMetadataType("SP.List");
     }
     
-    public function toJson()
-    {
-        return parent::toJson(null); 
-    }
 }

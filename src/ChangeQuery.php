@@ -40,9 +40,9 @@ class ChangeQuery extends ClientValueObject
     }
 
 
-    public function toJson()
+    public function toJson($rootElement='query')
     {
-        return parent::toJson('query');
+        return parent::toJson($rootElement);
     }
     
 
