@@ -15,7 +15,7 @@ require_once('Site.php');
 require_once('Field.php');
 require_once('FieldLookup.php');
 require_once('FieldText.php');
-require_once('Taxonomy/TaxonomyField.php');
+require_once('taxonomy/TaxonomyField.php');
 require_once('FieldNumber.php');
 require_once('FieldDateTime.php');
 require_once('FieldGuid.php');
