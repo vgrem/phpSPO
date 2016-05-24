@@ -49,7 +49,7 @@ class ClientQuery
                 $payload = $this->parameters->toJson();
             }
             else{
-                $payload = json_encode($payload);
+                $payload = json_encode($this->parameters);
             }
         }
         return $payload;
