@@ -111,7 +111,8 @@ class Requests
 
 	/**
 	 * Init Curl with the default parameters
-	 * @return    [type]    [description]
+	 * @param $url
+	 * @return resource [type]    [description]
 	 */
     private static function initCurl($url)
     {

@@ -26,6 +26,12 @@ class ClientObjectCollection extends ClientObject
         return $this->data;
     }
 
+    public function getCount()
+    {
+        return count($this->data);
+    }
+    
+
     public function clearData()
     {
         $this->data = array();

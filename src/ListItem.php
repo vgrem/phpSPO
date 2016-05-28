@@ -6,7 +6,7 @@ namespace SharePoint\PHP\Client;
  * ListItem client object
  * @property SPList ParentList
  */
-class ListItem extends ClientObject
+class ListItem extends SecurableObject
 {
 
     /**

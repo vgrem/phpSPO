@@ -110,6 +110,7 @@ function deleteList(SharePoint\PHP\Client\SPList $list){
 
 /**
  * Update list operation example
+ * @param \SharePoint\PHP\Client\SPList $list
  */
 function updateList(SharePoint\PHP\Client\SPList $list){
 	$ctx = $list->getContext();

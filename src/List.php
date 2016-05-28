@@ -10,11 +10,8 @@ namespace SharePoint\PHP\Client;
  * @property ViewCollection Views
  * @property InformationRightsManagementSettings InformationRightsManagementSettings
  */
-class SPList extends ClientObject
+class SPList extends SecurableObject
 {
-
-
-
     /**
      * The recommended way to add a list item is to send a POST request to the ListItemCollection resource endpoint, as shown in ListItemCollection request examples.
      * @param array $listItemCreationInformation Creation information for a List item
