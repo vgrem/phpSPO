@@ -24,5 +24,7 @@ class ListTest extends SharePointTestCase
     {
         $listToDelete->deleteObject();
         $this->context->executeQuery();
+        
+        
     }
 }
