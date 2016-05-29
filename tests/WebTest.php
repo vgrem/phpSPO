@@ -12,8 +12,8 @@ class WebTest extends SharePointTestCase
     public function testCreateWeb()
     {
         $targetWebUrl = "Workspace_" . date("Y-m-d") . rand(1,10000);
-        $targetWeb = TestUtilities::createWeb($this->context,$targetWebUrl);
-        $this->assertEquals($targetWeb->getProperty('Url'),$this->context->getUrl() . $targetWebUrl);
+        $targetWeb = TestUtilities::createWeb(self::$context,$targetWebUrl);
+        $this->assertEquals($targetWeb->getProperty('Url'),self::$context->getUrl() . $targetWebUrl);
         return $targetWeb;
     }
 

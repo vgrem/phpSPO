@@ -11,7 +11,7 @@ class ListTest extends SharePointTestCase
     public function testIfListCreated()
     {
         $listTitle = "Orders_" . rand(1,100000);
-        $list = TestUtilities::ensureList($this->context,$listTitle,\SharePoint\PHP\Client\ListTemplateType::Tasks);
+        $list = TestUtilities::ensureList(self::$context,$listTitle,\SharePoint\PHP\Client\ListTemplateType::Tasks);
         $this->assertEquals($list->getProperty('Title'),$listTitle);
         return $list;
     }
@@ -22,26 +22,23 @@ class ListTest extends SharePointTestCase
      */
     public function testDeleteList(\SharePoint\PHP\Client\SPList $listToDelete)
     {
-        $listId = $listToDelete->getProperty('Id');
         $ctx = $listToDelete->getContext();
-        $lists = $ctx->getWeb()->getLists();
-        $ctx->load($lists);
+        $listId = $listToDelete->getProperty('Id');
+        $listToDelete->deleteObject();
         $ctx->executeQuery();
 
-        $listsCount = $lists->getCount();
-        $result = array_filter(
+        
+        /*$result = array_filter(
             $lists->getData(),
             function ($l) use ($listId) {
                 return $l->getProperty('Id') == $listId;
             }
-        );
+        );*/
 
-        if(count($result)  == 1){
-            $listToDelete->deleteObject();
-            $ctx->load($lists);
-            $ctx->executeQuery();
-        }
-        
-        
+        $result =  $ctx->getWeb()->getLists()->filter("Id eq '$listId'");
+        $ctx->load($result);
+        $ctx->executeQuery();
+
+        $this->assertEquals(0,$result->getCount());
     }
 }

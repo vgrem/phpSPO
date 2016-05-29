@@ -87,6 +87,7 @@ class SPList extends SecurableObject
     {
         $qry = new ClientQuery($this->getUrl(),ClientActionType::Delete);
         $this->getContext()->addQuery($qry);
+        $this->removeFromParentCollection();
     }
 
 

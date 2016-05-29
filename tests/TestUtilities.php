@@ -21,7 +21,7 @@ class TestUtilities
     
     public static function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle,$type,$clearItems = true)
     {
-        /*$lists = $ctx->getWeb()->getLists()->filter("Title eq '$listTitle'")->top(1);
+        $lists = $ctx->getWeb()->getLists()->filter("Title eq '$listTitle'")->top(1);
         $ctx->load($lists);
         $ctx->executeQuery();
         if ($lists->getCount() == 1) {
@@ -30,7 +30,7 @@ class TestUtilities
                 //self::deleteListItems($existingList);
             }
             return $existingList;
-        }*/
+        }
         return TestUtilities::createList($ctx, $listTitle, $type);
     }
 

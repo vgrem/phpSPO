@@ -17,6 +17,17 @@ class Folder extends ClientObject
     public function deleteObject(){
         $qry = new ClientQuery($this->getUrl(),ClientActionType::Delete);
         $this->getContext()->addQuery($qry);
+        //$this->removeFromParentCollection();
+    }
+
+
+    
+    public function rename($name){
+        $item = $this->getListItemAllFields();
+        $item->setProperty('Title',$name);
+        $item->setProperty('FileLeafRef', $name);
+        $qry = new ClientQuery($item->getUrl(),ClientActionType::Update,$item);
+        $this->getContext()->addQuery($qry,$this);
     }
 
     /**
@@ -40,5 +51,32 @@ class Folder extends ClientObject
         }
         return $this->Files;
     }
+
+
+    /**
+     * Gets the collection of list folders contained in the list folder.
+     * @return FolderCollection
+     */
+    public function getFolders()
+    {
+        if(!$this->isPropertyAvailable("Folders")){
+            $this->setProperty("Folders",new FolderCollection($this->getContext(),$this->getResourcePath(), "folders"));
+        }
+        return $this->getProperty("Folders");
+    }
+
+
+    /**
+     * Specifies the list item field (2) values for the list item corresponding to the folder.
+     * @return ListItem
+     */
+    public function getListItemAllFields()
+    {
+        if(!$this->isPropertyAvailable("ListItemAllFields")){
+            $this->setProperty("ListItemAllFields",new ListItem($this->getContext(),$this->getResourcePath(), "ListItemAllFields"));
+        }
+        return $this->getProperty("ListItemAllFields");
+    }
+
 
 }

@@ -18,7 +18,9 @@ class ClientObjectCollection extends ClientObject
 
     public function removeChild(ClientObject $clientObject)
     {
-        $this->data[] = array_diff($this->data, array($clientObject));
+        if (($key = array_search($clientObject, $this->data)) !== false) {
+            unset($this->data[$key]);
+        }
     }
 
     public function getData()

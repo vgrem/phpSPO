@@ -12,14 +12,21 @@ abstract class SharePointTestCase extends PHPUnit_Framework_TestCase
     /**
      * @var ClientContext
      */
-    protected $context;
+    protected static $context;
 
-    public function setUp(){
+    public static function setUpBeforeClass()
+    {
         global $Settings;
 
         $authCtx = new AuthenticationContext($Settings['Url']);
         $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
-        $this->context = new ClientContext($Settings['Url'],$authCtx);
+        self::$context = new ClientContext($Settings['Url'],$authCtx);
     }
+
+    public static function tearDownAfterClass()
+    {
+        self::$context = NULL;
+    }
+
 
 }
