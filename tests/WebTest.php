@@ -1,37 +1,19 @@
 <?php
 
-require_once(__DIR__ .'/../examples/Settings.php');
-require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
-
-use SharePoint\PHP\Client\AuthenticationContext;
-use SharePoint\PHP\Client\ClientContext;
+require_once('SharePointTestCase.php');
+require_once('TestUtilities.php');
 
 
 
 
-class WebTest extends PHPUnit_Framework_TestCase
+class WebTest extends SharePointTestCase
 {
-
-    /**
-     * @var ClientContext
-     */
-    protected $context;
-
-    public function setUp(){
-        global $Settings;
-
-        $authCtx = new AuthenticationContext($Settings['Url']);
-        $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
-        $this->context = new ClientContext($Settings['Url'],$authCtx);
-    }
-
-
+    
     public function testCreateWeb()
     {
         $targetWebUrl = "Workspace_" . date("Y-m-d") . rand(1,10000);
-        $targetWeb = $this->createWeb($targetWebUrl);
-        $this->assertEquals($targetWeb->getProperty('Url'),$this->context->getUrl() . $targetWebUrl);
+        $targetWeb = TestUtilities::createWeb(self::$context,$targetWebUrl);
+        $this->assertEquals($targetWeb->getProperty('Url'),self::$context->getUrl() . $targetWebUrl);
         return $targetWeb;
     }
 
@@ -61,12 +43,5 @@ class WebTest extends PHPUnit_Framework_TestCase
         $ctx->executeQuery();
     }
 
-    private function createWeb($webUrl)
-    {
-        $web = $this->context->getWeb();
-        $info = new \SharePoint\PHP\Client\WebCreationInformation($webUrl,$webUrl);
-        $web = $web->getWebs()->add($info);
-        $this->context->executeQuery();
-        return $web;
-    }
+
 }

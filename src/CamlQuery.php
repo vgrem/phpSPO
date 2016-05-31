@@ -13,11 +13,26 @@ class CamlQuery extends ClientValueObject
     {
     }
 
-    public function toJson($rootElement='query')
+    public function toJson($rootElement = 'query')
     {
         return parent::toJson($rootElement);
     }
-    
+
+    public static function createAllItemsQuery()
+    {
+        $qry = new CamlQuery();
+        $qry->ViewXml = "<View Scope=\"RecursiveAll\">\r\n    <Query>\r\n    </Query>\r\n</View>";
+        return $qry;
+    }
+
+    public static function createAllFoldersQuery()
+    {
+        $qry = new CamlQuery();
+        $qry->ViewXml =  "<View Scope=\"RecursiveAll\">\r\n    <Query>\r\n        <Where>\r\n            <Eq>\r\n                <FieldRef Name=\"FSObjType\" />\r\n                <Value Type=\"Integer\">1</Value>\r\n            </Eq>\r\n        </Where>\r\n    </Query>\r\n</View>";
+        return $qry;
+    }
+
+
     /**
      * Gets or sets a value that indicates whether the query returns dates in Coordinated Universal Time (UTC) format.
      * @var \DateTime
@@ -36,7 +51,7 @@ class CamlQuery extends ClientValueObject
      */
     public $ListItemCollectionPosition;
 
-    
+
     /**
      * Gets or sets value that specifies the XML schema that defines the list view.
      * @var string

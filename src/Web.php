@@ -9,7 +9,7 @@ namespace SharePoint\PHP\Client;
  * @property FieldCollection Fields
  * @property ListCollection Lists
  */
-class Web extends ClientObject
+class Web extends SecurableObject
 {
 
     public function update()
@@ -116,17 +116,7 @@ class Web extends ClientObject
         return $this->SiteGroups;
     }
 
-    /**
-     * @return RoleAssignmentCollection
-     */
-    public function getRoleAssignments()
-    {
-        if(!isset($this->RoleAssignments)){
-            $this->RoleAssignments = new RoleAssignmentCollection($this->getContext(),$this->getResourcePath(),"roleassignments");
-        }
-        return $this->RoleAssignments;
-    }
-
+    
     /**
      * Gets the collection of role definitions for the Web site.
      * @return RoleAssignmentCollection

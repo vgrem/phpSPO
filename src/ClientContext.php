@@ -8,6 +8,7 @@ require_once('runtime/ClientRequest.php');
 require_once('runtime/ContextWebInformation.php');
 require_once('runtime/ODataQueryOptions.php');
 require_once('ClientObject.php');
+require_once('SecurableObject.php');
 require_once('File.php');
 require_once('Folder.php');
 require_once('Web.php');

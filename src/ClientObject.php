@@ -116,7 +116,8 @@ abstract class ClientObject
     {
         if (isset($this->resourceType))
             return $this->resourceType;
-        return "SP." . end(explode("\\", get_class($this)));
+        $typeNames = explode("\\", get_class($this));
+        return "SP." . end($typeNames);
     }
 
 
@@ -129,7 +130,7 @@ abstract class ClientObject
             if ($parts[1] == "Data") {
                 $clsName = "ListItem";
             } else {
-                $nsName = $baseNsName . "\\" . $parts[1] . "\\";
+                //$nsName = $baseNsName . "\\" . $parts[1] . "\\";
                 $clsName = $parts[2];
             }
         }
