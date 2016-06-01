@@ -134,7 +134,12 @@ abstract class ClientObject
                 $clsName = $parts[2];
             }
         }
-        if ($clsName == "List") $clsName = "SPList";
+        
+        if ($clsName == "List"){
+        	$clsName = "SPList";        
+        }elseif($clsName == "TaxonomyField"){ 
+        	$clsName="Taxonomy\\$clsName";
+        }
         $clientObjectType = $baseNsName . "\\" . $clsName;
         $clientObject = new $clientObjectType($ctx);
         $clientObject->initClientObjectProperties($properties);
