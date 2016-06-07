@@ -8,6 +8,23 @@ namespace SharePoint\PHP\Client;
 
 class FieldCollection extends ClientObjectCollection
 {
+
+    /**
+     * Creates a Field resource
+     * @param FieldCreationInformation $parameters
+     * @return Field
+     */
+    public function add(FieldCreationInformation $parameters)
+    {
+        $field = new Field($this->getContext());
+        $qry = new ClientQuery($this->getUrl(),ClientActionType::Create,$parameters);
+        $this->getContext()->addQuery($qry,$field);
+        $this->addChild($field);
+        return $field;
+    }
+
+    
+
     public function getByTitle($title)
     {
         return new Field($this->getContext(),$this->getResourcePath(),"getbytitle('{$title}')");

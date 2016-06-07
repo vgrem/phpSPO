@@ -13,6 +13,7 @@ require_once('File.php');
 require_once('Folder.php');
 require_once('Web.php');
 require_once('Site.php');
+require_once('FieldType.php');
 require_once('Field.php');
 require_once('FieldLookup.php');
 require_once('FieldText.php');
@@ -27,6 +28,7 @@ require_once('FieldUrl.php');
 require_once('FieldChoice.php');
 require_once('FieldCalculated.php');
 require_once('FieldMultiChoice.php');
+require_once('FieldGeolocation.php');
 require_once('User.php');
 require_once('Group.php');
 require_once('RoleAssignment.php');
@@ -67,6 +69,8 @@ require_once('ListCreationInformation.php');
 require_once('ListTemplateType.php');
 require_once('ListItemCollectionPosition.php');
 require_once('CamlQuery.php');
+require_once('FieldCreationInformation.php');
+require_once('FieldGeolocationValue.php');
 
 /**
  * Client context
