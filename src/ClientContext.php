@@ -71,6 +71,7 @@ require_once('ListItemCollectionPosition.php');
 require_once('CamlQuery.php');
 require_once('FieldCreationInformation.php');
 require_once('FieldGeolocationValue.php');
+require_once('webparts/LimitedWebPartManager.php');
 
 /**
  * Client context

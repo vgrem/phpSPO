@@ -57,6 +57,38 @@ class FieldTest extends SharePointTestCase
         self::$context->executeQuery();
 
         $this->assertEquals($field->getProperty('Title'), $fieldProperties->Title);
+        return $field;
     }
+
+
+    /**
+     * @depends testCreateColumn
+     * @param \SharePoint\PHP\Client\Field $fieldToDelete
+     */
+    /*public function testDeleteColumn(\SharePoint\PHP\Client\Field $fieldToDelete)
+    {
+        
+        $fieldId = $fieldToDelete->getProperty('Id');
+        $fieldToDelete->deleteObject();
+        self::$context->executeQuery();
+        
+        $result =  self::$context->getSite()->getRootWeb()->getFields()->filter("Id eq '$fieldId'");
+        self::$context->load($result);
+        self::$context->executeQuery();
+
+        $this->assertEquals(0,$result->getCount());
+    }*/
+
+
+    public function testFindColumn()
+    {
+        $field = self::$context->getSite()->getRootWeb()->getFields()->getByInternalNameOrTitle("FileRef");
+        self::$context->load($field);
+        self::$context->executeQuery();
+        $this->assertNotNull($field->getProperty("Title"));
+    }
+
+
+
 
 }

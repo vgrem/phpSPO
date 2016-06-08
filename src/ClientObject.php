@@ -123,6 +123,13 @@ abstract class ClientObject
 
     public static function createTypedObject(ClientContext $ctx, \stdClass $properties)
     {
+        $typeMappings = array(
+            "Data" => "ListItem",
+            "List" => "SPList",
+            "TaxonomyField" => "Taxonomy\\TaxonomyField",
+            "WebPartDefinition" => "WebParts\\WebPartDefinition"
+        );
+
         $baseNsName = __NAMESPACE__;
         $parts = explode(".", $properties->__metadata->type);
         $clsName = $parts[1];
@@ -130,16 +137,13 @@ abstract class ClientObject
             if ($parts[1] == "Data") {
                 $clsName = "ListItem";
             } else {
-                //$nsName = $baseNsName . "\\" . $parts[1] . "\\";
                 $clsName = $parts[2];
             }
         }
         
-        if ($clsName == "List"){
-        	$clsName = "SPList";        
-        }elseif($clsName == "TaxonomyField"){ 
-        	$clsName="Taxonomy\\$clsName";
-        }
+        if(array_key_exists($clsName,$typeMappings))
+            $clsName = $typeMappings[$clsName];
+
         $clientObjectType = $baseNsName . "\\" . $clsName;
         $clientObject = new $clientObjectType($ctx);
         $clientObject->initClientObjectProperties($properties);

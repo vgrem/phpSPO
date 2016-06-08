@@ -8,6 +8,13 @@ namespace SharePoint\PHP\Client;
  */
 class Field extends ClientObject
 {
+
+    public function deleteObject()
+    {
+        $qry = new ClientQuery($this->getUrl(),ClientActionType::Delete);
+        $this->getContext()->addQuery($qry);
+    }
+
     /**
      * Sets the value of the ShowInDisplayForm property for this field.
      * @param $value true to show the field in the form; otherwise false.

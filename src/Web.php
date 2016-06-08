@@ -137,14 +137,14 @@ class Web extends SecurableObject
     public function getUserCustomActions()
     {
         if(!$this->isPropertyAvailable('UserCustomActions')){
-            $this->UserCustomActions = new UserCustomActionCollection($this);
+            $this->UserCustomActions = new UserCustomActionCollection($this->getContext());
         }
         return $this->UserCustomActions;
     }
 
     /**
      * Returns the file object located at the specified server-relative URL.
-     * @param $serverRelativeUrl The server relative URL of the file.
+     * @param string $serverRelativeUrl The server relative URL of the file.
      * @return File
      */
     public function getFileByServerRelativeUrl($serverRelativeUrl){
@@ -155,7 +155,7 @@ class Web extends SecurableObject
 
     /**
      * Returns the folder object located at the specified server-relative URL.
-     * @param $serverRelativeUrl The server relative URL of the folder.
+     * @param string $serverRelativeUrl The server relative URL of the folder.
      * @return Folder
      */
     public function getFolderByServerRelativeUrl($serverRelativeUrl){

@@ -1,6 +1,8 @@
 <?php
 
 namespace SharePoint\PHP\Client;
+use SharePoint\PHP\Client\WebParts\LimitedWebPartManager;
+use SharePoint\PHP\Client\WebParts\PersonalizationScope;
 
 /**
  * File client object
@@ -141,5 +143,18 @@ class File extends ClientObject
               'binaryStringRequestBody' => true
           );
           $ctx->getPendingRequest()->executeQueryDirect($options);
+     }
+
+
+     /**
+      * Specifies the control set used to access, modify, or add Web Parts associated with this Web Part Page and view.
+      * An exception is thrown if the file is not an ASPX page.
+      * @param int $scope
+      * @return LimitedWebPartManager
+      */
+     public function getLimitedWebPartManager($scope)
+     {
+          $manager = new LimitedWebPartManager($this->getContext(),$this->getResourcePath(), "/getlimitedwebpartmanager($scope)");
+          return $manager;
      }
 }
