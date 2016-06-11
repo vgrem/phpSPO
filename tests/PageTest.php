@@ -40,8 +40,27 @@ class PageTest extends SharePointTestCase
         $webParts = $manager->getWebParts();
         self::$context->load($webParts);
         self::$context->executeQuery();
+        $this->assertTrue($webParts->AreItemsAvailable());
+    }
 
-        //$this->assertEquals($folder->getProperty("ServerRelativeUrl"), $expectedFolderUrl);
+
+    public function testAddWebPart()
+    {
+        $webPartXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" .
+"<WebPart xmlns=\"http://schemas.microsoft.com/WebPart/v2\">" .
+    "<Assembly>Microsoft.SharePoint, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c</Assembly>" .
+    "<TypeName>Microsoft.SharePoint.WebPartPages.ContentEditorWebPart</TypeName>" .
+    "<Title>\$Resources:core,ContentEd itorWebPartTitle;</Title>" .
+    "<Description>\$Resources:core,ContentEditorWebPartDescription;</Description>" .
+    "<PartImageLarge>/_layouts/15/images/mscontl.gif</PartImageLarge>" .
+"</WebPart>";
+
+        
+        $manager = self::$targetPage->getLimitedWebPartManager(PersonalizationScope::Shared);
+        $webPartDef = $manager->importWebPart($webPartXml);
+        self::$context->executeQuery();
+        $type = $webPartDef->getEntityTypeName();
+        $this->assertEquals($type, "SP.WebParts.WebPartDefinition");
     }
 
 

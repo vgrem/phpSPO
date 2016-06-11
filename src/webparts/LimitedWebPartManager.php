@@ -9,11 +9,31 @@ require_once('WebPartDefinition.php');
 require_once('WebPartDefinitionCollection.php');
 
 
+use SharePoint\PHP\Client\ClientActionType;
 use SharePoint\PHP\Client\ClientObject;
+use SharePoint\PHP\Client\ClientQuery;
 
 class LimitedWebPartManager extends ClientObject
 {
 
+    /**
+     * Imports a Web Part from a string in the .dwp format
+     * @param string $webPartXml
+     * @return WebPartDefinition
+     */
+    public function importWebPart($webPartXml)
+    {
+        $webPartProperties = array("webPartXml" => $webPartXml);
+        $webPartDefinition = new WebPartDefinition($this->getContext());
+        $qry = new ClientQuery($this->getUrl() . "/ImportWebPart",ClientActionType::PostRead,$webPartProperties);
+        $this->getContext()->addQuery($qry,$webPartDefinition);
+        return $webPartDefinition;
+    }
+
+
+    /**
+     * @return WebPartDefinitionCollection
+     */
     public function getWebParts()
     {
         if(!$this->isPropertyAvailable('WebParts')){

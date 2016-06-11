@@ -8,7 +8,6 @@ use SharePoint\PHP\Client\Runtime\ODataQueryOptions;
  */
 abstract class ClientObject
 {
-    protected $serverObjectLoaded;
 
     protected $resourceType;
 
@@ -37,7 +36,6 @@ abstract class ClientObject
         $this->resourcePath = $resourcePath;
         $this->parentResourcePath = $parentResourcePath;
         $this->queryOptions = new ODataQueryOptions();
-        $this->serverObjectLoaded = false;
     }
 
 
@@ -153,17 +151,19 @@ abstract class ClientObject
 
     public function fromJson($properties)
     {
-        if($this instanceof ClientObjectCollection)
-            $this->clearData();
-        $this->serverObjectLoaded = true;
         $ctx = $this->getContext();
-        if (isset($properties->results)) {
-            foreach ($properties->results as $item) {
-                $clientObject = ClientObject::createTypedObject($ctx, $item);
-                $this->addChild($clientObject);
+        if($this instanceof ClientObjectCollection) {
+            $this->clearData();
+            if (isset($properties->results)) {
+                foreach ($properties->results as $item) {
+                    $clientObject = ClientObject::createTypedObject($ctx, $item);
+                    $this->addChild($clientObject);
+                }
             }
-        } else {
-            $this->initClientObjectProperties($properties);
+            $this->areItemsAvailable = true;
+        }
+        else {
+            $this->initClientObjectProperties($properties);    
         }
     }
 
@@ -202,6 +202,15 @@ abstract class ClientObject
     public function isPropertyAvailable($name)
     {
         return isset($this->properties[$name]) && !isset($this->properties[$name]->__deferred);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getProperties()
+    {
+        return $this->properties;
     }
 
 

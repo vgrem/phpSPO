@@ -9,6 +9,19 @@ class ClientObjectCollection extends ClientObject
 {
     private $data = array();
 
+    /**
+     * @var bool
+     */
+    protected $areItemsAvailable;
+
+
+    public function __construct(ClientContext $ctx, $parentResourcePath = null, $resourcePath = null)
+    {
+        parent::__construct($ctx,$parentResourcePath,$resourcePath);
+        $this->areItemsAvailable = false;
+    }
+
+
     public function addChild(ClientObject $clientObject)
     {
         $this->data[] = $clientObject;
@@ -37,6 +50,12 @@ class ClientObjectCollection extends ClientObject
     public function clearData()
     {
         $this->data = array();
+    }
+
+
+    public function AreItemsAvailable()
+    {
+        return $this->areItemsAvailable;
     }
 
     /**

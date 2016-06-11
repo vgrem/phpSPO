@@ -154,7 +154,7 @@ class File extends ClientObject
       */
      public function getLimitedWebPartManager($scope)
      {
-          $manager = new LimitedWebPartManager($this->getContext(),$this->getResourcePath(), "/getlimitedwebpartmanager($scope)");
+          $manager = new LimitedWebPartManager($this->getContext(),$this->getResourcePath(), "getlimitedwebpartmanager($scope)");
           return $manager;
      }
 }

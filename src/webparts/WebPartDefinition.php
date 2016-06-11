@@ -10,6 +10,10 @@ use SharePoint\PHP\Client\ClientQuery;
 class WebPartDefinition extends ClientObject
 {
 
+    public function saveWebPartChanges(){
+        $qry = new ClientQuery($this->getUrl() . "/SaveWebPartChanges",ClientActionType::PostRead);
+        $this->getContext()->addQuery($qry);
+    }
 
     public function closeWebPart()
     {
@@ -28,4 +32,5 @@ class WebPartDefinition extends ClientObject
         }
         return $this->getProperty('WebPart');
     }
+    
 }

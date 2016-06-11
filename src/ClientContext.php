@@ -70,6 +70,9 @@ require_once('ListTemplateType.php');
 require_once('ListItemCollectionPosition.php');
 require_once('CamlQuery.php');
 require_once('FieldCreationInformation.php');
+require_once('FieldLookupValue.php');
+require_once('FieldUrlValue.php');
+require_once('FieldUserValue.php');
 require_once('FieldGeolocationValue.php');
 require_once('webparts/LimitedWebPartManager.php');
 
