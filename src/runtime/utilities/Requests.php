@@ -4,12 +4,7 @@ namespace SharePoint\PHP\Client;
 class Requests
 {
 
-	/**
-	 * SSL Version
-	 * @var int
-	 */
-	private static $sslVersion = null;
-
+	
 	private static $curlopts = array(
 			CURLOPT_SSL_VERIFYHOST => false,
 			CURLOPT_SSL_VERIFYPEER => false,

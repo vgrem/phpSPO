@@ -1,7 +1,7 @@
 <?php
 
 require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
@@ -119,7 +119,6 @@ function createList(ClientContext $ctx,$listTitle){
 function generateTasks(\SharePoint\PHP\Client\SPList $list)
 {
 	print "Creating a new list items..\r\n";
-	$ctx = $list->getContext();
 	for ($i = 0; $i < 2; $i++) {
 		$itemProperties = array(
 			'Title' => 'Order Approval' . rand(1, 1000),
@@ -186,26 +185,22 @@ function getTask(ClientContext $ctx,$itemId){
 	return $listItem;
 }
 
-/**
- * Delete list item operation example
- */
+
 function deleteTask(\SharePoint\PHP\Client\ListItem $item){
 	$ctx = $item->getContext();
 	$item->deleteObject();
     $ctx->executeQuery();
-    print "Task '{$item->Title}' has been deleted.\r\n";
+    print "Task {$item->getProperty('Title')} has been deleted.\r\n";
     
 }
 
-/**
- * Update list item opeation example
- */
-function updateTask($item){
+
+function updateTask(\SharePoint\PHP\Client\ListItem $item){
 	$ctx = $item->getContext();
 	$itemProperties = array('PercentComplete' => 1, '__metadata' => array('type' => 'SP.Data.TasksListItem'));
 	$item->update($itemProperties);
     $ctx->executeQuery();
-    print "Task '{$item->Title}' has been updated.\r\n";
+    print "Task {$item->getProperty('Title')} has been updated.\r\n";
 }
 
 

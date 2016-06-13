@@ -109,7 +109,7 @@ class SPList extends SecurableObject
 
     /**
      * @param ChangeLogItemQuery $query The query that contains the change token. Pass this parameter in the request body, as shown in the request example.
-     * @return BasePermissions
+     * @return ListItemCollection
      */
     public function getListItemChangesSinceToken(ChangeLogItemQuery $query)
     {

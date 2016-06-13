@@ -2,7 +2,7 @@
 
 
 
-require_once(__DIR__.'/../src/auth/NtlmAuthenticationContext.php');
+require_once(__DIR__ . '/../src/runtime/auth/NtlmAuthenticationContext.php');
 require_once 'Settings.php';
 
 

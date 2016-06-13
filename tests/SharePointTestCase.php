@@ -2,7 +2,7 @@
 
 require_once(__DIR__ .'/../examples/Settings.php');
 require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
 
 use SharePoint\PHP\Client\AuthenticationContext;
 use SharePoint\PHP\Client\ClientContext;

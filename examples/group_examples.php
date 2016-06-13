@@ -4,7 +4,7 @@ use SharePoint\PHP\Client\AuthenticationContext;
 use SharePoint\PHP\Client\ClientContext;
 
 require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
 
@@ -40,8 +40,8 @@ function getSiteGroups(ClientContext $ctx){
 function createGroup(ClientContext $ctx){
 
     $web = $ctx->getWeb();
-    $info = new \SharePoint\PHP\Client\GroupCreationInformation();
-    $info->Title = "Approver" . rand(1,1000);
+    $groupTitle = "Approver" . rand(1,1000);
+    $info = new \SharePoint\PHP\Client\GroupCreationInformation($groupTitle);
     $group = $web->getSiteGroups()->add($info);
     $ctx->executeQuery();
     print "Group : '{$group->Title}' has been created\r\n";

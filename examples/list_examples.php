@@ -1,7 +1,7 @@
 <?php
 
 require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__.'/../src/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
@@ -44,7 +44,7 @@ function printListDetails(ClientContext $ctx,$listTitle){
 
 function printPermissions(SharePoint\PHP\Client\SPList $list,$loginName){
 	$ctx = $list->getContext();
-	$permissions = $list->getUserEffectivePermissions($loginName);
+	//$permissions = $list->getUserEffectivePermissions($loginName);
 	$ctx->executeQuery();
 }
 
