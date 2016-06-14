@@ -6,8 +6,10 @@ use SharePoint\PHP\Client\WebParts\PersonalizationScope;
 
 /**
  * File client object
+ *
+ * @property InformationRightsManagementSettings InformationRightsManagementSettings
  */
-class File extends ClientObject
+class File extends SecurableObject
 {
 
      /**
@@ -156,5 +158,18 @@ class File extends ClientObject
      {
           $manager = new LimitedWebPartManager($this->getContext(),$this->getResourcePath(), "getlimitedwebpartmanager($scope)");
           return $manager;
+     }
+
+     /**
+      * Returns IRM settings for given file.
+      * 
+      * @return InformationRightsManagementSettings
+      */
+     public function getInformationRightsManagementSettings()
+     {
+          if(!$this->isPropertyAvailable('InformationRightsManagementSettings')){
+               $this->InformationRightsManagementSettings = new InformationRightsManagementSettings($this->getContext(),$this->getResourcePath(), "InformationRightsManagementSettings");
+          }
+          return $this->InformationRightsManagementSettings;
      }
 }
