@@ -45,6 +45,10 @@ class ClientRequest
         if (!isset($options["headers"])) {
             $options["headers"] = [];
         }
+
+        //authenticate request
+        $this->authContext->authenticateRequest($options);
+        
         if(!empty($options["data"]) or array_key_exists('X-HTTP-Method',$options["headers"])){
             $this->ensureFormDigest();
             $options["headers"]["X-RequestDigest"] = $this->contextWebInformation->FormDigestValue;
@@ -73,14 +77,14 @@ class ClientRequest
 
 
     function processXmlResponse($response){
-        $data = new StdClass;
+        $data = new stdClass;
         $data->d->results = array();
 
         $xml = simplexml_load_string($response);
         $xml->registerXPathNamespace('z', '#RowsetSchema');
         $rows = $xml->xpath("//z:row");
         foreach($rows as $row) {
-            $item = new StdClass;
+            $item = new stdClass;
             foreach($row->attributes() as $k => $v) {
                 $normalizedFieldName = str_replace('ows_','',$k);
                 $item->{$normalizedFieldName} = (string)$v;
@@ -111,7 +115,6 @@ class ClientRequest
             'method' => $operationType == ClientActionType::Read ? 'GET' : 'POST'
         );
         
-
         if ($operationType == ClientActionType::Update) {
             $requestOptions['headers']["IF-MATCH"] = "*";
             $requestOptions['headers']["X-HTTP-Method"] = "MERGE";
@@ -126,7 +129,6 @@ class ClientRequest
     private function prepareHeaders($options)
     {
         $headers = array();
-        $this->addHeader($headers, 'Cookie', $this->authContext->getAuthenticationCookie());
         $this->addHeader($headers, "Accept", "application/json; odata=verbose");
         $this->addHeader($headers, "Content-type", "application/json; odata=verbose");
 
@@ -157,8 +159,14 @@ class ClientRequest
 	 */
     protected function requestFormDigest()
     {
-        $url = $this->baseUrl . "/_api/contextinfo";
-        $response = Requests::post($url,$this->prepareHeaders($this->defaultHeaders));
+        $options = array(
+            'url' => $this->baseUrl . "/_api/contextinfo",
+            'headers' => $this->defaultHeaders
+        );
+        //authenticate request
+        $this->authContext->authenticateRequest($options);
+
+        $response = Requests::post($options['url'],$this->prepareHeaders($options['headers']));
         $json = $this->processJsonResponse($response);
         $this->contextWebInformation = new ContextWebInformation();
         $this->contextWebInformation->fromJson($json->d->GetContextWebInformation);

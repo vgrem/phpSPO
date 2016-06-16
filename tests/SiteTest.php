@@ -15,4 +15,13 @@ class SiteTest extends SharePointTestCase
         $this->assertNotNull($site,"Site resource could not be loaded");
     }
 
+
+    public function testIfCustomActionsLoaded()
+    {
+        $actions = self::$context->getSite()->getUserCustomActions();
+        self::$context->load($actions);
+        self::$context->executeQuery();
+        $this->assertNotFalse($actions->AreItemsAvailable());
+    }
+
 }

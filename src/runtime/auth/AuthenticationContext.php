@@ -25,10 +25,6 @@ class AuthenticationContext
         $this->url = $url;
     }
 
-    public function getAuthenticationCookie()
-    {
-        return $this->provider->getAuthenticationCookie();
-    }
 
 	public function acquireTokenForUser($username,$password)
 	{
@@ -37,6 +33,20 @@ class AuthenticationContext
 	}
 
 
+    public function acquireTokenForApp($clientId,$clientSecret,$redirectUrl)
+    {
+        $this->provider = new OAuthTokenProvider($this->url,$clientId,$clientSecret,$redirectUrl);
+        $this->provider->acquireToken();
+    }
 
+    public function authenticateRequest(&$options)
+    {
+        if($this->provider instanceof SamlTokenProvider)
+            $options['headers']['Cookie'] = $this->provider->getAuthenticationCookie();
+        elseif ($this->provider instanceof OAuthTokenProvider)
+            $options['headers']['Authorization'] = $this->provider->getAuthorizationHeader();
+        else
+            throw new \Exception("Unknown authentication provider");
+    }
 
 }

@@ -3,17 +3,33 @@
 namespace SharePoint\PHP\Client;
 
 /**
- * Web client object
- * @property Web RootWeb
+ * Site resource
  */
 class Site extends ClientObject
 {
-    
+    /**
+     * @return Web
+     */
     public function getRootWeb()
     {
-        if(!$this->isPropertyAvailable('RootWeb')){
-            $this->RootWeb = new Web($this->getContext(),$this->getResourcePath(),"rootWeb");
+        if(!$this->isPropertyAvailable("RootWeb")){
+            $this->setProperty("RootWeb", new Web($this->getContext(),$this->getResourcePath(),"rootWeb"));
         }
-        return $this->RootWeb;
+        return $this->getProperty("RootWeb");
     }
+
+
+    /**
+     * @return UserCustomActionCollection
+     */
+    public function getUserCustomActions()
+    {
+        if(!$this->isPropertyAvailable("UserCustomActions")){
+            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(),$this->getResourcePath(),"UserCustomActions"));
+        }
+        return $this->getProperty("UserCustomActions");
+    }
+
+
+
 }

@@ -32,7 +32,7 @@ class Requests
 	    self::addCurlOpt(CURLOPT_SSLVERSION, $sslVersion);
 	}
 
-	public static function ntlmAuth($url, $username, $password, $passHeaders=false){
+	public static function ntlmAuth($url, $username, $password, $includeHeaders=false){
 		$ch = Requests::initCurl($url);
 		curl_setopt($ch, CURLOPT_HEADER, true);
 		curl_setopt($ch, CURLOPT_USERPWD, $username. ':' . $password);
@@ -41,27 +41,27 @@ class Requests
 		if ($result === false) {
 			throw new \Exception(curl_error($ch));
 		}
-		if($passHeaders){
+		if($includeHeaders){
 			$result=substr($result, 0, curl_getinfo($ch, CURLINFO_HEADER_SIZE));
 		}
 		curl_close($ch);
 		return $result;
 	}
 	
-	public static function post($url,$headers,$data=null,$passHeaders=false)
+	public static function post($url, $headers, $data=null, $includeHeaders=false)
 	{
 		$ch = Requests::initCurl($url);
         curl_setopt($ch, CURLOPT_POST, 1);
         
 		if($headers)
 		   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch, CURLOPT_HEADER, $passHeaders);
+		curl_setopt($ch, CURLOPT_HEADER, $includeHeaders);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $result = curl_exec($ch);
         if ($result === false) {
             throw new \Exception(curl_error($ch));
         }
-		if($passHeaders){
+		if($includeHeaders){
 			$result=substr($result, 0, curl_getinfo($ch, CURLINFO_HEADER_SIZE));
 		}
         curl_close($ch);
@@ -69,15 +69,19 @@ class Requests
 	}
 
 
-	public static function get($url,$headers)
+	public static function get($url, $headers, $includeHeaders=false)
     {
         $ch = Requests::initCurl($url);
 		if($headers)
              curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_HEADER, $includeHeaders);
         $result = curl_exec($ch);
         if ($result === false) {
             throw new \Exception(curl_error($ch));
         }
+		if($includeHeaders){
+			$result=substr($result, 0, curl_getinfo($ch, CURLINFO_HEADER_SIZE));
+		}
         curl_close($ch);
         return $result;
     }
@@ -85,8 +89,9 @@ class Requests
 
 	/**
 	 * Parse cookies
-	 * @param mixed $header
+	 * @param $response
 	 * @return mixed
+	 * @internal param mixed $header
 	 */
     public static function parseCookies($response)
     {
@@ -95,9 +100,9 @@ class Requests
         foreach ($headerLines as $line) {
             if (preg_match('/^Set-Cookie: /i', $line)) {
                 $line = preg_replace('/^Set-Cookie: /i', '', trim($line));
-                $csplit = explode(';', $line);
-                $cinfo = explode('=', $csplit[0], 2);
-                $cookies[$cinfo[0]] = $cinfo[1];
+                $cookieValues = explode(';', $line);
+                $authCookie = explode('=', $cookieValues[0], 2);
+                $cookies[$authCookie[0]] = $authCookie[1];
             }
         }
 

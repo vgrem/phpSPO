@@ -52,6 +52,8 @@ require_once('RoleDefinition.php');
 require_once('RoleDefinitionCollection.php');
 require_once('UserCustomAction.php');
 require_once('UserCustomActionCollection.php');
+require_once('RecycleBinItem.php');
+require_once('RecycleBinItemCollection.php');
 require_once('Change.php');
 require_once('ChangeFile.php');
 require_once('ChangeItem.php');

@@ -11,15 +11,15 @@ class SamlTokenProvider extends BaseTokenProvider
 
     /**
      * External Security Token Service for O365
-     * @var mixed
+     * @var string
      */
-    private static $stsUrl = 'https://login.microsoftonline.com/extSTS.srf';
+    private static $StsUrl = 'https://login.microsoftonline.com/extSTS.srf';
 
     /**
      * Form Url to submit SAML token
      * @var string
      */
-    private static $signInPageUrl = '/_forms/default.aspx?wa=wsignin1.0';
+    private static $SignInPageUrl = '/_forms/default.aspx?wa=wsignin1.0';
 
 
     /**
@@ -81,7 +81,7 @@ class SamlTokenProvider extends BaseTokenProvider
     protected function acquireAuthenticationCookies($token)
     {
         $urlInfo = parse_url($this->url);
-        $url =  $urlInfo['scheme'] . '://' . $urlInfo['host'] . self::$signInPageUrl;
+        $url =  $urlInfo['scheme'] . '://' . $urlInfo['host'] . self::$SignInPageUrl;
         $response = Requests::post($url,null,$token,$passHeaders = true);
         $cookies = Requests::parseCookies($response);
         $this->FedAuth = $cookies['FedAuth'];
@@ -103,7 +103,7 @@ class SamlTokenProvider extends BaseTokenProvider
     protected function acquireSecurityToken($username, $password)
     {
         $data = $this->prepareSecurityTokenRequest($username, $password, $this->url);
-        $response = Requests::post(self::$stsUrl,null,$data);
+        $response = Requests::post(self::$StsUrl,null,$data);
         return $this->processSecurityTokenResponse($response);
     }
 

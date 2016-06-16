@@ -121,6 +121,23 @@ abstract class ClientObject
 
     public static function createTypedObject(ClientContext $ctx, \stdClass $properties)
     {
+        $typeParts = explode(".", $properties->__metadata->type);
+        $entityName = $typeParts[1];
+        if (count($typeParts) == 3) {
+            if ($typeParts[1] == "Data") {
+                $entityName = "ListItem";
+            } else {
+                $entityName = $typeParts[2];
+            }
+        }
+
+        $clientObjectType = self::resolveClientObjectType($entityName);
+        $clientObject = new $clientObjectType($ctx);
+        $clientObject->initClientObjectProperties($properties);
+        return $clientObject;
+    }
+
+    private static function resolveClientObjectType($entityName){
         $typeMappings = array(
             "Data" => "ListItem",
             "List" => "SPList",
@@ -128,24 +145,9 @@ abstract class ClientObject
             "WebPartDefinition" => "WebParts\\WebPartDefinition"
         );
 
-        $baseNsName = __NAMESPACE__;
-        $parts = explode(".", $properties->__metadata->type);
-        $clsName = $parts[1];
-        if (count($parts) == 3) {
-            if ($parts[1] == "Data") {
-                $clsName = "ListItem";
-            } else {
-                $clsName = $parts[2];
-            }
-        }
-        
-        if(array_key_exists($clsName,$typeMappings))
-            $clsName = $typeMappings[$clsName];
-
-        $clientObjectType = $baseNsName . "\\" . $clsName;
-        $clientObject = new $clientObjectType($ctx);
-        $clientObject->initClientObjectProperties($properties);
-        return $clientObject;
+        if(array_key_exists($entityName,$typeMappings))
+            $entityName = $typeMappings[$entityName];
+        return __NAMESPACE__ . "\\" . $entityName;
     }
 
 
@@ -202,6 +204,23 @@ abstract class ClientObject
     public function isPropertyAvailable($name)
     {
         return isset($this->properties[$name]) && !isset($this->properties[$name]->__deferred);
+    }
+
+
+    /**
+     * @param string $propertyName
+     * @param string $entityName
+     * @return ClientObject
+     */
+    protected function ensureProperty($propertyName, $entityName)
+    {
+        if(!$this->isPropertyAvailable($propertyName)){
+            $clientObjectType = self::resolveClientObjectType($entityName);
+            $clientObject = new $clientObjectType($this->getContext(),$this->getResourcePath(),$propertyName);
+            $this->setProperty($propertyName,$clientObject);
+        }
+        return $this->getProperty($propertyName);
+
     }
 
 
