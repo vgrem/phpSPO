@@ -1,5 +1,7 @@
 <?php
 
+use SharePoint\PHP\Client\PrincipalType;
+
 require_once('SharePointTestCase.php');
 require_once('TestUtilities.php');
 
@@ -25,6 +27,7 @@ class ListTest extends SharePointTestCase
         $currentUser = self::$context->getWeb()->getCurrentUser();
         self::$context->load($currentUser);
         self::$context->executeQuery();
+
         
         
         //2. assign unique permissions for a list 

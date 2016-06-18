@@ -11,5 +11,5 @@ class PrincipalType extends EnumType
     const DistributionList = 2;
     const SecurityGroup = 4;
     const SharePointGroup = 8;
-    const All = PrincipalType::SharePointGroup | PrincipalType::SecurityGroup | PrincipalType::DistributionList | PrincipalType::User;
+    const All = 15;
 }
