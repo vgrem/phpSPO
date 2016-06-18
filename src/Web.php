@@ -137,9 +137,21 @@ class Web extends SecurableObject
     public function getUserCustomActions()
     {
         if(!$this->isPropertyAvailable('UserCustomActions')){
-            $this->UserCustomActions = new UserCustomActionCollection($this->getContext());
+            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext()));
         }
-        return $this->UserCustomActions;
+        return $this->getProperty("UserCustomActions");
+    }
+
+
+    /**
+     * @return User
+     */
+    public function getCurrentUser()
+    {
+        if(!$this->isPropertyAvailable('CurrentUser')){
+            $this->setProperty("CurrentUser", new User($this->getContext(),$this->getResourcePath(),"CurrentUser"));
+        }
+        return $this->getProperty("CurrentUser");
     }
 
     /**

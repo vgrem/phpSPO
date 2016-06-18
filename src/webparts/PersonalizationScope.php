@@ -3,9 +3,9 @@
 namespace SharePoint\PHP\Client\WebParts;
 
 
-use SharePoint\PHP\Client\Enum;
+use SharePoint\PHP\Client\EnumType;
 
-class PersonalizationScope extends Enum
+class PersonalizationScope extends EnumType
 {
     const User = 0;
     const Shared = 1;

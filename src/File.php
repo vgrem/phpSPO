@@ -2,10 +2,10 @@
 
 namespace SharePoint\PHP\Client;
 use SharePoint\PHP\Client\WebParts\LimitedWebPartManager;
-use SharePoint\PHP\Client\WebParts\PersonalizationScope;
+
 
 /**
- * File client object
+ * File resource
  *
  * @property InformationRightsManagementSettings InformationRightsManagementSettings
  */
@@ -171,5 +171,18 @@ class File extends SecurableObject
                $this->InformationRightsManagementSettings = new InformationRightsManagementSettings($this->getContext(),$this->getResourcePath(), "InformationRightsManagementSettings");
           }
           return $this->InformationRightsManagementSettings;
+     }
+
+
+     /**
+      * Gets a value that returns a collection of file version objects that represent the versions of the file.
+      * @return FileVersionCollection
+      */
+     public function getVersions()
+     {
+          if(!$this->isPropertyAvailable('Versions')){
+               $this->setProperty("Versions", new FileVersionCollection($this->getContext(),$this->getResourcePath(), "Versions"));
+          }
+          return $this->getProperty("Versions");
      }
 }

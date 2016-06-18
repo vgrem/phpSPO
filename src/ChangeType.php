@@ -2,7 +2,7 @@
 
 namespace SharePoint\PHP\Client;
 
-class ChangeType extends Enum
+class ChangeType extends EnumType
 {
     const NoChange = 0;
     const Add = 1;

@@ -4,7 +4,7 @@
 namespace SharePoint\PHP\Client;
 
 
-class FieldType extends Enum
+class FieldType extends EnumType
 {
     const Invalid = 0;
     const Integer = 1;

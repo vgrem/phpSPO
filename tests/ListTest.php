@@ -18,6 +18,30 @@ class ListTest extends SharePointTestCase
 
     /**
      * @depends testIfListCreated
+     * @param \SharePoint\PHP\Client\SPList $list
+     */
+    public function testListPermissions(\SharePoint\PHP\Client\SPList $list){
+        //1. retrieve current user
+        $currentUser = self::$context->getWeb()->getCurrentUser();
+        self::$context->load($currentUser);
+        self::$context->executeQuery();
+        
+        
+        //2. assign unique permissions for a list 
+        //$list->breakRoleInheritance(false,true);
+        //$list->update();
+        //self::$context->executeQuery();
+        
+        //3. verify list permissions
+        $loginName = $currentUser->getProperty("LoginName");
+        $permissions = $list->getUserEffectivePermissions($loginName);
+        self::$context->executeQuery();
+        $result = $permissions->has(\SharePoint\PHP\Client\PermissionKind::AddListItems);
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @depends testIfListCreated
      * @param \SharePoint\PHP\Client\SPList $listToDelete
      */
     public function testDeleteList(\SharePoint\PHP\Client\SPList $listToDelete)
@@ -27,18 +51,12 @@ class ListTest extends SharePointTestCase
         $listToDelete->deleteObject();
         $ctx->executeQuery();
 
-        
-        /*$result = array_filter(
-            $lists->getData(),
-            function ($l) use ($listId) {
-                return $l->getProperty('Id') == $listId;
-            }
-        );*/
-
         $result =  $ctx->getWeb()->getLists()->filter("Id eq '$listId'");
         $ctx->load($result);
         $ctx->executeQuery();
-
         $this->assertEquals(0,$result->getCount());
     }
+
+
+
 }

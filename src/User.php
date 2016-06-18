@@ -5,9 +5,8 @@ namespace SharePoint\PHP\Client;
 
 /**
  * Represents a user in Microsoft SharePoint Foundation. A user is a type of SP.Principal.
- * @property GroupCollection Groups
  */
-class User  extends ClientObject
+class User  extends Principal
 {
     public function update($userInformation)
     {
@@ -22,9 +21,9 @@ class User  extends ClientObject
     public function getGroups()
     {
         if(!$this->isPropertyAvailable('Groups')){
-            $this->Groups = new GroupCollection($this->getContext(), $this->getResourcePath(), "groups");
+            $this->setProperty("Groups", new GroupCollection($this->getContext(), $this->getResourcePath(), "groups"));
         }
-        return $this->Groups;
+        return $this->getProperty("Groups");
     }
 
 }

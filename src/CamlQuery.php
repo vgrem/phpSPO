@@ -13,9 +13,9 @@ class CamlQuery extends ClientValueObject
     {
     }
 
-    public function toJson($rootElement = 'query')
+    public function toJson()
     {
-        return parent::toJson($rootElement);
+        return json_encode(array('query' => $this));
     }
 
     public static function createAllItemsQuery()

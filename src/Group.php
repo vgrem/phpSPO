@@ -4,9 +4,9 @@ namespace SharePoint\PHP\Client;
 
 
 /**
- * @property UserCollection Users
+ * Group resource
  */
-class Group extends ClientObject
+class Group extends Principal
 {
 
     /**
@@ -16,8 +16,8 @@ class Group extends ClientObject
     public function getUsers()
     {
         if(!$this->isPropertyAvailable('Users')){
-            $this->Users = new UserCollection($this->getContext(),$this->getResourcePath() , "users");
+            $this->setProperty("Users", new UserCollection($this->getContext(),$this->getResourcePath() , "users"));
         }
-        return $this->Users;
+        return $this->getProperty("Users");
     }
 }

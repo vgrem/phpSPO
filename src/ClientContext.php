@@ -2,7 +2,7 @@
 
 namespace SharePoint\PHP\Client;
 
-require_once('runtime/utilities/Enum.php');
+require_once('runtime/utilities/EnumType.php');
 require_once('runtime/ClientActionType.php');
 require_once('runtime/ClientRequest.php');
 require_once('runtime/ContextWebInformation.php');
@@ -29,6 +29,8 @@ require_once('FieldChoice.php');
 require_once('FieldCalculated.php');
 require_once('FieldMultiChoice.php');
 require_once('FieldGeolocation.php');
+require_once('PrincipalType.php');
+require_once('Principal.php');
 require_once('User.php');
 require_once('Group.php');
 require_once('RoleAssignment.php');
@@ -54,6 +56,8 @@ require_once('UserCustomAction.php');
 require_once('UserCustomActionCollection.php');
 require_once('RecycleBinItem.php');
 require_once('RecycleBinItemCollection.php');
+require_once('FileVersion.php');
+require_once('FileVersionCollection.php');
 require_once('Change.php');
 require_once('ChangeFile.php');
 require_once('ChangeItem.php');
@@ -64,6 +68,7 @@ require_once('ClientValueObjectCollection.php');
 require_once('ChangeQuery.php');
 require_once('ChangeType.php');
 require_once('ChangeLogItemQuery.php');
+require_once('PermissionKind.php');
 require_once('BasePermissions.php');
 require_once('WebCreationInformation.php');
 require_once('GroupCreationInformation.php');
@@ -129,8 +134,12 @@ class ClientContext
             $data = $this->getPendingRequest()->executeQuery($qry);
             $resultObject = $this->getResultObjectByQuery($qry);
             if (!empty($data) && !is_null($resultObject)){
-                if($resultObject instanceof ClientObject)
+                if($resultObject instanceof ClientObject) {
                     $resultObject->fromJson($data->d);
+                }
+                else if($resultObject instanceof ClientValueObject){
+                    $resultObject->fromJson($data->d);
+                }
             }
         }
         $this->queries = array();

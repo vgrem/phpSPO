@@ -5,7 +5,7 @@ namespace SharePoint\PHP\Client;
 
 use ReflectionClass;
 
-class Enum
+abstract class EnumType
 {
 
     public static function getName($value){
@@ -14,4 +14,9 @@ class Enum
         return $enums[$value];
     }
 
+    public static function getNames(){
+        $reflection = new ReflectionClass(get_called_class());
+        $enums = $reflection->getConstants();
+        return array_keys($enums);
+    }
 }

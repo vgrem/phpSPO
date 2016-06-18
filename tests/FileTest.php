@@ -11,6 +11,8 @@ class FileTest extends SharePointTestCase
      */
     private static $targetList;
 
+
+
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
@@ -25,6 +27,31 @@ class FileTest extends SharePointTestCase
         parent::tearDownAfterClass();
     }
 
+
+    public function testUploadFiles(){
+        $localPath = "../examples/data/";
+        $searchPrefix = $localPath . '*.*';
+        foreach(glob($searchPrefix) as $filename) {
+            $fileCreationInformation = array(
+                'Content' => file_get_contents($filename),
+                'Url' => basename($filename)
+            );
+
+            $uploadFile = self::$targetList->getRootFolder()->getFiles()->add($fileCreationInformation);
+            self::$context->executeQuery();
+            $this->assertEquals($uploadFile->getProperty("Name"),$fileCreationInformation["Url"]);
+        }
+    }
+
+
+    public function testGetFileVersions()
+    {
+        $files = self::$targetList->getRootFolder()->getFiles()->select("Name,Version");
+        self::$context->load($files);
+        self::$context->executeQuery();
+        $this->assertTrue($files->AreItemsAvailable());
+        
+    }
 
     public function testCreateFolder()
     {
