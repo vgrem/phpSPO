@@ -164,6 +164,18 @@ class SPList extends SecurableObject
         return $this->InformationRightsManagementSettings;
     }
 
+
+    /**
+     * @return Web
+     */
+    public function getParentWeb()
+    {
+        if(!$this->isPropertyAvailable('ParentWeb')){
+            $this->setProperty("ParentWeb", new Web($this->getContext(),$this->getResourcePath(), "ParentWeb"));
+        }
+        return $this->getProperty("ParentWeb");
+    }
+
     public function getEntityTypeName(){
         return "SP.List";
     }
