@@ -78,7 +78,7 @@ abstract class ClientObject
             $path = strtolower(end($typeNames));
         }
         if (isset($this->parentResourcePath)) {
-            $path = $this->parentResourcePath . "/" . $path;
+            $path = $this->parentResourcePath . "/" . ($path != "group" ? $path : "");
         }
         return $path;
     }
