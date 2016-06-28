@@ -9,9 +9,11 @@ require_once('WebPartDefinition.php');
 require_once('WebPartDefinitionCollection.php');
 
 
-use SharePoint\PHP\Client\ClientActionType;
+use SharePoint\PHP\Client\HttpMethod;
 use SharePoint\PHP\Client\ClientObject;
-use SharePoint\PHP\Client\ClientQuery;
+use SharePoint\PHP\Client\ClientAction;
+use SharePoint\PHP\Client\ResourcePathEntity;
+use SharePoint\PHP\Client\ResourcePathServiceOperation;
 
 class LimitedWebPartManager extends ClientObject
 {
@@ -23,9 +25,12 @@ class LimitedWebPartManager extends ClientObject
      */
     public function importWebPart($webPartXml)
     {
-        $webPartProperties = array("webPartXml" => $webPartXml);
-        $webPartDefinition = new WebPartDefinition($this->getContext());
-        $qry = new ClientQuery($this->getUrl() . "/ImportWebPart",ClientActionType::PostRead,$webPartProperties);
+        $payload = json_encode(array("webPartXml" => $webPartXml));
+        $webPartDefinition = new WebPartDefinition(
+            $this->getContext(),
+            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"ImportWebPart")
+        );
+        $qry = new ClientAction($webPartDefinition->getResourceUrl(),$payload,HttpMethod::Post);
         $this->getContext()->addQuery($qry,$webPartDefinition);
         return $webPartDefinition;
     }
@@ -37,7 +42,10 @@ class LimitedWebPartManager extends ClientObject
     public function getWebParts()
     {
         if(!$this->isPropertyAvailable('WebParts')){
-            $this->setProperty("WebParts", new WebPartDefinitionCollection($this->getContext(),$this->getResourcePath(), "webparts"));
+            $this->setProperty(
+                "WebParts", 
+                new WebPartDefinitionCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "webparts"))
+            );
         }
         return $this->getProperty("WebParts");
     }

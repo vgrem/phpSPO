@@ -3,10 +3,21 @@
 namespace SharePoint\PHP\Client;
 
 require_once('runtime/utilities/EnumType.php');
-require_once('runtime/ClientActionType.php');
+require_once('runtime/HttpMethod.php');
 require_once('runtime/ClientRequest.php');
 require_once('runtime/ContextWebInformation.php');
-require_once('runtime/ODataQueryOptions.php');
+require_once('runtime/odata/QueryOptions.php');
+require_once('runtime/odata/ODataPathParser.php');
+require_once('runtime/ResourcePath.php');
+require_once('runtime/ResourcePathEntity.php');
+require_once('runtime/ResourcePathServiceOperation.php');
+require_once('runtime/ClientAction.php');
+require_once('runtime/ClientActionInvokeMethod.php');
+require_once('runtime/ClientActionReadEntity.php');
+require_once('runtime/ClientActionUpdateMethod.php');
+require_once('runtime/ClientActionDeleteEntity.php');
+require_once('runtime/ClientActionUpdateEntity.php');
+require_once('runtime/ClientActionCreateEntity.php');
 require_once('ClientObject.php');
 require_once('SecurableObject.php');
 require_once('File.php');
@@ -66,7 +77,6 @@ require_once('ChangeItem.php');
 require_once('ChangeList.php');
 require_once('ChangeWeb.php');
 require_once('ChangeCollection.php');
-require_once('runtime/ClientQuery.php');
 require_once('ClientValueObject.php');
 require_once('ClientValueObjectCollection.php');
 require_once('ChangeQuery.php');
@@ -98,19 +108,41 @@ class ClientContext
      */
 	private $baseUrl;
 
+    /**
+     * Authentication context
+     * @var AuthenticationContext
+     */
     private $authContext;
 
+    /**
+     * @var ClientRequest
+     */
     private $pendingRequest;
 
+    /**
+     * @var Site
+     */
     private $site;
 
+    /**
+     * @var Web
+     */
     private $web;
 
-    private $queries = array();
-
-    private $resultObjects = array();
-
+    /**
+     * OData service path for Office365
+     * @var string
+     */
     public static $ServicePath = "/_api/";
+
+    /**
+     * Client application name
+     * @var string
+     */
+    private $ApplicationName;
+    
+    
+   
 
 
     /**
@@ -122,45 +154,51 @@ class ClientContext
     {
 		$this->baseUrl = $url;
 		$this->authContext = $authContext;
+        $this->ApplicationName = ".PHP Client Library";
+    }
+    
+    
+    public function authenticateRequest(&$options){
+        $this->authContext->authenticateRequest($options);
     }
 
+
+    /**
+     * Gets the service root URL that identifies the root of an OData service
+     * @return string
+     */
+    public function getServiceRootUrl()
+    {
+        return $this->getUrl() . self::$ServicePath;
+    }
+
+    /**
+     * Prepare to load resource
+     * @param ClientObject $clientObject
+     */
     public function load(ClientObject $clientObject)
     {
-        if( !in_array( $clientObject ,$this->resultObjects ) ) {
-            $qry = new ClientQuery($clientObject->getUrl());
-            $this->addQuery($qry,$clientObject);
-        }
+        $this->getPendingRequest()->addQueryAndResultObject($clientObject);
     }
 
+    /**
+     * Submit client request to SharePoint OData/SOAP service
+     */
     public function executeQuery()
     {
-        foreach ($this->queries as $qry) {
-            $data = $this->getPendingRequest()->executeQuery($qry);
-            $resultObject = $this->getResultObjectByQuery($qry);
-            if (!empty($data) && !is_null($resultObject)){
-                if($resultObject instanceof ClientObject) {
-                    $resultObject->fromJson($data->d);
-                }
-                else if($resultObject instanceof ClientValueObject){
-                    $resultObject->fromJson($data->d);
-                }
-            }
-        }
-        $this->queries = array();
+        $this->getPendingRequest()->executeQuery();
     }
 
-
-    private function getResultObjectByQuery(ClientQuery $query){
-        if(array_key_exists($query->getId(),$this->resultObjects))
-            return $this->resultObjects[$query->getId()];
-        return null;
+    public function addQuery(ClientAction $query, $resultObject=null)
+    {
+        $this->getPendingRequest()->addQuery($query,$resultObject);
     }
-
-
+    
+    
     public function getWeb()
     {
         if(!isset($this->web)){
-            $this->web = new Web($this);
+            $this->web = new Web($this,new ResourcePathEntity($this,null,"Web"));
         }
         return $this->web;
     }
@@ -169,29 +207,18 @@ class ClientContext
     public function getSite()
     {
         if(!isset($this->site)){
-            $this->site = new Site($this);
+            $this->site = new Site($this, new ResourcePathEntity($this,null,"Site"));
         }
         return $this->site;
     }
-
-  
+    
     public function getPendingRequest()
     {
         if(!isset($this->pendingRequest)){
-            $this->pendingRequest = new ClientRequest($this->baseUrl,$this->authContext);
+            $this->pendingRequest = new ClientRequest($this);
         }
         return $this->pendingRequest;
     }
-
-    public function addQuery(ClientQuery $query,$resultObject=null)
-    {
-        if(isset($resultObject)){
-            $queryId = $query->getId();
-            $this->resultObjects[$queryId] = $resultObject;
-        }
-        $this->queries[] = $query;
-    }
-    
     
     public function getUrl()
     {

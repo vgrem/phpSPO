@@ -16,7 +16,8 @@ class UserCollection extends ClientObjectCollection
      */
     public function getById($id)
     {
-        return new User($this->getContext(),$this->getResourcePath(), "getbyid('{$id}')");
+        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getById",array($id));
+        return new User($this->getContext(),$path);
     }
 
     /**
@@ -26,7 +27,8 @@ class UserCollection extends ClientObjectCollection
      */
     public function getByEmail($emailAddress)
     {
-        return new User($this->getContext(),$this->getResourcePath(), "getbyemail('{$emailAddress}')");
+        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByEmail",array($emailAddress));
+        return new User($this->getContext(),$path);
     }
 
     /**
@@ -35,7 +37,8 @@ class UserCollection extends ClientObjectCollection
      */
     public function getByLoginName($loginName)
     {
-        return new User($this->getContext(),$this->getResourcePath(), "getbyloginname('{$loginName}')");
+        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByLoginName",array($loginName));
+        return new User($this->getContext(),$path);
     }
 
 
@@ -46,7 +49,7 @@ class UserCollection extends ClientObjectCollection
     public function removeById($id)
     {
         $userToDelete = new User($this->getContext());
-        $qry = new ClientQuery($userToDelete->getUrl() . "/removebyid('{$id}')",ClientActionType::Delete);
+        $qry = new ClientAction($userToDelete->getUrl() . "/removebyid('{$id}')",HttpMethod::Delete);
         $this->getContext()->addQuery($qry);
     }
 
@@ -57,7 +60,7 @@ class UserCollection extends ClientObjectCollection
     public function removeByLoginName($loginName)
     {
         $userToDelete = new User($this->getContext());
-        $qry = new ClientQuery($userToDelete->getUrl() . "/removebyloginname(@v)?@v='{$loginName}'",ClientActionType::Delete);
+        $qry = new ClientAction($userToDelete->getUrl() . "/removebyloginname(@v)?@v='{$loginName}'",HttpMethod::Delete);
         $this->getContext()->addQuery($qry);
     }
 }

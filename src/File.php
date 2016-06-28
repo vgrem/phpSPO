@@ -7,7 +7,6 @@ use SharePoint\PHP\Client\WebParts\LimitedWebPartManager;
 /**
  * File resource
  *
- * @property InformationRightsManagementSettings InformationRightsManagementSettings
  */
 class File extends SecurableObject
 {
@@ -16,8 +15,7 @@ class File extends SecurableObject
       * Checks out the file from a document library based on the check-out type.
       */
      public function checkOut(){
-
-          $qry = new ClientQuery($this->getUrl() . "/checkout", ClientActionType::Update);
+          $qry = new ClientActionUpdateMethod($this,"checkout");
           $this->getContext()->addQuery($qry);
      }
 
@@ -26,7 +24,7 @@ class File extends SecurableObject
       * Reverts an existing checkout for the file.
       */
      public function undoCheckout(){
-          $qry = new ClientQuery($this->getUrl() . "/undocheckout", ClientActionType::Update);
+          $qry = new ClientActionUpdateMethod($this,"undocheckout");
           $this->getContext()->addQuery($qry);
      }
 
@@ -36,7 +34,10 @@ class File extends SecurableObject
       * @param string $comment A comment for the check-in. Its length must be <= 1023.
       */
      public function checkIn($comment){
-          $qry = new ClientQuery($this->getUrl() . "/checkin(comment='$comment',checkintype=0)", ClientActionType::Update);
+          $qry = new ClientActionUpdateMethod($this,"checkIn",array(
+              "comment" =>$comment,
+              "checkintype" =>0
+          ));
           $this->getContext()->addQuery($qry);
      }
 
@@ -46,7 +47,9 @@ class File extends SecurableObject
       * @param string $comment The comment for the approval.
       */
      public function approve($comment){
-          $qry = new ClientQuery($this->getUrl() . "/approve(comment='$comment')", ClientActionType::Update);
+          $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"approve",array(
+              "comment" =>$comment
+          ));
           $this->getContext()->addQuery($qry);
      }
 
@@ -55,7 +58,9 @@ class File extends SecurableObject
       * @param string $comment The comment for the denial.
       */
      public function deny($comment){
-          $qry = new ClientQuery($this->getUrl() . "/deny(comment='$comment')", ClientActionType::Update);
+          $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "deny",array(
+              "comment" =>$comment
+          ));
           $this->getContext()->addQuery($qry);
      }
 
@@ -64,7 +69,9 @@ class File extends SecurableObject
       * @param string $comment The comment for the published file. Its length must be <= 1023.
       */
      public function publish($comment){
-          $qry = new ClientQuery($this->getUrl() . "/publish(comment='$comment')", ClientActionType::Update);
+          $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "publish",array(
+              "comment" =>$comment
+          ));
           $this->getContext()->addQuery($qry);
      }
 
@@ -74,7 +81,9 @@ class File extends SecurableObject
       * @param string $comment The comment for the unpublish operation. Its length must be <= 1023.
       */
      public function unpublish($comment){
-          $qry = new ClientQuery($this->getUrl() . "/unpublish(comment='$comment')", ClientActionType::Update);
+          $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"unpublish", array(
+              "comment" => $comment
+          ));
           $this->getContext()->addQuery($qry);
      }
 
@@ -85,7 +94,10 @@ class File extends SecurableObject
       * @param bool $bOverWrite true to overwrite a file with the same name in the same location; otherwise false.
       */
      public function copyTo($strNewUrl,$bOverWrite){
-          $qry = new ClientQuery($this->getUrl() . "/copyto(strnewurl='$strNewUrl',boverwrite=$bOverWrite)", ClientActionType::Update);
+          $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "copyto", array(
+              "strnewurl"=>$strNewUrl,
+              "boverwrite"=>$bOverWrite
+          ));
           $this->getContext()->addQuery($qry);
      }
 
@@ -95,7 +107,10 @@ class File extends SecurableObject
       * @param int $flags The bitwise SP.MoveOperations value for how to move the file. Overwrite = 1; AllowBrokenThickets (move even if supporting files are separated from the file) = 8.
       */
      public function moveTo($newUrl,$flags){
-          $qry = new ClientQuery($this->getUrl() . "/moveto(newurl='$newUrl',flags=$flags)", ClientActionType::Update);
+          $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "moveto", array(
+              "newurl"=>$newUrl,
+              "flags"=>$flags
+          ));
           $this->getContext()->addQuery($qry);
      }
 
@@ -104,7 +119,7 @@ class File extends SecurableObject
       * Moves the file to the Recycle Bin and returns the identifier of the new Recycle Bin item.
       */
      public function recycle(){
-          $qry = new ClientQuery($this->getUrl() . "/recycle", ClientActionType::Update);
+          $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "recycle");
           $this->getContext()->addQuery($qry);
      }
 
@@ -156,7 +171,12 @@ class File extends SecurableObject
       */
      public function getLimitedWebPartManager($scope)
      {
-          $manager = new LimitedWebPartManager($this->getContext(),$this->getResourcePath(), "getlimitedwebpartmanager($scope)");
+          $manager = new LimitedWebPartManager($this->getContext(),
+              new ResourcePathServiceOperation($this->getContext(),
+                  $this->getResourcePath(),
+                  "getlimitedwebpartmanager",
+                  array($scope)
+              ));
           return $manager;
      }
 
@@ -168,9 +188,9 @@ class File extends SecurableObject
      public function getInformationRightsManagementSettings()
      {
           if(!$this->isPropertyAvailable('InformationRightsManagementSettings')){
-               $this->InformationRightsManagementSettings = new InformationRightsManagementSettings($this->getContext(),$this->getResourcePath(), "InformationRightsManagementSettings");
+               $this->setProperty("InformationRightsManagementSettings",new InformationRightsManagementSettings($this->getContext(),$this->getResourcePath(), "InformationRightsManagementSettings"));
           }
-          return $this->InformationRightsManagementSettings;
+          return $this->getProperty("InformationRightsManagementSettings");
      }
 
 

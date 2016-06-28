@@ -8,9 +8,6 @@ namespace SharePoint\PHP\Client;
 class View extends ClientObject
 {
 
-    private $ViewFields;
-
-
     /**
      * Gets a value that specifies the collection of fields in the list view.
      * @return ViewFieldCollection
@@ -18,9 +15,9 @@ class View extends ClientObject
     public function getViewFields()
     {
         if(!$this->isPropertyAvailable('ViewFields')){
-            $this->ViewFields = new ViewFieldCollection($this->getContext(),$this->getResourcePath(), "viewfields");
+            $this->setProperty("ViewFields", new ViewFieldCollection($this->getContext(), new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "ViewFields")));
         }
-        return $this->ViewFields;
+        return $this->getProperty("ViewFields");
     }
 
 
@@ -30,7 +27,7 @@ class View extends ClientObject
      */
     public function deleteObject()
     {
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Delete);
+        $qry = new ClientActionDeleteEntity($this->getResourceUrl());
         $this->getContext()->addQuery($qry);
     }
 
@@ -39,7 +36,8 @@ class View extends ClientObject
      * Returns the list view as HTML.
      */
     public function renderAsHtml(){
-        $qry = new ClientQuery($this->getUrl() . "/renderashtml",ClientActionType::Read);
+        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"renderashtml");
+        $qry = new ClientActionUpdateMethod($path,null,HttpMethod::Get);
         $this->getContext()->addQuery($qry);
     }
 

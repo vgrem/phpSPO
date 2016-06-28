@@ -1,12 +1,22 @@
 <?php
 
 namespace SharePoint\PHP\Client;
+use SharePoint\PHP\Client\Runtime\QueryOptions;
 
 /**
  * Client objects collection
  */
 class ClientObjectCollection extends ClientObject
 {
+
+    /**
+     * @var QueryOptions
+     */
+    protected $queryOptions;
+
+    /**
+     * @var array
+     */
     private $data = array();
 
     /**
@@ -15,10 +25,30 @@ class ClientObjectCollection extends ClientObject
     protected $areItemsAvailable;
 
 
-    public function __construct(ClientContext $ctx, $parentResourcePath = null, $resourcePath = null)
+    /**
+     * ClientObjectCollection constructor.
+     * @param ClientContext $ctx
+     * @param ResourcePath $resourcePath
+     * @param QueryOptions $queryOptions
+     */
+    public function __construct(ClientContext $ctx, ResourcePath $resourcePath,QueryOptions $queryOptions = null)
     {
-        parent::__construct($ctx,$parentResourcePath,$resourcePath);
+        parent::__construct($ctx,$resourcePath);
+        $this->queryOptions = $queryOptions;
+        if(!isset($this->queryOptions))
+            $this->queryOptions = new QueryOptions();
         $this->areItemsAvailable = false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResourceUrl()
+    {
+        $url = parent::getResourceUrl();
+        if (!empty($this->queryOptions))
+            $url = $url . "?" . $this->queryOptions->toUrl();
+        return $url;
     }
 
 
@@ -56,6 +86,14 @@ class ClientObjectCollection extends ClientObject
     public function AreItemsAvailable()
     {
         return $this->areItemsAvailable;
+    }
+
+    /**
+     * @return QueryOptions
+     */
+    public function getQueryOptions()
+    {
+        return $this->queryOptions;
     }
 
     /**

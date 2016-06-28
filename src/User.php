@@ -8,9 +8,9 @@ namespace SharePoint\PHP\Client;
  */
 class User  extends Principal
 {
-    public function update($userInformation)
+    public function update()
     {
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$userInformation);
+        $qry = new ClientActionUpdateEntity($this->getResourceUrl(),$this->toJson());
         $this->getContext()->addQuery($qry,$this);
     }
 
@@ -21,7 +21,7 @@ class User  extends Principal
     public function getGroups()
     {
         if(!$this->isPropertyAvailable('Groups')){
-            $this->setProperty("Groups", new GroupCollection($this->getContext(), $this->getResourcePath(), "groups"));
+            $this->setProperty("Groups", new GroupCollection($this->getContext(), new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "groups")));
         }
         return $this->getProperty("Groups");
     }

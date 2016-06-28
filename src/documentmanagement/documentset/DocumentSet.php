@@ -2,7 +2,9 @@
 
 namespace SharePoint\PHP\Client\DocumentSet;
 
-class DocumentSet extends \SharePoint\PHP\Client\ClientObject
+use SharePoint\PHP\Client\ClientObject;
+
+class DocumentSet extends ClientObject
 {
 
     

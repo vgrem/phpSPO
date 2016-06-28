@@ -15,7 +15,7 @@ class Folder extends ClientObject
      * as shown in Folder request examples.
      */
     public function deleteObject(){
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Delete);
+        $qry = new ClientActionDeleteEntity($this->getResourceUrl());
         $this->getContext()->addQuery($qry);
         //$this->removeFromParentCollection();
     }
@@ -26,7 +26,7 @@ class Folder extends ClientObject
         $item = $this->getListItemAllFields();
         $item->setProperty('Title',$name);
         $item->setProperty('FileLeafRef', $name);
-        $qry = new ClientQuery($item->getUrl(),ClientActionType::Update,$item);
+        $qry = new ClientActionUpdateEntity($item->getResourceUrl(),$item->toJson());
         $this->getContext()->addQuery($qry,$this);
     }
 
@@ -34,7 +34,7 @@ class Folder extends ClientObject
      * Moves the list folder to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      */
     public function recycle(){
-        $qry = new ClientQuery($this->getUrl(), ClientActionType::Update);
+        $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"recycle");
         $this->getContext()->addQuery($qry);
     }
 
@@ -47,9 +47,9 @@ class Folder extends ClientObject
     public function getFiles()
     {
         if(!$this->isPropertyAvailable('Files')){
-            $this->Files = new FileCollection($this->getContext(),$this->getResourcePath(), "files");
+            $this->setProperty("Files", new FileCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "Files")));
         }
-        return $this->Files;
+        return $this->getProperty("Files");
     }
 
 
@@ -60,7 +60,8 @@ class Folder extends ClientObject
     public function getFolders()
     {
         if(!$this->isPropertyAvailable("Folders")){
-            $this->setProperty("Folders",new FolderCollection($this->getContext(),$this->getResourcePath(), "folders"));
+            $this->setProperty("Folders",
+                new FolderCollection($this->getContext(), new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "folders")));
         }
         return $this->getProperty("Folders");
     }
@@ -72,8 +73,13 @@ class Folder extends ClientObject
      */
     public function getListItemAllFields()
     {
-        if(!$this->isPropertyAvailable("ListItemAllFields")){
-            $this->setProperty("ListItemAllFields",new ListItem($this->getContext(),$this->getResourcePath(), "ListItemAllFields"));
+        if (!$this->isPropertyAvailable("ListItemAllFields")) {
+            $this->setProperty("ListItemAllFields",
+                new ListItem(
+                    $this->getContext(),
+                    new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ListItemAllFields")
+                )
+            );
         }
         return $this->getProperty("ListItemAllFields");
     }

@@ -24,7 +24,7 @@ catch (Exception $e) {
 
 function renameFolder($url, $authCtx, $folderUrl,$folderNewName)
 {
-    $request = new ClientRequest($url,$authCtx);
+    $request = ClientRequest::create($url,$authCtx);
     $requestOptions = array(
         'url' => $url . "/_api/web/getFolderByServerRelativeUrl('{$folderUrl}')/ListItemAllFields"
     );

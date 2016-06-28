@@ -8,10 +8,10 @@ namespace SharePoint\PHP\Client\Runtime;
 class ContextWebInformation
 {
     /**
-     * @param \stdClass $properties
+     * @param \stdClass $data
      */
-    public function fromJson($properties){
-        foreach($properties as $key => $value){
+    public function fromJson($data){
+        foreach($data->d->GetContextWebInformation as $key => $value){
             $this->$key = $value;
         }
     }

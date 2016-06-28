@@ -16,7 +16,7 @@ class Group extends Principal
     public function getUsers()
     {
         if(!$this->isPropertyAvailable('Users')){
-            $this->setProperty("Users", new UserCollection($this->getContext(),$this->getResourcePath() , "users"));
+            $this->setProperty("Users", new UserCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath() , "Users")));
         }
         return $this->getProperty("Users");
     }

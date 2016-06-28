@@ -4,11 +4,7 @@ namespace SharePoint\PHP\Client;
 
 
 /**
- * Represents a SharePoint list.
- * @property FieldCollection Fields
- * @property Folder RootFolder
- * @property ViewCollection Views
- * @property InformationRightsManagementSettings InformationRightsManagementSettings
+ * Represents a SharePoint list resource.
  */
 class SPList extends SecurableObject
 {
@@ -20,12 +16,12 @@ class SPList extends SecurableObject
      */
     public function addItem(array $listItemCreationInformation)
     {
-        $item = new ListItem($this->getContext());
+        $item = new ListItem($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items"));
         $item->setProperty('ParentList',$this,false);
         foreach($listItemCreationInformation as $key => $value){
             $item->setProperty($key,$value);
         }
-        $qry = new ClientQuery($this->getUrl() . "/items",ClientActionType::Create,$item);
+        $qry = new ClientAction($item->getResourceUrl(),$item->toJson(),HttpMethod::Post);
         $this->getContext()->addQuery($qry,$item);
         return $item;
     }
@@ -38,19 +34,21 @@ class SPList extends SecurableObject
      */
     public function getItemById($id)
     {
-        return new ListItem($this->getContext(),$this->getResourcePath(),"items({$id})");
+        return new ListItem($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items({$id})"));
     }
 
     /**
      * Creates unique role assignments for the securable object.
-     * @param bool $copyroleassignments
-     * @param bool $clearsubscopes
+     * @param bool $copyRoleAssignments
+     * @param bool $clearSubScopes
      * @throws \Exception
      */
-    public function breakRoleInheritance($copyroleassignments,$clearsubscopes)
+    public function breakRoleInheritance($copyRoleAssignments, $clearSubScopes)
     {
-        $url = $this->getUrl() . "/breakroleinheritance(" . var_export($copyroleassignments, true) . "," . var_export($clearsubscopes,true) . ")";
-        $qry = new ClientQuery($url, ClientActionType::Update);
+        $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"breakroleinheritance",array(
+            $copyRoleAssignments,
+            $clearSubScopes
+        ));
         $this->getContext()->addQuery($qry);
     }
 
@@ -61,13 +59,12 @@ class SPList extends SecurableObject
      */
     public function getItems(CamlQuery $camlQuery = null)
     {
+        $items = new ListItemCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items"));
         if(isset($camlQuery)){
-            $items = new ListItemCollection($this->getContext());
-            $qry = new ClientQuery($this->getUrl() . "/GetItems",ClientActionType::PostRead,$camlQuery);
+            $qry = new ClientAction($this->getResourceUrl() . "/GetItems", $camlQuery->toJson(),HttpMethod::Post);
             $this->getContext()->addQuery($qry,$items);
-            return $items;
         }
-        return new ListItemCollection($this->getContext(),$this->getResourcePath(),"items");
+        return $items;
     }
 
 
@@ -76,7 +73,7 @@ class SPList extends SecurableObject
      */
     public function update()
     {
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$this);
+        $qry = new ClientActionUpdateEntity($this->getResourceUrl(),$this->toJson());
         $this->getContext()->addQuery($qry);
     }
 
@@ -85,7 +82,7 @@ class SPList extends SecurableObject
      */
     public function deleteObject()
     {
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Delete);
+        $qry = new ClientActionDeleteEntity($this->getResourceUrl());
         $this->getContext()->addQuery($qry);
         $this->removeFromParentCollection();
     }
@@ -99,9 +96,10 @@ class SPList extends SecurableObject
      */
     public function getUserEffectivePermissions($loginName)
     {
-        $encLoginName = rawurlencode($loginName);
         $permissions = new BasePermissions();
-        $qry = new ClientQuery($this->getUrl() . "/getusereffectivepermissions(@user)?@user='$encLoginName'",ClientActionType::Read);
+        $qry = new ClientActionInvokeMethod($this->getResourceUrl(), "getusereffectivepermissions",array(
+            rawurlencode($loginName)
+        ),HttpMethod::Get);
         $this->getContext()->addQuery($qry,$permissions);
         return $permissions;
     }
@@ -113,55 +111,73 @@ class SPList extends SecurableObject
      */
     public function getListItemChangesSinceToken(ChangeLogItemQuery $query)
     {
-        $result = new ListItemCollection($this->getContext());
-        $qry = new ClientQuery($this->getUrl() . "/getlistitemchangessincetoken",ClientActionType::PostRead,$query);
-        $qry->setResponseFormatType(ClientFormatType::Xml);
+        $result = new ListItemCollection(
+            $this->getContext(),
+            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getListItemChangesSinceToken")
+        );
+        $qry = new ClientAction($result->getResourceUrl(),$query->toJson(),HttpMethod::Post);
+        $qry->setDataFormatType(FormatType::Xml);
         $this->getContext()->addQuery($qry,$result);
         return $result;
     }
 
 
+    /**
+     * @param ChangeQuery $query
+     * @return ChangeCollection
+     */
     public function getChanges(ChangeQuery $query)
     {
-        $changes = new ChangeCollection($this->getContext());
-        $qry = new ClientQuery($this->getUrl() . "/getchanges",ClientActionType::PostRead,$query);
+        $changes = new ChangeCollection(
+            $this->getContext(),
+            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getChanges")
+        );
+        $qry = new ClientAction($changes->getResourceUrl(),$query->toJson(),HttpMethod::Post);
         $this->getContext()->addQuery($qry,$changes);
         return $changes;
     }
 
 
+    /**
+     * @return FieldCollection
+     */
     public function getFields()
     {
         if(!$this->isPropertyAvailable('Fields')){
-            $this->Fields = new FieldCollection($this->getContext(),$this->getResourcePath(), "fields");
+            $this->setProperty("Fields", new FieldCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "fields")));
         }
-        return $this->Fields;
+        return $this->getProperty("Fields");
     }
 
-
+    /**
+     * @return Folder
+     */
     public function getRootFolder()
     {
         if(!$this->isPropertyAvailable('RootFolder')){
-            $this->RootFolder = new Folder($this->getContext(),$this->getResourcePath(), "rootFolder");
+            $this->setProperty("RootFolder", new Folder($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "rootFolder")));
         }
-        return $this->RootFolder;
+        return $this->getProperty("RootFolder");
     }
 
 
+    /**
+     * @return ViewCollection
+     */
     public function getViews()
     {
         if(!$this->isPropertyAvailable('Views')){
-            $this->Views = new ViewCollection($this->getContext(),$this->getResourcePath(), "views");
+            $this->setProperty("Views",new ViewCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "views")));
         }
-        return $this->Views;
+        return $this->getProperty("Views");
     }
 
     public function getInformationRightsManagementSettings()
     {
         if(!$this->isPropertyAvailable('InformationRightsManagementSettings')){
-            $this->InformationRightsManagementSettings = new InformationRightsManagementSettings($this->getContext(),$this->getResourcePath(), "InformationRightsManagementSettings");
+            $this->setProperty("InformationRightsManagementSettings", new InformationRightsManagementSettings($this->getContext(),$this->getResourcePath(), "InformationRightsManagementSettings"));
         }
-        return $this->InformationRightsManagementSettings;
+        return $this->getProperty("InformationRightsManagementSettings");
     }
 
 
@@ -171,7 +187,7 @@ class SPList extends SecurableObject
     public function getParentWeb()
     {
         if(!$this->isPropertyAvailable('ParentWeb')){
-            $this->setProperty("ParentWeb", new Web($this->getContext(),$this->getResourcePath(), "ParentWeb"));
+            $this->setProperty("ParentWeb", new Web($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "ParentWeb")));
         }
         return $this->getProperty("ParentWeb");
     }

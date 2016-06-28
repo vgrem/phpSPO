@@ -16,8 +16,11 @@ class FieldCollection extends ClientObjectCollection
      */
     public function add(FieldCreationInformation $parameters)
     {
-        $field = new Field($this->getContext());
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Create,$parameters);
+        $field = new Field(
+            $this->getContext(),
+            $this->getResourcePath()
+        );
+        $qry = new ClientActionCreateEntity($field->getResourceUrl(),$parameters->toJson());
         $this->getContext()->addQuery($qry,$field);
         $this->addChild($field);
         return $field;
@@ -27,11 +30,17 @@ class FieldCollection extends ClientObjectCollection
 
     public function getByTitle($title)
     {
-        return new Field($this->getContext(),$this->getResourcePath(),"getbytitle('{$title}')");
+        return new Field(
+            $this->getContext(),
+            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByTitle",array($title))
+        );
     }
 
     public function getByInternalNameOrTitle($internalNameOrTitle)
     {
-        return new Field($this->getContext(),$this->getResourcePath(),"getbyinternalnameortitle('{$internalNameOrTitle}')");
+        return new Field(
+            $this->getContext(),
+            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByInternalNameOrTitle",array($internalNameOrTitle))
+        );
     }
 }

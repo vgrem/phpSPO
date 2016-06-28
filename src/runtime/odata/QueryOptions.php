@@ -8,7 +8,7 @@ use ReflectionProperty;
 /**
  * Represents the raw query values in the string format from the incoming request.
  */
-class ODataQueryOptions
+class QueryOptions
 {
 
     public function toUrl()

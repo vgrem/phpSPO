@@ -4,15 +4,52 @@ require_once(__DIR__ . '/../src/ClientContext.php');
 require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
+require_once (__DIR__ . '/../src/runtime/soap/SoapClientRequest.php');
+
 use SharePoint\PHP\Client\AuthenticationContext;
 use SharePoint\PHP\Client\ClientContext;
+use SharePoint\PHP\Client\ClientRequest;
+
+
 
 
 try {
 	$authCtx = new AuthenticationContext($Settings['Url']);
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
 
+
+	/*
+	$requestData = file_get_contents("webrequest.xml");
+	$request = new ClientRequest($Settings['Url'],$authCtx);
+	$options = array(
+		'url' =>  $Settings['Url'] . "/_vti_bin/client.svc/ProcessQuery",
+		'data' => $requestData,
+		'method' => 'POST',
+		'headers' => array(
+			'Content-type' => 'application/atom+xml',
+			'Accept' => 'application/atom+xml'
+		)
+	);
+	$response = $request->executeQueryDirect($options);
+	$json = json_decode($response);*/
+
+
     $ctx = new ClientContext($Settings['Url'],$authCtx);
+	$list = $ctx->getWeb()->getLists()->getByTitle("Pages");
+	$ctx->load($list);
+	$ctx->executeQuery();
+
+
+	//$request = new SharePoint\PHP\Client\Runtime\Soap\ClientRequest();
+	//$xml = $request->buildQuery();
+	//print $xml;
+
+
+
+
+	return;
+
+
     //create a workspace
 	$webUrl = "Workspace_" . date("Y-m-d") . rand(1,100);
 	$web = createWeb($ctx,$webUrl);

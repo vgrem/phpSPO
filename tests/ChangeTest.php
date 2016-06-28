@@ -75,4 +75,17 @@ class ChangeTest extends SharePointTestCase
         }
     }
 
+
+    function testLoadListItemChanges()
+    {
+        $ctx = self::$targetList->getContext();
+        $query = new ChangeLogItemQuery();
+        //$query->ChangeToken = "1;3;e49a3225-13f6-47d4-a146-30d9caa05362;635969955256400000;10637059";
+        $items = self::$targetList->getListItemChangesSinceToken($query);
+        $ctx->executeQuery();
+        foreach ($items->getData() as $item) {
+            $this->assertNotNull($item->getProperty("Title"));
+        }
+    }
+
 }

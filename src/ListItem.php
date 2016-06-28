@@ -4,7 +4,6 @@ namespace SharePoint\PHP\Client;
 
 /**
  * ListItem client object
- * @property SPList ParentList
  */
 class ListItem extends SecurableObject
 {
@@ -16,36 +15,38 @@ class ListItem extends SecurableObject
      */
     public function getParentList(){
         if(!$this->isPropertyAvailable('ParentList')){
-            $this->ParentList = new SPList($this->getContext(),$this->getResourcePath(), "parentlist");
+            $this->setProperty("ParentList", new SPList($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "parentlist")),false);
         }
-        return $this->ParentList;
+        return $this->getProperty("ParentList");
     }
-    
+
     /**
      * Updates list item resource
-     * @param $listItemUpdationInformation
      */
-    public function update($listItemUpdationInformation)
+    public function update()
     {
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$listItemUpdationInformation);
+        $qry = new ClientActionUpdateEntity($this->getResourceUrl(),$this->toJson());
         $this->getContext()->addQuery($qry,$this);
     }
 
     public function deleteObject()
     {
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Delete);
+        $qry = new ClientActionDeleteEntity($this->getResourceUrl());
         $this->getContext()->addQuery($qry);
     }
 
 
     public function getEntityTypeName(){
         $list = $this->getParentList();
-        $options = array(
-            'url' => $list->getUrl() . "?\$select=ListItemEntityTypeFullName",
-            'method' => 'GET'
-        );
-        $result = $this->getContext()->getPendingRequest()->executeQueryDirect($options);
-        $json = json_decode($result);
-        return $json->d->ListItemEntityTypeFullName;
+        if(!isset($this->resourceType)) {
+            //determine entity type from List resource ListItemEntityTypeFullName property
+            if(!$list->isPropertyAvailable("ListItemEntityTypeFullName")){
+                $this->getContext()->load($list);
+                $this->getContext()->executeQuery();
+            }
+            $this->resourceType = $list->getProperty("ListItemEntityTypeFullName");
+        }
+        return $this->resourceType;
     }
+
 }

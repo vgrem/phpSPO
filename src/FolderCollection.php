@@ -10,9 +10,12 @@ class FolderCollection extends ClientObjectCollection
 {
     public function add($url)
     {
-        $folder = new Folder($this->getContext());
+        $folder = new Folder(
+            $this->getContext(),
+            $this->getResourcePath()
+        );
         $folder->setProperty("ServerRelativeUrl",rawurlencode($url));
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Create,$folder);
+        $qry = new ClientAction($this->getResourceUrl(),$folder->toJson(),HttpMethod::Post);
         $this->getContext()->addQuery($qry,$folder);
         return $folder;
     }

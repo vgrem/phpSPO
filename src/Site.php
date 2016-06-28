@@ -13,7 +13,7 @@ class Site extends ClientObject
     public function getRootWeb()
     {
         if(!$this->isPropertyAvailable("RootWeb")){
-            $this->setProperty("RootWeb", new Web($this->getContext(),$this->getResourcePath(),"rootWeb"));
+            $this->setProperty("RootWeb", new Web($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"RootWeb")));
         }
         return $this->getProperty("RootWeb");
     }
@@ -25,11 +25,9 @@ class Site extends ClientObject
     public function getUserCustomActions()
     {
         if(!$this->isPropertyAvailable("UserCustomActions")){
-            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(),$this->getResourcePath(),"UserCustomActions"));
+            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"UserCustomActions")));
         }
         return $this->getProperty("UserCustomActions");
     }
-
-
-
+    
 }

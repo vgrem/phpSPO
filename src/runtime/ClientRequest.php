@@ -5,40 +5,74 @@ namespace SharePoint\PHP\Client;
 
 use Exception;
 use SharePoint\PHP\Client\Runtime\ContextWebInformation;
-use stdClass;
 
-require_once('ClientFormatType.php');
+
+require_once('FormatType.php');
 
 /**
- * Client Request.
+ * Client Request for OData provider.
  *
  */
 class ClientRequest
 {
 
     /**
-     * @var string
+     * @var ClientContext
      */
-    private $baseUrl;
+    private $context;
 
     /**
      * @var ContextWebInformation
      */
     private $contextWebInformation;
 
+    /**
+     * @var array
+     */
     private $defaultHeaders;
 
-
+    /**
+     * @var int
+     */
     private $formatType;
 
+    /**
+     * @var array
+     */
+    private $queries = array();
 
-	public function __construct($url, AuthenticationContext $authContext)
+    /**
+     * @var array
+     */
+    private $resultObjects = array();
+
+    /**
+     * ClientRequest constructor.
+     * @param ClientContext $context
+     */
+    public function __construct(ClientContext $context)
     {
-        $this->baseUrl = $url;
-        $this->authContext = $authContext;
+        $this->context = $context;
         $this->defaultHeaders = array();
-        $this->formatType = ClientFormatType::Json;
+        $this->formatType = FormatType::Json;
     }
+
+    public static function create($url, AuthenticationContext $authContext) {
+        $ctx = new ClientContext($url,$authContext);
+        return new ClientRequest($ctx);
+    }
+
+
+
+    public function addQuery(ClientAction $query, $resultObject=null)
+    {
+        if(isset($resultObject)){
+            $queryId = $query->getId();
+            $this->resultObjects[$queryId] = $resultObject;
+        }
+        $this->queries[] = $query;
+    }
+
     
     public function executeQueryDirect($options)
     {
@@ -47,7 +81,7 @@ class ClientRequest
         }
 
         //authenticate request
-        $this->authContext->authenticateRequest($options);
+        $this->context->authenticateRequest($options);
         
         if(!empty($options["data"]) or array_key_exists('X-HTTP-Method',$options["headers"])){
             $this->ensureFormDigest();
@@ -61,81 +95,112 @@ class ClientRequest
     }
 
 	/**
-	 * Submit REST query to SharePoint REST endpoint
-	 * @param ClientQuery $query
+	 * Submit client request to SharePoint OData/SOAP service
 	 * @throws Exception
 	 * @return mixed
 	 */
-    public function executeQuery(ClientQuery $query)
+    public function executeQuery()
     {
-        $options = $this->buildQuery($query);
-        $result = $this->executeQueryDirect($options);
-        if($query->getResponseFormatType() == ClientFormatType::Json)
-            return $this->processJsonResponse($result);
-        return $this->processXmlResponse($result);
-    }
-
-
-    function processXmlResponse($response){
-        $data = new stdClass;
-        $data->d->results = array();
-
-        $xml = simplexml_load_string($response);
-        $xml->registerXPathNamespace('z', '#RowsetSchema');
-        $rows = $xml->xpath("//z:row");
-        foreach($rows as $row) {
-            $item = new stdClass;
-            foreach($row->attributes() as $k => $v) {
-                $normalizedFieldName = str_replace('ows_','',$k);
-                $item->{$normalizedFieldName} = (string)$v;
-                $item->__metadata->type = "SP.ListItem";
+        foreach ($this->queries as $qry) {
+            $request = $this->buildRequest($qry);
+            $response = array(
+                "Result" => $this->executeQueryDirect($request),
+                "QueryId" => $qry->getId()
+            );
+            if($qry->getDataFormatType() == FormatType::Json){
+                $this->processJsonResponse($response);
             }
-            $data->d->results[] = $item;
+            else
+              $this->processXmlResponse($response);
         }
-        return $data;
-    }
-
-    private function processJsonResponse($response){
-        $json = json_decode($response);
-        //handle errors
-        if (isset($json->error)) {
-            throw new \RuntimeException("Error: " . $json->error->message->value);
-        }
-        return $json;
+        $this->queries = array();
     }
 
 
-    private function buildQuery(ClientQuery $query){
-        $operationType = $query->getActionType();
+    private function buildRequest(ClientAction $qry){
+        $operationType = $qry->getMethodType();
 
         $requestOptions = array(
-            'url' => $query->getResourceUrl(),
-            'data' => $query->preparePayload(),
+            'url' =>  $qry->getResourceUrl(),
             'headers' => array(),
-            'method' => $operationType == ClientActionType::Read ? 'GET' : 'POST'
+            'data' => null,
+            'method' => $operationType == HttpMethod::Get ? 'GET' : 'POST'
         );
-        
-        if ($operationType == ClientActionType::Update) {
+
+        $data = $qry->getData();
+        if(isset($data)){
+            $requestOptions["data"] = $data;
+        }
+
+        if ($operationType == HttpMethod::Merge) {
             $requestOptions['headers']["IF-MATCH"] = "*";
             $requestOptions['headers']["X-HTTP-Method"] = "MERGE";
-        } else if ($operationType == ClientActionType::Delete) {
+        } else if ($operationType == HttpMethod::Delete) {
             $requestOptions['headers']["IF-MATCH"] = "*";
             $requestOptions['headers']["X-HTTP-Method"] = "DELETE";
         }
         return $requestOptions;
     }
 
+    function addQueryAndResultObject(ClientObject $clientObject)
+    {
+        //if( !in_array( $clientObject ,$this->resultObjects ) ) {
+            $qry = new ClientActionReadEntity($clientObject->getResourceUrl());
+            $this->addQuery($qry,$clientObject);
+        //}
+    }
+
+    function processXmlResponse($response){
+        $queryId = $response["QueryId"];
+        $resultObject = $this->resultObjects[$queryId];
+        if($resultObject instanceof ListItemCollection){
+            $xml = simplexml_load_string($response["Result"]);
+            $xml->registerXPathNamespace('z', '#RowsetSchema');
+            $rows = $xml->xpath("//z:row");
+            foreach($rows as $row) {
+                $item = new ListItem($resultObject->getContext(),$resultObject->getResourcePath());
+                foreach($row->attributes() as $k => $v) {
+                    $normalizedFieldName = str_replace('ows_','',$k);
+                    $item->setProperty($normalizedFieldName,(string)$v);
+                }
+                $resultObject->addChild($item);
+            }
+        }
+    }
+
+    private function processJsonResponse($response)
+    {
+        $content = json_decode($response["Result"]);
+        if (empty($content))
+            return;
+
+        //handle errors
+        if (isset($content->error)) {
+            throw new \RuntimeException("Error: " . $content->error->message->value);
+        }
+
+        $queryId = $response["QueryId"];
+        if (array_key_exists($queryId, $this->resultObjects)) {
+            $resultObject = $this->resultObjects[$queryId];
+            if ($resultObject instanceof ClientObject || $resultObject instanceof ClientValueObject) {
+                $resultObject->fromJson($content->d);
+            }
+        }
+    }
 
     private function prepareHeaders($options)
     {
         $headers = array();
-        $this->addHeader($headers, "Accept", "application/json; odata=verbose");
-        $this->addHeader($headers, "Content-type", "application/json; odata=verbose");
 
-
+        if (!array_key_exists('Accept', $options))
+            $this->addHeader($headers, "Accept", "application/json; odata=verbose");
+        if (!array_key_exists('Content-type', $options))
+            $this->addHeader($headers, "Content-type", "application/json; odata=verbose");
+        
         foreach ($options as $key => $value) {
             $this->addHeader($headers, $key, $value);
         }
+        
         return $headers;
     }
 
@@ -160,16 +225,16 @@ class ClientRequest
     protected function requestFormDigest()
     {
         $options = array(
-            'url' => $this->baseUrl . "/_api/contextinfo",
+            'url' => $this->context->getUrl() . "/_api/contextinfo",
             'headers' => $this->defaultHeaders
         );
         //authenticate request
-        $this->authContext->authenticateRequest($options);
+        $this->context->authenticateRequest($options);
 
-        $response = Requests::post($options['url'],$this->prepareHeaders($options['headers']));
-        $json = $this->processJsonResponse($response);
+        $content = Requests::post($options['url'],$this->prepareHeaders($options['headers']));
+        $data = json_decode($content);
         $this->contextWebInformation = new ContextWebInformation();
-        $this->contextWebInformation->fromJson($json->d->GetContextWebInformation);
+        $this->contextWebInformation->fromJson($data);
     }
 
 }

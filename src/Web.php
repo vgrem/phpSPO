@@ -14,13 +14,13 @@ class Web extends SecurableObject
 
     public function update()
     {
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Update,$this);
+        $qry = new ClientActionUpdateEntity($this->getResourceUrl(),$this->toJson());
         $this->getContext()->addQuery($qry,$this);
     }
 
     public function deleteObject()
     {
-        $qry = new ClientQuery($this->getUrl(),ClientActionType::Delete);
+        $qry = new ClientActionDeleteEntity($this->getResourceUrl());
         $this->getContext()->addQuery($qry);
         //$this->removeFromParentCollection();
     }
@@ -33,8 +33,11 @@ class Web extends SecurableObject
      */
     public function getChanges(ChangeQuery $query)
     {
-        $changes = new ChangeCollection($this->getContext());
-        $qry = new ClientQuery($this->getUrl() . "/getchanges",ClientActionType::PostRead,$query);
+        $changes = new ChangeCollection(
+            $this->getContext(),
+            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"GetChanges")
+        );
+        $qry = new ClientAction($changes->getResourceUrl(),$query->toJson(),HttpMethod::Post);
         $this->getContext()->addQuery($qry,$changes);
         return $changes;
     }
@@ -48,9 +51,9 @@ class Web extends SecurableObject
     public function getLists()
     {
         if(!$this->isPropertyAvailable('Lists')){
-            $this->Lists = new ListCollection($this->getContext(),$this->getResourcePath(),"lists");
+            $this->setProperty("Lists", new ListCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"Lists")));
         }
-        return $this->Lists;
+        return $this->getProperty("Lists");
     }
 
     /**
@@ -61,9 +64,9 @@ class Web extends SecurableObject
     public function getWebs()
     {
         if(!$this->isPropertyAvailable('Webs')){
-            $this->Webs = new WebCollection($this->getContext(),$this->getResourcePath(),"webs");
+            $this->setProperty("Webs", new WebCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"webs")));
         }
-        return $this->Webs;
+        return $this->getProperty("Webs");
     }
 
     /**
@@ -73,9 +76,9 @@ class Web extends SecurableObject
     public function getFields()
     {
         if(!$this->isPropertyAvailable('Fields')){
-            $this->Fields = new FieldCollection($this->getContext(),$this->getResourcePath(),"fields");
+            $this->setProperty("Fields", new FieldCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"fields")));
         }
-        return $this->Fields;
+        return $this->getProperty("Fields");
     }
 
     /**
@@ -85,7 +88,7 @@ class Web extends SecurableObject
     public function getFolders()
     {
         if(!isset($this->Folders)){
-            $this->Folders = new FolderCollection($this->getContext(),$this->getResourcePath(),"folders");
+            $this->Folders = new FolderCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"folders"));
         }
         return $this->Folders;
     }
@@ -98,7 +101,7 @@ class Web extends SecurableObject
     public function getSiteUsers()
     {
         if(!isset($this->SiteUsers)){
-            $this->SiteUsers = new UserCollection($this->getContext(),$this->getResourcePath(),"siteusers");
+            $this->SiteUsers = new UserCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"siteusers"));
         }
         return $this->SiteUsers;
     }
@@ -111,9 +114,9 @@ class Web extends SecurableObject
     public function getSiteGroups()
     {
         if(!isset($this->SiteGroups)){
-            $this->SiteGroups = new GroupCollection($this->getContext(),$this->getResourcePath(),"sitegroups");
+            $this->setProperty("SiteGroups", new GroupCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"sitegroups")));
         }
-        return $this->SiteGroups;
+        return $this->getProperty("SiteGroups");
     }
 
     
@@ -123,10 +126,10 @@ class Web extends SecurableObject
      */
     public function getRoleDefinitions()
     {
-        if(!isset($this->RoleDefinitions)){
-            $this->RoleDefinitions = new RoleDefinitionCollection($this->getContext(),$this->getResourcePath(),"roledefinitions");
+        if(!$this->isPropertyAvailable('RoleDefinitions')){
+            $this->setProperty("RoleDefinitions", new RoleDefinitionCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"roledefinitions")));
         }
-        return $this->RoleDefinitions;
+        return $this->getProperty("RoleDefinitions");
     }
 
 
@@ -137,7 +140,7 @@ class Web extends SecurableObject
     public function getUserCustomActions()
     {
         if(!$this->isPropertyAvailable('UserCustomActions')){
-            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext()));
+            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"UserCustomActions")));
         }
         return $this->getProperty("UserCustomActions");
     }
@@ -149,7 +152,7 @@ class Web extends SecurableObject
     public function getCurrentUser()
     {
         if(!$this->isPropertyAvailable('CurrentUser')){
-            $this->setProperty("CurrentUser", new User($this->getContext(),$this->getResourcePath(),"CurrentUser"));
+            $this->setProperty("CurrentUser", new User($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"CurrentUser")));
         }
         return $this->getProperty("CurrentUser");
     }
@@ -160,8 +163,10 @@ class Web extends SecurableObject
      * @return File
      */
     public function getFileByServerRelativeUrl($serverRelativeUrl){
-        $encServerRelativeUrl = rawurlencode($serverRelativeUrl);
-        $file = new File($this->getContext(),$this->getResourcePath(),"getfilebyserverrelativeurl('$encServerRelativeUrl')");
+        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getfilebyserverrelativeurl",array(
+            rawurlencode($serverRelativeUrl) 
+        ));
+        $file = new File($this->getContext(),$path);
         return $file;
     }
 
@@ -171,8 +176,10 @@ class Web extends SecurableObject
      * @return Folder
      */
     public function getFolderByServerRelativeUrl($serverRelativeUrl){
-        $encServerRelativeUrl = rawurlencode($serverRelativeUrl);
-        $folder = new Folder($this->getContext(),$this->getResourcePath(),"getfolderbyserverrelativeurl('$encServerRelativeUrl')");
+        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getfolderbyserverrelativeurl",array(
+            rawurlencode($serverRelativeUrl)
+        ));
+        $folder = new Folder($this->getContext(),$path);
         return $folder;
     }
     

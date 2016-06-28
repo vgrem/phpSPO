@@ -2,10 +2,11 @@
 
 namespace SharePoint\PHP\Client\UserProfiles;
 
-use SharePoint\PHP\Client\ClientActionType;
+use SharePoint\PHP\Client\ClientActionUpdateMethod;
 use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ClientObject;
-use SharePoint\PHP\Client\ClientQuery;
+use SharePoint\PHP\Client\ResourcePathEntity;
+use SharePoint\PHP\Client\ResourcePathServiceOperation;
 
 require_once('PersonProperties.php');
 
@@ -13,7 +14,7 @@ class PeopleManager extends ClientObject
 {
     public function __construct(ClientContext $ctx)
     {
-        parent::__construct($ctx,null,"sp.userprofiles.peoplemanager");
+        parent::__construct($ctx,new ResourcePathEntity($ctx,null,"sp.userprofiles.peoplemanager"));
     }
 
     /**
@@ -21,7 +22,10 @@ class PeopleManager extends ClientObject
      * @return PersonProperties
      */
     public function getMyProperties(){
-        return new PersonProperties($this->getContext(),$this->getResourcePath(),"getmyproperties");
+        return new PersonProperties(
+            $this->getContext(),
+            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getmyproperties")
+        );
     }
 
 
@@ -30,7 +34,10 @@ class PeopleManager extends ClientObject
      * @return PersonProperties
      */
     public function getMyFollowers(){
-        return new PersonProperties($this->getContext(),$this->getResourcePath(),"getmyfollowers");
+        return new PersonProperties(
+            $this->getContext(),
+            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getmyfollowers")
+        );
     }
 
 
@@ -39,7 +46,7 @@ class PeopleManager extends ClientObject
      * @param $accountName
      */
     public function follow($accountName){
-        $qry = new ClientQuery($this->getUrl() . "/follow(@v)?@v='$accountName'", ClientActionType::Update);
+        $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "follow",array($accountName));
         $this->getContext()->addQuery($qry);
     }
 

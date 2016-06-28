@@ -1,7 +1,7 @@
 <?php
 
 namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataQueryOptions;
+
 
 /**
  * Base client object 
@@ -9,33 +9,46 @@ use SharePoint\PHP\Client\Runtime\ODataQueryOptions;
 abstract class ClientObject
 {
 
+    /**
+     * @var string
+     */
     protected $resourceType;
 
+    /**
+     * @var ClientContext
+     */
     private $ctx;
 
+    /**
+     * @var string
+     */
     private $serviceRootUrl;
 
+    /**
+     * @var ResourcePath
+     */
     protected $resourcePath;
 
-    protected $parentResourcePath;
-
-    protected $queryOptions;
-
+    /**
+     * @var array
+     */
     private $properties = array();
 
+    /**
+     * @var array
+     */
     private $changed_properties = array();
 
     /**
      * @var ClientObjectCollection
      */
     protected $parentCollection;
-
-    public function __construct(ClientContext $ctx, $parentResourcePath = null, $resourcePath = null)
+    
+    public function __construct(ClientContext $ctx, ResourcePath $resourcePath)
     {
         $this->ctx = $ctx;
         $this->resourcePath = $resourcePath;
-        $this->parentResourcePath = $parentResourcePath;
-        $this->queryOptions = new ODataQueryOptions();
+        $this->serviceRootUrl = $ctx->getServiceRootUrl();
     }
 
 
@@ -53,58 +66,31 @@ abstract class ClientObject
     }
 
 
-    /**
-     * Gets the service root URL that identifies the root of an OData service
-     * @return string
-     */
-    protected function getServiceRootUrl()
+    public function getServiceRootUrl()
     {
-        if (!isset($this->serviceRootUrl)) {
-            $this->serviceRootUrl = $this->getContext()->getUrl() . ClientContext::$ServicePath;
-        }
         return $this->serviceRootUrl;
     }
 
 
     /**
      * Resolve the resource path
-     * @return string
+     * @return ResourcePath
      */
     public function getResourcePath()
     {
-        $path = $this->resourcePath;
-        if (!isset($path)) {
-            $typeNames = explode("\\", get_class($this));
-            $path = strtolower(end($typeNames));
-        }
-        if (isset($this->parentResourcePath)) {
-            $path = $this->parentResourcePath . "/" . $path;
-        }
-        return $path;
-    }
-
-    /**
-     * Gets resource uri
-     * @return string
-     */
-    public function getUrl()
-    {
-        $url = $this->getServiceRootUrl() . $this->getResourcePath();
-        $queryOptionsUrl = $this->getQueryOptionsUrl();
-        if (!empty($queryOptionsUrl))
-            $url = $url . "?" . $queryOptionsUrl;
-        return $url;
+        return $this->resourcePath;
     }
 
 
     /**
-     * @return string
+     * Resolve the resource path
+     * @return ResourcePath
      */
-    public function getQueryOptionsUrl()
+    public function getResourceUrl()
     {
-        return $this->queryOptions->toUrl();
+        return $this->serviceRootUrl . $this->getResourcePath()->toUrl();
     }
-
+    
 
     /**
      * Gets entity type name for a resource
@@ -119,7 +105,7 @@ abstract class ClientObject
     }
 
 
-    public static function createTypedObject(ClientContext $ctx, \stdClass $properties)
+    public static function createTypedObject(ClientContext $ctx, ClientObject $parentClientObject,  \stdClass $properties)
     {
         $typeParts = explode(".", $properties->__metadata->type);
         $entityName = $typeParts[1];
@@ -132,7 +118,7 @@ abstract class ClientObject
         }
 
         $clientObjectType = self::resolveClientObjectType($entityName);
-        $clientObject = new $clientObjectType($ctx);
+        $clientObject = new $clientObjectType($ctx,new ResourcePathEntity($ctx,$parentClientObject->getResourcePath(),$entityName));
         $clientObject->initClientObjectProperties($properties);
         return $clientObject;
     }
@@ -158,7 +144,7 @@ abstract class ClientObject
             $this->clearData();
             if (isset($properties->results)) {
                 foreach ($properties->results as $item) {
-                    $clientObject = ClientObject::createTypedObject($ctx, $item);
+                    $clientObject = ClientObject::createTypedObject($ctx,$this, $item);
                     $this->addChild($clientObject);
                 }
             }
@@ -248,11 +234,11 @@ abstract class ClientObject
      * A preferred way of setting the client object property
      * @param $name
      * @param $value
-     * @param bool $trackChanges
+     * @param bool $persistChanges
      */
-    public function setProperty($name, $value, $trackChanges = true)
+    public function setProperty($name, $value, $persistChanges = true)
     {
-        if ($trackChanges) {
+        if ($persistChanges) {
             $this->changed_properties[$name] = $value;
         }
         $this->{$name} = $value;
@@ -264,8 +250,7 @@ abstract class ClientObject
         if ($name == '__metadata') {
             $uriParts = explode(ClientContext::$ServicePath, strtolower($value->uri));
             $this->serviceRootUrl = $uriParts[0] . ClientContext::$ServicePath;
-            $this->resourcePath = $uriParts[1];
-            $this->parentResourcePath = null;
+            $this->resourcePath = ResourcePath::parse($this->getContext(),$uriParts[1]);
             $this->resourceType = $value->type;
         }
         $this->properties[$name] = $value;

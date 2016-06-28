@@ -33,14 +33,42 @@ class WebTest extends SharePointTestCase
         return $targetWeb;
     }
 
+
+    /**
+     * @depends testCreateWeb
+     * @param \SharePoint\PHP\Client\Web $targetWeb
+     * @return \SharePoint\PHP\Client\Web
+     */
+    public function testUpdateWeb(\SharePoint\PHP\Client\Web $targetWeb)
+    {
+        $ctx = $targetWeb->getContext();
+        $targetWeb->setProperty("Description",$targetWeb->getProperty("Title"));
+        $targetWeb->update();
+        $ctx->executeQuery();
+
+        /*$key = $targetWeb->getProperty("Description");
+        $webs = $ctx->getWeb()->getWebs()->filter("Description eq '$key'");
+        $ctx->load($webs);
+        $ctx->executeQuery();
+        $this->assertCount(1,$webs->getData());*/
+
+        return $targetWeb;
+    }
+
     /**
      * @depends testCreateWeb
      * @param \SharePoint\PHP\Client\Web $targetWeb
      */
     public function testTryDeleteWeb(\SharePoint\PHP\Client\Web $targetWeb){
+        $title = $targetWeb->getProperty("Title");
         $ctx = $targetWeb->getContext();
         $targetWeb->deleteObject();
         $ctx->executeQuery();
+
+        $webs = $ctx->getWeb()->getWebs()->filter("Title eq '$title'");
+        $ctx->load($webs);
+        $ctx->executeQuery();
+        $this->assertCount(0,$webs->getData());
     }
 
 

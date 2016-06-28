@@ -1,6 +1,5 @@
 <?php
 
-use SharePoint\PHP\Client\PrincipalType;
 
 require_once('SharePointTestCase.php');
 require_once('TestUtilities.php');
