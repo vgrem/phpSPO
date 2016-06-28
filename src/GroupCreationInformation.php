@@ -23,5 +23,7 @@ class GroupCreationInformation extends ClientValueObject
     {
         $this->Title = $title;
         $this->Description = "";
+        $this->setMetadataType("SP.Group");
     }
+    
 }

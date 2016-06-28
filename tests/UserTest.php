@@ -16,7 +16,7 @@ class UserTest extends SharePointTestCase
 
     public function testUpdateCurrentUser()
     {
-        $userPrefId = rand(1,10000);
+        $userPrefId = "123"; //rand(1,10000);
         $emailAddress = "tester$userPrefId@contoso.microsoft.com";
         $curUser = self::$context->getWeb()->getCurrentUser();
         $curUser->setProperty("Email",$emailAddress);
@@ -26,5 +26,15 @@ class UserTest extends SharePointTestCase
         self::$context->load($curUser);
         self::$context->executeQuery();
         $this->assertEquals($curUser->getProperty("Email"),$emailAddress);
+    }
+
+    public function testCreateGroup()
+    {
+        $groupName = "TestGroup_"  . rand(1,10000);
+        $info = new \SharePoint\PHP\Client\GroupCreationInformation($groupName);
+        $group = self::$context->getWeb()->getSiteGroups()->add($info);
+        //self::$context->load($group);
+        self::$context->executeQuery();
+        $this->assertNotNull($group->getProperty("LoginName"));
     }
 }
