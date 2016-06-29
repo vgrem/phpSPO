@@ -2,33 +2,32 @@
 
 
 namespace SharePoint\PHP\Client\Runtime;
-use ReflectionClass;
-use ReflectionProperty;
+
 
 /**
- * Represents the raw query values in the string format from the incoming request.
+ * Represents the OData raw query values in the string format from the incoming request.
  */
 class QueryOptions
 {
 
+    public function isEmpty(){
+        return (count($this->getProperties()) == 0);
+    }
+
     public function toUrl()
     {
-        $reflection = new ReflectionClass($this);
-        $allProps   = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
-        $props = array_filter($allProps,
-            function ($p) {
-                $n = $p->getName();
-                return isset($this->{$n});
-            });
-
         $url = implode('&',array_map(
-            function ($p) {
-                $k = "\$" . strtolower($p->getName());
-                $v = $this->{$p->getName()};
-                return "$k=$v";
-            },$props) 
+                function ($key,$val) {
+                    $key = "\$" . strtolower($key);
+                    return "$key=$val";
+                },array_keys($this->getProperties()),$this->getProperties())
         );
         return $url;
+    }
+
+
+    private function getProperties(){
+        return array_filter((array) $this);
     }
 
     public $Select;

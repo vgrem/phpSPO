@@ -51,27 +51,25 @@ class ODataPathParser
      * @param array $methodParameters
      * @return string
      */
-    public static function fromMethod($methodName, array $methodParameters = null){
+    public static function fromMethod($methodName, array $methodParameters = null)
+    {
         $url = isset($methodName) ? $methodName : "";
-        if(!isset($methodParameters))
+        if (!isset($methodParameters))
             return $url;
 
-        if(count(array_filter(array_keys($methodParameters), 'is_string')) == 0){
-            if(isset($methodParameters)){
-                $url = $url . "(" . implode(',',array_map(
-                            function ($value) {
-                                $encValue = self::urlEscape($value);
-                                return "$encValue";
-                            },$methodParameters)
-                    ) . ")";
-            }
-        }
-        else {
-            $url = $url . "(" . implode(',',array_map(
-                        function ($key,$value) {
+        if (count(array_filter(array_keys($methodParameters), 'is_string')) == 0) {
+            $url = $url . "(" . implode(',', array_map(
+                        function ($value) {
+                            $encValue = self::urlEscape($value);
+                            return "$encValue";
+                        }, $methodParameters)
+                ) . ")";
+        } else {
+            $url = $url . "(" . implode(',', array_map(
+                        function ($key, $value) {
                             $encValue = self::urlEscape($value);
                             return "$key=$encValue";
-                        },array_keys($methodParameters),$methodParameters)
+                        }, array_keys($methodParameters), $methodParameters)
                 ) . ")";
         }
         return $url;

@@ -46,7 +46,7 @@ class ClientObjectCollection extends ClientObject
     public function getResourceUrl()
     {
         $url = parent::getResourceUrl();
-        if (!empty($this->queryOptions))
+        if (!$this->queryOptions->isEmpty())
             $url = $url . "?" . $this->queryOptions->toUrl();
         return $url;
     }
