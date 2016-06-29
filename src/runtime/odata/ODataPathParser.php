@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vgrem
- * Date: 6/28/2016
- * Time: 10:35 PM
- */
+
 
 namespace SharePoint\PHP\Client\Runtime;
 
@@ -60,14 +55,14 @@ class ODataPathParser
         if (count(array_filter(array_keys($methodParameters), 'is_string')) == 0) {
             $url = $url . "(" . implode(',', array_map(
                         function ($value) {
-                            $encValue = self::urlEscape($value);
+                            $encValue = self::escapeValue($value);
                             return "$encValue";
                         }, $methodParameters)
                 ) . ")";
         } else {
             $url = $url . "(" . implode(',', array_map(
                         function ($key, $value) {
-                            $encValue = self::urlEscape($value);
+                            $encValue = self::escapeValue($value);
                             return "$key=$encValue";
                         }, array_keys($methodParameters), $methodParameters)
                 ) . ")";
@@ -76,7 +71,7 @@ class ODataPathParser
     }
 
 
-    private static function urlEscape($value){
+    private static function escapeValue($value){
         if(is_string($value))
             $value = "'" . $value . "'";
         elseif (is_bool($value))

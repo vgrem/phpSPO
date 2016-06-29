@@ -69,6 +69,8 @@ require_once('RecycleBinItem.php');
 require_once('RecycleBinItemCollection.php');
 require_once('FileVersion.php');
 require_once('FileVersionCollection.php');
+require_once('ContentType.php');
+require_once('ContentTypeCollection.php');
 require_once('Change.php');
 require_once('ChangeFile.php');
 require_once('ChangeFolder.php');

@@ -17,22 +17,29 @@ class ListTest extends SharePointTestCase
         return $list;
     }
 
+
     /**
      * @depends testIfListCreated
      * @param \SharePoint\PHP\Client\SPList $list
      */
-    public function testListPermissions(\SharePoint\PHP\Client\SPList $list){
+    public function testAssignUniquePermissions(\SharePoint\PHP\Client\SPList $list){
+        $list->breakRoleInheritance(true);
+        //$list->update();
+        self::$context->executeQuery();
+
+    }
+
+
+    /**
+     * @depends testIfListCreated
+     * @param \SharePoint\PHP\Client\SPList $list
+     */
+    public function testVerifyListPermissions(\SharePoint\PHP\Client\SPList $list){
         //1. retrieve current user
         $currentUser = self::$context->getWeb()->getCurrentUser();
         self::$context->load($currentUser);
         self::$context->executeQuery();
 
-        
-        
-        //2. assign unique permissions for a list 
-        //$list->breakRoleInheritance(false,true);
-        //$list->update();
-        //self::$context->executeQuery();
         
         //3. verify list permissions
         $loginName = $currentUser->getProperty("LoginName");

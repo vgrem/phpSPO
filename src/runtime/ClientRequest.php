@@ -79,11 +79,14 @@ class ClientRequest
         if (!isset($options["headers"])) {
             $options["headers"] = [];
         }
+        if (!isset($options["method"])) {
+            $options["method"] = "GET";
+        }
 
-        //authenticate request
         $this->context->authenticateRequest($options);
         
-        if(!empty($options["data"]) or array_key_exists('X-HTTP-Method',$options["headers"])){
+        //if(!empty($options["data"]) or array_key_exists('X-HTTP-Method',$options["headers"])){
+        if(!empty($options["data"]) or $options["method"] == "POST"){
             $this->ensureFormDigest();
             $options["headers"]["X-RequestDigest"] = $this->contextWebInformation->FormDigestValue;
             $result = Requests::post($options["url"],$this->prepareHeaders($options["headers"]),$options["data"]);

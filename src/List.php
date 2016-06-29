@@ -34,21 +34,22 @@ class SPList extends SecurableObject
      */
     public function getItemById($id)
     {
-        return new ListItem($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items({$id})"));
+        return new ListItem(
+            $this->getContext(),
+            new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items({$id})")
+        );
     }
 
     /**
      * Creates unique role assignments for the securable object.
      * @param bool $copyRoleAssignments
-     * @param bool $clearSubScopes
      * @throws \Exception
      */
-    public function breakRoleInheritance($copyRoleAssignments, $clearSubScopes)
+    public function breakRoleInheritance($copyRoleAssignments)
     {
-        $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"breakroleinheritance",array(
-            $copyRoleAssignments,
-            $clearSubScopes
-        ));
+        $qry = new ClientActionInvokeMethod($this->getResourceUrl(),"breakroleinheritance",array(
+            $copyRoleAssignments
+        ),HttpMethod::Post);
         $this->getContext()->addQuery($qry);
     }
 
@@ -135,6 +136,18 @@ class SPList extends SecurableObject
         $qry = new ClientAction($changes->getResourceUrl(),$query->toJson(),HttpMethod::Post);
         $this->getContext()->addQuery($qry,$changes);
         return $changes;
+    }
+
+
+    /**
+     * @return ContentTypeCollection
+     */
+    public function getContentTypes()
+    {
+        if(!$this->isPropertyAvailable('ContentTypes')){
+            $this->setProperty("ContentTypes", new ContentTypeCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "ContentTypes")),false);
+        }
+        return $this->getProperty("ContentTypes");
     }
 
 
