@@ -25,6 +25,13 @@ class PageTest extends SharePointTestCase
         self::$targetPage = self::$context->getWeb()->getFileByServerRelativeUrl($pageUrl);
         self::$context->load(self::$targetPage);
         self::$context->executeQuery();
+        //ensure whether the file is checked out to start tests
+        if(self::$targetPage->getCheckOutType() == \SharePoint\PHP\Client\CheckOutType::None)
+        {
+            self::$targetPage->checkOut();
+            self::$context->executeQuery();
+        }
+
     }
 
     public static function tearDownAfterClass()
@@ -32,6 +39,30 @@ class PageTest extends SharePointTestCase
         parent::tearDownAfterClass();
     }
 
+
+    public function testUndoCheckoutPage(){
+
+        self::$targetPage->undoCheckout();
+        self::$context->load(self::$targetPage);
+        self::$context->executeQuery();
+        $this->assertEquals(\SharePoint\PHP\Client\CheckOutType::None,self::$targetPage->getCheckOutType());
+    }
+
+
+    public function testCheckOutPage(){
+        self::$targetPage->checkOut();
+        self::$context->load(self::$targetPage);
+        self::$context->executeQuery();
+        $this->assertEquals(\SharePoint\PHP\Client\CheckOutType::Online,self::$targetPage->getCheckOutType());
+    }
+
+
+    public function testCheckInPage(){
+        self::$targetPage->checkIn("Modified.");
+        self::$context->load(self::$targetPage);
+        self::$context->executeQuery();
+        $this->assertEquals(\SharePoint\PHP\Client\CheckOutType::None,self::$targetPage->getCheckOutType());
+    }
 
 
     public function testListWebParts()

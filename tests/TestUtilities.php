@@ -6,6 +6,11 @@ use SharePoint\PHP\Client\ListCreationInformation;
 
 class TestUtilities
 {
+    
+    
+    public static function createUniqueName($prefix){
+        return  $prefix . "_" . rand(1, 100000);
+    }
 
 
     public static function createWeb(SharePoint\PHP\Client\ClientContext $ctx,$webUrl)
@@ -50,12 +55,28 @@ class TestUtilities
     }
 
 
+    /**
+     * @param ClientContext $ctx
+     * @param $listTitle
+     * @param $type
+     * @return \SharePoint\PHP\Client\SPList
+     */
     public static function createList(ClientContext $ctx,$listTitle,$type){
         $info = new ListCreationInformation($listTitle);
         $info->BaseTemplate = $type;
         $list = $ctx->getWeb()->getLists()->add($info);
         $ctx->executeQuery();
         return $list;
+    }
+
+
+    /**
+     * @param \SharePoint\PHP\Client\SPList $list
+     */
+    public static function deleteList(\SharePoint\PHP\Client\SPList $list){
+        $ctx = $list->getContext();
+        $list->deleteObject();
+        $ctx->executeQuery();
     }
 
 

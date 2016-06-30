@@ -25,6 +25,7 @@ require_once('Folder.php');
 require_once('Web.php');
 require_once('Site.php');
 require_once('FieldType.php');
+require_once('CheckOutType.php');
 require_once('Field.php');
 require_once('FieldLookup.php');
 require_once('FieldText.php');

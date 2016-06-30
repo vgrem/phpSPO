@@ -15,7 +15,7 @@ class ListItemTest extends SharePointTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        $listTitle = "Orders_" . rand(1, 100000);
+        $listTitle = TestUtilities::createUniqueName("Orders");
         self::$targetList = TestUtilities::ensureList(self::$context, $listTitle, \SharePoint\PHP\Client\ListTemplateType::Tasks);
     }
 

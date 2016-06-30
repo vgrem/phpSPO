@@ -15,7 +15,7 @@ class File extends SecurableObject
       * Checks out the file from a document library based on the check-out type.
       */
      public function checkOut(){
-          $qry = new ClientActionUpdateMethod($this,"checkout");
+          $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"checkout");
           $this->getContext()->addQuery($qry);
      }
 
@@ -24,7 +24,7 @@ class File extends SecurableObject
       * Reverts an existing checkout for the file.
       */
      public function undoCheckout(){
-          $qry = new ClientActionUpdateMethod($this,"undocheckout");
+          $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"undocheckout");
           $this->getContext()->addQuery($qry);
      }
 
@@ -34,7 +34,7 @@ class File extends SecurableObject
       * @param string $comment A comment for the check-in. Its length must be <= 1023.
       */
      public function checkIn($comment){
-          $qry = new ClientActionUpdateMethod($this,"checkIn",array(
+          $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"checkIn",array(
               "comment" =>$comment,
               "checkintype" =>0
           ));
@@ -204,5 +204,17 @@ class File extends SecurableObject
                $this->setProperty("Versions", new FileVersionCollection($this->getContext(),$this->getResourcePath(), "Versions"));
           }
           return $this->getProperty("Versions");
+     }
+
+     /**
+      * Gets a value that indicates how the file is checked out of a document library
+      * @return int|null
+      */
+     public function getCheckOutType()
+     {
+          if($this->isPropertyAvailable('CheckOutType')){
+               return $this->getProperty("CheckOutType");
+          }
+          return null;
      }
 }
