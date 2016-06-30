@@ -32,14 +32,14 @@ class FileTest extends SharePointTestCase
         $localPath = "../examples/data/";
         $searchPrefix = $localPath . '*.*';
         foreach(glob($searchPrefix) as $filename) {
-            $fileCreationInformation = array(
-                'Content' => file_get_contents($filename),
-                'Url' => basename($filename)
-            );
+            $fileCreationInformation = new \SharePoint\PHP\Client\FileCreationInformation();
+            $fileCreationInformation->Content = file_get_contents($filename);
+            $fileCreationInformation->Url = basename($filename);
+            $fileCreationInformation->Overwrite = true;
 
             $uploadFile = self::$targetList->getRootFolder()->getFiles()->add($fileCreationInformation);
             self::$context->executeQuery();
-            $this->assertEquals($uploadFile->getProperty("Name"),$fileCreationInformation["Url"]);
+            $this->assertEquals($uploadFile->getProperty("Name"),$fileCreationInformation->Url);
         }
     }
 

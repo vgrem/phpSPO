@@ -35,6 +35,22 @@ class ViewTest extends SharePointTestCase
     }
 
 
+    public function testCreateView()
+    {
+        $viewCreateInfo = new \SharePoint\PHP\Client\ViewCreationInformation();
+        $viewTitle = TestUtilities::createUniqueName("My Orders");
+        $viewCreateInfo->Title = $viewTitle;
+        self::$targetList->getViews()->add($viewCreateInfo);
+        self::$context->executeQuery();
+
+
+        $result = self::$targetList->getViews()->filter("Title eq '$viewTitle'");
+        self::$context->load($result);
+        self::$context->executeQuery();
+        $this->assertEquals(1, $result->getCount());
+    }
+
+
     
     
 

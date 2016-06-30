@@ -6,31 +6,53 @@ namespace SharePoint\PHP\Client;
 /**
  * Specifies the properties used to create a new list view.
  */
-class ViewCreationInformation
+class ViewCreationInformation extends ClientValueObject
 {
     /**
-     * The title of the view.
+     * @var string
      */
     public $Title;
 
+    /**
+     * @var bool
+     */
     public $Paged;
 
+    /**
+     * @var string
+     */
     public $PersonalView;
 
+    /**
+     * @var string
+     */
     public $Query;
 
+    /**
+     * @var int
+     */
     public $RowLimit;
 
+    /**
+     * @var bool
+     */
     public $SetAsDefaultView;
 
+    /**
+     * @var string
+     */
     public $ViewFields;
 
+    /**
+     * @var int
+     */
     public $ViewTypeKind;
 
 
     public function __construct()
     {
         $this->RowLimit = 30;
+        $this->setMetadataType("SP.View");
     }
 
 }

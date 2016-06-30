@@ -87,18 +87,21 @@ require_once('ChangeType.php');
 require_once('ChangeLogItemQuery.php');
 require_once('PermissionKind.php');
 require_once('BasePermissions.php');
+require_once('ViewCreationInformation.php');
 require_once('WebCreationInformation.php');
 require_once('GroupCreationInformation.php');
 require_once('ListCreationInformation.php');
 require_once('ListTemplateType.php');
 require_once('ListItemCollectionPosition.php');
 require_once('CamlQuery.php');
+require_once('FileCreationInformation.php');
 require_once('FieldCreationInformation.php');
 require_once('FieldLookupValue.php');
 require_once('FieldUrlValue.php');
 require_once('FieldUserValue.php');
 require_once('FieldGeolocationValue.php');
 require_once('webparts/LimitedWebPartManager.php');
+require_once('TemplateFileType.php');
 
 /**
  * Client context

@@ -107,10 +107,9 @@ function uploadFiles($localPath,\SharePoint\PHP\Client\SPList $targetList){
 
     $searchPrefix = $localPath . '*.*';
     foreach(glob($searchPrefix) as $filename) {
-        $fileCreationInformation = array(
-            'Content' => file_get_contents($filename),
-            'Url' => basename($filename)
-        );
+        $fileCreationInformation = new \SharePoint\PHP\Client\FileCreationInformation();
+        $fileCreationInformation->Content = file_get_contents($filename);
+        $fileCreationInformation->Url = basename($filename);
 
         $uploadFile = $targetList->getRootFolder()->getFiles()->add($fileCreationInformation);
         $ctx->executeQuery();

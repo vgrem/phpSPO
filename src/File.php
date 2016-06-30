@@ -217,4 +217,22 @@ class File extends SecurableObject
           }
           return null;
      }
+
+
+     /**
+      * Specifies the list item field (2) values for the list item corresponding to the file.
+      * @return ListItem
+      */
+     public function getListItemAllFields()
+     {
+          if (!$this->isPropertyAvailable("ListItemAllFields")) {
+               $this->setProperty("ListItemAllFields",
+                   new ListItem(
+                       $this->getContext(),
+                       new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ListItemAllFields")
+                   )
+               );
+          }
+          return $this->getProperty("ListItemAllFields");
+     }
 }

@@ -9,4 +9,20 @@ namespace SharePoint\PHP\Client;
 class FileCreationInformation extends ClientValueObject
 {
 
+    /**
+     * @var string
+     */
+    public $Url;
+
+    /**
+     * @var string
+     */
+    public $Content;
+
+    /**
+     * @var bool
+     */
+    public $Overwrite;
+
+
 }

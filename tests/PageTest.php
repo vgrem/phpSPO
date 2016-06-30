@@ -13,18 +13,23 @@ class PageTest extends SharePointTestCase
      */
     private static $targetPage;
 
+    /**
+     * @var \SharePoint\PHP\Client\SPList
+     */
+    private static $targetList;
+
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        $pagesListFolder = self::$context->getWeb()->getLists()->getByTitle("Pages")->getRootFolder();
-        self::$context->load($pagesListFolder);
-        self::$context->executeQuery();
+        $listTitle = TestUtilities::createUniqueName("Wiki");
+        self::$targetList = TestUtilities::ensureList(self::$context,$listTitle,\SharePoint\PHP\Client\ListTemplateType::WebPageLibrary);
+        $pageName = TestUtilities::createUniqueName("Wiki") . ".aspx";
+        self::$targetPage = TestUtilities::createWikiPage(self::$targetList,$pageName,"Welcome to site");
+        if(!self::$targetPage->isPropertyAvailable("CheckOutType")){
+            self::$context->load(self::$targetPage);
+            self::$context->executeQuery();
+        }
 
-
-        $pageUrl = $pagesListFolder->getProperty("ServerRelativeUrl") . "/default.aspx";
-        self::$targetPage = self::$context->getWeb()->getFileByServerRelativeUrl($pageUrl);
-        self::$context->load(self::$targetPage);
-        self::$context->executeQuery();
         //ensure whether the file is checked out to start tests
         if(self::$targetPage->getCheckOutType() == \SharePoint\PHP\Client\CheckOutType::None)
         {
@@ -36,6 +41,8 @@ class PageTest extends SharePointTestCase
 
     public static function tearDownAfterClass()
     {
+        self::$targetList->deleteObject();
+        self::$context->executeQuery();
         parent::tearDownAfterClass();
     }
 
