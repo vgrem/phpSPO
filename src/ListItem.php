@@ -49,4 +49,15 @@ class ListItem extends SecurableObject
         return $this->resourceType;
     }
 
+
+    /**
+     * @return AttachmentCollection
+     */
+    public function getAttachmentFiles(){
+        if(!$this->isPropertyAvailable('AttachmentFiles')){
+            $this->setProperty("AttachmentFiles", new AttachmentCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "AttachmentFiles")),false);
+        }
+        return $this->getProperty("AttachmentFiles");
+    }
+
 }
