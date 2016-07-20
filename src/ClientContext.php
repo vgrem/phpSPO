@@ -3,6 +3,7 @@
 namespace SharePoint\PHP\Client;
 
 require_once('runtime/utilities/EnumType.php');
+require_once('runtime/utilities/Guid.php');
 require_once('runtime/HttpMethod.php');
 require_once('runtime/ClientRequest.php');
 require_once('runtime/ContextWebInformation.php');
@@ -105,6 +106,9 @@ require_once('FieldLookupValue.php');
 require_once('FieldUrlValue.php');
 require_once('FieldUserValue.php');
 require_once('FieldGeolocationValue.php');
+require_once('RoleDefinitionCreationInformation.php');
+require_once('ContentTypeId.php');
+require_once('ContentTypeCreationInformation.php');
 require_once('webparts/LimitedWebPartManager.php');
 require_once('TemplateFileType.php');
 

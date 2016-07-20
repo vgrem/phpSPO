@@ -52,6 +52,9 @@ abstract class ClientObject
     }
 
 
+    /**
+     * @return ClientContext
+     */
     public function getContext()
     {
         return $this->ctx;
@@ -84,7 +87,7 @@ abstract class ClientObject
 
     /**
      * Resolve the resource path
-     * @return ResourcePath
+     * @return string
      */
     public function getResourceUrl()
     {

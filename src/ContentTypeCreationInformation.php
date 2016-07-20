@@ -8,6 +8,34 @@ namespace SharePoint\PHP\Client;
  */
 class ContentTypeCreationInformation extends ClientValueObject
 {
+    public function __construct()
+    {
+        $this->setMetadataType("SP.ContentType");
+    }
+
+
+    public function setParentId($parentId){
+        $this->ParentId = $parentId;
+    }
+
+
+    /**
+     * formula: Parent content type ID + "00" + hexadecimal GUID
+     * ref: https://msdn.microsoft.com/en-us/library/office/aa543822(v=office.14).aspx
+     * @return string
+     */
+    function toJson()
+    {
+        if(!isset($this->Id)){
+            if(isset($this->ParentId)){
+                $this->Id = new ContentTypeId();
+                $this->Id->StringValue = $this->ParentId . "00" . Guid::newGuid()->toString("N");
+            }
+        }
+        return parent::toJson();
+    }
+
+
     /**
      * Gets or sets a value that specifies the description of the content type that will be constructed.
      * @var string
@@ -23,7 +51,7 @@ class ContentTypeCreationInformation extends ClientValueObject
 
 
     /**
-     * @var string
+     * @var ContentTypeId
      */
     public $Id;
 
@@ -35,7 +63,8 @@ class ContentTypeCreationInformation extends ClientValueObject
 
 
     /**
-     * @var ContentType
+     * @var string
      */
-    public $ParentContentType;
+    private $ParentId;
+
 }

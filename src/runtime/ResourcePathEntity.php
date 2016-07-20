@@ -23,6 +23,9 @@ class ResourcePathEntity extends ResourcePath
     }
 
 
+    /**
+     * @return string
+     */
     protected function getValue()
     {
         return $this->entityName;

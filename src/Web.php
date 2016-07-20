@@ -182,5 +182,18 @@ class Web extends SecurableObject
         $folder = new Folder($this->getContext(),$path);
         return $folder;
     }
+
+
+    /**
+     * @return ContentTypeCollection
+     */
+    public function getContentTypes()
+    {
+        if(!$this->isPropertyAvailable('ContentTypes')){
+            $this->setProperty("ContentTypes",
+                new ContentTypeCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "ContentTypes")),false);
+        }
+        return $this->getProperty("ContentTypes");
+    }
     
 }
