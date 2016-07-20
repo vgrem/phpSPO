@@ -42,7 +42,7 @@ class ContentTypeTest extends SharePointTestCase
     public function testCreateContentType(){
         $params = new \SharePoint\PHP\Client\ContentTypeCreationInformation();
         $params->Name = TestUtilities::createUniqueName("Custom Task");
-        $params->setParentId("0x0108");
+        //$params->setParentId("0x0108");
         $ct = self::$context->getSite()->getRootWeb()->getContentTypes()->add($params);
         self::$context->executeQuery();
         $this->assertNotNull($ct->getProperty("StringId"));
