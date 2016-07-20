@@ -9,7 +9,7 @@ class ContentTypeTest extends SharePointTestCase
 {
 
     public function testGetListContentTypes(){
-        $listTitle = "Orders_" . rand(1, 100000);
+        $listTitle = TestUtilities::createUniqueName("Orders");
         $list = TestUtilities::ensureList(self::$context, $listTitle, \SharePoint\PHP\Client\ListTemplateType::TasksWithTimelineAndHierarchy);
         $contentTypes = $list->getContentTypes();
         self::$context->load($contentTypes);
@@ -41,8 +41,8 @@ class ContentTypeTest extends SharePointTestCase
 
     public function testCreateContentType(){
         $params = new \SharePoint\PHP\Client\ContentTypeCreationInformation();
-        $params->Name = "Custom Task";
-        //$params->setParentId("0x0108");
+        $params->Name = TestUtilities::createUniqueName("Custom Task");
+        $params->setParentId("0x0108");
         $ct = self::$context->getSite()->getRootWeb()->getContentTypes()->add($params);
         self::$context->executeQuery();
         $this->assertNotNull($ct->getProperty("StringId"));
