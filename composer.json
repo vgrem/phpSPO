@@ -12,12 +12,12 @@
     "license": "LGPL-3.0+",
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.3",
+        "php": ">=5.4",
         "ext-curl": "*"
     },
     "autoload": {
         "psr-4": {
-            "SharePoint\\PHP\\Client\\": ["src/", "src/runtime", "src/runtime/auth", "src/utilities", "src/userprofiles", "src/taxonomy","src/documentmanagement"]
+            "SharePoint\\PHP\\Client\\": ["src/"]
         }
     }
 }
