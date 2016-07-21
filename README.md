@@ -8,7 +8,7 @@ This library provides a SharePoint REST client for PHP applications. This allows
 ### Installation
 
 ### PHP version
-- PHP 5.3 or later
+- PHP 5.4 or later
 
 
 ### API
