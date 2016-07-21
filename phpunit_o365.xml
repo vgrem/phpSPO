@@ -13,12 +13,12 @@
         </testsuite>
     </testsuites>
 
-    <!--filter>
+    <filter>
         <whitelist>
             <directory>./</directory>
             <exclude>
                 <directory>./tests</directory>
             </exclude>
         </whitelist>
-    </filter-->
+    </filter>
 </phpunit>
