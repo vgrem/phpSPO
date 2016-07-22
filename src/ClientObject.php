@@ -131,7 +131,8 @@ abstract class ClientObject
             "Data" => "ListItem",
             "List" => "SPList",
             "TaxonomyField" => "Taxonomy\\TaxonomyField",
-            "WebPartDefinition" => "WebParts\\WebPartDefinition"
+            "WebPartDefinition" => "WebParts\\WebPartDefinition",
+            "PersonProperties" => "UserProfiles\\PersonProperties"
         );
 
         if(array_key_exists($entityName,$typeMappings))
@@ -140,13 +141,13 @@ abstract class ClientObject
     }
 
 
-    public function fromJson($properties)
+    public function fromJson($data)
     {
         $ctx = $this->getContext();
         if($this instanceof ClientObjectCollection) {
             $this->clearData();
-            if (isset($properties->results)) {
-                foreach ($properties->results as $item) {
+            if (isset($data->results)) {
+                foreach ($data->results as $item) {
                     $clientObject = ClientObject::createTypedObject($ctx,$this, $item);
                     $this->addChild($clientObject);
                 }
@@ -154,7 +155,7 @@ abstract class ClientObject
             $this->areItemsAvailable = true;
         }
         else {
-            $this->initClientObjectProperties($properties);    
+            $this->initClientObjectProperties($data);
         }
     }
 
@@ -166,9 +167,9 @@ abstract class ClientObject
     }
 
 
-    protected function initClientObjectProperties($properties)
+    protected function initClientObjectProperties($data)
     {
-        foreach ($properties as $key => $value) {
+        foreach ($data as $key => $value) {
             $this->$key = $value;
         }
     }

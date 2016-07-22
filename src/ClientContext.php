@@ -19,6 +19,7 @@ require_once('runtime/ClientActionUpdateMethod.php');
 require_once('runtime/ClientActionDeleteEntity.php');
 require_once('runtime/ClientActionUpdateEntity.php');
 require_once('runtime/ClientActionCreateEntity.php');
+require_once('runtime/ClientResult.php');
 require_once('ClientObject.php');
 require_once('SecurableObject.php');
 require_once('File.php');

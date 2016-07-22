@@ -185,7 +185,9 @@ class ClientRequest
         $queryId = $response["QueryId"];
         if (array_key_exists($queryId, $this->resultObjects)) {
             $resultObject = $this->resultObjects[$queryId];
-            if ($resultObject instanceof ClientObject || $resultObject instanceof ClientValueObject) {
+            if ($resultObject instanceof ClientObject ||
+                $resultObject instanceof ClientValueObject ||
+                $resultObject instanceof ClientResult) {
                 $resultObject->fromJson($content->d);
             }
         }
