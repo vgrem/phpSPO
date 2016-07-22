@@ -48,8 +48,10 @@ class UserCollection extends ClientObjectCollection
      */
     public function removeById($id)
     {
-        $userToDelete = new User($this->getContext());
-        $qry = new ClientAction($userToDelete->getUrl() . "/removebyid('{$id}')",HttpMethod::Delete);
+        $qry = new ClientActionUpdateMethod(
+            $this->getResourceUrl(),
+            "removebyid",
+            array($id));
         $this->getContext()->addQuery($qry);
     }
 
@@ -59,8 +61,10 @@ class UserCollection extends ClientObjectCollection
      */
     public function removeByLoginName($loginName)
     {
-        $userToDelete = new User($this->getContext());
-        $qry = new ClientAction($userToDelete->getUrl() . "/removebyloginname(@v)?@v='{$loginName}'",HttpMethod::Delete);
+        $qry = new ClientActionUpdateMethod(
+            $this->getResourceUrl(),
+            "removebyloginname",
+            array(rawurlencode($loginName)));
         $this->getContext()->addQuery($qry);
     }
 }

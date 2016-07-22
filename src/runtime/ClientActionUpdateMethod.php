@@ -9,7 +9,7 @@ class ClientActionUpdateMethod extends ClientActionInvokeMethod
     /**
      * ClientActionUpdateMethod constructor.
      * @param string $resourceUrl
-     * @param array $methodName
+     * @param string $methodName
      * @param array $methodParameters
      */
     public function __construct($resourceUrl,$methodName = null,array $methodParameters = null)
