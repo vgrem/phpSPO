@@ -1,7 +1,7 @@
 <?php
 
 namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\QueryOptions;
+use SharePoint\PHP\Client\Runtime\ODataQueryOptions;
 
 /**
  * Web client object collection

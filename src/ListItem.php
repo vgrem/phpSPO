@@ -15,7 +15,7 @@ class ListItem extends SecurableObject
      */
     public function getParentList(){
         if(!$this->isPropertyAvailable('ParentList')){
-            $this->setProperty("ParentList", new SPList($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "parentlist")),false);
+            $this->setProperty("ParentList", new SPList($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(), "parentlist")),false);
         }
         return $this->getProperty("ParentList");
     }
@@ -55,7 +55,7 @@ class ListItem extends SecurableObject
      */
     public function getAttachmentFiles(){
         if(!$this->isPropertyAvailable('AttachmentFiles')){
-            $this->setProperty("AttachmentFiles", new AttachmentCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "AttachmentFiles")),false);
+            $this->setProperty("AttachmentFiles", new AttachmentCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(), "AttachmentFiles")),false);
         }
         return $this->getProperty("AttachmentFiles");
     }

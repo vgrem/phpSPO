@@ -51,7 +51,7 @@ class Web extends SecurableObject
     public function getLists()
     {
         if(!$this->isPropertyAvailable('Lists')){
-            $this->setProperty("Lists", new ListCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"Lists")));
+            $this->setProperty("Lists", new ListCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"Lists")));
         }
         return $this->getProperty("Lists");
     }
@@ -64,7 +64,7 @@ class Web extends SecurableObject
     public function getWebs()
     {
         if(!$this->isPropertyAvailable('Webs')){
-            $this->setProperty("Webs", new WebCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"webs")));
+            $this->setProperty("Webs", new WebCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"webs")));
         }
         return $this->getProperty("Webs");
     }
@@ -76,7 +76,7 @@ class Web extends SecurableObject
     public function getFields()
     {
         if(!$this->isPropertyAvailable('Fields')){
-            $this->setProperty("Fields", new FieldCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"fields")));
+            $this->setProperty("Fields", new FieldCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"fields")));
         }
         return $this->getProperty("Fields");
     }
@@ -88,7 +88,7 @@ class Web extends SecurableObject
     public function getFolders()
     {
         if(!isset($this->Folders)){
-            $this->Folders = new FolderCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"folders"));
+            $this->Folders = new FolderCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"folders"));
         }
         return $this->Folders;
     }
@@ -101,7 +101,7 @@ class Web extends SecurableObject
     public function getSiteUsers()
     {
         if(!isset($this->SiteUsers)){
-            $this->SiteUsers = new UserCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"siteusers"));
+            $this->SiteUsers = new UserCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"siteusers"));
         }
         return $this->SiteUsers;
     }
@@ -114,7 +114,7 @@ class Web extends SecurableObject
     public function getSiteGroups()
     {
         if(!isset($this->SiteGroups)){
-            $this->setProperty("SiteGroups", new GroupCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"sitegroups")));
+            $this->setProperty("SiteGroups", new GroupCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"sitegroups")));
         }
         return $this->getProperty("SiteGroups");
     }
@@ -127,7 +127,7 @@ class Web extends SecurableObject
     public function getRoleDefinitions()
     {
         if(!$this->isPropertyAvailable('RoleDefinitions')){
-            $this->setProperty("RoleDefinitions", new RoleDefinitionCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"roledefinitions")));
+            $this->setProperty("RoleDefinitions", new RoleDefinitionCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"roledefinitions")));
         }
         return $this->getProperty("RoleDefinitions");
     }
@@ -140,7 +140,7 @@ class Web extends SecurableObject
     public function getUserCustomActions()
     {
         if(!$this->isPropertyAvailable('UserCustomActions')){
-            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"UserCustomActions")));
+            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"UserCustomActions")));
         }
         return $this->getProperty("UserCustomActions");
     }
@@ -152,7 +152,7 @@ class Web extends SecurableObject
     public function getCurrentUser()
     {
         if(!$this->isPropertyAvailable('CurrentUser')){
-            $this->setProperty("CurrentUser", new User($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"CurrentUser")));
+            $this->setProperty("CurrentUser", new User($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"CurrentUser")));
         }
         return $this->getProperty("CurrentUser");
     }
@@ -191,7 +191,7 @@ class Web extends SecurableObject
     {
         if(!$this->isPropertyAvailable('ContentTypes')){
             $this->setProperty("ContentTypes",
-                new ContentTypeCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "ContentTypes")),false);
+                new ContentTypeCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(), "ContentTypes")),false);
         }
         return $this->getProperty("ContentTypes");
     }

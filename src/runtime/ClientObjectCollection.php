@@ -1,7 +1,7 @@
 <?php
 
 namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\QueryOptions;
+use SharePoint\PHP\Client\Runtime\ODataQueryOptions;
 
 /**
  * Client objects collection
@@ -10,7 +10,7 @@ class ClientObjectCollection extends ClientObject
 {
 
     /**
-     * @var QueryOptions
+     * @var ODataQueryOptions
      */
     protected $queryOptions;
 
@@ -29,14 +29,14 @@ class ClientObjectCollection extends ClientObject
      * ClientObjectCollection constructor.
      * @param ClientContext $ctx
      * @param ResourcePath $resourcePath
-     * @param QueryOptions $queryOptions
+     * @param ODataQueryOptions $queryOptions
      */
-    public function __construct(ClientContext $ctx, ResourcePath $resourcePath,QueryOptions $queryOptions = null)
+    public function __construct(ClientContext $ctx, ResourcePath $resourcePath, ODataQueryOptions $queryOptions = null)
     {
         parent::__construct($ctx,$resourcePath);
         $this->queryOptions = $queryOptions;
         if(!isset($this->queryOptions))
-            $this->queryOptions = new QueryOptions();
+            $this->queryOptions = new ODataQueryOptions();
         $this->areItemsAvailable = false;
     }
 
@@ -89,7 +89,7 @@ class ClientObjectCollection extends ClientObject
     }
 
     /**
-     * @return QueryOptions
+     * @return ODataQueryOptions
      */
     public function getQueryOptions()
     {
@@ -99,7 +99,7 @@ class ClientObjectCollection extends ClientObject
     /**
      * Specifies a subset of properties to return.
      * @param $value
-     * @return ListItemCollection $this
+     * @return ClientObjectCollection $this
      */
     public function select($value)
     {
@@ -110,7 +110,7 @@ class ClientObjectCollection extends ClientObject
     /**
      * Specifies an expression or function that must evaluate to true for a record to be returned in the collection.
      * @param $value
-     * @return ListItemCollection $this
+     * @return ClientObjectCollection $this
      */
     public function filter($value)
     {
@@ -121,7 +121,7 @@ class ClientObjectCollection extends ClientObject
     /**
      * Directs that related records should be retrieved in the record or collection being retrieved.
      * @param $value
-     * @return ListItemCollection $this
+     * @return ClientObjectCollection $this
      */
     public function expand($value)
     {
@@ -132,7 +132,7 @@ class ClientObjectCollection extends ClientObject
     /**
      * Determines the maximum number of records to return.
      * @param $value
-     * @return ListItemCollection $this
+     * @return ClientObjectCollection $this
      */
     public function orderBy($value)
     {
@@ -143,7 +143,7 @@ class ClientObjectCollection extends ClientObject
     /**
      * Determines the maximum number of records to return.
      * @param $value
-     * @return ListItemCollection $this
+     * @return ClientObjectCollection $this
      */
     public function top($value)
     {
@@ -154,7 +154,7 @@ class ClientObjectCollection extends ClientObject
     /**
      * Sets the number of records to skip before it retrieves records in a collection.
      * @param $value
-     * @return ListItemCollection $this
+     * @return ClientObjectCollection $this
      */
     public function skip($value)
     {

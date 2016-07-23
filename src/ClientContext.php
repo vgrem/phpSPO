@@ -7,10 +7,11 @@ require_once('runtime/utilities/Guid.php');
 require_once('runtime/HttpMethod.php');
 require_once('runtime/ClientRequest.php');
 require_once('runtime/ContextWebInformation.php');
-require_once('runtime/odata/QueryOptions.php');
+require_once('runtime/odata/ODataQueryOptions.php');
 require_once('runtime/odata/ODataPathParser.php');
+require_once('runtime/odata/ODataPrimitiveTypeKind.php');
 require_once('runtime/ResourcePath.php');
-require_once('runtime/ResourcePathEntity.php');
+require_once('runtime/ResourcePathEntry.php');
 require_once('runtime/ResourcePathServiceOperation.php');
 require_once('runtime/ClientAction.php');
 require_once('runtime/ClientActionInvokeMethod.php');
@@ -21,6 +22,8 @@ require_once('runtime/ClientActionUpdateEntity.php');
 require_once('runtime/ClientActionCreateEntity.php');
 require_once('runtime/ClientResult.php');
 require_once('runtime/ClientObject.php');
+require_once('runtime/ClientValueObject.php');
+require_once('runtime/ClientValueObjectCollection.php');
 require_once('SecurableObject.php');
 require_once('File.php');
 require_once('Folder.php');
@@ -78,6 +81,7 @@ require_once('FileVersionCollection.php');
 require_once('ContentType.php');
 require_once('ContentTypeCollection.php');
 require_once('AppInstance.php');
+require_once('ChangeToken.php');
 require_once('Change.php');
 require_once('ChangeFile.php');
 require_once('ChangeFolder.php');
@@ -86,8 +90,6 @@ require_once('ChangeItem.php');
 require_once('ChangeList.php');
 require_once('ChangeWeb.php');
 require_once('ChangeCollection.php');
-require_once('runtime/ClientValueObject.php');
-require_once('runtime/ClientValueObjectCollection.php');
 require_once('ChangeQuery.php');
 require_once('ChangeType.php');
 require_once('ChangeLogItemQuery.php');
@@ -112,6 +114,9 @@ require_once('ContentTypeId.php');
 require_once('ContentTypeCreationInformation.php');
 require_once('webparts/LimitedWebPartManager.php');
 require_once('TemplateFileType.php');
+require_once('CustomActionElement.php');
+require_once('CustomActionElementCollection.php');
+require_once('UserIdInfo.php');
 
 /**
  * Client context
@@ -214,7 +219,7 @@ class ClientContext
     public function getWeb()
     {
         if(!isset($this->web)){
-            $this->web = new Web($this,new ResourcePathEntity($this,null,"Web"));
+            $this->web = new Web($this,new ResourcePathEntry($this,null,"Web"));
         }
         return $this->web;
     }
@@ -223,7 +228,7 @@ class ClientContext
     public function getSite()
     {
         if(!isset($this->site)){
-            $this->site = new Site($this, new ResourcePathEntity($this,null,"Site"));
+            $this->site = new Site($this, new ResourcePathEntry($this,null,"Site"));
         }
         return $this->site;
     }

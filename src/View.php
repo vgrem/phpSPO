@@ -15,7 +15,7 @@ class View extends ClientObject
     public function getViewFields()
     {
         if(!$this->isPropertyAvailable('ViewFields')){
-            $this->setProperty("ViewFields", new ViewFieldCollection($this->getContext(), new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "ViewFields")));
+            $this->setProperty("ViewFields", new ViewFieldCollection($this->getContext(), new ResourcePathEntry($this->getContext(),$this->getResourcePath(), "ViewFields")));
         }
         return $this->getProperty("ViewFields");
     }

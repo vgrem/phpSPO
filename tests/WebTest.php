@@ -8,6 +8,32 @@ require_once('TestUtilities.php');
 
 class WebTest extends SharePointTestCase
 {
+
+    public function testGetWebGroups()
+    {
+        $groups = self::$context->getWeb()->getRoleAssignments()->getGroups();
+        self::$context->load($groups);
+        self::$context->executeQuery();
+
+        self::assertNotEmpty($groups->getData());
+    }
+
+    public function testGetWebUsers()
+    {
+        $assignments = self::$context->getWeb()->getRoleAssignments()->expand("Member");
+        self::$context->load($assignments);
+        self::$context->executeQuery();
+
+
+        $users = array_filter(
+            $assignments->getData(),
+            function (\SharePoint\PHP\Client\RoleAssignment $assignment)  {
+                $principal = $assignment->getMember();
+                return  $principal->getProperty("PrincipalType") === \SharePoint\PHP\Client\PrincipalType::User;
+            }
+        );
+        //todo
+    }
     
     public function testCreateWeb()
     {

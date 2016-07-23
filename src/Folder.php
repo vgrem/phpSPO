@@ -47,7 +47,7 @@ class Folder extends ClientObject
     public function getFiles()
     {
         if(!$this->isPropertyAvailable('Files')){
-            $this->setProperty("Files", new FileCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "Files")));
+            $this->setProperty("Files", new FileCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(), "Files")));
         }
         return $this->getProperty("Files");
     }
@@ -61,7 +61,7 @@ class Folder extends ClientObject
     {
         if(!$this->isPropertyAvailable("Folders")){
             $this->setProperty("Folders",
-                new FolderCollection($this->getContext(), new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "folders")));
+                new FolderCollection($this->getContext(), new ResourcePathEntry($this->getContext(),$this->getResourcePath(), "folders")));
         }
         return $this->getProperty("Folders");
     }
@@ -77,7 +77,7 @@ class Folder extends ClientObject
             $this->setProperty("ListItemAllFields",
                 new ListItem(
                     $this->getContext(),
-                    new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ListItemAllFields")
+                    new ResourcePathEntry($this->getContext(), $this->getResourcePath(), "ListItemAllFields")
                 )
             );
         }

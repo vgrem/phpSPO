@@ -37,14 +37,14 @@ abstract class ResourcePath
     /**
      * @param ClientContext $context
      * @param string $value
-     * @return null|ResourcePathEntity
+     * @return null|ResourcePathEntry
      */
     public static function parse(ClientContext $context,$value){
 
         $pathNames = ODataPathParser::parsePathString($value);
         $path = null;
         foreach ($pathNames as $pathName){
-            $path = new ResourcePathEntity($context,$path,$pathName);
+            $path = new ResourcePathEntry($context,$path,$pathName);
         }
         return $path;
     }

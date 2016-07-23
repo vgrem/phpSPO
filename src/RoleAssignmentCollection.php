@@ -8,5 +8,14 @@ namespace SharePoint\PHP\Client;
 
 class RoleAssignmentCollection extends ClientObjectCollection
 {
-
+    /**
+     * @return GroupCollection
+     */
+    public function getGroups()
+    {
+        if(!$this->isPropertyAvailable("Groups")){
+            $this->setProperty("Groups", new GroupCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"Groups")));
+        }
+        return $this->getProperty("Groups");
+    }
 }

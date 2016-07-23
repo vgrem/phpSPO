@@ -7,7 +7,7 @@ namespace SharePoint\PHP\Client;
  * Resource path  for addressing a Collection (of Entries), a single Entry within a Collection, 
  * as well as a property of an Entry
  */
-class ResourcePathEntity extends ResourcePath
+class ResourcePathEntry extends ResourcePath
 {
 
     /**

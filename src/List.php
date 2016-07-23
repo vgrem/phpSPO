@@ -16,7 +16,7 @@ class SPList extends SecurableObject
      */
     public function addItem(array $listItemCreationInformation)
     {
-        $item = new ListItem($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items"));
+        $item = new ListItem($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"items"));
         $item->setProperty('ParentList',$this,false);
         foreach($listItemCreationInformation as $key => $value){
             $item->setProperty($key,$value);
@@ -36,7 +36,7 @@ class SPList extends SecurableObject
     {
         return new ListItem(
             $this->getContext(),
-            new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items({$id})")
+            new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"items({$id})")
         );
     }
 
@@ -60,7 +60,7 @@ class SPList extends SecurableObject
      */
     public function getItems(CamlQuery $camlQuery = null)
     {
-        $items = new ListItemCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items"));
+        $items = new ListItemCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"items"));
         if(isset($camlQuery)){
             $qry = new ClientAction($this->getResourceUrl() . "/GetItems", $camlQuery->toJson(),HttpMethod::Post);
             $this->getContext()->addQuery($qry,$items);
@@ -145,7 +145,7 @@ class SPList extends SecurableObject
     public function getContentTypes()
     {
         if(!$this->isPropertyAvailable('ContentTypes')){
-            $this->setProperty("ContentTypes", new ContentTypeCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "ContentTypes")),false);
+            $this->setProperty("ContentTypes", new ContentTypeCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(), "ContentTypes")),false);
         }
         return $this->getProperty("ContentTypes");
     }
@@ -157,7 +157,7 @@ class SPList extends SecurableObject
     public function getFields()
     {
         if(!$this->isPropertyAvailable('Fields')){
-            $this->setProperty("Fields", new FieldCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "fields")));
+            $this->setProperty("Fields", new FieldCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(), "fields")));
         }
         return $this->getProperty("Fields");
     }
@@ -168,7 +168,7 @@ class SPList extends SecurableObject
     public function getRootFolder()
     {
         if(!$this->isPropertyAvailable('RootFolder')){
-            $this->setProperty("RootFolder", new Folder($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "rootFolder")));
+            $this->setProperty("RootFolder", new Folder($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(), "rootFolder")));
         }
         return $this->getProperty("RootFolder");
     }
@@ -180,7 +180,7 @@ class SPList extends SecurableObject
     public function getViews()
     {
         if(!$this->isPropertyAvailable('Views')){
-            $this->setProperty("Views",new ViewCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "views")));
+            $this->setProperty("Views",new ViewCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(), "views")));
         }
         return $this->getProperty("Views");
     }
@@ -200,7 +200,7 @@ class SPList extends SecurableObject
     public function getParentWeb()
     {
         if(!$this->isPropertyAvailable('ParentWeb')){
-            $this->setProperty("ParentWeb", new Web($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "ParentWeb")));
+            $this->setProperty("ParentWeb", new Web($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(), "ParentWeb")));
         }
         return $this->getProperty("ParentWeb");
     }

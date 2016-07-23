@@ -229,7 +229,7 @@ class File extends SecurableObject
                $this->setProperty("ListItemAllFields",
                    new ListItem(
                        $this->getContext(),
-                       new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ListItemAllFields")
+                       new ResourcePathEntry($this->getContext(), $this->getResourcePath(), "ListItemAllFields")
                    )
                );
           }

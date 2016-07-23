@@ -7,7 +7,7 @@ namespace SharePoint\PHP\Client\Runtime;
 /**
  * Represents the OData raw query values in the string format from the incoming request.
  */
-class QueryOptions
+class ODataQueryOptions
 {
 
     public function isEmpty(){

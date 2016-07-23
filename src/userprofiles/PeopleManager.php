@@ -8,7 +8,7 @@ use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ClientObject;
 use SharePoint\PHP\Client\ClientResult;
 use SharePoint\PHP\Client\HttpMethod;
-use SharePoint\PHP\Client\ResourcePathEntity;
+use SharePoint\PHP\Client\ResourcePathEntry;
 use SharePoint\PHP\Client\ResourcePathServiceOperation;
 
 require_once('PersonProperties.php');
@@ -22,7 +22,7 @@ class PeopleManager extends ClientObject
 {
     public function __construct(ClientContext $ctx)
     {
-        parent::__construct($ctx,new ResourcePathEntity($ctx,null,"sp.userprofiles.peoplemanager"));
+        parent::__construct($ctx,new ResourcePathEntry($ctx,null,"sp.userprofiles.peoplemanager"));
     }
 
 

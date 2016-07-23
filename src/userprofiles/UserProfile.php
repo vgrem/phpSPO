@@ -7,14 +7,14 @@ use SharePoint\PHP\Client\ClientActionInvokeMethod;
 use SharePoint\PHP\Client\HttpMethod;
 use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ClientObject;
-use SharePoint\PHP\Client\ResourcePathEntity;
+use SharePoint\PHP\Client\ResourcePathEntry;
 
 class UserProfile extends ClientObject
 {
 
     public function __construct(ClientContext $ctx)
     {
-        parent::__construct($ctx, new ResourcePathEntity($ctx,null,"sp.userprofiles.profileloader.getprofileloader/getuserprofile"));
+        parent::__construct($ctx, new ResourcePathEntry($ctx,null,"sp.userprofiles.profileloader.getprofileloader/getuserprofile"));
     }
 
     /**

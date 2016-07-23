@@ -19,4 +19,11 @@ abstract class EnumType
         $enums = $reflection->getConstants();
         return array_keys($enums);
     }
+
+
+    public static function getValues(){
+        $reflection = new ReflectionClass(get_called_class());
+        $enums = $reflection->getConstants();
+        return array_values($enums);
+    }
 }

@@ -12,7 +12,7 @@ require_once('WebPartDefinitionCollection.php');
 use SharePoint\PHP\Client\HttpMethod;
 use SharePoint\PHP\Client\ClientObject;
 use SharePoint\PHP\Client\ClientAction;
-use SharePoint\PHP\Client\ResourcePathEntity;
+use SharePoint\PHP\Client\ResourcePathEntry;
 use SharePoint\PHP\Client\ResourcePathServiceOperation;
 
 class LimitedWebPartManager extends ClientObject
@@ -44,7 +44,7 @@ class LimitedWebPartManager extends ClientObject
         if(!$this->isPropertyAvailable('WebParts')){
             $this->setProperty(
                 "WebParts", 
-                new WebPartDefinitionCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "webparts"))
+                new WebPartDefinitionCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(), "webparts"))
             );
         }
         return $this->getProperty("WebParts");

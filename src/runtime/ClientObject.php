@@ -1,6 +1,7 @@
 <?php
 
 namespace SharePoint\PHP\Client;
+use SharePoint\PHP\Client\Runtime\ODataPrimitiveTypeKind;
 
 
 /**
@@ -108,9 +109,16 @@ abstract class ClientObject
     }
 
 
-    public static function createTypedObject(ClientContext $ctx, ClientObject $parentClientObject,  \stdClass $properties)
+    /**
+     * @param ClientObject $parentClientObject
+     * @param \stdClass $data
+     * @return ClientObject
+     * @internal param ClientContext $ctx
+     */
+    public static function createTypedObject(ClientObject $parentClientObject,  \stdClass $data)
     {
-        $typeParts = explode(".", $properties->__metadata->type);
+        $ctx = $parentClientObject->getContext();
+        $typeParts = explode(".", $data->__metadata->type);
         $entityName = $typeParts[1];
         if (count($typeParts) == 3) {
             if ($typeParts[1] == "Data") {
@@ -119,10 +127,8 @@ abstract class ClientObject
                 $entityName = $typeParts[2];
             }
         }
-
         $clientObjectType = self::resolveClientObjectType($entityName);
-        $clientObject = new $clientObjectType($ctx,new ResourcePathEntity($ctx,$parentClientObject->getResourcePath(),$entityName));
-        $clientObject->initClientObjectProperties($properties);
+        $clientObject = new $clientObjectType($ctx,new ResourcePathEntry($ctx,$parentClientObject->getResourcePath(),$entityName));
         return $clientObject;
     }
 
@@ -143,12 +149,12 @@ abstract class ClientObject
 
     public function fromJson($data)
     {
-        $ctx = $this->getContext();
         if($this instanceof ClientObjectCollection) {
             $this->clearData();
             if (isset($data->results)) {
                 foreach ($data->results as $item) {
-                    $clientObject = ClientObject::createTypedObject($ctx,$this, $item);
+                    $clientObject = ClientObject::createTypedObject($this, $item);
+                    $clientObject->initClientObjectProperties($item);
                     $this->addChild($clientObject);
                 }
             }
@@ -167,12 +173,42 @@ abstract class ClientObject
     }
 
 
-    protected function initClientObjectProperties($data)
+    protected function initClientObjectProperties(\stdClass $data,$parentPropertyName=null)
     {
+        $primitiveNames = ODataPrimitiveTypeKind::getValues();
+        $primitiveCollectionNames = array_map(function($name) { return "Collection(" . $name . ")";} , $primitiveNames);
+
         foreach ($data as $key => $value) {
-            $this->$key = $value;
+            if($key == "__metadata") { //update resource type
+                $uriParts = explode(ClientContext::$ServicePath, strtolower($value->uri));
+                $this->serviceRootUrl = $uriParts[0] . ClientContext::$ServicePath;
+                $this->resourcePath = ResourcePath::parse($this->getContext(),$uriParts[1]);
+                $this->resourceType = $value->type;
+            }
+            else if(isset($value->__deferred)){ //deferred property
+                $this->$key = null;
+            }
+            else if(!is_object($value)){ //primitive property
+                $this->$key = $value;
+            }
+            else if(isset($value->__metadata)) {
+                if(in_array($value->__metadata->type,$primitiveCollectionNames)){ //determine whether is primitive collection property
+                    $this->$key = $value->results;
+                }
+                else {
+                    $clientObject = ClientObject::createTypedObject($this, $value);
+                    $this->$key = $clientObject;
+                }
+            }
+            else {
+                $this->$key = array();
+                foreach ($value->results as $pair) {
+                    $this->$key[$pair->Key] = $pair->Value;
+                }
+            }
         }
     }
+
 
 
     private function ensureMetadataType(&$parameters)
@@ -251,12 +287,6 @@ abstract class ClientObject
 
     public function __set($name, $value)
     {
-        if ($name == '__metadata') {
-            $uriParts = explode(ClientContext::$ServicePath, strtolower($value->uri));
-            $this->serviceRootUrl = $uriParts[0] . ClientContext::$ServicePath;
-            $this->resourcePath = ResourcePath::parse($this->getContext(),$uriParts[1]);
-            $this->resourceType = $value->type;
-        }
         $this->properties[$name] = $value;
     }
 
