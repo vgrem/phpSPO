@@ -10,7 +10,7 @@ class User  extends Principal
 {
     public function update()
     {
-        $qry = new ClientActionUpdateEntity($this->getResourceUrl(),$this->toJson());
+        $qry = new ClientActionUpdateEntity($this);
         $this->getContext()->addQuery($qry,$this);
     }
 

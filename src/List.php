@@ -4,7 +4,7 @@ namespace SharePoint\PHP\Client;
 
 
 /**
- * Represents a SharePoint list resource.
+ * Represents a SharePoint List resource.
  */
 class SPList extends SecurableObject
 {
@@ -16,14 +16,15 @@ class SPList extends SecurableObject
      */
     public function addItem(array $listItemCreationInformation)
     {
-        $item = new ListItem($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"items"));
-        $item->setProperty('ParentList',$this,false);
+        $listItem = new ListItem($this->getContext());
+        $listItem->setProperty('ParentList',$this,false);
         foreach($listItemCreationInformation as $key => $value){
-            $item->setProperty($key,$value);
+            $listItem->setProperty($key,$value);
         }
-        $qry = new ClientAction($item->getResourceUrl(),$item->toJson(),HttpMethod::Post);
-        $this->getContext()->addQuery($qry,$item);
-        return $item;
+        $items = new ListItemCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"items"));
+        $qry = new ClientActionCreateEntity($items,$listItem);
+        $this->getContext()->addQuery($qry,$listItem);
+        return $listItem;
     }
 
     /**
@@ -47,9 +48,9 @@ class SPList extends SecurableObject
      */
     public function breakRoleInheritance($copyRoleAssignments)
     {
-        $qry = new ClientActionInvokeMethod($this->getResourceUrl(),"breakroleinheritance",array(
+        $qry = new ClientActionInvokePostMethod($this,"breakroleinheritance",array(
             $copyRoleAssignments
-        ),HttpMethod::Post);
+        ));
         $this->getContext()->addQuery($qry);
     }
 
@@ -62,7 +63,12 @@ class SPList extends SecurableObject
     {
         $items = new ListItemCollection($this->getContext(),new ResourcePathEntry($this->getContext(),$this->getResourcePath(),"items"));
         if(isset($camlQuery)){
-            $qry = new ClientAction($this->getResourceUrl() . "/GetItems", $camlQuery->toJson(),HttpMethod::Post);
+            $qry = new ClientActionInvokePostMethod(
+                $this,
+                "GetItems",
+                null,
+                $camlQuery->toJson()
+            );
             $this->getContext()->addQuery($qry,$items);
         }
         return $items;
@@ -74,7 +80,7 @@ class SPList extends SecurableObject
      */
     public function update()
     {
-        $qry = new ClientActionUpdateEntity($this->getResourceUrl(),$this->toJson());
+        $qry = new ClientActionUpdateEntity($this);
         $this->getContext()->addQuery($qry);
     }
 
@@ -83,7 +89,7 @@ class SPList extends SecurableObject
      */
     public function deleteObject()
     {
-        $qry = new ClientActionDeleteEntity($this->getResourceUrl());
+        $qry = new ClientActionDeleteEntity($this);
         $this->getContext()->addQuery($qry);
         $this->removeFromParentCollection();
     }
@@ -98,9 +104,11 @@ class SPList extends SecurableObject
     public function getUserEffectivePermissions($loginName)
     {
         $permissions = new BasePermissions();
-        $qry = new ClientActionInvokeMethod($this->getResourceUrl(), "getusereffectivepermissions",array(
-            rawurlencode($loginName)
-        ),HttpMethod::Get);
+        $qry = new ClientActionInvokeGetMethod(
+            $this,
+            "getusereffectivepermissions",
+            array(rawurlencode($loginName))
+        );
         $this->getContext()->addQuery($qry,$permissions);
         return $permissions;
     }
@@ -112,13 +120,15 @@ class SPList extends SecurableObject
      */
     public function getListItemChangesSinceToken(ChangeLogItemQuery $query)
     {
-        $result = new ListItemCollection(
-            $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getListItemChangesSinceToken")
+        $result = new ListItemCollection($this->getContext());
+        $qry = new ClientActionInvokePostMethod(
+            $this,
+            "getListItemChangesSinceToken",
+            null,
+            $query->toJson()
         );
-        $qry = new ClientAction($result->getResourceUrl(),$query->toJson(),HttpMethod::Post);
-        $qry->setDataFormatType(FormatType::Xml);
-        $this->getContext()->addQuery($qry,$result);
+        $qry->setPayloadFormatType(FormatType::Xml);
+        $this->getContext()->addQuery($qry, $result);
         return $result;
     }
 
@@ -129,11 +139,13 @@ class SPList extends SecurableObject
      */
     public function getChanges(ChangeQuery $query)
     {
-        $changes = new ChangeCollection(
-            $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getChanges")
+        $changes = new ChangeCollection($this->getContext());
+        $qry = new ClientActionInvokePostMethod(
+            $this,
+            "GetChanges",
+            null,
+            $query->toJson()
         );
-        $qry = new ClientAction($changes->getResourceUrl(),$query->toJson(),HttpMethod::Post);
         $this->getContext()->addQuery($qry,$changes);
         return $changes;
     }

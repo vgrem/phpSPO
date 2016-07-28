@@ -29,14 +29,6 @@ class ResourcePathServiceOperation extends ResourcePath
         return ODataPathParser::fromMethod($this->methodName,$this->methodParameters);
     }
 
-    public function getPayload()
-    {
-       if($this->methodParameters instanceof ClientValueObject || $this->methodParameters instanceof ClientObject)
-          return $this->methodParameters->toJson();
-        return json_encode($this->methodParameters);
-    }
-
-
     /**
      * @var array
      */

@@ -3,21 +3,27 @@
 
 namespace SharePoint\PHP\Client\WebParts;
 
-use SharePoint\PHP\Client\HttpMethod;
+use SharePoint\PHP\Client\ClientActionInvokePostMethod;
 use SharePoint\PHP\Client\ClientObject;
-use SharePoint\PHP\Client\ClientAction;
+
 
 class WebPartDefinition extends ClientObject
 {
 
     public function saveWebPartChanges(){
-        $qry = new ClientAction($this->getUrl() . "/SaveWebPartChanges",HttpMethod::Post);
+        $qry = new ClientActionInvokePostMethod(
+            $this,
+            "SaveWebPartChanges"
+        );
         $this->getContext()->addQuery($qry);
     }
 
     public function closeWebPart()
     {
-        $qry = new ClientAction($this->getUrl() . "/CloseWebPart",HttpMethod::Post);
+        $qry = new ClientActionInvokePostMethod(
+            $this,
+            "CloseWebPart"
+        );
         $this->getContext()->addQuery($qry);
     }
 

@@ -9,7 +9,7 @@ class Attachment extends ClientObject
 
     public function deleteObject()
     {
-        $qry = new ClientActionDeleteEntity($this->getResourceUrl());
+        $qry = new ClientActionDeleteEntity($this);
         $this->getContext()->addQuery($qry);
     }
 

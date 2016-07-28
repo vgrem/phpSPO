@@ -106,10 +106,10 @@ class ClientRequest
         foreach ($this->queries as $qry) {
             $request = $this->buildRequest($qry);
             $response = array(
-                "Result" => $this->executeQueryDirect($request),
+                "Payload" => $this->executeQueryDirect($request),
                 "QueryId" => $qry->getId()
             );
-            if($qry->getDataFormatType() == FormatType::Json){
+            if($qry->getPayloadFormatType() == FormatType::Json){
                 $this->processJsonResponse($response);
             }
             else
@@ -120,24 +120,24 @@ class ClientRequest
 
 
     private function buildRequest(ClientAction $qry){
-        $operationType = $qry->getMethodType();
+        $actionType = $qry->getActionType();
 
         $requestOptions = array(
             'url' =>  $qry->getResourceUrl(),
             'headers' => array(),
             'data' => null,
-            'method' => $operationType == HttpMethod::Get ? 'GET' : 'POST'
+            'method' => $actionType == ClientActionType::ReadEntry ? 'GET' : 'POST'
         );
 
-        $data = $qry->getData();
+        $data = $qry->getPayload();
         if(isset($data)){
             $requestOptions["data"] = $data;
         }
 
-        if ($operationType == HttpMethod::Merge) {
+        if ($actionType == ClientActionType::UpdateEntry) {
             $requestOptions['headers']["IF-MATCH"] = "*";
             $requestOptions['headers']["X-HTTP-Method"] = "MERGE";
-        } else if ($operationType == HttpMethod::Delete) {
+        } else if ($actionType == ClientActionType::DeleteEntry) {
             $requestOptions['headers']["IF-MATCH"] = "*";
             $requestOptions['headers']["X-HTTP-Method"] = "DELETE";
         }
@@ -156,7 +156,7 @@ class ClientRequest
         $queryId = $response["QueryId"];
         $resultObject = $this->resultObjects[$queryId];
         if($resultObject instanceof ListItemCollection){
-            $xml = simplexml_load_string($response["Result"]);
+            $xml = simplexml_load_string($response["Payload"]);
             $xml->registerXPathNamespace('z', '#RowsetSchema');
             $rows = $xml->xpath("//z:row");
             foreach($rows as $row) {
@@ -172,13 +172,13 @@ class ClientRequest
 
     private function processJsonResponse($response)
     {
-        $content = json_decode($response["Result"]);
-        if (empty($content))
+        $payload = json_decode($response["Payload"]);
+        if (empty($payload))
             return;
 
         //handle errors
-        if (isset($content->error)) {
-            throw new \RuntimeException("Error: " . $content->error->message->value);
+        if (isset($payload->error)) {
+            throw new \RuntimeException("Error: " . $payload->error->message->value);
         }
 
         $queryId = $response["QueryId"];
@@ -187,7 +187,7 @@ class ClientRequest
             if ($resultObject instanceof ClientObject ||
                 $resultObject instanceof ClientValueObject ||
                 $resultObject instanceof ClientResult) {
-                $resultObject->fromJson($content->d);
+                $resultObject->fromJson($payload->d);
             }
         }
     }

@@ -27,11 +27,8 @@ class ContentTypeCollection extends ClientObjectCollection
      */
     public function add(ContentTypeCreationInformation $parameters)
     {
-        $contentType = new ContentType(
-            $this->getContext(),
-            $this->getResourcePath()
-        );
-        $qry = new ClientActionCreateEntity($contentType->getResourceUrl(),$parameters->toJson());
+        $contentType = new ContentType($this->getContext());
+        $qry = new ClientActionCreateEntity($this,$parameters);
         $this->getContext()->addQuery($qry,$contentType);
         $this->addChild($contentType);
         return $contentType;

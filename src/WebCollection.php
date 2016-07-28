@@ -1,7 +1,7 @@
 <?php
 
 namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataQueryOptions;
+
 
 /**
  * Web client object collection
@@ -12,11 +12,13 @@ class WebCollection extends ClientObjectCollection
     
     public function add(WebCreationInformation $webCreationInformation)
     {
-        $web = new Web(
-            $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"Add")
+        $web = new Web($this->getContext());
+        $qry = new ClientActionInvokePostMethod(
+            $this,
+            "Add",
+            null,
+            $webCreationInformation->toJson()
         );
-        $qry = new ClientAction($web->getResourceUrl(),$webCreationInformation->toJson(),HttpMethod::Post);
         $this->getContext()->addQuery($qry,$web);
         $this->addChild($web);
         return $web;

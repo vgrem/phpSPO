@@ -42,8 +42,8 @@ class ListCollection extends ClientObjectCollection
      */
     public function add(ListCreationInformation $parameters)
     {
-        $list = new SPList($this->getContext(),$this->getResourcePath());
-        $qry = new ClientAction($list->getResourceUrl(),$parameters->toJson(),HttpMethod::Post);
+        $list = new SPList($this->getContext());
+        $qry = new ClientActionCreateEntity($this,$parameters);
         $this->getContext()->addQuery($qry,$list);
         $this->addChild($list);
         return $list;

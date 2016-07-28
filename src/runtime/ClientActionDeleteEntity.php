@@ -6,8 +6,13 @@ namespace SharePoint\PHP\Client;
 
 class ClientActionDeleteEntity extends ClientAction
 {
-    public function __construct($resourceUrl)
+
+    /**
+     * ClientActionDeleteEntity constructor.
+     * @param ClientObject $clientObject
+     */
+    public function __construct(ClientObject $clientObject)
     {
-        parent::__construct($resourceUrl, null, (int)HttpMethod::Delete);
+        parent::__construct($clientObject->getResourceUrl(), null, (int)ClientActionType::DeleteEntry);
     }
 }

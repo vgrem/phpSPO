@@ -17,14 +17,13 @@ class FileCollection extends ClientObjectCollection
      */
     public function add(FileCreationInformation $fileCreationInformation)
     {
-        $file = new File(
-            $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"add",array(
-                "overwrite"=>$fileCreationInformation->Overwrite,
-                "url"=>rawurlencode($fileCreationInformation->Url)
-            )));
-        $qry = new ClientAction($file->getResourceUrl(),$fileCreationInformation->Content,HttpMethod::Post);
-        $qry->setBinaryStringRequestBody(true);
+        $file = new File($this->getContext());
+        $qry = new ClientActionInvokePostMethod(
+            $this,
+            "add",
+            array("overwrite"=>$fileCreationInformation->Overwrite,"url"=>rawurlencode($fileCreationInformation->Url)),
+            $fileCreationInformation->Content
+            );
         $this->getContext()->addQuery($qry,$file);
         //$this->addChild($file);
         return $file;
@@ -39,14 +38,15 @@ class FileCollection extends ClientObjectCollection
      */
     public function addTemplateFile($urlOfFile,$templateFileType)
     {
-        $file = new File(
-            $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"addTemplateFile",array(
+        $file = new File($this->getContext());
+        $qry = new ClientActionInvokePostMethod(
+            $this,
+            "addTemplateFile",
+            array(
                 "urlOfFile" => $urlOfFile,
                 "templateFileType" => (int)$templateFileType
-            )));
-        $qry = new ClientAction($file->getResourceUrl(),null,HttpMethod::Post);
-        $qry->setBinaryStringRequestBody(true);
+            )
+        );
         $this->getContext()->addQuery($qry,$file);
         return $file;
     }

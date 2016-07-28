@@ -15,7 +15,7 @@ class Folder extends ClientObject
      * as shown in Folder request examples.
      */
     public function deleteObject(){
-        $qry = new ClientActionDeleteEntity($this->getResourceUrl());
+        $qry = new ClientActionDeleteEntity($this);
         $this->getContext()->addQuery($qry);
         //$this->removeFromParentCollection();
     }
@@ -26,7 +26,7 @@ class Folder extends ClientObject
         $item = $this->getListItemAllFields();
         $item->setProperty('Title',$name);
         $item->setProperty('FileLeafRef', $name);
-        $qry = new ClientActionUpdateEntity($item->getResourceUrl(),$item->toJson());
+        $qry = new ClientActionUpdateEntity($item);
         $this->getContext()->addQuery($qry,$this);
     }
 
@@ -34,7 +34,7 @@ class Folder extends ClientObject
      * Moves the list folder to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      */
     public function recycle(){
-        $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"recycle");
+        $qry = new ClientActionInvokePostMethod($this,"recycle");
         $this->getContext()->addQuery($qry);
     }
 

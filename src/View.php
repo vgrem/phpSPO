@@ -9,6 +9,15 @@ class View extends ClientObject
 {
 
     /**
+     * Updates view resource
+     */
+    public function update()
+    {
+        $qry = new ClientActionUpdateEntity($this);
+        $this->getContext()->addQuery($qry,$this);
+    }
+
+    /**
      * Gets a value that specifies the collection of fields in the list view.
      * @return ViewFieldCollection
      */
@@ -27,7 +36,7 @@ class View extends ClientObject
      */
     public function deleteObject()
     {
-        $qry = new ClientActionDeleteEntity($this->getResourceUrl());
+        $qry = new ClientActionDeleteEntity($this);
         $this->getContext()->addQuery($qry);
     }
 
@@ -36,8 +45,10 @@ class View extends ClientObject
      * Returns the list view as HTML.
      */
     public function renderAsHtml(){
-        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"renderashtml");
-        $qry = new ClientActionUpdateMethod($path,null,HttpMethod::Get);
+        $qry = new ClientActionInvokeGetMethod(
+            $this,
+            "renderashtml"
+        );
         $this->getContext()->addQuery($qry);
     }
 

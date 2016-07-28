@@ -20,7 +20,7 @@ class ViewCollection extends ClientObjectCollection
 
 
     /**
-     * Get List by id
+     * Get View by id
      * @param $id
      * @return View
      */
@@ -33,6 +33,8 @@ class ViewCollection extends ClientObjectCollection
     }
 
 
+
+
     /**
      * Creates a View resource
      * @param ViewCreationInformation $parameters
@@ -40,8 +42,8 @@ class ViewCollection extends ClientObjectCollection
      */
     public function add(ViewCreationInformation $parameters)
     {
-        $view = new View($this->getContext(),$this->getResourcePath());
-        $qry = new ClientAction($view->getResourceUrl(),$parameters->toJson(),HttpMethod::Post);
+        $view = new View($this->getContext());
+        $qry = new ClientActionCreateEntity($this,$parameters);
         $this->getContext()->addQuery($qry,$view);
         $this->addChild($view);
         return $view;

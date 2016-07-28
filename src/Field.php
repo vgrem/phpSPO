@@ -11,7 +11,7 @@ class Field extends ClientObject
 
     public function deleteObject()
     {
-        $qry = new ClientActionDeleteEntity($this->getResourceUrl());
+        $qry = new ClientActionDeleteEntity($this);
         $this->getContext()->addQuery($qry);
     }
 
@@ -20,9 +20,11 @@ class Field extends ClientObject
      * @param $value true to show the field in the form; otherwise false.
      */
     public function setShowInDisplayForm($value){
-        $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"setShowInDisplayForm",array(
-            $value
-        ));
+        $qry = new ClientActionInvokePostMethod(
+            $this,
+            "setShowInDisplayForm",
+            array($value)
+        );
         $this->getContext()->addQuery($qry);
     }
 }

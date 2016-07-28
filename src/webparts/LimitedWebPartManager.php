@@ -9,11 +9,10 @@ require_once('WebPartDefinition.php');
 require_once('WebPartDefinitionCollection.php');
 
 
-use SharePoint\PHP\Client\HttpMethod;
+use SharePoint\PHP\Client\ClientActionInvokePostMethod;
 use SharePoint\PHP\Client\ClientObject;
-use SharePoint\PHP\Client\ClientAction;
 use SharePoint\PHP\Client\ResourcePathEntry;
-use SharePoint\PHP\Client\ResourcePathServiceOperation;
+
 
 class LimitedWebPartManager extends ClientObject
 {
@@ -26,11 +25,13 @@ class LimitedWebPartManager extends ClientObject
     public function importWebPart($webPartXml)
     {
         $payload = json_encode(array("webPartXml" => $webPartXml));
-        $webPartDefinition = new WebPartDefinition(
-            $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"ImportWebPart")
+        $webPartDefinition = new WebPartDefinition($this->getContext());
+        $qry = new ClientActionInvokePostMethod(
+            $this,
+            "ImportWebPart",
+            null,
+            $payload
         );
-        $qry = new ClientAction($webPartDefinition->getResourceUrl(),$payload,HttpMethod::Post);
         $this->getContext()->addQuery($qry,$webPartDefinition);
         return $webPartDefinition;
     }

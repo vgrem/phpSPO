@@ -14,13 +14,13 @@ class Web extends SecurableObject
 
     public function update()
     {
-        $qry = new ClientActionUpdateEntity($this->getResourceUrl(),$this->toJson());
+        $qry = new ClientActionUpdateEntity($this);
         $this->getContext()->addQuery($qry,$this);
     }
 
     public function deleteObject()
     {
-        $qry = new ClientActionDeleteEntity($this->getResourceUrl());
+        $qry = new ClientActionDeleteEntity($this);
         $this->getContext()->addQuery($qry);
         //$this->removeFromParentCollection();
     }
@@ -33,11 +33,8 @@ class Web extends SecurableObject
      */
     public function getChanges(ChangeQuery $query)
     {
-        $changes = new ChangeCollection(
-            $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"GetChanges")
-        );
-        $qry = new ClientAction($changes->getResourceUrl(),$query->toJson(),HttpMethod::Post);
+        $changes = new ChangeCollection($this->getContext());
+        $qry = new ClientActionInvokePostMethod($this,"GetChanges",null,$query->toJson());
         $this->getContext()->addQuery($qry,$changes);
         return $changes;
     }

@@ -13,11 +13,8 @@ class AttachmentCollection extends ClientObjectCollection
      */
     public function add(AttachmentCreationInformation $parameters)
     {
-        $attachment = new Attachment(
-            $this->getContext(),
-            $this->getResourcePath()
-        );
-        $qry = new ClientActionCreateEntity($attachment->getResourceUrl(),$parameters->toJson());
+        $attachment = new Attachment($this->getContext());
+        $qry = new ClientActionCreateEntity($this,$parameters);
         $this->getContext()->addQuery($qry,$attachment);
         $this->addChild($attachment);
         return $attachment;

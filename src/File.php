@@ -15,7 +15,7 @@ class File extends SecurableObject
       * Checks out the file from a document library based on the check-out type.
       */
      public function checkOut(){
-          $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"checkout");
+          $qry = new ClientActionInvokePostMethod($this,"checkout");
           $this->getContext()->addQuery($qry);
      }
 
@@ -24,7 +24,7 @@ class File extends SecurableObject
       * Reverts an existing checkout for the file.
       */
      public function undoCheckout(){
-          $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"undocheckout");
+          $qry = new ClientActionInvokePostMethod($this,"undocheckout");
           $this->getContext()->addQuery($qry);
      }
 
@@ -34,7 +34,7 @@ class File extends SecurableObject
       * @param string $comment A comment for the check-in. Its length must be <= 1023.
       */
      public function checkIn($comment){
-          $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"checkIn",array(
+          $qry = new ClientActionInvokePostMethod($this,"checkIn",array(
               "comment" =>$comment,
               "checkintype" =>0
           ));
@@ -47,7 +47,7 @@ class File extends SecurableObject
       * @param string $comment The comment for the approval.
       */
      public function approve($comment){
-          $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"approve",array(
+          $qry = new ClientActionInvokePostMethod($this,"approve",array(
               "comment" =>$comment
           ));
           $this->getContext()->addQuery($qry);
@@ -58,7 +58,7 @@ class File extends SecurableObject
       * @param string $comment The comment for the denial.
       */
      public function deny($comment){
-          $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "deny",array(
+          $qry = new ClientActionInvokePostMethod($this, "deny",array(
               "comment" =>$comment
           ));
           $this->getContext()->addQuery($qry);
@@ -69,7 +69,7 @@ class File extends SecurableObject
       * @param string $comment The comment for the published file. Its length must be <= 1023.
       */
      public function publish($comment){
-          $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "publish",array(
+          $qry = new ClientActionInvokePostMethod($this, "publish",array(
               "comment" =>$comment
           ));
           $this->getContext()->addQuery($qry);
@@ -81,7 +81,7 @@ class File extends SecurableObject
       * @param string $comment The comment for the unpublish operation. Its length must be <= 1023.
       */
      public function unpublish($comment){
-          $qry = new ClientActionUpdateMethod($this->getResourceUrl(),"unpublish", array(
+          $qry = new ClientActionInvokePostMethod($this,"unpublish", array(
               "comment" => $comment
           ));
           $this->getContext()->addQuery($qry);
@@ -94,7 +94,7 @@ class File extends SecurableObject
       * @param bool $bOverWrite true to overwrite a file with the same name in the same location; otherwise false.
       */
      public function copyTo($strNewUrl,$bOverWrite){
-          $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "copyto", array(
+          $qry = new ClientActionInvokePostMethod($this, "copyto", array(
               "strnewurl"=>$strNewUrl,
               "boverwrite"=>$bOverWrite
           ));
@@ -107,7 +107,7 @@ class File extends SecurableObject
       * @param int $flags The bitwise SP.MoveOperations value for how to move the file. Overwrite = 1; AllowBrokenThickets (move even if supporting files are separated from the file) = 8.
       */
      public function moveTo($newUrl,$flags){
-          $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "moveto", array(
+          $qry = new ClientActionInvokePostMethod($this, "moveto", array(
               "newurl"=>$newUrl,
               "flags"=>$flags
           ));
@@ -119,7 +119,7 @@ class File extends SecurableObject
       * Moves the file to the Recycle Bin and returns the identifier of the new Recycle Bin item.
       */
      public function recycle(){
-          $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "recycle");
+          $qry = new ClientActionInvokePostMethod($this, "recycle");
           $this->getContext()->addQuery($qry);
      }
 

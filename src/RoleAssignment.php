@@ -14,14 +14,14 @@ class RoleAssignment extends ClientObject
      */
     public function update()
     {
-        $qry = new ClientActionUpdateEntity($this->getResourceUrl(),$this->toJson());
+        $qry = new ClientActionUpdateEntity($this);
         $this->getContext()->addQuery($qry,$this);
     }
 
 
     public function deleteObject()
     {
-        $qry = new ClientActionDeleteEntity($this->getResourceUrl());
+        $qry = new ClientActionDeleteEntity($this);
         $this->getContext()->addQuery($qry);
     }
 

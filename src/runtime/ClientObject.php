@@ -45,7 +45,7 @@ abstract class ClientObject
      */
     protected $parentCollection;
     
-    public function __construct(ClientContext $ctx, ResourcePath $resourcePath)
+    public function __construct(ClientContext $ctx, ResourcePath $resourcePath = null)
     {
         $this->ctx = $ctx;
         $this->resourcePath = $resourcePath;
@@ -166,14 +166,14 @@ abstract class ClientObject
     }
 
 
-    public function toJson()
+    public function getPayload()
     {
         $this->ensureMetadataType($this->changed_properties);
         return json_encode($this->changed_properties);
     }
 
 
-    protected function initClientObjectProperties(\stdClass $data,$parentPropertyName=null)
+    protected function initClientObjectProperties(\stdClass $data)
     {
         $primitiveNames = ODataPrimitiveTypeKind::getValues();
         $primitiveCollectionNames = array_map(function($name) { return "Collection(" . $name . ")";} , $primitiveNames);

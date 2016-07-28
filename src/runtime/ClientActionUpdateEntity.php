@@ -9,11 +9,10 @@ class ClientActionUpdateEntity extends ClientAction
 
     /**
      * ClientActionUpdateEntity constructor.
-     * @param string $resourceUrl
-     * @param null|string $payload
+     * @param ClientObject $clientObject
      */
-    public function __construct($resourceUrl,$payload)
+    public function __construct(ClientObject $clientObject)
     {
-        parent::__construct($resourceUrl, $payload, (int)HttpMethod::Merge);
+        parent::__construct($clientObject->getResourceUrl(), $clientObject->getPayload(), (int)ClientActionType::UpdateEntry);
     }
 }

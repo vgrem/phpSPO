@@ -3,8 +3,7 @@
 
 namespace SharePoint\PHP\Client\UserProfiles;
 
-use SharePoint\PHP\Client\ClientActionInvokeMethod;
-use SharePoint\PHP\Client\HttpMethod;
+use SharePoint\PHP\Client\ClientActionInvokePostMethod;
 use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ClientObject;
 use SharePoint\PHP\Client\ResourcePathEntry;
@@ -21,7 +20,11 @@ class UserProfile extends ClientObject
      * Enqueues creating a personal site for this user, which can be used to share documents, web pages, and other files.
      */
     public function createPersonalSiteEnque(){
-        $qry = new ClientActionInvokeMethod($this->getResourceUrl(), "createpersonalsiteenque",array(false), HttpMethod::Post);
+        $qry = new ClientActionInvokePostMethod(
+            $this,
+            "createpersonalsiteenque",
+            array(false)
+        );
         $this->getContext()->addQuery($qry);
     }
 

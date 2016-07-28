@@ -10,7 +10,7 @@ class RoleDefinition extends ClientObject
 {
     public function deleteObject()
     {
-        $qry = new ClientAction($this->getResourcePath(),HttpMethod::Delete);
+        $qry = new ClientActionDeleteEntity($this);
         $this->getContext()->addQuery($qry);
     }
 

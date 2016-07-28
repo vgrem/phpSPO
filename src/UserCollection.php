@@ -48,10 +48,7 @@ class UserCollection extends ClientObjectCollection
      */
     public function removeById($id)
     {
-        $qry = new ClientActionUpdateMethod(
-            $this->getResourceUrl(),
-            "removebyid",
-            array($id));
+        $qry = new ClientActionInvokePostMethod($this,"removebyid",array($id));
         $this->getContext()->addQuery($qry);
     }
 
@@ -61,8 +58,8 @@ class UserCollection extends ClientObjectCollection
      */
     public function removeByLoginName($loginName)
     {
-        $qry = new ClientActionUpdateMethod(
-            $this->getResourceUrl(),
+        $qry = new ClientActionInvokePostMethod(
+            $this,
             "removebyloginname",
             array(rawurlencode($loginName)));
         $this->getContext()->addQuery($qry);

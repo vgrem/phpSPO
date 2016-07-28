@@ -4,14 +4,14 @@ namespace SharePoint\PHP\Client;
 
 
 /**
- * OData query
+ * OData query class
  */
-class ClientAction
+abstract class ClientAction
 {
     /**
      * @var int
      */
-    private $methodType;
+    private $actionType;
 
     /**
      * @var string
@@ -21,41 +21,35 @@ class ClientAction
     /**
      * @var string
      */
-    private $data;
-    
+    private $payload;
 
-    /**
-     * @var bool
-     */
-    private $binaryStringRequestBody;
 
     /**
      * @var int
      */
-    private $dataFormatType;
+    private $payloadFormatType;
 
 
     /**
      * ClientAction constructor.
      * @param string $resourceUrl
-     * @param string $data
+     * @param string $payload
      * @param int $methodType
      */
-    public function __construct($resourceUrl, $data=null, $methodType=null)
+    public function __construct($resourceUrl, $payload=null, $methodType=null)
     {
         $this->resourceUrl = $resourceUrl;
-        $this->data = $data;
-        $this->methodType = $methodType;
-        $this->binaryStringRequestBody = false;
-        $this->dataFormatType = FormatType::Json;
+        $this->payload = $payload;
+        $this->actionType = $methodType;
+        $this->payloadFormatType = FormatType::Json;
     }
 
 
     /**
      * @return int
      */
-    public function getDataFormatType(){
-        return $this->dataFormatType;
+    public function getPayloadFormatType(){
+        return $this->payloadFormatType;
     }
 
     /**
@@ -74,33 +68,25 @@ class ClientAction
     }
 
 
-    public function getData(){
-        return $this->data;
+    public function getPayload(){
+        return $this->payload;
     }
 
 
     /**
      * @return int
      */
-    public function getMethodType()
+    public function getActionType()
     {
-        return $this->methodType;
-    }
-
-    /**
-     * @param bool $value
-     */
-    public function setBinaryStringRequestBody($value)
-    {
-        $this->binaryStringRequestBody = $value;
+        return $this->actionType;
     }
 
     /**
      * @param int $value
      */
-    public function setDataFormatType($value)
+    public function setPayloadFormatType($value)
     {
-        $this->dataFormatType = $value;
+        $this->payloadFormatType = $value;
     }
 }
 

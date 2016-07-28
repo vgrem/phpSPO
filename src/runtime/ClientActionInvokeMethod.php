@@ -6,18 +6,19 @@ namespace SharePoint\PHP\Client;
 
 use SharePoint\PHP\Client\Runtime\ODataPathParser;
 
-class ClientActionInvokeMethod extends ClientAction
+abstract class ClientActionInvokeMethod extends ClientAction
 {
     /**
-     * ClientActionUpdateMethod constructor.
-     * @param string $resourceUrl
+     * ClientActionInvokeMethod constructor.
+     * @param ClientObject $parentClientObject
      * @param array $methodName
      * @param array $methodParameters
-     * @param int $methodType
+     * @param string $payload
+     * @param int $actionType
      */
-    public function __construct($resourceUrl,$methodName=null,array $methodParameters=null,$methodType = HttpMethod::Get)
+    public function __construct(ClientObject $parentClientObject, $methodName=null, array $methodParameters=null, $payload = null, $actionType = ClientActionType::ReadEntry)
     {
-        $url = $resourceUrl . "/" . ODataPathParser::fromMethod($methodName,$methodParameters);
-        parent::__construct($url,null,$methodType);
+        $url = $parentClientObject->getResourceUrl() . "/" . ODataPathParser::fromMethod($methodName,$methodParameters);
+        parent::__construct($url,$payload,$actionType);
     }
 }

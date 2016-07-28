@@ -4,7 +4,7 @@ namespace SharePoint\PHP\Client;
 
 require_once('runtime/utilities/EnumType.php');
 require_once('runtime/utilities/Guid.php');
-require_once('runtime/HttpMethod.php');
+require_once('runtime/ClientActionType.php');
 require_once('runtime/ClientRequest.php');
 require_once('runtime/ContextWebInformation.php');
 require_once('runtime/odata/ODataQueryOptions.php');
@@ -16,7 +16,8 @@ require_once('runtime/ResourcePathServiceOperation.php');
 require_once('runtime/ClientAction.php');
 require_once('runtime/ClientActionInvokeMethod.php');
 require_once('runtime/ClientActionReadEntity.php');
-require_once('runtime/ClientActionUpdateMethod.php');
+require_once('runtime/ClientActionInvokePostMethod.php');
+require_once('runtime/ClientActionInvokeGetMethod.php');
 require_once('runtime/ClientActionDeleteEntity.php');
 require_once('runtime/ClientActionUpdateEntity.php');
 require_once('runtime/ClientActionCreateEntity.php');

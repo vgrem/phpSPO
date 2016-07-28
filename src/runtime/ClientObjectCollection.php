@@ -31,7 +31,7 @@ class ClientObjectCollection extends ClientObject
      * @param ResourcePath $resourcePath
      * @param ODataQueryOptions $queryOptions
      */
-    public function __construct(ClientContext $ctx, ResourcePath $resourcePath, ODataQueryOptions $queryOptions = null)
+    public function __construct(ClientContext $ctx, ResourcePath $resourcePath = null, ODataQueryOptions $queryOptions = null)
     {
         parent::__construct($ctx,$resourcePath);
         $this->queryOptions = $queryOptions;

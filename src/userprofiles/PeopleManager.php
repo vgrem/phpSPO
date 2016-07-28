@@ -2,12 +2,11 @@
 
 namespace SharePoint\PHP\Client\UserProfiles;
 
-use SharePoint\PHP\Client\ClientActionInvokeMethod;
-use SharePoint\PHP\Client\ClientActionUpdateMethod;
+use SharePoint\PHP\Client\ClientActionInvokeGetMethod;
+use SharePoint\PHP\Client\ClientActionInvokePostMethod;
 use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ClientObject;
 use SharePoint\PHP\Client\ClientResult;
-use SharePoint\PHP\Client\HttpMethod;
 use SharePoint\PHP\Client\ResourcePathEntry;
 use SharePoint\PHP\Client\ResourcePathServiceOperation;
 
@@ -33,7 +32,7 @@ class PeopleManager extends ClientObject
      */
     public function amIFollowedBy ($accountName){
         $clientResult = new ClientResult();
-        $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "amifollowedby",array(rawurlencode($accountName)));
+        $qry = new ClientActionInvokePostMethod($this, "amifollowedby",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry,$clientResult);
         return $clientResult;
     }
@@ -67,7 +66,7 @@ class PeopleManager extends ClientObject
      * @param string $accountName
      */
     public function follow($accountName){
-        $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "follow",array(rawurlencode($accountName)));
+        $qry = new ClientActionInvokePostMethod($this, "follow",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry);
     }
 
@@ -77,7 +76,7 @@ class PeopleManager extends ClientObject
      * @param string $accountName
      */
     public function stopFollowing ($accountName){
-        $qry = new ClientActionUpdateMethod($this->getResourceUrl(), "stopfollowing",array(rawurlencode($accountName)));
+        $qry = new ClientActionInvokePostMethod($this, "stopfollowing",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry);
     }
 
@@ -89,11 +88,11 @@ class PeopleManager extends ClientObject
      */
     public function amIFollowing ($accountName){
         $clientResult = new ClientResult();
-        $qry = new ClientActionInvokeMethod(
-            $this->getResourceUrl(),
+        $qry = new ClientActionInvokeGetMethod(
+            $this,
             "amifollowing",
-            array(rawurlencode($accountName)),
-            HttpMethod::Get);
+            array(rawurlencode($accountName))
+        );
         $this->getContext()->addQuery($qry,$clientResult);
         return $clientResult;
     }
@@ -121,12 +120,14 @@ class PeopleManager extends ClientObject
     public function getUserProfilePropertyFor ($accountName,$propertyName)
     {
         $clientResult = new ClientResult();
-        $qry = new ClientActionInvokeMethod($this->getResourceUrl(), "getuserprofilepropertyfor",
+        $qry = new ClientActionInvokeGetMethod(
+            $this,
+            "getuserprofilepropertyfor",
             array(
                 "accountname" => rawurlencode($accountName),
                 "propertyname" => $propertyName
             )
-        , HttpMethod::Get);
+        );
         $this->getContext()->addQuery($qry, $clientResult);
         return $clientResult;
     }
