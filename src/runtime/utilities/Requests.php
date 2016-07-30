@@ -77,10 +77,6 @@ class Requests
     private static function init(RequestOptions $options)
     {
         $ch = curl_init();
-
-        //curl_setopt($ch, CURLOPT_PROXY, '127.0.0.1:8888');
-
-
         curl_setopt($ch, CURLOPT_URL, $options->Url);
         curl_setopt_array($ch, self::$defaultOptions);  //default options
         //include headers in response
