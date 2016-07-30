@@ -78,7 +78,7 @@ class Requests
     {
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_PROXY, '127.0.0.1:8888');
+        //curl_setopt($ch, CURLOPT_PROXY, '127.0.0.1:8888');
 
 
         curl_setopt($ch, CURLOPT_URL, $options->Url);
