@@ -10,12 +10,12 @@ class ClientActionInvokePostMethod extends ClientActionInvokeMethod
      * ClientActionUpdateMethod constructor.
      * @param ClientObject $parentClientObject
      * @param string $methodName
-     * @param array $methodParameters
+     * @param array $actionParameters
      * @param string $payload
      */
-    public function __construct(ClientObject $parentClientObject, $methodName = null, array $methodParameters = null,$payload=null)
+    public function __construct(ClientObject $parentClientObject, $methodName = null, array $actionParameters = null, $payload=null)
     {
-        parent::__construct($parentClientObject,$methodName,$methodParameters,$payload,ClientActionType::PostMethod);
+        parent::__construct($parentClientObject,$methodName,$actionParameters,$payload,ClientActionType::PostMethod);
     }
     
 

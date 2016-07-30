@@ -82,14 +82,11 @@ class SamlTokenProvider extends BaseTokenProvider
     {
         $urlInfo = parse_url($this->url);
         $url =  $urlInfo['scheme'] . '://' . $urlInfo['host'] . self::$SignInPageUrl;
-        $response = Requests::post($url,null,$token,$passHeaders = true);
+        $response = Requests::post($url,null,$token,true);
         $cookies = Requests::parseCookies($response);
         $this->FedAuth = $cookies['FedAuth'];
         $this->rtFa = $cookies['rtFa'];
     }
-
-
-
 
 
     /**

@@ -13,6 +13,8 @@ use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ClientRequest;
 
 
+global $Settings;
+
 try {
     $authCtx = new AuthenticationContext($Settings['Url']);
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
@@ -42,11 +44,10 @@ function getListItemChangesAlt($webUrl, AuthenticationContext $authCtx)
     );
 
     $request = ClientRequest::create($webUrl,$authCtx);
-    $options = array(
-        'url' => $webUrl . "/_api/web/Lists/getbytitle('$listTitle')/GetListItemChangesSinceToken",
-        'data' => json_encode($payload),
-        'method' => 'POST'
-    );
+    $url = $webUrl . "/_api/web/Lists/getbytitle('$listTitle')/GetListItemChangesSinceToken";
+    $options = new \SharePoint\PHP\Client\RequestOptions($url);
+    $options->Data = json_encode($payload);
+    $options->PostMethod =  true;
     $response = $request->executeQueryDirect($options);
 
     //process results

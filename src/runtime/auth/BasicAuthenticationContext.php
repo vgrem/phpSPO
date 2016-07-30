@@ -1,9 +1,14 @@
 <?php
+
 namespace SharePoint\PHP\Client;
 require_once('AuthenticationContext.php');
 
-class NtlmAuthenticationContext extends AuthenticationContext
-{
+class BasicAuthenticationContext extends AuthenticationContext{
+
+    /**
+     * @var array
+     */
+    //private $cachedCookies = array();
 
     /**
      * @var UserCredentials
@@ -17,9 +22,8 @@ class NtlmAuthenticationContext extends AuthenticationContext
 
     public function authenticateRequest($options)
     {
-        $options->AuthType = CURLAUTH_NTLM;
+        $options->AuthType = CURLAUTH_BASIC;
         $options->UserCredentials = $this->userCredentials;
     }
-
 
 }

@@ -53,7 +53,10 @@ class ClientRequest
     public function __construct(ClientContext $context)
     {
         $this->context = $context;
-        $this->defaultHeaders = array();
+        $this->defaultHeaders = array(
+            "Accept" => "application/json; odata=verbose",
+            "Content-type" => "application/json; odata=verbose"
+        );
         $this->formatType = FormatType::Json;
     }
 
@@ -74,25 +77,15 @@ class ClientRequest
     }
 
     
-    public function executeQueryDirect($options)
+    public function executeQueryDirect(RequestOptions $options)
     {
-        if (!isset($options["headers"])) {
-            $options["headers"] = [];
-        }
-        if (!isset($options["method"])) {
-            $options["method"] = "GET";
-        }
-
         $this->context->authenticateRequest($options);
-
-        if(!empty($options["data"]) or $options["method"] == "POST"){
+        $options->setCustomHeaders($this->defaultHeaders);
+        if($options->PostMethod){
             $this->ensureFormDigest();
-            $options["headers"]["X-RequestDigest"] = $this->contextWebInformation->FormDigestValue;
-            $result = Requests::post($options["url"],$this->prepareHeaders($options["headers"]),$options["data"]);
+            $options->addCustomHeader("X-RequestDigest",$this->contextWebInformation->FormDigestValue);
         }
-        else{
-            $result = Requests::get($options["url"],$this->prepareHeaders($options["headers"]));
-        }
+        $result = Requests::execute($options);
         return $result;
     }
 
@@ -119,27 +112,22 @@ class ClientRequest
     }
 
 
+    /**
+     * Builds OData request
+     * @param ClientAction $qry
+     * @return RequestOptions
+     */
     private function buildRequest(ClientAction $qry){
-        $actionType = $qry->getActionType();
+        $requestOptions = new RequestOptions($qry->getResourceUrl());
+        $requestOptions->PostMethod = ($qry->ActionType != ClientActionType::ReadEntry);
+        $requestOptions->Data = $qry->getPayload();
 
-        $requestOptions = array(
-            'url' =>  $qry->getResourceUrl(),
-            'headers' => array(),
-            'data' => null,
-            'method' => $actionType == ClientActionType::ReadEntry ? 'GET' : 'POST'
-        );
-
-        $data = $qry->getPayload();
-        if(isset($data)){
-            $requestOptions["data"] = $data;
-        }
-
-        if ($actionType == ClientActionType::UpdateEntry) {
-            $requestOptions['headers']["IF-MATCH"] = "*";
-            $requestOptions['headers']["X-HTTP-Method"] = "MERGE";
-        } else if ($actionType == ClientActionType::DeleteEntry) {
-            $requestOptions['headers']["IF-MATCH"] = "*";
-            $requestOptions['headers']["X-HTTP-Method"] = "DELETE";
+        if ($qry->ActionType == ClientActionType::UpdateEntry) {
+            $requestOptions->addCustomHeader("IF-MATCH","*");
+            $requestOptions->addCustomHeader("X-HTTP-Method","MERGE");
+        } else if ($qry->ActionType == ClientActionType::DeleteEntry) {
+            $requestOptions->addCustomHeader("IF-MATCH","*");
+            $requestOptions->addCustomHeader("X-HTTP-Method","DELETE");
         }
         return $requestOptions;
     }
@@ -192,29 +180,9 @@ class ClientRequest
         }
     }
 
-    private function prepareHeaders($options)
-    {
-        $headers = array();
-
-        if (!array_key_exists('Accept', $options))
-            $this->addHeader($headers, "Accept", "application/json; odata=verbose");
-        if (!array_key_exists('Content-type', $options))
-            $this->addHeader($headers, "Content-type", "application/json; odata=verbose");
-        
-        foreach ($options as $key => $value) {
-            $this->addHeader($headers, $key, $value);
-        }
-        
-        return $headers;
-    }
-
-    private function addHeader(&$headers,$key,$value)
-    {
-        $headers[] = $key . ':' . $value;
-    }
-
-
-
+    /**
+     * Ensure form digest value for POST request
+     */
     protected function ensureFormDigest()
     {
         if (!isset($this->formDigest)) {
@@ -228,15 +196,14 @@ class ClientRequest
 	 */
     protected function requestFormDigest()
     {
-        $options = array(
-            'url' => $this->context->getUrl() . "/_api/contextinfo",
-            'headers' => $this->defaultHeaders
-        );
+        $url = $this->context->getUrl() . "/_api/contextinfo";
+        $request = new RequestOptions($url);
+        $request->Headers = $this->defaultHeaders;
+        $request->PostMethod = true;
         //authenticate request
-        $this->context->authenticateRequest($options);
-
-        $content = Requests::post($options['url'],$this->prepareHeaders($options['headers']));
-        $data = json_decode($content);
+        $this->context->authenticateRequest($request);
+        $response = Requests::execute($request);
+        $data = json_decode($response);
         $this->contextWebInformation = new ContextWebInformation();
         $this->contextWebInformation->fromJson($data);
     }

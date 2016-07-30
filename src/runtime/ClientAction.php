@@ -11,7 +11,7 @@ abstract class ClientAction
     /**
      * @var int
      */
-    private $actionType;
+    public $ActionType;
 
     /**
      * @var string
@@ -34,22 +34,14 @@ abstract class ClientAction
      * ClientAction constructor.
      * @param string $resourceUrl
      * @param string $payload
-     * @param int $methodType
+     * @param int $actionType
      */
-    public function __construct($resourceUrl, $payload=null, $methodType=null)
+    public function __construct($resourceUrl, $payload=null, $actionType=null)
     {
         $this->resourceUrl = $resourceUrl;
         $this->payload = $payload;
-        $this->actionType = $methodType;
+        $this->ActionType = $actionType;
         $this->payloadFormatType = FormatType::Json;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getPayloadFormatType(){
-        return $this->payloadFormatType;
     }
 
     /**
@@ -76,9 +68,8 @@ abstract class ClientAction
     /**
      * @return int
      */
-    public function getActionType()
-    {
-        return $this->actionType;
+    public function getPayloadFormatType(){
+        return $this->payloadFormatType;
     }
 
     /**

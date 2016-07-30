@@ -12,13 +12,13 @@ abstract class ClientActionInvokeMethod extends ClientAction
      * ClientActionInvokeMethod constructor.
      * @param ClientObject $parentClientObject
      * @param array $methodName
-     * @param array $methodParameters
+     * @param array $actionParameters
      * @param string $payload
      * @param int $actionType
      */
-    public function __construct(ClientObject $parentClientObject, $methodName=null, array $methodParameters=null, $payload = null, $actionType = ClientActionType::ReadEntry)
+    public function __construct(ClientObject $parentClientObject, $methodName=null, array $actionParameters=null, $payload = null, $actionType = ClientActionType::ReadEntry)
     {
-        $url = $parentClientObject->getResourceUrl() . "/" . ODataPathParser::fromMethod($methodName,$methodParameters);
+        $url = $parentClientObject->getResourceUrl() . "/" . ODataPathParser::fromMethod($methodName,$actionParameters);
         parent::__construct($url,$payload,$actionType);
     }
 }

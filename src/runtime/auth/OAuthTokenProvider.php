@@ -2,7 +2,6 @@
 
 
 namespace SharePoint\PHP\Client;
-use Exception;
 
 /**
  * Provider to acquire the access token from a Microsoft Azure Access Control Service (ACS)
@@ -13,23 +12,23 @@ class OAuthTokenProvider extends BaseTokenProvider
     /**
      * @var string
      */
-    private static $TokenEndpoint = '/oauth2/token';
+    //private static $TokenEndpoint = '/oauth2/token';
 
     /**
      * @var string
      */
-    private static $AuthorityUrl  = 'https://login.microsoftonline.com/common';
+    //private static $AuthorityUrl  = 'https://login.microsoftonline.com/common';
 
 
     /**
      * @var string
      */
-    private static  $AuthorizeEndpoint = '/oauth2/authorize';
+    //private static  $AuthorizeEndpoint = '/oauth2/authorize';
 
     /**
      * @var string
      */
-    private static $ResourceId = 'https://graph.microsoft.com';
+    //private static $ResourceId = 'https://graph.microsoft.com';
 
 
     /**
@@ -92,8 +91,8 @@ class OAuthTokenProvider extends BaseTokenProvider
     private function getRealmFromTargetUrl()
     {
         $headers = array();
-        $headers[] = 'Authorization:Bearer';
-        $response = Requests::get($this->url, $headers, true);
+        $headers['Authorization'] = 'Bearer';
+        $response = Requests::head($this->url, $headers);
         return $this->processRealmResponse($response);
     }
 
@@ -125,7 +124,7 @@ class OAuthTokenProvider extends BaseTokenProvider
 
         $headers = array();
         $headers[] = 'Content-Type: application/x-www-form-urlencoded';
-        $response = Requests::post($stsUrl, $headers, $oauth2Request, false);
+        $response = Requests::post($stsUrl, $headers, $oauth2Request);
         return json_decode($response);
     }
 

@@ -39,12 +39,12 @@ class AuthenticationContext
         $this->provider->acquireToken();
     }
 
-    public function authenticateRequest(&$options)
+    public function authenticateRequest(RequestOptions &$options)
     {
         if($this->provider instanceof SamlTokenProvider)
-            $options['headers']['Cookie'] = $this->provider->getAuthenticationCookie();
+            $options->addCustomHeader('Cookie',$this->provider->getAuthenticationCookie());
         elseif ($this->provider instanceof OAuthTokenProvider)
-            $options['headers']['Authorization'] = $this->provider->getAuthorizationHeader();
+            $options->addCustomHeader('Authorization',$this->provider->getAuthorizationHeader());
         else
             throw new \Exception("Unknown authentication provider");
     }

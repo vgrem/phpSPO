@@ -2,6 +2,7 @@
 
 require_once(__DIR__ . '/../src/ClientContext.php');
 require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/runtime/auth/NtlmAuthenticationContext.php');
 require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
@@ -11,7 +12,7 @@ use SharePoint\PHP\Client\ListCreationInformation;
 
 
 try {
-	$authCtx = new AuthenticationContext($Settings['Url']);
+	$authCtx = new \SharePoint\PHP\Client\AuthenticationContext($Settings['Url']);
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
 
     $ctx = new ClientContext($Settings['Url'],$authCtx);
@@ -197,8 +198,8 @@ function deleteTask(\SharePoint\PHP\Client\ListItem $item){
 
 function updateTask(\SharePoint\PHP\Client\ListItem $item){
 	$ctx = $item->getContext();
-	$itemProperties = array('PercentComplete' => 1, '__metadata' => array('type' => 'SP.Data.TasksListItem'));
-	$item->update($itemProperties);
+	$item->setProperty('PercentComplete', 1);
+	$item->update();
     $ctx->executeQuery();
     print "Task {$item->getProperty('Title')} has been updated.\r\n";
 }

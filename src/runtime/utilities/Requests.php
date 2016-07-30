@@ -1,124 +1,113 @@
 <?php
 namespace SharePoint\PHP\Client;
+require_once("RequestOptions.php");
+require_once("UserCredentials.php");
 
 class Requests
 {
 
-	
-	private static $curlopts = array(
+	private static $defaultOptions = array(
 			CURLOPT_SSL_VERIFYHOST => false,
 			CURLOPT_SSL_VERIFYPEER => false,
 			CURLOPT_RETURNTRANSFER => true,
 	);
-	
-	public static function addCurlOpt($key, $value){
-		self::$curlopts[$key]=$value;
-	}
 
-	public static function enableNtlmAuthentication($username, $password){
-		self::addCurlOpt(CURLOPT_HTTPAUTH, CURLAUTH_NTLM);
-		self::addCurlOpt(CURLOPT_USERPWD, $username. ':' . $password);
-	}
-	
-	public static function enableCurlDebug(){
-		self::addCurlOpt(CURLOPT_VERBOSE, true);
-	}
-	
-	public static function setSslVersion($sslVersion)
+	public static function execute(RequestOptions $options)
 	{
-	    if (!is_int($sslVersion)) {
-	        throw new \InvalidArgumentException("SSL Version must be an integer");
-	    }
-	    self::addCurlOpt(CURLOPT_SSLVERSION, $sslVersion);
-	}
 
-	public static function ntlmAuth($url, $username, $password, $includeHeaders=false){
-		$ch = Requests::initCurl($url);
-		curl_setopt($ch, CURLOPT_HEADER, true);
-		curl_setopt($ch, CURLOPT_USERPWD, $username. ':' . $password);
-		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_NTLM);
-		$result = curl_exec($ch);
-		if ($result === false) {
-			throw new \Exception(curl_error($ch));
-		}
-		if($includeHeaders){
-			$result=substr($result, 0, curl_getinfo($ch, CURLINFO_HEADER_SIZE));
-		}
-		curl_close($ch);
-		return $result;
-	}
-	
-	public static function post($url, $headers, $data=null, $includeHeaders=false)
-	{
-		$ch = Requests::initCurl($url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        
-		if($headers)
-		   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch, CURLOPT_HEADER, $includeHeaders);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $result = curl_exec($ch);
-        if ($result === false) {
+		$ch = Requests::init($options);
+        $response = curl_exec($ch);
+        if ($response === false) {
             throw new \Exception(curl_error($ch));
         }
-		if($includeHeaders){
-			$result=substr($result, 0, curl_getinfo($ch, CURLINFO_HEADER_SIZE));
-		}
         curl_close($ch);
-		return $result;
+		return $response;
 	}
 
 
-	public static function get($url, $headers, $includeHeaders=false)
+    public static function get($url,$headers)
     {
-        $ch = Requests::initCurl($url);
-		if($headers)
-             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch, CURLOPT_HEADER, $includeHeaders);
-        $result = curl_exec($ch);
-        if ($result === false) {
-            throw new \Exception(curl_error($ch));
-        }
-		if($includeHeaders){
-			$result=substr($result, 0, curl_getinfo($ch, CURLINFO_HEADER_SIZE));
-		}
-        curl_close($ch);
-        return $result;
+        $options = new RequestOptions($url);
+        $options->Headers = $headers;
+        return Requests::execute($options);
+    }
+
+    public static function head($url,$headers)
+    {
+        $options = new RequestOptions($url);
+        $options->IncludeHeaders = true;
+        $options->IncludeBody = false;
+        $options->Headers = $headers;
+        return Requests::execute($options);
+    }
+
+    public static function post($url, $headers, $data, $includeHeaders = false)
+    {
+        $options = new RequestOptions($url);
+        $options->PostMethod = true;
+        $options->Headers = $headers;
+        $options->Data = $data;
+        $options->IncludeHeaders = $includeHeaders;
+        return Requests::execute($options);
     }
 
 
 	/**
-	 * Parse cookies
+	 * Parse cookies (http://stackoverflow.com/a/895858/1375553)
 	 * @param $response
-	 * @return mixed
-	 * @internal param mixed $header
+	 * @return array
 	 */
     public static function parseCookies($response)
     {
-        $headerLines = explode("\r\n", $response);
+        preg_match_all('/^Set-Cookie:\s*([^;]*)/mi', $response, $matches);
         $cookies = array();
-        foreach ($headerLines as $line) {
-            if (preg_match('/^Set-Cookie: /i', $line)) {
-                $line = preg_replace('/^Set-Cookie: /i', '', trim($line));
-                $cookieValues = explode(';', $line);
-                $authCookie = explode('=', $cookieValues[0], 2);
-                $cookies[$authCookie[0]] = $authCookie[1];
-            }
+        foreach($matches[1] as $item) {
+            list($k, $v) = explode('=', $item,2);
+            $cookies[$k] = $v;
         }
-
         return $cookies;
     }
 
-	/**
-	 * Init Curl with the default parameters
-	 * @param $url
-	 * @return resource [type]    [description]
-	 */
-    private static function initCurl($url)
+
+    /**
+     * Init Curl with the default parameters
+     * @param RequestOptions $options
+     * @return resource [type]    [description]
+     */
+    private static function init(RequestOptions $options)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt_array($ch, self::$curlopts);
+
+        curl_setopt($ch, CURLOPT_PROXY, '127.0.0.1:8888');
+
+
+        curl_setopt($ch, CURLOPT_URL, $options->Url);
+        curl_setopt_array($ch, self::$defaultOptions);  //default options
+        //include headers in response
+        curl_setopt($ch, CURLOPT_HEADER, $options->IncludeHeaders);
+        //include body in response
+        curl_setopt($ch, CURLOPT_NOBODY, !$options->IncludeBody);
+        //POST method
+        if($options->PostMethod){
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $options->Data);
+        }
+        //custom HTTP headers
+        if($options->Headers)
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $options->getRawHeaders());
+        //debugging mode
+        curl_setopt($ch,CURLOPT_VERBOSE, $options->Verbose);
+        //SSL Version
+        if(!is_null($options->SSLVersion)) {
+            curl_setopt($ch,CURLOPT_SSLVERSION, $options->SSLVersion);
+        }
+        //authentication
+        if(!is_null($options->AuthType))
+            curl_setopt($ch,CURLOPT_HTTPAUTH, $options->AuthType);
+        if(!is_null($options->UserCredentials))
+            curl_setopt($ch,CURLOPT_USERPWD, $options->UserCredentials->toString());
+
         return $ch;
     }
+
 }
