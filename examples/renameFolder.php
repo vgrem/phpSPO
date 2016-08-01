@@ -8,6 +8,8 @@ use SharePoint\PHP\Client\AuthenticationContext;
 use SharePoint\PHP\Client\ClientRequest;
 
 
+global $Settings;
+
 try {
 	$authCtx = new AuthenticationContext($Settings['Url']);
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
@@ -22,29 +24,25 @@ catch (Exception $e) {
 }
 
 
-function renameFolder($url, $authCtx, $folderUrl,$folderNewName)
+function renameFolder($webUrl, $authCtx, $folderUrl,$folderNewName)
 {
-    $request = ClientRequest::create($url,$authCtx);
-    $requestOptions = array(
-        'url' => $url . "/_api/web/getFolderByServerRelativeUrl('{$folderUrl}')/ListItemAllFields"
-    );
-    $data = $request->executeQueryDirect($requestOptions);
+    $url = $webUrl . "/_api/web/getFolderByServerRelativeUrl('{$folderUrl}')/ListItemAllFields";
+    $request = new \SharePoint\PHP\Client\RequestOptions($url);
+    $ctx = new \SharePoint\PHP\Client\ClientRuntimeContext($url,$authCtx);
+    $data = $ctx->executeQueryDirect($request);
 
     $itemPayload = array( 
         '__metadata' => array ('type' => $data->d->__metadata->type),
         'Title' => $folderNewName,
         'FileLeafRef' => $folderNewName
         );
+
     $itemUrl = $data->d->__metadata->uri;
-    $requestOptions = array(
-        'url' => $itemUrl,
-        'headers' => array(
-            "X-HTTP-Method" => "MERGE",
-            "If-Match" => "*"
-        ),
-        'data' => $itemPayload
-    );
-    $data = $request->executeQueryDirect($requestOptions);
+    $request = new \SharePoint\PHP\Client\RequestOptions($itemUrl);
+    $request->addCustomHeader("X-HTTP-Method", "MERGE");
+    $request->addCustomHeader("If-Match", "*");
+    $request->Data = $itemPayload;
+    $data = $ctx->executeQueryDirect($request);
 }
 
 ?>

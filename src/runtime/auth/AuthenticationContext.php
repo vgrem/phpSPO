@@ -7,18 +7,24 @@ require_once(__DIR__ . '/../utilities/Requests.php');
 require_once('BaseTokenProvider.php');
 require_once('SamlTokenProvider.php');
 require_once('OAuthTokenProvider.php');
+require_once('IAuthenticationContext.php');
 
 
 /**
- * Authentication context for Office 365.
+ * Authentication context for SharePoint Online/One Drive for Business.
  *
  */
-class AuthenticationContext
+class AuthenticationContext implements IAuthenticationContext
 {
     /**
      * @var BaseTokenProvider
      */
     private $provider;
+
+    /**
+     * @var string
+     */
+    private $url;
 
 	public function __construct($url)
     {
@@ -39,7 +45,7 @@ class AuthenticationContext
         $this->provider->acquireToken();
     }
 
-    public function authenticateRequest(RequestOptions &$options)
+    public function authenticateRequest(RequestOptions $options)
     {
         if($this->provider instanceof SamlTokenProvider)
             $options->addCustomHeader('Cookie',$this->provider->getAuthenticationCookie());

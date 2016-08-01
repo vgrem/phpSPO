@@ -2,12 +2,10 @@
 
 
 namespace SharePoint\PHP\Client;
-
 use Exception;
-use SharePoint\PHP\Client\Runtime\ContextWebInformation;
-
 
 require_once('FormatType.php');
+require_once('utilities/Requests.php');
 
 /**
  * Client Request for OData provider.
@@ -17,19 +15,10 @@ class ClientRequest
 {
 
     /**
-     * @var ClientContext
+     * @var ClientRuntimeContext
      */
     private $context;
 
-    /**
-     * @var ContextWebInformation
-     */
-    private $contextWebInformation;
-
-    /**
-     * @var array
-     */
-    private $defaultHeaders;
 
     /**
      * @var int
@@ -48,25 +37,20 @@ class ClientRequest
 
     /**
      * ClientRequest constructor.
-     * @param ClientContext $context
+     * @param ClientRuntimeContext $context
      */
-    public function __construct(ClientContext $context)
+    public function __construct(ClientRuntimeContext $context)
     {
         $this->context = $context;
-        $this->defaultHeaders = array(
-            "Accept" => "application/json; odata=verbose",
-            "Content-type" => "application/json; odata=verbose"
-        );
         $this->formatType = FormatType::Json;
     }
 
-    public static function create($url, AuthenticationContext $authContext) {
-        $ctx = new ClientContext($url,$authContext);
-        return new ClientRequest($ctx);
-    }
 
-
-
+    /**
+     * Add query into request queue
+     * @param ClientAction $query
+     * @param ClientObject $resultObject
+     */
     public function addQuery(ClientAction $query, $resultObject=null)
     {
         if(isset($resultObject)){
@@ -76,14 +60,17 @@ class ClientRequest
         $this->queries[] = $query;
     }
 
-    
+    /**
+     * @param RequestOptions $options
+     * @return mixed
+     */
     public function executeQueryDirect(RequestOptions $options)
     {
         $this->context->authenticateRequest($options);
-        $options->setCustomHeaders($this->defaultHeaders);
         if($options->PostMethod){
-            $this->ensureFormDigest();
-            $options->addCustomHeader("X-RequestDigest",$this->contextWebInformation->FormDigestValue);
+            if($this->context instanceof ClientContext){
+                $this->context->ensureFormDigest($options);
+            }
         }
         $result = Requests::execute($options);
         return $result;
@@ -119,9 +106,12 @@ class ClientRequest
      */
     private function buildRequest(ClientAction $qry){
         $requestOptions = new RequestOptions($qry->getResourceUrl());
+        //method
         $requestOptions->PostMethod = ($qry->ActionType != ClientActionType::ReadEntry);
+        //request payload
         $requestOptions->Data = $qry->getPayload();
-
+        //json format
+        $requestOptions->setCustomHeaders($this->context->JsonFormat->buildHeaders());
         if ($qry->ActionType == ClientActionType::UpdateEntry) {
             $requestOptions->addCustomHeader("IF-MATCH","*");
             $requestOptions->addCustomHeader("X-HTTP-Method","MERGE");
@@ -178,34 +168,6 @@ class ClientRequest
                 $resultObject->fromJson($payload->d);
             }
         }
-    }
-
-    /**
-     * Ensure form digest value for POST request
-     */
-    protected function ensureFormDigest()
-    {
-        if (!isset($this->formDigest)) {
-            $this->requestFormDigest();
-        }
-    }
-
-
-	/**
-	 * Request the Context Info
-	 */
-    protected function requestFormDigest()
-    {
-        $url = $this->context->getUrl() . "/_api/contextinfo";
-        $request = new RequestOptions($url);
-        $request->Headers = $this->defaultHeaders;
-        $request->PostMethod = true;
-        //authenticate request
-        $this->context->authenticateRequest($request);
-        $response = Requests::execute($request);
-        $data = json_decode($response);
-        $this->contextWebInformation = new ContextWebInformation();
-        $this->contextWebInformation->fromJson($data);
     }
 
 }

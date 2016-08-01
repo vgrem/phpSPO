@@ -39,7 +39,7 @@ class WebTest extends SharePointTestCase
     {
         $targetWebUrl = "Workspace_" . date("Y-m-d") . rand(1,10000);
         $targetWeb = TestUtilities::createWeb(self::$context,$targetWebUrl);
-        $this->assertEquals($targetWeb->getProperty('Url'),self::$context->getUrl() . $targetWebUrl);
+        $this->assertEquals($targetWeb->getProperty('Title'),$targetWebUrl);
         return $targetWeb;
     }
 

@@ -34,21 +34,21 @@ catch (Exception $e) {
 
 function getListItemChangesAlt($webUrl, AuthenticationContext $authCtx)
 {
-    $listTitle = "Documents";
-    $payload = array(
-        'query' => array(
-            '__metadata' => array('type' => 'SP.ChangeLogItemQuery'),
+    /*$listTitle = "Documents";
+    $payload = [
+        'query' => [
+            '__metadata' => ['type' => 'SP.ChangeLogItemQuery'],
             'ViewName' => '',
             'QueryOptions'=> '<QueryOptions><Folder>Shared Documents</Folder></QueryOptions>'
-        )
-    );
+        ]
+    ];
 
-    $request = ClientRequest::create($webUrl,$authCtx);
+    var $ctx = new ClientContext($webUrl,$authCtx);
     $url = $webUrl . "/_api/web/Lists/getbytitle('$listTitle')/GetListItemChangesSinceToken";
     $options = new \SharePoint\PHP\Client\RequestOptions($url);
     $options->Data = json_encode($payload);
     $options->PostMethod =  true;
-    $response = $request->executeQueryDirect($options);
+    $response = ClientRequest::executeQueryDirect($ctx,$options);
 
     //process results
     $xml = simplexml_load_string($response);
@@ -56,8 +56,7 @@ function getListItemChangesAlt($webUrl, AuthenticationContext $authCtx)
     $rows = $xml->xpath("//z:row");
     foreach($rows as $row) {
         print (string)$row->attributes()["ows_FileLeafRef"] . "\n";
-    }
-
+    }*/
 }
 
 function getListItemChanges(\SharePoint\PHP\Client\SPList $list)

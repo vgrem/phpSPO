@@ -2,29 +2,9 @@
 
 namespace SharePoint\PHP\Client;
 
-require_once('runtime/utilities/EnumType.php');
-require_once('runtime/utilities/Guid.php');
-require_once('runtime/ClientActionType.php');
-require_once('runtime/ClientRequest.php');
-require_once('runtime/ContextWebInformation.php');
-require_once('runtime/odata/ODataQueryOptions.php');
-require_once('runtime/odata/ODataPathParser.php');
-require_once('runtime/odata/ODataPrimitiveTypeKind.php');
-require_once('runtime/ResourcePath.php');
-require_once('runtime/ResourcePathEntry.php');
-require_once('runtime/ResourcePathServiceOperation.php');
-require_once('runtime/ClientAction.php');
-require_once('runtime/ClientActionInvokeMethod.php');
-require_once('runtime/ClientActionReadEntity.php');
-require_once('runtime/ClientActionInvokePostMethod.php');
-require_once('runtime/ClientActionInvokeGetMethod.php');
-require_once('runtime/ClientActionDeleteEntity.php');
-require_once('runtime/ClientActionUpdateEntity.php');
-require_once('runtime/ClientActionCreateEntity.php');
-require_once('runtime/ClientResult.php');
-require_once('runtime/ClientObject.php');
-require_once('runtime/ClientValueObject.php');
-require_once('runtime/ClientValueObjectCollection.php');
+use SharePoint\PHP\Client\Runtime\ContextWebInformation;
+
+require_once('runtime/ClientRuntimeContext.php');
 require_once('SecurableObject.php');
 require_once('File.php');
 require_once('Folder.php');
@@ -52,7 +32,6 @@ require_once('Principal.php');
 require_once('User.php');
 require_once('Group.php');
 require_once('RoleAssignment.php');
-require_once('runtime/ClientObjectCollection.php');
 require_once('FieldCollection.php');
 require_once('AddFieldOptions.php');
 require_once('List.php');
@@ -91,7 +70,6 @@ require_once('ChangeItem.php');
 require_once('ChangeList.php');
 require_once('ChangeWeb.php');
 require_once('ChangeCollection.php');
-require_once('ChangeQuery.php');
 require_once('ChangeType.php');
 require_once('ChangeLogItemQuery.php');
 require_once('PermissionKind.php');
@@ -99,6 +77,7 @@ require_once('BasePermissions.php');
 require_once('AttachmentCreationInformation.php');
 require_once('ViewCreationInformation.php');
 require_once('WebCreationInformation.php');
+require_once('ChangeQuery.php');
 require_once('GroupCreationInformation.php');
 require_once('ListCreationInformation.php');
 require_once('ListTemplateType.php');
@@ -120,27 +99,10 @@ require_once('CustomActionElementCollection.php');
 require_once('UserIdInfo.php');
 
 /**
- * Client context
+ * Client context for SharePoint
  */
-class ClientContext
+class ClientContext extends ClientRuntimeContext
 {
-    /**
-     * Web site url
-     * @var string
-     */
-	private $baseUrl;
-
-    /**
-     * Authentication context
-     * @var AuthenticationContext
-     */
-    private $authContext;
-
-    /**
-     * @var ClientRequest
-     */
-    private $pendingRequest;
-
     /**
      * @var Site
      */
@@ -151,6 +113,13 @@ class ClientContext
      */
     private $web;
 
+
+    /**
+     * @var ContextWebInformation
+     */
+    private $contextWebInformation;
+
+
     /**
      * OData service path for Office365
      * @var string
@@ -158,65 +127,51 @@ class ClientContext
     public static $ServicePath = "/_api/";
 
     /**
-     * Client application name
-     * @var string
+     * ClientContext constructor.
+     * @param string $url
+     * @param IAuthenticationContext $authCtx
      */
-    private $ApplicationName;
-    
-    
-   
-
-
-    /**
-     * REST client context
-     * @param $url
-     * @param AuthenticationContext $authContext
-     */
-    public function __construct($url, AuthenticationContext $authContext)
+    public function __construct($url, IAuthenticationContext $authCtx)
     {
-		$this->baseUrl = $url;
-		$this->authContext = $authContext;
-        $this->ApplicationName = ".PHP Client Library";
-    }
-    
-    
-    public function authenticateRequest(&$options){
-        $this->authContext->authenticateRequest($options);
+        $serviceRootUrl = $url . self::$ServicePath;
+        parent::__construct($serviceRootUrl,$authCtx);
     }
 
 
     /**
-     * Gets the service root URL that identifies the root of an OData service
-     * @return string
+     * Ensure form digest value for POST request
+     * @param RequestOptions $request
      */
-    public function getServiceRootUrl()
+    public function ensureFormDigest(RequestOptions $request)
     {
-        return $this->getUrl() . self::$ServicePath;
+        if (!isset($this->contextWebInformation)) {
+            $this->requestFormDigest();
+        }
+        $request->addCustomHeader("X-RequestDigest",$this->getContextWebInformation()->FormDigestValue);
     }
+
 
     /**
-     * Prepare to load resource
-     * @param ClientObject $clientObject
+     * Request the SharePoint Context Info
      */
-    public function load(ClientObject $clientObject)
+    protected function requestFormDigest()
     {
-        $this->getPendingRequest()->addQueryAndResultObject($clientObject);
+        $url = $this->getServiceRootUrl() . "contextinfo";
+        $request = new RequestOptions($url);
+        $request->setCustomHeaders($this->JsonFormat->buildHeaders());
+        $request->PostMethod = true;
+        //authenticate request
+        $this->authenticateRequest($request);
+        $response = Requests::execute($request);
+        $data = json_decode($response);
+        $this->contextWebInformation = new ContextWebInformation();
+        $this->contextWebInformation->fromJson($data);
     }
+
 
     /**
-     * Submit client request to SharePoint OData/SOAP service
+     * @return Web
      */
-    public function executeQuery()
-    {
-        $this->getPendingRequest()->executeQuery();
-    }
-
-    public function addQuery(ClientAction $query, $resultObject=null)
-    {
-        $this->getPendingRequest()->addQuery($query,$resultObject);
-    }
-    
-    
     public function getWeb()
     {
         if(!isset($this->web)){
@@ -226,6 +181,9 @@ class ClientContext
     }
 
 
+    /**
+     * @return Site
+     */
     public function getSite()
     {
         if(!isset($this->site)){
@@ -233,18 +191,14 @@ class ClientContext
         }
         return $this->site;
     }
-    
-    public function getPendingRequest()
+
+
+    /**
+     * @return ContextWebInformation
+     */
+    public function getContextWebInformation()
     {
-        if(!isset($this->pendingRequest)){
-            $this->pendingRequest = new ClientRequest($this);
-        }
-        return $this->pendingRequest;
+        return $this->contextWebInformation;
     }
-    
-    public function getUrl()
-    {
-        return $this->baseUrl;
-    }
-    
+
 }
