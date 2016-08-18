@@ -2,21 +2,21 @@
 
 use SharePoint\PHP\Client\AuthenticationContext;
 use SharePoint\PHP\Client\ClientContext;
+use SharePoint\PHP\Client\Group;
 
-require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
+require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
 
-
+global $Settings;
 try {
     $authCtx = new AuthenticationContext($Settings['Url']);
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
-    $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
-
+    $ctx = new ClientContext($Settings['Url'],$authCtx);
     getSiteGroups($ctx);
     $group = createGroup($ctx);
-    //getGroup($ctx,$group->Id);
+    getGroup($ctx,$group->Id);
     removeGroup($group);
     
 
@@ -49,7 +49,7 @@ function createGroup(ClientContext $ctx){
 }
 
 
-function getGroup(ClientContext $ctx,$groupId){
+function getGroup(ClientContext $ctx, $groupId){
 
     $web = $ctx->getWeb();
     $group = $web->getSiteGroups()->getById($groupId);
@@ -59,12 +59,12 @@ function getGroup(ClientContext $ctx,$groupId){
 }
 
 
-function removeGroup(\SharePoint\PHP\Client\Group $group){
+function removeGroup(Group $group){
 
     $ctx = $group->getContext();
     $ctx->getWeb()->getSiteGroups()->removeById($group->Id);
     $ctx->executeQuery();
-    print "Group '{$group->Title}' has been deleted\r\n";
+    print "Group " . $group->getProperty("Title") . " has been deleted\r\n";
 }
 
 

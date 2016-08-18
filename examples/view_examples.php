@@ -1,12 +1,13 @@
 <?php
 
-require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
+require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
 use SharePoint\PHP\Client\ClientContext;
 
+global $Settings;
 
 try {
 
@@ -25,7 +26,7 @@ catch (Exception $e) {
 
 
 
-function printListViews(ClientContext $ctx,$listTitle){
+function printListViews(ClientContext $ctx, $listTitle){
     $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
     $views = $list->getViews();
     $ctx->load($views);
@@ -34,8 +35,3 @@ function printListViews(ClientContext $ctx,$listTitle){
         print "View title: '{$view->Title}'\r\n";
     }
 }
-
-
-
-
-?>

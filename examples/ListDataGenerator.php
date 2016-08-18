@@ -1,13 +1,13 @@
 <?php
 
 require_once __DIR__ . '/../../Faker/src/autoload.php';  //Faker library (https://github.com/fzaninotto/Faker)
-require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
+require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
 use SharePoint\PHP\Client\ClientContext;
-
+global $Settings;
 
 try {
 	$authCtx = new AuthenticationContext($Settings['Url']);

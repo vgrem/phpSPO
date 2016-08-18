@@ -2,10 +2,10 @@
 
 
 
-require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once 'Settings.php';
 use SharePoint\PHP\Client\AuthenticationContext;
-
+global $Settings;
 
 try {
 	$authCtx = new AuthenticationContext($Settings['Url']);

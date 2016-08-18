@@ -1,8 +1,8 @@
 <?php
 
 
-require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
+require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
@@ -10,8 +10,6 @@ use SharePoint\PHP\Client\ChangeLogItemQuery;
 use SharePoint\PHP\Client\ChangeQuery;
 use SharePoint\PHP\Client\ChangeType;
 use SharePoint\PHP\Client\ClientContext;
-use SharePoint\PHP\Client\ClientRequest;
-
 
 global $Settings;
 

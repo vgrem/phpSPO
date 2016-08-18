@@ -82,7 +82,7 @@ class PageTest extends SharePointTestCase
     }
 
 
-    public function testAddWebPart()
+    /*public function testAddWebPart()
     {
         $webPartXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" .
 "<WebPart xmlns=\"http://schemas.microsoft.com/WebPart/v2\">" .
@@ -99,7 +99,7 @@ class PageTest extends SharePointTestCase
         self::$context->executeQuery();
         $type = $webPartDef->getEntityTypeName();
         $this->assertEquals($type, "SP.WebParts.WebPartDefinition");
-    }
+    }*/
 
 
 

@@ -25,21 +25,22 @@ class WebTest extends SharePointTestCase
         self::$context->executeQuery();
 
 
-        $users = array_filter(
+        $result = array_filter(
             $assignments->getData(),
             function (\SharePoint\PHP\Client\RoleAssignment $assignment)  {
                 $principal = $assignment->getMember();
-                return  $principal->getProperty("PrincipalType") === \SharePoint\PHP\Client\PrincipalType::User;
+                return  ($principal->getProperty("PrincipalType") === \SharePoint\PHP\Client\PrincipalType::SharePointGroup
+                    || $principal->getProperty("PrincipalType") === \SharePoint\PHP\Client\PrincipalType::User);
             }
         );
-        //todo
+        self::assertGreaterThanOrEqual(1,count($result));
     }
     
     public function testCreateWeb()
     {
         $targetWebUrl = "Workspace_" . date("Y-m-d") . rand(1,10000);
         $targetWeb = TestUtilities::createWeb(self::$context,$targetWebUrl);
-        $this->assertEquals($targetWeb->getProperty('Title'),$targetWebUrl);
+        $this->assertEquals($targetWebUrl,$targetWeb->getProperty('Title'));
         return $targetWeb;
     }
 
@@ -50,11 +51,10 @@ class WebTest extends SharePointTestCase
      */
     public function testIfWebExist(\SharePoint\PHP\Client\Web $targetWeb)
     {
-        $ctx = $targetWeb->getContext();
         $webTitle = $targetWeb->getProperty('Title');
-        $webs = $ctx->getWeb()->getWebs()->filter("Title eq '$webTitle'");
-        $ctx->load($webs);
-        $ctx->executeQuery();
+        $webs = self::$context->getWeb()->getWebs()->filter("Title eq '$webTitle'");
+        self::$context->load($webs);
+        self::$context->executeQuery();
         $this->assertCount(1,$webs->getData());
         return $targetWeb;
     }
@@ -87,15 +87,13 @@ class WebTest extends SharePointTestCase
      */
     public function testTryDeleteWeb(\SharePoint\PHP\Client\Web $targetWeb){
         $title = $targetWeb->getProperty("Title");
-        $ctx = $targetWeb->getContext();
         $targetWeb->deleteObject();
-        $ctx->executeQuery();
+        self::$context->executeQuery();
 
-        $webs = $ctx->getWeb()->getWebs()->filter("Title eq '$title'");
-        $ctx->load($webs);
-        $ctx->executeQuery();
+        $webs = self::$context->getWeb()->getWebs()->filter("Title eq '$title'");
+        self::$context->load($webs);
+        self::$context->executeQuery();
         $this->assertCount(0,$webs->getData());
     }
-
 
 }

@@ -2,7 +2,7 @@
 
 
 use SharePoint\PHP\Client\ClientContext;
-use SharePoint\PHP\Client\FileCreationInformation;
+use SharePoint\PHP\Client\ClientRuntimeContext;
 use SharePoint\PHP\Client\ListCreationInformation;
 use SharePoint\PHP\Client\SPList;
 
@@ -56,7 +56,7 @@ class TestUtilities
     }
 
 
-    public static function createWeb(SharePoint\PHP\Client\ClientContext $ctx,$webUrl)
+    public static function createWeb(SharePoint\PHP\Client\ClientContext $ctx, $webUrl)
     {
         $web = $ctx->getWeb();
         $info = new \SharePoint\PHP\Client\WebCreationInformation($webUrl,$webUrl);
@@ -67,7 +67,7 @@ class TestUtilities
     
     
     
-    public static function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle,$type,$clearItems = true)
+    public static function ensureList(SharePoint\PHP\Client\ClientContext $ctx, $listTitle, $type, $clearItems = true)
     {
         $lists = $ctx->getWeb()->getLists()->filter("Title eq '$listTitle'")->top(1);
         $ctx->load($lists);
@@ -99,12 +99,12 @@ class TestUtilities
 
 
     /**
-     * @param ClientContext $ctx
+     * @param ClientRuntimeContext $ctx
      * @param $listTitle
      * @param $type
      * @return \SharePoint\PHP\Client\SPList
      */
-    public static function createList(ClientContext $ctx,$listTitle,$type){
+    public static function createList(ClientContext $ctx, $listTitle, $type){
         $info = new ListCreationInformation($listTitle);
         $info->BaseTemplate = $type;
         $list = $ctx->getWeb()->getLists()->add($info);

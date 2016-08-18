@@ -1,11 +1,11 @@
 <?php
 
-require_once(__DIR__ .'/../examples/Settings.php');
-require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
-
-
 use SharePoint\PHP\Client\ClientContext;
+
+require_once(__DIR__ .'/../examples/Settings.php');
+require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
+require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
+
 
 abstract class SharePointTestCase extends PHPUnit_Framework_TestCase
 {
@@ -24,12 +24,6 @@ abstract class SharePointTestCase extends PHPUnit_Framework_TestCase
         //$authCtx->acquireTokenForApp($AppSettings['ClientId'],$AppSettings['ClientSecret'],$AppSettings['RedirectUrl']);
         self::$context = new ClientContext($Settings['Url'],$authCtx);
 
-
-
-    }
-
-
-    private static  function prepareIsolatedTestWeb(ClientContext $ctx){
 
     }
 

@@ -1,12 +1,11 @@
 <?php
 
-require_once(__DIR__ . '/../src/runtime/ClientRequest.php');
-require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/Runtime/ClientRequest.php');
+require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
-use SharePoint\PHP\Client\ClientRequest;
-
+use SharePoint\PHP\Client\ClientContext;
 
 global $Settings;
 
@@ -28,7 +27,7 @@ function renameFolder($webUrl, $authCtx, $folderUrl,$folderNewName)
 {
     $url = $webUrl . "/_api/web/getFolderByServerRelativeUrl('{$folderUrl}')/ListItemAllFields";
     $request = new \SharePoint\PHP\Client\RequestOptions($url);
-    $ctx = new \SharePoint\PHP\Client\ClientRuntimeContext($url,$authCtx);
+    $ctx = new ClientContext($url,$authCtx);
     $data = $ctx->executeQueryDirect($request);
 
     $itemPayload = array( 

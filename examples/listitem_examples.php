@@ -1,15 +1,14 @@
 <?php
 
-require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
-require_once(__DIR__ . '/../src/runtime/auth/NtlmAuthenticationContext.php');
+require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
+require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/Runtime/Auth/NetworkCredentialContext.php');
 require_once 'Settings.php';
 
-use SharePoint\PHP\Client\AuthenticationContext;
 use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ListCreationInformation;
 
-
+global $Settings;
 
 try {
 	$authCtx = new \SharePoint\PHP\Client\AuthenticationContext($Settings['Url']);
@@ -77,13 +76,13 @@ function queryListItems(\SharePoint\PHP\Client\SPList $list)
 	$ctx->load($items);
 	$ctx->executeQuery();
 	foreach( $items->getData() as $item ) {
-		print "Task: '{$item->Title}, {$item->AssignedTo->results[0]->Title}'\r\n";
+		print "Task: '{$item->Title}, {$item->AssignedTo[0]->Title}'\r\n";
 	}
 }
 
 
 
-function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
+function ensureList(SharePoint\PHP\Client\ClientContext $ctx, $listTitle){
 
 	$list = null;
 	$lists = $ctx->getWeb()->getLists();
@@ -104,7 +103,7 @@ function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
  * @param $listTitle
  * @return \SharePoint\PHP\Client\SPList
  */
-function createList(ClientContext $ctx,$listTitle){
+function createList(ClientContext $ctx, $listTitle){
 	$info = new ListCreationInformation($listTitle);
 	$info->Description = "Orders list";
 	$info->BaseTemplate = \SharePoint\PHP\Client\ListTemplateType::Tasks;
@@ -133,6 +132,7 @@ function generateTasks(\SharePoint\PHP\Client\SPList $list)
 
 /**
  * Read list items operation example
+ * @param \SharePoint\PHP\Client\SPList $list
  */
 function printTasks(\SharePoint\PHP\Client\SPList $list){
 	print "Getting list items from the list..\r\n";
@@ -174,8 +174,11 @@ function createListItem(\SharePoint\PHP\Client\SPList $list, array $itemProperti
 
 /**
  * Read list item operation example
+ * @param ClientContext $ctx
+ * @param $itemId
+ * @return \SharePoint\PHP\Client\ListItem
  */
-function getTask(ClientContext $ctx,$itemId){
+function getTask(ClientContext $ctx, $itemId){
 
 	$listTitle = 'Tasks';
 	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
@@ -203,7 +206,3 @@ function updateTask(\SharePoint\PHP\Client\ListItem $item){
     $ctx->executeQuery();
     print "Task {$item->getProperty('Title')} has been updated.\r\n";
 }
-
-
-
-?>

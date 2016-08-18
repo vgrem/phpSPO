@@ -1,24 +1,27 @@
 <?php
 
+use SharePoint\PHP\Client\ClientContext;
+use SharePoint\PHP\Client\ClientRuntimeContext;
 use SharePoint\PHP\Client\ListCreationInformation;
+use SharePoint\PHP\Client\SPList;
 
-require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
+require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
-
+global $Settings;
 
 try {
     $authCtx = new SharePoint\PHP\Client\AuthenticationContext($Settings['Url']);
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
-    $ctx = new SharePoint\PHP\Client\ClientContext($Settings['Url'],$authCtx);
+    $ctx = new ClientContext($Settings['Url'],$authCtx);
 
     $localPath = "./data/";
     $targetLibraryTitle = "Documents";
 
     $list = ensureList($ctx,$targetLibraryTitle);
     uploadFiles($localPath,$list);
-    processFiles($list,$localPath);
+    //processFiles($list,$localPath);
     //deleteFolder($ctx,$folderUrl);
     //saveFile($ctx,$localFilePath,$fileUrl);
 
@@ -28,7 +31,7 @@ catch (Exception $e) {
 }
 
 
-function processFiles(\SharePoint\PHP\Client\SPList $list,$targetPath)
+function processFiles(SPList $list,$targetPath)
 {
     $ctx = $list->getContext();
     $files = $list->getRootFolder()->getFiles();
@@ -46,7 +49,7 @@ function processFiles(\SharePoint\PHP\Client\SPList $list,$targetPath)
     }
 }
 
-function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
+function ensureList(ClientContext $ctx, $listTitle){
 
     $list = null;
     $lists = $ctx->getWeb()->getLists();
@@ -71,7 +74,7 @@ function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
 
 
 
-function deleteFolder(SharePoint\PHP\Client\ClientContext $ctx,$folderUrl){
+function deleteFolder(ClientContext $ctx, $folderUrl){
     $folder = $ctx->getWeb()->getFolderByServerRelativeUrl($folderUrl);
     $folder->deleteObject();
     $ctx->executeQuery();
@@ -79,7 +82,7 @@ function deleteFolder(SharePoint\PHP\Client\ClientContext $ctx,$folderUrl){
 }
 
 
-function checkoutFile(SharePoint\PHP\Client\ClientContext $ctx,$fileUrl){
+function checkoutFile(ClientContext $ctx, $fileUrl){
     $file = $ctx->getWeb()->getFileByServerRelativeUrl($fileUrl);
     $file->checkOut();
     $ctx->executeQuery();
@@ -87,14 +90,14 @@ function checkoutFile(SharePoint\PHP\Client\ClientContext $ctx,$fileUrl){
 }
 
 
-function checkinFile(SharePoint\PHP\Client\ClientContext $ctx,$fileUrl){
+function checkinFile(ClientContext $ctx, $fileUrl){
     $file = $ctx->getWeb()->getFileByServerRelativeUrl($fileUrl);
     $file->checkIn('');
     $ctx->executeQuery();
     print "File has been checked in\r\n";
 }
 
-function approveFile(SharePoint\PHP\Client\ClientContext $ctx,$fileUrl){
+function approveFile(ClientContext $ctx, $fileUrl){
     $file = $ctx->getWeb()->getFileByServerRelativeUrl($fileUrl);
     $file->approve('');
     $ctx->executeQuery();
@@ -119,8 +122,7 @@ function uploadFiles($localPath,\SharePoint\PHP\Client\SPList $targetList){
 
 }
 
-
-function saveFile(SharePoint\PHP\Client\ClientContext $ctx,$sourceFilePath,$targetFileUrl)
+function saveFile(ClientContext $ctx, $sourceFilePath, $targetFileUrl)
 {
     $fileContent = file_get_contents($sourceFilePath);
     SharePoint\PHP\Client\File::saveBinary($ctx,$targetFileUrl,$fileContent);
@@ -128,12 +130,8 @@ function saveFile(SharePoint\PHP\Client\ClientContext $ctx,$sourceFilePath,$targ
 }
 
 
-function downloadFile(SharePoint\PHP\Client\ClientContext $ctx,$sourcefileUrl,$targetFilePath){
-    $fileContent = SharePoint\PHP\Client\File::openBinary($ctx,$sourcefileUrl);
+function downloadFile(ClientRuntimeContext $ctx, $sourceFileUrl, $targetFilePath){
+    $fileContent = SharePoint\PHP\Client\File::openBinary($ctx,$sourceFileUrl);
     file_put_contents($targetFilePath, $fileContent);
     print "File has been downloaded\r\n";
 }
-
-
-
-?>

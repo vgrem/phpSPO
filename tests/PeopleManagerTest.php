@@ -3,7 +3,7 @@
 
 require_once('SharePointTestCase.php');
 require_once('TestUtilities.php');
-require_once(__DIR__.'/../src/userprofiles/PeopleManager.php');
+require_once(__DIR__ . '/../src/SharePoint/UserProfiles/PeopleManager.php');
 
 
 class PeopleManagerTest extends SharePointTestCase
@@ -24,7 +24,7 @@ class PeopleManagerTest extends SharePointTestCase
         $peopleManager = new \SharePoint\PHP\Client\UserProfiles\PeopleManager(self::$context);
         $result = $peopleManager->getUserProfilePropertyFor(self::$accountName,"AccountName");
         self::$context->executeQuery();
-        $this->assertNotNull($result->GetUserProfilePropertyFor);
+        $this->assertNotNull($result->Value);
     }
 
 
@@ -34,7 +34,7 @@ class PeopleManagerTest extends SharePointTestCase
         $result = $peopleManager->amIFollowing(self::$accountName);
         self::$context->executeQuery();
 
-        if($result->AmIFollowing == false){
+        if($result->Value == false){
             $peopleManager->follow(self::$accountName);
             self::$context->executeQuery();
         }
@@ -52,7 +52,7 @@ class PeopleManagerTest extends SharePointTestCase
         $result = $peopleManager->amIFollowing(self::$accountName);
         self::$context->executeQuery();
 
-        if($result->AmIFollowing == true){
+        if($result->Value == true){
             $peopleManager->stopFollowing(self::$accountName);
             self::$context->executeQuery();
         }
@@ -60,7 +60,7 @@ class PeopleManagerTest extends SharePointTestCase
 
         $result = $peopleManager->amIFollowing(self::$accountName);
         self::$context->executeQuery();
-        self::assertFalse($result->AmIFollowing);
+        self::assertFalse($result->Value);
     }
 
 
@@ -69,7 +69,7 @@ class PeopleManagerTest extends SharePointTestCase
         $result = $peopleManager->amIFollowedBy(self::$accountName);
         self::$context->executeQuery();
         //$this->assertNotNull($properties->AccountName);
-        self::assertNotNull($result->AmIFollowedBy);
+        self::assertNotNull($result->Value);
     }
 
 

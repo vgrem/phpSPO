@@ -1,14 +1,15 @@
 <?php
 
-require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
+require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
 use SharePoint\PHP\Client\AuthenticationContext;
 use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ListCreationInformation;
+use SharePoint\PHP\Client\SPList;
 
-
+global $Settings;
 try {
 	$authCtx = new AuthenticationContext($Settings['Url']);
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
@@ -31,7 +32,7 @@ catch (Exception $e) {
 }
 
 
-function printListDetails(ClientContext $ctx,$listTitle){
+function printListDetails(ClientContext $ctx, $listTitle){
 	$list = $lists = $ctx->getWeb()->getLists()->getByTitle($listTitle);
 	$irmSettings = $list->getInformationRightsManagementSettings();
 	$ctx->load($irmSettings);
@@ -44,21 +45,22 @@ function printListDetails(ClientContext $ctx,$listTitle){
 
 function printPermissions(SharePoint\PHP\Client\SPList $list,$loginName){
 	$ctx = $list->getContext();
-	//$permissions = $list->getUserEffectivePermissions($loginName);
+	$permissions = $list->getUserEffectivePermissions($loginName);
 	$ctx->executeQuery();
 }
 
 
 function assignUniquePermissions(SharePoint\PHP\Client\SPList $list){
 	$ctx = $list->getContext();
-	$list->breakRoleInheritance(true,true);
+	$list->breakRoleInheritance(true);
 	$ctx->executeQuery();
-	print "List '{$list->Title}' has been assigned a unique permissions.\r\n";
+	print "List " . $list->getProperty('Title') . " has been assigned a unique permissions.\r\n";
 }
 
 
 /**
  * Read list collection in web site
+ * @param ClientContext $ctx
  */
 function printLists(ClientContext $ctx){
     $lists = $ctx->getWeb()->getLists();
@@ -70,9 +72,12 @@ function printLists(ClientContext $ctx){
 }
 
 /**
- * Create list item operation example 
+ * Create list item operation example
+ * @param ClientContext $ctx
+ * @param $listTitle
+ * @return \SharePoint\PHP\Client\SPList
  */
-function createList(ClientContext $ctx,$listTitle){
+function createList(ClientContext $ctx, $listTitle){
 	$info = new ListCreationInformation($listTitle);
 	$info->Description = "Orders list";
 	$info->BaseTemplate = \SharePoint\PHP\Client\ListTemplateType::Tasks;
@@ -83,7 +88,7 @@ function createList(ClientContext $ctx,$listTitle){
 }
 
 
-function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
+function ensureList(SharePoint\PHP\Client\ClientContext $ctx, $listTitle){
 
 	$list = null;
 	$lists = $ctx->getWeb()->getLists();
@@ -100,26 +105,23 @@ function ensureList(SharePoint\PHP\Client\ClientContext $ctx,$listTitle){
 
 /**
  * Delete list operation example
+ * @param SPList $list
  */
-function deleteList(SharePoint\PHP\Client\SPList $list){
+function deleteList(SPList $list){
 	$ctx = $list->getContext();
 	$list->deleteObject();
     $ctx->executeQuery();
-    print "List '{$list->Title}' has been deleted.\r\n";
+    print "List " . $list->getProperty("Title") . " has been deleted.\r\n";
 }
 
 /**
  * Update list operation example
  * @param \SharePoint\PHP\Client\SPList $list
  */
-function updateList(SharePoint\PHP\Client\SPList $list){
+function updateList(SPList $list){
 	$ctx = $list->getContext();
 	$list->setProperty('Title','New Orders');
 	$list->update();
     $ctx->executeQuery();
     print "List {$list->getProperty('Title')} has been updated.\r\n";
 }
-
-
-
-?>

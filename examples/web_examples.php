@@ -1,54 +1,26 @@
 <?php
 
-require_once(__DIR__ . '/../src/ClientContext.php');
-require_once(__DIR__ . '/../src/runtime/auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
+require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
+require_once (__DIR__ . '/../src/Runtime/Soap/SoapClientRequest.php');
 require_once 'Settings.php';
-
-require_once (__DIR__ . '/../src/runtime/soap/SoapClientRequest.php');
 
 use SharePoint\PHP\Client\AuthenticationContext;
 use SharePoint\PHP\Client\ClientContext;
-use SharePoint\PHP\Client\ClientRequest;
-
-
-
+global $Settings;
 
 try {
 	$authCtx = new AuthenticationContext($Settings['Url']);
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
-
-
-	/*
-	$requestData = file_get_contents("webrequest.xml");
-	$request = new ClientRequest($Settings['Url'],$authCtx);
-	$options = array(
-		'url' =>  $Settings['Url'] . "/_vti_bin/client.svc/ProcessQuery",
-		'data' => $requestData,
-		'method' => 'POST',
-		'headers' => array(
-			'Content-type' => 'application/atom+xml',
-			'Accept' => 'application/atom+xml'
-		)
-	);
-	$response = $request->executeQueryDirect($options);
-	$json = json_decode($response);*/
-
 
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 	$list = $ctx->getWeb()->getLists()->getByTitle("Pages");
 	$ctx->load($list);
 	$ctx->executeQuery();
 
-
 	//$request = new SharePoint\PHP\Client\Runtime\Soap\ClientRequest();
 	//$xml = $request->buildQuery();
 	//print $xml;
-
-
-
-
-	return;
-
 
     //create a workspace
 	$webUrl = "Workspace_" . date("Y-m-d") . rand(1,100);
@@ -67,7 +39,7 @@ catch (Exception $e) {
 }
 
 
-function findWeb(ClientContext $ctx,$webUrl){
+function findWeb(ClientContext $ctx, $webUrl){
 	print "Retrieving web site properties...\r\n";
 	$webs = $ctx->getWeb()->getWebs();
     $ctx->load($webs);
@@ -105,7 +77,12 @@ function readWebProperties(\SharePoint\PHP\Client\Web $web)
 
 }
 
-function createWeb(ClientContext $ctx,$webUrl)
+/**
+ * @param ClientContext $ctx
+ * @param $webUrl
+ * @return \SharePoint\PHP\Client\Web
+ */
+function createWeb(ClientContext $ctx, $webUrl)
 {
 	print "Creating web site...\r\n";
 	$web = $ctx->getWeb();
@@ -115,7 +92,7 @@ function createWeb(ClientContext $ctx,$webUrl)
 
 	$web = $web->getWebs()->add($info);
 	$ctx->executeQuery();
-	print "Web site {$web->getProperty('Url')} has been created\r\n";
+	print "Web site " . $web->getProperty("Url") . " has been created\r\n";
 	return $web;
 }
 
@@ -144,5 +121,3 @@ function deleteWeb(SharePoint\PHP\Client\Web $web){
 	$ctx->executeQuery();
 	print "Web site '{$web->getProperty('Url')}' has been deleted.\r\n";
 }
-
-?>

@@ -72,18 +72,16 @@ class FileTest extends SharePointTestCase
     public function testRenameFolder(\SharePoint\PHP\Client\Folder $folderToRename)
     {
         $folderName = "2015";
-        $ctx = $folderToRename->getContext();
         $folderToRename->rename($folderName);
-        $ctx->executeQuery();
+        self::$context->executeQuery();
 
-
-        $ctx->load(self::$targetList->getRootFolder());
-        $ctx->executeQuery();
+        self::$context->load(self::$targetList->getRootFolder());
+        self::$context->executeQuery();
         $folderUrl = self::$targetList->getRootFolder()->getProperty("ServerRelativeUrl") . "/" . $folderName;
-        $folder = $ctx->getWeb()->getFolderByServerRelativeUrl($folderUrl);
-        $ctx->load($folder);
-        $ctx->executeQuery();
-        $this->assertNotNull($folder);
+        $folder = self::$context->getWeb()->getFolderByServerRelativeUrl($folderUrl);
+        self::$context->load($folder);
+        self::$context->executeQuery();
+        self::assertNotEmpty($folder->getProperties());
     }
 
 
