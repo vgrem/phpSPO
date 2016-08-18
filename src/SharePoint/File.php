@@ -154,8 +154,8 @@ class File extends SecurableObject
       * Saves the file
       * Note: it is supported to update the existing file only. For adding a new file see FileCollection.add method
       * @param ClientRuntimeContext $ctx
-      * @param $serverRelativeUrl
-      * @param $content file content
+      * @param string $serverRelativeUrl
+      * @param string $content file content
       */
      public static function saveBinary(ClientRuntimeContext $ctx, $serverRelativeUrl, $content)
      {

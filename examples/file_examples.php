@@ -2,11 +2,11 @@
 
 use SharePoint\PHP\Client\ClientContext;
 use SharePoint\PHP\Client\ClientRuntimeContext;
-use SharePoint\PHP\Client\ListCreationInformation;
 use SharePoint\PHP\Client\SPList;
 
 require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
 require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
+require_once(__DIR__ . '/../tests/TestUtilities.php');
 require_once 'Settings.php';
 
 global $Settings;
@@ -19,9 +19,9 @@ try {
     $localPath = "./data/";
     $targetLibraryTitle = "Documents";
 
-    $list = ensureList($ctx,$targetLibraryTitle);
+    $list = TestUtilities::ensureList($ctx,$targetLibraryTitle,\SharePoint\PHP\Client\ListTemplateType::DocumentLibrary);
     uploadFiles($localPath,$list);
-    //processFiles($list,$localPath);
+    processFiles($list,$localPath);
     //deleteFolder($ctx,$folderUrl);
     //saveFile($ctx,$localFilePath,$fileUrl);
 
@@ -49,28 +49,6 @@ function processFiles(SPList $list,$targetPath)
     }
 }
 
-function ensureList(ClientContext $ctx, $listTitle){
-
-    $list = null;
-    $lists = $ctx->getWeb()->getLists();
-    $ctx->load($lists);
-    $ctx->executeQuery();
-    foreach($lists->getData() as $l) {
-        if ($listTitle == $l->Title) {
-            $list = $l;
-            print "List '{$list->Title}' has been found\r\n";
-            break;
-        }
-    }
-    if(is_null($list)) {
-        $info = new ListCreationInformation($listTitle);
-        $info->BaseTemplate = 101;
-        $list = $ctx->getWeb()->getLists()->add($info);
-        $ctx->executeQuery();
-        print "List '{$list->Title}' has been created\r\n";
-    }
-    return $list;
-}
 
 
 
@@ -116,7 +94,7 @@ function uploadFiles($localPath,\SharePoint\PHP\Client\SPList $targetList){
 
         $uploadFile = $targetList->getRootFolder()->getFiles()->add($fileCreationInformation);
         $ctx->executeQuery();
-        print "File {$uploadFile->Name} has been uploaded\r\n";
+        print "File {$uploadFile->getProperty('Name')} has been uploaded\r\n";
     }
 
 
@@ -130,8 +108,8 @@ function saveFile(ClientContext $ctx, $sourceFilePath, $targetFileUrl)
 }
 
 
-function downloadFile(ClientRuntimeContext $ctx, $sourceFileUrl, $targetFilePath){
-    $fileContent = SharePoint\PHP\Client\File::openBinary($ctx,$sourceFileUrl);
+function downloadFile(ClientRuntimeContext $ctx, $fileUrl, $targetFilePath){
+    $fileContent = SharePoint\PHP\Client\File::openBinary($ctx,$fileUrl);
     file_put_contents($targetFilePath, $fileContent);
-    print "File has been downloaded\r\n";
+    print "File {$fileUrl} has been downloaded successfully\r\n";
 }

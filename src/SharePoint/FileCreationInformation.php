@@ -11,7 +11,8 @@ class FileCreationInformation extends ClientValueObject
 
     function __construct()
     {
-        parent::__construct(get_class($this));
+        parent::__construct();
+        $this->Overwrite = true;
     }
 
     /**
