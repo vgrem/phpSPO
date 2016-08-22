@@ -2,7 +2,6 @@
 
 
 namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataFormat;
 
 
 /**
@@ -10,17 +9,6 @@ use SharePoint\PHP\Client\Runtime\ODataFormat;
  */
 class Folder extends ClientObject
 {
-
-
-    public function convertToEntity($itemPayload, ODataFormat $format)
-    {
-        parent::convertToEntity($itemPayload, $format);
-        if (property_exists($itemPayload, "UniqueId")) {
-            $this->resourcePath = ResourcePath::parse(
-                $this->getContext(),
-                "Web/GetFolderById(guid'{$itemPayload->UniqueId}')");
-        }
-    }
 
     /**
      * The recommended way to delete a folder is to send a DELETE request to the Folder resource endpoint,
@@ -97,4 +85,11 @@ class Folder extends ClientObject
     }
 
 
+    function setProperty($name, $value, $persistChanges = true)
+    {
+        parent::setProperty($name, $value, $persistChanges);
+        if ($name == "UniqueId") {
+            $this->setResourceUrl("Web/GetFolderById(guid'{$value}')");
+        }
+    }
 }

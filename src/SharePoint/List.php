@@ -23,7 +23,7 @@ class SPList extends SecurableObject
         foreach($listItemCreationInformation as $key => $value){
             $listItem->setProperty($key,$value);
         }
-        $qry = new ClientActionCreateEntity($items,$listItem);
+        $qry = new ClientActionCreateEntity($items,$listItem->convertToPayload());
         $this->getContext()->addQuery($qry,$listItem);
         return $listItem;
     }
@@ -68,7 +68,7 @@ class SPList extends SecurableObject
                 $this,
                 "GetItems",
                 null,
-                $camlQuery
+                $camlQuery->convertToPayload()
             );
             $this->getContext()->addQuery($qry,$items);
         }
@@ -107,7 +107,7 @@ class SPList extends SecurableObject
         $permissions = new BasePermissions();
         $qry = new ClientActionInvokeGetMethod(
             $this,
-            "getusereffectivepermissions",
+            "GetUserEffectivePermissions",
             array(rawurlencode($loginName))
         );
         $this->getContext()->addQuery($qry,$permissions);
@@ -126,7 +126,7 @@ class SPList extends SecurableObject
             $this,
             "getListItemChangesSinceToken",
             null,
-            $query
+            $query->convertToPayload()
         );
         $qry->ResponsePayloadFormatType = FormatType::Xml;
         $this->getContext()->addQuery($qry, $result);
@@ -145,7 +145,7 @@ class SPList extends SecurableObject
             $this,
             "GetChanges",
             null,
-            $query
+            $query->convertToPayload()
         );
         $this->getContext()->addQuery($qry,$changes);
         return $changes;

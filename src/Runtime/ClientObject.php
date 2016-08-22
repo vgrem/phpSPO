@@ -1,15 +1,13 @@
 <?php
 
 namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataEntity;
-use SharePoint\PHP\Client\Runtime\ODataFormat;
+use SharePoint\PHP\Client\Runtime\ODataPayload;
 use SharePoint\PHP\Client\Runtime\ODataPayloadKind;
-use stdClass;
 
 /**
  * Base client object 
  */
-abstract class ClientObject extends ODataEntity
+abstract class ClientObject
 {
 
     /**
@@ -21,11 +19,6 @@ abstract class ClientObject extends ODataEntity
      * @var ClientRuntimeContext
      */
     private $ctx;
-
-    /**
-     * @var string
-     */
-    private $serviceRootUrl;
 
     /**
      * @var ResourcePath
@@ -47,12 +40,11 @@ abstract class ClientObject extends ODataEntity
      */
     protected $parentCollection;
 
-    
+
     public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null)
     {
         $this->ctx = $ctx;
         $this->resourcePath = $resourcePath;
-        $this->serviceRootUrl = $ctx->getServiceRootUrl();
     }
 
 
@@ -71,7 +63,7 @@ abstract class ClientObject extends ODataEntity
     protected function removeFromParentCollection()
     {
         if (is_null($this->parentCollection == null))
-           return;
+            return;
         $this->parentCollection->removeChild($this);
     }
 
@@ -86,15 +78,6 @@ abstract class ClientObject extends ODataEntity
 
 
     /**
-     * @return string
-     */
-    public function getServiceRootUrl()
-    {
-        return $this->serviceRootUrl;
-    }
-
-
-    /**
      * Resolve the resource path
      * @return ResourcePath
      */
@@ -105,14 +88,23 @@ abstract class ClientObject extends ODataEntity
 
 
     /**
+     * @param string $resourcePathUrl
+     */
+    public function setResourceUrl($resourcePathUrl)
+    {
+        $this->resourcePath = ResourcePath::parse($this->getContext(), $resourcePathUrl);
+    }
+
+
+    /**
      * Resolve the resource path
      * @return string
      */
     public function getResourceUrl()
     {
-        return $this->serviceRootUrl . $this->getResourcePath()->toUrl();
+        return $this->getContext()->getServiceRootUrl() . $this->getResourcePath()->toUrl();
     }
-    
+
 
     /**
      * Gets entity type name for a resource
@@ -128,44 +120,15 @@ abstract class ClientObject extends ODataEntity
 
 
     /**
-     * @return int
-     */
-    function getPayloadType()
-    {
-        return ODataPayloadKind::Entry;
-    }
-
-
-    /**
-     * @param mixed $itemPayload
-     * @param ODataFormat $format
-     */
-    function convertToEntity($itemPayload, ODataFormat $format)
-    {
-        parent::convertToEntity($itemPayload, $format);
-        //sync resource path
-        if (property_exists($itemPayload, "Id") && !is_object($itemPayload->Id)) {
-            if(is_int($itemPayload->Id))
-                $entityKey = "({$itemPayload->Id})";
-            else
-                $entityKey = "(guid'{$itemPayload->Id}')";
-            $this->resourcePath = ResourcePath::parse(
-                $this->getContext(),
-                $this->getResourcePath()->toUrl() . $entityKey);
-        }
-    }
-
-
-    /**
-     * @return stdClass
+     * @return ODataPayload
      */
     public function convertToPayload()
     {
-        $payload = new \stdClass();
+        $value = new \stdClass();
         foreach ($this->getChangedProperties() as $k => $v) {
-            $payload->{$k} = $v;
+            $value->{$k} = $v;
         }
-        return $payload;
+        return new ODataPayload($value, ODataPayloadKind::Entry, $this->getEntityTypeName());
     }
 
     /**
@@ -190,7 +153,7 @@ abstract class ClientObject extends ODataEntity
 
     /**
      * A preferred way of getting the client object property
-     * @param $name
+     * @param string $name
      * @return mixed|null
      */
     public function getProperty($name)
@@ -211,7 +174,16 @@ abstract class ClientObject extends ODataEntity
             $this->changed_properties[$name] = $value;
         }
         $this->{$name} = $value;
+
+        if ($name == "Id") {
+            if (is_int($value))
+                $entityKey = "({$value})";
+            else
+                $entityKey = "(guid'{$value}')";
+            $this->setResourceUrl($this->getResourcePath()->toUrl() . $entityKey);
+        }
     }
+
 
 
 

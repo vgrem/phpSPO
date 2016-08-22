@@ -2,7 +2,6 @@
 
 namespace SharePoint\PHP\Client;
 use SharePoint\PHP\Client\Runtime\ODataFormat;
-use SharePoint\PHP\Client\Runtime\ODataPayloadKind;
 use SharePoint\PHP\Client\Runtime\ODataQueryOptions;
 
 
@@ -21,12 +20,6 @@ abstract class ClientObjectCollection extends ClientObject
      * @var array
      */
     private $data = array();
-
-    /**
-     * @var bool
-     */
-    protected $areItemsAvailable;
-
 
 
     /**
@@ -102,7 +95,7 @@ abstract class ClientObjectCollection extends ClientObject
 
     public function AreItemsAvailable()
     {
-        return $this->areItemsAvailable;
+        return ($this->getCount() > 0);
     }
 
     /**
@@ -181,40 +174,13 @@ abstract class ClientObjectCollection extends ClientObject
 
 
     /**
-     * Creates item resource
+     * Creates resource for a collection
      * @return ClientObject
      */
-    public function createItem()
+    public function createTypedObject()
     {
         $clientObjectType = $this->getItemTypeName();
         return new $clientObjectType($this->getContext(),$this->getResourcePath());
-    }
-
-
-    /**
-     * @param mixed $itemsPayload
-     * @param ODataFormat $format
-     */
-    public function convertToEntity($itemsPayload, ODataFormat $format)
-    {
-        if($format->isJson()){
-            $this->clearData();
-            foreach ($itemsPayload as $item) {
-                $clientObject = $this->createItem();
-                $clientObject->convertToEntity($item,$format);
-                $this->addChild($clientObject);
-            }
-            $this->areItemsAvailable = true;
-        }
-    }
-
-
-    /**
-     * @return int
-     */
-    function getPayloadType()
-    {
-        return ODataPayloadKind::Collection;
     }
 
 

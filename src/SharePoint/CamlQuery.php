@@ -9,10 +9,6 @@ namespace SharePoint\PHP\Client;
 class CamlQuery extends ClientValueObject
 {
 
-    public function convertToPayload()
-    {
-        return parent::convertToPayload();
-    }
 
     public static function createAllItemsQuery()
     {

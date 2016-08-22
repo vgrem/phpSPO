@@ -1,18 +1,18 @@
 <?php
 
 namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataEntity;
 use SharePoint\PHP\Client\Runtime\ODataFormat;
 
 require_once('Utilities/EnumType.php');
 require_once('Utilities/Guid.php');
+require_once('OData/ODataPayloadKind.php');
+require_once('OData/ODataPayload.php');
 require_once('ClientActionType.php');
 require_once('ClientRequest.php');
-require_once('OData/ODataEntity.php');
 require_once('OData/ODataQueryOptions.php');
 require_once('OData/ODataPathParser.php');
 require_once('OData/ODataPrimitiveTypeKind.php');
-require_once('OData/ODataSerializer.php');
+require_once('OData/ODataPayloadSerializer.php');
 require_once('ResourcePath.php');
 require_once('ResourcePathEntity.php');
 require_once('ResourcePathServiceOperation.php');
@@ -137,10 +137,11 @@ class ClientRuntimeContext
 
     /**
      * @param string $response
-     * @param ODataEntity $targetObject
+     * @param mixed $targetObject
+     * @param callable $onPopulate
      */
-    public function populateObject($response, $targetObject){
-        $this->getPendingRequest()->populateObject($response,$targetObject);
+    public function populateObject($response, $targetObject,callable $onPopulate = null){
+        $this->getPendingRequest()->populateObject($response,$targetObject,$onPopulate);
     }
 
 

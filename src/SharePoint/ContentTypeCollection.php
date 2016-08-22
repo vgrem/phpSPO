@@ -22,13 +22,13 @@ class ContentTypeCollection extends ClientObjectCollection
 
     /**
      * Creates a ContentType resource
-     * @param ContentTypeCreationInformation $payload
+     * @param ContentTypeCreationInformation $information
      * @return ContentType
      */
-    public function add(ContentTypeCreationInformation $payload)
+    public function add(ContentTypeCreationInformation $information)
     {
         $contentType = new ContentType($this->getContext(),$this->getResourcePath());
-        $qry = new ClientActionCreateEntity($this,$payload);
+        $qry = new ClientActionCreateEntity($this,$information->convertToPayload());
         $this->getContext()->addQuery($qry,$contentType);
         $this->addChild($contentType);
         return $contentType;

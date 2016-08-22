@@ -13,16 +13,6 @@ use SharePoint\PHP\Client\Runtime\ODataFormat;
 class Web extends SecurableObject
 {
 
-    function convertToEntity($itemPayload, ODataFormat $format)
-    {
-        parent::convertToEntity($itemPayload, $format);
-        if (property_exists($itemPayload, "Id")) {
-            $this->resourcePath = ResourcePath::parse(
-                $this->getContext(),
-                "Site/openWebById(guid'{$itemPayload->Id}')");
-        }
-    }
-
     public function update()
     {
         $qry = new ClientActionUpdateEntity($this);
@@ -45,7 +35,7 @@ class Web extends SecurableObject
     public function getChanges(ChangeQuery $query)
     {
         $changes = new ChangeCollection($this->getContext());
-        $qry = new ClientActionInvokePostMethod($this,"GetChanges",null,$query);
+        $qry = new ClientActionInvokePostMethod($this,"GetChanges",null,$query->convertToPayload());
         $this->getContext()->addQuery($qry,$changes);
         return $changes;
     }
@@ -203,5 +193,14 @@ class Web extends SecurableObject
         }
         return $this->getProperty("ContentTypes");
     }
-    
+
+
+    function setProperty($name, $value, $persistChanges = true)
+    {
+        parent::setProperty($name, $value, $persistChanges);
+        if ($name == "Id") {
+            $this->setResourceUrl("Site/openWebById(guid'{$value}')");
+        }
+    }
+
 }

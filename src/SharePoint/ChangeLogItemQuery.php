@@ -2,6 +2,7 @@
 
 
 namespace SharePoint\PHP\Client;
+use SharePoint\PHP\Client\Runtime\ODataPayload;
 
 /**
  * Class ChangeLogItemQuery
@@ -20,13 +21,11 @@ class ChangeLogItemQuery extends ClientValueObject
 
 
     /**
-     * @return \stdClass
+     * @return ODataPayload
      */
     public function convertToPayload()
     {
-        $entity = new \stdClass();
-        $entity->query = parent::convertToPayload();
-        return $entity;
+        return parent::convertToPayload()->toQueryPayload();
     }
     
 

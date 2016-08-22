@@ -22,7 +22,7 @@ class FileCollection extends ClientObjectCollection
             $this,
             "add",
             array("overwrite"=>$fileCreationInformation->Overwrite,"url"=>rawurlencode($fileCreationInformation->Url)),
-            $fileCreationInformation
+            $fileCreationInformation->convertToPayload()
             );
         $this->getContext()->addQuery($qry,$file);
         //$this->addChild($file);

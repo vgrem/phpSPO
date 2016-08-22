@@ -63,9 +63,7 @@ class WebCreationInformation extends ClientValueObject
 
     function convertToPayload()
     {
-        $payload = new \stdClass();
-        $payload->parameters = parent::convertToPayload();
-        return $payload;
+        return parent::convertToPayload()->toParametersPayload();
     }
 
 

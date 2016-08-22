@@ -12,7 +12,7 @@ class FolderCollection extends ClientObjectCollection
     {
         $folder = new Folder($this->getContext());
         $folder->setProperty("ServerRelativeUrl",rawurlencode($url));
-        $qry = new ClientActionCreateEntity($this,$folder);
+        $qry = new ClientActionCreateEntity($this,$folder->convertToPayload());
         $this->getContext()->addQuery($qry,$folder);
         return $folder;
     }

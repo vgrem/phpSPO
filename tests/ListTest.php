@@ -34,7 +34,7 @@ class ListTest extends SharePointTestCase
      * @depends testIfListCreated
      * @param \SharePoint\PHP\Client\SPList $list
      */
-    public function testVerifyListPermissions(\SharePoint\PHP\Client\SPList $list){
+    /*public function testVerifyListPermissions(\SharePoint\PHP\Client\SPList $list){
         //1. retrieve current user
         $currentUser = self::$context->getWeb()->getCurrentUser();
         self::$context->load($currentUser);
@@ -47,7 +47,7 @@ class ListTest extends SharePointTestCase
         self::$context->executeQuery();
         $result = $permissions->has(\SharePoint\PHP\Client\PermissionKind::AddListItems);
         $this->assertTrue($result);
-    }
+    }*/
 
     /**
      * @depends testIfListCreated

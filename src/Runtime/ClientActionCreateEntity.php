@@ -1,24 +1,19 @@
 <?php
-
-
 namespace SharePoint\PHP\Client;
 
-
-
-
-use SharePoint\PHP\Client\Runtime\ODataEntity;
+use SharePoint\PHP\Client\Runtime\ODataPayload;
 
 class ClientActionCreateEntity extends ClientAction
 {
 
     /**
      * ClientActionUpdateEntity constructor.
-     * @param ClientObject $clientObject
-     * @param ClientValueObject $payload
+     * @param ClientObject $entityCollection
+     * @param ODataPayload $payload
      */
-    public function __construct(ClientObject $clientObject, ODataEntity $payload = null)
+    public function __construct(ClientObject $entityCollection, ODataPayload $payload = null)
     {
-        parent::__construct($clientObject->getResourceUrl(), $payload, (int)ClientActionType::CreateEntity);
+        parent::__construct($entityCollection->getResourceUrl(), $payload, (int)ClientActionType::CreateEntity);
     }
 
 }

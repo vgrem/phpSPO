@@ -3,7 +3,7 @@
 namespace SharePoint\PHP\Client;
 
 
-use SharePoint\PHP\Client\Runtime\ODataEntity;
+use SharePoint\PHP\Client\Runtime\ODataPayload;
 
 class ClientActionInvokeGetMethod extends ClientActionInvokeMethod
 {
@@ -12,7 +12,7 @@ class ClientActionInvokeGetMethod extends ClientActionInvokeMethod
      * @param ClientObject $parentClientObject
      * @param string $methodName
      * @param array $methodParameters
-     * @param ODataEntity $payload
+     * @param ODataPayload $payload
      */
     public function __construct(ClientObject $parentClientObject, $methodName = null, array $methodParameters = null, $payload=null)
     {

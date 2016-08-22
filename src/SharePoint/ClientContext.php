@@ -4,7 +4,10 @@ namespace SharePoint\PHP\Client;
 
 use SharePoint\PHP\Client\Runtime\ContextWebInformation;
 use SharePoint\PHP\Client\Runtime\JsonLightFormat;
+use SharePoint\PHP\Client\Runtime\ODataFormat;
 use SharePoint\PHP\Client\Runtime\ODataMetadataLevel;
+use SharePoint\PHP\Client\Runtime\ODataPayload;
+use SharePoint\PHP\Client\Runtime\ODataPayloadKind;
 
 
 require_once(__DIR__ . '/../Runtime/ClientRuntimeContext.php');
@@ -166,7 +169,14 @@ class ClientContext extends ClientRuntimeContext
         $response = $this->executeQueryDirect($request);
         if(!isset($this->contextWebInformation))
             $this->contextWebInformation = new ContextWebInformation();
-        $this->populateObject($response,$this->contextWebInformation);
+        $this->populateObject($response,$this->contextWebInformation,
+            function (ODataPayload $payload,ODataFormat $format) {
+                if($format->MetadataLevel == ODataMetadataLevel::Verbose){
+                    $payload->ContainerName = "GetContextWebInformation";
+                    $payload->PayloadType = ODataPayloadKind::Property;
+                }
+            }
+        );
     }
 
     /**
@@ -174,26 +184,31 @@ class ClientContext extends ClientRuntimeContext
      */
     public function executeQuery()
     {
-        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request,$actionType){
-            $this->buildSharePointSpecificRequest($request,$actionType);
+        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request,ClientAction $query){
+            $this->buildSharePointSpecificRequest($request,$query);
         });
+        /*$this->getPendingRequest()->afterExecuteQuery(function ($response,ClientAction $query){
+            if($query instanceof ClientActionInvokeMethod){
+            }
+        });*/
         parent::executeQuery();
     }
 
+
     /**
      * @param RequestOptions $request
-     * @param ClientActionType $actionType
+     * @param ClientAction $query
      */
-    private function buildSharePointSpecificRequest(RequestOptions $request,$actionType){
+    private function buildSharePointSpecificRequest(RequestOptions $request,ClientAction $query){
 
         if($request->PostMethod) {
             $this->ensureFormDigest($request);
         }
         //set data modification headers
-        if ($actionType == ClientActionType::UpdateEntity) {
+        if ($query->ActionType == ClientActionType::UpdateEntity) {
             $request->addCustomHeader("IF-MATCH", "*");
             $request->addCustomHeader("X-HTTP-Method", "MERGE");
-        } else if ($actionType == ClientActionType::DeleteEntity) {
+        } else if ($query->ActionType == ClientActionType::DeleteEntity) {
             $request->addCustomHeader("IF-MATCH", "*");
             $request->addCustomHeader("X-HTTP-Method", "DELETE");
         }

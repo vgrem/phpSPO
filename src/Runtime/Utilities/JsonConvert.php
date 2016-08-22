@@ -45,7 +45,6 @@ class JsonConvert
     public static function populate($target, \stdClass $json)
     {
         foreach ($json as $key => $value) {
-            //if (!property_exists($classInstance, $key)) continue;
             $target->{$key} = $value;
         }
     }

@@ -14,7 +14,7 @@ class ListItemCollection extends ClientObjectCollection
      * Process Xml response from SharePoint REST service
      * @param string $xmlPayload
      */
-    public function processXmlPayload($xmlPayload)
+    public function populateFromXmlPayload($xmlPayload)
     {
         $xmlPayload = simplexml_load_string($xmlPayload);
         $xmlPayload->registerXPathNamespace('z', '#RowsetSchema');

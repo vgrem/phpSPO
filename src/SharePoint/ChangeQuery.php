@@ -1,7 +1,7 @@
 <?php
 
 namespace SharePoint\PHP\Client;
-use stdClass;
+
 
 /**
  * Defines a query that is performed against the change log.
@@ -44,9 +44,7 @@ class ChangeQuery extends ClientValueObject
 
     function convertToPayload()
     {
-        $payload = new stdClass();
-        $payload->query = parent::convertToPayload();
-        return $payload;
+        return parent::convertToPayload()->toQueryPayload();
     }
 
 

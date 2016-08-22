@@ -1,7 +1,7 @@
 <?php
 
 namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataEntity;
+use SharePoint\PHP\Client\Runtime\ODataPayload;
 
 
 /**
@@ -20,7 +20,7 @@ abstract class ClientAction
     public $ResourceUrl;
 
     /**
-     * @var ODataEntity
+     * @var ODataPayload
      */
     public $Payload;
 
@@ -34,7 +34,7 @@ abstract class ClientAction
     /**
      * ClientAction constructor.
      * @param string $resourceUrl
-     * @param ODataEntity $payload
+     * @param ODataPayload $payload
      * @param int $methodType
      */
     public function __construct($resourceUrl, $payload=null, $methodType=null)

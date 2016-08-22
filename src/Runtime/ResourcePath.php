@@ -19,6 +19,7 @@ abstract class ResourcePath
         $this->parent = $parent;
     }
 
+
     /**
      * @return ClientRuntimeContext
      */
@@ -72,6 +73,15 @@ abstract class ResourcePath
         }
         return implode("/", $paths);
     }
+
+
+    /**
+     * @param string $url
+     */
+    public function fromUrl($url){
+
+    }
+
     
     public abstract function getName();
 

@@ -31,7 +31,7 @@ class PeopleManager extends ClientObject
      * @return ClientResult
      */
     public function amIFollowedBy ($accountName){
-        $clientResult = new ClientResult();
+        $clientResult = new ClientResult("AmIFollowedBy");
         $qry = new ClientActionInvokePostMethod($this, "amifollowedby",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry,$clientResult);
         return $clientResult;
@@ -76,8 +76,9 @@ class PeopleManager extends ClientObject
      * @param string $accountName
      */
     public function stopFollowing ($accountName){
+        $clientResult = new ClientResult("StopFollowing");
         $qry = new ClientActionInvokePostMethod($this, "stopfollowing",array(rawurlencode($accountName)));
-        $this->getContext()->addQuery($qry);
+        $this->getContext()->addQuery($qry,$clientResult);
     }
 
 
@@ -87,7 +88,7 @@ class PeopleManager extends ClientObject
      * @return ClientResult
      */
     public function amIFollowing ($accountName){
-        $clientResult = new ClientResult();
+        $clientResult = new ClientResult("AmIFollowing");
         $qry = new ClientActionInvokeGetMethod(
             $this,
             "amifollowing",
@@ -119,10 +120,10 @@ class PeopleManager extends ClientObject
      */
     public function getUserProfilePropertyFor ($accountName,$propertyName)
     {
-        $clientResult = new ClientResult();
+        $clientResult = new ClientResult("GetUserProfilePropertyFor");
         $qry = new ClientActionInvokeGetMethod(
             $this,
-            "getuserprofilepropertyfor",
+            "GetUserProfilePropertyFor",
             array(
                 "accountname" => rawurlencode($accountName),
                 "propertyname" => $propertyName

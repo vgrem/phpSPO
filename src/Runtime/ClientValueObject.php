@@ -7,14 +7,14 @@ namespace SharePoint\PHP\Client;
 
 use ReflectionClass;
 use ReflectionProperty;
-use SharePoint\PHP\Client\Runtime\ODataEntity;
+use SharePoint\PHP\Client\Runtime\ODataPayload;
 use SharePoint\PHP\Client\Runtime\ODataPayloadKind;
 use stdClass;
 
 /**
  * Class ClientValueObject
  */
-class ClientValueObject extends ODataEntity
+class ClientValueObject
 {
 
     /**
@@ -28,22 +28,24 @@ class ClientValueObject extends ODataEntity
 
     /**
      * Generates OData payload
-     * @return stdClass
+     * @return ODataPayload
      */
     function convertToPayload()
     {
         $reflection = new ReflectionClass($this);
         $allProps = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
-        $payload = new stdClass();
+        $payloadValue = new stdClass();
         foreach ($allProps as $p) {
             $k = $p->getName();
             $v = $p->getValue($this);
             if (isset($v)) {
-                $payload->{$k} = $v;
+                $payloadValue->{$k} = $v;
             }
         }
+        $payload = new ODataPayload($payloadValue,ODataPayloadKind::Property,$this->getEntityTypeName());
         return $payload;
     }
+
 
 
     public function getEntityTypeName()
@@ -55,14 +57,6 @@ class ClientValueObject extends ODataEntity
         return $this->entityTypeName;
     }
 
-
-    /**
-     * @return int
-     */
-    function getPayloadType()
-    {
-        return ODataPayloadKind::Value;
-    }
 
     /**
      * @var string

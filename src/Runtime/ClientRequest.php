@@ -3,9 +3,9 @@
 
 namespace SharePoint\PHP\Client;
 
-use SharePoint\PHP\Client\Runtime\ODataEntity;
+
 use SharePoint\PHP\Client\Runtime\ODataFormat;
-use SharePoint\PHP\Client\Runtime\ODataSerializer;
+use SharePoint\PHP\Client\Runtime\ODataPayloadSerializer;
 
 require_once('FormatType.php');
 require_once('Utilities/Requests.php');
@@ -20,7 +20,7 @@ class ClientRequest
     /**
      * @var array
      */
-    private $eventList;
+    private $eventsList;
 
     /**
      * @var ClientRuntimeContext
@@ -35,9 +35,9 @@ class ClientRequest
 
 
     /**
-     * @var ODataSerializer
+     * @var ODataFormat
      */
-    private $serializer;
+    private $format;
 
     /**
      * @var array
@@ -59,7 +59,11 @@ class ClientRequest
     {
         $this->context = $context;
         $this->payloadFormatType = FormatType::Json;
-        $this->serializer = new ODataSerializer($format);
+        $this->format = $format;
+        $this->eventsList = array(
+            "BeforeExecuteRequest" => null,
+            "PopulateObject" => null
+        );
     }
 
 
@@ -80,12 +84,12 @@ class ClientRequest
 
     public function beforeExecuteQuery(callable $event)
     {
-        $this->eventList["Before"] = $event;
+        $this->eventsList["BeforeExecuteRequest"] = $event;
     }
 
     public function afterExecuteQuery(callable $event)
     {
-        $this->eventList["After"] = $event;
+        $this->eventsList["After"] = $event;
     }
 
     /**
@@ -97,9 +101,15 @@ class ClientRequest
         //Auth mandatory headers
         $this->context->authenticateRequest($request);
         //set media type headers
-        $this->serializer->setMediaTypeHeaders($request);
+        $this->setMediaTypeHeaders($request);
         $response = Requests::execute($request);
         return $response;
+    }
+
+
+    private function setMediaTypeHeaders(RequestOptions $request) {
+        $request->addCustomHeader("Accept",$this->format->getMediaType());
+        $request->addCustomHeader("Content-type",$this->format->getMediaType());
     }
 
 
@@ -110,8 +120,8 @@ class ClientRequest
     {
         foreach ($this->queries as $qry) {
             $request = $this->buildRequest($qry);
-            if(is_callable($this->eventList["Before"]))
-                call_user_func_array($this->eventList["Before"],array($request,$qry->ActionType));
+            if(is_callable($this->eventsList["BeforeExecuteRequest"]))
+                call_user_func_array($this->eventsList["BeforeExecuteRequest"],array($request,$qry));
             $response = $this->executeQueryDirect($request);
             if (empty($response))
                 continue;
@@ -132,10 +142,12 @@ class ClientRequest
         $request->PostMethod = ($query->ActionType != ClientActionType::ReadEntity);
         //set payload
         if(!is_null($query->Payload)) {
-            if($query->Payload instanceof FileCreationInformation)
-                $request->Data = $query->Payload->Content;
-            else
-                $request->Data = $this->serializer->serialize($query->Payload);
+            if($query->Payload->isRawValue())
+                $request->Data = $query->Payload->getValue();
+            else {
+                $serializer = new ODataPayloadSerializer($this->format);
+                $request->Data = $serializer->serialize($query->Payload);
+            }
         }
         return $request;
     }
@@ -150,20 +162,23 @@ class ClientRequest
     {
         if (array_key_exists($query->getId(), $this->resultObjects)) {
             $resultObject = $this->resultObjects[$query->getId()];
-            if ($resultObject instanceof  ListItemCollection && $query->ResponsePayloadFormatType == FormatType::Xml)
-                $resultObject->processXmlPayload($response);
-            else
-                $this->serializer->deserialize($response, $resultObject);
+            if ($resultObject instanceof ListItemCollection && $query->ResponsePayloadFormatType == FormatType::Xml)
+                $resultObject->populateFromXmlPayload($response);//custom payload process
+            else {
+                $this->populateObject($response,$resultObject);
+            }
         }
     }
 
     /**
      * @param string $response
-     * @param ODataEntity $resultObject
+     * @param ClientObject|ClientValueObject|ClientResult $resultObject
+     * @param callable $onPopulate
      */
-    function populateObject($response,ODataEntity $resultObject)
+    function populateObject($response,$resultObject,callable $onPopulate = null)
     {
-        $this->serializer->deserialize($response,$resultObject);
+        $serializer = new ODataPayloadSerializer($this->format);
+        $serializer->populate($response,$resultObject,$onPopulate);
     }
 
     /**

@@ -19,7 +19,7 @@ class ODataPayloadKind
     const Error = 0;
 
     /**
-     *
+     * Specifies a payload kind for writing a collection.
      */
     const Collection = 1;
 
@@ -29,12 +29,16 @@ class ODataPayloadKind
     const Entry = 2;
 
     /**
-     * Specifies a payload kind for writing a collection.
+     *
      */
-    const Value = 3;
+    const Property = 3;
+
+
+
+    const Parameter = 4;
 
     /**
      * Specifies the payload kind for writing a batch.
      */
-    const Batch = 3;
+    const Batch = 5;
 }

@@ -8,15 +8,12 @@ namespace SharePoint\PHP\Client;
 
 use SharePoint\PHP\Client\Runtime\ODataFormat;
 use SharePoint\PHP\Client\Runtime\ODataMetadataLevel;
+use SharePoint\PHP\Client\Runtime\ODataPayload;
 
 
 class BasePermissions extends ClientValueObject
 {
 
-    function __construct()
-    {
-        parent::__construct(get_called_class());
-    }
 
     /**
      * The bitwise high-order boundary (higher 32 bits) of the permission.
@@ -54,9 +51,9 @@ class BasePermissions extends ClientValueObject
         return false;
     }
 
-
-
-
+    /**
+     *
+     */
     public function clearAll()
     {
         $this->Low = 0;
@@ -64,12 +61,11 @@ class BasePermissions extends ClientValueObject
     }
 
 
-
-    function convertToEntity($payload, ODataFormat $format)
+    /*function convertToEntity(ODataPayload $payload, ODataFormat $format)
     {
         if($format->MetadataLevel == ODataMetadataLevel::Verbose)
-            $payload = $payload->GetUserEffectivePermissions;
+            $payload = $payload->Value->GetUserEffectivePermissions;
         parent::convertToEntity($payload, $format);
-    }
+    }*/
 
 }

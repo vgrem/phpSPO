@@ -1,41 +1,14 @@
 <?php
 
 namespace SharePoint\PHP\Client\Runtime;
+use SharePoint\PHP\Client\ClientValueObject;
 
 
 /**
  * The context information for a site.
  */
-class ContextWebInformation extends ODataEntity
+class ContextWebInformation extends ClientValueObject
 {
-
-    /**
-     * @param \stdClass $payload
-     * @param ODataFormat $format
-     */
-    function convertToEntity($payload, ODataFormat $format)
-    {
-        if($format->MetadataLevel == ODataMetadataLevel::Verbose)
-            $payload = $payload->GetContextWebInformation;
-        parent::convertToEntity($payload,$format);
-    }
-
-
-    /**
-     * @return int
-     */
-    function getPayloadType()
-    {
-        return ODataPayloadKind::Value;
-    }
-
-    /**
-     * @return \stdClass
-     */
-    function convertToPayload()
-    {
-        return null;
-    }
     
     /**
      * The form digest value.

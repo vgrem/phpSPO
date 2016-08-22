@@ -28,4 +28,17 @@ class OutlookClientTest extends PHPUnit_Framework_TestCase
         self::assertGreaterThanOrEqual(0,$contacts->getCount());
     }
 
+
+    /*public function testCreateMyContact()
+    {
+        $contact = self::$context->getMyContacts()->createContact();
+        $contact->GivenName = "Pavel";
+        $contact->Surname = "Bansky";
+        $contact->BusinessPhones[] = "+1 732 555 0102";
+        $contact->EmailAddresses[] = new EmailAddress("Pavel Bansky","pavelb@a830edad9050849NDA1.onmicrosoft.com");
+
+        self::$context->executeQuery();
+        self::assertNotNull($contact->getProperty("Id"));
+    }*/
+
 }

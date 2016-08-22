@@ -12,6 +12,8 @@ require_once('WebPartDefinitionCollection.php');
 use SharePoint\PHP\Client\ClientActionInvokePostMethod;
 use SharePoint\PHP\Client\ClientObject;
 use SharePoint\PHP\Client\ResourcePathEntity;
+use SharePoint\PHP\Client\Runtime\ODataPayload;
+use SharePoint\PHP\Client\Runtime\ODataPayloadKind;
 
 
 class LimitedWebPartManager extends ClientObject
@@ -24,7 +26,7 @@ class LimitedWebPartManager extends ClientObject
      */
     public function importWebPart($webPartXml)
     {
-        $payload = json_encode(array("webPartXml" => $webPartXml));
+        $payload = new ODataPayload(array("webPartXml" => $webPartXml),ODataPayloadKind::Entry,$this->getEntityTypeName());
         $webPartDefinition = new WebPartDefinition($this->getContext());
         $qry = new ClientActionInvokePostMethod(
             $this,

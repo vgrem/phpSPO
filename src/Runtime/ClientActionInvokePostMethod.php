@@ -1,7 +1,7 @@
 <?php
 
 namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataEntity;
+use SharePoint\PHP\Client\Runtime\ODataPayload;
 
 class ClientActionInvokePostMethod extends ClientActionInvokeMethod
 {
@@ -11,9 +11,9 @@ class ClientActionInvokePostMethod extends ClientActionInvokeMethod
      * @param ClientObject $parentClientObject
      * @param string $methodName
      * @param array $methodParameters
-     * @param ODataEntity $payload
+     * @param ODataPayload $payload
      */
-    public function __construct(ClientObject $parentClientObject, $methodName = null, array $methodParameters = null, ODataEntity $payload=null)
+    public function __construct(ClientObject $parentClientObject, $methodName = null, array $methodParameters = null, ODataPayload $payload=null)
     {
         parent::__construct($parentClientObject,$methodName,$methodParameters,$payload,ClientActionType::PostMethod);
     }

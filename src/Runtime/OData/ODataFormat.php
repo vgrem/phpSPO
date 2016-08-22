@@ -28,6 +28,17 @@ abstract class ODataFormat
         return false;
     }
 
+
+    /**
+     * @return bool
+     */
+    public function isAtom()
+    {
+        if($this instanceof AtomFormat)
+            return true;
+        return false;
+    }
+
     /**
      * Controls information from the payload
      * @var int
