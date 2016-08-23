@@ -1,7 +1,7 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\Runtime\Auth;
 
 
 abstract class BaseTokenProvider

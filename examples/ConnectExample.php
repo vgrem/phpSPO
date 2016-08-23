@@ -1,10 +1,11 @@
 <?php
 
 
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 
 require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once 'Settings.php';
-use SharePoint\PHP\Client\AuthenticationContext;
+
 global $Settings;
 
 try {

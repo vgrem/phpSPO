@@ -1,5 +1,5 @@
 <?php
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
 
 
 class ChangeList extends Change

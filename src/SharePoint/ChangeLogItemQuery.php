@@ -1,8 +1,9 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataPayload;
+namespace Office365\PHP\Client\SharePoint;
+use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
 
 /**
  * Class ChangeLogItemQuery

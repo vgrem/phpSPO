@@ -1,7 +1,9 @@
 <?php
 
-namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataFormat;
+namespace Office365\PHP\Client\Runtime;
+use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
 require_once('Utilities/EnumType.php');
 require_once('Utilities/Guid.php');

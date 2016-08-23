@@ -1,7 +1,7 @@
 <?php
 
 
-namespace SharePoint\PHP\Client\WebParts;
+namespace Office365\PHP\Client\SharePoint\WebParts;
 
 require_once('PersonalizationScope.php');
 require_once('WebPart.php');
@@ -9,11 +9,11 @@ require_once('WebPartDefinition.php');
 require_once('WebPartDefinitionCollection.php');
 
 
-use SharePoint\PHP\Client\ClientActionInvokePostMethod;
-use SharePoint\PHP\Client\ClientObject;
-use SharePoint\PHP\Client\ResourcePathEntity;
-use SharePoint\PHP\Client\Runtime\ODataPayload;
-use SharePoint\PHP\Client\Runtime\ODataPayloadKind;
+use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
+use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
 
 
 class LimitedWebPartManager extends ClientObject

@@ -1,6 +1,6 @@
 <?php
 
-namespace SharePoint\PHP\Client\Runtime;
+namespace Office365\PHP\Client\Runtime\Utilities;
 
 
 class JsonConvert

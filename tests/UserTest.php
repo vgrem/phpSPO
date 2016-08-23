@@ -1,6 +1,6 @@
 <?php
 
-use SharePoint\PHP\Client\Group;
+use Office365\PHP\Client\SharePoint\Group;
 
 require_once('SharePointTestCase.php');
 require_once('TestUtilities.php');
@@ -34,7 +34,7 @@ class UserTest extends SharePointTestCase
     public function testCreateGroup()
     {
         $groupName = "TestGroup_"  . rand(1,10000);
-        $info = new \SharePoint\PHP\Client\GroupCreationInformation($groupName);
+        $info = new \Office365\PHP\Client\SharePoint\GroupCreationInformation($groupName);
         $group = self::$context->getWeb()->getSiteGroups()->add($info);
         self::$context->executeQuery();
         $this->assertNotNull($group->getProperty("LoginName"));
@@ -48,16 +48,16 @@ class UserTest extends SharePointTestCase
      */
     public function testFindGroup(Group $group)
     {
-        $ctx = $group->getContext();
+        //$ctx = $group->getContext();
         if(!$group->isPropertyAvailable("LoginName")){
-            $ctx->load($group);
-            $ctx->executeQuery();
+            self::$context->load($group);
+            self::$context->executeQuery();
         }
         
         
-        $result = $ctx->getWeb()->getSiteGroups()->getByName($group->getProperty("LoginName"));
-        $ctx->load($result);
-        $ctx->executeQuery();
+        $result = self::$context->getWeb()->getSiteGroups()->getByName($group->getProperty("LoginName"));
+        self::$context->load($result);
+        self::$context->executeQuery();
         $this->assertEquals($group->getProperty("LoginName"),$result->getProperty("LoginName"));
     }
 
@@ -68,14 +68,14 @@ class UserTest extends SharePointTestCase
      */
     public function testDeleteGroup(Group $group)
     {
-        $ctx = $group->getContext();
-        $ctx->getWeb()->getSiteGroups()->removeByLoginName($group->getProperty("LoginName"));
-        $ctx->executeQuery();
+        //$ctx = $group->getContext();
+        self::$context->getWeb()->getSiteGroups()->removeByLoginName($group->getProperty("LoginName"));
+        self::$context->executeQuery();
 
         $key = $group->getProperty("LoginName");
-        $result = $ctx->getWeb()->getSiteGroups()->filter("LoginName eq '$key'");
-        $ctx->load($result);
-        $ctx->executeQuery();
+        $result = self::$context->getWeb()->getSiteGroups()->filter("LoginName eq '$key'");
+        self::$context->load($result);
+        self::$context->executeQuery();
         $this->assertEquals($result->getCount(),0);
     }
 }

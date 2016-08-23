@@ -1,6 +1,9 @@
 <?php
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
+use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 /**
  * Site resource
@@ -12,6 +15,7 @@ class Site extends ClientObject
     /**
      * Returns the site with the specified GUID
      * @param string $webId
+     * @return Web
      */
     public function openWebById($webId)
     {

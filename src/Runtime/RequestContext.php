@@ -1,8 +1,11 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\Runtime;
 
+
+use Office365\PHP\Client\SharePoint\Site;
+use Office365\PHP\Client\SharePoint\Web;
 
 class RequestContext extends ClientObject
 {

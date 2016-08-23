@@ -1,7 +1,8 @@
 <?php
 
-use SharePoint\PHP\Client\ClientContext;
-use SharePoint\PHP\Client\NetworkCredentialContext;
+use Office365\PHP\Client\Runtime\Auth\NetworkCredentialContext;
+use Office365\PHP\Client\SharePoint\ClientContext;
+
 
 require_once(__DIR__ . '/../src/Runtime/Auth/NetworkCredentialContext.php');
 require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');

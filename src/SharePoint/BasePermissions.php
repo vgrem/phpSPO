@@ -3,12 +3,10 @@
  * Represents base permissions for a role definition.
  */
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
 
 
-use SharePoint\PHP\Client\Runtime\ODataFormat;
-use SharePoint\PHP\Client\Runtime\ODataMetadataLevel;
-use SharePoint\PHP\Client\Runtime\ODataPayload;
+use Office365\PHP\Client\Runtime\ClientValueObject;
 
 
 class BasePermissions extends ClientValueObject

@@ -7,7 +7,7 @@ class ViewTest extends SharePointTestCase
 {
 
     /**
-     * @var \SharePoint\PHP\Client\SPList
+     * @var \Office365\PHP\Client\SharePoint\SPList
      */
     private static $targetList;
 
@@ -15,7 +15,7 @@ class ViewTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = TestUtilities::createUniqueName("Orders");
-        self::$targetList = TestUtilities::ensureList(self::$context, $listTitle, \SharePoint\PHP\Client\ListTemplateType::Tasks);
+        self::$targetList = TestUtilities::ensureList(self::$context, $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
     }
 
     public static function tearDownAfterClass()
@@ -37,7 +37,7 @@ class ViewTest extends SharePointTestCase
 
     public function testCreateView()
     {
-        $viewCreateInfo = new \SharePoint\PHP\Client\ViewCreationInformation();
+        $viewCreateInfo = new \Office365\PHP\Client\SharePoint\ViewCreationInformation();
         $viewTitle = TestUtilities::createUniqueName("My Orders");
         $viewCreateInfo->Title = $viewTitle;
         self::$targetList->getViews()->add($viewCreateInfo);

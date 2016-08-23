@@ -1,8 +1,8 @@
 <?php
 
 
-namespace SharePoint\PHP\Client\Social;
-use SharePoint\PHP\Client\ClientObject;
+namespace Office365\PHP\Client\SharePoint\Social;
+use Office365\PHP\Client\Runtime\ClientObject;
 
 /**
  * Class SocialRestFeedManager

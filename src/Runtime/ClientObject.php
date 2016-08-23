@@ -1,8 +1,8 @@
 <?php
 
-namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataPayload;
-use SharePoint\PHP\Client\Runtime\ODataPayloadKind;
+namespace Office365\PHP\Client\Runtime;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
+use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
 
 /**
  * Base client object 

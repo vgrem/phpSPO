@@ -5,8 +5,11 @@ require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once (__DIR__ . '/../src/Runtime/Soap/SoapClientRequest.php');
 require_once 'Settings.php';
 
-use SharePoint\PHP\Client\AuthenticationContext;
-use SharePoint\PHP\Client\ClientContext;
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\PHP\Client\SharePoint\Web;
+use Office365\PHP\Client\SharePoint\WebCreationInformation;
+
 global $Settings;
 
 try {
@@ -53,7 +56,7 @@ function findWeb(ClientContext $ctx, $webUrl){
 }
 
 
-function readWebProperties(\SharePoint\PHP\Client\Web $web)
+function readWebProperties(\Office365\PHP\Client\SharePoint\Web $web)
 {
 
 	//$ctx = $web->getContext();
@@ -80,13 +83,13 @@ function readWebProperties(\SharePoint\PHP\Client\Web $web)
 /**
  * @param ClientContext $ctx
  * @param $webUrl
- * @return \SharePoint\PHP\Client\Web
+ * @return Web
  */
 function createWeb(ClientContext $ctx, $webUrl)
 {
 	print "Creating web site...\r\n";
 	$web = $ctx->getWeb();
-	$info = new \SharePoint\PHP\Client\WebCreationInformation($webUrl,"Workspace");
+	$info = new WebCreationInformation($webUrl,"Workspace");
 	$info->WebTemplate = "STS";
 	$info->UseSamePermissionsAsParentSite = false;
 
@@ -98,7 +101,7 @@ function createWeb(ClientContext $ctx, $webUrl)
 
 
 
-function updateWeb(\SharePoint\PHP\Client\Web $web)
+function updateWeb(\Office365\PHP\Client\SharePoint\Web $web)
 {
 	print "Updating web site...\r\n";
 	$ctx = $web->getContext();
@@ -112,9 +115,9 @@ function updateWeb(\SharePoint\PHP\Client\Web $web)
 
 /**
  * Delete web operation example
- * @param \SharePoint\PHP\Client\Web $web
+ * @param \Office365\PHP\Client\SharePoint\Web $web
  */
-function deleteWeb(SharePoint\PHP\Client\Web $web){
+function deleteWeb(Office365\PHP\Client\SharePoint\Web $web){
 	print "Deleting web site...\r\n";
 	$ctx = $web->getContext();
 	$web->deleteObject();

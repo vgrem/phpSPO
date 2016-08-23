@@ -3,7 +3,7 @@
  * Represents the value of a user field for a list item. Inherits from SP.FieldLookupValue.
  */
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
 
 
 class FieldUserValue extends FieldLookupValue

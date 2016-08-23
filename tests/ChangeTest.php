@@ -1,8 +1,8 @@
 <?php
 
-use SharePoint\PHP\Client\ChangeLogItemQuery;
-use SharePoint\PHP\Client\ChangeQuery;
-use SharePoint\PHP\Client\ChangeType;
+use Office365\PHP\Client\SharePoint\ChangeLogItemQuery;
+use Office365\PHP\Client\SharePoint\ChangeQuery;
+use Office365\PHP\Client\SharePoint\ChangeType;
 
 require_once('SharePointTestCase.php');
 require_once('TestUtilities.php');
@@ -10,7 +10,7 @@ require_once('TestUtilities.php');
 class ChangeTest extends SharePointTestCase
 {
     /**
-     * @var \SharePoint\PHP\Client\SPList
+     * @var \Office365\PHP\Client\SharePoint\SPList
      */
     private static $targetList;
 
@@ -18,7 +18,7 @@ class ChangeTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = "Tasks";
-        self::$targetList = TestUtilities::ensureList(self::$context, $listTitle, \SharePoint\PHP\Client\ListTemplateType::TasksWithTimelineAndHierarchy);
+        self::$targetList = TestUtilities::ensureList(self::$context, $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
     }
 
     public static function tearDownAfterClass()

@@ -1,7 +1,7 @@
 <?php
 
-namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataPayload;
+namespace Office365\PHP\Client\Runtime;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
 
 class ClientActionInvokePostMethod extends ClientActionInvokeMethod
 {

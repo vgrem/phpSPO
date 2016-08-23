@@ -1,9 +1,9 @@
 <?php
 
 
-namespace SharePoint\PHP\Client\Taxonomy;
+namespace Office365\PHP\Client\SharePoint\Taxonomy;
 
-use SharePoint\PHP\Client\ClientObject;
+use Office365\PHP\Client\Runtime\ClientObject;
 
 class TaxonomySession extends ClientObject
 {

@@ -1,7 +1,9 @@
 <?php
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\Runtime\Auth;
 
 
+
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
 require_once(__DIR__ . '/../Utilities/Requests.php');
 require_once('BaseTokenProvider.php');

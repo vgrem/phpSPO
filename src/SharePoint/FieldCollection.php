@@ -3,8 +3,12 @@
  * Represents a collection of Field resources
  */
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
 
+
+use Office365\PHP\Client\Runtime\ClientActionCreateEntity;
+use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 class FieldCollection extends ClientObjectCollection
 {
@@ -23,8 +27,11 @@ class FieldCollection extends ClientObjectCollection
         return $field;
     }
 
-    
 
+    /**
+     * @param string $title
+     * @return Field
+     */
     public function getByTitle($title)
     {
         return new Field(
@@ -33,6 +40,10 @@ class FieldCollection extends ClientObjectCollection
         );
     }
 
+    /**
+     * @param string $internalNameOrTitle
+     * @return Field
+     */
     public function getByInternalNameOrTitle($internalNameOrTitle)
     {
         return new Field(

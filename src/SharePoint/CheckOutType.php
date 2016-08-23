@@ -1,7 +1,8 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
+use Office365\PHP\Client\Runtime\Utilities\EnumType;
 
 /**
  * Describes how a file is checked out of a document library.

@@ -1,7 +1,8 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
+use Office365\PHP\Client\Runtime\Utilities\EnumType;
 
 /**
  * Specifies the type of a list definition or a list template and assigns each an underlying Int32 value that corresponds to

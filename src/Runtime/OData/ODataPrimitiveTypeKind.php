@@ -1,9 +1,9 @@
 <?php
 
 
-namespace SharePoint\PHP\Client\Runtime;
+namespace Office365\PHP\Client\Runtime\OData;
+use Office365\PHP\Client\Runtime\Utilities\EnumType;
 
-use SharePoint\PHP\Client\EnumType;
 
 /**
  * The Abstract Type System used to define the primitive types supported by OData

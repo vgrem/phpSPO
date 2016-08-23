@@ -3,8 +3,11 @@
  * Represents a collection of RoleAssignment resources.
  */
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
 
+
+use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 class RoleAssignmentCollection extends ClientObjectCollection
 {

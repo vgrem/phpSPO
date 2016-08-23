@@ -1,7 +1,8 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
+use Office365\PHP\Client\Runtime\ClientValueObject;
 
 /**
  * Specifies a Collaborative Application Markup Language (CAML) query on a list or joined lists.

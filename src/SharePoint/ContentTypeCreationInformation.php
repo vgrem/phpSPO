@@ -1,7 +1,8 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
+use Office365\PHP\Client\Runtime\ClientValueObject;
 
 /**
  * Specifies properties that are used as parameters to initialize a new content type.

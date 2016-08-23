@@ -1,11 +1,11 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\Runtime;
 
 
-use SharePoint\PHP\Client\Runtime\ODataPathParser;
-use SharePoint\PHP\Client\Runtime\ODataPayload;
+use Office365\PHP\Client\Runtime\OData\ODataPathParser;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
 
 abstract class ClientActionInvokeMethod extends ClientAction
 {

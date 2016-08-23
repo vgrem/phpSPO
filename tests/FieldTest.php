@@ -1,7 +1,7 @@
 <?php
 
 
-use SharePoint\PHP\Client\FieldType;
+use Office365\PHP\Client\SharePoint\FieldType;
 
 require_once('SharePointTestCase.php');
 require_once('TestUtilities.php');
@@ -9,7 +9,7 @@ require_once('TestUtilities.php');
 class FieldTest extends SharePointTestCase
 {
     /**
-     * @var \SharePoint\PHP\Client\SPList
+     * @var \Office365\PHP\Client\SharePoint\SPList
      */
     private static $targetList;
 
@@ -17,7 +17,7 @@ class FieldTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = "Contacts_" . rand(1, 100000);
-        self::$targetList = TestUtilities::ensureList(self::$context, $listTitle, \SharePoint\PHP\Client\ListTemplateType::Contacts);
+        self::$targetList = TestUtilities::ensureList(self::$context, $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Contacts);
     }
 
     public static function tearDownAfterClass()
@@ -47,7 +47,7 @@ class FieldTest extends SharePointTestCase
 
     public function testCreateColumn()
     {
-        $fieldProperties = new \SharePoint\PHP\Client\FieldCreationInformation();
+        $fieldProperties = new \Office365\PHP\Client\SharePoint\FieldCreationInformation();
         $fieldProperties->Title =  'Contact location' . rand(1, 100);
         $fieldProperties->FieldTypeKind = FieldType::Geolocation;
 
@@ -63,7 +63,7 @@ class FieldTest extends SharePointTestCase
 
     /**
      * @depends testCreateColumn
-     * @param \SharePoint\PHP\Client\Field $fieldToDelete
+     * @param \Office365\PHP\Client\SharePoint\Field $fieldToDelete
      */
     /*public function testDeleteColumn(\SharePoint\PHP\Client\Field $fieldToDelete)
     {

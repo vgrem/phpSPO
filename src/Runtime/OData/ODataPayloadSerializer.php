@@ -1,13 +1,14 @@
 <?php
 
 
-namespace SharePoint\PHP\Client\Runtime;
+namespace Office365\PHP\Client\Runtime\OData;
 
 
-use SharePoint\PHP\Client\ClientObject;
-use SharePoint\PHP\Client\ClientObjectCollection;
-use SharePoint\PHP\Client\ClientResult;
-use SharePoint\PHP\Client\ClientValueObject;
+use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\ClientResult;
+use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\PHP\Client\Runtime\Utilities\JsonConvert;
 use stdClass;
 
 class ODataPayloadSerializer

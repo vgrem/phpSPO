@@ -4,10 +4,10 @@ require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
 require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
-use SharePoint\PHP\Client\AuthenticationContext;
-use SharePoint\PHP\Client\ClientContext;
-use SharePoint\PHP\Client\ListCreationInformation;
-use SharePoint\PHP\Client\SPList;
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\PHP\Client\SharePoint\ListCreationInformation;
+use Office365\PHP\Client\SharePoint\SPList;
 
 global $Settings;
 try {
@@ -43,14 +43,14 @@ function printListDetails(ClientContext $ctx, $listTitle){
 
 
 
-function printPermissions(SharePoint\PHP\Client\SPList $list,$loginName){
+function printPermissions(SPList $list, $loginName){
 	$ctx = $list->getContext();
-	$permissions = $list->getUserEffectivePermissions($loginName);
+	//$permissions = $list->getUserEffectivePermissions($loginName);
 	$ctx->executeQuery();
 }
 
 
-function assignUniquePermissions(SharePoint\PHP\Client\SPList $list){
+function assignUniquePermissions(SPList $list){
 	$ctx = $list->getContext();
 	$list->breakRoleInheritance(true);
 	$ctx->executeQuery();
@@ -75,12 +75,12 @@ function printLists(ClientContext $ctx){
  * Create list item operation example
  * @param ClientContext $ctx
  * @param $listTitle
- * @return \SharePoint\PHP\Client\SPList
+ * @return \Office365\PHP\Client\SharePoint\SPList
  */
 function createList(ClientContext $ctx, $listTitle){
 	$info = new ListCreationInformation($listTitle);
 	$info->Description = "Orders list";
-	$info->BaseTemplate = \SharePoint\PHP\Client\ListTemplateType::Tasks;
+	$info->BaseTemplate = \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks;
 	$list = $ctx->getWeb()->getLists()->add($info);
     $ctx->executeQuery();
 	print "List '{$list->Title}' has been created.\r\n";
@@ -88,7 +88,7 @@ function createList(ClientContext $ctx, $listTitle){
 }
 
 
-function ensureList(SharePoint\PHP\Client\ClientContext $ctx, $listTitle){
+function ensureList(Office365\PHP\Client\SharePoint\ClientContext $ctx, $listTitle){
 
 	$list = null;
 	$lists = $ctx->getWeb()->getLists();
@@ -116,7 +116,7 @@ function deleteList(SPList $list){
 
 /**
  * Update list operation example
- * @param \SharePoint\PHP\Client\SPList $list
+ * @param \Office365\PHP\Client\SharePoint\SPList $list
  */
 function updateList(SPList $list){
 	$ctx = $list->getContext();

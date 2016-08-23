@@ -1,11 +1,14 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\Runtime;
 
 
-use SharePoint\PHP\Client\Runtime\ODataFormat;
-use SharePoint\PHP\Client\Runtime\ODataPayloadSerializer;
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
+use Office365\PHP\Client\Runtime\OData\ODataPayloadSerializer;
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Utilities\Requests;
+use Office365\PHP\Client\SharePoint\ListItemCollection;
 
 require_once('FormatType.php');
 require_once('Utilities/Requests.php');

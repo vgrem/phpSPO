@@ -1,8 +1,8 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataPathParser;
+namespace Office365\PHP\Client\Runtime;
+use Office365\PHP\Client\Runtime\OData\ODataPathParser;
 
 /**
  * Resource path to address Service Operations which represents simple functions exposed by an OData service

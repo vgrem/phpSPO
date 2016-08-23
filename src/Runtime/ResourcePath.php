@@ -1,10 +1,10 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\Runtime;
 
 
-use SharePoint\PHP\Client\Runtime\ODataPathParser;
+use Office365\PHP\Client\Runtime\OData\ODataPathParser;
 
 abstract class ResourcePath
 {

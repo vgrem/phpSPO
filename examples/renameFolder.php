@@ -4,8 +4,9 @@ require_once(__DIR__ . '/../src/Runtime/ClientRequest.php');
 require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
-use SharePoint\PHP\Client\AuthenticationContext;
-use SharePoint\PHP\Client\ClientContext;
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\SharePoint\ClientContext;
 
 global $Settings;
 
@@ -26,7 +27,7 @@ catch (Exception $e) {
 function renameFolder($webUrl, $authCtx, $folderUrl,$folderNewName)
 {
     $url = $webUrl . "/_api/web/getFolderByServerRelativeUrl('{$folderUrl}')/ListItemAllFields";
-    $request = new \SharePoint\PHP\Client\RequestOptions($url);
+    $request = new RequestOptions($url);
     $ctx = new ClientContext($url,$authCtx);
     $data = $ctx->executeQueryDirect($request);
 
@@ -37,11 +38,9 @@ function renameFolder($webUrl, $authCtx, $folderUrl,$folderNewName)
         );
 
     $itemUrl = $data->d->__metadata->uri;
-    $request = new \SharePoint\PHP\Client\RequestOptions($itemUrl);
+    $request = new RequestOptions($itemUrl);
     $request->addCustomHeader("X-HTTP-Method", "MERGE");
     $request->addCustomHeader("If-Match", "*");
     $request->Data = $itemPayload;
     $data = $ctx->executeQueryDirect($request);
 }
-
-?>

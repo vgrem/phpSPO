@@ -1,9 +1,12 @@
 <?php
 
 
-use SharePoint\PHP\Client\ClientActionCreateEntity;
+namespace Office365\PHP\Client\OutlookServices;
 
-class ContactCollection extends \SharePoint\PHP\Client\ClientObjectCollection
+use Office365\PHP\Client\Runtime\ClientActionCreateEntity;
+use Office365\PHP\Client\Runtime\ClientObjectCollection;
+
+class ContactCollection extends ClientObjectCollection
 {
 
     /**
@@ -12,12 +15,12 @@ class ContactCollection extends \SharePoint\PHP\Client\ClientObjectCollection
      */
     public function createContact()
     {
-        $contact = new Contact($this->getContext(),$this->getResourcePath());
+        $contact = new Contact($this->getContext(), $this->getResourcePath());
         //foreach($contactCreationInformation as $key => $value){
         //    $contact->setProperty($key,$value);
         //}
-        $qry = new ClientActionCreateEntity($this,$contact->convertToPayload());
-        $this->getContext()->addQuery($qry,$contact);
+        $qry = new ClientActionCreateEntity($this, $contact->convertToPayload());
+        $this->getContext()->addQuery($qry, $contact);
         return $contact;
     }
 }

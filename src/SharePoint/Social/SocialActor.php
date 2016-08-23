@@ -1,10 +1,10 @@
 <?php
 
 
-namespace SharePoint\PHP\Client\Social;
+namespace Office365\PHP\Client\SharePoint\Social;
 
 
-use SharePoint\PHP\Client\ClientValueObject;
+use Office365\PHP\Client\Runtime\ClientValueObject;
 
 class SocialActor extends ClientValueObject
 {

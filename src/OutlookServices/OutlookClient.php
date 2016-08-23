@@ -1,9 +1,13 @@
 <?php
 
-use SharePoint\PHP\Client\IAuthenticationContext;
-use SharePoint\PHP\Client\ResourcePathEntity;
-use SharePoint\PHP\Client\Runtime\JsonFormat;
-use SharePoint\PHP\Client\Runtime\ODataMetadataLevel;
+namespace Office365\PHP\Client\OutlookServices;
+
+
+use Office365\PHP\Client\Runtime\ClientRuntimeContext;
+use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\OData\JsonFormat;
+use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 
 require_once(__DIR__ . '/../Runtime/Auth/NetworkCredentialContext.php');
 require_once(__DIR__ . '/../Runtime/ClientRuntimeContext.php');
@@ -15,7 +19,7 @@ require_once('ContactCollection.php');
 require_once('Event.php');
 require_once('EventCollection.php');
 
-class OutlookClient extends \SharePoint\PHP\Client\ClientRuntimeContext
+class OutlookClient extends ClientRuntimeContext
 {
 
     public function __construct(IAuthenticationContext $authContext)
@@ -34,7 +38,7 @@ class OutlookClient extends \SharePoint\PHP\Client\ClientRuntimeContext
     }
 
     /**
-     * @var \SharePoint\PHP\Client\ResourcePath
+     * @var \Office365\PHP\Client\Runtime\ResourcePath
      */
     private $myResourcePath;
 

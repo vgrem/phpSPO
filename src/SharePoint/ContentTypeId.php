@@ -1,7 +1,8 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
+use Office365\PHP\Client\Runtime\ClientValueObject;
 
 /**
  * Represents the content type identifier (ID) of a content type.

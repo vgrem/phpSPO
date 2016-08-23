@@ -1,7 +1,7 @@
 <?php
 
-namespace SharePoint\PHP\Client\UserProfiles;
-use SharePoint\PHP\Client\ClientObject;
+namespace Office365\PHP\Client\SharePoint\UserProfiles;
+use Office365\PHP\Client\Runtime\ClientObject;
 
 /**
  * Represents user properties.

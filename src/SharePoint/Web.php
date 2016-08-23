@@ -1,7 +1,11 @@
 <?php
 
-namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataFormat;
+namespace Office365\PHP\Client\SharePoint;
+use Office365\PHP\Client\Runtime\ClientActionDeleteEntity;
+use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 
 /**

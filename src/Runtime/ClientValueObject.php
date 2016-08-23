@@ -3,12 +3,12 @@
  * Represents a local client object model version of a server-side property value.
  */
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\Runtime;
 
 use ReflectionClass;
 use ReflectionProperty;
-use SharePoint\PHP\Client\Runtime\ODataPayload;
-use SharePoint\PHP\Client\Runtime\ODataPayloadKind;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
+use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
 use stdClass;
 
 /**

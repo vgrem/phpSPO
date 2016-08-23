@@ -12,7 +12,7 @@ class ListTest extends SharePointTestCase
     public function testIfListCreated()
     {
         $listTitle = "Orders_" . rand(1,100000);
-        $list = TestUtilities::ensureList(self::$context,$listTitle,\SharePoint\PHP\Client\ListTemplateType::Tasks);
+        $list = TestUtilities::ensureList(self::$context,$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
         $this->assertEquals($list->getProperty('Title'),$listTitle);
         return $list;
     }
@@ -20,9 +20,9 @@ class ListTest extends SharePointTestCase
 
     /**
      * @depends testIfListCreated
-     * @param \SharePoint\PHP\Client\SPList $list
+     * @param \Office365\PHP\Client\SharePoint\SPList $list
      */
-    public function testAssignUniquePermissions(\SharePoint\PHP\Client\SPList $list){
+    public function testAssignUniquePermissions(\Office365\PHP\Client\SharePoint\SPList $list){
         $list->breakRoleInheritance(true);
         //$list->update();
         self::$context->executeQuery();
@@ -32,7 +32,7 @@ class ListTest extends SharePointTestCase
 
     /**
      * @depends testIfListCreated
-     * @param \SharePoint\PHP\Client\SPList $list
+     * @param \Office365\PHP\Client\SharePoint\SPList $list
      */
     /*public function testVerifyListPermissions(\SharePoint\PHP\Client\SPList $list){
         //1. retrieve current user
@@ -51,18 +51,18 @@ class ListTest extends SharePointTestCase
 
     /**
      * @depends testIfListCreated
-     * @param \SharePoint\PHP\Client\SPList $listToDelete
+     * @param \Office365\PHP\Client\SharePoint\SPList $listToDelete
      */
-    public function testDeleteList(\SharePoint\PHP\Client\SPList $listToDelete)
+    public function testDeleteList(\Office365\PHP\Client\SharePoint\SPList $listToDelete)
     {
-        $ctx = $listToDelete->getContext();
+        //$ctx = $listToDelete->getContext();
         $listId = $listToDelete->getProperty('Id');
         $listToDelete->deleteObject();
-        $ctx->executeQuery();
+        self::$context->executeQuery();
 
-        $result =  $ctx->getWeb()->getLists()->filter("Id eq '$listId'");
-        $ctx->load($result);
-        $ctx->executeQuery();
+        $result =  self::$context->getWeb()->getLists()->filter("Id eq '$listId'");
+        self::$context->load($result);
+        self::$context->executeQuery();
         $this->assertEquals(0,$result->getCount());
     }
 

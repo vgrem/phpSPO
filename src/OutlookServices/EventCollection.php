@@ -1,7 +1,10 @@
 <?php
 
 
-class EventCollection extends \SharePoint\PHP\Client\ClientObjectCollection
+namespace Office365\PHP\Client\OutlookServices;
+use Office365\PHP\Client\Runtime\ClientObjectCollection;
+
+class EventCollection extends ClientObjectCollection
 {
 
 }

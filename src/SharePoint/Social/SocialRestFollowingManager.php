@@ -1,10 +1,10 @@
 <?php
 
 
-namespace SharePoint\PHP\Client\Social;
+namespace Office365\PHP\Client\SharePoint\Social;
 
 
-use SharePoint\PHP\Client\ClientObject;
+use Office365\PHP\Client\Runtime\ClientObject;
 
 class SocialRestFollowingManager extends ClientObject
 {

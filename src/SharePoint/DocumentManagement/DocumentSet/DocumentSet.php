@@ -1,8 +1,8 @@
 <?php
 
-namespace SharePoint\PHP\Client\DocumentSet;
+namespace Office365\PHP\Client\SharePoint\DocumentSet;
 
-use SharePoint\PHP\Client\ClientObject;
+use Office365\PHP\Client\Runtime\ClientObject;
 
 class DocumentSet extends ClientObject
 {

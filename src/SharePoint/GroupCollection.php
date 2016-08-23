@@ -3,7 +3,11 @@
  * Represents a collection of Group resources.
  */
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
+use Office365\PHP\Client\Runtime\ClientActionCreateEntity;
+use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 /**
  * Represents a collection of Group resources.

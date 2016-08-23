@@ -3,8 +3,10 @@
  * Specifies the hyperlink and the description values for FieldURL.
  */
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
 
+
+use Office365\PHP\Client\Runtime\ClientValueObject;
 
 class FieldUrlValue extends ClientValueObject
 {

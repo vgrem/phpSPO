@@ -1,10 +1,10 @@
 <?php
 
 
-namespace SharePoint\PHP\Client\WebParts;
+namespace Office365\PHP\Client\SharePoint\WebParts;
 
-use SharePoint\PHP\Client\ClientActionInvokePostMethod;
-use SharePoint\PHP\Client\ClientObject;
+use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\ClientObject;
 
 
 class WebPartDefinition extends ClientObject

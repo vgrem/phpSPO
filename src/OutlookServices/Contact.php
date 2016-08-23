@@ -1,10 +1,13 @@
 <?php
 
+namespace Office365\PHP\Client\OutlookServices;
+use Office365\PHP\Client\Runtime\ClientObject;
+
 /**
  * A contact, which is an item in Outlook for users to organize and save information about the people and organizations
  * that they communicate with. Contacts are contained in contact folders.
  */
-class Contact extends \SharePoint\PHP\Client\ClientObject
+class Contact extends ClientObject
 {
 
 
@@ -48,7 +51,6 @@ class Contact extends \SharePoint\PHP\Client\ClientObject
      * @var array
      */
     public $EmailAddresses;
-
 
 
 }

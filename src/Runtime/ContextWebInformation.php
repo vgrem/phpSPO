@@ -1,7 +1,6 @@
 <?php
 
-namespace SharePoint\PHP\Client\Runtime;
-use SharePoint\PHP\Client\ClientValueObject;
+namespace Office365\PHP\Client\Runtime;
 
 
 /**

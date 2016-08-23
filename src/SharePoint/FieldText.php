@@ -1,6 +1,6 @@
 <?php
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
 
 
 class FieldText extends Field

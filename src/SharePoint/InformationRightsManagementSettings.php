@@ -1,8 +1,10 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
 
+
+use Office365\PHP\Client\Runtime\ClientObject;
 
 class InformationRightsManagementSettings extends ClientObject
 {

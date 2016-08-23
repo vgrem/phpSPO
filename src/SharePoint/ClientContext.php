@@ -1,13 +1,19 @@
 <?php
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
 
-use SharePoint\PHP\Client\Runtime\ContextWebInformation;
-use SharePoint\PHP\Client\Runtime\JsonLightFormat;
-use SharePoint\PHP\Client\Runtime\ODataFormat;
-use SharePoint\PHP\Client\Runtime\ODataMetadataLevel;
-use SharePoint\PHP\Client\Runtime\ODataPayload;
-use SharePoint\PHP\Client\Runtime\ODataPayloadKind;
+use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
+use Office365\PHP\Client\Runtime\ClientAction;
+use Office365\PHP\Client\Runtime\ClientActionType;
+use Office365\PHP\Client\Runtime\ClientRuntimeContext;
+use Office365\PHP\Client\Runtime\ContextWebInformation;
+use Office365\PHP\Client\Runtime\OData\JsonLightFormat;
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
+use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
+use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
 
 require_once(__DIR__ . '/../Runtime/ClientRuntimeContext.php');

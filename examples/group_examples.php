@@ -1,8 +1,9 @@
 <?php
 
-use SharePoint\PHP\Client\AuthenticationContext;
-use SharePoint\PHP\Client\ClientContext;
-use SharePoint\PHP\Client\Group;
+
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\PHP\Client\SharePoint\Group;
 
 require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
 require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
@@ -41,7 +42,7 @@ function createGroup(ClientContext $ctx){
 
     $web = $ctx->getWeb();
     $groupTitle = "Approver" . rand(1,1000);
-    $info = new \SharePoint\PHP\Client\GroupCreationInformation($groupTitle);
+    $info = new \Office365\PHP\Client\SharePoint\GroupCreationInformation($groupTitle);
     $group = $web->getSiteGroups()->add($info);
     $ctx->executeQuery();
     print "Group : '{$group->Title}' has been created\r\n";

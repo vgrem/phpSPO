@@ -1,15 +1,17 @@
 <?php
 
 
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\SharePoint\ChangeLogItemQuery;
+use Office365\PHP\Client\SharePoint\ChangeQuery;
+use Office365\PHP\Client\SharePoint\ChangeType;
+use Office365\PHP\Client\SharePoint\ClientContext;
+
 require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
 require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once 'Settings.php';
 
-use SharePoint\PHP\Client\AuthenticationContext;
-use SharePoint\PHP\Client\ChangeLogItemQuery;
-use SharePoint\PHP\Client\ChangeQuery;
-use SharePoint\PHP\Client\ChangeType;
-use SharePoint\PHP\Client\ClientContext;
+
 
 global $Settings;
 
@@ -57,7 +59,7 @@ function getListItemChangesAlt($webUrl, AuthenticationContext $authCtx)
     }*/
 }
 
-function getListItemChanges(\SharePoint\PHP\Client\SPList $list)
+function getListItemChanges(\Office365\PHP\Client\SharePoint\SPList $list)
 {
     print "Getting list items changes...\n";
     $ctx = $list->getContext();
@@ -70,7 +72,7 @@ function getListItemChanges(\SharePoint\PHP\Client\SPList $list)
     }
 }
 
-function getListChanges(\SharePoint\PHP\Client\SPList $list)
+function getListChanges(\Office365\PHP\Client\SharePoint\SPList $list)
 {
     print "Getting list changes...\n";
     $ctx = $list->getContext();
@@ -92,7 +94,7 @@ function getListChanges(\SharePoint\PHP\Client\SPList $list)
 }
 
 
-function getWebChanges(\SharePoint\PHP\Client\Web $web){
+function getWebChanges(\Office365\PHP\Client\SharePoint\Web $web){
     print "Getting web changes...\n";
     $ctx = $web->getContext();
     $query = new ChangeQuery();

@@ -1,7 +1,8 @@
 <?php
 
-use SharePoint\PHP\Client\AuthenticationContext;
-use SharePoint\PHP\Client\ClientContext;
+
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\SharePoint\ClientContext;
 
 
 require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
@@ -32,7 +33,7 @@ catch (Exception $e) {
 
 
 
-function listWebFields(\SharePoint\PHP\Client\Web $web){
+function listWebFields(\Office365\PHP\Client\SharePoint\Web $web){
     $ctx = $web->getContext();
     $fields = $web->getFields();
     $ctx->load($fields);
@@ -44,7 +45,7 @@ function listWebFields(\SharePoint\PHP\Client\Web $web){
 }
 
 
-function listListFields(\SharePoint\PHP\Client\SPList $list){
+function listListFields(\Office365\PHP\Client\SharePoint\SPList $list){
     $ctx = $list->getContext();
     $fields = $list->getFields();
     $ctx->load($fields);
@@ -55,7 +56,7 @@ function listListFields(\SharePoint\PHP\Client\SPList $list){
 }
 
 
-function getListFieldByTitle(\SharePoint\PHP\Client\SPList $list, $fieldTitle){
+function getListFieldByTitle(\Office365\PHP\Client\SharePoint\SPList $list, $fieldTitle){
     print "Getting field from list by title:\r\n";
     $ctx = $list->getContext();
     $field = $list->getFields()->getByTitle($fieldTitle);
@@ -67,7 +68,7 @@ function getListFieldByTitle(\SharePoint\PHP\Client\SPList $list, $fieldTitle){
 }
 
 
-function getListFieldByInternalName(\SharePoint\PHP\Client\SPList $list, $fieldName){
+function getListFieldByInternalName(\Office365\PHP\Client\SharePoint\SPList $list, $fieldName){
     print "Getting field from list by internal name:\r\n";
     $ctx = $list->getContext();
     $field = $list->getFields()->getByInternalNameOrTitle($fieldName);

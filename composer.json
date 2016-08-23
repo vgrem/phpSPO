@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SharePoint\\PHP\\Client\\": "src/"
+            "Office365\\PHP\\Client\\": "src/"
         }
     }
 

@@ -3,8 +3,12 @@
  * Represents a collection of User resources
  */
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
 
+
+use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 class UserCollection extends ClientObjectCollection
 {

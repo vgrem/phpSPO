@@ -1,10 +1,10 @@
 <?php
 
-namespace SharePoint\PHP\Client\Taxonomy;
+namespace Office365\PHP\Client\SharePoint\Taxonomy;
 
 
 
-use SharePoint\PHP\Client\FieldLookup;
+use Office365\PHP\Client\SharePoint\FieldLookup;
 
 class TaxonomyField extends FieldLookup
 {

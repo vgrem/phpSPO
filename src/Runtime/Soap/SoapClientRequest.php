@@ -1,7 +1,11 @@
 <?php
 
-//
-class SoapClientRequest extends \SharePoint\PHP\Client\ClientRequest
+//Not implemented yet
+use Office365\PHP\Client\Runtime\ClientAction;
+use Office365\PHP\Client\Runtime\ClientRequest;
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+
+class SoapClientRequest extends ClientRequest
 {
 
     public function buildBatchRequest()
@@ -20,19 +24,19 @@ class SoapClientRequest extends \SharePoint\PHP\Client\ClientRequest
 
 
     /**
-     * @param \SharePoint\PHP\Client\ClientAction $query
-     * @return \SharePoint\PHP\Client\RequestOptions
+     * @param ClientAction $query
+     * @return RequestOptions
      */
-    public function buildRequest(\SharePoint\PHP\Client\ClientAction $query)
+    public function buildRequest(ClientAction $query)
     {
         // TODO: Implement buildRequest() method.
     }
 
     /**
      * @param string $response
-     * @param \SharePoint\PHP\Client\ClientAction $query
+     * @param ClientAction $query
      */
-    public function processResponse($response, \SharePoint\PHP\Client\ClientAction $query)
+    public function processResponse($response, ClientAction $query)
     {
         // TODO: Implement processResponse() method.
     }

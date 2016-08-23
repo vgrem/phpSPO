@@ -1,8 +1,12 @@
 <?php
 
-namespace SharePoint\PHP\Client;
-use SharePoint\PHP\Client\Runtime\ODataFormat;
-use SharePoint\PHP\Client\WebParts\LimitedWebPartManager;
+namespace Office365\PHP\Client\SharePoint;
+use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\ClientRuntimeContext;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\SharePoint\WebParts\LimitedWebPartManager;
 
 
 /**

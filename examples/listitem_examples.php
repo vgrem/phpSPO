@@ -5,13 +5,14 @@ require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once(__DIR__ . '/../src/Runtime/Auth/NetworkCredentialContext.php');
 require_once 'Settings.php';
 
-use SharePoint\PHP\Client\ClientContext;
-use SharePoint\PHP\Client\ListCreationInformation;
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\PHP\Client\SharePoint\ListCreationInformation;
 
 global $Settings;
 
 try {
-	$authCtx = new \SharePoint\PHP\Client\AuthenticationContext($Settings['Url']);
+	$authCtx = new AuthenticationContext($Settings['Url']);
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
 
     $ctx = new ClientContext($Settings['Url'],$authCtx);
@@ -34,7 +35,7 @@ catch (Exception $e) {
 
 
 
-function queryListItems(\SharePoint\PHP\Client\SPList $list)
+function queryListItems(\Office365\PHP\Client\SharePoint\SPList $list)
 {
 	$ctx = $list->getContext();
     
@@ -82,7 +83,7 @@ function queryListItems(\SharePoint\PHP\Client\SPList $list)
 
 
 
-function ensureList(SharePoint\PHP\Client\ClientContext $ctx, $listTitle){
+function ensureList(Office365\PHP\Client\SharePoint\ClientContext $ctx, $listTitle){
 
 	$list = null;
 	$lists = $ctx->getWeb()->getLists();
@@ -101,12 +102,12 @@ function ensureList(SharePoint\PHP\Client\ClientContext $ctx, $listTitle){
  * Create list item operation example
  * @param ClientContext $ctx
  * @param $listTitle
- * @return \SharePoint\PHP\Client\SPList
+ * @return \Office365\PHP\Client\SharePoint\SPList
  */
 function createList(ClientContext $ctx, $listTitle){
 	$info = new ListCreationInformation($listTitle);
 	$info->Description = "Orders list";
-	$info->BaseTemplate = \SharePoint\PHP\Client\ListTemplateType::Tasks;
+	$info->BaseTemplate = \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks;
 	$list = $ctx->getWeb()->getLists()->add($info);
 	$ctx->executeQuery();
 	print "List '{$list->Title}' has been created.\r\n";
@@ -116,7 +117,7 @@ function createList(ClientContext $ctx, $listTitle){
 
 
 
-function generateTasks(\SharePoint\PHP\Client\SPList $list)
+function generateTasks(\Office365\PHP\Client\SharePoint\SPList $list)
 {
 	print "Creating a new list items..\r\n";
 	for ($i = 0; $i < 2; $i++) {
@@ -132,9 +133,9 @@ function generateTasks(\SharePoint\PHP\Client\SPList $list)
 
 /**
  * Read list items operation example
- * @param \SharePoint\PHP\Client\SPList $list
+ * @param \Office365\PHP\Client\SharePoint\SPList $list
  */
-function printTasks(\SharePoint\PHP\Client\SPList $list){
+function printTasks(\Office365\PHP\Client\SharePoint\SPList $list){
 	print "Getting list items from the list..\r\n";
 	$ctx = $list->getContext();
 	$items = $list->getItems();
@@ -145,10 +146,10 @@ function printTasks(\SharePoint\PHP\Client\SPList $list){
 	}
 }
 
-function queryListViaCAMLQuery(\SharePoint\PHP\Client\SPList $list){
+function queryListViaCAMLQuery(\Office365\PHP\Client\SharePoint\SPList $list){
 	print "Querying list items from the list..\r\n";
 	$ctx = $list->getContext();
-	$query = new \SharePoint\PHP\Client\CamlQuery();
+	$query = new \Office365\PHP\Client\SharePoint\CamlQuery();
 	$items = $list->getItems($query);
 	$ctx->load($items);
 	$ctx->executeQuery();
@@ -159,11 +160,11 @@ function queryListViaCAMLQuery(\SharePoint\PHP\Client\SPList $list){
 
 /**
  * Create list item operation example
- * @param \SharePoint\PHP\Client\SPList $list
+ * @param \Office365\PHP\Client\SharePoint\SPList $list
  * @param array $itemProperties
  * @return mixed|null
  */
-function createListItem(\SharePoint\PHP\Client\SPList $list, array $itemProperties){
+function createListItem(\Office365\PHP\Client\SharePoint\SPList $list, array $itemProperties){
 	$ctx = $list->getContext();
 	$item = $list->addItem($itemProperties);
     $ctx->executeQuery();
@@ -176,7 +177,7 @@ function createListItem(\SharePoint\PHP\Client\SPList $list, array $itemProperti
  * Read list item operation example
  * @param ClientContext $ctx
  * @param $itemId
- * @return \SharePoint\PHP\Client\ListItem
+ * @return \Office365\PHP\Client\SharePoint\ListItem
  */
 function getTask(ClientContext $ctx, $itemId){
 
@@ -190,7 +191,7 @@ function getTask(ClientContext $ctx, $itemId){
 }
 
 
-function deleteTask(\SharePoint\PHP\Client\ListItem $item){
+function deleteTask(\Office365\PHP\Client\SharePoint\ListItem $item){
 	$ctx = $item->getContext();
 	$item->deleteObject();
     $ctx->executeQuery();
@@ -199,7 +200,7 @@ function deleteTask(\SharePoint\PHP\Client\ListItem $item){
 }
 
 
-function updateTask(\SharePoint\PHP\Client\ListItem $item){
+function updateTask(\Office365\PHP\Client\SharePoint\ListItem $item){
 	$ctx = $item->getContext();
 	$item->setProperty('PercentComplete', 1);
 	$item->update();

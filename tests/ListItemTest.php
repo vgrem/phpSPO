@@ -8,7 +8,7 @@ class ListItemTest extends SharePointTestCase
 
 
     /**
-     * @var \SharePoint\PHP\Client\SPList
+     * @var \Office365\PHP\Client\SharePoint\SPList
      */
     private static $targetList;
 
@@ -16,7 +16,7 @@ class ListItemTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = TestUtilities::createUniqueName("Orders");
-        self::$targetList = TestUtilities::ensureList(self::$context, $listTitle, \SharePoint\PHP\Client\ListTemplateType::Tasks);
+        self::$targetList = TestUtilities::ensureList(self::$context, $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
     }
 
     public static function tearDownAfterClass()
@@ -31,7 +31,7 @@ class ListItemTest extends SharePointTestCase
     public function testItemsCount()
     {
         $itemsCount = self::$targetList->getProperty("ItemCount");
-        $items = self::$targetList->getItems(\SharePoint\PHP\Client\CamlQuery::createAllItemsQuery());
+        $items = self::$targetList->getItems(\Office365\PHP\Client\SharePoint\CamlQuery::createAllItemsQuery());
         self::$context->load($items);
         self::$context->executeQuery();
         $this->assertEquals($itemsCount, $items->getCount());
@@ -55,7 +55,7 @@ class ListItemTest extends SharePointTestCase
     public function testDeleteListItems()
     {
         $ctx = self::$targetList->getContext();
-        $items = self::$targetList->getItems(\SharePoint\PHP\Client\CamlQuery::createAllItemsQuery());
+        $items = self::$targetList->getItems(\Office365\PHP\Client\SharePoint\CamlQuery::createAllItemsQuery());
         $ctx->load($items);
         $ctx->executeQuery();
         foreach ($items->getData() as $item) {

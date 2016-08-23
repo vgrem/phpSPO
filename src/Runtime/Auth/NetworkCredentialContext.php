@@ -1,6 +1,9 @@
 <?php
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\Runtime\Auth;
+
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Utilities\UserCredentials;
 
 require_once('IAuthenticationContext.php');
 require_once(__DIR__ . '/../Utilities/UserCredentials.php');

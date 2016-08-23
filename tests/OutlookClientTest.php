@@ -1,5 +1,8 @@
 <?php
 
+use Office365\PHP\Client\OutlookServices\OutlookClient;
+use Office365\PHP\Client\Runtime\Auth\NetworkCredentialContext;
+
 require_once(__DIR__ .'/../examples/Settings.php');
 require_once(__DIR__ . '/../src/Runtime/Auth/NetworkCredentialContext.php');
 require_once(__DIR__ . '/../src/OutlookServices/OutlookClient.php');
@@ -16,7 +19,7 @@ class OutlookClientTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         global $Settings;
-        $authCtx = new \SharePoint\PHP\Client\NetworkCredentialContext($Settings["UserName"],$Settings["Password"]);
+        $authCtx = new NetworkCredentialContext($Settings["UserName"],$Settings["Password"]);
         self::$context = new OutlookClient($authCtx);
     }
 

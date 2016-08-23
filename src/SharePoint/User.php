@@ -1,7 +1,9 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\SharePoint;
+use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 /**
  * Represents a user in Microsoft SharePoint Foundation. A user is a type of SP.Principal.

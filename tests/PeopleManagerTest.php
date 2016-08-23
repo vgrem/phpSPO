@@ -12,7 +12,7 @@ class PeopleManagerTest extends SharePointTestCase
     private static $accountName = "i:0#.f|membership|vgrem@media18.onmicrosoft.com";
 
     public function testGetMyProperties(){
-        $peopleManager = new \SharePoint\PHP\Client\UserProfiles\PeopleManager(self::$context);
+        $peopleManager = new \Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager(self::$context);
         $properties = $peopleManager->getMyProperties();
         self::$context->load($properties);
         self::$context->executeQuery();
@@ -21,7 +21,7 @@ class PeopleManagerTest extends SharePointTestCase
 
 
     public function testGetUserProfilePropertyFor(){
-        $peopleManager = new \SharePoint\PHP\Client\UserProfiles\PeopleManager(self::$context);
+        $peopleManager = new \Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager(self::$context);
         $result = $peopleManager->getUserProfilePropertyFor(self::$accountName,"AccountName");
         self::$context->executeQuery();
         $this->assertNotNull($result->Value);
@@ -29,7 +29,7 @@ class PeopleManagerTest extends SharePointTestCase
 
 
     public function testFollow(){
-        $peopleManager = new \SharePoint\PHP\Client\UserProfiles\PeopleManager(self::$context);
+        $peopleManager = new \Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager(self::$context);
 
         $result = $peopleManager->amIFollowing(self::$accountName);
         self::$context->executeQuery();
@@ -47,7 +47,7 @@ class PeopleManagerTest extends SharePointTestCase
     }
 
     public function testStopFollowing(){
-        $peopleManager = new \SharePoint\PHP\Client\UserProfiles\PeopleManager(self::$context);
+        $peopleManager = new \Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager(self::$context);
 
         $result = $peopleManager->amIFollowing(self::$accountName);
         self::$context->executeQuery();
@@ -65,7 +65,7 @@ class PeopleManagerTest extends SharePointTestCase
 
 
     public function testAmIFollowedBy(){
-        $peopleManager = new \SharePoint\PHP\Client\UserProfiles\PeopleManager(self::$context);
+        $peopleManager = new \Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager(self::$context);
         $result = $peopleManager->amIFollowedBy(self::$accountName);
         self::$context->executeQuery();
         //$this->assertNotNull($properties->AccountName);

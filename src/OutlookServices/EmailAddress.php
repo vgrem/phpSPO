@@ -1,5 +1,6 @@
 <?php
 
+namespace Office365\PHP\Client\OutlookServices;
 /**
  * The name and email address of a contact or message recipient.
  */
@@ -11,7 +12,7 @@ class EmailAddress
      * @param string $name
      * @param string $address
      */
-    public function __construct($name,$address)
+    public function __construct($name, $address)
     {
         $this->Name = $name;
         $this->Address = $address;
@@ -28,6 +29,6 @@ class EmailAddress
      * The email address of the person or entity.
      * @var string
      */
-    public  $Address;
+    public $Address;
 
 }

@@ -1,14 +1,15 @@
 <?php
 
-namespace SharePoint\PHP\Client\UserProfiles;
+namespace Office365\PHP\Client\SharePoint\UserProfiles;
 
-use SharePoint\PHP\Client\ClientActionInvokeGetMethod;
-use SharePoint\PHP\Client\ClientActionInvokePostMethod;
-use SharePoint\PHP\Client\ClientRuntimeContext;
-use SharePoint\PHP\Client\ClientObject;
-use SharePoint\PHP\Client\ClientResult;
-use SharePoint\PHP\Client\ResourcePathEntity;
-use SharePoint\PHP\Client\ResourcePathServiceOperation;
+
+use Office365\PHP\Client\Runtime\ClientActionInvokeGetMethod;
+use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\ClientRuntimeContext;
+use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\PHP\Client\Runtime\ClientResult;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 require_once('PersonProperties.php');
 require_once('PersonPropertiesCollection.php');

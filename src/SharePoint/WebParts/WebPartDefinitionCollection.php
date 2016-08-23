@@ -1,10 +1,10 @@
 <?php
 
 
-namespace SharePoint\PHP\Client\WebParts;
+namespace Office365\PHP\Client\SharePoint\WebParts;
 
 
-use SharePoint\PHP\Client\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\ClientObjectCollection;
 
 class WebPartDefinitionCollection extends ClientObjectCollection
 {

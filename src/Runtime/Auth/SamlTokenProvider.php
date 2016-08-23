@@ -1,10 +1,11 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\Runtime\Auth;
 
 
 use Exception;
+use Office365\PHP\Client\Runtime\Utilities\Requests;
 
 class SamlTokenProvider extends BaseTokenProvider
 {

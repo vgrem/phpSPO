@@ -1,7 +1,7 @@
 <?php
 
 
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\Runtime;
 
 /**
  * Resource path  for addressing a Collection (of entities), a single entity within a Collection,

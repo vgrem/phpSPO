@@ -1,5 +1,6 @@
 <?php
-namespace SharePoint\PHP\Client;
+namespace Office365\PHP\Client\Runtime\Utilities;
+
 require_once("RequestOptions.php");
 require_once("UserCredentials.php");
 

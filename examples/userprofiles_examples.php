@@ -5,9 +5,9 @@ require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
 require_once(__DIR__ . '/../src/SharePoint/UserProfiles/PeopleManager.php');
 require_once 'Settings.php';
 
-use SharePoint\PHP\Client\AuthenticationContext;
-use SharePoint\PHP\Client\ClientContext;
-use SharePoint\PHP\Client\ClientRuntimeContext;
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 global $Settings;
 
 try {
@@ -25,7 +25,7 @@ catch (Exception $e) {
 function readUserProfiles(ClientRuntimeContext $ctx){
     #read my user profile properties
     
-    $peopleManager = new \SharePoint\PHP\Client\UserProfiles\PeopleManager($ctx);
+    $peopleManager = new \Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager($ctx);
     $properties = $peopleManager->getMyProperties();
     $ctx->load($properties);
     $ctx->executeQuery();

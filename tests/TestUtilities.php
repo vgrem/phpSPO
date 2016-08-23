@@ -1,10 +1,10 @@
 <?php
 
 
-use SharePoint\PHP\Client\ClientContext;
-use SharePoint\PHP\Client\ClientRuntimeContext;
-use SharePoint\PHP\Client\ListCreationInformation;
-use SharePoint\PHP\Client\SPList;
+use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\PHP\Client\Runtime\ClientRuntimeContext;
+use Office365\PHP\Client\SharePoint\ListCreationInformation;
+use Office365\PHP\Client\SharePoint\SPList;
 
 class TestUtilities
 {
@@ -20,7 +20,7 @@ class TestUtilities
      * @param SPList $pagesList
      * @param string $pageName
      * @param string $pageContent
-     * @return \SharePoint\PHP\Client\File
+     * @return \Office365\PHP\Client\SharePoint\File
      */
     public static function createWikiPage(SPList $pagesList, $pageName, $pageContent)
     {
@@ -50,16 +50,16 @@ class TestUtilities
         }
 
         $fileUrl = $listFolder->getProperty("ServerRelativeUrl") . "/" . $pageName;
-        $file = $listFolder->getFiles()->addTemplateFile($fileUrl,\SharePoint\PHP\Client\TemplateFileType::WikiPage);
+        $file = $listFolder->getFiles()->addTemplateFile($fileUrl, \Office365\PHP\Client\SharePoint\TemplateFileType::WikiPage);
         $ctx->executeQuery();
         return $file;
     }
 
 
-    public static function createWeb(SharePoint\PHP\Client\ClientContext $ctx, $webUrl)
+    public static function createWeb(Office365\PHP\Client\SharePoint\ClientContext $ctx, $webUrl)
     {
         $web = $ctx->getWeb();
-        $info = new \SharePoint\PHP\Client\WebCreationInformation($webUrl,$webUrl);
+        $info = new \Office365\PHP\Client\SharePoint\WebCreationInformation($webUrl,$webUrl);
         $web = $web->getWebs()->add($info);
         $ctx->executeQuery();
         return $web;
@@ -67,7 +67,7 @@ class TestUtilities
     
     
     
-    public static function ensureList(SharePoint\PHP\Client\ClientContext $ctx, $listTitle, $type, $clearItems = true)
+    public static function ensureList(Office365\PHP\Client\SharePoint\ClientContext $ctx, $listTitle, $type, $clearItems = true)
     {
         $lists = $ctx->getWeb()->getLists()->filter("Title eq '$listTitle'")->top(1);
         $ctx->load($lists);
@@ -84,9 +84,9 @@ class TestUtilities
 
 
 
-    public static function deleteListItems(\SharePoint\PHP\Client\SPList $list){
+    public static function deleteListItems(\Office365\PHP\Client\SharePoint\SPList $list){
         $ctx = $list->getContext();
-        $items = $list->getItems(\SharePoint\PHP\Client\CamlQuery::createAllItemsQuery());
+        $items = $list->getItems(\Office365\PHP\Client\SharePoint\CamlQuery::createAllItemsQuery());
         $ctx->load($items);
         $ctx->load($list);
         $ctx->executeQuery();
@@ -102,7 +102,7 @@ class TestUtilities
      * @param ClientRuntimeContext $ctx
      * @param $listTitle
      * @param $type
-     * @return \SharePoint\PHP\Client\SPList
+     * @return \Office365\PHP\Client\SharePoint\SPList
      */
     public static function createList(ClientContext $ctx, $listTitle, $type){
         $info = new ListCreationInformation($listTitle);
@@ -114,9 +114,9 @@ class TestUtilities
 
 
     /**
-     * @param \SharePoint\PHP\Client\SPList $list
+     * @param \Office365\PHP\Client\SharePoint\SPList $list
      */
-    public static function deleteList(\SharePoint\PHP\Client\SPList $list){
+    public static function deleteList(\Office365\PHP\Client\SharePoint\SPList $list){
         $ctx = $list->getContext();
         $list->deleteObject();
         $ctx->executeQuery();
@@ -125,11 +125,11 @@ class TestUtilities
 
     /**
      * Create list item operation
-     * @param \SharePoint\PHP\Client\SPList $list
+     * @param \Office365\PHP\Client\SharePoint\SPList $list
      * @param array $itemProperties
-     * @return \SharePoint\PHP\Client\ListItem
+     * @return \Office365\PHP\Client\SharePoint\ListItem
      */
-    public static function createListItem(\SharePoint\PHP\Client\SPList $list, array $itemProperties){
+    public static function createListItem(\Office365\PHP\Client\SharePoint\SPList $list, array $itemProperties){
         $ctx = $list->getContext();
         $item = $list->addItem($itemProperties);
         $ctx->executeQuery();

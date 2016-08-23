@@ -1,5 +1,5 @@
 ﻿### About
-This library provides a SharePoint REST client for PHP applications. This allows you to performs CRUD operations againts SharePoint Online resources via an REST/OData based API. 
+The library provides a Office 365 REST client for PHP applications. It allows to performs CRUD operations against SharePoint and Outlook resources via an REST/OData based API. 
 
 ### Status
 
