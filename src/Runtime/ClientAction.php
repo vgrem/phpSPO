@@ -7,7 +7,7 @@ use Office365\PHP\Client\Runtime\OData\ODataPayload;
 /**
  * OData query class
  */
-abstract class ClientAction
+class ClientAction
 {
     /**
      * @var int
@@ -35,14 +35,15 @@ abstract class ClientAction
      * ClientAction constructor.
      * @param string $resourceUrl
      * @param ODataPayload $payload
-     * @param int $methodType
+     * @param int $actionType
      */
-    public function __construct($resourceUrl, $payload=null, $methodType=null)
+    public function __construct($resourceUrl, $payload=null, $actionType=null)
     {
         $this->ResourceUrl = $resourceUrl;
         $this->Payload = $payload;
-        $this->ActionType = $methodType;
+        $this->ActionType = $actionType;
         $this->ResponsePayloadFormatType = FormatType::Json;
+        $this->PayloadFormatType = FormatType::Json;
     }
 
     /**

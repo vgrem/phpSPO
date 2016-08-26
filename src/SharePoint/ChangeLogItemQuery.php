@@ -3,7 +3,6 @@
 
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientValueObject;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
 
 /**
  * Class ChangeLogItemQuery
@@ -20,15 +19,6 @@ class ChangeLogItemQuery extends ClientValueObject
         parent::__construct();
     }
 
-
-    /**
-     * @return ODataPayload
-     */
-    public function convertToPayload()
-    {
-        return parent::convertToPayload()->toQueryPayload();
-    }
-    
 
     /**
      * A string that contains either the title or the GUID for the list. When querying the UserInfo table,

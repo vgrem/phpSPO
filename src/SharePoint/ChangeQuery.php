@@ -39,13 +39,7 @@ class ChangeQuery extends ClientValueObject
         $this->SystemUpdate = false;
         $this->User = false;
         $this->View = false;
-        parent::__construct(null);
-    }
-
-
-    function convertToPayload()
-    {
-        return parent::convertToPayload()->toQueryPayload();
+        parent::__construct();
     }
 
 

@@ -1,11 +1,10 @@
 <?php
 
-namespace Office365\PHP\Client\Runtime;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
-use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
+namespace Office365\PHP\Client\Runtime;;
+
 
 /**
- * Base client object 
+ * Represents OData entity
  */
 abstract class ClientObject
 {
@@ -120,18 +119,6 @@ abstract class ClientObject
 
 
     /**
-     * @return ODataPayload
-     */
-    public function convertToPayload()
-    {
-        $value = new \stdClass();
-        foreach ($this->getChangedProperties() as $k => $v) {
-            $value->{$k} = $v;
-        }
-        return new ODataPayload($value, ODataPayloadKind::Entry, $this->getEntityTypeName());
-    }
-
-    /**
      * Determine whether client object property has been loaded
      * @param $name
      * @return bool
@@ -164,8 +151,8 @@ abstract class ClientObject
 
     /**
      * A preferred way of setting the client object property
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed $value
      * @param bool $persistChanges
      */
     public function setProperty($name, $value, $persistChanges = true)
@@ -173,6 +160,8 @@ abstract class ClientObject
         if ($persistChanges) {
             $this->changed_properties[$name] = $value;
         }
+
+        //save property
         $this->{$name} = $value;
 
         if ($name == "Id") {
@@ -183,8 +172,6 @@ abstract class ClientObject
             $this->setResourceUrl($this->getResourcePath()->toUrl() . $entityKey);
         }
     }
-
-
 
 
     public function __set($name, $value)

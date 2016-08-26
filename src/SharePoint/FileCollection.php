@@ -3,6 +3,8 @@
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
+use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
 
 
 /**
@@ -24,7 +26,7 @@ class FileCollection extends ClientObjectCollection
             $this,
             "add",
             array("overwrite"=>$fileCreationInformation->Overwrite,"url"=>rawurlencode($fileCreationInformation->Url)),
-            $fileCreationInformation->convertToPayload()
+            new ODataPayload($fileCreationInformation->Content,ODataPayloadKind::Property,$this->getEntityTypeName())
             );
         $this->getContext()->addQuery($qry,$file);
         //$this->addChild($file);

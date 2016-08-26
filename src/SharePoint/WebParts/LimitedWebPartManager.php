@@ -26,7 +26,7 @@ class LimitedWebPartManager extends ClientObject
      */
     public function importWebPart($webPartXml)
     {
-        $payload = new ODataPayload(array("webPartXml" => $webPartXml),ODataPayloadKind::Entry,$this->getEntityTypeName());
+        $payload = new ODataPayload(array("webPartXml" => $webPartXml),ODataPayloadKind::Entity,$this->getEntityTypeName());
         $webPartDefinition = new WebPartDefinition($this->getContext());
         $qry = new ClientActionInvokePostMethod(
             $this,

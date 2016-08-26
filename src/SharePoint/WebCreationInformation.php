@@ -61,13 +61,4 @@ class WebCreationInformation extends ClientValueObject
         parent::__construct(null);
     }
 
-
-    function convertToPayload()
-    {
-        return parent::convertToPayload()->toParametersPayload();
-    }
-
-
-
-
 }

@@ -33,7 +33,6 @@ abstract class ClientObjectCollection extends ClientObject
         $this->queryOptions = $queryOptions;
         if(!isset($this->queryOptions))
             $this->queryOptions = new ODataQueryOptions();
-        $this->areItemsAvailable = false;
     }
 
     /**

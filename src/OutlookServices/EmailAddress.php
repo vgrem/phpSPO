@@ -1,10 +1,12 @@
 <?php
 
 namespace Office365\PHP\Client\OutlookServices;
+use Office365\PHP\Client\Runtime\ClientValueObject;
+
 /**
  * The name and email address of a contact or message recipient.
  */
-class EmailAddress
+class EmailAddress extends ClientValueObject
 {
 
     /**
@@ -16,6 +18,7 @@ class EmailAddress
     {
         $this->Name = $name;
         $this->Address = $address;
+        parent::__construct();
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Office365\PHP\Client\Runtime;
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\OData\ODataFormat;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
 require_once('Utilities/EnumType.php');
@@ -14,7 +15,7 @@ require_once('ClientRequest.php');
 require_once('OData/ODataQueryOptions.php');
 require_once('OData/ODataPathParser.php');
 require_once('OData/ODataPrimitiveTypeKind.php');
-require_once('OData/ODataPayloadSerializer.php');
+require_once('OData/JsonPayloadSerializer.php');
 require_once('ResourcePath.php');
 require_once('ResourcePathEntity.php');
 require_once('ResourcePathServiceOperation.php');
@@ -129,21 +130,11 @@ class ClientRuntimeContext
 
     /**
      * @param RequestOptions $options
-     * @return mixed
+     * @return ODataPayload
      */
     public function executeQueryDirect(RequestOptions $options)
     {
         return $this->getPendingRequest()->executeQueryDirect($options);
-    }
-
-
-    /**
-     * @param string $response
-     * @param mixed $targetObject
-     * @param callable $onPopulate
-     */
-    public function populateObject($response, $targetObject,callable $onPopulate = null){
-        $this->getPendingRequest()->populateObject($response,$targetObject,$onPopulate);
     }
 
 

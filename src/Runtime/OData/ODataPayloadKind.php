@@ -26,7 +26,7 @@ class ODataPayloadKind
     /**
      *
      */
-    const Entry = 2;
+    const Entity = 2;
 
     /**
      *
@@ -34,7 +34,9 @@ class ODataPayloadKind
     const Property = 3;
 
 
-
+    /**
+     *
+     */
     const Parameter = 4;
 
     /**

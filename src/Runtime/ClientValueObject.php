@@ -1,18 +1,11 @@
 <?php
-/**
- * Represents a local client object model version of a server-side property value.
- */
+
 
 namespace Office365\PHP\Client\Runtime;
 
-use ReflectionClass;
-use ReflectionProperty;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
-use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
-use stdClass;
 
 /**
- * Class ClientValueObject
+ * Represents OData complex type(property) of a server-side property value.
  */
 class ClientValueObject
 {
@@ -26,28 +19,6 @@ class ClientValueObject
         $this->entityTypeName = $entityName;
     }
 
-    /**
-     * Generates OData payload
-     * @return ODataPayload
-     */
-    function convertToPayload()
-    {
-        $reflection = new ReflectionClass($this);
-        $allProps = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
-        $payloadValue = new stdClass();
-        foreach ($allProps as $p) {
-            $k = $p->getName();
-            $v = $p->getValue($this);
-            if (isset($v)) {
-                $payloadValue->{$k} = $v;
-            }
-        }
-        $payload = new ODataPayload($payloadValue,ODataPayloadKind::Property,$this->getEntityTypeName());
-        return $payload;
-    }
-
-
-
     public function getEntityTypeName()
     {
         if(!isset($this->entityTypeName)){
@@ -56,7 +27,6 @@ class ClientValueObject
         }
         return $this->entityTypeName;
     }
-
 
     /**
      * @var string

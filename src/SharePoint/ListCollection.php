@@ -3,6 +3,7 @@
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientActionCreateEntity;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 
@@ -46,7 +47,7 @@ class ListCollection extends ClientObjectCollection
     public function add(ListCreationInformation $parameters)
     {
         $list = new SPList($this->getContext(),$this->getResourcePath());
-        $qry = new ClientActionCreateEntity($this,$parameters->convertToPayload());
+        $qry = new ClientActionCreateEntity($this,ODataPayload::createFromObject($parameters));
         $this->getContext()->addQuery($qry,$list);
         $this->addChild($list);
         return $list;

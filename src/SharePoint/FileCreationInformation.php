@@ -3,8 +3,6 @@
 
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientValueObject;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
-use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
 
 
 /**
@@ -19,12 +17,6 @@ class FileCreationInformation extends ClientValueObject
         $this->Overwrite = true;
     }
 
-
-
-    function convertToPayload()
-    {
-        return new ODataPayload($this->Content,ODataPayloadKind::Property,$this->getEntityTypeName());
-    }
 
     /**
      * @var string

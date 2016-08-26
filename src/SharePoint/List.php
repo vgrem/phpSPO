@@ -7,6 +7,7 @@ use Office365\PHP\Client\Runtime\ClientActionInvokeGetMethod;
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
 use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
 use Office365\PHP\Client\Runtime\FormatType;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 
@@ -30,7 +31,7 @@ class SPList extends SecurableObject
         foreach($listItemCreationInformation as $key => $value){
             $listItem->setProperty($key,$value);
         }
-        $qry = new ClientActionCreateEntity($items,$listItem->convertToPayload());
+        $qry = new ClientActionCreateEntity($items,ODataPayload::createFromObject($listItem));
         $this->getContext()->addQuery($qry,$listItem);
         return $listItem;
     }
@@ -75,7 +76,7 @@ class SPList extends SecurableObject
                 $this,
                 "GetItems",
                 null,
-                $camlQuery->convertToPayload()
+                ODataPayload::createFromObject($camlQuery)->toQueryPayload()
             );
             $this->getContext()->addQuery($qry,$items);
         }
@@ -133,7 +134,7 @@ class SPList extends SecurableObject
             $this,
             "getListItemChangesSinceToken",
             null,
-            $query->convertToPayload()
+            ODataPayload::createFromObject($query)->toQueryPayload()
         );
         $qry->ResponsePayloadFormatType = FormatType::Xml;
         $this->getContext()->addQuery($qry, $result);
@@ -152,7 +153,7 @@ class SPList extends SecurableObject
             $this,
             "GetChanges",
             null,
-            $query->convertToPayload()
+            ODataPayload::createFromObject($query)->toQueryPayload()
         );
         $this->getContext()->addQuery($qry,$changes);
         return $changes;

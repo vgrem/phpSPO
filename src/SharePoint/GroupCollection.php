@@ -7,6 +7,7 @@ namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientActionCreateEntity;
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 /**
@@ -23,7 +24,7 @@ class GroupCollection extends ClientObjectCollection
     public function add(GroupCreationInformation $parameters)
     {
         $group = new Group($this->getContext(),$this->getResourcePath());
-        $qry = new ClientActionCreateEntity($this, $parameters->convertToPayload());
+        $qry = new ClientActionCreateEntity($this, ODataPayload::createFromObject($parameters));
         $this->getContext()->addQuery($qry,$group);
         $this->addChild($group);
         return $group;

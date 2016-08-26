@@ -32,8 +32,8 @@ class PeopleManager extends ClientObject
      * @return ClientResult
      */
     public function amIFollowedBy ($accountName){
-        $clientResult = new ClientResult("AmIFollowedBy");
-        $qry = new ClientActionInvokePostMethod($this, "amifollowedby",array(rawurlencode($accountName)));
+        $clientResult = new ClientResult();
+        $qry = new ClientActionInvokePostMethod($this, "AmIFollowedBy",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry,$clientResult);
         return $clientResult;
     }
@@ -77,8 +77,8 @@ class PeopleManager extends ClientObject
      * @param string $accountName
      */
     public function stopFollowing ($accountName){
-        $clientResult = new ClientResult("StopFollowing");
-        $qry = new ClientActionInvokePostMethod($this, "stopfollowing",array(rawurlencode($accountName)));
+        $clientResult = new ClientResult();
+        $qry = new ClientActionInvokePostMethod($this, "StopFollowing",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry,$clientResult);
     }
 
@@ -89,10 +89,10 @@ class PeopleManager extends ClientObject
      * @return ClientResult
      */
     public function amIFollowing ($accountName){
-        $clientResult = new ClientResult("AmIFollowing");
+        $clientResult = new ClientResult();
         $qry = new ClientActionInvokeGetMethod(
             $this,
-            "amifollowing",
+            "AmIFollowing",
             array(rawurlencode($accountName))
         );
         $this->getContext()->addQuery($qry,$clientResult);

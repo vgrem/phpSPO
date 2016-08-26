@@ -8,6 +8,7 @@ use Office365\PHP\Client\Runtime\ClientActionType;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\ContextWebInformation;
 use Office365\PHP\Client\Runtime\OData\JsonLightFormat;
+use Office365\PHP\Client\Runtime\OData\JsonPayloadSerializer;
 use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
@@ -169,24 +170,22 @@ class ClientContext extends ClientRuntimeContext
      */
     protected function requestFormDigest()
     {
-        $url = $this->getServiceRootUrl() . "contextinfo";
-        $request = new RequestOptions($url);
+        $request = new RequestOptions($this->getServiceRootUrl() . "contextinfo");
         $request->PostMethod = true;
         $response = $this->executeQueryDirect($request);
         if(!isset($this->contextWebInformation))
             $this->contextWebInformation = new ContextWebInformation();
-        $this->populateObject($response,$this->contextWebInformation,
-            function (ODataPayload $payload,ODataFormat $format) {
-                if($format->MetadataLevel == ODataMetadataLevel::Verbose){
-                    $payload->ContainerName = "GetContextWebInformation";
-                    $payload->PayloadType = ODataPayloadKind::Property;
-                }
-            }
-        );
+        $ser = new JsonPayloadSerializer($this->format);
+        $responsePayload = $ser->deserialize($response);
+        $responsePayload->PayloadType = ODataPayloadKind::Property;
+        if($this->format->MetadataLevel == ODataMetadataLevel::Verbose){
+            $responsePayload->ContainerName = "GetContextWebInformation";
+        }
+        $this->getPendingRequest()->populateObject($responsePayload,$this->contextWebInformation);
     }
 
     /**
-     *
+     * Submits query to SharePoint REST/OData service
      */
     public function executeQuery()
     {
@@ -211,10 +210,10 @@ class ClientContext extends ClientRuntimeContext
             $this->ensureFormDigest($request);
         }
         //set data modification headers
-        if ($query->ActionType == ClientActionType::UpdateEntity) {
+        if ($query->ActionType == ClientActionType::Update) {
             $request->addCustomHeader("IF-MATCH", "*");
             $request->addCustomHeader("X-HTTP-Method", "MERGE");
-        } else if ($query->ActionType == ClientActionType::DeleteEntity) {
+        } else if ($query->ActionType == ClientActionType::Delete) {
             $request->addCustomHeader("IF-MATCH", "*");
             $request->addCustomHeader("X-HTTP-Method", "DELETE");
         }

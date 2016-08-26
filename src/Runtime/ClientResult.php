@@ -10,18 +10,6 @@ namespace Office365\PHP\Client\Runtime;
 class ClientResult
 {
 
-
-    function __construct($functionImport)
-    {
-        $this->FunctionName = $functionImport;
-    }
-
-
-    /**
-     * @var string
-     */
-    public $FunctionName;
-
     /**
      * @var string
      */

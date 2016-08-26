@@ -48,7 +48,7 @@ class ListItem extends SecurableObject
             if(!$list->isPropertyAvailable("ListItemEntityTypeFullName")){
                 $request = new RequestOptions($list->getResourceUrl() . "?\$select=ListItemEntityTypeFullName");
                 $response = $this->getContext()->executeQueryDirect($request);
-                $this->getContext()->populateObject($response,$list);
+                $this->getContext()->executeQueryForObject($response,$list);
             }
             $this->resourceType = $list->getProperty("ListItemEntityTypeFullName");
         }

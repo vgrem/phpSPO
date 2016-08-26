@@ -1,5 +1,7 @@
 <?php
 
+use Office365\PHP\Client\SharePoint\CamlQuery;
+
 require_once('SharePointTestCase.php');
 require_once('TestUtilities.php');
 
@@ -31,7 +33,7 @@ class ListItemTest extends SharePointTestCase
     public function testItemsCount()
     {
         $itemsCount = self::$targetList->getProperty("ItemCount");
-        $items = self::$targetList->getItems(\Office365\PHP\Client\SharePoint\CamlQuery::createAllItemsQuery());
+        $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery());
         self::$context->load($items);
         self::$context->executeQuery();
         $this->assertEquals($itemsCount, $items->getCount());

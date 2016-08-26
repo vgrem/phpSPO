@@ -13,7 +13,7 @@ class ClientActionCreateEntity extends ClientAction
      */
     public function __construct(ClientObject $entityCollection, ODataPayload $payload = null)
     {
-        parent::__construct($entityCollection->getResourceUrl(), $payload, (int)ClientActionType::CreateEntity);
+        parent::__construct($entityCollection->getResourceUrl(), $payload, (int)ClientActionType::Create);
     }
 
 }

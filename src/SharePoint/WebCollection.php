@@ -3,6 +3,7 @@
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
 
 
 /**
@@ -23,7 +24,7 @@ class WebCollection extends ClientObjectCollection
             $this,
             "Add",
             null,
-            $webCreationInformation->convertToPayload()
+            ODataPayload::createFromObject($webCreationInformation)->toParametersPayload()
         );
         $this->getContext()->addQuery($qry,$web);
         $this->addChild($web);
