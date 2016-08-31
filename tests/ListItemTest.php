@@ -1,6 +1,7 @@
 <?php
 
 use Office365\PHP\Client\SharePoint\CamlQuery;
+use Office365\PHP\Client\SharePoint\ListItem;
 
 require_once('SharePointTestCase.php');
 require_once('TestUtilities.php');
@@ -27,7 +28,8 @@ class ListItemTest extends SharePointTestCase
         self::$context->executeQuery();
         parent::tearDownAfterClass();
     }
-    
+
+
     
     
     public function testItemsCount()
@@ -43,13 +45,74 @@ class ListItemTest extends SharePointTestCase
 
     public function testCreateListItems()
     {
+        $currentUser = self::$context->getWeb()->getCurrentUser();
+        self::$context->load($currentUser);
+        self::$context->executeQuery();
+
         $itemProperties = array(
             'Title' => 'Order Approval' . rand(1, 1000),
             'Body' => 'Please review a task',
+            'AssignedToId' => $currentUser->getProperty("Id"),
+            'PredecessorsId' => array( 'results' => array($currentUser->getProperty("Id")))
             //'__metadata' => array('type' => 'SP.Data.TasksListItem')
         );
         $item = TestUtilities::createListItem(self::$targetList, $itemProperties);
         $this->assertEquals($item->getProperty('Body'), $itemProperties['Body']);
+        return $item;
+    }
+
+
+    /**
+     * @depends testCreateListItems
+     * @param ListItem $listItem
+     */
+    public function testUpdateListItems(ListItem $listItem)
+    {
+        self::$context->load($listItem);
+        self::$context->executeQuery();
+
+        $listItem->setProperty('PredecessorsId',array( 'results' => array($listItem->getProperty("Id"))));
+        $listItem->update();
+        self::$context->executeQuery();
+        $predecessorsId = $listItem->getProperty("PredecessorsId");
+        self::assertNotNull($predecessorsId);
+    }
+
+
+
+    public function testQueryOptionsForUserField()
+    {
+        $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery())
+            ->select("AssignedTo/Title")
+            ->expand("AssignedTo");
+        self::$context->load($items);
+        self::$context->executeQuery();
+
+        if($items->getCount() > 0){
+            $item = $items->getItem(0);
+            $assignedTo = $item->getProperty("AssignedTo");
+            self::assertNotNull($assignedTo->Title);
+        }
+    }
+
+
+    public function testQueryOptionsForMultiUserField()
+    {
+        $url = self::$targetList->getResourceUrl();
+        $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery())
+            ->select("Predecessors/Title")
+            ->expand("Predecessors");
+        self::$context->load($items);
+        self::$context->executeQuery();
+
+        if($items->getCount() > 0){
+            $item = $items->getItem(0);
+            $predecessors = $item->getProperty("Predecessors");
+            self::assertNotNull($predecessors->results);
+            if(count($predecessors->results) > 0)
+                self::assertNotNull($predecessors->results[0]->Title);
+
+        }
     }
 
 

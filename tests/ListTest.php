@@ -27,6 +27,9 @@ class ListTest extends SharePointTestCase
         //$list->update();
         self::$context->executeQuery();
 
+        //self::$context->load($list);
+        //self::$context->executeQuery();
+        //self::assertTrue($list->hasUniqueRoleAssignments());
     }
 
 

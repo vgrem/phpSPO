@@ -140,6 +140,9 @@ class ClientObject extends  ODataPayload
                     if ($propertyObject instanceof ClientObject) {
                         $propertyObject->convertFromJson($value);
                     }
+                    else {
+                        $this->setProperty($key,$value,false);
+                    }
                 }
             }
             else {

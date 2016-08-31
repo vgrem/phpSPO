@@ -77,6 +77,17 @@ class ClientObjectCollection extends ClientObject
         return $this->data;
     }
 
+
+    /**
+     * Gets the item at the specified index
+     * @param $index
+     * @return ClientObject
+     */
+    public function getItem($index)
+    {
+        return $this->data[$index];
+    }
+
     /**
      * @return int
      */
