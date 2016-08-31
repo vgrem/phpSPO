@@ -2,40 +2,12 @@
 
 use Office365\PHP\Client\OutlookServices\Contact;
 use Office365\PHP\Client\OutlookServices\EmailAddress;
-use Office365\PHP\Client\OutlookServices\OutlookClient;
-use Office365\PHP\Client\Runtime\Auth\NetworkCredentialContext;
+
+require_once('OutlookServicesTestCase.php');
 
 
-require_once(__DIR__ .'/../examples/Settings.php');
-require_once(__DIR__ . '/../src/Runtime/Auth/NetworkCredentialContext.php');
-require_once(__DIR__ . '/../src/OutlookServices/OutlookClient.php');
-
-
-class OutlookClientTest extends PHPUnit_Framework_TestCase
+class OutlookContactTest extends OutlookServicesTestCase
 {
-
-    /**
-     * @var OutlookClient
-     */
-    protected static $context;
-
-    public static function setUpBeforeClass()
-    {
-        global $Settings;
-        $authCtx = new NetworkCredentialContext($Settings["UserName"],$Settings["Password"]);
-        self::$context = new OutlookClient($authCtx);
-    }
-
-
-    /*public function testSendEmail(){
-        $message = self::$context->getMe()->createMessage();
-        $message->setProperty("Subject","--test--");
-        self::$context->getMe()->sendEmail($message,false);
-        self::$context->executeQuery();
-    }*/
-
-
-
 
     public function testCreateMyContact()
     {

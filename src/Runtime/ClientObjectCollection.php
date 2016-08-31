@@ -79,6 +79,25 @@ class ClientObjectCollection extends ClientObject
 
 
     /**
+     * Gets the item by entity identifier
+     * @param $id
+     * @return ClientObject
+     */
+    public function getItemById($id)
+    {
+        $result = array_filter(
+            $this->data,
+            function (ClientObject $item) use ($id) {
+                return  $item->getProperty("Id") === $id;
+            }
+        );
+        if(count($result) > 0)
+            return $result[0];
+        return null;
+    }
+
+
+    /**
      * Gets the item at the specified index
      * @param $index
      * @return ClientObject

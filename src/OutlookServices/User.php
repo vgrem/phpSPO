@@ -10,6 +10,21 @@ use Office365\PHP\Client\Runtime\ResourcePathEntity;
 class User extends ClientObject
 {
 
+    /**
+     * @return MessageCollection
+     */
+    public function getMessages(){
+        if(!$this->isPropertyAvailable("Messages")){
+            $this->setProperty("Messages",
+                new MessageCollection($this->getContext(),new ResourcePathEntity(
+                    $this->getContext(),
+                    $this->getResourcePath(),
+                    "Messages"
+                )));
+        }
+        return $this->getProperty("Messages");
+    }
+
 
     /**
      * @param Message $message
@@ -21,15 +36,6 @@ class User extends ClientObject
         $action = new ClientActionInvokePostMethod($this, "SendMail", null, $info);
         $this->getContext()->addQuery($action);
     }
-
-
-    /**
-     * @return Message
-     */
-    public function createMessage(){
-        return new Message($this->getContext(),$this->getResourcePath());
-    }
-
 
     /**
      * @return ContactCollection

@@ -21,12 +21,15 @@ require_once('SendMailInformation.php');
 require_once('BodyType.php');
 require_once('ItemBody.php');
 require_once('User.php');
+require_once('UserCollection.php');
 require_once('EmailAddress.php');
 require_once('Contact.php');
 require_once('ContactCollection.php');
 require_once('Event.php');
 require_once('EventCollection.php');
 require_once('Message.php');
+require_once('MessageCollection.php');
+require_once('Recipient.php');
 
 /**
  * Office 365 client
@@ -38,7 +41,6 @@ class OutlookClient extends ClientRuntimeContext
     public function __construct(IAuthenticationContext $authContext)
     {
         parent::__construct($this->serviceRootUrl, $authContext,new JsonFormat(ODataMetadataLevel::Verbose));
-        $this->me = new User($this,new ResourcePathEntity($this,null,"me"));
     }
 
 
@@ -71,7 +73,19 @@ class OutlookClient extends ClientRuntimeContext
      * @return User
      */
     public function getMe(){
+        if(!isset($this->me))
+            $this->me = new User($this,new ResourcePathEntity($this,null,"me"));
         return $this->me;
+    }
+
+
+    /**
+     * @return UserCollection
+     */
+    public function getUsers(){
+        if(!isset($this->users))
+            $this->users = new UserCollection($this,new ResourcePathEntity($this,null,"Users"));
+        return $this->users;
     }
 
 
@@ -87,6 +101,10 @@ class OutlookClient extends ClientRuntimeContext
     private $me;
 
 
+    /**
+     * @var UserCollection
+     */
+    private $users;
 
 }
 
