@@ -17,6 +17,7 @@ use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 class Web extends SecurableObject
 {
 
+
     public function update()
     {
         $qry = new ClientActionUpdateEntity($this);

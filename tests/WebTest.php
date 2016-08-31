@@ -1,6 +1,7 @@
 <?php
 
 use Office365\PHP\Client\SharePoint\PrincipalType;
+use Office365\PHP\Client\SharePoint\Web;
 
 require_once('SharePointTestCase.php');
 require_once('TestUtilities.php');
@@ -81,6 +82,20 @@ class WebTest extends SharePointTestCase
         $this->assertCount(1,$webs->getData());*/
 
         return $targetWeb;
+    }
+
+
+    /**
+     * @depends testCreateWeb
+     * @param Web $targetWeb
+     */
+    public function testAssignUniquePermissions(Web $targetWeb){
+        $targetWeb->breakRoleInheritance(true);
+        self::$context->executeQuery();
+
+        //self::$context->load($targetWeb);
+        //self::$context->executeQuery();
+        //self::assertTrue($targetWeb->hasUniqueRoleAssignments());
     }
 
     /**

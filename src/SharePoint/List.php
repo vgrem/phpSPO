@@ -52,18 +52,6 @@ class SPList extends SecurableObject
         );
     }
 
-    /**
-     * Creates unique role assignments for the securable object.
-     * @param bool $copyRoleAssignments
-     * @throws \Exception
-     */
-    public function breakRoleInheritance($copyRoleAssignments)
-    {
-        $qry = new ClientActionInvokePostMethod($this,"breakroleinheritance",array(
-            $copyRoleAssignments
-        ));
-        $this->getContext()->addQuery($qry);
-    }
 
     /**
      * Returns a collection of items from the list based on the specified query.

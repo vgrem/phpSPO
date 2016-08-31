@@ -37,9 +37,11 @@ abstract class ODataPayload
     {
         if (is_object($value)) {
             if ($value instanceof ClientValueObject) {
-                $properties = array_filter(get_object_vars($value), function ($v,$k) {
-                    return !is_null($v) && ($k != "RootPropertyName");
-                },ARRAY_FILTER_USE_BOTH);
+                $properties = get_object_vars($value);
+                foreach (get_object_vars($value) as $key => $value) {
+                    if(is_null($value) || ($key == "RootPropertyName"))
+                        unset($properties[$key]);
+                }
                 return array_map(function ($p) {
                     return $this->mapToJson($p);
                 }, $properties);
