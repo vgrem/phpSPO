@@ -19,7 +19,7 @@ abstract class ClientActionInvokeMethod extends ClientAction
      * @param ODataPayload $requestPayload
      * @param int $actionType
      */
-    public function __construct(ClientObject $parentClientObject, $methodName=null, array $actionParameters=null, $requestPayload = null, $actionType = ClientActionType::Get)
+    public function __construct(ClientObject $parentClientObject, $methodName=null, array $actionParameters=null, $requestPayload = null, $actionType = ClientActionType::GetMethod)
     {
         $url = $parentClientObject->getResourceUrl() . "/" . ODataPathParser::fromMethod($methodName,$actionParameters);
         parent::__construct($url,$requestPayload,$actionType);

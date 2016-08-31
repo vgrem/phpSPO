@@ -1,145 +1,118 @@
 <?php
 
 namespace Office365\PHP\Client\Runtime\OData;
-
-
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ClientValueObject;
-use Office365\PHP\Client\Runtime\FormatType;
+
 
 /**
  * Represents OData request/response payload
  */
-class ODataPayload
+abstract class ODataPayload
 {
 
-    /**
-     * ODataPayload constructor.
-     * @param mixed $value
-     * @param int $payloadType
-     * @param string $entityType
-     */
-    function __construct($value, $payloadType, $entityType = null)
-    {
-        $this->Value = $value;
-        $this->PayloadType = $payloadType;
-        $this->EntityType = $entityType;
-        $this->DataFormat = FormatType::Json;
-    }
 
+    static $DeferredFieldName = "__deferred";
+    static $QueryFieldName = "query";
+    static $ParametersFieldName = "parameters";
+    static $ResultsFieldName = "results";
+    static $MetadataFieldName  = "__metadata";
+    static $SecurityTag = "d";
 
     /**
-     * Creates OData payload from OData entity/complex type
-     * @param ClientObject|ClientValueObject $object
-     * @return ODataPayload
+     * Converts OData entity/complex type into Json payload
+     * @return array|mixed
      */
-    static function createFromObject($object)
+    public function convertToJson()
     {
-        $jsonValue = self::mapToJson($object);
-        if($object instanceof ClientObject)
-            return new ODataPayload($jsonValue,ODataPayloadKind::Entity,$object->getEntityTypeName());
-        elseif ($object instanceOf ClientValueObject)
-            return new ODataPayload($jsonValue,ODataPayloadKind::Property,$object->getEntityTypeName());
-        return null;
+        return $this->mapToJson($this);
     }
-
-
 
     /**
      * Converts OData entity/complex type into Json payload
      * @param $value
      * @return array|mixed
      */
-    private static function mapToJson($value) {
-        if (is_object($value)){
-            if($value instanceof ClientValueObject) {
-                $properties = array_filter(get_object_vars($value), function($var){
-                    return !is_null($var);
-                });
+    private function mapToJson($value)
+    {
+        if (is_object($value)) {
+            if ($value instanceof ClientValueObject) {
+                $properties = array_filter(get_object_vars($value), function ($v,$k) {
+                    return !is_null($v) && ($k != "RootPropertyName");
+                },ARRAY_FILTER_USE_BOTH);
                 return array_map(function ($p) {
-                    return self::mapToJson($p);
+                    return $this->mapToJson($p);
                 }, $properties);
-            }
-            elseif ($value instanceOf ClientObject){
-                return array_map(function ($value) {
-                    return self::mapToJson($value);
+            } elseif ($value instanceOf ClientObject) {
+                return array_map(function ($p) {
+                    return $this->mapToJson($p);
                 }, $value->getChangedProperties());
             }
-        }
-        elseif (is_array($value)) {
-            return array_map(function ($value) {
-                return self::mapToJson($value);
+        } elseif (is_array($value)) {
+            return array_map(function ($item) {
+                return $this->mapToJson($item);
             }, $value);
         }
-        else {
-            return $value;
-        }
+        return $value;
     }
 
     /**
      * @return ODataPayload
      */
-    public function toQueryPayload(){
-        $this->ContainerName = "query";
+    public function toQueryPayload()
+    {
+        $this->RootPropertyName = "query";
         return $this;
     }
 
 
-    public function toParametersPayload(){
-        $this->ContainerName = "parameters";
+    public function toParametersPayload()
+    {
+        $this->RootPropertyName = "parameters";
         return $this;
     }
 
 
     /**
-     * Determines whether payload is a raw value or not
+     * @param string $key
      * @return bool
      */
-    public function isRawValue()
+    protected function isMetadataProperty($key)
     {
-        if(is_string($this->Value))
+        return $key == "__metadata";
+    }
+
+    protected function isDeferredProperty($value)
+    {
+        if (isset($value->__deferred))
             return true;
         return false;
     }
 
 
     /**
-     * Gets payload value
-     * @return mixed
+     * Gets entity type name
+     * @return string
      */
-    public function getValue(){
-        if(isset($this->ContainerName))
-            return $this->Value->{$this->ContainerName};
-        return $this->Value;
-    }
+    abstract function getEntityTypeName();
 
 
     /**
-     * @var mixed
+     * Converts JSON into payload
+     * @param mixed $json
      */
-    public $Value;
+    abstract function convertFromJson($json);
 
     /**
-     * @var int
+     * @return int
      */
-    public $PayloadType;
+    abstract function getPayloadType();
 
 
     /**
      * @var string
      */
-    public $EntityType;
+    public $RootPropertyName;
 
-
-    /**
-     * @var string
-     */
-    public $ContainerName;
-
-
-    /**
-     * @var int
-     */
-    public $DataFormat;
 
 }

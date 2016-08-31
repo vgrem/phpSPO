@@ -53,6 +53,17 @@ class ClientValueObjectCollection extends ClientValueObject
     }
 
 
+    function convertFromJson($json)
+    {
+        $this->clearData();
+        foreach ($json as $item) {
+            $clientValueObject = $this->createTypedValueObject();
+            $clientValueObject->convertFromJson($item);
+            $this->addChild($clientValueObject);
+        }
+    }
+
+
     /**
      * @var array
      */

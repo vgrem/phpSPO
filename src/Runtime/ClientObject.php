@@ -1,12 +1,15 @@
 <?php
 
-namespace Office365\PHP\Client\Runtime;;
+namespace Office365\PHP\Client\Runtime;
+
+use Office365\PHP\Client\Runtime\OData\ODataPayload;
+use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
 
 
 /**
  * Represents OData entity
  */
-abstract class ClientObject
+class ClientObject extends  ODataPayload
 {
 
     /**
@@ -17,7 +20,7 @@ abstract class ClientObject
     /**
      * @var ClientRuntimeContext
      */
-    private $ctx;
+    protected $context;
 
     /**
      * @var ResourcePath
@@ -42,7 +45,7 @@ abstract class ClientObject
 
     public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null)
     {
-        $this->ctx = $ctx;
+        $this->context = $ctx;
         $this->resourcePath = $resourcePath;
     }
 
@@ -52,7 +55,7 @@ abstract class ClientObject
      */
     public function getContext()
     {
-        return $this->ctx;
+        return $this->context;
     }
 
 
@@ -119,6 +122,43 @@ abstract class ClientObject
 
 
     /**
+     * Converts JSON object into OData Entity
+     * @param mixed $json
+     */
+    function convertFromJson($json)
+    {
+        foreach ($json as $key => $value) {
+            if ($this->isMetadataProperty($key)) {
+                continue;
+            }
+            if (is_object($value)) {
+                if ($this->isDeferredProperty($value)) { //deferred property
+                    $this->setProperty($key,null,false);
+                }
+                else {
+                    $propertyObject = $this->getProperty($key);
+                    if ($propertyObject instanceof ClientObject) {
+                        $propertyObject->convertFromJson($value);
+                    }
+                }
+            }
+            else {
+                $this->setProperty($key,$value,false);
+            }
+        }
+    }
+
+
+    /**
+     * @return int
+     */
+    function getPayloadType()
+    {
+        return ODataPayloadKind::Entity;
+    }
+
+
+    /**
      * Determine whether client object property has been loaded
      * @param $name
      * @return bool
@@ -165,11 +205,13 @@ abstract class ClientObject
         $this->{$name} = $value;
 
         if ($name == "Id") {
-            if (is_int($value))
-                $entityKey = "({$value})";
-            else
-                $entityKey = "(guid'{$value}')";
-            $this->setResourceUrl($this->getResourcePath()->toUrl() . $entityKey);
+            if(is_null($this->getResourcePath())){
+                if (is_int($value))
+                    $entityKey = "({$value})";
+                else
+                    $entityKey = "(guid'{$value}')";
+                $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . $entityKey);
+            }
         }
     }
 
@@ -191,5 +233,7 @@ abstract class ClientObject
     {
         return isset($this->properties[$name]);
     }
+
+
 
 }

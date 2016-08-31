@@ -24,7 +24,7 @@ class GroupCollection extends ClientObjectCollection
     public function add(GroupCreationInformation $parameters)
     {
         $group = new Group($this->getContext(),$this->getResourcePath());
-        $qry = new ClientActionCreateEntity($this, ODataPayload::createFromObject($parameters));
+        $qry = new ClientActionCreateEntity($this, $parameters);
         $this->getContext()->addQuery($qry,$group);
         $this->addChild($group);
         return $group;

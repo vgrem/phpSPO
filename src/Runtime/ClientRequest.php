@@ -4,11 +4,11 @@
 namespace Office365\PHP\Client\Runtime;
 
 
+use Exception;
 use Office365\PHP\Client\Runtime\OData\ODataFormat;
-use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\OData\JsonPayloadSerializer;
-use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
+use Office365\PHP\Client\Runtime\Utilities\JsonConvert;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\Requests;
 use Office365\PHP\Client\SharePoint\ListItemCollection;
@@ -108,6 +108,7 @@ class ClientRequest
         $this->context->authenticateRequest($request);
         //set media type headers
         $this->setMediaTypeHeaders($request);
+        $request->addCustomHeader("Content-length",strlen($request->Data));
         $response = Requests::execute($request);
         return $response;
     }
@@ -124,6 +125,7 @@ class ClientRequest
      */
     public function executeQuery()
     {
+        $serializer = new JsonPayloadSerializer($this->format);
         foreach ($this->queries as $qry) {
             $request = $this->buildRequest($qry);
             if(is_callable($this->eventsList["BeforeExecuteQuery"]))
@@ -131,6 +133,8 @@ class ClientRequest
             $response = $this->executeQueryDirect($request);
             if(empty($response))
                 continue;
+            if($qry->ResponsePayloadFormatType == FormatType::Json)
+                $this->validateResponse($response);
             //if(is_callable($this->eventsList["AfterExecuteQuery"]))
             //    call_user_func_array($this->eventsList["AfterExecuteQuery"],array($payload));
             //populate object
@@ -139,13 +143,10 @@ class ClientRequest
                 if ($resultObject instanceof ListItemCollection && $qry->ResponsePayloadFormatType == FormatType::Xml)
                     $resultObject->populateFromXmlPayload($response); //custom payload process
                 else {
-                    $serializer = new JsonPayloadSerializer($this->format);
-                    $responsePayload = $serializer->deserialize($response);
                     if ($resultObject instanceof ClientResult && $qry instanceof ClientActionInvokeMethod) {
-                        $responsePayload->ContainerName = $qry->MethodName;
-                        $responsePayload->PayloadType = ODataPayloadKind::Parameter;
+                        $resultObject->RootPropertyName =$qry->MethodName;
                     }
-                    $serializer->populate($responsePayload, $resultObject);
+                    $serializer->deserialize($response,$resultObject);
                 }
             }
         }
@@ -153,6 +154,25 @@ class ClientRequest
     }
 
 
+    public function populateObject($response,$resultObject){
+        $ser = new JsonPayloadSerializer($this->format);
+        $ser->deserialize($response,$resultObject);
+    }
+
+    private function validateResponse($response)
+    {
+        $json = JsonConvert::deserialize($response);
+        if(property_exists($json,"error")){
+
+            if(is_string($json->error->message))
+                $message = $json->error->message;
+            elseif (is_object($json->error->message))
+                $message = $json->error->message->value;
+            else
+                $message = "Unknown error";
+            throw new Exception($message);
+        }
+    }
 
     /**
      * @param ClientAction $query
@@ -161,11 +181,15 @@ class ClientRequest
     public function buildRequest(ClientAction $query)
     {
         $request = new RequestOptions($query->ResourceUrl);
-        $request->PostMethod = ($query->ActionType != ClientActionType::Get);
+        if($query->ActionType == ClientActionType::PostMethod ||
+            $query->ActionType == ClientActionType::CreateEntity ||
+            $query->ActionType == ClientActionType::UpdateEntity ||
+            $query->ActionType == ClientActionType::DeleteEntity)
+            $request->Method = HttpMethod::Post;
         //set payload
         if(!is_null($query->Payload)) {
-            if($query->Payload->isRawValue())
-                $request->Data = $query->Payload->Value;
+            if(is_string($query->Payload))
+                $request->Data = $query->Payload;
             else {
                 $serializer = new JsonPayloadSerializer($this->format);
                 $request->Data = $serializer->serialize($query->Payload);
@@ -175,25 +199,6 @@ class ClientRequest
     }
 
 
-    /**
-     * @param ODataPayload $responsePayload
-     * @param ClientObject|ClientValueObject $resultObject
-     */
-    public function populateObject(ODataPayload $responsePayload,$resultObject)
-    {
-        $serializer = new JsonPayloadSerializer($this->format);
-        $serializer->populate($responsePayload, $resultObject);
-    }
-
-
-
-
-    private function validateResponsePayload(ODataPayload $payload){
-        if($this->format->isJson() && $this->format->MetadataLevel == ODataMetadataLevel::Verbose){
-            //if(property_exists($payload->Value,"error")){
-            //}
-        }
-    }
 
     /**
      * @param ClientObject $clientObject

@@ -5,8 +5,6 @@ namespace Office365\PHP\Client\OutlookServices;
 
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
-use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 class User extends ClientObject
@@ -19,11 +17,8 @@ class User extends ClientObject
      */
     public function sendEmail(Message $message, $saveToSentItems)
     {
-        $value = new \stdClass();
-        $value->Message = $message;
-        $value->SaveToSentItems = $saveToSentItems;
-        $payload = new ODataPayload($value, ODataPayloadKind::Entity);
-        $action = new ClientActionInvokePostMethod($this, "SendMail", null, $payload);
+        $info = new SendMailInformation($message,$saveToSentItems);
+        $action = new ClientActionInvokePostMethod($this, "SendMail", null, $info);
         $this->getContext()->addQuery($action);
     }
 
@@ -34,18 +29,6 @@ class User extends ClientObject
     public function createMessage(){
         return new Message($this->getContext(),$this->getResourcePath());
     }
-
-
-
-    /**
-     * Creates a contact in the specified Contacts folder.
-     * @return Contact
-     */
-    public function createContact()
-    {
-        return new Contact($this->getContext(),$this->getResourcePath());
-    }
-
 
 
     /**
@@ -62,5 +45,6 @@ class User extends ClientObject
         }
         return $this->getProperty("Contacts");
     }
+
 
 }

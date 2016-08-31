@@ -16,7 +16,7 @@ class FolderCollection extends ClientObjectCollection
     {
         $folder = new Folder($this->getContext());
         $folder->setProperty("ServerRelativeUrl",rawurlencode($url));
-        $qry = new ClientActionCreateEntity($this, ODataPayload::createFromObject($folder));
+        $qry = new ClientActionCreateEntity($this, $folder);
         $this->getContext()->addQuery($qry,$folder);
         return $folder;
     }

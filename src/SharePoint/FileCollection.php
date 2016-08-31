@@ -26,7 +26,7 @@ class FileCollection extends ClientObjectCollection
             $this,
             "add",
             array("overwrite"=>$fileCreationInformation->Overwrite,"url"=>rawurlencode($fileCreationInformation->Url)),
-            new ODataPayload($fileCreationInformation->Content,ODataPayloadKind::Property,$this->getEntityTypeName())
+            $fileCreationInformation->Content
             );
         $this->getContext()->addQuery($qry,$file);
         //$this->addChild($file);

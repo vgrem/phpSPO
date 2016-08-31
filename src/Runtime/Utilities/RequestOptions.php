@@ -3,7 +3,7 @@
 
 namespace Office365\PHP\Client\Runtime\Utilities;
 
-
+use Office365\PHP\Client\Runtime\HttpMethod;
 
 class RequestOptions
 {
@@ -14,11 +14,12 @@ class RequestOptions
      * @param $url string
      * @param array $headers
      * @param string $data
+     * @param string $methodType
      */
-    public function __construct($url,$headers=array(),$data=null)
+    public function __construct($url,$headers=array(),$data=null,$methodType=HttpMethod::Get)
     {
         $this->Url = $url;
-        $this->PostMethod = is_null($data) ?  false : true;
+        $this->Method = $methodType;
         $this->Headers = $headers;
         $this->IncludeBody = true;
         $this->IncludeHeaders = false;
@@ -57,7 +58,7 @@ class RequestOptions
     /**
      * @var bool
      */
-    public $PostMethod;
+    public $Method;
 
     /**
      * Gets/sets custom HTTP headers

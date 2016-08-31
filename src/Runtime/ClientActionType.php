@@ -7,9 +7,9 @@ namespace Office365\PHP\Client\Runtime;
  */
 abstract class ClientActionType
 {
-    const Create = 2;
-    const Update = 4;
-    const Delete = 8;
-    const Post = 16;
-    const Get = 32;
+    const CreateEntity = 2;
+    const UpdateEntity = 4;
+    const DeleteEntity = 8;
+    const PostMethod = 16;
+    const GetMethod = 32;
 }

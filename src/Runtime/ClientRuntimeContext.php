@@ -10,6 +10,7 @@ require_once('Utilities/EnumType.php');
 require_once('Utilities/Guid.php');
 require_once('OData/ODataPayloadKind.php');
 require_once('OData/ODataPayload.php');
+require_once('HttpMethod.php');
 require_once('ClientActionType.php');
 require_once('ClientRequest.php');
 require_once('OData/ODataQueryOptions.php');
@@ -137,7 +138,10 @@ class ClientRuntimeContext
         return $this->getPendingRequest()->executeQueryDirect($options);
     }
 
-
+    public function populateObject($response,$resultObject)
+    {
+        $this->getPendingRequest()->populateObject($response,$resultObject);
+    }
 
     /**
      * @param ClientAction $query

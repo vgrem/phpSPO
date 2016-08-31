@@ -2,10 +2,9 @@
 
 use Office365\PHP\Client\OutlookServices\Contact;
 use Office365\PHP\Client\OutlookServices\EmailAddress;
-use Office365\PHP\Client\OutlookServices\Message;
 use Office365\PHP\Client\OutlookServices\OutlookClient;
 use Office365\PHP\Client\Runtime\Auth\NetworkCredentialContext;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
+
 
 require_once(__DIR__ .'/../examples/Settings.php');
 require_once(__DIR__ . '/../src/Runtime/Auth/NetworkCredentialContext.php');
@@ -40,20 +39,17 @@ class OutlookClientTest extends PHPUnit_Framework_TestCase
 
     public function testCreateMyContact()
     {
-        $contact = self::$context->getMe()->createContact();
-        $contact->setProperty("GivenName", "Pavel");
+        $contact = self::$context->getMe()->getContacts()->createContact();
+        $contact->setProperty("GivenName","Pavel");
         $contact->setProperty("Surname","Bansky");
         $contact->setProperty("BusinessPhones", array("+1 732 555 0102"));
-        $contact->setProperty("EmailAddresses",
-            array(
+        $contact->setProperty("EmailAddresses",array(
                 new EmailAddress("Pavel Bansky","pavelb@a830edad9050849NDA1.onmicrosoft.com"),
                 new EmailAddress("Jon Doe","jondb@0ewq12uy752t946ds4567NDF2.onmicrosoft.com")
             ));
-        self::$context->getMe()->getContacts()->addContact($contact);
         self::$context->executeQuery();
         self::assertNotNull($contact->getProperty("Id"));
         return $contact;
-
     }
 
 
@@ -73,10 +69,11 @@ class OutlookClientTest extends PHPUnit_Framework_TestCase
 
     /**
      * @depends testCreateMyContact
+     * @param Contact $contact
      */
-    /*public function testUpdateMyContact(Contact $contact)
+    public function testUpdateMyContact(Contact $contact)
     {
-        $surnameValue = "Jr.2";
+        $surnameValue = "Jr.";
         $contact->setProperty("Surname",$surnameValue);
         $contact->update();
         self::$context->executeQuery();
@@ -85,14 +82,14 @@ class OutlookClientTest extends PHPUnit_Framework_TestCase
         self::$context->load($contact);
         self::$context->executeQuery();
         self::assertEquals($surnameValue,$contact->getProperty("Surname"));
-    }*/
+    }
 
 
     /**
      * @depends testCreateMyContact
      * @param Contact $contact
      */
-    /*public function testDeleteMyContact(Contact $contact)
+    public function testDeleteMyContact(Contact $contact)
     {
         $contactIdToDelete = $contact->getProperty("Id");
         $contact->deleteObject();
@@ -109,6 +106,6 @@ class OutlookClientTest extends PHPUnit_Framework_TestCase
         );
 
         self::assertEquals(0,count ($result));
-    }*/
+    }
 
 }

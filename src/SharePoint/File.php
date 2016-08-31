@@ -3,6 +3,7 @@
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
+use Office365\PHP\Client\Runtime\HttpMethod;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
@@ -155,7 +156,7 @@ class File extends SecurableObject
          $serverRelativeUrl = rawurlencode($serverRelativeUrl);
          $url = $ctx->getServiceRootUrl() . "web/getfilebyserverrelativeurl('$serverRelativeUrl')/\$value";
          $request = new RequestOptions($url);
-         $request->PostMethod = true;
+         $request->Method = HttpMethod::Post;
          $request->addCustomHeader('X-HTTP-Method','PUT');
          $request->Data = $content;
          $ctx->executeQueryDirect($request);

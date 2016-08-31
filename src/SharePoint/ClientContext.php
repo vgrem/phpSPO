@@ -7,11 +7,10 @@ use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientActionType;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\ContextWebInformation;
+use Office365\PHP\Client\Runtime\HttpMethod;
 use Office365\PHP\Client\Runtime\OData\JsonLightFormat;
 use Office365\PHP\Client\Runtime\OData\JsonPayloadSerializer;
-use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
@@ -171,17 +170,14 @@ class ClientContext extends ClientRuntimeContext
     protected function requestFormDigest()
     {
         $request = new RequestOptions($this->getServiceRootUrl() . "contextinfo");
-        $request->PostMethod = true;
+        $request->Method = HttpMethod::Post;
         $response = $this->executeQueryDirect($request);
         if(!isset($this->contextWebInformation))
             $this->contextWebInformation = new ContextWebInformation();
-        $ser = new JsonPayloadSerializer($this->format);
-        $responsePayload = $ser->deserialize($response);
-        $responsePayload->PayloadType = ODataPayloadKind::Property;
         if($this->format->MetadataLevel == ODataMetadataLevel::Verbose){
-            $responsePayload->ContainerName = "GetContextWebInformation";
+            $this->contextWebInformation->RootPropertyName = "GetContextWebInformation";
         }
-        $this->getPendingRequest()->populateObject($responsePayload,$this->contextWebInformation);
+        $this->populateObject($response,$this->contextWebInformation);
     }
 
     /**
@@ -206,14 +202,14 @@ class ClientContext extends ClientRuntimeContext
      */
     private function buildSharePointSpecificRequest(RequestOptions $request,ClientAction $query){
 
-        if($request->PostMethod) {
+        if($request->Method == HttpMethod::Post) {
             $this->ensureFormDigest($request);
         }
         //set data modification headers
-        if ($query->ActionType == ClientActionType::Update) {
+        if ($query->ActionType == ClientActionType::UpdateEntity) {
             $request->addCustomHeader("IF-MATCH", "*");
             $request->addCustomHeader("X-HTTP-Method", "MERGE");
-        } else if ($query->ActionType == ClientActionType::Delete) {
+        } else if ($query->ActionType == ClientActionType::DeleteEntity) {
             $request->addCustomHeader("IF-MATCH", "*");
             $request->addCustomHeader("X-HTTP-Method", "DELETE");
         }

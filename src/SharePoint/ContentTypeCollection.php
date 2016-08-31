@@ -18,10 +18,12 @@ class ContentTypeCollection extends ClientObjectCollection
      */
     public function getById($id)
     {
-        return new ContentType(
+        $contentType = new ContentType(
             $this->getContext(),
             new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"GetById",array($id))
         );
+        $contentType->parentCollection = $this;
+        return $contentType;
     }
 
 
@@ -32,8 +34,8 @@ class ContentTypeCollection extends ClientObjectCollection
      */
     public function add(ContentTypeCreationInformation $information)
     {
-        $contentType = new ContentType($this->getContext(),$this->getResourcePath());
-        $qry = new ClientActionCreateEntity($this,ODataPayload::createFromObject($information));
+        $contentType = new ContentType($this->getContext());
+        $qry = new ClientActionCreateEntity($this,$information);
         $this->getContext()->addQuery($qry,$contentType);
         $this->addChild($contentType);
         return $contentType;

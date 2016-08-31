@@ -22,7 +22,7 @@ class FieldCollection extends ClientObjectCollection
     public function add(FieldCreationInformation $parameters)
     {
         $field = new Field($this->getContext(),$this->getResourcePath());
-        $qry = new ClientActionCreateEntity($this,ODataPayload::createFromObject($parameters));
+        $qry = new ClientActionCreateEntity($this,$parameters);
         $this->getContext()->addQuery($qry,$field);
         $this->addChild($field);
         return $field;

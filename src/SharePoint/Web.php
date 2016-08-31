@@ -4,7 +4,6 @@ namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientActionDeleteEntity;
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
 use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
@@ -44,7 +43,7 @@ class Web extends SecurableObject
             $this,
             "GetChanges",
             null,
-            ODataPayload::createFromObject($query)->toQueryPayload()
+            $query->toQueryPayload()
         );
         $this->getContext()->addQuery($qry,$changes);
         return $changes;

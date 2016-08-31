@@ -24,7 +24,7 @@ class ContentType extends ClientObject
     {
         parent::setProperty($name, $value, $persistChanges);
         if ($name == "StringId") {
-            $this->setResourceUrl($this->resourcePath->toUrl() . "('{$value}')");
+            $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . "('{$value}')");
         }
     }
 

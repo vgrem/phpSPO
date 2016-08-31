@@ -30,6 +30,20 @@ class Contact extends ClientObject
     }
 
 
+
+    function setProperty($name, $value, $persistChanges = true)
+    {
+
+        if($name == "Id"){
+            if(is_null($this->getResourcePath()))
+                $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . "/" . $value);
+            $this->{$name} = $value;
+        }
+        else
+            parent::setProperty($name, $value, $persistChanges);
+    }
+
+
     /**
      * @var string
      */

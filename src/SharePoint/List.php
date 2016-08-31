@@ -25,13 +25,15 @@ class SPList extends SecurableObject
     public function addItem(array $listItemCreationInformation)
     {
 
-        $items = new ListItemCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items"));
-        $listItem = new ListItem($this->getContext(),$items->getResourcePath());
+        $items = new ListItemCollection($this->getContext(),
+            new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items"));
+        $listItem = new ListItem($this->getContext());
+        $listItem->parentCollection = $items;
         $listItem->setProperty('ParentList',$this,false);
         foreach($listItemCreationInformation as $key => $value){
             $listItem->setProperty($key,$value);
         }
-        $qry = new ClientActionCreateEntity($items,ODataPayload::createFromObject($listItem));
+        $qry = new ClientActionCreateEntity($items,$listItem);
         $this->getContext()->addQuery($qry,$listItem);
         return $listItem;
     }
@@ -76,7 +78,7 @@ class SPList extends SecurableObject
                 $this,
                 "GetItems",
                 null,
-                ODataPayload::createFromObject($camlQuery)->toQueryPayload()
+                $camlQuery->toQueryPayload()
             );
             $this->getContext()->addQuery($qry,$items);
         }
@@ -134,7 +136,7 @@ class SPList extends SecurableObject
             $this,
             "getListItemChangesSinceToken",
             null,
-            ODataPayload::createFromObject($query)->toQueryPayload()
+            $query->toQueryPayload()
         );
         $qry->ResponsePayloadFormatType = FormatType::Xml;
         $this->getContext()->addQuery($qry, $result);
@@ -153,7 +155,7 @@ class SPList extends SecurableObject
             $this,
             "GetChanges",
             null,
-            ODataPayload::createFromObject($query)->toQueryPayload()
+            $query->toQueryPayload()
         );
         $this->getContext()->addQuery($qry,$changes);
         return $changes;

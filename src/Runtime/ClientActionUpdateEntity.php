@@ -4,8 +4,6 @@
 namespace Office365\PHP\Client\Runtime;
 
 
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
-
 class ClientActionUpdateEntity extends ClientAction
 {
 
@@ -15,6 +13,6 @@ class ClientActionUpdateEntity extends ClientAction
      */
     public function __construct(ClientObject $clientObject)
     {
-        parent::__construct($clientObject->getResourceUrl(), ODataPayload::createFromObject($clientObject), (int)ClientActionType::Update);
+        parent::__construct($clientObject->getResourceUrl(), $clientObject, (int)ClientActionType::UpdateEntity);
     }
 }

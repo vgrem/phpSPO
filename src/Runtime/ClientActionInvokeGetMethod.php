@@ -16,7 +16,7 @@ class ClientActionInvokeGetMethod extends ClientActionInvokeMethod
      */
     public function __construct(ClientObject $parentClientObject, $methodName = null, array $actionParameters = null, $requestPayload=null)
     {
-        parent::__construct($parentClientObject,$methodName,$actionParameters,$requestPayload,ClientActionType::Get);
+        parent::__construct($parentClientObject,$methodName,$actionParameters,$requestPayload,ClientActionType::GetMethod);
     }
 
 

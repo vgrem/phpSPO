@@ -7,6 +7,7 @@ use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientActionType;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
+use Office365\PHP\Client\Runtime\HttpMethod;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\OData\JsonFormat;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
@@ -16,6 +17,7 @@ require_once(__DIR__ . '/../Runtime/Auth/NetworkCredentialContext.php');
 require_once(__DIR__ . '/../Runtime/ClientRuntimeContext.php');
 require_once(__DIR__ . '/../Runtime/Utilities/RequestOptions.php');
 require_once(__DIR__ . '/../Runtime/OData/JsonFormat.php');
+require_once('SendMailInformation.php');
 require_once('BodyType.php');
 require_once('ItemBody.php');
 require_once('User.php');
@@ -56,12 +58,10 @@ class OutlookClient extends ClientRuntimeContext
     private function prepareOutlookServicesRequest(RequestOptions $request,ClientAction $query)
     {
         //set data modification headers
-        if ($query->ActionType == ClientActionType::Update) {
-            //$request->addCustomHeader("IF-MATCH", "*");
-            //$request->addCustomHeader("X-HTTP-Method", "MERGE");
-        } else if ($query->ActionType == ClientActionType::Delete) {
-            //$request->addCustomHeader("IF-MATCH", "*");
-            //$request->addCustomHeader("X-HTTP-Method", "DELETE");
+        if ($query->ActionType == ClientActionType::UpdateEntity) {
+            $request->Method = HttpMethod::Patch;
+        } else if ($query->ActionType == ClientActionType::DeleteEntity) {
+            $request->Method = HttpMethod::Delete;
         }
     }
 

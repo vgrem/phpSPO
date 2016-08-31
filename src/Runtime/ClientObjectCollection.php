@@ -1,13 +1,14 @@
 <?php
 
 namespace Office365\PHP\Client\Runtime;
+use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 
 
 /**
  * Client objects collection
  */
-abstract class ClientObjectCollection extends ClientObject
+class ClientObjectCollection extends ClientObject
 {
 
     /**
@@ -178,7 +179,7 @@ abstract class ClientObjectCollection extends ClientObject
     public function createTypedObject()
     {
         $clientObjectType = $this->getItemTypeName();
-        return new $clientObjectType($this->getContext(),$this->getResourcePath());
+        return new $clientObjectType($this->getContext());
     }
 
 
@@ -192,5 +193,29 @@ abstract class ClientObjectCollection extends ClientObject
     {
         return str_replace("Collection","",get_class($this));
     }
+
+    /**
+     * Converts JSON into payload
+     * @param mixed $json
+     */
+    function convertFromJson($json)
+    {
+        $this->clearData();
+        foreach ($json as $item) {
+            $clientObject = $this->createTypedObject();
+            $clientObject->parentCollection = $this;
+            $clientObject->convertFromJson($item);
+            $this->addChild($clientObject);
+        }
+    }
+
+    /**
+     * @return int
+     */
+    function getPayloadType()
+    {
+        return ODataPayloadKind::Collection;
+    }
+
 
 }

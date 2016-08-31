@@ -24,7 +24,7 @@ class WebCollection extends ClientObjectCollection
             $this,
             "Add",
             null,
-            ODataPayload::createFromObject($webCreationInformation)->toParametersPayload()
+            $webCreationInformation->toParametersPayload()
         );
         $this->getContext()->addQuery($qry,$web);
         $this->addChild($web);

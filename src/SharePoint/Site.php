@@ -10,8 +10,6 @@ use Office365\PHP\Client\Runtime\ResourcePathEntity;
  */
 class Site extends ClientObject
 {
-
-
     /**
      * Returns the site with the specified GUID
      * @param string $webId

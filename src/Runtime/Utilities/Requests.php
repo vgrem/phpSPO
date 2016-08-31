@@ -1,6 +1,8 @@
 <?php
 namespace Office365\PHP\Client\Runtime\Utilities;
 
+use Office365\PHP\Client\Runtime\HttpMethod;
+
 require_once("RequestOptions.php");
 require_once("UserCredentials.php");
 
@@ -15,9 +17,9 @@ class Requests
 
 	public static function execute(RequestOptions $options)
 	{
-
 		$ch = Requests::init($options);
         $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($response === false) {
             throw new \Exception(curl_error($ch));
         }
@@ -45,7 +47,7 @@ class Requests
     public static function post($url, $headers, $data, $includeHeaders = false)
     {
         $options = new RequestOptions($url);
-        $options->PostMethod = true;
+        $options->Method = HttpMethod::Post;
         $options->Headers = $headers;
         $options->Data = $data;
         $options->IncludeHeaders = $includeHeaders;
@@ -84,11 +86,16 @@ class Requests
         curl_setopt($ch, CURLOPT_HEADER, $options->IncludeHeaders);
         //include body in response
         curl_setopt($ch, CURLOPT_NOBODY, !$options->IncludeBody);
-        //POST method
-        if($options->PostMethod){
+        //Set method
+        if($options->Method == HttpMethod::Post)
             curl_setopt($ch, CURLOPT_POST, 1);
+        else if($options->Method == HttpMethod::Patch)
+           curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $options->Method);
+        else if($options->Method == HttpMethod::Delete)
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $options->Method);
+        //set Post Body
+        if(isset($options->Data))
             curl_setopt($ch, CURLOPT_POSTFIELDS, $options->Data);
-        }
         //custom HTTP headers
         if($options->Headers)
             curl_setopt($ch, CURLOPT_HTTPHEADER, $options->getRawHeaders());

@@ -47,7 +47,7 @@ class ViewCollection extends ClientObjectCollection
     public function add(ViewCreationInformation $parameters)
     {
         $view = new View($this->getContext(),$this->getResourcePath());
-        $qry = new ClientActionCreateEntity($this,ODataPayload::createFromObject($parameters));
+        $qry = new ClientActionCreateEntity($this,$parameters);
         $this->getContext()->addQuery($qry,$view);
         $this->addChild($view);
         return $view;

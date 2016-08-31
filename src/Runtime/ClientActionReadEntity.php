@@ -11,6 +11,6 @@ class ClientActionReadEntity extends ClientAction
      */
     public function __construct($resourceUrl)
     {
-        parent::__construct($resourceUrl,null,ClientActionType::Get);
+        parent::__construct($resourceUrl,null,ClientActionType::GetMethod);
     }
 }
