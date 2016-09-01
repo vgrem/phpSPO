@@ -33,7 +33,7 @@ abstract class ODataPayload
      * @param $value
      * @return array|mixed
      */
-    private function mapToJson($value)
+    protected function mapToJson($value)
     {
         if (is_object($value)) {
             if ($value instanceof ClientValueObject) {

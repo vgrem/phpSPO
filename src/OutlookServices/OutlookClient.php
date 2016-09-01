@@ -30,6 +30,7 @@ require_once('EventCollection.php');
 require_once('Message.php');
 require_once('MessageCollection.php');
 require_once('Recipient.php');
+require_once('OperationParameterCollection.php');
 
 /**
  * Office 365 client

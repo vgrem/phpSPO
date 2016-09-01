@@ -47,6 +47,9 @@ class OutlookMailTest extends OutlookServicesTestCase
     }
 
 
+
+
+
     /**
      * @depends testCreateDraftMessage
      * @param Message $message
@@ -65,10 +68,35 @@ class OutlookMailTest extends OutlookServicesTestCase
      * @depends testCreateDraftMessage
      * @param Message $message
      */
+    public function testForwardMessage(Message $message)
+    {
+        $recipients = array(
+            new Recipient(new EmailAddress("","jdoe@contoso.onmicrosoft.com"))
+        );
+        $message->forward("For your consideration",$recipients);
+        self::$context->executeQuery();
+    }
+
+
+    /**
+     * @depends testCreateDraftMessage
+     * @param Message $message
+     */
     public function testSendEmail(Message $message){
         self::$context->getMe()->sendEmail($message,false);
         self::$context->executeQuery();
     }
+
+
+    /**
+     * @depends testCreateDraftMessage
+     * @param Message $message
+     */
+    /*public function testReplyMessage(Message $message)
+    {
+        $message->replyAll("Sounds great!");
+        self::$context->executeQuery();
+    }*/
 
 
     /**

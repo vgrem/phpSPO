@@ -16,7 +16,7 @@ abstract class ClientActionInvokeMethod extends ClientAction
      * @param ClientObject $parentClientObject
      * @param array $methodName
      * @param array $actionParameters
-     * @param ODataPayload $requestPayload
+     * @param mixed $requestPayload
      * @param int $actionType
      */
     public function __construct(ClientObject $parentClientObject, $methodName=null, array $actionParameters=null, $requestPayload = null, $actionType = ClientActionType::GetMethod)
