@@ -32,8 +32,10 @@ class User extends ClientObject
      */
     public function sendEmail(Message $message, $saveToSentItems)
     {
-        $info = new SendMailInformation($message,$saveToSentItems);
-        $action = new ClientActionInvokePostMethod($this, "SendMail", null, $info);
+        $payload = new OperationParameterCollection();
+        $payload->add("Message",$message);
+        $payload->add("SaveToSentItems",$saveToSentItems);
+        $action = new ClientActionInvokePostMethod($this, "SendMail", null, $payload);
         $this->getContext()->addQuery($action);
     }
 
@@ -50,6 +52,22 @@ class User extends ClientObject
                 )));
         }
         return $this->getProperty("Contacts");
+    }
+
+
+    /**
+     * @return EventCollection
+     */
+    public function getEvents(){
+        if(!$this->isPropertyAvailable("Events")){
+            $this->setProperty("Events",
+                new EventCollection($this->getContext(),new ResourcePathEntity(
+                    $this->getContext(),
+                    $this->getResourcePath(),
+                    "Events"
+                )));
+        }
+        return $this->getProperty("Events");
     }
 
 

@@ -19,13 +19,11 @@ class OutlookMailTest extends OutlookServicesTestCase
         self::$context->executeQuery();
 
         $message = self::$context->getMe()->getMessages()->createMessage();
-        $message->setProperty("Subject","--test--");
-        $message->setProperty("Body",new ItemBody(BodyType::Text,"--Content goes here--"));
-        $recipients = array(
+        $message->Subject = "--test--";
+        $message->Body = new ItemBody(BodyType::Text,"--Content goes here--");
+        $message->ToRecipients = array(
             new Recipient(new EmailAddress($currentUser->getProperty("DisplayName"),$currentUser->getProperty("Id")))
         );
-        $message->setProperty("ToRecipients",$recipients);
-        //self::$context->getMe()->sendEmail($message,false);
         self::$context->executeQuery();
         return $message;
     }

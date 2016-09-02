@@ -3,7 +3,7 @@
 
 namespace Office365\PHP\Client\Runtime;
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
-use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
+
 
 
 /**
@@ -53,15 +53,6 @@ class ClientValueObject extends ODataPayload
                 $this->{$key} = $value;
             }
         }
-    }
-
-
-    /**
-     * @return int
-     */
-    function getPayloadType()
-    {
-        return ODataPayloadKind::Property;
     }
 
 

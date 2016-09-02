@@ -3,7 +3,6 @@
 
 namespace Office365\PHP\Client\OutlookServices;
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
-use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
 
 class OperationParameterCollection extends ODataPayload
 {
@@ -26,14 +25,6 @@ class OperationParameterCollection extends ODataPayload
         return null;
     }
 
-
-    /**
-     * @return int
-     */
-    function getPayloadType()
-    {
-        return ODataPayloadKind::Parameter;
-    }
 
     /**
      * Converts JSON into payload

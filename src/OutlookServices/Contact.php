@@ -1,79 +1,58 @@
 <?php
 
 namespace Office365\PHP\Client\OutlookServices;
-use Office365\PHP\Client\Runtime\ClientActionDeleteEntity;
-use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
-use Office365\PHP\Client\Runtime\ClientObject;
 
 
 /**
  * A contact, which is an item in Outlook for users to organize and save information about the people and organizations
  * that they communicate with. Contacts are contained in contact folders.
  */
-class Contact extends ClientObject
+class Contact extends OutlookEntity
 {
 
-    public function deleteObject()
-    {
-        $qry = new ClientActionDeleteEntity($this);
-        $this->getContext()->addQuery($qry);
-    }
-
-
     /**
-     * Updates a Contact resource
+     * The contact's unique identifier.
+     * @var string
      */
-    public function update()
-    {
-        $qry = new ClientActionUpdateEntity($this);
-        $this->getContext()->addQuery($qry);
-    }
-
-
-
-    function setProperty($name, $value, $persistChanges = true)
-    {
-        if($name == "Id"){
-            if(is_null($this->getResourcePath()))
-                $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . "/" . $value);
-            $this->{$name} = $value;
-        }
-        else
-            parent::setProperty($name, $value, $persistChanges);
-    }
-
+    public $Id;
 
     /**
+     * The ID of the contact's parent folder.
      * @var string
      */
     public $ParentFolderId;
 
 
     /**
+     * The contact's birthday.
      * @var string
      */
     public $Birthday;
 
 
     /**
+     * The contact's given name.
      * @var string
      */
     public $GivenName;
 
 
     /**
+     * The contact's initials.
      * @var string
      */
     public $Initials;
 
 
     /**
+     * The contact's surname.
      * @var string
      */
     public $Surname;
 
 
     /**
+     * The contact's job title.
      * @var string
      */
     public $JobTitle;

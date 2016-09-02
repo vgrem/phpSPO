@@ -3,13 +3,13 @@
 
 namespace Office365\PHP\Client\OutlookServices;
 
-use Office365\PHP\Client\Runtime\ClientActionDeleteEntity;
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
-use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
-use Office365\PHP\Client\Runtime\ClientObject;
 
 
-class Message extends ClientObject
+/**
+ * A message in a mailbox folder.
+ */
+class Message extends OutlookEntity
 {
 
     /**
@@ -65,46 +65,28 @@ class Message extends ClientObject
         $this->getContext()->addQuery($qry);
     }
 
-
     /**
-     * Updates a Message resource
-     */
-    public function update()
-    {
-        $qry = new ClientActionUpdateEntity($this);
-        $this->getContext()->addQuery($qry);
-    }
-
-
-    public function deleteObject()
-    {
-        $qry = new ClientActionDeleteEntity($this);
-        $this->getContext()->addQuery($qry);
-    }
-
-
-    function setProperty($name, $value, $persistChanges = true)
-    {
-        if($name == "Id"){
-            if(is_null($this->getResourcePath()))
-                $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . "/" . $value);
-            $this->{$name} = $value;
-        }
-        else
-            parent::setProperty($name, $value, $persistChanges);
-    }
-
-    /**
+     * The body of the message.
      * @var ItemBody
      */
     public $Body;
 
     /**
+     * The subject of the message.
      * @var string
      */
     public $Subject;
 
 
+    /**
+     * The To recipients for the message.
+     * @var array
+     */
+    public $ToRecipients;
+
+    /**
+     * @var string
+     */
     public $Id;
 
 }

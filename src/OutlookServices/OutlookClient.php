@@ -17,12 +17,13 @@ require_once(__DIR__ . '/../Runtime/Auth/NetworkCredentialContext.php');
 require_once(__DIR__ . '/../Runtime/ClientRuntimeContext.php');
 require_once(__DIR__ . '/../Runtime/Utilities/RequestOptions.php');
 require_once(__DIR__ . '/../Runtime/OData/JsonFormat.php');
-require_once('SendMailInformation.php');
+require_once('OutlookEntity.php');
 require_once('BodyType.php');
 require_once('ItemBody.php');
 require_once('User.php');
 require_once('UserCollection.php');
 require_once('EmailAddress.php');
+require_once('Location.php');
 require_once('Contact.php');
 require_once('ContactCollection.php');
 require_once('Event.php');
@@ -30,11 +31,11 @@ require_once('EventCollection.php');
 require_once('Message.php');
 require_once('MessageCollection.php');
 require_once('Recipient.php');
+require_once('Attendee.php');
 require_once('OperationParameterCollection.php');
 
 /**
- * Office 365 client
- * @package Office365\PHP\Client\OutlookServices
+ * Outlook Services OData client
  */
 class OutlookClient extends ClientRuntimeContext
 {

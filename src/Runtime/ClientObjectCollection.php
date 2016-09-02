@@ -1,7 +1,6 @@
 <?php
 
 namespace Office365\PHP\Client\Runtime;
-use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 
 
@@ -238,14 +237,5 @@ class ClientObjectCollection extends ClientObject
             $this->addChild($clientObject);
         }
     }
-
-    /**
-     * @return int
-     */
-    function getPayloadType()
-    {
-        return ODataPayloadKind::Collection;
-    }
-
 
 }

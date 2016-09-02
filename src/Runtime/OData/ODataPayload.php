@@ -11,13 +11,12 @@ use Office365\PHP\Client\Runtime\ClientValueObject;
 abstract class ODataPayload
 {
 
-
-    static $DeferredFieldName = "__deferred";
-    static $QueryFieldName = "query";
-    static $ParametersFieldName = "parameters";
-    static $ResultsFieldName = "results";
-    static $MetadataFieldName  = "__metadata";
-    static $SecurityTag = "d";
+    /*private static $DeferredFieldName = "__deferred";
+    private static $QueryFieldName = "query";
+    private static $ParametersFieldName = "parameters";
+    private static $ResultsFieldName = "results";
+    private static $MetadataFieldName  = "__metadata";
+    private static $SecurityTag = "d";*/
 
     /**
      * Converts OData entity/complex type into Json payload
@@ -104,11 +103,6 @@ abstract class ODataPayload
      * @param mixed $json
      */
     abstract function convertFromJson($json);
-
-    /**
-     * @return int
-     */
-    abstract function getPayloadType();
 
 
     /**

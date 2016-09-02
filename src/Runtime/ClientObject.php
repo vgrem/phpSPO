@@ -3,13 +3,11 @@
 namespace Office365\PHP\Client\Runtime;
 
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
-use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
-
 
 /**
  * Represents OData entity
  */
-class ClientObject extends  ODataPayload
+class ClientObject extends ODataPayload
 {
 
     /**
@@ -73,7 +71,7 @@ class ClientObject extends  ODataPayload
     /**
      * @return array
      */
-    public function getChangedProperties()
+    protected function getChangedProperties()
     {
         return $this->changed_properties;
     }
@@ -137,7 +135,7 @@ class ClientObject extends  ODataPayload
                 }
                 else {
                     $propertyObject = $this->getProperty($key);
-                    if ($propertyObject instanceof ClientObject) {
+                    if ($propertyObject instanceof ClientObject || $propertyObject instanceof ClientValueObject) {
                         $propertyObject->convertFromJson($value);
                     }
                     else {
@@ -145,19 +143,13 @@ class ClientObject extends  ODataPayload
                     }
                 }
             }
+            elseif (is_array($value)){
+                $this->convertFromJson($value);
+            }
             else {
                 $this->setProperty($key,$value,false);
             }
         }
-    }
-
-
-    /**
-     * @return int
-     */
-    function getPayloadType()
-    {
-        return ODataPayloadKind::Entity;
     }
 
 
