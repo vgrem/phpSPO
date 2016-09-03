@@ -47,7 +47,6 @@ class JsonPayloadSerializer
     public function deserialize($value,ODataPayload $payload)
     {
         $jsonValue = JsonConvert::deserialize($value);
-
         if($this->Format instanceof JsonLightFormat){
             if($this->Format->MetadataLevel == ODataMetadataLevel::Verbose){
                 if(property_exists($jsonValue,"d")){
@@ -71,7 +70,6 @@ class JsonPayloadSerializer
 
         if(isset($payload->RootPropertyName))
             $jsonValue = $jsonValue->{$payload->RootPropertyName};
-
         $payload->convertFromJson($jsonValue);
     }
 

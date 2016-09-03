@@ -10,7 +10,6 @@ use Office365\PHP\Client\Runtime\ClientAction;
 class Calendar extends OutlookEntity
 {
 
-
     /**
      * @param \DateTime $startDateTime
      * @param \DateTime $endDateTime

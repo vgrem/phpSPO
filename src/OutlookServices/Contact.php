@@ -7,7 +7,7 @@ namespace Office365\PHP\Client\OutlookServices;
  * A contact, which is an item in Outlook for users to organize and save information about the people and organizations
  * that they communicate with. Contacts are contained in contact folders.
  */
-class Contact extends OutlookEntity
+class Contact extends Item
 {
 
     /**
@@ -109,4 +109,23 @@ class Contact extends OutlookEntity
      */
     public $ImAddresses;
 
+    /**
+     * The name of the contact's manager.
+     * @var string
+     */
+    public $Manager;
+
+
+    /**
+     * The contact's middle name.
+     * @var string
+     */
+    public $MiddleName;
+
+
+    /**
+     * The contact's nickname.
+     * @var string
+     */
+    public $NickName;
 }

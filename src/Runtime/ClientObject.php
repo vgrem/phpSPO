@@ -4,6 +4,7 @@ namespace Office365\PHP\Client\Runtime;
 
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
 
+
 /**
  * Represents OData entity
  */
@@ -33,7 +34,7 @@ class ClientObject extends ODataPayload
     /**
      * @var array
      */
-    private $changed_properties = array();
+    private $modified_properties = array();
 
     /**
      * @var ClientObjectCollection
@@ -71,9 +72,9 @@ class ClientObject extends ODataPayload
     /**
      * @return array
      */
-    protected function getChangedProperties()
+    protected function getModifiedProperties()
     {
-        return $this->changed_properties;
+        return $this->modified_properties;
     }
 
 
@@ -163,7 +164,6 @@ class ClientObject extends ODataPayload
         return isset($this->properties[$name]) && !isset($this->properties[$name]->__deferred);
     }
 
-
     /**
      * @return array
      */
@@ -193,7 +193,7 @@ class ClientObject extends ODataPayload
     public function setProperty($name, $value, $persistChanges = true)
     {
         if ($persistChanges) {
-            $this->changed_properties[$name] = $value;
+            $this->modified_properties[$name] = $value;
         }
 
         //save property

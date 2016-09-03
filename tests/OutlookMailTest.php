@@ -1,7 +1,7 @@
 <?php
-
 use Office365\PHP\Client\OutlookServices\BodyType;
 use Office365\PHP\Client\OutlookServices\EmailAddress;
+use Office365\PHP\Client\OutlookServices\FileAttachment;
 use Office365\PHP\Client\OutlookServices\ItemBody;
 use Office365\PHP\Client\OutlookServices\Message;
 use Office365\PHP\Client\OutlookServices\Recipient;
@@ -24,6 +24,12 @@ class OutlookMailTest extends OutlookServicesTestCase
         $message->ToRecipients = array(
             new Recipient(new EmailAddress($currentUser->getProperty("DisplayName"),$currentUser->getProperty("Id")))
         );
+        //add a file attachment
+        /*$attachmentPath = "../examples/data/attachment.txt";
+        $attachment = $message->getAttachments()->createAttachment(FileAttachment::getType());
+        $attachment->ContentBytes = "bWFjIGFuZCBjaGVlc2UgdG9kYXk="; //file_get_contents($attachmentPath);
+        $attachment->Name = basename($attachmentPath);
+        $attachment->addAnnotation("type","#Microsoft.OutlookServices.FileAttachment");*/
         self::$context->executeQuery();
         return $message;
     }

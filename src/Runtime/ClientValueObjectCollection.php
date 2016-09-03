@@ -18,6 +18,15 @@ class ClientValueObjectCollection extends ClientValueObject
 
 
     /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+
+    /**
      * Clear collection
      */
     public function clearData()

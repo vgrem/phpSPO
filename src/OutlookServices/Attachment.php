@@ -3,12 +3,11 @@
 
 namespace Office365\PHP\Client\OutlookServices;
 
-use Office365\PHP\Client\Runtime\ClientObject;
 
 /**
  * A file or item (contact, event or message) attached to an event or message.
  */
-class Attachment extends ClientObject
+abstract class Attachment extends OutlookEntity
 {
     /**
      * The MIME type of the attachment.
@@ -43,5 +42,10 @@ class Attachment extends ClientObject
      * @var int
      */
     public $Size;
+
+
+    public static function getType() {
+        return get_called_class();
+    }
 
 }

@@ -4,12 +4,13 @@
 namespace Office365\PHP\Client\OutlookServices;
 
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 
 /**
  * A message in a mailbox folder.
  */
-class Message extends OutlookEntity
+class Message extends Item
 {
 
     /**
@@ -64,6 +65,38 @@ class Message extends OutlookEntity
         $qry = new ClientActionInvokePostMethod($this,"Move",null,$payload);
         $this->getContext()->addQuery($qry);
     }
+
+
+    /**
+     * @return AttachmentCollection
+     */
+    public function getAttachments(){
+        if(!$this->isPropertyAvailable("Attachments")){
+            $this->setProperty("Attachments",
+                new AttachmentCollection($this->getContext(),new ResourcePathEntity(
+                    $this->getContext(),
+                    $this->getResourcePath(),
+                    "Attachments"
+                )));
+        }
+        return $this->getProperty("Attachments");
+    }
+
+
+    /**
+     * The FileAttachment and ItemAttachment attachments for the message.
+     * @var array
+     */
+    public $Attachments;
+
+
+    /**
+     * The Bcc recipients for the message.
+     * @var array
+     */
+    public $BccRecipients;
+
+
 
     /**
      * The body of the message.

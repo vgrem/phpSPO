@@ -13,18 +13,7 @@ use ReflectionProperty;
 class OutlookEntity extends ClientObject
 {
 
-    /**
-     * @var string
-     */
-    public $Id;
 
-
-    /**
-     * Identifies the version of the outlook object. Every time the event is changed, ChangeKey changes as well.
-     * This allows Exchange to apply changes to the correct version of the object.
-     * @var string
-     */
-    public $ChangeKey;
 
     /**
      * Updates a resource
@@ -46,25 +35,26 @@ class OutlookEntity extends ClientObject
     }
 
 
-
-    function getChangedProperties()
+    public function addAnnotation($name, $value)
     {
-        $modifiedProperties = parent::getChangedProperties();
+        $this->annotations["@odata.$name"] = $value;
+    }
+
+
+    function getModifiedProperties()
+    {
+        $properties = parent::getModifiedProperties();
         $reflection = new ReflectionObject($this);
         foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $p) {
             $val = $p->getValue($this);
-            $isModified = false;
             if (!is_null($val)) {
-                //if($this->isPropertyAvailable($p->name)){
-                //    $isModified = ($this->getProperties()[$p->name] != $val);
-                //}
-                //else
-                $isModified = true;
+                $properties[$p->name] = $val;
             }
-            if($isModified)
-                $modifiedProperties[$p->name] = $val;
         }
-        return $modifiedProperties;
+        foreach ($this->annotations as $key => $val) {
+            $properties[$key] = $val;
+        }
+        return $properties;
     }
 
 
@@ -79,5 +69,17 @@ class OutlookEntity extends ClientObject
             parent::setProperty($name, $value, $persistChanges);
     }
 
+
+
+    /**
+     * @var string
+     */
+    public $Id;
+
+
+    /**
+     * @var array
+     */
+    protected $annotations = array();
 
 }

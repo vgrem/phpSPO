@@ -2,7 +2,9 @@
 
 namespace Office365\PHP\Client\Runtime\OData;
 use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\PHP\Client\Runtime\ClientValueObjectCollection;
 
 
 /**
@@ -38,16 +40,21 @@ abstract class ODataPayload
             if ($value instanceof ClientValueObject) {
                 $properties = get_object_vars($value);
                 foreach (get_object_vars($value) as $key => $value) {
-                    if(is_null($value) || ($key == "RootPropertyName"))
+                    if (is_null($value) || ($key == "RootPropertyName"))
                         unset($properties[$key]);
                 }
                 return array_map(function ($p) {
                     return $this->mapToJson($p);
                 }, $properties);
             } elseif ($value instanceOf ClientObject) {
-                return array_map(function ($p) {
-                    return $this->mapToJson($p);
-                }, $value->getChangedProperties());
+                if ($value instanceof ClientObjectCollection) {
+                    return array_map(function ($p) {
+                        return $this->mapToJson($p);
+                    }, $value->getData());
+                } else
+                    return array_map(function ($p) {
+                        return $this->mapToJson($p);
+                    }, $value->getModifiedProperties());
             }
         } elseif (is_array($value)) {
             return array_map(function ($item) {
