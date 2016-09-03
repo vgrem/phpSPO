@@ -18,10 +18,15 @@ require_once(__DIR__ . '/../Runtime/ClientRuntimeContext.php');
 require_once(__DIR__ . '/../Runtime/Utilities/RequestOptions.php');
 require_once(__DIR__ . '/../Runtime/OData/JsonFormat.php');
 require_once('OutlookEntity.php');
+require_once('CalendarColor.php');
+require_once('Calendar.php');
+require_once('CalendarCollection.php');
 require_once('BodyType.php');
 require_once('ItemBody.php');
 require_once('User.php');
 require_once('UserCollection.php');
+require_once('Group.php');
+require_once('GroupCollection.php');
 require_once('EmailAddress.php');
 require_once('Location.php');
 require_once('Contact.php');
@@ -92,6 +97,16 @@ class OutlookClient extends ClientRuntimeContext
 
 
     /**
+     * @return GroupCollection
+     */
+    public function getGroups(){
+        if(!isset($this->groups))
+            $this->groups = new GroupCollection($this,new ResourcePathEntity($this,null,"Groups"));
+        return $this->groups;
+    }
+
+
+    /**
      * @var string
      */
     private $serviceRootUrl = "https://outlook.office365.com/api/v1.0/";
@@ -107,6 +122,12 @@ class OutlookClient extends ClientRuntimeContext
      * @var UserCollection
      */
     private $users;
+
+
+    /**
+     * @var GroupCollection
+     */
+    private $groups;
 
 }
 

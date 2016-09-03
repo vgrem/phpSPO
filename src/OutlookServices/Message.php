@@ -84,9 +84,6 @@ class Message extends OutlookEntity
      */
     public $ToRecipients;
 
-    /**
-     * @var string
-     */
-    public $Id;
+
 
 }

@@ -7,6 +7,11 @@ use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
+/**
+ * A user in the system.
+ * The Me endpoint is provided as a shortcut for specifying the current user by SMTP address ( users/sadie@contoso.com).
+ * @package Office365\PHP\Client\OutlookServices
+ */
 class User extends ClientObject
 {
 
@@ -69,6 +74,36 @@ class User extends ClientObject
         }
         return $this->getProperty("Events");
     }
+
+
+    /**
+     * @return CalendarCollection
+     */
+    public function getCalendars(){
+        if(!$this->isPropertyAvailable("Calendars")){
+            $this->setProperty("Calendars",
+                new CalendarCollection($this->getContext(),new ResourcePathEntity(
+                    $this->getContext(),
+                    $this->getResourcePath(),
+                    "Calendars"
+                )));
+        }
+        return $this->getProperty("Calendars");
+    }
+
+
+    /**
+     * The user's alias. Typically the SMTP address of the user.
+     * @var string
+     */
+    public $Alias;
+
+
+    /**
+     * The user's display name.
+     * @var string
+     */
+    public $DisplayName;
 
 
 }

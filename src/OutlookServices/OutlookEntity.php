@@ -12,8 +12,22 @@ use ReflectionProperty;
 
 class OutlookEntity extends ClientObject
 {
+
     /**
-     * Updates a Message resource
+     * @var string
+     */
+    public $Id;
+
+
+    /**
+     * Identifies the version of the outlook object. Every time the event is changed, ChangeKey changes as well.
+     * This allows Exchange to apply changes to the correct version of the object.
+     * @var string
+     */
+    public $ChangeKey;
+
+    /**
+     * Updates a resource
      */
     public function update()
     {
@@ -22,6 +36,9 @@ class OutlookEntity extends ClientObject
     }
 
 
+    /**
+     * Deletes a resource
+     */
     public function deleteObject()
     {
         $qry = new ClientActionDeleteEntity($this);

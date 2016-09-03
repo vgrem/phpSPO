@@ -11,10 +11,11 @@ class Contact extends OutlookEntity
 {
 
     /**
-     * The contact's unique identifier.
+     * The name of the contact's assistant.
      * @var string
      */
-    public $Id;
+    public $AssistantName;
+
 
     /**
      * The ID of the contact's parent folder.
