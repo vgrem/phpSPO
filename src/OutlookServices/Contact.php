@@ -78,9 +78,35 @@ class Contact extends OutlookEntity
 
 
     /**
+     * The contact's email addresses.
      * @var array
      */
     public $EmailAddresses;
 
+    /**
+     * The contact's generation.
+     * @var string
+     */
+    public $Generation;
+
+
+    /**
+     * The contact's home address.
+     * @var PhysicalAddress
+     */
+    public $HomeAddress;
+
+
+    /**
+     * @var array
+     */
+    public $HomePhones;
+
+
+    /**
+     * The contact's instant messaging (IM) addresses.
+     * @var array
+     */
+    public $ImAddresses;
 
 }

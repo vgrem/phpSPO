@@ -1,10 +1,13 @@
 ﻿### About
-The library provides a Office 365 REST client for PHP applications. It allows to performs CRUD operations against SharePoint and Outlook resources via an REST/OData based API. 
+The library provides a Office 365 REST client for PHP applications. It allows to performs CRUD operations against Office 365 resources via an REST/OData based API. 
 
 #### The list of supported Office 365 REST APIs:
 
--   SharePoint REST API (_supported_ versions: [SharePoint 2013](https://msdn.microsoft.com/library/office/jj860569(v=office.15).aspx), SharePoint 2016 and SharePoint Online )
--   [Outlook Contacts REST API](https://msdn.microsoft.com/en-us/office/office365/api/contacts-rest-operations)
+-   [SharePoint REST API](https://msdn.microsoft.com/en-us/library/office/jj860569.aspx) (_supported_ versions: [SharePoint 2013](https://msdn.microsoft.com/library/office/jj860569(v=office.15).aspx), SharePoint 2016, SharePoint Online and OneDrive for Business)
+-   [Outlook REST API](https://msdn.microsoft.com/en-us/office/office365/api/use-outlook-rest-api#DefineOutlookRESTAPI) 
+    -   [Outlook Contacts REST API](https://msdn.microsoft.com/en-us/office/office365/api/contacts-rest-operations)
+    -   [Outlook Calendar REST API](https://msdn.microsoft.com/en-us/office/office365/api/calendar-rest-operations)
+    -   [Outlook Mail REST API](https://msdn.microsoft.com/en-us/office/office365/api/mail-rest-operations)
 
 ### Status
 
@@ -13,7 +16,7 @@ The library provides a Office 365 REST client for PHP applications. It allows to
 ### Installation
 
 ### PHP version
-- PHP 5.4 or later
+- [PHP 5.4 or later](https://secure.php.net/)
 
 
 ### API
@@ -32,7 +35,10 @@ There are **two** approaches available to perform REST queries:
 -   via `ClientContext` class where you target client object resources such as Web, ListItem and etc., see [list_examples.php](https://github.com/vgrem/phpSPO/blob/master/examples/list_examples.php) for a more details 
 
 
-### Usage
+### Usage 
+
+
+#### Using SharePoint REST API
 
 
 The following examples demonstrates how to perform basic CRUD operations against **SharePoint** list item resources.
@@ -88,6 +94,60 @@ $ctx->executeQuery();
 ````
 
 
+
+#### Using Outlook REST API
+
+The following examples demonstrates how to read, create and send messages via Outlook Mail API.
+
+Example 1. How to create a draft message
+
+````
+
+$authCtx = new NetworkCredentialContext($UserName,$Password); //using Basic Auth scheme (for v1 API only)
+$ctx = new OutlookClient($authCtx); //initialize OutlookServices client
+$message = $ctx->getMe()->getMessages()->createMessage(); //create a Message resource
+//set Message properties
+$message->Subject = "--subject--";
+$message->Body = new ItemBody(BodyType::Text,"--Content goes here--");
+$message->ToRecipients = array(
+     new Recipient(new EmailAddress("Jon Doe","jdoe@contoso.onmicrosoft.com"))
+);
+$ctx->executeQuery();
+````
+
+
+Example 2. How to get messages
+
+````
+
+$authCtx = new NetworkCredentialContext($UserName,$Password); //using Basic Auth scheme (for v1 API only)
+$ctx = new OutlookClient($authCtx); //initialize OutlookServices client
+$messages = $ctx->getMe()->getMessages();
+$ctx->load($messages);
+$ctx->executeQuery();
+//print messages subjects
+foreach ($messages->getData() as $curMessage){
+   print $curMessage->Subject;
+}
+````
+
+
+Example 3. How to send a message
+
+````
+
+$authCtx = new NetworkCredentialContext($UserName,$Password); //using Basic Auth scheme (for v1 API only)
+$ctx = new OutlookClient($authCtx); //initialize OutlookServices client
+$message = $ctx->getMe()->getMessages()->createMessage(); //create a Message resource
+//set Message properties
+$message->Subject = "--subject--";
+$message->Body = new ItemBody(BodyType::Text,"--Content goes here--");
+$message->ToRecipients = array(
+     new Recipient(new EmailAddress("Jon Doe","jdoe@contoso.onmicrosoft.com"))
+);
+$ctx->getMe()->sendEmail($message,false); //send a Message
+$ctx->executeQuery();
+````
 
 
 ## Changelog

@@ -57,8 +57,12 @@ class OutlookMailTest extends OutlookServicesTestCase
         $messages = self::$context->getMe()->getMessages();
         self::$context->load($messages);
         self::$context->executeQuery();
-        $foundMessage = $messages->getItemById($message->getProperty("Id"));
-        self::assertNotNull(1,$foundMessage);
+
+        foreach ($messages->getData() as $curMessage){
+            self::assertNotNull($curMessage->Id);
+        }
+        $foundMessage = $messages->getItemById($message->Id);
+        self::assertNotNull($foundMessage);
     }
 
 

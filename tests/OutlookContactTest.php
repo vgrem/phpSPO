@@ -51,10 +51,11 @@ class OutlookContactTest extends OutlookServicesTestCase
         $contact->update();
         self::$context->executeQuery();
 
-        //reload contact
-        self::$context->load($contact);
+        //load updated contact
+        $existingContact = self::$context->getMe()->getContacts()->getById($contact->Id);
+        self::$context->load($existingContact);
         self::$context->executeQuery();
-        self::assertEquals($surnameValue,$contact->getProperty("Surname"));
+        self::assertEquals($surnameValue,$existingContact->Surname);
     }
 
 
