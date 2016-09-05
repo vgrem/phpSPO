@@ -1,9 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
-require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
-require_once(__DIR__ . '/../src/Runtime/Auth/NetworkCredentialContext.php');
-require_once 'Settings.php';
+require_once('../bootstrap.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;

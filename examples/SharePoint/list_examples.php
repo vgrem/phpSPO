@@ -1,8 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
-require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
-require_once 'Settings.php';
+
+require_once('../bootstrap.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;
@@ -45,7 +44,7 @@ function printListDetails(ClientContext $ctx, $listTitle){
 
 function printPermissions(SPList $list, $loginName){
 	$ctx = $list->getContext();
-	//$permissions = $list->getUserEffectivePermissions($loginName);
+	$permissions = $list->getUserEffectivePermissions($loginName);
 	$ctx->executeQuery();
 }
 

@@ -1,8 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../src/Runtime/ClientRequest.php');
-require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
-require_once 'Settings.php';
+
+require_once('../bootstrap.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;

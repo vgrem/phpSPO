@@ -91,7 +91,7 @@ class ClientObjectCollection extends ClientObject
             }
         );
         if(count($result) > 0)
-            return $result[0];
+            return array_values($result)[0];
         return null;
     }
 

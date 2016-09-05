@@ -1,11 +1,5 @@
 <?php
 
-use Office365\PHP\Client\OutlookServices\Attendee;
-use Office365\PHP\Client\OutlookServices\BodyType;
-use Office365\PHP\Client\OutlookServices\EmailAddress;
-use Office365\PHP\Client\OutlookServices\Event;
-use Office365\PHP\Client\OutlookServices\ItemBody;
-use Office365\PHP\Client\OutlookServices\Location;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 
 
@@ -14,6 +8,26 @@ require_once('OutlookServicesTestCase.php');
 
 class OutlookCommonTest extends OutlookServicesTestCase
 {
+
+
+    /*public function testGetMessages(){
+        $messages = self::$context->getMe()->getMessages();
+        self::$context->load($messages);
+        self::$context->executeQuery();
+
+        foreach ($messages->getData() as $message){
+
+            $attachments = $message->getAttachments()->expand("Microsoft.OutlookServices.ItemAttachment/Item");
+            self::$context->load($attachments);
+            self::$context->executeQuery();
+
+            foreach ($attachments->getData() as $attachment){
+                $item = $attachment->Item;
+            }
+
+            //self::assertNotNull($message->Id);
+        }
+    }*/
 
     public function testGetCalendars(){
         $calendars = self::$context->getMe()->getCalendars();

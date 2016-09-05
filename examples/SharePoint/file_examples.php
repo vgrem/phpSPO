@@ -4,12 +4,7 @@ use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\SharePoint\SPList;
-
-require_once(__DIR__ . '/../src/SharePoint/ClientContext.php');
-require_once(__DIR__ . '/../src/Runtime/Auth/AuthenticationContext.php');
-require_once(__DIR__ . '/../tests/TestUtilities.php');
-require_once 'Settings.php';
-
+require_once '../bootstrap.php';
 global $Settings;
 
 try {

@@ -40,6 +40,12 @@ class OutlookEntity extends ClientObject
         $this->annotations["@odata.$name"] = $value;
     }
 
+    public function ensureTypeAnnotation()
+    {
+        $typeName = $this->getEntityTypeName();
+        $this->addAnnotation("type","#Microsoft.OutlookServices.$typeName");
+    }
+
 
     function getModifiedProperties()
     {

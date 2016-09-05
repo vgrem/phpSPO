@@ -2,9 +2,7 @@
 
 
 namespace Office365\PHP\Client\OutlookServices;
-
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 
 /**
@@ -68,18 +66,13 @@ class Message extends Item
 
 
     /**
-     * @return AttachmentCollection
+     * @param $attachmentType
+     * @return Attachment
      */
-    public function getAttachments(){
-        if(!$this->isPropertyAvailable("Attachments")){
-            $this->setProperty("Attachments",
-                new AttachmentCollection($this->getContext(),new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "Attachments"
-                )));
-        }
-        return $this->getProperty("Attachments");
+    public function addAttachment($attachmentType){
+        $attachment = new $attachmentType($this->getContext());
+        $this->Attachments[] = $attachment;
+        return $attachment;
     }
 
 
@@ -118,5 +111,58 @@ class Message extends Item
     public $ToRecipients;
 
 
+    /**
+     * The ID of the conversation the email belongs to.
+     * @var string
+     */
+    public $ConversationId;
+
+
+    /**
+     * Indicates whether the message has attachments.
+     * @var bool
+     */
+    public $HasAttachments;
+
+
+    /**
+     * The mailbox owner and sender of the message.
+     * @var Recipient
+     */
+    public $From;
+
+
+    /**
+     * The importance of the message
+     * @var string
+     */
+    public $Importance;
+
+    /**
+     * The account that is actually used to generate the message.
+     * @var Recipient
+     */
+    public $Sender;
+
+
+    /**
+     * Indicates whether a read receipt is requested for the message.
+     * @var bool
+     */
+    public $IsReadReceiptRequested;
+
+
+    /**
+     * Indicates whether a read receipt is requested for the message.
+     * @var bool
+     */
+    public $IsDeliveryReceiptRequested;
+
+
+    /**
+     * The URL to open the message in Outlook Web App.
+     * @var string
+     */
+    public $WebLink;
 
 }

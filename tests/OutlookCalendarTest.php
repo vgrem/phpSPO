@@ -57,8 +57,6 @@ class OutlookCalendarTest extends OutlookServicesTestCase
         self::$context->executeQuery();
         $foundEvent = $events->getItemById($event->getProperty("Id"));
         self::assertNotNull(1,$foundEvent);
-
-        $dump = $foundEvent->getProperties();
     }
 
 

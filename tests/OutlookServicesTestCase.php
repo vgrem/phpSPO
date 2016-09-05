@@ -5,7 +5,7 @@ use Office365\PHP\Client\Runtime\Auth\NetworkCredentialContext;
 
 
 
-require_once(__DIR__ .'/../examples/Settings.php');
+require_once(__DIR__ . '/../examples/Settings.php');
 require_once(__DIR__ . '/../src/Runtime/Auth/NetworkCredentialContext.php');
 require_once(__DIR__ . '/../src/OutlookServices/OutlookClient.php');
 

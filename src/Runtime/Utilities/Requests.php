@@ -19,7 +19,7 @@ class Requests
 	{
 		$ch = Requests::init($options);
         $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($response === false) {
             throw new \Exception(curl_error($ch));
         }

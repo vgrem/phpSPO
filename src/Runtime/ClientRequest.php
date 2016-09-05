@@ -163,7 +163,6 @@ class ClientRequest
     {
         $json = JsonConvert::deserialize($response);
         if(property_exists($json,"error")){
-
             if(is_string($json->error->message))
                 $message = $json->error->message;
             elseif (is_object($json->error->message))

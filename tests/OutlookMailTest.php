@@ -2,8 +2,10 @@
 use Office365\PHP\Client\OutlookServices\BodyType;
 use Office365\PHP\Client\OutlookServices\EmailAddress;
 use Office365\PHP\Client\OutlookServices\FileAttachment;
+use Office365\PHP\Client\OutlookServices\ItemAttachment;
 use Office365\PHP\Client\OutlookServices\ItemBody;
 use Office365\PHP\Client\OutlookServices\Message;
+use Office365\PHP\Client\OutlookServices\OutlookEntity;
 use Office365\PHP\Client\OutlookServices\Recipient;
 
 require_once('OutlookServicesTestCase.php');
@@ -24,14 +26,60 @@ class OutlookMailTest extends OutlookServicesTestCase
         $message->ToRecipients = array(
             new Recipient(new EmailAddress($currentUser->getProperty("DisplayName"),$currentUser->getProperty("Id")))
         );
-        //add a file attachment
-        /*$attachmentPath = "../examples/data/attachment.txt";
-        $attachment = $message->getAttachments()->createAttachment(FileAttachment::getType());
-        $attachment->ContentBytes = "bWFjIGFuZCBjaGVlc2UgdG9kYXk="; //file_get_contents($attachmentPath);
-        $attachment->Name = basename($attachmentPath);
-        $attachment->addAnnotation("type","#Microsoft.OutlookServices.FileAttachment");*/
         self::$context->executeQuery();
         return $message;
+    }
+
+
+
+    /**
+     * @depends testCreateDraftMessage
+     * @param Message $existingMessage
+     */
+    public function testCreteDraftMessageWithItemAttachment(Message $existingMessage)
+    {
+        $message = self::$context->getMe()->getMessages()->createMessage();
+        $message->Subject = $existingMessage->Subject . "(with message attachment)";
+        $message->Body = $existingMessage->Body;
+        $message->ToRecipients = $existingMessage->ToRecipients;
+        //add existing message as an attachment
+        $attachment = $message->addAttachment(ItemAttachment::getType());
+        $attachment->ContentType = "message/rfc822";
+        $attachment->IsInline = false;
+        $attachment->Name = $existingMessage->Subject;
+        $attachment->Item = $this->getLink($existingMessage);
+        $attachment->ensureTypeAnnotation();
+        self::$context->executeQuery();
+    }
+
+
+    /**
+     * @depends testCreateDraftMessage
+     * @param Message $existingMessage
+     */
+    public function testCreteDraftMessageWithFileAttachment(Message $existingMessage)
+    {
+        $message = self::$context->getMe()->getMessages()->createMessage();
+        $message->Subject = $existingMessage->Subject . "(with file attachment)";
+        $message->Body = $existingMessage->Body;
+        $message->ToRecipients = $existingMessage->ToRecipients;
+        //add a file attachment
+        $attachmentPath = "../examples/data/attachment.txt";
+        $attachment = $message->addAttachment(FileAttachment::getType());
+        $attachment->ContentBytes = "bWFjIGFuZCBjaGVlc2UgdG9kYXk="; //file_get_contents($attachmentPath);
+        $attachment->Name = basename($attachmentPath);
+        $attachment->ensureTypeAnnotation();
+        self::$context->executeQuery();
+    }
+
+
+    private function getLink(OutlookEntity $entity){
+        /*return array(
+            "Id" => $entity->Id,
+            "@odata.type" => "#Microsoft.OutlookServices.Message"
+        );*/
+        $entity->addAnnotation("type","#Microsoft.OutlookServices.Message");
+        return $entity;
     }
 
 

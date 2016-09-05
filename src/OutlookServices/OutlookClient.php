@@ -26,6 +26,8 @@ require_once('Attachment.php');
 require_once('AttachmentCollection.php');
 require_once('FileAttachment.php');
 require_once('FileAttachmentCollection.php');
+require_once('ItemAttachment.php');
+require_once('ItemAttachmentCollection.php');
 require_once('Calendar.php');
 require_once('CalendarCollection.php');
 require_once('BodyType.php');
