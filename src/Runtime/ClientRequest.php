@@ -108,7 +108,6 @@ class ClientRequest
         $this->context->authenticateRequest($request);
         //set media type headers
         $this->setMediaTypeHeaders($request);
-        $request->addCustomHeader("Content-length",strlen($request->Data));
         $response = Requests::execute($request);
         return $response;
     }

@@ -9,8 +9,7 @@ use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 /**
  * A user in the system.
- * The Me endpoint is provided as a shortcut for specifying the current user by SMTP address ( users/sadie@contoso.com).
- * @package Office365\PHP\Client\OutlookServices
+ * The Me endpoint is provided as a shortcut for specifying the current user by SMTP address.
  */
 class User extends ClientObject
 {
@@ -18,10 +17,11 @@ class User extends ClientObject
     /**
      * @return MessageCollection
      */
-    public function getMessages(){
-        if(!$this->isPropertyAvailable("Messages")){
+    public function getMessages()
+    {
+        if (!$this->isPropertyAvailable("Messages")) {
             $this->setProperty("Messages",
-                new MessageCollection($this->getContext(),new ResourcePathEntity(
+                new MessageCollection($this->getContext(), new ResourcePathEntity(
                     $this->getContext(),
                     $this->getResourcePath(),
                     "Messages"
@@ -38,8 +38,8 @@ class User extends ClientObject
     public function sendEmail(Message $message, $saveToSentItems)
     {
         $payload = new OperationParameterCollection();
-        $payload->add("Message",$message);
-        $payload->add("SaveToSentItems",$saveToSentItems);
+        $payload->add("Message", $message);
+        $payload->add("SaveToSentItems", $saveToSentItems);
         $action = new ClientActionInvokePostMethod($this, "SendMail", null, $payload);
         $this->getContext()->addQuery($action);
     }
@@ -47,10 +47,11 @@ class User extends ClientObject
     /**
      * @return ContactCollection
      */
-    public function getContacts(){
-        if(!$this->isPropertyAvailable("Contacts")){
+    public function getContacts()
+    {
+        if (!$this->isPropertyAvailable("Contacts")) {
             $this->setProperty("Contacts",
-                new ContactCollection($this->getContext(),new ResourcePathEntity(
+                new ContactCollection($this->getContext(), new ResourcePathEntity(
                     $this->getContext(),
                     $this->getResourcePath(),
                     "Contacts"
@@ -63,10 +64,11 @@ class User extends ClientObject
     /**
      * @return EventCollection
      */
-    public function getEvents(){
-        if(!$this->isPropertyAvailable("Events")){
+    public function getEvents()
+    {
+        if (!$this->isPropertyAvailable("Events")) {
             $this->setProperty("Events",
-                new EventCollection($this->getContext(),new ResourcePathEntity(
+                new EventCollection($this->getContext(), new ResourcePathEntity(
                     $this->getContext(),
                     $this->getResourcePath(),
                     "Events"
@@ -79,16 +81,51 @@ class User extends ClientObject
     /**
      * @return CalendarCollection
      */
-    public function getCalendars(){
-        if(!$this->isPropertyAvailable("Calendars")){
+    public function getCalendars()
+    {
+        if (!$this->isPropertyAvailable("Calendars")) {
             $this->setProperty("Calendars",
-                new CalendarCollection($this->getContext(),new ResourcePathEntity(
+                new CalendarCollection($this->getContext(), new ResourcePathEntity(
                     $this->getContext(),
                     $this->getResourcePath(),
                     "Calendars"
                 )));
         }
         return $this->getProperty("Calendars");
+    }
+
+
+    /**
+     * @return CalendarGroupCollection
+     */
+    public function getCalendarGroups()
+    {
+        if (!$this->isPropertyAvailable("CalendarGroups")) {
+            $this->setProperty("CalendarGroups",
+                new CalendarGroupCollection($this->getContext(), new ResourcePathEntity(
+                    $this->getContext(),
+                    $this->getResourcePath(),
+                    "CalendarGroups"
+                )));
+        }
+        return $this->getProperty("CalendarGroups");
+    }
+
+
+    /**
+     * @return SubscriptionCollection
+     */
+    public function getSubscriptions()
+    {
+        if (!$this->isPropertyAvailable("Subscriptions")) {
+            $this->setProperty("Subscriptions",
+                new SubscriptionCollection($this->getContext(), new ResourcePathEntity(
+                    $this->getContext(),
+                    $this->getResourcePath(),
+                    "Subscriptions"
+                )));
+        }
+        return $this->getProperty("Subscriptions");
     }
 
 
@@ -106,4 +143,22 @@ class User extends ClientObject
     public $DisplayName;
 
 
+    /**
+     * The user's primary calendar. Navigation property.
+     * @var Calendar
+     */
+    public $Calendar;
+
+
+    /**
+     * The GUID assigned to the user's mailbox.
+     * @var string
+     */
+    public $MailboxGuid;
+
+    /**
+     * The root folder of the user's mailbox.
+     * @var MailFolder
+     */
+    public $RootFolder;
 }

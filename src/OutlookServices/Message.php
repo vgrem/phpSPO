@@ -97,12 +97,32 @@ class Message extends Item
      */
     public $Body;
 
+
+    /**
+     * The first 255 characters of the message body content.
+     * @var string
+     */
+    public $BodyPreview;
+
+
+    /**
+     * The categories associated with the message.
+     * @var array
+     */
+    public $Categories;
+
     /**
      * The subject of the message.
      * @var string
      */
     public $Subject;
 
+
+    /**
+     * The Cc recipients for the message.
+     * @var array
+     */
+    public $CcRecipients;
 
     /**
      * The To recipients for the message.
@@ -138,11 +158,26 @@ class Message extends Item
      */
     public $Importance;
 
+
+    /**
+     * The classification of this message for the user,
+     * based on inferred relevance or importance, or on an explicit override.
+     * @var int
+     */
+    public $InferenceClassification;
+
     /**
      * The account that is actually used to generate the message.
      * @var Recipient
      */
     public $Sender;
+
+
+    /**
+     * Indicates whether the message is a draft. A message is a draft if it hasn't been sent yet.
+     * @var bool
+     */
+    public $IsDraft;
 
 
     /**
@@ -160,9 +195,23 @@ class Message extends Item
 
 
     /**
+     * The email addresses to use when replying.
+     * @var array
+     */
+    public $ReplyTo;
+
+
+    /**
      * The URL to open the message in Outlook Web App.
      * @var string
      */
     public $WebLink;
+
+
+    /**
+     * The collection of open type data extensions defined for the message. Navigation property.
+     * @var array
+     */
+    public $Extensions;
 
 }

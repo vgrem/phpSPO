@@ -20,7 +20,7 @@ abstract class SharePointTestCase extends PHPUnit_Framework_TestCase
         global $Settings;
         global  $AppSettings;
 
-        $authCtx = new AuthenticationContext($AppSettings['Url']);
+        $authCtx = new AuthenticationContext($Settings['Url']);
         $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
         //$authCtx->acquireTokenForApp($AppSettings['ClientId'],$AppSettings['ClientSecret'],$AppSettings['RedirectUrl']);
         self::$context = new ClientContext($Settings['Url'],$authCtx);

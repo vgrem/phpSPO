@@ -17,6 +17,7 @@ require_once(__DIR__ . '/../Runtime/Auth/NetworkCredentialContext.php');
 require_once(__DIR__ . '/../Runtime/ClientRuntimeContext.php');
 require_once(__DIR__ . '/../Runtime/Utilities/RequestOptions.php');
 require_once(__DIR__ . '/../Runtime/OData/JsonFormat.php');
+require_once('Office365Version.php');
 require_once('OutlookEntity.php');
 require_once('CalendarColor.php');
 require_once('DateTimeTimeZone.php');
@@ -30,6 +31,8 @@ require_once('ItemAttachment.php');
 require_once('ItemAttachmentCollection.php');
 require_once('Calendar.php');
 require_once('CalendarCollection.php');
+require_once('CalendarGroup.php');
+require_once('CalendarGroupCollection.php');
 require_once('BodyType.php');
 require_once('ItemBody.php');
 require_once('User.php');
@@ -44,6 +47,8 @@ require_once('Event.php');
 require_once('EventCollection.php');
 require_once('Message.php');
 require_once('MessageCollection.php');
+require_once('Subscription.php');
+require_once('SubscriptionCollection.php');
 require_once('Recipient.php');
 require_once('Attendee.php');
 require_once('OperationParameterCollection.php');
@@ -56,6 +61,7 @@ class OutlookClient extends ClientRuntimeContext
 
     public function __construct(IAuthenticationContext $authContext)
     {
+        $this->serviceRootUrl = $this->serviceRootUrl . Office365Version::V1 . "/";
         parent::__construct($this->serviceRootUrl, $authContext,new JsonFormat(ODataMetadataLevel::Verbose));
     }
 
@@ -118,7 +124,8 @@ class OutlookClient extends ClientRuntimeContext
     /**
      * @var string
      */
-    private $serviceRootUrl = "https://outlook.office365.com/api/v1.0/";
+    private $serviceRootUrl = "https://outlook.office365.com/api/";
+
 
 
     /**

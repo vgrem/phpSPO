@@ -4,6 +4,7 @@ namespace Office365\PHP\Client\Runtime\Auth;
 
 
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Utilities\UserCredentials;
 
 require_once(__DIR__ . '/../Utilities/Requests.php');
 require_once('BaseTokenProvider.php');
@@ -26,32 +27,79 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @var string
      */
-    private $url;
+    private $authorityUrl;
 
-	public function __construct($url)
+
+    /**
+     * AuthenticationContext constructor.
+     * @param string $authorityUrl
+     */
+	public function __construct($authorityUrl)
     {
-        $this->url = $url;
+        $this->authorityUrl = $authorityUrl;
     }
 
 
+    /**
+     * Acquire security token from STS
+     * @param string $username
+     * @param string $password
+     */
 	public function acquireTokenForUser($username,$password)
 	{
-        $this->provider = new SamlTokenProvider($this->url,$username,$password);
-        $this->provider->acquireToken();
+        $this->provider = new SamlTokenProvider($this->authorityUrl);
+        $parameters = array(
+          'username' => $username,
+          'password' => $password
+        );
+        $this->provider->acquireToken($parameters);
 	}
 
 
-    public function acquireTokenForApp($clientId,$clientSecret,$redirectUrl)
+    /**
+     * @param string $resource
+     * @param string $clientId
+     * @param string $clientSecret
+     */
+    public function acquireTokenForClientCredential($resource,$clientId, $clientSecret)
     {
-        $this->provider = new OAuthTokenProvider($this->url,$clientId,$clientSecret,$redirectUrl);
-        $this->provider->acquireToken();
+        $this->provider = new OAuthTokenProvider($this->authorityUrl);
+        $parameters = array(
+            'grant_type' => 'client_credentials',
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+            'scope' => $resource,
+            'resource' => $resource
+        );
+        $this->provider->acquireToken($parameters);
+    }
+
+
+    /**
+     * @param string $resource
+     * @param string $clientId
+     * @param UserCredentials $credentials
+     */
+    public function acquireTokenForUserCredential($resource, $clientId, $credentials)
+    {
+        $this->provider = new OAuthTokenProvider($this->authorityUrl);
+        $parameters = array(
+            'grant_type' => 'password',
+            'client_id' => $clientId,
+            'username' => $credentials->Username,
+            'password' => $credentials->Password,
+            'scope' => 'openid',
+            'resource' => $resource
+        );
+        $this->provider->acquireToken($parameters);
     }
 
     public function authenticateRequest(RequestOptions $options)
     {
         if($this->provider instanceof SamlTokenProvider)
             $options->addCustomHeader('Cookie',$this->provider->getAuthenticationCookie());
-        elseif ($this->provider instanceof OAuthTokenProvider)
+        elseif ($this->provider instanceof ACSTokenProvider
+            || $this->provider instanceof OAuthTokenProvider)
             $options->addCustomHeader('Authorization',$this->provider->getAuthorizationHeader());
         else
             throw new \Exception("Unknown authentication provider");

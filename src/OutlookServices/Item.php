@@ -23,6 +23,7 @@ abstract class Item extends OutlookEntity
 
 
     /**
+     * The date and time the message was created.
      * @var string|null
      */
     public $CreatedDateTime;

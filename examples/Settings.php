@@ -7,10 +7,10 @@ $Settings = array(
 );
 
 $AppSettings = array(
-	'Url' => "https://media18.SharePoint.com/sites/news/",
-	'ClientId' => "a79b9783-a41c-4602-a1b4-7ed69b3a3f06",
-	'ClientSecret' => "ZRbIz9Y4k72wLFPUxXatcQFTnxu1fTXyTVVKosmMzKo=",
-	'Title' => "PHP Client",
+	'TenantName' => "contoso.onmicrosoft.com",
+	'ClientId' => "0a50c8a2-21e4-44e5-8d6e-57b9d9775a79",
+	'ClientSecret' => "",
+	'Title' => "OutlookServices PHP Client",
 	'RedirectUrl' => "https://github.com/vgrem/phpSPO"
 );
 

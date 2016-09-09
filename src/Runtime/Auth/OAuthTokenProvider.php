@@ -2,10 +2,12 @@
 
 
 namespace Office365\PHP\Client\Runtime\Auth;
+use Office365\PHP\Client\Runtime\HttpMethod;
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\Requests;
 
 /**
- * Provider to acquire the access token from a Microsoft Azure Access Control Service (ACS)
+ * Provider to acquire the access token from Azure AD
  */
 class OAuthTokenProvider extends BaseTokenProvider
 {
@@ -13,12 +15,13 @@ class OAuthTokenProvider extends BaseTokenProvider
     /**
      * @var string
      */
-    //private static $TokenEndpoint = '/oauth2/token';
+    private static $TokenEndpoint = '/oauth2/token';
 
     /**
      * @var string
      */
     //private static $AuthorityUrl  = 'https://login.microsoftonline.com/common';
+    public static  $AuthorityUrl = "https://login.microsoftonline.com/";
 
 
     /**
@@ -29,33 +32,20 @@ class OAuthTokenProvider extends BaseTokenProvider
     /**
      * @var string
      */
-    //private static $ResourceId = 'https://graph.microsoft.com';
+    public static $ResourceId = 'https://outlook.office365.com/';
+    //private static $ResourceId = 'https://graph.windows.net/';
 
 
     /**
      * @var string
      */
-    private static $SharePointPrincipal = "00000003-0000-0ff1-ce00-000000000000";
+    private $authorityUrl;
+
 
     /**
      * @var string
      */
-    private $url;
-
-    /**
-     * @var string
-     */
-    private $clientId;
-
-    /**
-     * @var string
-     */
-    private $clientSecret;
-
-    /**
-     * @var string
-     */
-    private $redirectUrl;
+    //private $redirectUrl;
 
     /**
      * @var \stdClass
@@ -63,12 +53,9 @@ class OAuthTokenProvider extends BaseTokenProvider
     private $accessToken;
 
 
-    public function __construct($url,$clientId, $clientSecret,$redirectUrl)
+    public function __construct($authorityUrl)
     {
-        $this->url = $url;
-        $this->clientId = $clientId;
-        $this->clientSecret = $clientSecret;
-        $this->redirectUrl = $redirectUrl;
+        $this->authorityUrl = $authorityUrl;
     }
 
     public function getAuthorizationHeader()
@@ -77,80 +64,28 @@ class OAuthTokenProvider extends BaseTokenProvider
     }
 
     /**
-     * Acquires the access token from a Microsoft Azure Access Control Service (ACS)
+     * Acquires the access token
+     * @param array $parameters
      */
-    public function acquireToken()
+    public function acquireToken($parameters)
     {
-        $realm = $this->getRealmFromTargetUrl();
-        $urlInfo = parse_url($this->url);
-        $this->accessToken = $this->getAppOnlyAccessToken($urlInfo["host"],$realm);
+        $request = $this->createRequest($parameters);
+        $response = Requests::execute($request);
+        $jsonResponse = json_decode($response);
+        $this->accessToken = $jsonResponse;
     }
 
 
-
-
-    private function getRealmFromTargetUrl()
-    {
-        $headers = array();
-        $headers['Authorization'] = 'Bearer';
-        $response = Requests::head($this->url, $headers);
-        return $this->processRealmResponse($response);
-    }
-
-
-    private function processRealmResponse($response){
-        $headerKey = "WWW-Authenticate";
-        $result = array_filter(
-            explode("\r\n", $response),
-            function ($line) use ($headerKey) {
-                return substr($line, 0, strlen($headerKey)) === $headerKey;
-            }
-        );
-
-        if(count($result) > 0){
-            $authHeader = explode(",", reset($result));
-            $bearerHeader = explode(':', $authHeader[0]);
-            $realm = explode('=', $bearerHeader[1]);
-            return str_replace('"', '', $realm[1]);
-        }
-        return null;
-    }
-
-    private function getAppOnlyAccessToken($targetHost,$targetRealm)
-    {
-        $resource = $this->getFormattedPrincipal(self::$SharePointPrincipal,$targetHost,$targetRealm);
-        $clientId = $this->getFormattedPrincipal($this->clientId,null, $targetRealm);
-        $stsUrl = $this->getSecurityTokenServiceUrl($targetRealm);
-        $oauth2Request = $this->createAccessTokenRequestWithClientCredentials($clientId,$this->clientSecret,$resource);
-
-        $headers = array();
-        $headers[] = 'Content-Type: application/x-www-form-urlencoded';
-        $response = Requests::post($stsUrl, $headers, $oauth2Request);
-        return json_decode($response);
-    }
-
-
-    private function getFormattedPrincipal($principalName, $hostName, $realm)
-    {
-        if ($hostName) {
-            return "$principalName/$hostName@$realm";
-        }
-        return "$principalName@$realm";
-    }
-
-    private function getSecurityTokenServiceUrl($realm){
-        return "https://accounts.accesscontrol.windows.net/$realm/tokens/OAuth/2";
-    }
-
-    private function createAccessTokenRequestWithClientCredentials($clientId, $clientSecret, $scope)
-    {
-        $data = array(
-            'grant_type' => 'client_credentials',
-            'client_id' => $clientId,
-            'client_secret' => $clientSecret,
-            'scope' => $scope,
-            'resource' => $scope
-        );
-        return http_build_query($data);
+    /**
+     * @param $parameters
+     * @return RequestOptions
+     */
+    private function createRequest($parameters){
+        $tokenUrl = $this->authorityUrl . self::$TokenEndpoint;
+        $request = new RequestOptions($tokenUrl);
+        $request->addCustomHeader('Content-Type', 'application/x-www-form-urlencoded');
+        $request->Method = HttpMethod::Post;
+        $request->Data = http_build_query($parameters);
+        return $request;
     }
 }

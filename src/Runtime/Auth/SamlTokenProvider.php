@@ -26,17 +26,7 @@ class SamlTokenProvider extends BaseTokenProvider
     /**
      * @var string
      */
-    protected $url;
-
-    /**
-     * @var string
-     */
-    protected $userName;
-
-    /**
-     * @var string
-     */
-    protected $password;
+    protected $authorityUrl;
 
 
     /**
@@ -52,11 +42,9 @@ class SamlTokenProvider extends BaseTokenProvider
     private $rtFa;
 
 
-    public function __construct($url,$username, $password)
+    public function __construct($authorityUrl)
     {
-        $this->url = $url;
-        $this->userName = $username;
-        $this->password = $password;
+        $this->authorityUrl = $authorityUrl;
     }
 
 
@@ -67,9 +55,9 @@ class SamlTokenProvider extends BaseTokenProvider
 
     
 
-    public function acquireToken()
+    public function acquireToken($parameters)
     {
-        $token = $this->acquireSecurityToken($this->userName, $this->password);
+        $token = $this->acquireSecurityToken($parameters['username'], $parameters['password']);
         $this->acquireAuthenticationCookies($token);
     }
 
@@ -81,7 +69,7 @@ class SamlTokenProvider extends BaseTokenProvider
      */
     protected function acquireAuthenticationCookies($token)
     {
-        $urlInfo = parse_url($this->url);
+        $urlInfo = parse_url($this->authorityUrl);
         $url =  $urlInfo['scheme'] . '://' . $urlInfo['host'] . self::$SignInPageUrl;
         $response = Requests::post($url,null,$token,true);
         $cookies = Requests::parseCookies($response);
@@ -100,7 +88,7 @@ class SamlTokenProvider extends BaseTokenProvider
      */
     protected function acquireSecurityToken($username, $password)
     {
-        $data = $this->prepareSecurityTokenRequest($username, $password, $this->url);
+        $data = $this->prepareSecurityTokenRequest($username, $password, $this->authorityUrl);
         $response = Requests::post(self::$StsUrl,null,$data);
         return $this->processSecurityTokenResponse($response);
     }

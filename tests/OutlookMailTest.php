@@ -27,6 +27,7 @@ class OutlookMailTest extends OutlookServicesTestCase
             new Recipient(new EmailAddress($currentUser->getProperty("DisplayName"),$currentUser->getProperty("Id")))
         );
         self::$context->executeQuery();
+        self::assertTrue($message->IsDraft);
         return $message;
     }
 
@@ -78,6 +79,8 @@ class OutlookMailTest extends OutlookServicesTestCase
             "Id" => $entity->Id,
             "@odata.type" => "#Microsoft.OutlookServices.Message"
         );*/
+        $entity->Id = null;
+        $entity->ConversationId = null;
         $entity->addAnnotation("type","#Microsoft.OutlookServices.Message");
         return $entity;
     }

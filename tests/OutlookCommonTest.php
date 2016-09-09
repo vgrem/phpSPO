@@ -1,5 +1,6 @@
 <?php
 
+
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 
 
@@ -10,30 +11,26 @@ class OutlookCommonTest extends OutlookServicesTestCase
 {
 
 
-    /*public function testGetMessages(){
-        $messages = self::$context->getMe()->getMessages();
-        self::$context->load($messages);
+    public function testMyDetails(){
+        $me = self::$context->getMe();
+        self::$context->load($me);
         self::$context->executeQuery();
-
-        foreach ($messages->getData() as $message){
-
-            $attachments = $message->getAttachments()->expand("Microsoft.OutlookServices.ItemAttachment/Item");
-            self::$context->load($attachments);
-            self::$context->executeQuery();
-
-            foreach ($attachments->getData() as $attachment){
-                $item = $attachment->Item;
-            }
-
-            //self::assertNotNull($message->Id);
-        }
-    }*/
+        self::assertNotNull($me->MailboxGuid);
+    }
 
     public function testGetCalendars(){
         $calendars = self::$context->getMe()->getCalendars();
         self::$context->load($calendars);
         self::$context->executeQuery();
     }
+
+
+
+    /*public function testGetSubscriptions(){
+        $subscriptions = self::$context->getMe()->getSubscriptions();
+        self::$context->load($subscriptions);
+        self::$context->executeQuery();
+    }*/
 
 
     public function testDeleteAllEvents(){
