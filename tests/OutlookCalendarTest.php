@@ -6,6 +6,7 @@ use Office365\PHP\Client\OutlookServices\EmailAddress;
 use Office365\PHP\Client\OutlookServices\Event;
 use Office365\PHP\Client\OutlookServices\ItemBody;
 use Office365\PHP\Client\OutlookServices\Location;
+use Office365\PHP\Client\OutlookServices\PhysicalAddress;
 
 
 require_once('OutlookServicesTestCase.php');
@@ -23,6 +24,10 @@ class OutlookCalendarTest extends OutlookServicesTestCase
         $event = self::$context->getMe()->getEvents()->createEvent();
         $event->Subject = "--event--";
         $event->Body = new ItemBody(BodyType::Text,"--Content goes here--");
+        $event->Location = new Location();
+        $event->Location->Address = new PhysicalAddress();
+        $event->Location->Address->City = "Helsinki";
+        $event->Location->Address->CountryOrRegion = "Finland";
         $event->Attendees[] = new Attendee(new EmailAddress($currentUser->getProperty("DisplayName"),$currentUser->getProperty("Id")));
         self::$context->executeQuery();
         return $event;

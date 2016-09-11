@@ -21,6 +21,7 @@ require_once('Office365Version.php');
 require_once('OutlookEntity.php');
 require_once('CalendarColor.php');
 require_once('DateTimeTimeZone.php');
+require_once('PhysicalAddress.php');
 require_once('Item.php');
 require_once('ItemCollection.php');
 require_once('Attachment.php');
@@ -52,6 +53,11 @@ require_once('SubscriptionCollection.php');
 require_once('Recipient.php');
 require_once('Attendee.php');
 require_once('OperationParameterCollection.php');
+require_once('RecurrencePattern.php');
+require_once('RecurrencePatternType.php');
+require_once('RecurrenceRange.php');
+require_once('RecurrenceRangeType.php');
+
 
 /**
  * Outlook Services OData client

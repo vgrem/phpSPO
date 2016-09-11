@@ -3,7 +3,9 @@
 
 namespace Office365\PHP\Client\OutlookServices;
 
-
+/**
+ * Specifies the availability status of an attendee for a meeting.
+ */
 class FreeBusyStatus
 {
     const Unknown = -1;
