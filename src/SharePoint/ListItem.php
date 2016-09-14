@@ -8,22 +8,11 @@ use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
 
 /**
- * ListItem client object
+ * SP.ListItem resource
  */
 class ListItem extends SecurableObject
 {
 
-    /**
-     * Gets the parent list that contains the list item.
-     * @return SPList
-     * @throws \Exception
-     */
-    public function getParentList(){
-        if(!$this->isPropertyAvailable('ParentList')){
-            $this->setProperty("ParentList", new SPList($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "parentlist")),false);
-        }
-        return $this->getProperty("ParentList");
-    }
 
     /**
      * Updates list item resource
@@ -64,6 +53,42 @@ class ListItem extends SecurableObject
             $this->setProperty("AttachmentFiles", new AttachmentCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "AttachmentFiles")),false);
         }
         return $this->getProperty("AttachmentFiles");
+    }
+
+
+    /**
+     * Gets the parent list that contains the list item.
+     * @return SPList
+     */
+    public function getParentList(){
+        if(!$this->isPropertyAvailable('ParentList')){
+            $this->setProperty("ParentList", new SPList($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "parentlist")),false);
+        }
+        return $this->getProperty("ParentList");
+    }
+
+
+    /**
+     * Gets the associated Folder resource.
+     * @return Folder
+     */
+    public function getFolder(){
+        if(!$this->isPropertyAvailable('Folder')){
+            $this->setProperty("Folder", new Folder($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "Folder")),false);
+        }
+        return $this->getProperty("Folder");
+    }
+
+
+    /**
+     * Gets the associated File resource.
+     * @return File
+     */
+    public function getFile(){
+        if(!$this->isPropertyAvailable('File')){
+            $this->setProperty("File", new File($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "File")),false);
+        }
+        return $this->getProperty("File");
     }
 
 }

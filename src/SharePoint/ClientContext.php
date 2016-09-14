@@ -108,6 +108,7 @@ require_once('TemplateFileType.php');
 require_once('CustomActionElement.php');
 require_once('CustomActionElementCollection.php');
 require_once('UserIdInfo.php');
+require_once('Utilities\Utility.php');
 
 /**
  * Client context for SharePoint REST/OData service

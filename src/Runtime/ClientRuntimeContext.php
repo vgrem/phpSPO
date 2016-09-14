@@ -114,10 +114,11 @@ class ClientRuntimeContext
     /**
      * Prepare to load resource
      * @param ClientObject $clientObject
+     * @param array $selectProperties
      */
-    public function load(ClientObject $clientObject)
+    public function load(ClientObject $clientObject,array $selectProperties=null)
     {
-        $this->getPendingRequest()->addQueryAndResultObject($clientObject);
+        $this->getPendingRequest()->addQueryAndResultObject($clientObject,$selectProperties);
     }
 
     /**

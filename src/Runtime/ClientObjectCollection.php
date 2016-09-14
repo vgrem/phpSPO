@@ -79,7 +79,7 @@ class ClientObjectCollection extends ClientObject
 
     /**
      * Gets the item by entity identifier
-     * @param $id
+     * @param int $id
      * @return ClientObject
      */
     public function getItemById($id)
@@ -92,6 +92,25 @@ class ClientObjectCollection extends ClientObject
         );
         if(count($result) > 0)
             return array_values($result)[0];
+        return null;
+    }
+
+
+    /**
+     * Finds items by entity property
+     * @param callable $callback
+     * @return array
+     */
+    public function findItems(callable $callback)
+    {
+        $result = array_filter(
+            $this->data,
+            function (ClientObject $item) use ($callback) {
+                return call_user_func($callback,$item);
+            }
+        );
+        if(count($result) > 0)
+            return array_values($result);
         return null;
     }
 

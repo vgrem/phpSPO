@@ -197,13 +197,17 @@ class ClientRequest
     }
 
 
-
     /**
      * @param ClientObject $clientObject
+     * @param array $selectProperties
      */
-    function addQueryAndResultObject(ClientObject $clientObject)
+    function addQueryAndResultObject(ClientObject $clientObject,array $selectProperties=null)
     {
-        $qry = new ClientActionReadEntity($clientObject->getResourceUrl());
+        $resourceUrl = $clientObject->getResourceUrl();
+        if(!is_null($selectProperties)){
+            $resourceUrl .= "?\$select=" . implode(",",$selectProperties);
+        }
+        $qry = new ClientActionReadEntity($resourceUrl);
         $this->addQuery($qry, $clientObject);
     }
 
