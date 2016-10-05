@@ -32,6 +32,8 @@ class RequestOptions
 
     public function addCustomHeader($name, $value)
     {
+        if(is_null($this->Headers))
+            $this->Headers = array();
         if (!array_key_exists($name, $this->Headers))
             $this->Headers[$name] = $value;
     }

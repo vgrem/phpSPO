@@ -1,7 +1,9 @@
 <?php
 
 namespace Office365\PHP\Client\OutlookServices;
-use Office365\PHP\Client\Runtime\ClientAction;
+use DateTime;
+use Office365\PHP\Client\Runtime\ClientActionReadEntity;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 
 /**
@@ -17,8 +19,13 @@ class Calendar extends OutlookEntity
      */
     public function getCalendarView($startDateTime, $endDateTime)
     {
-        $events = new EventCollection($this->getContext());
-        $qry = new ClientAction($this->getResourceUrl() . "/CalendarView?startDateTime=$startDateTime&endDateTime=$endDateTime");
+        $url = "CalendarView?startDateTime=" . rawurlencode($startDateTime->format(DateTime::ISO8601))
+            . "&endDateTime=" . rawurlencode($endDateTime->format(DateTime::W3C));
+        $events = new EventCollection(
+            $this->getContext(),
+            new ResourcePathEntity($this->getContext(),$this->getResourcePath(),$url)
+        );
+        $qry = new ClientActionReadEntity($events->getResourceUrl());
         $this->getContext()->addQuery($qry,$events);
         return $events;
     }

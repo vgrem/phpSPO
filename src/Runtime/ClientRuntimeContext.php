@@ -40,6 +40,7 @@ require_once('OData/JsonFormat.php');
 require_once('OData/JsonLightFormat.php');
 require_once('OData/AtomFormat.php');
 require_once('Utilities/JsonConvert.php');
+require_once('OperationParameterCollection.php');
 
 /**
  * OData Runtime context for Office365 APIs

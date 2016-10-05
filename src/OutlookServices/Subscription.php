@@ -6,7 +6,22 @@ namespace Office365\PHP\Client\OutlookServices;
 /**
  * Class Subscription
  */
-class Subscription extends OutlookEntity
+abstract class Subscription extends OutlookEntity
 {
 
+    /**
+     * @var string
+     */
+    public $Resource;
+
+    /**
+     * @var int
+     */
+    public $ChangeType;
+
+
+    /**
+     * @var string
+     */
+    public $ClientState;
 }

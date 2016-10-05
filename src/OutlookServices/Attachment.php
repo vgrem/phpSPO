@@ -11,35 +11,35 @@ abstract class Attachment extends OutlookEntity
 {
     /**
      * The MIME type of the attachment.
-     * @var string
+     * @var string $ContentType
      */
     public $ContentType;
 
 
     /**
      * true if the attachment is an inline attachment; otherwise, false.
-     * @var boolean
+     * @var boolean $IsInline
      */
     public $IsInline;
 
 
     /**
      * The date and time when the attachment was last modified.
-     * @var \DateTime
+     * @var \DateTime $LastModifiedDateTime
      */
     public $LastModifiedDateTime;
 
 
     /**
      * The display name of the attachment. This does not need to be the actual file name.
-     * @var string
+     * @var string $Name
      */
     public $Name;
 
 
     /**
      * The length of the attachment in bytes.
-     * @var int
+     * @var int $Size
      */
     public $Size;
 

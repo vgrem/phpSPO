@@ -3,6 +3,7 @@ namespace Office365\PHP\Client\Runtime\Auth;
 
 
 
+use Office365\PHP\Client\Runtime\Utilities\Guid;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\UserCredentials;
 
@@ -37,6 +38,30 @@ class AuthenticationContext implements IAuthenticationContext
 	public function __construct($authorityUrl)
     {
         $this->authorityUrl = $authorityUrl;
+    }
+
+
+    /**
+     * Gets URL of the authorize endpoint including the query parameters.
+     * @param string $resource Identifier of the target resource that is the recipient of the requested token.
+     * @param string $clientId
+     * @param string $redirectUrl
+     * @return string
+     */
+    public function getAuthorizationRequestUrl($resource, $clientId,$redirectUrl){
+        //$authorizeUrl = "https://login.microsoftonline.com/{tenant}/oauth2/authorize";
+        $authorizeUrl = "https://login.microsoftonline.com/common/oauth2/authorize";
+        $stateGuid = Guid::newGuid();
+        $parameters = array(
+            'response_type' => 'code',
+            'client_id' => $clientId,
+            //'nonce' => $stateGuid->toString(),
+            'redirect_uri' => $redirectUrl,
+            //'post_logout_redirect_uri' => $redirectUrl,
+            //'response_mode' => 'form_post',
+            //'scope' => 'openid+profile'
+        );
+        return $authorizeUrl . "?" . http_build_query($parameters);
     }
 
 
@@ -94,6 +119,33 @@ class AuthenticationContext implements IAuthenticationContext
         $this->provider->acquireToken($parameters);
     }
 
+
+    /**
+     * @param string $resource
+     * @param string $clientId
+     * @param string $clientSecret
+     * @param string $code
+     * @param string $redirectUrl
+     */
+    public function acquireTokenByAuthorizationCode($resource, $clientId, $clientSecret,$code,$redirectUrl)
+    {
+        $this->provider = new OAuthTokenProvider("https://login.microsoftonline.com/common");
+        $parameters = array(
+            'grant_type' => 'authorization_code',
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+            'code' => $code,
+            'resource' => $resource,
+            "redirect_uri" => $redirectUrl
+        );
+        $this->provider->acquireToken($parameters);
+    }
+
+
+    /**
+     * @param RequestOptions $options
+     * @throws \Exception
+     */
     public function authenticateRequest(RequestOptions $options)
     {
         if($this->provider instanceof SamlTokenProvider)
@@ -103,6 +155,14 @@ class AuthenticationContext implements IAuthenticationContext
             $options->addCustomHeader('Authorization',$this->provider->getAuthorizationHeader());
         else
             throw new \Exception("Unknown authentication provider");
+    }
+
+
+    public function getAccessToken()
+    {
+        if ($this->provider instanceof OAuthTokenProvider)
+            return $this->provider->getAccessToken();
+        return null;
     }
 
 }

@@ -54,6 +54,9 @@ class ACSTokenProvider extends BaseTokenProvider
         return 'Bearer ' . $this->accessToken->access_token;
     }
 
+
+
+
     /**
      * Acquires the access token from a Microsoft Azure Access Control Service (ACS)
      * @param array $parameters
@@ -66,8 +69,9 @@ class ACSTokenProvider extends BaseTokenProvider
     }
 
 
-
-
+    /**
+     * @return mixed
+     */
     private function getRealmFromTargetUrl()
     {
         $headers = array();

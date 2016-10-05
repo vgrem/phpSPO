@@ -33,13 +33,13 @@ class OutlookCommonTest extends OutlookServicesTestCase
     }*/
 
 
-    public function testDeleteAllEvents(){
+    /*public function testDeleteAllEvents(){
         $events = self::$context->getMe()->getEvents();
         $this->deleteAllItems($events);
         self::$context->load($events);
         self::$context->executeQuery();
         self::assertEmpty($events->getCount());
-    }
+    }*/
 
     /*public function testDeleteAllMessages(){
         $messages = self::$context->getMe()->getMessages();
@@ -50,14 +50,14 @@ class OutlookCommonTest extends OutlookServicesTestCase
     }*/
 
 
-    private function deleteAllItems(ClientObjectCollection $items){
+    /*private function deleteAllItems(ClientObjectCollection $items){
         self::$context->load($items);
         self::$context->executeQuery();
         foreach ($items->getData() as $item){
             $item->deleteObject();
             self::$context->executeQuery();
         }
-    }
+    }*/
 
 
 

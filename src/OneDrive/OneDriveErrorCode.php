@@ -1,5 +1,7 @@
 <?php
 
+namespace Office365\PHP\Client\OneDrive;
+
 
 abstract class OneDriveErrorCode
 {

@@ -6,7 +6,7 @@ use Office365\PHP\Client\Runtime\OData\ODataPayload;
 
 
 /**
- * Represents OData entity
+ * Represents OData base entity
  */
 class ClientObject extends ODataPayload
 {

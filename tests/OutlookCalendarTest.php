@@ -15,8 +15,8 @@ require_once('OutlookServicesTestCase.php');
 class OutlookCalendarTest extends OutlookServicesTestCase
 {
 
-    public function testCreateEvent(){
-
+    public function testCreateEvent()
+    {
         $currentUser = self::$context->getMe();
         self::$context->load($currentUser);
         self::$context->executeQuery();
@@ -31,6 +31,17 @@ class OutlookCalendarTest extends OutlookServicesTestCase
         $event->Attendees[] = new Attendee(new EmailAddress($currentUser->getProperty("DisplayName"),$currentUser->getProperty("Id")));
         self::$context->executeQuery();
         return $event;
+    }
+
+
+
+    public function testGetCalendarView(){
+        $endDateTime = new DateTime("now",new DateTimeZone("UTC"));
+        $startDateTime = (new DateTime("now",new DateTimeZone("UTC")))->sub(new DateInterval('P14D'));
+        $events = self::$context->getMe()->getCalendar()->getCalendarView($startDateTime,$endDateTime);
+        self::$context->load($events);
+        self::$context->executeQuery();
+        self::assertGreaterThanOrEqual(1,$events->getCount());
     }
 
 
@@ -81,6 +92,9 @@ class OutlookCalendarTest extends OutlookServicesTestCase
         $deletedEvent = $events->getItemById($event->getProperty("Id"));
         self::assertNull($deletedEvent);
     }
+
+
+
 
 
 

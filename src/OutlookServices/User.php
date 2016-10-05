@@ -130,6 +130,22 @@ class User extends ClientObject
 
 
     /**
+     * @return Calendar
+     */
+    public function getCalendar()
+    {
+        if (!$this->isPropertyAvailable("Calendar")) {
+            $this->setProperty("Calendar",
+                new Calendar(
+                    $this->getContext(),
+                    new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"Calendar")
+                ));
+        }
+        return $this->getProperty("Calendar");
+    }
+
+
+    /**
      * The user's alias. Typically the SMTP address of the user.
      * @var string
      */

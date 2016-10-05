@@ -187,10 +187,6 @@ class ClientContext extends ClientRuntimeContext
         $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request,ClientAction $query){
             $this->buildSharePointSpecificRequest($request,$query);
         });
-        /*$this->getPendingRequest()->afterExecuteQuery(function ($response,ClientAction $query){
-            if($query instanceof ClientActionInvokeMethod){
-            }
-        });*/
         parent::executeQuery();
     }
 

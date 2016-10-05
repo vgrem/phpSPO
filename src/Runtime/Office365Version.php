@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\OutlookServices;
+namespace Office365\PHP\Client\Runtime;
 
 
 class Office365Version

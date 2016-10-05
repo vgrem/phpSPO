@@ -63,6 +63,10 @@ class OAuthTokenProvider extends BaseTokenProvider
         return 'Bearer ' . $this->accessToken->access_token;
     }
 
+    public  function getAccessToken(){
+        return $this->accessToken;
+    }
+
     /**
      * Acquires the access token
      * @param array $parameters
@@ -71,8 +75,7 @@ class OAuthTokenProvider extends BaseTokenProvider
     {
         $request = $this->createRequest($parameters);
         $response = Requests::execute($request);
-        $jsonResponse = json_decode($response);
-        $this->accessToken = $jsonResponse;
+        $this->parseToken($response);
     }
 
 
@@ -87,5 +90,20 @@ class OAuthTokenProvider extends BaseTokenProvider
         $request->Method = HttpMethod::Post;
         $request->Data = http_build_query($parameters);
         return $request;
+    }
+
+
+    /**
+     * Parse the id token that represents a JWT token that contains information about the user
+     * @param string $tokenValue
+     */
+    private function parseToken($tokenValue){
+        $tokenPayload = json_decode($tokenValue);
+        $this->accessToken = $tokenPayload;
+        $idToken = $tokenPayload->id_token;
+        $idTokenPayload = base64_decode(
+            explode('.', $idToken)[1]
+        );
+        $this->accessToken->id_token_info = json_decode($idTokenPayload, true);
     }
 }
