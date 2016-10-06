@@ -1,6 +1,7 @@
 <?php
 
-use Office365\PHP\Client\GraphServices\GraphClient;
+
+use Office365\PHP\Client\GraphClient\ActiveDirectoryClient;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
 require_once '../bootstrap.php';
@@ -25,11 +26,11 @@ if(isset($_SESSION['auth_ctx'])) {
     $tenantInfo["LoginName"] = $accessToken->id_token_info["unique_name"];
     list($username, $tenantInfo["Name"]) = explode('@', $tenantInfo["LoginName"]);
     $requestUrl = $authorityUrl . "/" . $tenantInfo["Name"] . "/";
+    $client = new ActiveDirectoryClient($_SESSION['auth_ctx']);
 
 
     if (isset($_GET['text'])) {
         $requestUrl = $_GET['text'];
-        $client = new GraphClient($_SESSION['auth_ctx']);
         $request = new RequestOptions($_GET['text']);
         $request->Url .= "?api-version=1.0";
         $response = $client->executeQueryDirect($request);
@@ -45,7 +46,7 @@ if(isset($_SESSION['auth_ctx'])) {
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graph Explorer (powered by PHP GraphClient library)</title>
+    <title>Graph Explorer (powered by Office365 REST client)</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet"/>
     <link href="Content/site.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
