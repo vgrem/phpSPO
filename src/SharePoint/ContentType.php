@@ -10,7 +10,7 @@ class ContentType extends ClientObject
 {
 
     /**
-     * Deletes Content Type resource
+     * Deletes content Type resource
      */
     public function deleteObject()
     {

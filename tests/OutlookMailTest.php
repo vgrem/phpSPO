@@ -22,7 +22,7 @@ class OutlookMailTest extends OutlookServicesTestCase
 
         $message = self::$context->getMe()->getMessages()->createMessage();
         $message->Subject = "--test--";
-        $message->Body = new ItemBody(BodyType::Text,"--Content goes here--");
+        $message->Body = new ItemBody(BodyType::Text,"--content goes here--");
         $message->ToRecipients = array(
             new Recipient(new EmailAddress($currentUser->getProperty("DisplayName"),$currentUser->getProperty("Id")))
         );

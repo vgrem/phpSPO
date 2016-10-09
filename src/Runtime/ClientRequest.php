@@ -115,7 +115,7 @@ class ClientRequest
 
     private function setMediaTypeHeaders(RequestOptions $request) {
         $request->addCustomHeader("Accept",$this->format->getMediaType());
-        $request->addCustomHeader("Content-type",$this->format->getMediaType());
+        $request->addCustomHeader("content-type",$this->format->getMediaType());
     }
 
 

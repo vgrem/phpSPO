@@ -3,11 +3,13 @@ namespace Office365\PHP\Client\Runtime\Auth;
 
 
 
+use Office365\PHP\Client\Runtime\Utilities\ClientCredential;
 use Office365\PHP\Client\Runtime\Utilities\Guid;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\UserCredentials;
 
 require_once(__DIR__ . '/../Utilities/Requests.php');
+require_once(__DIR__ . '/../Utilities/ClientCredential.php');
 require_once('BaseTokenProvider.php');
 require_once('SamlTokenProvider.php');
 require_once('OAuthTokenProvider.php');
@@ -15,7 +17,7 @@ require_once('IAuthenticationContext.php');
 
 
 /**
- * Authentication context for SharePoint Online/One Drive for Business.
+ * Authentication context for Azure AD/Office 365.
  *
  */
 class AuthenticationContext implements IAuthenticationContext
@@ -83,16 +85,15 @@ class AuthenticationContext implements IAuthenticationContext
 
     /**
      * @param string $resource
-     * @param string $clientId
-     * @param string $clientSecret
+     * @param ClientCredential $clientCredentials
      */
-    public function acquireTokenForClientCredential($resource,$clientId, $clientSecret)
+    public function acquireTokenForClientCredential($resource,$clientCredentials)
     {
         $this->provider = new OAuthTokenProvider($this->authorityUrl);
         $parameters = array(
             'grant_type' => 'client_credentials',
-            'client_id' => $clientId,
-            'client_secret' => $clientSecret,
+            'client_id' => $clientCredentials->ClientId,
+            'client_secret' => $clientCredentials->ClientSecret,
             'scope' => $resource,
             'resource' => $resource
         );

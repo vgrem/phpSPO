@@ -26,12 +26,14 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['code'])) {
 
     try{
         $authCtx->acquireTokenByAuthorizationCode($resource,$AppSettings['ClientId'],$AppSettings['ClientSecret'],$_GET['code'],$AppSettings['RedirectUrl']);
+        $accessToken = $authCtx->getAccessToken();
+        $_SESSION['token_info'] = $accessToken->id_token_info;
         $_SESSION['auth_ctx'] = $authCtx;
         header('Location: Index.php');
         exit();
     }
     catch (Exception $ex) {
-        print 'Authentication failed: : ' . $ex->getMessage();
+        print 'Authentication failed:' . $ex->getMessage();
     }
 
 }

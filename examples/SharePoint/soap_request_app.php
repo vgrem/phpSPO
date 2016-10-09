@@ -9,7 +9,7 @@
 		'data' => $requestData,
 		'method' => 'POST',
 		'headers' => array(
-			'Content-type' => 'application/atom+xml',
+			'content-type' => 'application/atom+xml',
 			'Accept' => 'application/atom+xml'
 		)
 	);

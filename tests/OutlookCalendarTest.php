@@ -23,7 +23,7 @@ class OutlookCalendarTest extends OutlookServicesTestCase
 
         $event = self::$context->getMe()->getEvents()->createEvent();
         $event->Subject = "--event--";
-        $event->Body = new ItemBody(BodyType::Text,"--Content goes here--");
+        $event->Body = new ItemBody(BodyType::Text,"--content goes here--");
         $event->Location = new Location();
         $event->Location->Address = new PhysicalAddress();
         $event->Location->Address->City = "Helsinki";

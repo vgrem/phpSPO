@@ -1,44 +1,7 @@
 <?php
-
-
-use Office365\PHP\Client\GraphClient\ActiveDirectoryClient;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
-
-require_once '../bootstrap.php';
-
-
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
-$response = null;
-$authorityUrl = "https://graph.windows.net";
-$requestUrl = $authorityUrl;
-$tenantInfo = array(
-    "UserName" => null,
-    "Name" => null
-);
-
-
-if(isset($_SESSION['auth_ctx'])) {
-
-    $accessToken = $_SESSION['auth_ctx']->getAccessToken();
-    $tenantInfo["LoginName"] = $accessToken->id_token_info["unique_name"];
-    list($username, $tenantInfo["Name"]) = explode('@', $tenantInfo["LoginName"]);
-    $requestUrl = $authorityUrl . "/" . $tenantInfo["Name"] . "/";
-    $client = new ActiveDirectoryClient($_SESSION['auth_ctx']);
-
-
-    if (isset($_GET['text'])) {
-        $requestUrl = $_GET['text'];
-        $request = new RequestOptions($_GET['text']);
-        $request->Url .= "?api-version=1.0";
-        $response = $client->executeQueryDirect($request);
-        $requestUrl = $_GET['text'];
-    }
-}
-
-
 ?>
 
 <!DOCTYPE html>
@@ -47,24 +10,106 @@ if(isset($_SESSION['auth_ctx'])) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Graph Explorer (powered by Office365 REST client)</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet"/>
-    <link href="Content/site.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <link rel="stylesheet" href="https://rawgithub.com/yesmeck/jquery-jsonview/master/dist/jquery.jsonview.css" />
-    <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
-    <script type="text/javascript" src="https://rawgithub.com/yesmeck/jquery-jsonview/master/dist/jquery.jsonview.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <link href="content/site.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="bower_components/jquery-jsonview/dist/jquery.jsonview.css" />
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery-jsonview/dist/jquery.jsonview.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script>
+        function showJson(jsonResult) {
+            document.getElementById('json').style.display = 'block';
+            document.getElementById('jsonRaw').style.display = 'none';
+            $('#json').JSONView(jsonResult);
+            $('#expand-btn').prop('disabled', false);
+            $('#collapse-btn').prop('disabled', false);
+            $('#raw-btn').prop('disabled', false);
+            $('#json-btn').prop('disabled', true);
+            //$('#raw-btn').addClass("btn-primary");
+            //$('#json-btn').removeClass('btn-success');
+        }
+        function showRaw(jsonResult) {
+            document.getElementById('json').style.display = 'none';
+            document.getElementById('jsonRaw').style.display = 'block';
+            document.getElementById('jsonRaw').innerHTML = JSON.stringify(jsonResult, null, 2);
+            $('#raw-btn').prop('disabled', true);
+            $('#json-btn').prop('disabled', false);
+            $('#expand-btn').prop('disabled', true);
+            $('#collapse-btn').prop('disabled', true);
+            //$('#raw-btn').addClass("btn-success");
+            //$('#json-btn').removeClass('btn-primary');
+        }
+
+
+        function initJSONViewer(jsonResult) {
+            $('#json-btn').on('click', function () {
+                showJson(jsonResult);
+            });
+            $('#collapse-btn').on('click', function () {
+                $('#json').JSONView('collapse');
+            });
+            $('#expand-btn').on('click', function () {
+                $('#json').JSONView('expand');
+            });
+            $('#raw-btn').on('click', function () {
+                showRaw(jsonResult);
+            });
+            showRaw(jsonResult)
+        }
+
+
+        function populareRequestList(authorityUrl) {
+            $('#requestList option').val(function (i, text) {
+                return authorityUrl + $(this).val();
+            });
+        }
+
+        var token_info = <?php echo json_encode($_SESSION['token_info']); ?>;
+
+
+        $(function() {
+
+            var isAuthenticated = <?php echo json_encode(isset($_SESSION['auth_ctx']));  ?>;
+
+            if(isAuthenticated) {
+                $("li#nodeSignIn").hide();
+                $("li#nodeSignOut").show();
+                $("li#nodeTenantInfo").show();
+                $("li#nodeTenantInfo").text(token_info.unique_name);
+                var tenantName = token_info.unique_name.split("@")[1];
+                var authorityUrl = $("#boxQuery").val() + "/" + tenantName + "/";
+                $("#boxQuery").val(authorityUrl);
+                populareRequestList(authorityUrl);
+            }
+            else {
+                $("#resultPanel").hide();
+                $("li#nodeSignIn").show();
+                $("li#nodeSignOut").hide();
+                $("li#nodeTenantInfo").hide();
+            }
+
+            $("#resultPanel").hide();
+            $("#btnSubmitRequest").click(function(){
+                var queryTextEnc = encodeURIComponent($("#boxQuery").val());
+               $.getJSON("ProcessQuery.php?text=" + queryTextEnc)
+                   .done(function (result){
+                        //console.log(result);
+                       $("#resultPanel").show();
+                       initJSONViewer(result);
+                   });
+            });
+        });
+
+
+
+
+
+    </script>
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
             <a class="navbar-brand" href="/">Graph Explorer</a>
         </div>
         <div class="navbar-collapse collapse">
@@ -72,91 +117,45 @@ if(isset($_SESSION['auth_ctx'])) {
                 <li>
                     <a href="https://msdn.microsoft.com/en-us/Library/Azure/Ad/Graph/api/api-catalog">Documentation</a>
                 </li>
-                <?php if(!isset($_SESSION['auth_ctx'])){ ?>
-                <li>
+                <li id="nodeSignIn">
                     <a href="SignIn.php" id="loginLink">Sign in</a>
                 </li>
-                <?php } else { ?>
-                <li class="navbar-text">
-                    <?php echo $tenantInfo["LoginName"]; ?>
+                <li class="navbar-text" id="nodeTenantInfo">
                 </li>
-                <li>
+                <li id="nodeSignOut">
                     <a href="SignOut.php" >Sign out</a>
                 </li>
-                <?php } ?>
             </ul>
 
         </div>
     </div>
 </div>
 <div class="container body-content">
-
-
     <br />
-    <datalist id="languages">
+
+    <datalist id="requestList">
+        <option value="applications"></option>
+        <option value="users"></option>
+        <option value="servicePrincipals"></option>
+        <option value="devices"></option>
+        <option value="groups"></option>
+        <option value="contacts"></option>
+        <option value="tenantDetails"></option>
+        <option value="directoryRoles"></option>
+        <option value="directoryRoleTemplates"></option>
+        <option value="oauth2PermissionGrants"></option>
+        <option value="subscribedSkus"></option>
+        <option value="reports"></option>
     </datalist>
 
     <!-- This is the form part of the page.-->
-    <form method="GET" action="">
         <div class="input-group">
-            <span class="input-group-addon"><input type="submit" value="GET" name=UrlRequest /></span>
-            <input type="text" name="text" value="<?php echo $requestUrl;?>" class="form-control" placeholder="Username" list="languages">
+            <div class="input-group-btn">
+                <button id="btnSubmitRequest" type="button" class="btn btn-default" >Submit</button>
+            </div>
+            <input type="text" id="boxQuery" value="https://graph.windows.net" class="form-control" placeholder="Query" list="requestList">
         </div>
-    </form>
-    <?php if(isset($response)) { ?>
-        <script>
-
-            function showJson(jsonResult) {
-                document.getElementById('json').style.display = 'block';
-                document.getElementById('jsonRaw').style.display = 'none';
-                $('#json').JSONView(jsonResult);
-                $('#expand-btn').prop('disabled', false);
-                $('#collapse-btn').prop('disabled', false);
-                $('#raw-btn').prop('disabled', false);
-                $('#json-btn').prop('disabled', true);
-                //$('#raw-btn').addClass("btn-primary");
-                //$('#json-btn').removeClass('btn-success');
-            }
-
-            function showRaw(jsonResult) {
-                document.getElementById('json').style.display = 'none';
-                document.getElementById('jsonRaw').style.display = 'block';
-                document.getElementById('jsonRaw').innerHTML = JSON.stringify(jsonResult, null, 2);
-                $('#raw-btn').prop('disabled', true);
-                $('#json-btn').prop('disabled', false);
-                $('#expand-btn').prop('disabled', true);
-                $('#collapse-btn').prop('disabled', true);
-                //$('#raw-btn').addClass("btn-success");
-                //$('#json-btn').removeClass('btn-primary');
-            }
-
-            $(function() {
-
-                var jsonResult = <?php echo $response ?>;
-
-                $('#json-btn').on('click', function () {
-                    showJson(jsonResult);
-                });
-
-                $('#collapse-btn').on('click', function () {
-                    $('#json').JSONView('collapse');
-                });
-
-                $('#expand-btn').on('click', function () {
-                    $('#json').JSONView('expand');
-                });
-
-                $('#raw-btn').on('click', function () {
-                    showRaw(jsonResult);
-                });
-
-                showRaw(jsonResult);
-
-            });
-
-
-
-        </script>
+    <div id="resultPanel">
         <br />
         <div class="row">
             <div class="col-md-6">
@@ -178,11 +177,9 @@ if(isset($_SESSION['auth_ctx'])) {
             </div>
         </div>
         <br />
-    <div id="resultPanel">
         <pre class="panel-body" style="max-height: 65vh; overflow-y: scroll;" id="json"></pre>
         <pre class="panel-body" style="max-height: 65vh; overflow-y: scroll;" id="jsonRaw"></pre>
     </div>
-    <?php } ?>
     <br />
     <hr />
     <footer>

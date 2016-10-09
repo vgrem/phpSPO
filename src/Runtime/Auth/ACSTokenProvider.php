@@ -107,7 +107,7 @@ class ACSTokenProvider extends BaseTokenProvider
         $oauth2Request = $this->createAccessTokenRequestWithClientCredentials($clientId,$this->clientSecret,$resource);
 
         $headers = array();
-        $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+        $headers[] = 'content-Type: application/x-www-form-urlencoded';
         $response = Requests::post($stsUrl, $headers, $oauth2Request);
         return json_decode($response);
     }

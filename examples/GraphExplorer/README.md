@@ -26,7 +26,7 @@ The Graph Explorer sample is the API Sandbox for the Microsoft Graph
 $ composer install
 
 # Start the server
-$ php.exe" -S localhost:8078 -t .\examples
+$ php.exe -S localhost:8078 -t .\examples
 
 #Navigate to http://localhost:8078/GraphExplorer/ in your web browser.
 ```
