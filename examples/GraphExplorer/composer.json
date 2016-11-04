@@ -1,0 +1,21 @@
+{
+  "name": "vgrem/graph_explorer",
+  "description": "description_text",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Vadim Gremyachev",
+      "email": "vvgrem@gmail.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../../src"
+    }
+  ],
+  "require": {
+    "vgrem/php-spo": "*"
+  }
+}

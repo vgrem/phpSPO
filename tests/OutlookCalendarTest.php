@@ -36,7 +36,7 @@ class OutlookCalendarTest extends OutlookServicesTestCase
 
 
     public function testGetCalendarView(){
-        $endDateTime = new DateTime("now",new DateTimeZone("UTC"));
+        $endDateTime = (new DateTime("now",new DateTimeZone("UTC")))->add(new DateInterval('P1D'));
         $startDateTime = (new DateTime("now",new DateTimeZone("UTC")))->sub(new DateInterval('P14D'));
         $events = self::$context->getMe()->getCalendar()->getCalendarView($startDateTime,$endDateTime);
         self::$context->load($events);

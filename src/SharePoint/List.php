@@ -126,7 +126,7 @@ class SPList extends SecurableObject
             null,
             $query->toQueryPayload()
         );
-        $qry->ResponsePayloadFormatType = FormatType::Xml;
+        //$qry->ResponsePayloadFormatType = FormatType::Xml;
         $this->getContext()->addQuery($qry, $result);
         return $result;
     }

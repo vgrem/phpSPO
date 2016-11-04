@@ -4,6 +4,7 @@ use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\Auth\OAuthTokenProvider;
 
 require_once '../bootstrap.php';
+
 global $AppSettings;
 global $Settings;
 

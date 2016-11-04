@@ -76,7 +76,7 @@ class ChangeTest extends SharePointTestCase
     }
 
 
-    function testLoadListItemChanges()
+    /*function testLoadListItemChanges()
     {
         $ctx = self::$targetList->getContext();
         $query = new ChangeLogItemQuery();
@@ -86,6 +86,6 @@ class ChangeTest extends SharePointTestCase
         foreach ($items->getData() as $item) {
             $this->assertNotNull($item->getProperty("Title"));
         }
-    }
+    }*/
 
 }

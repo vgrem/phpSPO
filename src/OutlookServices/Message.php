@@ -3,6 +3,7 @@
 
 namespace Office365\PHP\Client\OutlookServices;
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\OperationParameterCollection;
 
 
 /**
