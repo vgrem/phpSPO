@@ -28,7 +28,7 @@ class ClientAction
     /**
      * @var int
      */
-    public $ResponsePayloadFormatType;
+    public $PayloadFormatType;
 
 
     /**
@@ -42,7 +42,6 @@ class ClientAction
         $this->ResourceUrl = $resourceUrl;
         $this->Payload = $payload;
         $this->ActionType = $actionType;
-        $this->ResponsePayloadFormatType = FormatType::Json;
         $this->PayloadFormatType = FormatType::Json;
     }
 

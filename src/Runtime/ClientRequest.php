@@ -128,14 +128,13 @@ class ClientRequest
             $response = $this->executeQueryDirect($request);
             if(empty($response))
                 continue;
-            if($qry->ResponsePayloadFormatType == FormatType::Json)
-                $this->validateResponse($response);
+            $responseType = $this->validateResponse($response);
             //if(is_callable($this->eventsList["AfterExecuteQuery"]))
             //    call_user_func_array($this->eventsList["AfterExecuteQuery"],array($payload));
             //populate object
             if (array_key_exists($qry->getId(), $this->resultObjects)) {
                 $resultObject = $this->resultObjects[$qry->getId()];
-                if ($resultObject instanceof ListItemCollection && $qry->ResponsePayloadFormatType == FormatType::Xml)
+                if ($resultObject instanceof ListItemCollection && $responseType == FormatType::Xml)
                     $resultObject->populateFromXmlPayload($response); //custom payload process
                 else {
                     if ($resultObject instanceof ClientResult && $qry instanceof ClientActionInvokeMethod) {
@@ -157,8 +156,10 @@ class ClientRequest
     private function validateResponse($response)
     {
         $json = JsonConvert::deserialize($response);
-        if(property_exists($json,"error")){
-            if(is_string($json->error->message))
+        if(json_last_error() != JSON_ERROR_NONE)
+            return FormatType::Xml;
+        if (property_exists($json, "error")) {
+            if (is_string($json->error->message))
                 $message = $json->error->message;
             elseif (is_object($json->error->message))
                 $message = $json->error->message->value;
@@ -166,7 +167,9 @@ class ClientRequest
                 $message = "Unknown error";
             throw new Exception($message);
         }
+        return FormatType::Json;
     }
+
 
     /**
      * @param ClientAction $query

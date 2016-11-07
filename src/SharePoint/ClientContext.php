@@ -13,7 +13,6 @@ use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
-
 /**
  * Client context for SharePoint REST/OData service
  */
