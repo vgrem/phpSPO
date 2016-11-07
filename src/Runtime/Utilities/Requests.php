@@ -3,9 +3,6 @@ namespace Office365\PHP\Client\Runtime\Utilities;
 
 use Office365\PHP\Client\Runtime\HttpMethod;
 
-require_once("RequestOptions.php");
-require_once("UserCredentials.php");
-
 class Requests
 {
 

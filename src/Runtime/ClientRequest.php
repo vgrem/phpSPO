@@ -3,7 +3,6 @@
 
 namespace Office365\PHP\Client\Runtime;
 
-
 use Exception;
 use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
@@ -12,9 +11,6 @@ use Office365\PHP\Client\Runtime\Utilities\JsonConvert;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\Requests;
 use Office365\PHP\Client\SharePoint\ListItemCollection;
-
-require_once('FormatType.php');
-require_once('Utilities/Requests.php');
 
 /**
  * Client Request for OData provider.
