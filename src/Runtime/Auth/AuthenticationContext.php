@@ -28,7 +28,7 @@ class AuthenticationContext implements IAuthenticationContext
      * AuthenticationContext constructor.
      * @param string $authorityUrl
      */
-	public function __construct($authorityUrl)
+    public function __construct($authorityUrl)
     {
         $this->authorityUrl = $authorityUrl;
     }
@@ -39,13 +39,15 @@ class AuthenticationContext implements IAuthenticationContext
      * @param string $resource Identifier of the target resource that is the recipient of the requested token.
      * @param string $clientId
      * @param string $redirectUrl
+     * @param array $parameters
      * @return string
      */
-    public function getAuthorizationRequestUrl($resource, $clientId,$redirectUrl){
+    public function getAuthorizationRequestUrl($resource, $clientId, $redirectUrl, $parameters = [])
+    {
         //$authorizeUrl = "https://login.microsoftonline.com/{tenant}/oauth2/authorize";
         $authorizeUrl = "https://login.microsoftonline.com/common/oauth2/authorize";
         $stateGuid = Guid::newGuid();
-        $parameters = array(
+        $parameters = array_merge($parameters, array(
             'response_type' => 'code',
             'client_id' => $clientId,
             //'nonce' => $stateGuid->toString(),
@@ -53,7 +55,7 @@ class AuthenticationContext implements IAuthenticationContext
             //'post_logout_redirect_uri' => $redirectUrl,
             //'response_mode' => 'form_post',
             //'scope' => 'openid+profile'
-        );
+        ));
         return $authorizeUrl . "?" . http_build_query($parameters);
     }
 
@@ -63,22 +65,22 @@ class AuthenticationContext implements IAuthenticationContext
      * @param string $username
      * @param string $password
      */
-	public function acquireTokenForUser($username,$password)
-	{
+    public function acquireTokenForUser($username, $password)
+    {
         $this->provider = new SamlTokenProvider($this->authorityUrl);
         $parameters = array(
-          'username' => $username,
-          'password' => $password
+            'username' => $username,
+            'password' => $password
         );
         $this->provider->acquireToken($parameters);
-	}
+    }
 
 
     /**
      * @param string $resource
      * @param ClientCredential $clientCredentials
      */
-    public function acquireTokenForClientCredential($resource,$clientCredentials)
+    public function acquireTokenForClientCredential($resource, $clientCredentials)
     {
         $this->provider = new OAuthTokenProvider($this->authorityUrl);
         $parameters = array(
@@ -119,7 +121,7 @@ class AuthenticationContext implements IAuthenticationContext
      * @param string $code
      * @param string $redirectUrl
      */
-    public function acquireTokenByAuthorizationCode($resource, $clientId, $clientSecret,$code,$redirectUrl)
+    public function acquireTokenByAuthorizationCode($resource, $clientId, $clientSecret, $code, $redirectUrl)
     {
         $this->provider = new OAuthTokenProvider("https://login.microsoftonline.com/common");
         $parameters = array(
@@ -140,11 +142,12 @@ class AuthenticationContext implements IAuthenticationContext
      */
     public function authenticateRequest(RequestOptions $options)
     {
-        if($this->provider instanceof SamlTokenProvider)
-            $options->addCustomHeader('Cookie',$this->provider->getAuthenticationCookie());
+        if ($this->provider instanceof SamlTokenProvider)
+            $options->addCustomHeader('Cookie', $this->provider->getAuthenticationCookie());
         elseif ($this->provider instanceof ACSTokenProvider
-            || $this->provider instanceof OAuthTokenProvider)
-            $options->addCustomHeader('Authorization',$this->provider->getAuthorizationHeader());
+            || $this->provider instanceof OAuthTokenProvider
+        )
+            $options->addCustomHeader('Authorization', $this->provider->getAuthorizationHeader());
         else
             throw new \Exception("Unknown authentication provider");
     }

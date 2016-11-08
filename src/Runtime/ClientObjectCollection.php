@@ -1,6 +1,7 @@
 <?php
 
 namespace Office365\PHP\Client\Runtime;
+
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 
 
@@ -29,9 +30,9 @@ class ClientObjectCollection extends ClientObject
      */
     public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, ODataQueryOptions $queryOptions = null)
     {
-        parent::__construct($ctx,$resourcePath);
+        parent::__construct($ctx, $resourcePath);
         $this->queryOptions = $queryOptions;
-        if(!isset($this->queryOptions))
+        if (!isset($this->queryOptions))
             $this->queryOptions = new ODataQueryOptions();
     }
 
@@ -87,10 +88,10 @@ class ClientObjectCollection extends ClientObject
         $result = array_filter(
             $this->data,
             function (ClientObject $item) use ($id) {
-                return  $item->getProperty("Id") === $id;
+                return $item->getProperty("Id") === $id;
             }
         );
-        if(count($result) > 0)
+        if (count($result) > 0)
             return array_values($result)[0];
         return null;
     }
@@ -106,10 +107,10 @@ class ClientObjectCollection extends ClientObject
         $result = array_filter(
             $this->data,
             function (ClientObject $item) use ($callback) {
-                return call_user_func($callback,$item);
+                return call_user_func($callback, $item);
             }
         );
-        if(count($result) > 0)
+        if (count($result) > 0)
             return array_values($result);
         return null;
     }
@@ -132,7 +133,7 @@ class ClientObjectCollection extends ClientObject
     {
         return count($this->data);
     }
-    
+
 
     public function clearData()
     {
@@ -215,7 +216,7 @@ class ClientObjectCollection extends ClientObject
      */
     public function skip($value)
     {
-        $this->queryOptions->Skip = $value; 
+        $this->queryOptions->Skip = $value;
         return $this;
     }
 
@@ -239,7 +240,7 @@ class ClientObjectCollection extends ClientObject
      */
     function getItemTypeName()
     {
-        return str_replace("Collection","",get_class($this));
+        return str_replace("Collection", "", get_class($this));
     }
 
     /**
