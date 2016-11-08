@@ -36,17 +36,14 @@ class AuthenticationContext implements IAuthenticationContext
 
     /**
      * Gets URL of the authorize endpoint including the query parameters.
-     * @param string $resource Identifier of the target resource that is the recipient of the requested token.
+     * @param string $authorizeUrl
      * @param string $clientId
      * @param string $redirectUrl
      * @param array $parameters
      * @return string
      */
-    public function getAuthorizationRequestUrl($resource, $clientId, $redirectUrl, $parameters = [])
+    public function getAuthorizationRequestUrl($authorizeUrl, $clientId, $redirectUrl, $parameters = [])
     {
-        //$authorizeUrl = "https://login.microsoftonline.com/{tenant}/oauth2/authorize";
-        $authorizeUrl = "https://login.microsoftonline.com/common/oauth2/authorize";
-        $stateGuid = Guid::newGuid();
         $parameters = array_merge($parameters, array(
             'response_type' => 'code',
             'client_id' => $clientId,
@@ -121,9 +118,9 @@ class AuthenticationContext implements IAuthenticationContext
      * @param string $code
      * @param string $redirectUrl
      */
-    public function acquireTokenByAuthorizationCode($resource, $clientId, $clientSecret, $code, $redirectUrl)
+    public function acquireTokenByAuthorizationCode($uri,$resource, $clientId, $clientSecret, $code, $redirectUrl)
     {
-        $this->provider = new OAuthTokenProvider("https://login.microsoftonline.com/common");
+        $this->provider = new OAuthTokenProvider($uri);
         $parameters = array(
             'grant_type' => 'authorization_code',
             'client_id' => $clientId,
