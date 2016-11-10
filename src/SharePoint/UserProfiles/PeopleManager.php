@@ -11,9 +11,6 @@ use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
-require_once('PersonProperties.php');
-require_once('PersonPropertiesCollection.php');
-
 /**
  * Provides methods for operations related to people.
  * ref: https://msdn.microsoft.com/en-us/library/office/dn790354.aspx#bk_PeopleManagerMethods

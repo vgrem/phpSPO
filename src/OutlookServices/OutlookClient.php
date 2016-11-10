@@ -14,53 +14,6 @@ use Office365\PHP\Client\Runtime\OData\JsonFormat;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
-require_once(__DIR__ . '/../Runtime/Auth/NetworkCredentialContext.php');
-require_once(__DIR__ . '/../Runtime/ClientRuntimeContext.php');
-require_once(__DIR__ . '/../Runtime/Utilities/RequestOptions.php');
-require_once(__DIR__ . '/../Runtime/OData/JsonFormat.php');
-require_once(__DIR__ . '/../Runtime/Office365Version.php');
-require_once('OutlookEntity.php');
-require_once('CalendarColor.php');
-require_once('DateTimeTimeZone.php');
-require_once('PhysicalAddress.php');
-require_once('Item.php');
-require_once('ItemCollection.php');
-require_once('Attachment.php');
-require_once('AttachmentCollection.php');
-require_once('FileAttachment.php');
-require_once('FileAttachmentCollection.php');
-require_once('ItemAttachment.php');
-require_once('ItemAttachmentCollection.php');
-require_once('Calendar.php');
-require_once('CalendarCollection.php');
-require_once('CalendarGroup.php');
-require_once('CalendarGroupCollection.php');
-require_once('BodyType.php');
-require_once('ItemBody.php');
-require_once('User.php');
-require_once('UserCollection.php');
-require_once('Group.php');
-require_once('GroupCollection.php');
-require_once('EmailAddress.php');
-require_once('Location.php');
-require_once('Contact.php');
-require_once('ContactCollection.php');
-require_once('Event.php');
-require_once('EventCollection.php');
-require_once('Message.php');
-require_once('MessageCollection.php');
-require_once('Subscription.php');
-require_once('SubscriptionCollection.php');
-require_once('PushSubscription.php');
-require_once('PushSubscriptionCollection.php');
-require_once('Recipient.php');
-require_once('Attendee.php');
-require_once('RecurrencePattern.php');
-require_once('RecurrencePatternType.php');
-require_once('RecurrenceRange.php');
-require_once('RecurrenceRangeType.php');
-
-
 /**
  * Outlook Services OData client
  */

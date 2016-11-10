@@ -12,24 +12,6 @@ use Office365\PHP\Client\Runtime\Office365Version;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
-
-require_once(__DIR__ . '/../Runtime/Auth/NetworkCredentialContext.php');
-require_once(__DIR__ . '/../Runtime/ClientRuntimeContext.php');
-require_once(__DIR__ . '/../Runtime/Utilities/RequestOptions.php');
-require_once(__DIR__ . '/../Runtime/OData/JsonFormat.php');
-require_once(__DIR__ . '/../Runtime/Office365Version.php');
-require_once('CurrentUserRequestContext.php');
-require_once('Identity.php');
-require_once('IdentitySet.php');
-require_once('Drive.php');
-require_once('Item.php');
-require_once('ItemCollection.php');
-require_once('ItemReference.php');
-require_once('File.php');
-require_once('FileCollection.php');
-require_once('Folder.php');
-require_once('FolderCollection.php');
-
 class OneDriveClient extends ClientRuntimeContext
 {
 

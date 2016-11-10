@@ -1,20 +1,11 @@
 <?php
+
 namespace Office365\PHP\Client\Runtime\Auth;
-
-
 
 use Office365\PHP\Client\Runtime\Utilities\ClientCredential;
 use Office365\PHP\Client\Runtime\Utilities\Guid;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\UserCredentials;
-
-require_once(__DIR__ . '/../Utilities/Requests.php');
-require_once(__DIR__ . '/../Utilities/ClientCredential.php');
-require_once('BaseTokenProvider.php');
-require_once('SamlTokenProvider.php');
-require_once('OAuthTokenProvider.php');
-require_once('IAuthenticationContext.php');
-
 
 /**
  * Authentication context for Azure AD/Office 365.

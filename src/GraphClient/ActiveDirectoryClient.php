@@ -2,7 +2,6 @@
 
 namespace Office365\PHP\Client\GraphClient;
 
-
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
@@ -10,17 +9,6 @@ use Office365\PHP\Client\Runtime\OData\JsonLightFormat;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
-
-
-require_once('GraphObject.php');
-require_once('DirectoryObject.php');
-require_once('DirectoryObjectCollection.php');
-require_once('TenantDetail.php');
-require_once('TenantDetailCollection.php');
-require_once('Device.php');
-require_once('DeviceCollection.php');
-require_once('Contact.php');
-require_once('ContactCollection.php');
 
 class ActiveDirectoryClient extends ClientRuntimeContext
 {
