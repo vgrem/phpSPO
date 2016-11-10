@@ -184,13 +184,18 @@ class Web extends SecurableObject
      * @return Folder
      */
     public function getFolderByServerRelativeUrl($serverRelativeUrl){
-        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getfolderbyserverrelativeurl",array(
-            rawurlencode($serverRelativeUrl)
-        ));
-        $folder = new Folder($this->getContext(),$path);
-        return $folder;
+        return new Folder(
+            $this->getContext(),
+            new ResourcePathServiceOperation(
+                $this->getContext(),
+                $this->getResourcePath(),
+                "getfolderbyserverrelativeurl",
+                array(
+                    rawurlencode($serverRelativeUrl)
+                )
+            )
+        );
     }
-
 
     /**
      * @return ContentTypeCollection
@@ -198,19 +203,32 @@ class Web extends SecurableObject
     public function getContentTypes()
     {
         if(!$this->isPropertyAvailable('ContentTypes')){
-            $this->setProperty("ContentTypes",
-                new ContentTypeCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "ContentTypes")),false);
+            $this->setProperty(
+                'ContentTypes',
+                new ContentTypeCollection(
+                    $this->getContext(),
+                    new ResourcePathEntity(
+                        $this->getContext(),
+                        $this->getResourcePath(),
+                        'ContentTypes'
+                    )
+                ),
+                false
+            );
         }
-        return $this->getProperty("ContentTypes");
+        return $this->getProperty('ContentTypes');
     }
 
-
-    function setProperty($name, $value, $persistChanges = true)
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @param bool $persistChanges
+     */
+    public function setProperty($name, $value, $persistChanges = true)
     {
         parent::setProperty($name, $value, $persistChanges);
-        if ($name == "Id") {
+        if ($name === 'Id') {
             $this->setResourceUrl("Site/openWebById(guid'{$value}')");
         }
     }
-
 }

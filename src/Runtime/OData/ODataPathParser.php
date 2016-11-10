@@ -11,12 +11,14 @@ class ODataPathParser
      * @param $string
      * @return array
      */
-    public static function parsePathString($string) {
+    public static function parsePathString($string)
+    {
         $level = 0;       // number of nested sets of brackets
         $ret = array(''); // array to return
         $cur = 0;         // current index in the array to return, for convenience
 
-        for ($i = 0; $i < strlen($string); $i++) {
+        $len = strlen($string);
+        for ($i = 0; $i < $len; $i++) {
             switch ($string[$i]) {
                 case '(':
                     $level++;
@@ -40,7 +42,7 @@ class ODataPathParser
         }
         return $ret;
     }
-    
+
     /**
      * @param $methodName
      * @param array $methodParameters
@@ -52,7 +54,7 @@ class ODataPathParser
         if (!isset($methodParameters))
             return $url;
 
-        if (count(array_filter(array_keys($methodParameters), 'is_string')) == 0) {
+        if (count(array_filter(array_keys($methodParameters), 'is_string')) === 0) {
             $url = $url . "(" . implode(',', array_map(
                         function ($value) {
                             $encValue = self::escapeValue($value);
@@ -71,11 +73,12 @@ class ODataPathParser
     }
 
 
-    private static function escapeValue($value){
-        if(is_string($value))
+    private static function escapeValue($value)
+    {
+        if (is_string($value))
             $value = "'" . $value . "'";
         elseif (is_bool($value))
-            $value = var_export($value,true);
+            $value = var_export($value, true);
         return $value;
     }
 

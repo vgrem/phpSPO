@@ -29,6 +29,22 @@ class RequestOptions
         $this->SSLVersion = null;
     }
 
+    public function toArray()
+    {
+        return [
+            'Url' => $this->Url,
+            'Method' => $this->Method,
+            'Headers' => $this->Headers,
+            'Data' => $this->Data,
+            'IncludeBody' => $this->IncludeBody,
+            'IncludeHeaders' => $this->IncludeHeaders,
+            'AuthType' => $this->AuthType,
+            'Verbose' => $this->Verbose,
+            'UserCredentials' => $this->UserCredentials,
+            'SSLVersion' => $this->SSLVersion,
+        ];
+    }
+
 
     public function addCustomHeader($name, $value)
     {

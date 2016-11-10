@@ -12,7 +12,8 @@
     "license": "LGPL-3.0+",
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.4",
+        "php": ">=5.4",,
+        "sabre/uri": "^1.1",
         "ext-curl": "*"
     },
     "autoload": {

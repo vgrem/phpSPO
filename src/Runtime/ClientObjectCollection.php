@@ -50,6 +50,18 @@ class ClientObjectCollection extends ClientObject
     /**
      * Adds client object into collection
      * @param ClientObject $clientObject
+     * @param int $index
+     */
+    public function addChildAt(ClientObject $clientObject, $index )
+    {
+        array_splice($this->data,$index,0,[$clientObject]);
+        if (is_null($clientObject->parentCollection))
+            $clientObject->parentCollection = $this;
+    }
+
+    /**
+     * Adds client object into collection
+     * @param ClientObject $clientObject
      */
     public function addChild(ClientObject $clientObject)
     {
@@ -237,7 +249,7 @@ class ClientObjectCollection extends ClientObject
     /**
      * @return string
      */
-    function getItemTypeName()
+    public function getItemTypeName()
     {
         return str_replace("Collection","",get_class($this));
     }
@@ -246,7 +258,7 @@ class ClientObjectCollection extends ClientObject
      * Converts JSON into payload
      * @param mixed $json
      */
-    function convertFromJson($json)
+    public function convertFromJson($json)
     {
         $this->clearData();
         foreach ($json as $item) {

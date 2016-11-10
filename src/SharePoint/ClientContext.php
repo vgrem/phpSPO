@@ -28,18 +28,10 @@ class ClientContext extends ClientRuntimeContext
      */
     private $web;
 
-
     /**
      * @var ContextWebInformation
      */
     private $contextWebInformation;
-
-
-    /**
-     * OData service path for Office365
-     * @var string
-     */
-    public static $ServicePath = "/_api/";
 
     /**
      * ClientContext constructor.
@@ -48,10 +40,9 @@ class ClientContext extends ClientRuntimeContext
      */
     public function __construct($serviceUrl, IAuthenticationContext $authCtx)
     {
-        $serviceRootUrl = $serviceUrl . self::$ServicePath;
+        $serviceRootUrl = $serviceUrl;
         parent::__construct($serviceRootUrl,$authCtx,new JsonLightFormat(ODataMetadataLevel::Verbose));
     }
-
 
     /**
      * Ensure form digest value for POST request
@@ -64,7 +55,6 @@ class ClientContext extends ClientRuntimeContext
         }
         $request->addCustomHeader("X-RequestDigest",$this->getContextWebInformation()->FormDigestValue);
     }
-
 
     /**
      * Request the SharePoint Context Info
@@ -93,21 +83,20 @@ class ClientContext extends ClientRuntimeContext
         parent::executeQuery();
     }
 
-
     /**
      * @param RequestOptions $request
      * @param ClientAction $query
      */
     private function buildSharePointSpecificRequest(RequestOptions $request,ClientAction $query){
 
-        if($request->Method == HttpMethod::Post) {
+        if($request->Method === HttpMethod::Post) {
             $this->ensureFormDigest($request);
         }
         //set data modification headers
-        if ($query->ActionType == ClientActionType::UpdateEntity) {
+        if ($query->ActionType === ClientActionType::UpdateEntity) {
             $request->addCustomHeader("IF-MATCH", "*");
             $request->addCustomHeader("X-HTTP-Method", "MERGE");
-        } else if ($query->ActionType == ClientActionType::DeleteEntity) {
+        } else if ($query->ActionType === ClientActionType::DeleteEntity) {
             $request->addCustomHeader("IF-MATCH", "*");
             $request->addCustomHeader("X-HTTP-Method", "DELETE");
         }
@@ -124,7 +113,6 @@ class ClientContext extends ClientRuntimeContext
         return $this->web;
     }
 
-
     /**
      * @return Site
      */
@@ -135,7 +123,6 @@ class ClientContext extends ClientRuntimeContext
         }
         return $this->site;
     }
-
 
     /**
      * @return ContextWebInformation
