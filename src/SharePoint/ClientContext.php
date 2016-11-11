@@ -40,7 +40,7 @@ class ClientContext extends ClientRuntimeContext
      */
     public function __construct($serviceUrl, IAuthenticationContext $authCtx)
     {
-        $serviceRootUrl = $serviceUrl;
+        $serviceRootUrl = $serviceUrl . '/_api/';
         parent::__construct($serviceRootUrl,$authCtx,new JsonLightFormat(ODataMetadataLevel::Verbose));
     }
 

@@ -2,7 +2,6 @@
 
 namespace Office365\PHP\Client\Runtime;
 
-use Sabre\Uri;
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
@@ -42,7 +41,7 @@ class ClientRuntimeContext
      */
     public function __construct($serviceUrl, IAuthenticationContext $authContext, ODataFormat $format)
     {
-        $this->serviceRootUrl = Uri\normalize($serviceUrl.'/_api/');
+        $this->serviceRootUrl = $serviceUrl;
         $this->authContext = $authContext;
         $this->format = $format;
     }

@@ -1,8 +1,5 @@
 <?php
 
-require_once('SharePointTestCase.php');
-require_once('TestUtilities.php');
-
 
 class FileTest extends SharePointTestCase
 {

@@ -9,7 +9,6 @@ use Office365\PHP\Client\OutlookServices\Location;
 use Office365\PHP\Client\OutlookServices\PhysicalAddress;
 
 
-require_once('OutlookServicesTestCase.php');
 
 
 class OutlookCalendarTest extends OutlookServicesTestCase

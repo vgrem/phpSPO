@@ -4,8 +4,7 @@ use Office365\PHP\Client\SharePoint\ChangeLogItemQuery;
 use Office365\PHP\Client\SharePoint\ChangeQuery;
 use Office365\PHP\Client\SharePoint\ChangeType;
 
-require_once('SharePointTestCase.php');
-require_once('TestUtilities.php');
+
 
 class ChangeTest extends SharePointTestCase
 {

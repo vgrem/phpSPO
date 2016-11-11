@@ -3,8 +3,6 @@
 
 use Office365\PHP\Client\SharePoint\FieldType;
 
-require_once('SharePointTestCase.php');
-require_once('TestUtilities.php');
 
 class FieldTest extends SharePointTestCase
 {

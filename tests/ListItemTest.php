@@ -4,13 +4,9 @@ use Office365\PHP\Client\SharePoint\CamlQuery;
 use Office365\PHP\Client\SharePoint\ListItem;
 use Office365\PHP\Client\SharePoint\SPList;
 
-require_once('SharePointTestCase.php');
-require_once('TestUtilities.php');
 
 class ListItemTest extends SharePointTestCase
 {
-
-
     /**
      * @var SPList
      */
