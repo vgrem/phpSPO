@@ -2,6 +2,7 @@
 
 namespace Office365\PHP\Client\Runtime;
 
+use Sabre\Uri;
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
@@ -12,15 +13,13 @@ use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
  */
 class ClientRuntimeContext
 {
-
     /**
      * Service Root url
-     * @var string
+     * @var Url
      */
-	private $serviceRootUrl;
+    private $serviceRootUrl;
 
     /**
-     * Authentication context
      * @var IAuthenticationContext
      */
     private $authContext;
@@ -30,19 +29,10 @@ class ClientRuntimeContext
      */
     private $pendingRequest;
 
-
-    /**
-     * Client application name
-     * @var string
-     */
-    private static $ApplicationName;
-
-
     /**
      * @var ODataFormat
      */
     protected $format;
-
 
     /**
      * REST client context ctor
@@ -50,22 +40,20 @@ class ClientRuntimeContext
      * @param IAuthenticationContext $authContext
      * @param ODataFormat $format
      */
-    public function __construct($serviceUrl, IAuthenticationContext $authContext,ODataFormat $format)
+    public function __construct($serviceUrl, IAuthenticationContext $authContext, ODataFormat $format)
     {
-		$this->serviceRootUrl = $serviceUrl;
-		$this->authContext = $authContext;
-        self::$ApplicationName = "Office 365 PHP Client";
+        $this->serviceRootUrl = Uri\normalize($serviceUrl.'/_api/');
+        $this->authContext = $authContext;
         $this->format = $format;
     }
-
 
     /**
      * @param RequestOptions $options
      */
-    public function authenticateRequest(RequestOptions $options){
+    public function authenticateRequest(RequestOptions $options)
+    {
         $this->authContext->authenticateRequest($options);
     }
-
 
     /**
      * Gets the service root URL that identifies the root of an OData service
@@ -76,25 +64,29 @@ class ClientRuntimeContext
         return $this->serviceRootUrl;
     }
 
-
     /**
      * Prepare to load resource
      * @param ClientObject $clientObject
      * @param array $selectProperties
+     *
+     * @return self
      */
-    public function load(ClientObject $clientObject,array $selectProperties=null)
+    public function load(ClientObject $clientObject, array $selectProperties = null)
     {
-        $this->getPendingRequest()->addQueryAndResultObject($clientObject,$selectProperties);
+        $this->getPendingRequest()->addQueryAndResultObject($clientObject, $selectProperties);
+        return $this;
     }
 
     /**
      * Submit client request to SharePoint OData/SOAP service
+     *
+     * @return self
      */
     public function executeQuery()
     {
         $this->getPendingRequest()->executeQuery();
+        return $this;
     }
-
 
     /**
      * @param RequestOptions $options
@@ -105,18 +97,26 @@ class ClientRuntimeContext
         return $this->getPendingRequest()->executeQueryDirect($options);
     }
 
-    public function populateObject($response,$resultObject)
+    /**
+     * @param $response
+     * @param $resultObject
+     * @return self
+     */
+    public function populateObject($response, $resultObject)
     {
-        $this->getPendingRequest()->populateObject($response,$resultObject);
+        $this->getPendingRequest()->populateObject($response, $resultObject);
+        return $this;
     }
 
     /**
      * @param ClientAction $query
      * @param ClientObject $resultObject
+     * @return self
      */
-    public function addQuery(ClientAction $query, $resultObject=null)
+    public function addQuery(ClientAction $query, $resultObject = null)
     {
-        $this->getPendingRequest()->addQuery($query,$resultObject);
+        $this->getPendingRequest()->addQuery($query, $resultObject);
+        return $this;
     }
 
     /**
@@ -124,8 +124,8 @@ class ClientRuntimeContext
      */
     public function getPendingRequest()
     {
-        if(!isset($this->pendingRequest)){
-            $this->pendingRequest = new ClientRequest($this,$this->format);
+        if (!isset($this->pendingRequest)) {
+            $this->pendingRequest = new ClientRequest($this, $this->format);
         }
         return $this->pendingRequest;
     }

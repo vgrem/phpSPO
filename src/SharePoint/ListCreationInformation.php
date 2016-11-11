@@ -13,7 +13,6 @@ class ListCreationInformation extends ClientValueObject
      */
     public $Title;
 
-
     /**
      * @var string
      */
@@ -43,5 +42,5 @@ class ListCreationInformation extends ClientValueObject
         $this->ContentTypesEnabled = true;
         parent::__construct("List");
     }
-    
+
 }

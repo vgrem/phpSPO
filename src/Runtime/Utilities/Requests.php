@@ -12,15 +12,31 @@ class Requests
 			CURLOPT_RETURNTRANSFER => true,
 	);
 
+    public static function getHistory()
+    {
+        return self::$history;
+    }
+
+    protected static $history = [];
+
 	public static function execute(RequestOptions $options)
 	{
+        $call = [];
+        $call['request'] = $options->toArray();
+
 		$ch = Requests::init($options);
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        $call['response'] = $response;
+
         if ($response === false) {
             throw new \Exception(curl_error($ch));
         }
         curl_close($ch);
+
+        self::$history[] = $call;
+
 		return $response;
 	}
 

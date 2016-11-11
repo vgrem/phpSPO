@@ -4,13 +4,11 @@ namespace Office365\PHP\Client\Runtime;
 
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
 
-
 /**
  * Represents OData base entity
  */
 class ClientObject extends ODataPayload
 {
-
     /**
      * @var string
      */
@@ -41,13 +39,16 @@ class ClientObject extends ODataPayload
      */
     protected $parentCollection;
 
-
+    /**
+     * ClientObject constructor.
+     * @param ClientRuntimeContext $ctx
+     * @param ResourcePath|null $resourcePath
+     */
     public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null)
     {
         $this->context = $ctx;
         $this->resourcePath = $resourcePath;
     }
-
 
     /**
      * @return ClientRuntimeContext
@@ -57,17 +58,16 @@ class ClientObject extends ODataPayload
         return $this->context;
     }
 
-
     /**
      * Removes object from parent collection
      */
     protected function removeFromParentCollection()
     {
-        if (is_null($this->parentCollection == null))
+        if ($this->parentCollection === null) {
             return;
+        }
         $this->parentCollection->removeChild($this);
     }
-
 
     /**
      * @return array
@@ -76,7 +76,6 @@ class ClientObject extends ODataPayload
     {
         return $this->modified_properties;
     }
-
 
     /**
      * Resolve the resource path
@@ -87,7 +86,6 @@ class ClientObject extends ODataPayload
         return $this->resourcePath;
     }
 
-
     /**
      * @param string $resourcePathUrl
      */
@@ -95,7 +93,6 @@ class ClientObject extends ODataPayload
     {
         $this->resourcePath = ResourcePath::parse($this->getContext(), $resourcePathUrl);
     }
-
 
     /**
      * Resolve the resource path
@@ -106,25 +103,24 @@ class ClientObject extends ODataPayload
         return $this->getContext()->getServiceRootUrl() . $this->getResourcePath()->toUrl();
     }
 
-
     /**
      * Gets entity type name for a resource
      * @return string
      */
     public function getEntityTypeName()
     {
-        if (isset($this->resourceType))
+        if (isset($this->resourceType)) {
             return $this->resourceType;
+        }
         $classInfo = explode("\\", get_class($this));
         return end($classInfo);
     }
-
 
     /**
      * Converts JSON object into OData Entity
      * @param mixed $json
      */
-    function convertFromJson($json)
+    public function convertFromJson($json)
     {
         foreach ($json as $key => $value) {
             if ($this->isMetadataProperty($key)) {
@@ -132,27 +128,22 @@ class ClientObject extends ODataPayload
             }
             if (is_object($value)) {
                 if ($this->isDeferredProperty($value)) { //deferred property
-                    $this->setProperty($key,null,false);
-                }
-                else {
+                    $this->setProperty($key, null, false);
+                } else {
                     $propertyObject = $this->getProperty($key);
                     if ($propertyObject instanceof ClientObject || $propertyObject instanceof ClientValueObject) {
                         $propertyObject->convertFromJson($value);
-                    }
-                    else {
-                        $this->setProperty($key,$value,false);
+                    } else {
+                        $this->setProperty($key, $value, false);
                     }
                 }
-            }
-            elseif (is_array($value)){
+            } elseif (is_array($value)) {
                 $this->convertFromJson($value);
-            }
-            else {
-                $this->setProperty($key,$value,false);
+            } else {
+                $this->setProperty($key, $value, false);
             }
         }
     }
-
 
     /**
      * Determine whether client object property has been loaded
@@ -172,7 +163,6 @@ class ClientObject extends ODataPayload
         return $this->properties;
     }
 
-
     /**
      * A preferred way of getting the client object property
      * @param string $name
@@ -182,7 +172,6 @@ class ClientObject extends ODataPayload
     {
         return $this->{$name};
     }
-
 
     /**
      * A preferred way of setting the client object property
@@ -199,23 +188,31 @@ class ClientObject extends ODataPayload
         //save property
         $this->{$name} = $value;
 
-        if ($name == "Id") {
-            if(is_null($this->getResourcePath())){
-                if (is_int($value))
+        if ($name === "Id") {
+            if (is_null($this->getResourcePath())) {
+                if (is_int($value)) {
                     $entityKey = "({$value})";
-                else
+                } else {
                     $entityKey = "(guid'{$value}')";
+                }
                 $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . $entityKey);
             }
         }
     }
 
-
+    /**
+     * @param $name
+     * @param $value
+     */
     public function __set($name, $value)
     {
         $this->properties[$name] = $value;
     }
 
+    /**
+     * @param $name
+     * @return mixed|null
+     */
     public function __get($name)
     {
         if (array_key_exists($name, $this->properties)) {
@@ -224,11 +221,14 @@ class ClientObject extends ODataPayload
         return null;
     }
 
+    /**
+     * @param $name
+     * @return bool
+     */
     public function __isset($name)
     {
         return isset($this->properties[$name]);
     }
-
 
 
 }

@@ -16,7 +16,7 @@ class RequestOptions
      * @param string $data
      * @param string $methodType
      */
-    public function __construct($url,$headers=array(),$data=null,$methodType=HttpMethod::Get)
+    public function __construct($url, $headers = array(), $data = null, $methodType = HttpMethod::Get)
     {
         $this->Url = $url;
         $this->Method = $methodType;
@@ -29,10 +29,26 @@ class RequestOptions
         $this->SSLVersion = null;
     }
 
+    public function toArray()
+    {
+        return [
+            'Url' => $this->Url,
+            'Method' => $this->Method,
+            'Headers' => $this->Headers,
+            'Data' => $this->Data,
+            'IncludeBody' => $this->IncludeBody,
+            'IncludeHeaders' => $this->IncludeHeaders,
+            'AuthType' => $this->AuthType,
+            'Verbose' => $this->Verbose,
+            'UserCredentials' => $this->UserCredentials,
+            'SSLVersion' => $this->SSLVersion,
+        ];
+    }
+
 
     public function addCustomHeader($name, $value)
     {
-        if(is_null($this->Headers))
+        if (is_null($this->Headers))
             $this->Headers = array();
         if (!array_key_exists($name, $this->Headers))
             $this->Headers[$name] = $value;
@@ -81,12 +97,11 @@ class RequestOptions
     public $IncludeHeaders;
 
 
-
     /**
      * Do the download request without getting the body
      * @var bool
      */
-     public $IncludeBody;
+    public $IncludeBody;
 
 
     /**

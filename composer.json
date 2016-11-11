@@ -13,6 +13,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.4",
+        "sabre/uri": "^1.1",
         "ext-curl": "*"
     },
     "autoload": {
