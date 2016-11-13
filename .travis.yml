@@ -25,6 +25,10 @@ matrix:
   allow_failures:
       - php: hhvm
 
+before_script:
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+
 # omitting "script:" will default to phpunit
 script: phpunit --configuration phpunit_o365.xml --coverage-text
 notifications:
