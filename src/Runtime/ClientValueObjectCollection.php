@@ -3,6 +3,8 @@
 namespace Office365\PHP\Client\Runtime;
 
 
+use Office365\PHP\Client\Runtime\OData\ODataPrimitiveTypeKind;
+
 class ClientValueObjectCollection extends ClientValueObject
 {
 
@@ -65,10 +67,14 @@ class ClientValueObjectCollection extends ClientValueObject
     function convertFromJson($json)
     {
         $this->clearData();
-        foreach ($json as $item) {
-            $clientValueObject = $this->createTypedValueObject();
-            $clientValueObject->convertFromJson($item);
-            $this->addChild($clientValueObject);
+        if (in_array($this->getEntityTypeName(), ODataPrimitiveTypeKind::getPrimitiveCollectionNames())) {
+            $this->data = $json->results;
+        } else {
+            foreach ($json as $item) {
+                $clientValueObject = $this->createTypedValueObject();
+                $clientValueObject->convertFromJson($item);
+                $this->addChild($clientValueObject);
+            }
         }
     }
 

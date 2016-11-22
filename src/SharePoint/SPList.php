@@ -40,7 +40,7 @@ class SPList extends SecurableObject
 
     /**
      * Returns the list item with the specified list item identifier.
-     * @param $id  SPList Item id
+     * @param integer $id  SPList Item id
      * @return ListItem  List Item resource
      * @throws \Exception
      */

@@ -5,6 +5,7 @@ require_once('../bootstrap.php');
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\ListCreationInformation;
+use Office365\PHP\Client\SharePoint\SPList;
 
 global $Settings;
 
@@ -14,15 +15,31 @@ try {
 
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 
-	$listTitle = 'Tasks';
-	$list = ensureList($ctx,$listTitle);
+	$listTitle = 'Documents';
+    $list = TestUtilities::ensureList($ctx,$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
+
 
 	//printTasks($list);
 	//queryListViaCAMLQuery($list);
-	generateTasks($list);
+	//generateTasks($list);
     //$itemId = createTask($list);
-	//$item = getTask($list,$itemId);
-	//updateTask($item);
+
+
+    /*$field = $list->getFields()->getByInternalNameOrTitle("Editor");
+    $field->setProperty("ReadOnlyField",false);
+    $field->update();
+    $ctx->executeQuery();
+    $ctx->load($field);
+    $ctx->executeQuery();
+    print $field->getProperty("ReadOnlyField");*/
+
+
+
+
+    $itemId = 604;
+	//$item = getListItem($list,$itemId);
+    $item = $list->getItemById($itemId);
+	updateTask($item);
     //deleteTask($item);
 	//queryListItems($list);
 }
@@ -32,7 +49,7 @@ catch (Exception $e) {
 
 
 
-function queryListItems(\Office365\PHP\Client\SharePoint\SPList $list)
+function queryListItems(SPList $list)
 {
 	$ctx = $list->getContext();
     
@@ -79,21 +96,6 @@ function queryListItems(\Office365\PHP\Client\SharePoint\SPList $list)
 }
 
 
-
-function ensureList(Office365\PHP\Client\SharePoint\ClientContext $ctx, $listTitle){
-
-	$list = null;
-	$lists = $ctx->getWeb()->getLists();
-	$ctx->load($lists);
-	$ctx->executeQuery();
-	foreach($lists->getData() as $curList) {
-		if ($listTitle == $curList->Title) {
-			print "List {$curList->Title} has been found\r\n";
-			return $curList;
-		}
-	}
-	return createList($ctx,$listTitle);
-}
 
 /**
  * Create list item operation example
@@ -172,18 +174,15 @@ function createListItem(\Office365\PHP\Client\SharePoint\SPList $list, array $it
 
 /**
  * Read list item operation example
- * @param ClientContext $ctx
+ * @param \Office365\PHP\Client\SharePoint\SPList $list
  * @param $itemId
  * @return \Office365\PHP\Client\SharePoint\ListItem
  */
-function getTask(ClientContext $ctx, $itemId){
-
-	$listTitle = 'Tasks';
-	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
+function getListItem(SPList $list, $itemId){
+    $ctx = $list->getContext();
 	$listItem = $list->getItemById($itemId);
 	$ctx->load($listItem);
 	$ctx->executeQuery();
-	print "Task '{$listItem->Title}' has been retrieved.\r\n";
 	return $listItem;
 }
 
@@ -199,7 +198,9 @@ function deleteTask(\Office365\PHP\Client\SharePoint\ListItem $item){
 
 function updateTask(\Office365\PHP\Client\SharePoint\ListItem $item){
 	$ctx = $item->getContext();
-	$item->setProperty('PercentComplete', 1);
+	//$item->setProperty('Title', "New");
+    $item->setProperty('EditorStringId', "11");
+    $item->setProperty('EditorId', 11);
 	$item->update();
     $ctx->executeQuery();
     print "Task {$item->getProperty('Title')} has been updated.\r\n";

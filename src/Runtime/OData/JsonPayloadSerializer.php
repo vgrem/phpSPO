@@ -32,8 +32,8 @@ class JsonPayloadSerializer
                 $metadataType = "SP." . $metadataType;
             $jsonValue["__metadata"] = array("type" => $metadataType);
         }
-        if(isset($payload->RootPropertyName)){
-            $jsonValue = array( $payload->RootPropertyName => $jsonValue);
+        if(isset($payload->EntityName)){
+            $jsonValue = array( $payload->EntityName => $jsonValue);
         }
         return JsonConvert::serialize($jsonValue);
     }
@@ -68,8 +68,8 @@ class JsonPayloadSerializer
             }
         }
 
-        if(isset($payload->RootPropertyName))
-            $jsonValue = $jsonValue->{$payload->RootPropertyName};
+        if(isset($payload->EntityName))
+            $jsonValue = $jsonValue->{$payload->EntityName};
         $payload->convertFromJson($jsonValue);
     }
 

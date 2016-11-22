@@ -12,6 +12,15 @@ require_once('TestUtilities.php');
 class WebTest extends SharePointTestCase
 {
 
+    public function testGetWebProperties()
+    {
+        $langIds = self::$context->getWeb()->getSupportedUILanguageIds();
+        self::$context->executeQuery();
+        self::assertNotEmpty($langIds->getCount());
+    }
+
+
+
     public function testGetWebGroups()
     {
         $groups = self::$context->getWeb()->getRoleAssignments()->getGroups();

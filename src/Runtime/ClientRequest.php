@@ -144,7 +144,7 @@ class ClientRequest
                     $resultObject->populateFromXmlPayload($response); //custom payload process
                 }else {
                     if ($resultObject instanceof ClientResult && $qry instanceof ClientActionInvokeMethod) {
-                        $resultObject->RootPropertyName = $qry->MethodName;
+                        $resultObject->EntityName = $qry->MethodName;
                     }
                     $serializer->deserialize($response, $resultObject);
                 }

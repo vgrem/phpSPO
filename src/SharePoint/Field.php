@@ -4,6 +4,7 @@
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientActionDeleteEntity;
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
 use Office365\PHP\Client\Runtime\ClientObject;
 
 /**
@@ -11,6 +12,12 @@ use Office365\PHP\Client\Runtime\ClientObject;
  */
 class Field extends ClientObject
 {
+
+    public function update()
+    {
+        $qry = new ClientActionUpdateEntity($this);
+        $this->getContext()->addQuery($qry,$this);
+    }
 
     public function deleteObject()
     {

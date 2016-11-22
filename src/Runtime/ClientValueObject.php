@@ -14,11 +14,11 @@ class ClientValueObject extends ODataPayload
 
     /**
      * ClientValueObject constructor.
-     * @param string $entityName
+     * @param string $entityTypeName
      */
-    public function __construct($entityName = null)
+    public function __construct($entityTypeName = null)
     {
-        $this->entityTypeName = $entityName;
+        $this->entityTypeName = $entityTypeName;
     }
 
     public function getEntityTypeName()

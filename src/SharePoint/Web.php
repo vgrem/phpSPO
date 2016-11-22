@@ -2,8 +2,12 @@
 
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientActionDeleteEntity;
+use Office365\PHP\Client\Runtime\ClientActionInvokeGetMethod;
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\ClientActionReadEntity;
 use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
+use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\ClientValueObjectCollection;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
@@ -163,6 +167,19 @@ class Web extends SecurableObject
             $this->setProperty("CurrentUser", new User($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"CurrentUser")));
         }
         return $this->getProperty("CurrentUser");
+    }
+
+
+    /**
+     * @return ClientValueObjectCollection
+     */
+    public function getSupportedUILanguageIds()
+    {
+        $value = new ClientValueObjectCollection("Collection(Edm.Int32)");
+        $value->EntityName = "SupportedUILanguageIds";
+        $qry = new ClientActionReadEntity($this->getResourceUrl() . "/SupportedUILanguageIds");
+        $this->getContext()->addQuery($qry,$value);
+        return $value;
     }
 
     /**

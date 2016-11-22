@@ -11,12 +11,12 @@ class EmailAddress extends ClientValueObject
 
     /**
      * EmailAddress constructor.
-     * @param string $name
+     * @param string $typeName
      * @param string $address
      */
-    public function __construct($name, $address)
+    public function __construct($typeName, $address)
     {
-        $this->Name = $name;
+        $this->Name = $typeName;
         $this->Address = $address;
         parent::__construct();
     }

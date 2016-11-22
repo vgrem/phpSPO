@@ -67,7 +67,7 @@ class ClientContext extends ClientRuntimeContext
         if(!isset($this->contextWebInformation))
             $this->contextWebInformation = new ContextWebInformation();
         if($this->format->MetadataLevel == ODataMetadataLevel::Verbose){
-            $this->contextWebInformation->RootPropertyName = "GetContextWebInformation";
+            $this->contextWebInformation->EntityName = "GetContextWebInformation";
         }
         $this->populateObject($response,$this->contextWebInformation);
     }

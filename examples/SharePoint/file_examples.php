@@ -12,12 +12,12 @@ try {
     $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 
-    $localPath = "./data/";
-    $targetLibraryTitle = "Documents";
+    $localPath = "../data/";
+    $targetLibraryTitle = "Documents Contoso";
 
     $list = TestUtilities::ensureList($ctx,$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
     uploadFiles($localPath,$list);
-    processFiles($list,$localPath);
+    //processFiles($list,$localPath);
     //deleteFolder($ctx,$folderUrl);
     //saveFile($ctx,$localFilePath,$fileUrl);
 
@@ -91,6 +91,10 @@ function uploadFiles($localPath, \Office365\PHP\Client\SharePoint\SPList $target
         $uploadFile = $targetList->getRootFolder()->getFiles()->add($fileCreationInformation);
         $ctx->executeQuery();
         print "File {$uploadFile->getProperty('Name')} has been uploaded\r\n";
+
+        $uploadFile->getListItemAllFields()->setProperty('Title',basename($filename));
+        $uploadFile->getListItemAllFields()->update();
+        $ctx->executeQuery();
     }
 
 

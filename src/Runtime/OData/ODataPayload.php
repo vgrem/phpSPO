@@ -40,7 +40,7 @@ abstract class ODataPayload
             if ($value instanceof ClientValueObject) {
                 $properties = get_object_vars($value);
                 foreach (get_object_vars($value) as $key => $value) {
-                    if (is_null($value) || ($key == "RootPropertyName"))
+                    if (is_null($value) || ($key == "EntityName"))
                         unset($properties[$key]);
                 }
                 return array_map(function ($p) {
@@ -69,14 +69,14 @@ abstract class ODataPayload
      */
     public function toQueryPayload()
     {
-        $this->RootPropertyName = "query";
+        $this->EntityName = "query";
         return $this;
     }
 
 
     public function toParametersPayload()
     {
-        $this->RootPropertyName = "parameters";
+        $this->EntityName = "parameters";
         return $this;
     }
 
@@ -115,7 +115,7 @@ abstract class ODataPayload
     /**
      * @var string
      */
-    public $RootPropertyName;
+    public $EntityName;
 
 
 }
