@@ -5,7 +5,6 @@ namespace Office365\PHP\Client\OutlookServices;
 
 use Office365\PHP\Client\Runtime\ClientActionCreateEntity;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 class ContactCollection extends ClientObjectCollection
