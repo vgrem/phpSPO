@@ -10,6 +10,6 @@ class MeetingMessageType
     const MeetingRequest = "MeetingRequest";
     const MeetingCancelled = "MeetingCancelled";
     const MeetingAccepted = "MeetingAccepted";
-    const MeetingTenativelyAccepted = "MeetingTenativelyAccepted";
+    const MeetingTentativelyAccepted = "MeetingTentativelyAccepted";
     const MeetingDeclined = "MeetingDeclined";
 }
