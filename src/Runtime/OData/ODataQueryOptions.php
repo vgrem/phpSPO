@@ -31,14 +31,16 @@ class ODataQueryOptions
     }
 
     public $Select;
-    
+
     public $Filter;
 
     public $Expand;
-    
+
     public $OrderBy;
 
     public $Top;
 
     public $Skip;
+
+    public $Search;
 }

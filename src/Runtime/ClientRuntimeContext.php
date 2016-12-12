@@ -5,6 +5,7 @@ namespace Office365\PHP\Client\Runtime;
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
+use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
 /**
@@ -66,13 +67,13 @@ class ClientRuntimeContext
     /**
      * Prepare to load resource
      * @param ClientObject $clientObject
-     * @param array $selectProperties
+     * @param ODataQueryOptions $queryOptions
      *
      * @return self
      */
-    public function load(ClientObject $clientObject, array $selectProperties = null)
+    public function load(ClientObject $clientObject, ODataQueryOptions $queryOptions = null)
     {
-        $this->getPendingRequest()->addQueryAndResultObject($clientObject, $selectProperties);
+        $this->getPendingRequest()->addQueryAndResultObject($clientObject, $queryOptions);
         return $this;
     }
 
