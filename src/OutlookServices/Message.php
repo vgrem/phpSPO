@@ -3,6 +3,7 @@
 
 namespace Office365\PHP\Client\OutlookServices;
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
 use Office365\PHP\Client\Runtime\OperationParameterCollection;
 
 
@@ -65,6 +66,27 @@ class Message extends Item
         $this->getContext()->addQuery($qry);
     }
 
+    /**
+     * Marks a message as read/unread
+     * @param bool $isRead whether or not the message is read
+     */
+    public function read($isRead)
+    {
+        $this->setProperty("IsRead", $isRead);
+        $qry = new ClientActionUpdateEntity($this);
+        $this->getContext()->addQuery($qry);
+    }
+
+    /**
+     * Marks a message as important/unimportant
+     * @param int $importance importance level (1,2,3)
+     */
+    public function important($importance)
+    {
+        $this->setProperty("Importance", $importance);
+        $qry = new ClientActionUpdateEntity($this);
+        $this->getContext()->addQuery($qry);
+    }
 
     /**
      * @param $attachmentType

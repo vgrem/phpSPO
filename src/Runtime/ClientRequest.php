@@ -7,6 +7,7 @@ use Exception;
 use Office365\PHP\Client\Runtime\OData\JsonPayloadSerializer;
 use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
+use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 use Office365\PHP\Client\Runtime\Utilities\JsonConvert;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\Requests;
@@ -217,13 +218,13 @@ class ClientRequest
 
     /**
      * @param ClientObject $clientObject
-     * @param array $selectProperties
+     * @param ODataQueryOptions $queryOptions
      */
-    public function addQueryAndResultObject(ClientObject $clientObject, array $selectProperties = null)
+    public function addQueryAndResultObject(ClientObject $clientObject, ODataQueryOptions $queryOptions = null)
     {
         $resourceUrl = $clientObject->getResourceUrl();
-        if (!is_null($selectProperties)) {
-            $resourceUrl .= "?\$select=" . implode(",", $selectProperties);
+        if (!is_null($queryOptions)) {
+            $resourceUrl .= '?' . $queryOptions->toUrl();
         }
         $qry = new ClientActionReadEntity($resourceUrl);
         $this->addQuery($qry, $clientObject);

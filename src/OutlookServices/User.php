@@ -31,6 +31,39 @@ class User extends ClientObject
         return $this->getProperty("Messages");
     }
 
+    /**
+     * @param string $folderId
+     * @return MailFolder
+     */
+    public function getFolder($folderId)
+    {
+        if (!$this->isPropertyAvailable("Folders")) {
+            $this->setProperty("Folders",
+                new MailFolder($this->getContext(), new ResourcePathEntity(
+                    $this->getContext(),
+                    $this->getResourcePath(),
+                    "Folders/" . $folderId
+                )));
+        }
+        return $this->getProperty("Folders");
+    }
+
+    /**
+     * @return MailFolder
+     */
+    public function getFolders()
+    {
+        if (!$this->isPropertyAvailable("Folders")) {
+            $this->setProperty("Folders",
+                new MailFolder($this->getContext(), new ResourcePathEntity(
+                    $this->getContext(),
+                    $this->getResourcePath(),
+                    "Folders"
+                )));
+        }
+        return $this->getProperty("Folders");
+    }
+
 
     /**
      * @param Message $message
