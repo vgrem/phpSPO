@@ -20,10 +20,11 @@ use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 class OutlookClient extends ClientRuntimeContext
 {
 
-    public function __construct(IAuthenticationContext $authContext)
+    public function __construct(IAuthenticationContext $authContext, $version = Office365Version::V1)
     {
-        $this->serviceRootUrl = $this->serviceRootUrl . Office365Version::V1 . "/";
-        parent::__construct($this->serviceRootUrl, $authContext,new JsonFormat(ODataMetadataLevel::Verbose));
+        $this->version = $version;
+        $this->serviceRootUrl = $this->serviceRootUrl . $version . "/";
+        parent::__construct($this->serviceRootUrl, $authContext, new JsonFormat(ODataMetadataLevel::Verbose), $version);
     }
 
 
@@ -87,7 +88,10 @@ class OutlookClient extends ClientRuntimeContext
      */
     private $serviceRootUrl = "https://outlook.office365.com/api/";
 
-
+    /**
+     * @var string
+     */
+    public $version;
 
     /**
      * @var User

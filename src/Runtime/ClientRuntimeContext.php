@@ -15,9 +15,15 @@ class ClientRuntimeContext
 {
     /**
      * Service Root url
-     * @var Url
+     * @var string
      */
     private $serviceRootUrl;
+
+    /**
+     * Service version
+     * @var string
+     */
+    private $version;
 
     /**
      * @var IAuthenticationContext
@@ -39,9 +45,11 @@ class ClientRuntimeContext
      * @param string $serviceUrl
      * @param IAuthenticationContext $authContext
      * @param ODataFormat $format
+     * @param string $version
      */
-    public function __construct($serviceUrl, IAuthenticationContext $authContext, ODataFormat $format)
+    public function __construct($serviceUrl, IAuthenticationContext $authContext, ODataFormat $format, $version = Office365Version::V1)
     {
+        $this->version = $version;
         $this->serviceRootUrl = $serviceUrl;
         $this->authContext = $authContext;
         $this->format = $format;
@@ -62,6 +70,15 @@ class ClientRuntimeContext
     public function getServiceRootUrl()
     {
         return $this->serviceRootUrl;
+    }
+
+    /**
+     * Gets the api version being used
+     * @return string
+     */
+    public function getApiVersion()
+    {
+        return $this->version;
     }
 
     /**
