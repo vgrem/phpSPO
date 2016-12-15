@@ -5,6 +5,7 @@ namespace Office365\PHP\Client\OutlookServices;
 
 use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
 use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\PHP\Client\Runtime\Office365Version;
 use Office365\PHP\Client\Runtime\OperationParameterCollection;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
@@ -42,7 +43,7 @@ class User extends ClientObject
                 new MailFolder($this->getContext(), new ResourcePathEntity(
                     $this->getContext(),
                     $this->getResourcePath(),
-                    "Folders/" . $folderId
+                    $this->getFolderEntityName() . "/" . $folderId
                 )));
         }
         return $this->getProperty("Folders");
@@ -58,7 +59,7 @@ class User extends ClientObject
                 new MailFolder($this->getContext(), new ResourcePathEntity(
                     $this->getContext(),
                     $this->getResourcePath(),
-                    "Folders"
+                    $this->getFolderEntityName()
                 )));
         }
         return $this->getProperty("Folders");
@@ -176,6 +177,21 @@ class User extends ClientObject
                 ));
         }
         return $this->getProperty("Calendar");
+    }
+
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    private function getFolderEntityName()
+    {
+        if ($this->getContext()->getApiVersion() == Office365Version::V1)
+            return "Folders";
+        if ($this->getContext()->getApiVersion() == Office365Version::V2)
+            return "MailFolders";
+
+        throw new \Exception("Unknown API version '" . $this->getContext()->getApiVersion() . "'");
     }
 
 
