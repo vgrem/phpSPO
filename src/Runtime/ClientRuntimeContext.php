@@ -84,13 +84,19 @@ class ClientRuntimeContext
     /**
      * Prepare to load resource
      * @param ClientObject $clientObject
-     * @param ODataQueryOptions $queryOptions
+     * @param array $selectProperties
+     * @return ClientRuntimeContext
      *
-     * @return self
      */
-    public function load(ClientObject $clientObject, ODataQueryOptions $queryOptions = null)
+    public function load(ClientObject $clientObject, array $selectProperties = null)
     {
-        $this->getPendingRequest()->addQueryAndResultObject($clientObject, $queryOptions);
+        if(!is_null($selectProperties)) {
+            $queryOptions = new ODataQueryOptions();
+            $queryOptions->Select = implode(",",$selectProperties);
+            $this->getPendingRequest()->addQueryAndResultObject($clientObject, $queryOptions);
+        }
+        else
+            $this->getPendingRequest()->addQueryAndResultObject($clientObject);
         return $this;
     }
 
