@@ -100,6 +100,16 @@ class ClientRuntimeContext
         return $this;
     }
 
+
+    /**
+     * @param ClientObject $clientObject
+     * @param ODataQueryOptions $query
+     */
+    public  function loadQuery(ClientObject $clientObject,ODataQueryOptions $query = null)
+    {
+        $this->getPendingRequest()->addQueryAndResultObject($clientObject, $query);
+    }
+
     /**
      * Submit client request to SharePoint OData/SOAP service
      *
