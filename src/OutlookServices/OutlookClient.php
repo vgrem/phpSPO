@@ -41,6 +41,9 @@ class OutlookClient extends ClientRuntimeContext
     }
 
 
+
+
+
     private function prepareOutlookServicesRequest(RequestOptions $request,ClientAction $query)
     {
         //set data modification headers
