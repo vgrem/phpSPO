@@ -19,14 +19,17 @@ $authCtx = new AuthenticationContext($authorityUrl);
 $resource = "https://graph.windows.net";
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['code'])) {
-    $authorizationUrl = $authCtx->getAuthorizationRequestUrl($resource,$AppSettings['ClientId'],$AppSettings['RedirectUrl']);
+    //$authorizeUrl = "https://login.microsoftonline.com/{tenant}/oauth2/authorize";
+    $authorizeUrl = "https://login.microsoftonline.com/common/oauth2/authorize";
+    $authorizationUrl = $authCtx->getAuthorizationRequestUrl($authorizeUrl,$AppSettings['ClientId'],$AppSettings['RedirectUrl']);
     header('Location: ' . $authorizationUrl);
     exit();
 }
 elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['code'])) {
 
+    $authorityUrl = "https://login.microsoftonline.com/common";
     try{
-        $authCtx->acquireTokenByAuthorizationCode($resource,$AppSettings['ClientId'],$AppSettings['ClientSecret'],$_GET['code'],$AppSettings['RedirectUrl']);
+        $authCtx->acquireTokenByAuthorizationCode($authorityUrl,$resource,$AppSettings['ClientId'],$AppSettings['ClientSecret'],$_GET['code'],$AppSettings['RedirectUrl']);
         $accessToken = $authCtx->getAccessToken();
         $_SESSION['token_info'] = $accessToken->id_token_info;
         $_SESSION['auth_ctx'] = $authCtx;

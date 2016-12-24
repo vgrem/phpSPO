@@ -128,6 +128,7 @@ class AuthenticationContext implements IAuthenticationContext
     }
 
     /**
+     * @param string $uri
      * @param string $resource
      * @param string $clientId
      * @param string $clientSecret

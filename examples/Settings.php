@@ -9,8 +9,8 @@ $Settings = array(
 
 $AppSettings = array(
 	'TenantName' => "mediadev19.onmicrosoft.com",
-	'ClientId' => "99cbd1a9-ec8d-4e89-96c3-699993089d65",
-	'ClientSecret' => "VMdT8mOurDhsvG8yDnP3yFg",
+	'ClientId' => "13d4cd98-1761-4416-b01c-a641c08d0737",
+	'ClientSecret' => "oYM9GUiE4uejyaQ0GuuHj7U",
 	'Title' => "Office365 Graph explorer",
 	'RedirectUrl' => "http://localhost:8078/GraphExplorer/SignIn.php"
 );

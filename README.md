@@ -26,7 +26,7 @@ composer installed.
 Once composer is installed, execute the following command in your project root to install this library:
 
 ```sh
-composer require vgrem/php-spo:dev-master
+composer require vgrem/php-spo:dev-master -n --no-progress
 ```
 
 Finally, be sure to include the autoloader:
