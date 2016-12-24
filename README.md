@@ -15,6 +15,28 @@ The library provides a Office 365 REST client for PHP applications. It allows to
 
 ### Installation
 
+You can use **Composer** or simply **Download the Release**
+
+#### Composer
+
+The preferred method is via [composer](https://getcomposer.org). Follow the
+[installation instructions](https://getcomposer.org/doc/00-intro.md) if you do not already have
+composer installed.
+
+Once composer is installed, execute the following command in your project root to install this library:
+
+```sh
+composer require vgrem/php-spo:dev-master
+```
+
+Finally, be sure to include the autoloader:
+
+```php
+require_once '/path/to/your-project/vendor/autoload.php';
+```
+
+
+
 ### PHP version
 - [PHP 5.4 or later](https://secure.php.net/)
 
@@ -29,7 +51,7 @@ The library provides a Office 365 REST client for PHP applications. It allows to
 -  `NetworkCredentialContext` - provides credentials for password-based authentication schemes such as Basic.
   
 
-There are **two** approaches available to perform REST queries:
+There are **two** approaches available to perform REST based queries:
 
 -   via `ClientRequest` class where you need to construct REST queries by specifying endpoint url, headers if required and payload (low level approach), see [renameFolder.php](https://github.com/vgrem/phpSPO/blob/master/examples/renameFolder.php) for a more details
 -   via `ClientContext` class where you target client object resources such as Web, ListItem and etc., see [list_examples.php](https://github.com/vgrem/phpSPO/blob/master/examples/list_examples.php) for a more details 
