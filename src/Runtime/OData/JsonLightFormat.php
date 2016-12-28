@@ -15,7 +15,7 @@ class JsonLightFormat extends ODataFormat
 
     public function getMediaType()
     {
-        return "application/json; OData={$this->MetadataLevel}";
+        return "application/json;odata.metadata={$this->MetadataLevel}";
     }
 
 }
