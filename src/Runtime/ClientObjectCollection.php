@@ -268,6 +268,8 @@ class ClientObjectCollection extends ClientObject
             $clientObject->convertFromJson($item);
             $this->addChild($clientObject);
         }
+        if(!is_null($this->resourcePath))
+            $this->resourcePath->ServerObjectIsNull = false;
     }
 
 }

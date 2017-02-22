@@ -47,9 +47,9 @@ class OutlookEntity extends ClientObject
     }
 
 
-    function getModifiedProperties()
+    function getChangedProperties()
     {
-        $properties = parent::getModifiedProperties();
+        $properties = parent::getChangedProperties();
         $reflection = new ReflectionObject($this);
         foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $p) {
             $val = $p->getValue($this);

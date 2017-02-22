@@ -29,15 +29,19 @@ class ClientObject extends ODataPayload
      */
     private $properties = array();
 
+
     /**
      * @var array
      */
-    private $modified_properties = array();
+    private $changedProperties = array();
 
     /**
      * @var ClientObjectCollection
      */
     protected $parentCollection;
+
+
+
 
     /**
      * ClientObject constructor.
@@ -72,9 +76,9 @@ class ClientObject extends ODataPayload
     /**
      * @return array
      */
-    protected function getModifiedProperties()
+    public function getChangedProperties()
     {
-        return $this->modified_properties;
+        return $this->changedProperties;
     }
 
     /**
@@ -143,6 +147,8 @@ class ClientObject extends ODataPayload
                 $this->setProperty($key, $value, false);
             }
         }
+        if(!is_null($this->resourcePath))
+            $this->resourcePath->ServerObjectIsNull = false;
     }
 
     /**
@@ -153,6 +159,17 @@ class ClientObject extends ODataPayload
     public function isPropertyAvailable($name)
     {
         return isset($this->properties[$name]) && !isset($this->properties[$name]->__deferred);
+    }
+
+
+    /**
+     * Determine whether client object has been retrieved from the server
+     * @return bool
+     */
+    public function getServerObjectIsNull(){
+        if(!is_null($this->resourcePath))
+            return $this->resourcePath->ServerObjectIsNull;
+        return true;
     }
 
     /**
@@ -182,12 +199,14 @@ class ClientObject extends ODataPayload
     public function setProperty($name, $value, $persistChanges = true)
     {
         if ($persistChanges) {
-            $this->modified_properties[$name] = $value;
+            $this->changedProperties[$name] = $value;
         }
 
         //save property
         $this->{$name} = $value;
 
+
+        //update resource path
         if ($name === "Id") {
             if (is_null($this->getResourcePath())) {
                 if (is_int($value)) {
@@ -198,6 +217,7 @@ class ClientObject extends ODataPayload
                 $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . $entityKey);
             }
         }
+
     }
 
     /**

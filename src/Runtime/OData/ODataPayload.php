@@ -54,7 +54,7 @@ abstract class ODataPayload
                 } else
                     return array_map(function ($p) {
                         return $this->mapToJson($p);
-                    }, $value->getModifiedProperties());
+                    }, $value->getChangedProperties());
             }
         } elseif (is_array($value)) {
             return array_map(function ($item) {

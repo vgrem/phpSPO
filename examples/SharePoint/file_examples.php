@@ -13,10 +13,11 @@ try {
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 
     $localPath = "../data/";
-    $targetLibraryTitle = "Documents Contoso";
+    $targetLibraryTitle = "Documents";
 
     $list = TestUtilities::ensureList($ctx,$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
-    uploadFiles($localPath,$list);
+    enumFolders($list);
+    //uploadFiles($localPath,$list);
     //processFiles($list,$localPath);
     //deleteFolder($ctx,$folderUrl);
     //saveFile($ctx,$localFilePath,$fileUrl);
@@ -24,6 +25,22 @@ try {
 }
 catch (Exception $e) {
     echo 'Error: ',  $e->getMessage(), "\n";
+}
+
+
+function enumFolders(SPList $list)
+{
+    $ctx = $list->getContext();
+    $folders = $list->getRootFolder()->getFolders();
+    if($folders->getServerObjectIsNull() == true){  //determine whether folders has been loaded or not
+        $ctx->load($folders);
+        $ctx->executeQuery();
+    }
+
+    foreach ($folders->getData() as $folder) {
+        print "File name: '{$folder->Name}'\r\n";
+    }
+
 }
 
 
