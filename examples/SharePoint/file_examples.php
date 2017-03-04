@@ -14,11 +14,14 @@ try {
 
     $localPath = "../data/";
     $targetLibraryTitle = "Documents";
+    $targetFolderUrl = "/sites/contoso/Documents/Archive";
 
     $list = TestUtilities::ensureList($ctx,$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
-    enumFolders($list);
+    //enumFolders($list);
     //uploadFiles($localPath,$list);
-    //processFiles($list,$localPath);
+    //$localFilePath = $localPath . "/SharePoint User Guide.docx";
+    //uploadFileIntoFolder($ctx,$localFilePath,$targetFolderUrl);
+    processFiles($list,$localPath);
     //deleteFolder($ctx,$folderUrl);
     //saveFile($ctx,$localFilePath,$fileUrl);
 
@@ -115,6 +118,24 @@ function uploadFiles($localPath, \Office365\PHP\Client\SharePoint\SPList $target
     }
 
 
+}
+
+
+function uploadFileIntoFolder(ClientContext $ctx, $localPath, $targetFolderUrl)
+{
+    $fileName = basename($localPath);
+    $fileCreationInformation = new \Office365\PHP\Client\SharePoint\FileCreationInformation();
+    $fileCreationInformation->Content = file_get_contents($localPath);
+    $fileCreationInformation->Url = $fileName;
+
+
+    $uploadFile = $ctx->getWeb()->getFolderByServerRelativeUrl($targetFolderUrl)->getFiles()->add($fileCreationInformation);
+    $ctx->executeQuery();
+    print "File {$uploadFile->getProperty('Name')} has been uploaded\r\n";
+
+    //$uploadFile->getListItemAllFields()->setProperty('Title', $fileName);
+    //$uploadFile->getListItemAllFields()->update();
+    //$ctx->executeQuery();
 }
 
 function saveFile(ClientContext $ctx, $sourceFilePath, $targetFileUrl)

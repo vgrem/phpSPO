@@ -32,6 +32,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['code'])) {
         $authCtx->acquireTokenByAuthorizationCode($authorityUrl,$resource,$AppSettings['ClientId'],$AppSettings['ClientSecret'],$_GET['code'],$AppSettings['RedirectUrl']);
         $accessToken = $authCtx->getAccessToken();
         $_SESSION['token_info'] = $accessToken->id_token_info;
+        $_SESSION['token'] = $accessToken;
         $_SESSION['auth_ctx'] = $authCtx;
         header('Location: Index.php');
         exit();

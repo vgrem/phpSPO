@@ -4,6 +4,13 @@ if (session_status() == PHP_SESSION_NONE) {
     if(!isset($_SESSION['token_info']))
         $_SESSION['token_info'] = null;
 }
+
+if (isset($_GET['token'])) {
+    echo "<pre>";
+    print_r($_SESSION['token']);
+    echo "</pre>";
+    exit();
+}
 ?>
 
 <!DOCTYPE html>

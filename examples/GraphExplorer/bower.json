@@ -14,5 +14,9 @@
     "test",
     "tests"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "jquery": "*",
+    "jquery-jsonview": "1.2.3",
+    "bootstrap" : "latest"
+  }
 }
