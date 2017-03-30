@@ -95,6 +95,7 @@ class Requests
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $options->Url);
         curl_setopt_array($ch, self::$defaultOptions);  //default options
+        curl_setopt_array($ch, $options->curlOptions);  //custom options
         //include headers in response
         curl_setopt($ch, CURLOPT_HEADER, $options->IncludeHeaders);
         //include body in response
