@@ -16,7 +16,8 @@ if(isset($_SESSION['auth_ctx'])) {
         $authorityUrl = "https://graph.windows.net/";
         $client = new ActiveDirectoryClient($authorityUrl,$_SESSION['auth_ctx']);
         $request = new RequestOptions($requestUrl);
-        $request->Url .= "?api-version=1.0";
+        //$request->Url .= "?api-version=1.0";
+        $request->Url .= "?api-version=beta";
         $response = $client->executeQueryDirect($request);
         echo $response;
     }

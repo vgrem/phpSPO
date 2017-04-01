@@ -14,16 +14,13 @@ global $Settings;
 
 
 try {
-    $authorityUrl = OAuthTokenProvider::$AuthorityUrl . $AppSettings['TenantName'];
-    //$authCtx = new AuthenticationContext($authorityUrl);
+    //$authorityUrl = OAuthTokenProvider::$AuthorityUrl . $AppSettings['TenantName'];
+    $authCtx = new AuthenticationContext($authorityUrl);
     //$clientCredentials = new ClientCredential($AppSettings['ClientId'],$AppSettings['ClientSecret']);
     //$authCtx->acquireTokenForClientCredential("https://graph.microsoft.com",$clientCredentials);
     //$userCredentials = new UserCredentials($Settings['UserName'],$Settings['Password']);
     //$authCtx->acquireTokenForUserCredential("https://graph.microsoft.com",$AppSettings['ClientId'],$AppSettings['ClientSecret'],$userCredentials);
-
-
     $authCtx = new NetworkCredentialContext($Settings['UserName'], $Settings['Password']);
-
 
     $context = new OneNoteClient($authCtx);
     $pages = $context->getMe()->getNotes()->getPages();

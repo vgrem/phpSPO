@@ -21,13 +21,15 @@ $resource = "https://graph.windows.net";
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['code'])) {
     //$authorizeUrl = "https://login.microsoftonline.com/{tenant}/oauth2/authorize";
     $authorizeUrl = "https://login.microsoftonline.com/common/oauth2/authorize";
+    //$authorizeUrl = "https://login.live.com/oauth20_token.srf";
     $authorizationUrl = $authCtx->getAuthorizationRequestUrl($authorizeUrl,$AppSettings['ClientId'],$AppSettings['RedirectUrl']);
     header('Location: ' . $authorizationUrl);
     exit();
 }
 elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['code'])) {
 
-    $authorityUrl = "https://login.microsoftonline.com/common";
+    //$authorityUrl = "https://login.microsoftonline.com/common";
+    $authorityUrl = "https://login.microsoftonline.com/common/oauth2/token?api-version=beta";
     try{
         $authCtx->acquireTokenByAuthorizationCode($authorityUrl,$resource,$AppSettings['ClientId'],$AppSettings['ClientSecret'],$_GET['code'],$AppSettings['RedirectUrl']);
         $accessToken = $authCtx->getAccessToken();
