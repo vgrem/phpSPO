@@ -5,6 +5,7 @@ use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\SharePoint\ListCreationInformation;
 use Office365\PHP\Client\SharePoint\SPList;
+use Office365\PHP\Client\SharePoint\Web;
 
 class TestUtilities
 {
@@ -67,9 +68,10 @@ class TestUtilities
     
     
     
-    public static function ensureList(Office365\PHP\Client\SharePoint\ClientContext $ctx, $listTitle, $type, $clearItems = true)
+    public static function ensureList(Web $web, $listTitle, $type, $clearItems = true)
     {
-        $lists = $ctx->getWeb()->getLists()->filter("Title eq '$listTitle'")->top(1);
+        $ctx = $web->getContext();
+        $lists = $web->getLists()->filter("Title eq '$listTitle'")->top(1);
         $ctx->load($lists);
         $ctx->executeQuery();
         if ($lists->getCount() == 1) {
@@ -79,9 +81,15 @@ class TestUtilities
             }
             return $existingList;
         }
-        return TestUtilities::createList($ctx, $listTitle, $type);
+        return TestUtilities::createList($web, $listTitle, $type);
     }
 
+
+
+    public static function ensureListItem(SPList $list, $itemId,$defaultProperties)
+    {
+        throw new Exception("Not implemented: ensureListItem");
+    }
 
 
     public static function deleteListItems(\Office365\PHP\Client\SharePoint\SPList $list){
@@ -99,15 +107,18 @@ class TestUtilities
 
 
     /**
-     * @param ClientRuntimeContext $ctx
+     * @param Web $web
      * @param $listTitle
      * @param $type
-     * @return \Office365\PHP\Client\SharePoint\SPList
+     * @return SPList
+     * @internal param ClientRuntimeContext $ctx
      */
-    public static function createList(ClientContext $ctx, $listTitle, $type){
+    public static function createList(Web $web, $listTitle, $type)
+    {
+        $ctx = $web->getContext();
         $info = new ListCreationInformation($listTitle);
         $info->BaseTemplate = $type;
-        $list = $ctx->getWeb()->getLists()->add($info);
+        $list = $web->getLists()->add($info);
         $ctx->executeQuery();
         return $list;
     }

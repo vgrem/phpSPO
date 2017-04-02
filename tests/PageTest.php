@@ -22,7 +22,7 @@ class PageTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = TestUtilities::createUniqueName("Wiki");
-        self::$targetList = TestUtilities::ensureList(self::$context,$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::WebPageLibrary);
+        self::$targetList = TestUtilities::ensureList(self::$context->getWeb(),$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::WebPageLibrary);
         $pageName = TestUtilities::createUniqueName("Wiki") . ".aspx";
         self::$targetPage = TestUtilities::createWikiPage(self::$targetList,$pageName,"Welcome to site");
         if(!self::$targetPage->isPropertyAvailable("CheckOutType")){

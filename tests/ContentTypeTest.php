@@ -6,7 +6,7 @@ class ContentTypeTest extends SharePointTestCase
 
     public function testGetListContentTypes(){
         $listTitle = TestUtilities::createUniqueName("Orders");
-        $list = TestUtilities::ensureList(self::$context, $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
+        $list = TestUtilities::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
         $contentTypes = $list->getContentTypes();
         self::$context->load($contentTypes);
         self::$context->executeQuery();

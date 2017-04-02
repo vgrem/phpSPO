@@ -15,7 +15,7 @@ class ViewTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = TestUtilities::createUniqueName("Orders");
-        self::$targetList = TestUtilities::ensureList(self::$context, $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
+        self::$targetList = TestUtilities::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
     }
 
     public static function tearDownAfterClass()

@@ -20,7 +20,7 @@ class UtilityTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = TestUtilities::createUniqueName("Discussions");
-        self::$discussionsList = TestUtilities::ensureList(self::$context, $listTitle, ListTemplateType::DiscussionBoard);
+        self::$discussionsList = TestUtilities::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DiscussionBoard);
     }
 
     public static function tearDownAfterClass()

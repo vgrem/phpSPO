@@ -3,8 +3,10 @@
 require_once('../bootstrap.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\SharePoint\AttachmentCreationInformation;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\ListCreationInformation;
+use Office365\PHP\Client\SharePoint\ListItem;
 use Office365\PHP\Client\SharePoint\SPList;
 
 global $Settings;
@@ -15,9 +17,9 @@ try {
 
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 
-	$listTitle = 'Documents';
-    $list = TestUtilities::ensureList($ctx,$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
-
+	$listTitle = 'Tasks812';
+    $list = TestUtilities::ensureList($ctx->getWeb(),$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
+    addAttachmentToListItem($list);
 
 	//printTasks($list);
 	//queryListViaCAMLQuery($list);
@@ -36,16 +38,40 @@ try {
 
 
 
-    $itemId = 604;
+    //$itemId = 604;
 	//$item = getListItem($list,$itemId);
-    $item = $list->getItemById($itemId);
-	updateTask($item);
+    //$item = $list->getItemById($itemId);
+	//updateTask($item);
     //deleteTask($item);
 	//queryListItems($list);
 }
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
 }
+
+
+
+function addAttachmentToListItem(SPList $list){
+    $ctx = $list->getContext();
+    $itemProperties = array(
+        'Title' => 'Order Approval' . rand(1, 1000)
+        //'__metadata' => array('type' => 'SP.Data.TasksListItem')
+    );
+    $listItem = $list->addItem($itemProperties);
+    $ctx->executeQuery();
+
+
+    $attCreationInformation = new AttachmentCreationInformation();
+    $path = "../data/SharePoint User Guide.docx";
+    $attCreationInformation->FileName = basename($path);
+    $attCreationInformation->ContentStream = file_get_contents($path);
+
+    $attachment = $listItem->getAttachmentFiles()->add($attCreationInformation);
+    $ctx->executeQuery();
+    print "List item with " . $attachment->getServerRelativeUrl() . " attachment has been created";
+}
+
+
 
 
 

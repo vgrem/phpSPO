@@ -1,5 +1,6 @@
 <?php
 
+use Office365\PHP\Client\SharePoint\AttachmentCreationInformation;
 use Office365\PHP\Client\SharePoint\CamlQuery;
 use Office365\PHP\Client\SharePoint\ListItem;
 use Office365\PHP\Client\SharePoint\SPList;
@@ -16,7 +17,7 @@ class ListItemTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = TestUtilities::createUniqueName("Orders");
-        self::$targetList = TestUtilities::ensureList(self::$context, $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
+        self::$targetList = TestUtilities::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
     }
 
     public static function tearDownAfterClass()
@@ -56,6 +57,23 @@ class ListItemTest extends SharePointTestCase
         $item = TestUtilities::createListItem(self::$targetList, $itemProperties);
         $this->assertEquals($item->getProperty('Body'), $itemProperties['Body']);
         return $item;
+    }
+
+
+    /**
+     * @depends testCreateListItems
+     * @param ListItem $listItem
+     */
+    public function testAddAttachmentToListItem(ListItem $listItem)
+    {
+        $attCreationInformation = new AttachmentCreationInformation();
+        $path = "./data/attachment.txt";
+        $attCreationInformation->FileName = basename($path);
+        $attCreationInformation->ContentStream = file_get_contents($path);
+
+        $attachment = $listItem->getAttachmentFiles()->add($attCreationInformation);
+        self::$context->executeQuery();
+        self::assertNotNull($attachment->getServerRelativeUrl());
     }
 
 

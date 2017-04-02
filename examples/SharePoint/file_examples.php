@@ -16,12 +16,12 @@ try {
     $targetLibraryTitle = "Documents";
     $targetFolderUrl = "/sites/contoso/Documents/Archive";
 
-    $list = TestUtilities::ensureList($ctx,$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
+    $list = TestUtilities::ensureList($ctx->getWeb(),$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
     //enumFolders($list);
-    //uploadFiles($localPath,$list);
+    uploadFiles($localPath,$list);
     //$localFilePath = $localPath . "/SharePoint User Guide.docx";
     //uploadFileIntoFolder($ctx,$localFilePath,$targetFolderUrl);
-    processFiles($list,$localPath);
+    //processFiles($list,$localPath);
     //deleteFolder($ctx,$folderUrl);
     //saveFile($ctx,$localFilePath,$fileUrl);
 

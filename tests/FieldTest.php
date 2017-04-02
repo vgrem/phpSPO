@@ -15,7 +15,7 @@ class FieldTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = "Contacts_" . rand(1, 100000);
-        self::$targetList = TestUtilities::ensureList(self::$context, $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Contacts);
+        self::$targetList = TestUtilities::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Contacts);
     }
 
     public static function tearDownAfterClass()
