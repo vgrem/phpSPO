@@ -18,16 +18,28 @@ try {
 
     $list = TestUtilities::ensureList($ctx->getWeb(),$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
     //enumFolders($list);
-    uploadFiles($localPath,$list);
+    //uploadFiles($localPath,$list);
     //$localFilePath = $localPath . "/SharePoint User Guide.docx";
     //uploadFileIntoFolder($ctx,$localFilePath,$targetFolderUrl);
     //processFiles($list,$localPath);
     //deleteFolder($ctx,$folderUrl);
     //saveFile($ctx,$localFilePath,$fileUrl);
+    createSubFolder($ctx,$targetFolderUrl,"2001");
+
+
 
 }
 catch (Exception $e) {
     echo 'Error: ',  $e->getMessage(), "\n";
+}
+
+
+
+function createSubFolder(ClientContext $ctx,$parentFolderUrl,$folderName){
+    $parentFolder = $ctx->getWeb()->getFolderByServerRelativeUrl($parentFolderUrl);
+    $childFolder = $parentFolder->getFolders()->add($folderName);
+    $ctx->executeQuery();
+    print "Child folder {$childFolder->getProperty("ServerRelativeUrl")} has been created ";
 }
 
 
