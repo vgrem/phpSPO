@@ -74,6 +74,7 @@ function processFiles(SPList $list,$targetPath)
         //approveFile($ctx,$file->ServerRelativeUrl);
         $fileName = $targetPath . "/" . basename($file->ServerRelativeUrl);
         downloadFile($ctx,$file->ServerRelativeUrl,$fileName);
+        //downloadFileAsStream($ctx,$file->ServerRelativeUrl,$fileName);
     }
 }
 
@@ -161,5 +162,18 @@ function saveFile(ClientContext $ctx, $sourceFilePath, $targetFileUrl)
 function downloadFile(ClientRuntimeContext $ctx, $fileUrl, $targetFilePath){
     $fileContent = Office365\PHP\Client\SharePoint\File::openBinary($ctx,$fileUrl);
     file_put_contents($targetFilePath, $fileContent);
+    print "File {$fileUrl} has been downloaded successfully\r\n";
+}
+
+function downloadFileAsStream(ClientRuntimeContext $ctx, $fileUrl, $targetFilePath) {
+    $fileUrl = rawurlencode($fileUrl);
+
+    $fp = fopen($targetFilePath, 'w+');
+    $url = $ctx->getServiceRootUrl() . "web/getfilebyserverrelativeurl('$fileUrl')/\$value";
+    $options = new \Office365\PHP\Client\Runtime\Utilities\RequestOptions($url);
+    $options->StreamHandle = $fp;
+    $ctx->executeQueryDirect($options);
+    fclose($fp);
+
     print "File {$fileUrl} has been downloaded successfully\r\n";
 }
