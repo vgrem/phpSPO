@@ -159,7 +159,7 @@ function downloadFileAsStream(ClientRuntimeContext $ctx, $fileUrl, $targetFilePa
     $fp = fopen($targetFilePath, 'w+');
     $url = $ctx->getServiceRootUrl() . "web/getfilebyserverrelativeurl('$fileUrl')/\$value";
     $options = new \Office365\PHP\Client\Runtime\Utilities\RequestOptions($url);
-    $options->addCurlOption(CURLOPT_FILE, $fp);
+    $options->StreamHandle = $fp;
     $ctx->executeQueryDirect($options);
     fclose($fp);
 

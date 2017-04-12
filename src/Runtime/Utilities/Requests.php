@@ -95,7 +95,6 @@ class Requests
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $options->Url);
         curl_setopt_array($ch, self::$defaultOptions);  //default options
-        curl_setopt_array($ch, $options->curlOptions);  //custom options
         //include headers in response
         curl_setopt($ch, CURLOPT_HEADER, $options->IncludeHeaders);
         //include body in response
@@ -110,6 +109,8 @@ class Requests
         //set Post Body
         if(isset($options->Data))
             curl_setopt($ch, CURLOPT_POSTFIELDS, $options->Data);
+        if(is_resource($options->StreamHandle))
+            curl_setopt($ch, CURLOPT_FILE, $options->StreamHandle);
         $options->addCustomHeader("content-length",strlen($options->Data));
         //custom HTTP headers
         if($options->Headers)

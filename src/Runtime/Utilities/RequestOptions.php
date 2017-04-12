@@ -27,7 +27,7 @@ class RequestOptions
         $this->UserCredentials = null;
         $this->Verbose = false;
         $this->SSLVersion = null;
-        $this->curlOptions = array();
+        $this->StreamHandle = null;
     }
 
     public function toArray()
@@ -43,13 +43,8 @@ class RequestOptions
             'Verbose' => $this->Verbose,
             'UserCredentials' => $this->UserCredentials,
             'SSLVersion' => $this->SSLVersion,
-            'CurlOptions' => $this->curlOptions,
+            'StreamHandle' => $this->StreamHandle,
         ];
-    }
-
-    public function addCurlOption($name, $value)
-    {
-        $this->curlOptions[$name] = $value;
     }
 
     public function addCustomHeader($name, $value)
@@ -135,8 +130,8 @@ class RequestOptions
 
 
     /**
-     * @var array
+     * @var resource
      */
-    public $curlOptions;
+    public $StreamHandle;
 
 }
