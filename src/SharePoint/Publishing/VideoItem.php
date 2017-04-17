@@ -4,6 +4,8 @@
 namespace Office365\PHP\Client\SharePoint\Publishing;
 
 
+use Office365\PHP\Client\Runtime\ClientActionDeleteEntity;
+use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\HttpMethod;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
@@ -12,6 +14,19 @@ use Office365\PHP\Client\SharePoint\ClientContext;
 
 class VideoItem extends ClientObject
 {
+
+
+    public function update()
+    {
+        $qry = new ClientActionUpdateEntity($this);
+        $this->getContext()->addQuery($qry);
+    }
+
+    public function deleteObject()
+    {
+        $qry = new ClientActionDeleteEntity($this);
+        $this->getContext()->addQuery($qry);
+    }
 
     public function saveBinaryStream($content){
         $ctx = $this->getContext();

@@ -23,4 +23,13 @@ class VideoCollection extends ClientObjectCollection
         $this->addChild($videoItem);
         return $videoItem;
     }
+
+
+    /**
+     * @return string
+     */
+    public function getItemTypeName()
+    {
+        return __NAMESPACE__ . "\\" . "VideoItem";
+    }
 }

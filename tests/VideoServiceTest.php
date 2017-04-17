@@ -9,6 +9,18 @@ use Office365\PHP\Client\SharePoint\Publishing\VideoServiceManager;
 class VideoServiceTest extends SharePointTestCase
 {
 
+    /**
+     * @var $manager VideoServiceManager
+     */
+    protected static $manager;
+
+
+    /**
+     * @var $targetChannel VideoChannel
+     */
+    protected static $targetChannel;
+
+
     public function testGetDiscoverer()
     {
         $discoverer = new VideoServiceDiscoverer(self::$context);
@@ -26,8 +38,8 @@ class VideoServiceTest extends SharePointTestCase
      */
     public function testEnsureChannel(VideoServiceDiscoverer $discoverer)
     {
-        $manager = new VideoServiceManager(self::$context,$discoverer->getVideoPortalUrl());
-        $channels = $manager->getChannels();
+        self::$manager = new VideoServiceManager(self::$context,$discoverer->getVideoPortalUrl());
+        $channels = self::$manager->getChannels();
         self::$context->load($channels);
         self::$context->executeQuery();
 
@@ -39,15 +51,15 @@ class VideoServiceTest extends SharePointTestCase
             });
 
         if(is_null($result)){
-            $targetChannel = $channels->add($channelName); #oh crap.. not supported by REST service yet
+            self::$targetChannel = $channels->add($channelName); #oh crap.. not supported by REST service yet
             self::$context->executeQuery();
         }
         else{
-            $targetChannel = $result[0];
+            self::$targetChannel = $result[0];
         }
 
-        self::assertEquals($targetChannel->getProperty("Title"),$channelName);
-        return $targetChannel;
+        self::assertEquals(self::$targetChannel->getProperty("Title"),$channelName);
+        return self::$targetChannel;
     }
 
 
@@ -77,7 +89,45 @@ class VideoServiceTest extends SharePointTestCase
         $filePath = "${parentPath}examples/data/big_buck_bunny.mp4";
         $videoContent = file_get_contents($filePath);
         $videoItem->saveBinaryStream($videoContent);
+    }
 
+    /**
+     * @depends testCreateVideo
+     * @param VideoItem $videoItem
+     */
+    public function testUpdateVideo(VideoItem $videoItem)
+    {
+        $desc = TestUtilities::createUniqueName("Video sample");
+        $videoItem->setProperty("Description",$desc);
+        $videoItem->update();
+        self::$context->executeQuery();
+
+        $result = self::$targetChannel->getAllVideos()->filter("Description eq '$desc'");
+        self::$context->load($result);
+        self::$context->executeQuery();
+        self::assertNotEmpty($result->getCount());
+    }
+
+
+    /**
+     * @depends testCreateVideo
+     * @param VideoItem $videoItem
+     */
+    public function testDeleteVideo(VideoItem $videoItem)
+    {
+        $videoId = $videoItem->getProperty("ID");
+        $videoItem->deleteObject();
+        self::$context->executeQuery();
+
+        $allVideos = self::$targetChannel->getAllVideos();
+        self::$context->load($allVideos);
+        self::$context->executeQuery();
+        $result = $allVideos->findItems(
+            function (VideoItem $item) use ($videoId) {
+                return  $item->getProperty("ID") === $videoId;
+            });
+
+        self::assertEmpty(count($result));
     }
 
 

@@ -33,12 +33,12 @@ class VideoChannel extends ClientObject
 
 
     /**
-     * @return VideoChannelCollection
+     * @return VideoCollection
      */
     public function GetAllVideos(){
-        return new VideoChannelCollection(
+        return new VideoCollection(
             $this->getContext(),
-            new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"AllVideos")
+            new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"GetAllVideos")
         );
     }
 
