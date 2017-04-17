@@ -72,6 +72,15 @@ class ClientRuntimeContext
         return $this->serviceRootUrl;
     }
 
+
+    /**
+     * @param $url string
+     */
+    public function setServiceRootUrl($url)
+    {
+        $this->serviceRootUrl = $url;
+    }
+
     /**
      * Gets the api version being used
      * @return string

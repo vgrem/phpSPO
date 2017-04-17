@@ -16,7 +16,7 @@ try {
     $targetLibraryTitle = "Documents";
     $targetFolderUrl = "/sites/contoso/Documents/Archive";
 
-    $list = TestUtilities::ensureList($ctx->getWeb(),$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
+    //$list = TestUtilities::ensureList($ctx->getWeb(),$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
     //enumFolders($list);
     //uploadFiles($localPath,$list);
     //$localFilePath = $localPath . "/SharePoint User Guide.docx";
@@ -36,6 +36,16 @@ catch (Exception $e) {
 
 
 function createSubFolder(ClientContext $ctx,$parentFolderUrl,$folderName){
+
+    $files = $ctx->getWeb()->getFolderByServerRelativeUrl($parentFolderUrl)->getFiles();
+    $ctx->load($files);
+    $ctx->executeQuery();
+    //print files info
+    foreach ($files->getData() as $file) {
+        print "File name: '{$file->getProperty("ServerRelativeUrl")}'\r\n";
+    }
+
+
     $parentFolder = $ctx->getWeb()->getFolderByServerRelativeUrl($parentFolderUrl);
     $childFolder = $parentFolder->getFolders()->add($folderName);
     $ctx->executeQuery();

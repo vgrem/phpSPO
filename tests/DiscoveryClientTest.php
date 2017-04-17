@@ -21,11 +21,14 @@ class DiscoveryClientTest extends \PHPUnit_Framework_TestCase
         self::$client = new DiscoveryClient($authCtx);
     }
 
-    public function testDiscoverCapabilities()
-    {
-        $result = self::$client->getDiscoverCapabilities();
-        self::assertNotNull($result);
 
+
+
+    public function testGetAllServices()
+    {
+        $result = self::$client->getAllServices();
+        self::$client->executeQuery();
+        self::assertNotEmpty($result->getCount());
     }
 
 }
