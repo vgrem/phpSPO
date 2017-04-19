@@ -187,3 +187,20 @@ function downloadFileAsStream(ClientRuntimeContext $ctx, $fileUrl, $targetFilePa
 
     print "File {$fileUrl} has been downloaded successfully\r\n";
 }
+
+function overwriteFileAsStream(ClientContext $ctx, $fileUrl, $sourceFilePath) {
+    $fileUrl = rawurlencode($fileUrl);
+    $fp = fopen($sourceFilePath, 'r');
+
+    $url = $ctx->getServiceRootUrl() . "web/getfilebyserverrelativeurl('$fileUrl')/\$value";
+    $options = new \Office365\PHP\Client\Runtime\Utilities\RequestOptions($url);
+    $options->Method = \Office365\PHP\Client\Runtime\HttpMethod::Post;
+    $options->addCustomHeader('X-HTTP-Method','PUT');
+    $ctx->ensureFormDigest($options);
+    $options->StreamHandle = $fp;
+    $options->addCustomHeader("content-length", filesize($sourceFilePath));
+
+    $ctx->executeQueryDirect($options);
+    fclose($fp);
+    print "File {$fileUrl} has been uploaded successfully\r\n";
+}
