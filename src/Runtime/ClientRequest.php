@@ -40,7 +40,7 @@ class ClientRequest
     private $format;
 
     /**
-     * @var array
+     * @var ClientAction[]
      */
     protected $queries = array();
 
