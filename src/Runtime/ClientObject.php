@@ -54,6 +54,16 @@ class ClientObject extends ODataPayload
         $this->resourcePath = $resourcePath;
     }
 
+
+    /**
+     * @return null
+     */
+    protected function getServerTypeId()
+    {
+        return null;
+    }
+
+
     /**
      * @return ClientRuntimeContext
      */

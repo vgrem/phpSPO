@@ -13,6 +13,6 @@ class ClientActionUpdateEntity extends ClientAction
      */
     public function __construct(ClientObject $clientObject)
     {
-        parent::__construct($clientObject->getResourceUrl(), $clientObject, (int)ClientActionType::UpdateEntity);
+        parent::__construct($clientObject->getResourcePath(), $clientObject, (int)ClientActionType::UpdateEntity);
     }
 }

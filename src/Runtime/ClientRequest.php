@@ -149,6 +149,7 @@ class ClientRequest
                     }
                     $serializer->deserialize($response, $resultObject);
                 }
+                unset($this->resultObjects[$qry->getId()]);
             }
         }
     }
@@ -194,7 +195,11 @@ class ClientRequest
      */
     public function buildRequest(ClientAction $query)
     {
-        $request = new RequestOptions($query->ResourceUrl);
+        $resourceUrl = $this->context->getServiceRootUrl() . $query->ResourcePath->toUrl();
+        if (!is_null($query->QueryOptions)) {
+            $resourceUrl .= '?' . $query->QueryOptions->toUrl();
+        }
+        $request = new RequestOptions($resourceUrl);
         if ($query->ActionType === ClientActionType::PostMethod ||
             $query->ActionType === ClientActionType::CreateEntity ||
             $query->ActionType === ClientActionType::UpdateEntity ||
@@ -221,11 +226,8 @@ class ClientRequest
      */
     public function addQueryAndResultObject(ClientObject $clientObject, ODataQueryOptions $queryOptions = null)
     {
-        $resourceUrl = $clientObject->getResourceUrl();
-        if (!is_null($queryOptions)) {
-            $resourceUrl .= '?' . $queryOptions->toUrl();
-        }
-        $qry = new ClientActionReadEntity($resourceUrl);
+        $resourcePath = $clientObject->getResourcePath();
+        $qry = new ClientActionReadEntity($resourcePath,$queryOptions);
         $this->addQuery($qry, $clientObject);
     }
 

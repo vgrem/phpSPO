@@ -13,6 +13,6 @@ class ClientActionDeleteEntity extends ClientAction
      */
     public function __construct(ClientObject $clientObject)
     {
-        parent::__construct($clientObject->getResourceUrl(), null, (int)ClientActionType::DeleteEntity);
+        parent::__construct($clientObject->getResourcePath(), null, (int)ClientActionType::DeleteEntity);
     }
 }

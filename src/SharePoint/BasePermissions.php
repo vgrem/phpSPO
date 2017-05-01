@@ -59,11 +59,4 @@ class BasePermissions extends ClientValueObject
     }
 
 
-    /*function convertToEntity(ODataPayload $payload, ODataFormat $format)
-    {
-        if($format->MetadataLevel == ODataMetadataLevel::Verbose)
-            $payload = $payload->Value->GetUserEffectivePermissions;
-        parent::convertToEntity($payload, $format);
-    }*/
-
 }

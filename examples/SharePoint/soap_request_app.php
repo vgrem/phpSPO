@@ -1,17 +1,29 @@
 <?php
 
+require_once('../bootstrap.php');
 
-/*
-	$requestData = file_get_contents("webrequest.xml");
-	$request = new ClientRequest($Settings['Url'],$authCtx);
-	$options = array(
-		'url' =>  $Settings['Url'] . "/_vti_bin/client.svc/ProcessQuery",
-		'data' => $requestData,
-		'method' => 'POST',
-		'headers' => array(
-			'content-type' => 'application/atom+xml',
-			'Accept' => 'application/atom+xml'
-		)
-	);
-	$response = $request->executeQueryDirect($options);
-	$json = json_decode($response);*/
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\SharePoint\ClientContext;
+
+global $Settings;
+
+
+$requestData = file_get_contents("webrequest.xml");
+$authCtx = new AuthenticationContext($Settings['Url']);
+$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
+$ctx = new ClientContext($Settings['Url'],$authCtx);
+
+
+
+$svcUrl = $Settings['Url'] . "/_vti_bin/client.svc/ProcessQuery";
+$options = new RequestOptions($svcUrl);
+$options->Data = $requestData;
+$options->Method = \Office365\PHP\Client\Runtime\HttpMethod::Post;
+$options->Headers = array(
+   'content-type' => 'application/atom+xml',
+   'Accept' => 'application/atom+xml'
+);
+$ctx->ensureFormDigest($options);
+$response = $ctx->executeQueryDirect($options);
+$json = json_decode($response);

@@ -2,6 +2,7 @@
 
 namespace Office365\PHP\Client\Runtime;
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
+use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 
 
 /**
@@ -15,9 +16,15 @@ class ClientAction
     public $ActionType;
 
     /**
-     * @var string
+     * @var ResourcePath
      */
-    public $ResourceUrl;
+    public $ResourcePath;
+
+
+    /**
+     * @var $QueryOptions ODataQueryOptions
+     */
+    public $QueryOptions;
 
     /**
      * @var ODataPayload
@@ -33,13 +40,13 @@ class ClientAction
 
     /**
      * ClientAction constructor.
-     * @param string $resourceUrl
+     * @param ResourcePath $resourcePath
      * @param ODataPayload $payload
      * @param int $actionType
      */
-    public function __construct($resourceUrl, $payload=null, $actionType=null)
+    public function __construct(ResourcePath $resourcePath, $payload=null, $actionType=null)
     {
-        $this->ResourceUrl = $resourceUrl;
+        $this->ResourcePath = $resourcePath;
         $this->Payload = $payload;
         $this->ActionType = $actionType;
         $this->PayloadFormatType = FormatType::Json;

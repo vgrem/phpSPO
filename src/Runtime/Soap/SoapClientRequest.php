@@ -1,9 +1,9 @@
 <?php
 
-//Not implemented yet
-use Office365\PHP\Client\Runtime\ClientAction;
-use Office365\PHP\Client\Runtime\ClientRequest;
+namespace Office365\PHP\Client\Runtime;
+
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use SimpleXMLElement;
 
 class SoapClientRequest extends ClientRequest
 {
@@ -12,7 +12,7 @@ class SoapClientRequest extends ClientRequest
     {
         /*$root = new simpleXMLElement("<Request/>");
         $root->addAttribute("xmlns","http://schemas.microsoft.com/sharepoint/clientquery/2009");
-        $root->addAttribute("ApplicationName","");
+        $root->addAttribute("ApplicationName",self::$AppName);
         $actions = $root->addChild("Actions");
         foreach( $this->queries as $query ) {
             $objectPath = $actions->addChild("ObjectPath");
@@ -40,4 +40,16 @@ class SoapClientRequest extends ClientRequest
     {
         // TODO: Implement processResponse() method.
     }
+
+
+    /**
+     * @var string $AppName
+     */
+    private static $AppName = "phpSPO Client";
+
+
+    /**
+     * @var string $SchemaVersion
+     */
+    private static $SchemaVersion = "16.0.0.0";
 }

@@ -104,8 +104,12 @@ class ClientRuntimeContext
             $queryOptions->Select = implode(",",$selectProperties);
             $this->getPendingRequest()->addQueryAndResultObject($clientObject, $queryOptions);
         }
-        else
-            $this->getPendingRequest()->addQueryAndResultObject($clientObject);
+        else{
+            $queryOptions = null;
+            if($clientObject instanceof ClientObjectCollection)
+                $queryOptions = $clientObject->getQueryOptions();
+            $this->getPendingRequest()->addQueryAndResultObject($clientObject,$queryOptions);
+        }
         return $this;
     }
 

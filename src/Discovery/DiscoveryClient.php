@@ -8,6 +8,7 @@ use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\OData\JsonFormat;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\Office365Version;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 class DiscoveryClient extends ClientRuntimeContext
 {
@@ -26,7 +27,8 @@ class DiscoveryClient extends ClientRuntimeContext
     public function getAllServices()
     {
         $allServices = new ServiceInfoCollection();
-        $qry = new ClientActionReadEntity($this->getServiceRootUrl() . "me/allServices");
+        $path = new ResourcePathEntity($this,null, "me/allServices");
+        $qry = new ClientActionReadEntity($path);
         $this->addQuery($qry,$allServices);
         return $allServices;
     }

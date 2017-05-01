@@ -4,8 +4,7 @@
 namespace Office365\PHP\Client\SharePoint\Portal;
 
 
-use Office365\PHP\Client\Runtime\ClientAction;
-use Office365\PHP\Client\Runtime\ClientActionType;
+use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\OperationParameterCollection;
@@ -36,10 +35,14 @@ class GroupSiteManager extends ClientObject
         $payload->add("displayName",$displayName);
         $payload->add("alias",$alias);
         $payload->add("isPublic",$isPublic);
+        if(!empty($description)){
+            $payload->add("description",$description);
+        }
+        if(!is_null($additionalOwners)){
 
-
+        }
         $info = new GroupSiteInfo();
-        $qry = new ClientAction($this->getResourceUrl() . "/CreateGroupEx", $payload,ClientActionType::CreateEntity);
+        $qry = new ClientActionInvokePostMethod($this,"CreateGroupEx",null,$payload);
         $this->getContext()->addQuery($qry,$info);
         return $info;
     }
