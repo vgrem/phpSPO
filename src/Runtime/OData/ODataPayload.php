@@ -87,7 +87,7 @@ abstract class ODataPayload
      */
     protected function isMetadataProperty($key)
     {
-        return $key == "__metadata";
+        return $key === "__metadata";
     }
 
     protected function isDeferredProperty($value)
