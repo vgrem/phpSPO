@@ -151,8 +151,6 @@ class ClientObject extends ODataPayload
                         $this->setProperty($key, $value, false);
                     }
                 }
-            } elseif (is_array($value)) {
-                $this->convertFromJson($value);
             } else {
                 $this->setProperty($key, $value, false);
             }
