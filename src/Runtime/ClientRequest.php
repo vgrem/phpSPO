@@ -28,7 +28,7 @@ abstract class ClientRequest
 
 
     /**
-     * @var array
+     * @var ClientAction[]
      */
     protected $queries = array();
 
