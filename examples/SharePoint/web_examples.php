@@ -18,7 +18,7 @@ try {
 	$ctx->load($list);
 	$ctx->executeQuery();
 
-	//$request = new SharePoint\PHP\Client\Runtime\Soap\ClientRequest();
+	//$request = new SharePoint\PHP\Client\Runtime\CSOM\ClientRequest();
 	//$xml = $request->buildQuery();
 	//print $xml;
 

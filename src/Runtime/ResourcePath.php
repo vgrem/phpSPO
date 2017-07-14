@@ -6,6 +6,7 @@ namespace Office365\PHP\Client\Runtime;
 
 use Office365\PHP\Client\Runtime\OData\ODataPathParser;
 
+
 abstract class ResourcePath
 {
     /**
@@ -103,5 +104,11 @@ abstract class ResourcePath
      * @var bool
      */
     public $ServerObjectIsNull;
+
+
+    /**
+     * @var int
+     */
+    public $Id;
 
 }

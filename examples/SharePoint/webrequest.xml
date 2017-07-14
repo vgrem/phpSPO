@@ -1,4 +1,4 @@
-<Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="Javascript Library">
+<!--Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="Javascript Library">
     <Actions>
         <ObjectPath Id="1" ObjectPathId="0" />
         <ObjectPath Id="3" ObjectPathId="2" />
@@ -12,4 +12,36 @@
         <StaticProperty Id="0" TypeId="{3747adcd-a3c3-41b9-bfab-4a64dd2f1e0a}" Name="Current" />
         <Property Id="2" ParentId="0" Name="Web" />
     </ObjectPaths>
+</Request-->
+        <!--Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="Javascript Library">
+          <Actions>
+            <ObjectPath Id="1" ObjectPathId="0" />
+            <ObjectPath Id="3" ObjectPathId="2" />
+            <Query Id="4" ObjectPathId="2">
+              <Query SelectAllProperties="true">
+                <Properties />
+              </Query>
+            </Query>
+          </Actions>
+          <ObjectPaths>
+            <StaticProperty Id="0" TypeId="{3747adcd-a3c3-41b9-bfab-4a64dd2f1e0a}" Name="Current" />
+            <Property Id="2" ParentId="0" Name="Web" />
+          </ObjectPaths>
+        </Request-->
+
+
+<Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="Javascript Library">
+<Actions>
+    <ObjectPath Id="1" ObjectPathId="0" />
+    <ObjectPath Id="3" ObjectPathId="2" />
+    <Query Id="4" ObjectPathId="2">
+        <Query SelectAllProperties="true">
+            <Properties />
+        </Query>
+    </Query>
+</Actions>
+<ObjectPaths>
+    <StaticProperty Id="0" TypeId="{3747adcd-a3c3-41b9-bfab-4a64dd2f1e0a}" Name="Current" />
+    <Property Id="2" ParentId="0" Name="Web" />
+</ObjectPaths>
 </Request>

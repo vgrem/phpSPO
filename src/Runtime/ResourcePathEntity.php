@@ -1,7 +1,9 @@
 <?php
 
 
+
 namespace Office365\PHP\Client\Runtime;
+
 
 /**
  * Resource path  for addressing a Collection (of entities), a single entity within a Collection,
@@ -31,11 +33,14 @@ class ResourcePathEntity extends ResourcePath
     {
         return $this->entityName;
     }
+
+
     
 
     /**
      * @var string
      */
     protected $entityName;
-    
+
+
 }

@@ -52,4 +52,10 @@ class RequestContext extends ClientObject
         return $current;
     }
 
+
+    protected function getServerTypeId()
+    {
+        return "{3747adcd-a3c3-41b9-bfab-4a64dd2f1e0a}";
+    }
+
 }

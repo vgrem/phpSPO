@@ -12,7 +12,10 @@ The library provides a Office 365 REST client for PHP applications. It allows to
 
 ### Status
 
+[![Total Downloads](https://poser.pugx.org/vgrem/php-spo/downloads)](https://packagist.org/packages/vgrem/php-spo)
+[![Latest Stable Version](https://poser.pugx.org/vgrem/php-spo/v/stable)](https://packagist.org/packages/vgrem/php-spo)
 [![Build Status](https://travis-ci.org/vgrem/phpSPO.svg?branch=master)](https://travis-ci.org/vgrem/phpSPO)
+[![License](https://poser.pugx.org/vgrem/php-spo/license)](https://packagist.org/packages/vgrem/php-spo)
 
 ### Installation
 
@@ -111,8 +114,8 @@ $listTitle = 'Tasks';
 $itemToUpdateId = 1;
 $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
 $listItem = $list->getItemById($itemId);
-$itemProperties = array('PercentComplete' => 1);
-$listItem->update($itemProperties);
+$listItem->setProperty('PercentComplete',1);
+$listItem->update();
 $ctx->executeQuery();
 ````
 

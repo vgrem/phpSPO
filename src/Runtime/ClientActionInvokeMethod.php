@@ -37,6 +37,16 @@ abstract class ClientActionInvokeMethod extends ClientAction
         $method = $writer->addChild("Method");
         $method->addAttribute("Name", $this->MethodName);
         $method->addAttribute("Id", $this->getId());
+        $method->addAttribute("ObjectPathId", $this->ResourcePath->Id);
+        if (isset($this->Version))
+            $method->addAttribute("Version", $this->Version);
+        if(isset($this->MethodParameters)){
+            $parameters = $method->addChild("Parameters");
+            foreach ($this->MethodParameters as $parameter){
+                $parameter = $parameters->addChild("Parameter");
+
+            }
+        }
     }
 
 
