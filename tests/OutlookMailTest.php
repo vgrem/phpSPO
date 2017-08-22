@@ -51,6 +51,7 @@ class OutlookMailTest extends OutlookServicesTestCase
         $attachment->Item = $this->getLink($existingMessage);
         $attachment->ensureTypeAnnotation();
         self::$context->executeQuery();
+        self::assertTrue(true);
     }
 
 
@@ -71,6 +72,7 @@ class OutlookMailTest extends OutlookServicesTestCase
         $attachment->Name = basename($attachmentPath);
         $attachment->ensureTypeAnnotation();
         self::$context->executeQuery();
+        self::assertTrue(true);
     }
 
 
@@ -134,6 +136,7 @@ class OutlookMailTest extends OutlookServicesTestCase
         );
         $message->forward("For your consideration",$recipients);
         self::$context->executeQuery();
+        self::assertTrue(true);
     }
 
 
@@ -144,6 +147,7 @@ class OutlookMailTest extends OutlookServicesTestCase
     public function testSendEmail(Message $message){
         self::$context->getMe()->sendEmail($message,false);
         self::$context->executeQuery();
+        self::assertTrue(true);
     }
 
 

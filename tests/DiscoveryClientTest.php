@@ -6,7 +6,7 @@ namespace Office365\PHP\Client\Discovery;
 
 use Office365\PHP\Client\Runtime\Auth\NetworkCredentialContext;
 
-class DiscoveryClientTest extends \PHPUnit_Framework_TestCase
+class DiscoveryClientTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

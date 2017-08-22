@@ -29,6 +29,17 @@ class OutlookCalendarTest extends OutlookServicesTestCase
         $event->Location->Address->CountryOrRegion = "Finland";
         $event->Attendees[] = new Attendee(new EmailAddress($currentUser->getProperty("DisplayName"),$currentUser->getProperty("Id")));
         self::$context->executeQuery();
+
+        $key = $event->getProperty("Id");
+        $result = self::$context->getMe()->getEvents();
+        self::$context->load($result);
+        self::$context->executeQuery();
+        $filteredResult = $result->findItems(
+            function (Event $event) use ($key) {
+                return  $event->getProperty("Id") === $key;
+            });
+        self:self::assertCount(1,$filteredResult);
+
         return $event;
     }
 

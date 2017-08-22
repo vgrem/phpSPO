@@ -22,7 +22,7 @@ class ListTest extends SharePointTestCase
      * @depends testIfListCreated
      * @param \Office365\PHP\Client\SharePoint\SPList $list
      */
-    public function testAssignUniquePermissions(\Office365\PHP\Client\SharePoint\SPList $list){
+    /*public function testAssignUniquePermissions(\Office365\PHP\Client\SharePoint\SPList $list){
         $list->breakRoleInheritance(true);
         //$list->update();
         self::$context->executeQuery();
@@ -30,7 +30,7 @@ class ListTest extends SharePointTestCase
         //self::$context->load($list);
         //self::$context->executeQuery();
         //self::assertTrue($list->hasUniqueRoleAssignments());
-    }
+    }*/
 
 
     /**

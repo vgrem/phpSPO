@@ -3,7 +3,7 @@
 namespace Office365\PHP\Client\Runtime;
 
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
-use Office365\PHP\Client\Runtime\OData\ODataClientRequest;
+use Office365\PHP\Client\Runtime\OData\ODataRequest;
 use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
@@ -172,7 +172,7 @@ class ClientRuntimeContext
     public function getPendingRequest()
     {
         if (!isset($this->pendingRequest)) {
-            $this->pendingRequest = new ODataClientRequest($this, $this->Format);
+            $this->pendingRequest = new ODataRequest($this, $this->Format);
         }
         return $this->pendingRequest;
     }

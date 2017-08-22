@@ -37,7 +37,9 @@ class FileTest extends SharePointTestCase
             $uploadFile = self::$targetList->getRootFolder()->getFiles()->add($fileCreationInformation);
             self::$context->executeQuery();
             $this->assertEquals($uploadFile->getProperty("Name"),$fileCreationInformation->Url);
+
         }
+        self::assertTrue(true);
     }
 
 
@@ -46,8 +48,7 @@ class FileTest extends SharePointTestCase
         $files = self::$targetList->getRootFolder()->getFiles()->select("Name,Version");
         self::$context->load($files);
         self::$context->executeQuery();
-        //$this->assertTrue($files->AreItemsAvailable());
-        
+        $this->assertNotNull($files->getServerObjectIsNull());
     }
 
     public function testCreateFolder()
@@ -65,6 +66,7 @@ class FileTest extends SharePointTestCase
     /**
      * @depends testCreateFolder
      * @param \Office365\PHP\Client\SharePoint\Folder $folderToRename
+     * @return \Office365\PHP\Client\SharePoint\Folder
      */
     public function testRenameFolder(\Office365\PHP\Client\SharePoint\Folder $folderToRename)
     {
@@ -79,17 +81,26 @@ class FileTest extends SharePointTestCase
         self::$context->load($folder);
         self::$context->executeQuery();
         self::assertNotEmpty($folder->getProperties());
+        return $folder;
     }
 
 
     /**
-     * @depends testCreateFolder
+     * @depends testRenameFolder
      * @param \Office365\PHP\Client\SharePoint\Folder $folderToDelete
      */
     public function testDeleteFolder(\Office365\PHP\Client\SharePoint\Folder $folderToDelete)
     {
+        $folderName = $folderToDelete->getProperty("Name");
         $folderToDelete->deleteObject();
         self::$context->executeQuery();
+
+
+        $filterExpr = "FileLeafRef eq '$folderName'";
+        $result = self::$targetList->getItems()->filter($filterExpr);
+        self::$context->load($result);
+        self::$context->executeQuery();
+        self::assertEmpty($result->getCount());
     }
 
 }

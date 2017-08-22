@@ -4,7 +4,7 @@ use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;
 
 
-abstract class SharePointTestCase extends PHPUnit_Framework_TestCase
+abstract class SharePointTestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ClientContext

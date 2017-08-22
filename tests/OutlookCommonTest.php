@@ -22,6 +22,7 @@ class OutlookCommonTest extends OutlookServicesTestCase
         $calendars = self::$context->getMe()->getCalendars();
         self::$context->load($calendars);
         self::$context->executeQuery();
+        self::assertNotNull($calendars->getServerObjectIsNull());
     }
 
 

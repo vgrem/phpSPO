@@ -5,7 +5,7 @@ use Office365\PHP\Client\Runtime\Auth\NetworkCredentialContext;
 
 
 
-abstract class OutlookServicesTestCase extends PHPUnit_Framework_TestCase
+abstract class OutlookServicesTestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var OutlookClient

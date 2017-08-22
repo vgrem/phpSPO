@@ -20,7 +20,7 @@ use Office365\PHP\Client\SharePoint\ListItemCollection;
 /**
  * Client Request for OData provider.
  */
-class ODataClientRequest extends ClientRequest
+class ODataRequest extends ClientRequest
 {
     /**
      * @var int

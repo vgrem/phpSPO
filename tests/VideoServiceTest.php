@@ -89,6 +89,7 @@ class VideoServiceTest extends SharePointTestCase
         $filePath = "${parentPath}examples/data/big_buck_bunny.mp4";
         $videoContent = file_get_contents($filePath);
         $videoItem->saveBinaryStream($videoContent);
+        self::assertTrue(true);
     }
 
     /**

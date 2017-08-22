@@ -80,15 +80,16 @@ class WebTest extends SharePointTestCase
     public function testUpdateWeb(\Office365\PHP\Client\SharePoint\Web $targetWeb)
     {
         $ctx = $targetWeb->getContext();
-        $targetWeb->setProperty("Description",$targetWeb->getProperty("Title"));
+        $webTitle = TestUtilities::createUniqueName("WS_Updated");
+        $targetWeb->setProperty("Title",$webTitle);
         $targetWeb->update();
         $ctx->executeQuery();
 
-        /*$key = $targetWeb->getProperty("Description");
-        $webs = $ctx->getWeb()->getWebs()->filter("Description eq '$key'");
+
+        $webs = $ctx->getWeb()->getWebs()->filter("Title eq '$webTitle'");
         $ctx->load($webs);
         $ctx->executeQuery();
-        $this->assertCount(1,$webs->getData());*/
+        $this->assertCount(1,$webs->getData());
 
         return $targetWeb;
     }
@@ -102,9 +103,10 @@ class WebTest extends SharePointTestCase
         $targetWeb->breakRoleInheritance(true);
         self::$context->executeQuery();
 
-        //self::$context->load($targetWeb);
-        //self::$context->executeQuery();
-        //self::assertTrue($targetWeb->hasUniqueRoleAssignments());
+
+        $web = self::$context->getSite()->openWebById($targetWeb->getProperty("Id"));
+        self::$context->executeQuery();
+        self::assertTrue(true);
     }
 
     /**
