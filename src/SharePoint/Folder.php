@@ -2,9 +2,9 @@
 
 
 namespace Office365\PHP\Client\SharePoint;
-use Office365\PHP\Client\Runtime\ClientActionDeleteEntity;
-use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
-use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
+use Office365\PHP\Client\Runtime\DeleteEntityQuery;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
+use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
@@ -20,7 +20,7 @@ class Folder extends ClientObject
      * as shown in Folder request examples.
      */
     public function deleteObject(){
-        $qry = new ClientActionDeleteEntity($this);
+        $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
         //$this->removeFromParentCollection();
     }
@@ -31,7 +31,7 @@ class Folder extends ClientObject
         $item = $this->getListItemAllFields();
         $item->setProperty('Title',$name);
         $item->setProperty('FileLeafRef', $name);
-        $qry = new ClientActionUpdateEntity($item);
+        $qry = new UpdateEntityQuery($item);
         $this->getContext()->addQuery($qry,$this);
     }
 
@@ -39,7 +39,7 @@ class Folder extends ClientObject
      * Moves the list folder to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      */
     public function recycle(){
-        $qry = new ClientActionInvokePostMethod($this,"recycle");
+        $qry = new InvokePostMethodQuery($this,"recycle");
         $this->getContext()->addQuery($qry);
     }
 

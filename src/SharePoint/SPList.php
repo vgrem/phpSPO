@@ -1,13 +1,11 @@
 <?php
     
 namespace Office365\PHP\Client\SharePoint;
-use Office365\PHP\Client\Runtime\ClientActionCreateEntity;
-use Office365\PHP\Client\Runtime\ClientActionDeleteEntity;
-use Office365\PHP\Client\Runtime\ClientActionInvokeGetMethod;
-use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
-use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
-use Office365\PHP\Client\Runtime\FormatType;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
+use Office365\PHP\Client\Runtime\CreateEntityQuery;
+use Office365\PHP\Client\Runtime\DeleteEntityQuery;
+use Office365\PHP\Client\Runtime\InvokeGetMethodQueryQuery;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
+use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 
@@ -33,7 +31,7 @@ class SPList extends SecurableObject
         foreach($listItemCreationInformation as $key => $value){
             $listItem->setProperty($key,$value);
         }
-        $qry = new ClientActionCreateEntity($items,$listItem);
+        $qry = new CreateEntityQuery($items,$listItem);
         $this->getContext()->addQuery($qry,$listItem);
         return $listItem;
     }
@@ -62,7 +60,7 @@ class SPList extends SecurableObject
     {
         $items = new ListItemCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items"));
         if(isset($camlQuery)){
-            $qry = new ClientActionInvokePostMethod(
+            $qry = new InvokePostMethodQuery(
                 $this,
                 "GetItems",
                 null,
@@ -79,7 +77,7 @@ class SPList extends SecurableObject
      */
     public function update()
     {
-        $qry = new ClientActionUpdateEntity($this);
+        $qry = new UpdateEntityQuery($this);
         $this->getContext()->addQuery($qry);
     }
 
@@ -88,7 +86,7 @@ class SPList extends SecurableObject
      */
     public function deleteObject()
     {
-        $qry = new ClientActionDeleteEntity($this);
+        $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
         $this->removeFromParentCollection();
     }
@@ -103,7 +101,7 @@ class SPList extends SecurableObject
     public function getUserEffectivePermissions($loginName)
     {
         $permissions = new BasePermissions();
-        $qry = new ClientActionInvokeGetMethod(
+        $qry = new InvokeGetMethodQueryQuery(
             $this,
             "GetUserEffectivePermissions",
             array(rawurlencode($loginName))
@@ -120,7 +118,7 @@ class SPList extends SecurableObject
     public function getListItemChangesSinceToken(ChangeLogItemQuery $query)
     {
         $result = new ListItemCollection($this->getContext());
-        $qry = new ClientActionInvokePostMethod(
+        $qry = new InvokePostMethodQuery(
             $this,
             "getListItemChangesSinceToken",
             null,
@@ -139,7 +137,7 @@ class SPList extends SecurableObject
     public function getChanges(ChangeQuery $query)
     {
         $changes = new ChangeCollection($this->getContext());
-        $qry = new ClientActionInvokePostMethod(
+        $qry = new InvokePostMethodQuery(
             $this,
             "GetChanges",
             null,

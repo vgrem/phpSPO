@@ -4,7 +4,7 @@
 namespace Office365\PHP\Client\SharePoint\Portal;
 
 
-use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\OperationParameterCollection;
@@ -42,7 +42,7 @@ class GroupSiteManager extends ClientObject
 
         }
         $info = new GroupSiteInfo();
-        $qry = new ClientActionInvokePostMethod($this,"CreateGroupEx",null,$payload);
+        $qry = new InvokePostMethodQuery($this,"CreateGroupEx",null,$payload);
         $this->getContext()->addQuery($qry,$info);
         return $info;
     }

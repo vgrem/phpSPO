@@ -2,9 +2,8 @@
 
 namespace Office365\PHP\Client\SharePoint;
 
-use Office365\PHP\Client\Runtime\ClientActionCreateEntity;
+use Office365\PHP\Client\Runtime\CreateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 class ViewCollection extends ClientObjectCollection
@@ -47,7 +46,7 @@ class ViewCollection extends ClientObjectCollection
     public function add(ViewCreationInformation $parameters)
     {
         $view = new View($this->getContext(),$this->getResourcePath());
-        $qry = new ClientActionCreateEntity($this,$parameters);
+        $qry = new CreateEntityQuery($this,$parameters);
         $this->getContext()->addQuery($qry,$view);
         $this->addChild($view);
         return $view;

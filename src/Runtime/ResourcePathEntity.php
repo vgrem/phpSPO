@@ -22,6 +22,7 @@ class ResourcePathEntity extends ResourcePath
     {
         parent::__construct($context, $parent);
         $this->entityName = $entityName;
+        //$this->ServerObjectIsNull = false;
     }
 
 
@@ -29,7 +30,7 @@ class ResourcePathEntity extends ResourcePath
      * Gets entity name
      * @return string
      */
-    public function getName()
+    public function toString()
     {
         return $this->entityName;
     }

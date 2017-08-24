@@ -2,8 +2,8 @@
 
 
 namespace Office365\PHP\Client\OutlookServices;
-use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
-use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
+use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\OperationParameterCollection;
 
 
@@ -21,7 +21,7 @@ class Message extends Item
     {
         $payload = new OperationParameterCollection();
         $payload->add("Comment",$comment);
-        $qry = new ClientActionInvokePostMethod($this,"Reply",null,$payload);
+        $qry = new InvokePostMethodQuery($this,"Reply",null,$payload);
         $this->getContext()->addQuery($qry);
     }
 
@@ -34,7 +34,7 @@ class Message extends Item
     {
         $payload = new OperationParameterCollection();
         $payload->add("Comment",$comment);
-        $qry = new ClientActionInvokePostMethod($this,"ReplyAll",null,$payload);
+        $qry = new InvokePostMethodQuery($this,"ReplyAll",null,$payload);
         $this->getContext()->addQuery($qry);
     }
 
@@ -49,7 +49,7 @@ class Message extends Item
         $payload = new OperationParameterCollection();
         $payload->add("Comment",$comment);
         $payload->add("ToRecipients",$toRecipients);
-        $qry = new ClientActionInvokePostMethod($this,"Forward",null,$payload);
+        $qry = new InvokePostMethodQuery($this,"Forward",null,$payload);
         $this->getContext()->addQuery($qry);
     }
 
@@ -62,7 +62,7 @@ class Message extends Item
     public function move($destinationId){
         $payload = new OperationParameterCollection();
         $payload->add("DestinationId",$destinationId);
-        $qry = new ClientActionInvokePostMethod($this,"Move",null,$payload);
+        $qry = new InvokePostMethodQuery($this,"Move",null,$payload);
         $this->getContext()->addQuery($qry);
     }
 
@@ -73,7 +73,7 @@ class Message extends Item
     public function read($isRead)
     {
         $this->setProperty("IsRead", $isRead);
-        $qry = new ClientActionUpdateEntity($this);
+        $qry = new UpdateEntityQuery($this);
         $this->getContext()->addQuery($qry);
     }
 
@@ -84,7 +84,7 @@ class Message extends Item
     public function important($importance)
     {
         $this->setProperty("Importance", $importance);
-        $qry = new ClientActionUpdateEntity($this);
+        $qry = new UpdateEntityQuery($this);
         $this->getContext()->addQuery($qry);
     }
 

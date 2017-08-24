@@ -9,7 +9,7 @@ namespace Office365\PHP\Client\Runtime;
 class ResourcePathLink extends ResourcePath
 {
 
-    public function getName()
+    public function toString()
     {
         // TODO: Implement getValue() method.
     }

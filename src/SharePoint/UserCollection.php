@@ -6,7 +6,7 @@
 namespace Office365\PHP\Client\SharePoint;
 
 
-use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
@@ -52,7 +52,7 @@ class UserCollection extends ClientObjectCollection
      */
     public function removeById($id)
     {
-        $qry = new ClientActionInvokePostMethod($this,"removebyid",array($id));
+        $qry = new InvokePostMethodQuery($this,"removebyid",array($id));
         $this->getContext()->addQuery($qry);
     }
 
@@ -62,7 +62,7 @@ class UserCollection extends ClientObjectCollection
      */
     public function removeByLoginName($loginName)
     {
-        $qry = new ClientActionInvokePostMethod(
+        $qry = new InvokePostMethodQuery(
             $this,
             "removebyloginname",
             array(rawurlencode($loginName)));

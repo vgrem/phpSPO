@@ -112,7 +112,7 @@ abstract class ClientRequest
     public function addQueryAndResultObject(ClientObject $clientObject, ODataQueryOptions $queryOptions = null)
     {
         $resourcePath = $clientObject->getResourcePath();
-        $qry = new ClientActionReadEntity($resourcePath,$queryOptions);
+        $qry = new ReadEntityQuery($resourcePath,$queryOptions);
         $this->addQuery($qry, $clientObject);
     }
 

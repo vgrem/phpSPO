@@ -3,7 +3,7 @@
 
 namespace Office365\PHP\Client\OutlookServices;
 
-use Office365\PHP\Client\Runtime\ClientActionCreateEntity;
+use Office365\PHP\Client\Runtime\CreateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
@@ -16,7 +16,7 @@ class MessageCollection extends ClientObjectCollection
      */
     public function createMessage() {
         $message = new Message($this->getContext());
-        $qry = new ClientActionCreateEntity($this, $message);
+        $qry = new CreateEntityQuery($this, $message);
         $this->getContext()->addQuery($qry, $message);
         $this->addChild($message);
         return $message;

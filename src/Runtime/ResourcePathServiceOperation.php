@@ -3,7 +3,6 @@
 
 namespace Office365\PHP\Client\Runtime;
 use Office365\PHP\Client\Runtime\CSOM\ICSOMCallable;
-use Office365\PHP\Client\Runtime\OData\ODataPathParser;
 use SimpleXMLElement;
 
 /**
@@ -26,11 +25,38 @@ class ResourcePathServiceOperation extends ResourcePath implements ICSOMCallable
     }
 
 
-    public function getName()
+    public function toString()
     {
-        return ODataPathParser::fromMethod($this->methodName,$this->methodParameters);
+        $url = isset($this->methodName) ? $this->methodName : "";
+        if (!isset($this->methodParameters))
+            return $url;
+
+        if (count(array_filter(array_keys($this->methodParameters), 'is_string')) === 0) {
+            $url = $url . "(" . implode(',', array_map(
+                        function ($value) {
+                            $encValue = self::escapeValue($value);
+                            return "$encValue";
+                        }, $this->methodParameters)
+                ) . ")";
+        } else {
+            $url = $url . "(" . implode(',', array_map(
+                        function ($key, $value) {
+                            $encValue = self::escapeValue($value);
+                            return "$key=$encValue";
+                        }, array_keys($this->methodParameters), $this->methodParameters)
+                ) . ")";
+        }
+        return $url;
     }
 
+    private static function escapeValue($value)
+    {
+        if (is_string($value))
+            $value = "'" . $value . "'";
+        elseif (is_bool($value))
+            $value = var_export($value, true);
+        return $value;
+    }
 
     function buildQuery(SimpleXMLElement $writer)
     {

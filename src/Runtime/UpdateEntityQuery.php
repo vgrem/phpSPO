@@ -4,7 +4,7 @@
 namespace Office365\PHP\Client\Runtime;
 
 
-class ClientActionUpdateEntity extends ClientAction
+class UpdateEntityQuery extends ClientAction
 {
 
     /**
@@ -13,6 +13,6 @@ class ClientActionUpdateEntity extends ClientAction
      */
     public function __construct(ClientObject $clientObject)
     {
-        parent::__construct($clientObject->getResourcePath(), $clientObject, (int)ClientActionType::UpdateEntity);
+        parent::__construct($clientObject->getResourcePath(), $clientObject);
     }
 }

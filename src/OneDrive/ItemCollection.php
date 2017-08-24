@@ -3,19 +3,18 @@
 
 namespace Office365\PHP\Client\OneDrive;
 
-
-use Office365\PHP\Client\Runtime\ClientAction;
-use Office365\PHP\Client\Runtime\ClientActionType;
+use Exception;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 
 class ItemCollection extends ClientObjectCollection
 {
 
     function add($name,$type,$content){
-        $payload = new File($this->getContext());
+        /*$payload = new File($this->getContext());
         //$payload->setContent($content);
-        $qry = new ClientAction($this->getResourceUrl() . "/add",$payload,ClientActionType::CreateEntity);
-        $this->getContext()->addQuery($qry);
+        $qry = new InvokePostMethodQuery($this, "add",null,$payload);
+        $this->getContext()->addQuery($qry);*/
+        throw new Exception("Not implemented: ItemCollection.add");
     }
 
 

@@ -1,7 +1,7 @@
 <?php
 
 namespace Office365\PHP\Client\SharePoint;
-use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
@@ -18,7 +18,7 @@ class Site extends ClientObject
     public function openWebById($webId)
     {
         $web = new Web($this->getContext(),$this->getResourcePath());
-        $qry = new ClientActionInvokePostMethod($this,"openWebById",array($webId));
+        $qry = new InvokePostMethodQuery($this,"openWebById",array($webId));
         $this->getContext()->addQuery($qry,$web);
         return $web;
     }

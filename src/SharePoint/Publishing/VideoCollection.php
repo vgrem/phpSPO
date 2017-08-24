@@ -4,7 +4,7 @@
 namespace Office365\PHP\Client\SharePoint\Publishing;
 
 
-use Office365\PHP\Client\Runtime\ClientActionCreateEntity;
+use Office365\PHP\Client\Runtime\CreateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 
 class VideoCollection extends ClientObjectCollection
@@ -18,7 +18,7 @@ class VideoCollection extends ClientObjectCollection
             $videoItem->setProperty("Description",$description);
         if(isset($fileName))
             $videoItem->setProperty("FileName",$fileName);
-        $qry = new ClientActionCreateEntity($this, $videoItem);
+        $qry = new CreateEntityQuery($this, $videoItem);
         $this->getContext()->addQuery($qry, $videoItem);
         $this->addChild($videoItem);
         return $videoItem;

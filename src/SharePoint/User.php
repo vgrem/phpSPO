@@ -2,7 +2,7 @@
 
 
 namespace Office365\PHP\Client\SharePoint;
-use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
+use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 /**
@@ -12,7 +12,7 @@ class User  extends Principal
 {
     public function update()
     {
-        $qry = new ClientActionUpdateEntity($this);
+        $qry = new UpdateEntityQuery($this);
         $this->getContext()->addQuery($qry,$this);
     }
 

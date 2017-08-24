@@ -3,7 +3,7 @@
 namespace Office365\PHP\Client\Discovery;
 
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
-use Office365\PHP\Client\Runtime\ClientActionReadEntity;
+use Office365\PHP\Client\Runtime\ReadEntityQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\OData\JsonFormat;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
@@ -28,7 +28,7 @@ class DiscoveryClient extends ClientRuntimeContext
     {
         $allServices = new ServiceInfoCollection();
         $path = new ResourcePathEntity($this,null, "me/allServices");
-        $qry = new ClientActionReadEntity($path);
+        $qry = new ReadEntityQuery($path);
         $this->addQuery($qry,$allServices);
         return $allServices;
     }

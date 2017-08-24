@@ -8,12 +8,8 @@ use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 /**
  * OData query class
  */
-class ClientAction
+abstract class ClientAction
 {
-    /**
-     * @var int
-     */
-    public $ActionType;
 
     /**
      * @var ResourcePath
@@ -42,13 +38,11 @@ class ClientAction
      * ClientAction constructor.
      * @param ResourcePath $resourcePath
      * @param ODataPayload $payload
-     * @param int $actionType
      */
-    public function __construct(ResourcePath $resourcePath, $payload=null, $actionType=null)
+    public function __construct(ResourcePath $resourcePath, $payload=null)
     {
         $this->ResourcePath = $resourcePath;
         $this->Payload = $payload;
-        $this->ActionType = $actionType;
         $this->PayloadFormatType = FormatType::Json;
     }
 

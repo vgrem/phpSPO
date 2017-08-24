@@ -3,7 +3,7 @@
 
 namespace Office365\PHP\Client\OutlookServices;
 
-use Office365\PHP\Client\Runtime\ClientActionCreateEntity;
+use Office365\PHP\Client\Runtime\CreateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
@@ -16,7 +16,7 @@ class ContactCollection extends ClientObjectCollection
      */
     public function createContact() {
         $contact = new Contact($this->getContext());
-        $qry = new ClientActionCreateEntity($this, $contact);
+        $qry = new CreateEntityQuery($this, $contact);
         $this->getContext()->addQuery($qry, $contact);
         $this->addChild($contact);
         return $contact;

@@ -3,7 +3,7 @@ namespace Office365\PHP\Client\Runtime;
 
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
 
-class ClientActionCreateEntity extends ClientAction
+class CreateEntityQuery extends ClientAction
 {
 
     /**
@@ -13,7 +13,7 @@ class ClientActionCreateEntity extends ClientAction
      */
     public function __construct(ClientObject $entityCollection, ODataPayload $payload = null)
     {
-        parent::__construct($entityCollection->getResourcePath(), $payload, (int)ClientActionType::CreateEntity);
+        parent::__construct($entityCollection->getResourcePath(), $payload);
     }
 
 }

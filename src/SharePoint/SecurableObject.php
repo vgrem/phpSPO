@@ -3,7 +3,7 @@
 
 namespace Office365\PHP\Client\SharePoint;
 
-use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
@@ -18,7 +18,7 @@ class SecurableObject extends ClientObject
      */
     public function breakRoleInheritance($copyRoleAssignments)
     {
-        $qry = new ClientActionInvokePostMethod($this,"breakroleinheritance",array(
+        $qry = new InvokePostMethodQuery($this,"breakroleinheritance",array(
             $copyRoleAssignments
         ));
         $this->getContext()->addQuery($qry);

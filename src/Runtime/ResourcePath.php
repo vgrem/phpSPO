@@ -4,9 +4,6 @@
 namespace Office365\PHP\Client\Runtime;
 
 
-use Office365\PHP\Client\Runtime\OData\ODataPathParser;
-
-
 abstract class ResourcePath
 {
     /**
@@ -37,30 +34,6 @@ abstract class ResourcePath
     }
 
 
-    /**
-     * @param ClientRuntimeContext $context
-     * @param string $value
-     * @return null|ResourcePathEntity
-     */
-    public static function parse(ClientRuntimeContext $context, $value){
-
-        $pathNames = ODataPathParser::parsePathString($value);
-        $path = null;
-        foreach ($pathNames as $pathName){
-            $path = new ResourcePathEntity($context,$path,$pathName);
-        }
-        return $path;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isInitialized(){
-        return !is_null($this->getName());
-    }
-
-
 
     /**
      * @return string
@@ -70,7 +43,7 @@ abstract class ResourcePath
         $paths = array();
         $current = clone $this;
         while (isset($current)) {
-            array_unshift($paths, $current->getName());
+            array_unshift($paths, $current->toString());
             $current = $current->parent;
         }
         return implode("/", $paths);
@@ -78,14 +51,9 @@ abstract class ResourcePath
 
 
     /**
-     * @param string $url
+     * @return string
      */
-    public function fromUrl($url){
-
-    }
-
-    
-    public abstract function getName();
+    public abstract function toString();
 
 
     /**

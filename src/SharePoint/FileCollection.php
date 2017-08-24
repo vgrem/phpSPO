@@ -1,10 +1,8 @@
 <?php
 
 namespace Office365\PHP\Client\SharePoint;
-use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
-use Office365\PHP\Client\Runtime\OData\ODataPayloadKind;
 
 
 /**
@@ -22,7 +20,7 @@ class FileCollection extends ClientObjectCollection
     public function add(FileCreationInformation $fileCreationInformation)
     {
         $file = new File($this->getContext(),$this->getResourcePath());
-        $qry = new ClientActionInvokePostMethod(
+        $qry = new InvokePostMethodQuery(
             $this,
             "add",
             array("overwrite"=>$fileCreationInformation->Overwrite,"url"=>rawurlencode($fileCreationInformation->Url)),
@@ -43,7 +41,7 @@ class FileCollection extends ClientObjectCollection
     public function addTemplateFile($urlOfFile,$templateFileType)
     {
         $file = new File($this->getContext(),$this->getResourcePath());
-        $qry = new ClientActionInvokePostMethod(
+        $qry = new InvokePostMethodQuery(
             $this,
             "addTemplateFile",
             array(

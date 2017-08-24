@@ -4,8 +4,8 @@
 namespace Office365\PHP\Client\OutlookServices;
 
 
-use Office365\PHP\Client\Runtime\ClientActionDeleteEntity;
-use Office365\PHP\Client\Runtime\ClientActionUpdateEntity;
+use Office365\PHP\Client\Runtime\DeleteEntityQuery;
+use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 use ReflectionObject;
 use ReflectionProperty;
@@ -20,7 +20,7 @@ class OutlookEntity extends ClientObject
      */
     public function update()
     {
-        $qry = new ClientActionUpdateEntity($this);
+        $qry = new UpdateEntityQuery($this);
         $this->getContext()->addQuery($qry);
     }
 
@@ -30,7 +30,7 @@ class OutlookEntity extends ClientObject
      */
     public function deleteObject()
     {
-        $qry = new ClientActionDeleteEntity($this);
+        $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
     }
 

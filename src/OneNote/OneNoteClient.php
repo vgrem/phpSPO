@@ -5,7 +5,8 @@ namespace Office365\PHP\Client\OneNote;
 
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\ClientAction;
-use Office365\PHP\Client\Runtime\ClientActionType;
+use Office365\PHP\Client\Runtime\DeleteEntityQuery;
+use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\HttpMethod;
 use Office365\PHP\Client\Runtime\OData\JsonFormat;
@@ -44,9 +45,9 @@ class OneNoteClient extends ClientRuntimeContext
     private function prepareOutlookServicesRequest(RequestOptions $request,ClientAction $query)
     {
         //set data modification headers
-        if ($query->ActionType == ClientActionType::UpdateEntity) {
+        if ($query instanceof UpdateEntityQuery) {
             $request->Method = HttpMethod::Patch;
-        } else if ($query->ActionType == ClientActionType::DeleteEntity) {
+        } else if ($query instanceof DeleteEntityQuery) {
             $request->Method = HttpMethod::Delete;
         }
     }

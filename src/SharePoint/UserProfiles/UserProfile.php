@@ -3,7 +3,7 @@
 
 namespace Office365\PHP\Client\SharePoint\UserProfiles;
 
-use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
@@ -20,7 +20,7 @@ class UserProfile extends ClientObject
      * Enqueues creating a personal site for this user, which can be used to share documents, web pages, and other files.
      */
     public function createPersonalSiteEnque(){
-        $qry = new ClientActionInvokePostMethod(
+        $qry = new InvokePostMethodQuery(
             $this,
             "createpersonalsiteenque",
             array(false)

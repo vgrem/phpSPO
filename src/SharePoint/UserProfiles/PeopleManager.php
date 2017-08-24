@@ -3,8 +3,8 @@
 namespace Office365\PHP\Client\SharePoint\UserProfiles;
 
 
-use Office365\PHP\Client\Runtime\ClientActionInvokeGetMethod;
-use Office365\PHP\Client\Runtime\ClientActionInvokePostMethod;
+use Office365\PHP\Client\Runtime\InvokeGetMethodQueryQuery;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ClientResult;
@@ -30,7 +30,7 @@ class PeopleManager extends ClientObject
      */
     public function amIFollowedBy ($accountName){
         $clientResult = new ClientResult();
-        $qry = new ClientActionInvokePostMethod($this, "AmIFollowedBy",array(rawurlencode($accountName)));
+        $qry = new InvokePostMethodQuery($this, "AmIFollowedBy",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry,$clientResult);
         return $clientResult;
     }
@@ -64,7 +64,7 @@ class PeopleManager extends ClientObject
      * @param string $accountName
      */
     public function follow($accountName){
-        $qry = new ClientActionInvokePostMethod($this, "follow",array(rawurlencode($accountName)));
+        $qry = new InvokePostMethodQuery($this, "follow",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry);
     }
 
@@ -75,7 +75,7 @@ class PeopleManager extends ClientObject
      */
     public function stopFollowing ($accountName){
         $clientResult = new ClientResult();
-        $qry = new ClientActionInvokePostMethod($this, "StopFollowing",array(rawurlencode($accountName)));
+        $qry = new InvokePostMethodQuery($this, "StopFollowing",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry,$clientResult);
     }
 
@@ -87,7 +87,7 @@ class PeopleManager extends ClientObject
      */
     public function amIFollowing ($accountName){
         $clientResult = new ClientResult();
-        $qry = new ClientActionInvokeGetMethod(
+        $qry = new InvokeGetMethodQueryQuery(
             $this,
             "AmIFollowing",
             array(rawurlencode($accountName))
@@ -118,8 +118,8 @@ class PeopleManager extends ClientObject
      */
     public function getUserProfilePropertyFor ($accountName,$propertyName)
     {
-        $clientResult = new ClientResult("GetUserProfilePropertyFor");
-        $qry = new ClientActionInvokeGetMethod(
+        $clientResult = new ClientResult();
+        $qry = new InvokeGetMethodQueryQuery(
             $this,
             "GetUserProfilePropertyFor",
             array(

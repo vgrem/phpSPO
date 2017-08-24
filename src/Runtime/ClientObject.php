@@ -2,6 +2,7 @@
 
 namespace Office365\PHP\Client\Runtime;
 
+use Office365\PHP\Client\Runtime\OData\ODataPathBuilder;
 use Office365\PHP\Client\Runtime\OData\ODataPayload;
 
 /**
@@ -101,11 +102,11 @@ class ClientObject extends ODataPayload
     }
 
     /**
-     * @param string $resourcePathUrl
+     * @param string $value
      */
-    public function setResourceUrl($resourcePathUrl)
+    public function setResourceUrl($value)
     {
-        $this->resourcePath = ResourcePath::parse($this->getContext(), $resourcePathUrl);
+        $this->resourcePath = ODataPathBuilder::fromUrl($this->getContext(), $value);
     }
 
     /**

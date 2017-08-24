@@ -6,7 +6,7 @@
 namespace Office365\PHP\Client\SharePoint;
 
 
-use Office365\PHP\Client\Runtime\ClientActionCreateEntity;
+use Office365\PHP\Client\Runtime\CreateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 
 class FolderCollection extends ClientObjectCollection
@@ -15,7 +15,7 @@ class FolderCollection extends ClientObjectCollection
     {
         $folder = new Folder($this->getContext());
         $folder->setProperty("ServerRelativeUrl", rawurlencode($url));
-        $qry = new ClientActionCreateEntity($this, $folder);
+        $qry = new CreateEntityQuery($this, $folder);
         $this->getContext()->addQuery($qry, $folder);
         return $folder;
     }

@@ -5,7 +5,7 @@ namespace Office365\PHP\Client\Runtime;
 
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 
-class ClientActionReadEntity extends ClientAction
+class ReadEntityQuery extends ClientAction
 {
     /**
      * ClientActionUpdateMethod constructor.
@@ -14,7 +14,7 @@ class ClientActionReadEntity extends ClientAction
      */
     public function __construct(ResourcePath $resourcePath,ODataQueryOptions $queryOptions = null)
     {
-        parent::__construct($resourcePath,null,ClientActionType::GetMethod);
+        parent::__construct($resourcePath,null);
         $this->QueryOptions = $queryOptions;
     }
 }

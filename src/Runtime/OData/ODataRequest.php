@@ -6,8 +6,11 @@ namespace Office365\PHP\Client\Runtime\OData;
 
 use Exception;
 use Office365\PHP\Client\Runtime\ClientAction;
-use Office365\PHP\Client\Runtime\ClientActionInvokeMethod;
-use Office365\PHP\Client\Runtime\ClientActionType;
+use Office365\PHP\Client\Runtime\CreateEntityQuery;
+use Office365\PHP\Client\Runtime\DeleteEntityQuery;
+use Office365\PHP\Client\Runtime\InvokeMethodQuery;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
+use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientRequest;
 use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
@@ -67,7 +70,7 @@ class ODataRequest extends ClientRequest
                 if ($resultObject instanceof ListItemCollection && $responseType == FormatType::Xml) {
                     $resultObject->populateFromXmlPayload($response); //custom payload process
                 }else {
-                    if ($resultObject instanceof ClientResult && $qry instanceof ClientActionInvokeMethod) {
+                    if ($resultObject instanceof ClientResult && $qry instanceof InvokeMethodQuery) {
                         $resultObject->EntityName = $qry->MethodName;
                     }
                     $serializer->deserialize($response, $resultObject);
@@ -133,10 +136,10 @@ class ODataRequest extends ClientRequest
             $resourceUrl .= '?' . $query->QueryOptions->toUrl();
         }
         $request = new RequestOptions($resourceUrl);
-        if ($query->ActionType === ClientActionType::PostMethod ||
-            $query->ActionType === ClientActionType::CreateEntity ||
-            $query->ActionType === ClientActionType::UpdateEntity ||
-            $query->ActionType === ClientActionType::DeleteEntity
+        if ($query instanceof InvokePostMethodQuery ||
+            $query instanceof CreateEntityQuery ||
+            $query instanceof UpdateEntityQuery ||
+            $query instanceof DeleteEntityQuery
         ) {
             $request->Method = HttpMethod::Post;
         }
