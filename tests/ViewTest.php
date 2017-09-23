@@ -1,7 +1,7 @@
 <?php
 
 require_once('SharePointTestCase.php');
-require_once('TestUtilities.php');
+require_once('ListItemExtensions.php');
 
 class ViewTest extends SharePointTestCase
 {
@@ -14,8 +14,8 @@ class ViewTest extends SharePointTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        $listTitle = TestUtilities::createUniqueName("Orders");
-        self::$targetList = TestUtilities::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
+        $listTitle = ListItemExtensions::createUniqueName("Orders");
+        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
     }
 
     public static function tearDownAfterClass()
@@ -38,7 +38,7 @@ class ViewTest extends SharePointTestCase
     public function testCreateView()
     {
         $viewCreateInfo = new \Office365\PHP\Client\SharePoint\ViewCreationInformation();
-        $viewTitle = TestUtilities::createUniqueName("My Orders");
+        $viewTitle = ListItemExtensions::createUniqueName("My Orders");
         $viewCreateInfo->Title = $viewTitle;
         self::$targetList->getViews()->add($viewCreateInfo);
         self::$context->executeQuery();

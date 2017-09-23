@@ -4,7 +4,7 @@ use Office365\PHP\Client\SharePoint\PrincipalType;
 use Office365\PHP\Client\SharePoint\Web;
 
 require_once('SharePointTestCase.php');
-require_once('TestUtilities.php');
+require_once('ListItemExtensions.php');
 
 
 
@@ -51,7 +51,7 @@ class WebTest extends SharePointTestCase
     public function testCreateWeb()
     {
         $targetWebUrl = "Workspace_" . date("Y-m-d") . rand(1,10000);
-        $targetWeb = TestUtilities::createWeb(self::$context,$targetWebUrl);
+        $targetWeb = WebExtensions::createWeb(self::$context,$targetWebUrl);
         $this->assertEquals($targetWebUrl,$targetWeb->getProperty('Title'));
         return $targetWeb;
     }
@@ -80,7 +80,7 @@ class WebTest extends SharePointTestCase
     public function testUpdateWeb(\Office365\PHP\Client\SharePoint\Web $targetWeb)
     {
         $ctx = $targetWeb->getContext();
-        $webTitle = TestUtilities::createUniqueName("WS_Updated");
+        $webTitle = ListItemExtensions::createUniqueName("WS_Updated");
         $targetWeb->setProperty("Title",$webTitle);
         $targetWeb->update();
         $ctx->executeQuery();

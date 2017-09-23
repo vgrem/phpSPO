@@ -5,15 +5,15 @@ class ContentTypeTest extends SharePointTestCase
 {
 
     public function testGetListContentTypes(){
-        $listTitle = TestUtilities::createUniqueName("Orders");
-        $list = TestUtilities::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
+        $listTitle = ListItemExtensions::createUniqueName("Orders");
+        $list = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
         $contentTypes = $list->getContentTypes();
         self::$context->load($contentTypes);
         self::$context->executeQuery();
 
         $this->assertGreaterThan(0,$contentTypes->getCount());
 
-        TestUtilities::deleteList($list);
+        ListExtensions::deleteList($list);
     }
 
 
@@ -37,7 +37,7 @@ class ContentTypeTest extends SharePointTestCase
 
     public function testCreateContentType(){
         $params = new \Office365\PHP\Client\SharePoint\ContentTypeCreationInformation();
-        $params->Name = TestUtilities::createUniqueName("Custom Task");
+        $params->Name = ListItemExtensions::createUniqueName("Custom Task");
         //$params->setParentId("0x0108");
         $ct = self::$context->getSite()->getRootWeb()->getContentTypes()->add($params);
         self::$context->executeQuery();
@@ -49,7 +49,6 @@ class ContentTypeTest extends SharePointTestCase
     /**
      * @depends testCreateContentType
      * @param \Office365\PHP\Client\SharePoint\ContentType $ct
-     * @return \Office365\PHP\Client\SharePoint\ContentType
      */
     public function testDeleteContentType(\Office365\PHP\Client\SharePoint\ContentType $ct){
         $ctId = $ct->getProperty("StringId");
@@ -61,7 +60,4 @@ class ContentTypeTest extends SharePointTestCase
         self::$context->executeQuery();
         $this->assertEquals(0,$results->getCount());
     }
-
-
-
 }

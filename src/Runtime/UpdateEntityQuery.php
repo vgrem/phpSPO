@@ -14,5 +14,9 @@ class UpdateEntityQuery extends ClientAction
     public function __construct(ClientObject $clientObject)
     {
         parent::__construct($clientObject->getResourcePath(), $clientObject);
+
     }
+
+
+
 }

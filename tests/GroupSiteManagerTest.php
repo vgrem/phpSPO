@@ -4,7 +4,7 @@
 namespace Office365\PHP\Client\SharePoint\Portal;
 
 use SharePointTestCase;
-use TestUtilities;
+use ListItemExtensions;
 
 class GroupSiteManagerTest extends SharePointTestCase
 {
@@ -12,7 +12,7 @@ class GroupSiteManagerTest extends SharePointTestCase
     public function testCreateGroupEx()
     {
         $siteManager = new GroupSiteManager(self::$context);
-        $siteName = TestUtilities::createUniqueName("Site");
+        $siteName = ListItemExtensions::createUniqueName("Site");
         $info = $siteManager->createGroupEx($siteName,$siteName,true);
         self::$context->executeQuery();
         self::assertNotNull($info->SiteUrl);

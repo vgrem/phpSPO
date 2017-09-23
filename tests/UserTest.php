@@ -3,7 +3,7 @@
 use Office365\PHP\Client\SharePoint\Group;
 
 require_once('SharePointTestCase.php');
-require_once('TestUtilities.php');
+require_once('ListItemExtensions.php');
 
 class UserTest extends SharePointTestCase
 {

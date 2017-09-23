@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../../Faker/src/autoload.php';  //Faker library (https://github.com/fzaninotto/Faker)
+
+require_once 'vendor/fzaninotto/Faker/src/autoload.php';
 require_once('../bootstrap.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
@@ -24,10 +25,10 @@ catch (Exception $e) {
 function generateContacts(ClientContext $ctx){
 
     $listTitle = 'Contacts';
-	$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
+    $list =  ListExtensions::ensureList($ctx->getWeb(),$listTitle,\Office365\PHP\Client\SharePoint\ListTemplateType::Contacts);
 	
     
-	$contactsCount = 10;
+	$contactsCount = 200;
 	for($i = 0; $i < $contactsCount; $i++){
 	     $contactEntry = createContactEntry();
          $contactEntry['__metadata'] = array('type' => 'SP.Data.ContactsListItem'); //mandatory!

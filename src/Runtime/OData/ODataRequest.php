@@ -48,7 +48,7 @@ class ODataRequest extends ClientRequest
 
     public function executeQuery()
     {
-        $serializer = new ODataPayloadSerializer($this->format);
+        $serializer = new ODataSerializer($this->format);
         while(($qry = array_shift($this->queries)) !== null) {
             $request = $this->buildRequest($qry);
             if (is_callable($this->eventsList["BeforeExecuteQuery"])) {
@@ -87,7 +87,7 @@ class ODataRequest extends ClientRequest
      */
     public function processResponse($response, $resultObject)
     {
-        $ser = new ODataPayloadSerializer($this->format);
+        $ser = new ODataSerializer($this->format);
         $ser->deserialize($response, $resultObject);
     }
 
@@ -148,7 +148,7 @@ class ODataRequest extends ClientRequest
             if (is_string($query->Payload))
                 $request->Data = $query->Payload;
             else {
-                $serializer = new ODataPayloadSerializer($this->format);
+                $serializer = new ODataSerializer($this->format);
                 $request->Data = $serializer->serialize($query->Payload);
             }
         }

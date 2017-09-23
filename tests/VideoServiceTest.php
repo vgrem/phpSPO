@@ -70,7 +70,7 @@ class VideoServiceTest extends SharePointTestCase
      */
     public function testCreateVideo(VideoChannel $channel)
     {
-        $videoTitle = TestUtilities::createUniqueName("Video");
+        $videoTitle = ListItemExtensions::createUniqueName("Video");
         $videoFileName = $videoTitle . ".mp4";
         $video = $channel->getVideos()->add($videoTitle,$videoTitle,$videoFileName);
         self::$context->executeQuery();
@@ -98,7 +98,7 @@ class VideoServiceTest extends SharePointTestCase
      */
     public function testUpdateVideo(VideoItem $videoItem)
     {
-        $desc = TestUtilities::createUniqueName("Video sample");
+        $desc = ListItemExtensions::createUniqueName("Video sample");
         $videoItem->setProperty("Description",$desc);
         $videoItem->update();
         self::$context->executeQuery();

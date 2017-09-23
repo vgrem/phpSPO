@@ -32,8 +32,9 @@ class OperationParameterCollection extends ODataPayload
      */
     function convertFromJson($json)
     {
-        foreach ($json as $key => $value)
-            $this->parameters[$key] = $value;
+        //foreach ($json as $key => $value)
+        //    $this->parameters[$key] = $value;
+        throw new \Exception("Not supported");
     }
 
 

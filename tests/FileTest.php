@@ -14,7 +14,7 @@ class FileTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = "Documents_" . rand(1, 100000);
-        self::$targetList = TestUtilities::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
+        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
     }
 
     public static function tearDownAfterClass()

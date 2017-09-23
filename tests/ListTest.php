@@ -2,7 +2,7 @@
 
 
 require_once('SharePointTestCase.php');
-require_once('TestUtilities.php');
+require_once('ListItemExtensions.php');
 
 
 
@@ -12,7 +12,7 @@ class ListTest extends SharePointTestCase
     public function testIfListCreated()
     {
         $listTitle = "Orders_" . rand(1,100000);
-        $list = TestUtilities::ensureList(self::$context->getWeb(),$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
+        $list = ListExtensions::ensureList(self::$context->getWeb(),$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
         $this->assertEquals($list->getProperty('Title'),$listTitle);
         return $list;
     }

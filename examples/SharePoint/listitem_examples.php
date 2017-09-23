@@ -18,7 +18,7 @@ try {
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 
 	$listTitle = 'Tasks812';
-    $list = TestUtilities::ensureList($ctx->getWeb(),$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
+    $list = ListExtensions::ensureList($ctx->getWeb(),$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
     addAttachmentToListItem($list);
 
 	//printTasks($list);

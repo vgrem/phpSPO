@@ -1,8 +1,6 @@
 {
   "name": "vgrem/graph_explorer",
-  "description": "description_text",
-  "minimum-stability": "stable",
-  "license": "proprietary",
+  "description": "Office 365 Graph Explorer",
   "authors": [
     {
       "name": "Vadim Gremyachev",
@@ -14,8 +12,5 @@
       "type": "path",
       "url": "../../src"
     }
-  ],
-  "require": {
-    "vgrem/php-spo": "*"
-  }
+  ]
 }

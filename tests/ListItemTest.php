@@ -16,8 +16,8 @@ class ListItemTest extends SharePointTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        $listTitle = TestUtilities::createUniqueName("Orders");
-        self::$targetList = TestUtilities::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
+        $listTitle = ListItemExtensions::createUniqueName("Orders");
+        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
     }
 
     public static function tearDownAfterClass()
@@ -54,7 +54,7 @@ class ListItemTest extends SharePointTestCase
             'PredecessorsId' => array( 'results' => array($currentUser->getProperty("Id")))
             //'__metadata' => array('type' => 'SP.Data.TasksListItem')
         );
-        $item = TestUtilities::createListItem(self::$targetList, $itemProperties);
+        $item = ListItemExtensions::createListItem(self::$targetList, $itemProperties);
         $this->assertEquals($item->getProperty('Body'), $itemProperties['Body']);
         return $item;
     }

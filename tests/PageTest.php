@@ -3,7 +3,7 @@
 use Office365\PHP\Client\SharePoint\WebParts\PersonalizationScope;
 
 require_once('SharePointTestCase.php');
-require_once('TestUtilities.php');
+require_once('ListItemExtensions.php');
 
 
 class PageTest extends SharePointTestCase
@@ -21,10 +21,10 @@ class PageTest extends SharePointTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        $listTitle = TestUtilities::createUniqueName("Wiki");
-        self::$targetList = TestUtilities::ensureList(self::$context->getWeb(),$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::WebPageLibrary);
-        $pageName = TestUtilities::createUniqueName("Wiki") . ".aspx";
-        self::$targetPage = TestUtilities::createWikiPage(self::$targetList,$pageName,"Welcome to site");
+        $listTitle = ListItemExtensions::createUniqueName("Wiki");
+        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(),$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::WebPageLibrary);
+        $pageName = ListItemExtensions::createUniqueName("Wiki") . ".aspx";
+        self::$targetPage = ListItemExtensions::createWikiPage(self::$targetList,$pageName,"Welcome to site");
         if(!self::$targetPage->isPropertyAvailable("CheckOutType")){
             self::$context->load(self::$targetPage);
             self::$context->executeQuery();

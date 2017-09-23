@@ -5,7 +5,7 @@ namespace Office365\PHP\Client\Runtime\OData;
 use Office365\PHP\Client\Runtime\Utilities\JsonConvert;
 
 
-class ODataPayloadSerializer
+class ODataSerializer
 {
 
     /**

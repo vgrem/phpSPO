@@ -17,7 +17,7 @@ class ChangeTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = "Tasks";
-        self::$targetList = TestUtilities::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
+        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
     }
 
     public static function tearDownAfterClass()

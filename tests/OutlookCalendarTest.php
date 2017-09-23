@@ -39,7 +39,6 @@ class OutlookCalendarTest extends OutlookServicesTestCase
                 return  $event->getProperty("Id") === $key;
             });
         self:self::assertCount(1,$filteredResult);
-
         return $event;
     }
 
