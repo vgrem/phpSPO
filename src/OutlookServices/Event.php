@@ -50,6 +50,12 @@ class Event extends Item
      */
     public $Start;
 
+    /**
+     * The end time of the event.
+     * @var DateTimeTimeZone
+     */
+    public $End;
+
 
     /**
      * The event type: SingleInstance = 0, Occurrence = 1, Exception = 2, SeriesMaster = 3.
