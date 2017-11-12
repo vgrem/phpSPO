@@ -46,9 +46,12 @@ class ClientValueObject implements ISchemaType
 
     function getProperties($flag=SCHEMA_ALL_PROPERTIES)
     {
-        return array_filter(get_object_vars($this), function ($v, $k) {
-            return ($k != 'typeName' && !is_null($v));
-        }, ARRAY_FILTER_USE_BOTH);
+        $result = array();
+        foreach (get_object_vars($this) as $key => $val) {
+            if ($key != 'typeName' && !is_null($val))
+                $result[$key] = $val;
+        }
+        return $result;
     }
 
 
