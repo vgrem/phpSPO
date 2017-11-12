@@ -134,13 +134,13 @@ class ClientObject implements ISchemaType
         if($flag === SCHEMA_ALL_PROPERTIES)
             return $this->properties;
         //exclude non serializable properties
-        $properties = array_filter(
-            $this->properties,
-            function ($name)  {
-                $metadata = $this->propertiesMetadata[$name];
-                return ($metadata !== null && $metadata["Serializable"] == true);
-            },ARRAY_FILTER_USE_KEY);
-        return $properties;
+        $result = array();
+        foreach( $this->properties as $key=>$value ) {
+            $metadata = $this->propertiesMetadata[$key];
+            if(($metadata !== null && $metadata["Serializable"] == true))
+                $result[$key] = $value;
+        }
+        return $result;
     }
 
 
