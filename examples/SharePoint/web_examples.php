@@ -17,10 +17,9 @@ try {
 	$list = $ctx->getWeb()->getLists()->getByTitle("Pages");
 	$ctx->load($list);
 	$ctx->executeQuery();
+    var_dump($list->getProperties());
 
-	//$request = new SharePoint\PHP\Client\Runtime\CSOM\ClientRequest();
-	//$xml = $request->buildQuery();
-	//print $xml;
+
 
     //create a workspace
 	$webUrl = "Workspace_" . date("Y-m-d") . rand(1,100);

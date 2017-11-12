@@ -6,9 +6,9 @@ use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 
 
 /**
- * Client objects collection
+ * Client objects collection (represents EntitySet in terms of OData)
  */
-class ClientObjectCollection extends ClientObject
+class ClientObjectCollection extends ClientObject implements ISchemaTypeCollection
 {
 
     /**
@@ -64,12 +64,14 @@ class ClientObjectCollection extends ClientObject
      * Adds client object into collection
      * @param ClientObject $clientObject
      */
-    public function addChild(ClientObject $clientObject)
+    public function addChild($clientObject)
     {
         $this->data[] = $clientObject;
         if (is_null($clientObject->parentCollection))
             $clientObject->parentCollection = $this;
     }
+
+
 
     /**
      * @param ClientObject $clientObject
@@ -237,10 +239,12 @@ class ClientObjectCollection extends ClientObject
      * Creates resource for a collection
      * @return ClientObject
      */
-    public function createTypedObject()
+    public function createType()
     {
         $clientObjectType = $this->getItemTypeName();
-        return new $clientObjectType($this->getContext());
+        $clientObject = new $clientObjectType($this->getContext());
+        $clientObject->parentCollection = $this;
+        return $clientObject;
     }
 
 
@@ -255,21 +259,12 @@ class ClientObjectCollection extends ClientObject
         return str_replace("Collection", "", get_class($this));
     }
 
-    /**
-     * Converts JSON into payload
-     * @param mixed $json
-     */
-    public function convertFromJson($json)
-    {
-        $this->clearData();
-        foreach ($json as $item) {
-            $clientObject = $this->createTypedObject();
-            $clientObject->parentCollection = $this;
-            $clientObject->convertFromJson($item);
-            $this->addChild($clientObject);
-        }
-        if(!is_null($this->resourcePath))
-            $this->resourcePath->ServerObjectIsNull = false;
-    }
+
+   function getProperties($flag=SCHEMA_ALL_PROPERTIES)
+   {
+       return array_map(function (ClientObject $item) use ($flag) {
+           return $item->getProperties($flag);
+       }, $this->getData());
+   }
 
 }

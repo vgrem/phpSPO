@@ -60,5 +60,4 @@ class WebCreationInformation extends ClientValueObject
         $this->UseSamePermissionsAsParentSite = true;
         parent::__construct(null);
     }
-
 }

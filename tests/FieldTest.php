@@ -1,6 +1,7 @@
 <?php
 
 
+use Office365\PHP\Client\SharePoint\Field;
 use Office365\PHP\Client\SharePoint\FieldType;
 
 
@@ -51,7 +52,6 @@ class FieldTest extends SharePointTestCase
 
         $fields = self::$context->getSite()->getRootWeb()->getFields();
         $field = $fields->add($fieldProperties);
-        //self::$context->load($field);
         self::$context->executeQuery();
 
         $this->assertEquals($field->getProperty('Title'), $fieldProperties->Title);
@@ -63,7 +63,7 @@ class FieldTest extends SharePointTestCase
      * @depends testCreateColumn
      * @param \Office365\PHP\Client\SharePoint\Field $fieldToDelete
      */
-    /*public function testDeleteColumn(\SharePoint\PHP\Client\Field $fieldToDelete)
+    public function testDeleteColumn(Field $fieldToDelete)
     {
         
         $fieldId = $fieldToDelete->getProperty('Id');
@@ -75,7 +75,7 @@ class FieldTest extends SharePointTestCase
         self::$context->executeQuery();
 
         $this->assertEquals(0,$result->getCount());
-    }*/
+    }
 
 
     public function testFindColumn()

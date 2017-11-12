@@ -1,19 +1,18 @@
 <?php
 namespace Office365\PHP\Client\Runtime;
 
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
 
-class CreateEntityQuery extends ClientAction
+class CreateEntityQuery extends InvokePostMethodQuery
 {
 
     /**
      * ClientActionUpdateEntity constructor.
      * @param ClientObject $entityCollection
-     * @param ODataPayload $payload
+     * @param ClientObject $entity
      */
-    public function __construct(ClientObject $entityCollection, ODataPayload $payload = null)
+    public function __construct(ClientObject $entityCollection, ClientObject $entity)
     {
-        parent::__construct($entityCollection->getResourcePath(), $payload);
+        parent::__construct($entityCollection,null,null,$entity);
     }
 
 }

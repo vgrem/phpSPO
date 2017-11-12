@@ -5,7 +5,6 @@
 
 namespace Office365\PHP\Client\SharePoint;
 
-use Office365\PHP\Client\Runtime\CreateEntityQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
@@ -24,7 +23,7 @@ class GroupCollection extends ClientObjectCollection
     public function add(GroupCreationInformation $parameters)
     {
         $group = new Group($this->getContext(), $this->getResourcePath());
-        $qry = new CreateEntityQuery($this, $parameters);
+        $qry = new InvokePostMethodQuery($this,null,null, $parameters);
         $this->getContext()->addQuery($qry, $group);
         $this->addChild($group);
         return $group;

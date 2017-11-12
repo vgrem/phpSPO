@@ -4,9 +4,9 @@
 namespace Office365\PHP\Client\SharePoint;
 
 
-use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\PHP\Client\Runtime\ClientValueObject;
 
-class InformationRightsManagementSettings extends ClientObject
+class InformationRightsManagementSettings extends ClientValueObject
 {
     public $AllowPrint;
 

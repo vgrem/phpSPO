@@ -114,7 +114,6 @@ class ListItemTest extends SharePointTestCase
 
     public function testQueryOptionsForMultiUserField()
     {
-        $url = self::$targetList->getResourceUrl();
         $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery())
             ->select("Predecessors/Title")
             ->expand("Predecessors");
@@ -124,9 +123,9 @@ class ListItemTest extends SharePointTestCase
         if($items->getCount() > 0){
             $item = $items->getItem(0);
             $predecessors = $item->getProperty("Predecessors");
-            self::assertNotNull($predecessors->results);
-            if(count($predecessors->results) > 0)
-                self::assertNotNull($predecessors->results[0]->Title);
+            self::assertInternalType('array',$predecessors);
+            if(count($predecessors) > 0)
+                self::assertNotNull($predecessors[0]->Title);
 
         }
     }

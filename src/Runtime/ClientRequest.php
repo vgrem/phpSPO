@@ -4,7 +4,6 @@
 namespace Office365\PHP\Client\Runtime;
 
 
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\Requests;
@@ -36,6 +35,7 @@ abstract class ClientRequest
      * @var array
      */
     protected $resultObjects = array();
+
 
     /**
      * ClientRequest constructor.
@@ -93,8 +93,8 @@ abstract class ClientRequest
 
 
     /**
-     * @param $response
-     * @param $resultObject
+     * @param string $response
+     * @param ClientObject|ClientResult $resultObject
      */
     public abstract function processResponse($response, $resultObject);
 
@@ -111,21 +111,21 @@ abstract class ClientRequest
      */
     public function addQueryAndResultObject(ClientObject $clientObject, ODataQueryOptions $queryOptions = null)
     {
-        $resourcePath = $clientObject->getResourcePath();
-        $qry = new ReadEntityQuery($resourcePath,$queryOptions);
+        $qry = new ReadEntityQuery($clientObject,$queryOptions);
         $this->addQuery($qry, $clientObject);
     }
 
 
     /**
      * @param RequestOptions $request
-     * @return ODataPayload
+     * @param array $responseInfo
+     * @return string
      */
-    public function executeQueryDirect(RequestOptions $request)
+    public function executeQueryDirect(RequestOptions $request,&$responseInfo=array())
     {
         $this->context->authenticateRequest($request); //Auth mandatory headers
         $this->setRequestHeaders($request); //set request headers
-        return Requests::execute($request);
+        return Requests::execute($request,$responseInfo);
     }
 
 }

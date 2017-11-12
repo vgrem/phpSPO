@@ -2,13 +2,13 @@
 
 namespace Office365\PHP\Client\Runtime;
 
+
 use Office365\PHP\Client\Runtime\OData\ODataPathBuilder;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
 
 /**
  * Represents OData base entity
  */
-class ClientObject extends ODataPayload
+class ClientObject implements ISchemaType
 {
     /**
      * @var string
@@ -34,7 +34,7 @@ class ClientObject extends ODataPayload
     /**
      * @var array
      */
-    private $changedProperties = array();
+    private $propertiesMetadata = array();
 
     /**
      * @var ClientObjectCollection
@@ -84,13 +84,7 @@ class ClientObject extends ODataPayload
         $this->parentCollection->removeChild($this);
     }
 
-    /**
-     * @return array
-     */
-    public function getChangedProperties()
-    {
-        return $this->changedProperties;
-    }
+
 
     /**
      * Resolve the resource path
@@ -122,7 +116,7 @@ class ClientObject extends ODataPayload
      * Gets entity type name for a resource
      * @return string
      */
-    public function getEntityTypeName()
+    public function getTypeName()
     {
         if (isset($this->resourceType)) {
             return $this->resourceType;
@@ -132,33 +126,23 @@ class ClientObject extends ODataPayload
     }
 
     /**
-     * Converts JSON object into OData Entity
-     * @param mixed $json
+     * @param int $flag
+     * @return array
      */
-    public function convertFromJson($json)
+    function getProperties($flag=SCHEMA_ALL_PROPERTIES)
     {
-        foreach ($json as $key => $value) {
-            if ($this->isMetadataProperty($key)) {
-                continue;
-            }
-            if (is_object($value)) {
-                if ($this->isDeferredProperty($value)) { //deferred property
-                    $this->setProperty($key, null, false);
-                } else {
-                    $propertyObject = $this->getProperty($key);
-                    if ($propertyObject instanceof ClientObject || $propertyObject instanceof ClientValueObject) {
-                        $propertyObject->convertFromJson($value);
-                    } else {
-                        $this->setProperty($key, $value, false);
-                    }
-                }
-            } else {
-                $this->setProperty($key, $value, false);
-            }
-        }
-        if(!is_null($this->resourcePath))
-            $this->resourcePath->ServerObjectIsNull = false;
+        if($flag === SCHEMA_ALL_PROPERTIES)
+            return $this->properties;
+        //exclude non serializable properties
+        $properties = array_filter(
+            $this->properties,
+            function ($name)  {
+                $metadata = $this->propertiesMetadata[$name];
+                return ($metadata !== null && $metadata["Serializable"] == true);
+            },ARRAY_FILTER_USE_KEY);
+        return $properties;
     }
+
 
     /**
      * Determine whether client object property has been loaded
@@ -181,13 +165,6 @@ class ClientObject extends ODataPayload
         return true;
     }
 
-    /**
-     * @return array
-     */
-    public function getProperties()
-    {
-        return $this->properties;
-    }
 
     /**
      * A preferred way of getting the client object property
@@ -207,13 +184,10 @@ class ClientObject extends ODataPayload
      */
     public function setProperty($name, $value, $persistChanges = true)
     {
-        if ($persistChanges) {
-            $this->changedProperties[$name] = $value;
-        }
+        $this->propertiesMetadata[$name] = array("Serializable" => $persistChanges);
 
         //save property
         $this->{$name} = $value;
-
 
         //update resource path
         if ($name === "Id") {
@@ -258,6 +232,7 @@ class ClientObject extends ODataPayload
     {
         return isset($this->properties[$name]);
     }
+
 
 
 }

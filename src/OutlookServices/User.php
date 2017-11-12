@@ -3,10 +3,10 @@
 
 namespace Office365\PHP\Client\OutlookServices;
 
+use Office365\PHP\Client\Runtime\ClientValueObject;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\Office365Version;
-use Office365\PHP\Client\Runtime\OperationParameterCollection;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 /**
@@ -72,10 +72,10 @@ class User extends ClientObject
      */
     public function sendEmail(Message $message, $saveToSentItems)
     {
-        $payload = new OperationParameterCollection();
-        $payload->add("Message", $message);
-        $payload->add("SaveToSentItems", $saveToSentItems);
-        $action = new InvokePostMethodQuery($this, "SendMail", null, $payload);
+        $payload = new ClientValueObject();
+        $payload->setProperty("Message", $message);
+        $payload->setProperty("SaveToSentItems", $saveToSentItems);
+        $action = new InvokePostMethodQuery($this, "SendMail",null,$payload);
         $this->getContext()->addQuery($action);
     }
 

@@ -4,15 +4,15 @@
 namespace Office365\PHP\Client\Runtime;
 
 
-class DeleteEntityQuery extends ClientAction
+class DeleteEntityQuery extends InvokePostMethodQuery
 {
 
     /**
-     * ClientActionDeleteEntity constructor.
+     * DeleteEntityQuery constructor.
      * @param ClientObject $clientObject
      */
     public function __construct(ClientObject $clientObject)
     {
-        parent::__construct($clientObject->getResourcePath(), null);
+        parent::__construct($clientObject);
     }
 }

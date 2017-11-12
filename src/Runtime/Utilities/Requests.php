@@ -19,14 +19,15 @@ class Requests
 
     protected static $history = [];
 
-	public static function execute(RequestOptions $options)
+	public static function execute(RequestOptions $options,&$responseInfo=array())
 	{
         $call = [];
         $call['request'] = $options->toArray();
 
 		$ch = Requests::init($options);
         $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $responseInfo["HttpCode"] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $responseInfo["ContentType"] = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 
         $call['response'] = $response;
 

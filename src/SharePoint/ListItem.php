@@ -30,7 +30,7 @@ class ListItem extends SecurableObject
     }
 
 
-    public function getEntityTypeName(){
+    public function getTypeName(){
         $list = $this->getParentList();
         if(!isset($this->resourceType)) {
             //determine whether ListItemEntityTypeFullName property has been requested

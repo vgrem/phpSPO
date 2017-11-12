@@ -26,17 +26,14 @@ function generateContacts(ClientContext $ctx){
 
     $listTitle = 'Contacts';
     $list =  ListExtensions::ensureList($ctx->getWeb(),$listTitle,\Office365\PHP\Client\SharePoint\ListTemplateType::Contacts);
-	
-    
-	$contactsCount = 200;
+	$contactsCount = 1000;
 	for($i = 0; $i < $contactsCount; $i++){
 	     $contactEntry = createContactEntry();
          $contactEntry['__metadata'] = array('type' => 'SP.Data.ContactsListItem'); //mandatory!
 	     $item = $list->addItem($contactEntry);
          $ctx->executeQuery();
-	     print "Contact '{$item->Title}' has been created.\r\n";
+	     print "$i: Contact '{$item->Title}' has been created.\r\n";
 	}
-    
 }
 
 

@@ -2,9 +2,9 @@
 
 
 namespace Office365\PHP\Client\OutlookServices;
+use Office365\PHP\Client\Runtime\ClientValueObject;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
-use Office365\PHP\Client\Runtime\OperationParameterCollection;
 
 
 /**
@@ -19,9 +19,9 @@ class Message extends Item
      */
     public function reply($comment)
     {
-        $payload = new OperationParameterCollection();
-        $payload->add("Comment",$comment);
-        $qry = new InvokePostMethodQuery($this,"Reply",null,$payload);
+        $parameter = new ClientValueObject();
+        $parameter->setProperty("Comment",$comment);
+        $qry = new InvokePostMethodQuery($this,"Reply",null,$parameter);
         $this->getContext()->addQuery($qry);
     }
 
@@ -32,9 +32,9 @@ class Message extends Item
      */
     public function replyAll($comment)
     {
-        $payload = new OperationParameterCollection();
-        $payload->add("Comment",$comment);
-        $qry = new InvokePostMethodQuery($this,"ReplyAll",null,$payload);
+        $parameter = new ClientValueObject();
+        $parameter->setProperty("Comment",$comment);
+        $qry = new InvokePostMethodQuery($this,"ReplyAll",null,$parameter);
         $this->getContext()->addQuery($qry);
     }
 
@@ -46,10 +46,10 @@ class Message extends Item
      */
     public function forward($comment,$toRecipients)
     {
-        $payload = new OperationParameterCollection();
-        $payload->add("Comment",$comment);
-        $payload->add("ToRecipients",$toRecipients);
-        $qry = new InvokePostMethodQuery($this,"Forward",null,$payload);
+        $parameter = new ClientValueObject();
+        $parameter->setProperty("Comment",$comment);
+        $parameter->setProperty("ToRecipients",$toRecipients);
+        $qry = new InvokePostMethodQuery($this,"Forward",null,$parameter);
         $this->getContext()->addQuery($qry);
     }
 
@@ -60,9 +60,9 @@ class Message extends Item
      * DeletedItems well-known folder name.
      */
     public function move($destinationId){
-        $payload = new OperationParameterCollection();
-        $payload->add("DestinationId",$destinationId);
-        $qry = new InvokePostMethodQuery($this,"Move",null,$payload);
+        $parameter = new ClientValueObject();
+        $parameter->setProperty("DestinationId",$destinationId);
+        $qry = new InvokePostMethodQuery($this,"Move",null,$parameter);
         $this->getContext()->addQuery($qry);
     }
 

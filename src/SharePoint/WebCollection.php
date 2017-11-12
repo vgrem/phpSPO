@@ -23,7 +23,7 @@ class WebCollection extends ClientObjectCollection
             $this,
             "Add",
             null,
-            $webCreationInformation->toParametersPayload()
+            $webCreationInformation
         );
         $this->getContext()->addQuery($qry,$web);
         $this->addChild($web);

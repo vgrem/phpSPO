@@ -7,14 +7,15 @@ use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 
 class ReadEntityQuery extends ClientAction
 {
+
     /**
-     * ClientActionUpdateMethod constructor.
-     * @param ResourcePath $resourcePath
+     * ReadEntityQuery constructor.
+     * @param ClientObject $clientObject
      * @param ODataQueryOptions|null $queryOptions
      */
-    public function __construct(ResourcePath $resourcePath,ODataQueryOptions $queryOptions = null)
+    public function __construct(ClientObject $clientObject,ODataQueryOptions $queryOptions = null)
     {
-        parent::__construct($resourcePath,null);
         $this->QueryOptions = $queryOptions;
+        parent::__construct($clientObject->getResourcePath());
     }
 }

@@ -3,7 +3,7 @@
 namespace Office365\PHP\Client\SharePoint\UserProfiles;
 
 
-use Office365\PHP\Client\Runtime\InvokeGetMethodQueryQuery;
+use Office365\PHP\Client\Runtime\InvokeMethodQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\ClientObject;
@@ -29,10 +29,10 @@ class PeopleManager extends ClientObject
      * @return ClientResult
      */
     public function amIFollowedBy ($accountName){
-        $clientResult = new ClientResult();
-        $qry = new InvokePostMethodQuery($this, "AmIFollowedBy",array(rawurlencode($accountName)));
-        $this->getContext()->addQuery($qry,$clientResult);
-        return $clientResult;
+        $result = new ClientResult("AmIFollowedBy");
+        $qry = new InvokeMethodQuery($this, "AmIFollowedBy",array(rawurlencode($accountName)));
+        $this->getContext()->addQuery($qry,$result);
+        return $result;
     }
 
     /**
@@ -72,11 +72,13 @@ class PeopleManager extends ClientObject
     /**
      * Remove the specified user from the current user's list of followed users.
      * @param string $accountName
+     * @return ClientResult
      */
     public function stopFollowing ($accountName){
-        $clientResult = new ClientResult();
+        $result = new ClientResult("StopFollowing");
         $qry = new InvokePostMethodQuery($this, "StopFollowing",array(rawurlencode($accountName)));
-        $this->getContext()->addQuery($qry,$clientResult);
+        $this->getContext()->addQuery($qry,$result);
+        return $result;
     }
 
 
@@ -86,14 +88,14 @@ class PeopleManager extends ClientObject
      * @return ClientResult
      */
     public function amIFollowing ($accountName){
-        $clientResult = new ClientResult();
-        $qry = new InvokeGetMethodQueryQuery(
+        $result = new ClientResult("AmIFollowing");
+        $qry = new InvokeMethodQuery(
             $this,
             "AmIFollowing",
             array(rawurlencode($accountName))
         );
-        $this->getContext()->addQuery($qry,$clientResult);
-        return $clientResult;
+        $this->getContext()->addQuery($qry,$result);
+        return $result;
     }
 
 
@@ -118,8 +120,8 @@ class PeopleManager extends ClientObject
      */
     public function getUserProfilePropertyFor ($accountName,$propertyName)
     {
-        $clientResult = new ClientResult();
-        $qry = new InvokeGetMethodQueryQuery(
+        $clientResult = new ClientResult("GetUserProfilePropertyFor");
+        $qry = new InvokeMethodQuery(
             $this,
             "GetUserProfilePropertyFor",
             array(
@@ -127,7 +129,7 @@ class PeopleManager extends ClientObject
                 "propertyname" => $propertyName
             )
         );
-        $this->getContext()->addQuery($qry, $clientResult);
+        $this->getContext()->addQuery($qry,$clientResult);
         return $clientResult;
     }
 

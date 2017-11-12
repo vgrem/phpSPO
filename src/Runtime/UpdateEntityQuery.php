@@ -4,17 +4,16 @@
 namespace Office365\PHP\Client\Runtime;
 
 
-class UpdateEntityQuery extends ClientAction
+class UpdateEntityQuery extends InvokePostMethodQuery
 {
 
     /**
      * ClientActionUpdateEntity constructor.
-     * @param ClientObject $clientObject
+     * @param ClientObject $entity
      */
-    public function __construct(ClientObject $clientObject)
+    public function __construct(ClientObject $entity)
     {
-        parent::__construct($clientObject->getResourcePath(), $clientObject);
-
+        parent::__construct($entity,null,null,$entity);
     }
 
 

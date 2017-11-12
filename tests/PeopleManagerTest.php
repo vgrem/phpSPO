@@ -1,6 +1,8 @@
 <?php
 
 
+use Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager;
+
 require_once('SharePointTestCase.php');
 require_once('ListItemExtensions.php');
 require_once(__DIR__ . '/../src/SharePoint/UserProfiles/PeopleManager.php');
@@ -9,10 +11,10 @@ require_once(__DIR__ . '/../src/SharePoint/UserProfiles/PeopleManager.php');
 class PeopleManagerTest extends SharePointTestCase
 {
 
-    private static $accountName = "i:0#.f|membership|vgrem@mediadev19.onmicrosoft.com";
+    private static $accountName = "i:0#.f|membership|vgrem@mediadev20.onmicrosoft.com";
 
     public function testGetMyProperties(){
-        $peopleManager = new \Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager(self::$context);
+        $peopleManager = new PeopleManager(self::$context);
         $properties = $peopleManager->getMyProperties();
         self::$context->load($properties);
         self::$context->executeQuery();
@@ -21,7 +23,7 @@ class PeopleManagerTest extends SharePointTestCase
 
 
     public function testGetUserProfilePropertyFor(){
-        $peopleManager = new \Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager(self::$context);
+        $peopleManager = new PeopleManager(self::$context);
         $result = $peopleManager->getUserProfilePropertyFor(self::$accountName,"AccountName");
         self::$context->executeQuery();
         $this->assertNotNull($result->Value);
@@ -29,7 +31,7 @@ class PeopleManagerTest extends SharePointTestCase
 
 
     public function testFollow(){
-        $peopleManager = new \Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager(self::$context);
+        $peopleManager = new PeopleManager(self::$context);
 
         $result = $peopleManager->amIFollowing(self::$accountName);
         self::$context->executeQuery();
@@ -47,7 +49,7 @@ class PeopleManagerTest extends SharePointTestCase
     }
 
     public function testStopFollowing(){
-        $peopleManager = new \Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager(self::$context);
+        $peopleManager = new PeopleManager(self::$context);
 
         $result = $peopleManager->amIFollowing(self::$accountName);
         self::$context->executeQuery();
@@ -65,10 +67,9 @@ class PeopleManagerTest extends SharePointTestCase
 
 
     public function testAmIFollowedBy(){
-        $peopleManager = new \Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager(self::$context);
+        $peopleManager = new PeopleManager(self::$context);
         $result = $peopleManager->amIFollowedBy(self::$accountName);
         self::$context->executeQuery();
-        //$this->assertNotNull($properties->AccountName);
         self::assertNotNull($result->Value);
     }
 

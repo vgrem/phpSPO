@@ -29,6 +29,10 @@ class DiscoveryClientTest extends \PHPUnit\Framework\TestCase
         $result = self::$client->getAllServices();
         self::$client->executeQuery();
         self::assertNotEmpty($result->getCount());
+
+        foreach ($result->getData() as $info) {
+            $this->assertNotNull($info->serviceId);
+        }
     }
 
 }

@@ -1,14 +1,13 @@
 <?php
 
 namespace Office365\PHP\Client\Runtime;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 
 
 /**
  * OData query class
  */
-abstract class ClientAction
+class ClientAction
 {
 
     /**
@@ -22,28 +21,14 @@ abstract class ClientAction
      */
     public $QueryOptions;
 
-    /**
-     * @var ODataPayload
-     */
-    public $Payload;
-
-
-    /**
-     * @var int
-     */
-    public $PayloadFormatType;
-
 
     /**
      * ClientAction constructor.
      * @param ResourcePath $resourcePath
-     * @param ODataPayload $payload
      */
-    public function __construct(ResourcePath $resourcePath, $payload=null)
+    public function __construct(ResourcePath $resourcePath)
     {
         $this->ResourcePath = $resourcePath;
-        $this->Payload = $payload;
-        $this->PayloadFormatType = FormatType::Json;
     }
 
     /**

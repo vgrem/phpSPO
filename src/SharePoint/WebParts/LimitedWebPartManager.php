@@ -3,9 +3,9 @@
 
 namespace Office365\PHP\Client\SharePoint\WebParts;
 
+use Office365\PHP\Client\Runtime\ClientValueObject;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\OperationParameterCollection;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 
@@ -19,8 +19,8 @@ class LimitedWebPartManager extends ClientObject
      */
     public function importWebPart($webPartXml)
     {
-        $payload = new OperationParameterCollection();
-        $payload->add("webPartXml",$webPartXml);
+        $payload = new ClientValueObject();
+        $payload->setProperty("webPartXml",$webPartXml);
         $webPartDefinition = new WebPartDefinition($this->getContext());
         $qry = new InvokePostMethodQuery(
             $this,

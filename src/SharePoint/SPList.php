@@ -3,7 +3,7 @@
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\CreateEntityQuery;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\InvokeGetMethodQueryQuery;
+use Office365\PHP\Client\Runtime\InvokeMethodQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
@@ -64,7 +64,7 @@ class SPList extends SecurableObject
                 $this,
                 "GetItems",
                 null,
-                $camlQuery->toQueryPayload()
+                $camlQuery
             );
             $this->getContext()->addQuery($qry,$items);
         }
@@ -101,7 +101,7 @@ class SPList extends SecurableObject
     public function getUserEffectivePermissions($loginName)
     {
         $permissions = new BasePermissions();
-        $qry = new InvokeGetMethodQueryQuery(
+        $qry = new InvokeMethodQuery(
             $this,
             "GetUserEffectivePermissions",
             array(rawurlencode($loginName))
@@ -122,9 +122,8 @@ class SPList extends SecurableObject
             $this,
             "getListItemChangesSinceToken",
             null,
-            $query->toQueryPayload()
+            $query
         );
-        //$qry->ResponsePayloadFormatType = FormatType::Xml;
         $this->getContext()->addQuery($qry, $result);
         return $result;
     }
@@ -141,7 +140,7 @@ class SPList extends SecurableObject
             $this,
             "GetChanges",
             null,
-            $query->toQueryPayload()
+            $query
         );
         $this->getContext()->addQuery($qry,$changes);
         return $changes;
@@ -197,7 +196,7 @@ class SPList extends SecurableObject
     public function getInformationRightsManagementSettings()
     {
         if(!$this->isPropertyAvailable('InformationRightsManagementSettings')){
-            $this->setProperty("InformationRightsManagementSettings", new InformationRightsManagementSettings($this->getContext(),$this->getResourcePath(), "InformationRightsManagementSettings"));
+            $this->setProperty("InformationRightsManagementSettings", new InformationRightsManagementSettings());
         }
         return $this->getProperty("InformationRightsManagementSettings");
     }
@@ -214,7 +213,7 @@ class SPList extends SecurableObject
         return $this->getProperty("ParentWeb");
     }
 
-    public function getEntityTypeName(){
+    public function getTypeName(){
         return "SP.List";
     }
 }

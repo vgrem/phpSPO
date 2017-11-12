@@ -3,9 +3,8 @@
 
 namespace Office365\PHP\Client\SharePoint;
 
-
-use Office365\PHP\Client\Runtime\CreateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 class ContentTypeCollection extends ClientObjectCollection
@@ -34,7 +33,7 @@ class ContentTypeCollection extends ClientObjectCollection
     public function add(ContentTypeCreationInformation $information)
     {
         $contentType = new ContentType($this->getContext());
-        $qry = new CreateEntityQuery($this,$information);
+        $qry = new InvokePostMethodQuery($this,null,null,$information);
         $this->getContext()->addQuery($qry,$contentType);
         $this->addChild($contentType);
         return $contentType;

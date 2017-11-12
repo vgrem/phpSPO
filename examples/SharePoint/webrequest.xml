@@ -1,3 +1,4 @@
+<!-- Read web -->
 <!--Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="Javascript Library">
     <Actions>
         <ObjectPath Id="1" ObjectPathId="0" />
@@ -13,35 +14,60 @@
         <Property Id="2" ParentId="0" Name="Web" />
     </ObjectPaths>
 </Request-->
-        <!--Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="Javascript Library">
-          <Actions>
-            <ObjectPath Id="1" ObjectPathId="0" />
-            <ObjectPath Id="3" ObjectPathId="2" />
-            <Query Id="4" ObjectPathId="2">
-              <Query SelectAllProperties="true">
-                <Properties />
-              </Query>
-            </Query>
-          </Actions>
-          <ObjectPaths>
-            <StaticProperty Id="0" TypeId="{3747adcd-a3c3-41b9-bfab-4a64dd2f1e0a}" Name="Current" />
-            <Property Id="2" ParentId="0" Name="Web" />
-          </ObjectPaths>
-        </Request-->
+
+<!-- Update web -->
+<!--Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="Javascript Library">
+    <Actions>
+        <ObjectPath Id="1" ObjectPathId="0" />
+        <ObjectPath Id="3" ObjectPathId="2" />
+        <SetProperty Id="4" ObjectPathId="2" Name="Title">
+            <Parameter Type="String">New site</Parameter>
+        </SetProperty>
+        <SetProperty Id="5" ObjectPathId="2" Name="Description">
+            <Parameter Type="String">New site</Parameter>
+        </SetProperty>
+        <Method Name="Update" Id="6" ObjectPathId="2" />
+    </Actions>
+    <ObjectPaths>
+        <StaticProperty Id="0" TypeId="{3747adcd-a3c3-41b9-bfab-4a64dd2f1e0a}" Name="Current" />
+        <Property Id="2" ParentId="0" Name="Web" />
+    </ObjectPaths>
+</Request-->
 
 
-<Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="Javascript Library">
-<Actions>
-    <ObjectPath Id="1" ObjectPathId="0" />
-    <ObjectPath Id="3" ObjectPathId="2" />
-    <Query Id="4" ObjectPathId="2">
-        <Query SelectAllProperties="true">
-            <Properties />
-        </Query>
-    </Query>
-</Actions>
-<ObjectPaths>
-    <StaticProperty Id="0" TypeId="{3747adcd-a3c3-41b9-bfab-4a64dd2f1e0a}" Name="Current" />
-    <Property Id="2" ParentId="0" Name="Web" />
-</ObjectPaths>
-</Request>
+
+<!-- Create web -->
+<!--Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="Javascript Library">
+    <Actions>
+        <ObjectPath Id="8" ObjectPathId="7" />
+        <ObjectPath Id="10" ObjectPathId="9" />
+        <ObjectIdentityQuery Id="11" ObjectPathId="9" />
+        <Method Name="Update" Id="12" ObjectPathId="2" />
+    </Actions>
+    <ObjectPaths>
+        <Property Id="2" ParentId="0" Name="Web" />
+        <Property Id="7" ParentId="2" Name="Webs" />
+        <Method Id="9" ParentId="7" Name="Add">
+            <Parameters>
+                <Parameter TypeId="{8f9e9fbe-189e-492f-884f-98f9ef9cc4d6}">
+                    <Property Name="Description" Type="String">Description of new Web site...</Property>
+                    <Property Name="Language" Type="Number">1033</Property>
+                    <Property Name="Title" Type="String">My New Web Site</Property>
+                    <Property Name="Url" Type="String">MyNewWebSite</Property>
+                    <Property Name="UseSamePermissionsAsParentSite" Type="Boolean">true</Property>
+                    <Property Name="WebTemplate" Type="String">mall</Property>
+                </Parameter>
+            </Parameters>
+        </Method>
+        <StaticProperty Id="0" TypeId="{3747adcd-a3c3-41b9-bfab-4a64dd2f1e0a}" Name="Current" />
+    </ObjectPaths>
+</Request-->
+
+
+
+
+
+
+
+
+

@@ -14,9 +14,9 @@ class WebTest extends SharePointTestCase
 
     public function testGetWebProperties()
     {
-        $langIds = self::$context->getWeb()->getSupportedUILanguageIds();
+        $result = self::$context->getWeb()->getSupportedUILanguageIds();
         self::$context->executeQuery();
-        self::assertNotEmpty($langIds->getCount());
+        self::assertNotEmpty($result->Value);
     }
 
 
@@ -86,7 +86,7 @@ class WebTest extends SharePointTestCase
         $ctx->executeQuery();
 
 
-        $webs = $ctx->getWeb()->getWebs()->filter("Title eq '$webTitle'");
+        $webs = self::$context->getWeb()->getWebs()->filter("Title eq '$webTitle'");
         $ctx->load($webs);
         $ctx->executeQuery();
         $this->assertCount(1,$webs->getData());

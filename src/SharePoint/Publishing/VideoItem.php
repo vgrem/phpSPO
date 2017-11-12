@@ -48,14 +48,13 @@ class VideoItem extends ClientObject
                 $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . "(guid'{$value}')");
             $this->{$name} = $value;
         }
-        else
-            parent::setProperty($name, $value, $persistChanges);
+        parent::setProperty($name, $value, $persistChanges);
     }
 
 
-    public function getEntityTypeName()
+    public function getTypeName()
     {
-        return implode(".",array("SP","Publishing",parent::getEntityTypeName()));
+        return implode(".",array("SP","Publishing",parent::getTypeName()));
     }
 
 

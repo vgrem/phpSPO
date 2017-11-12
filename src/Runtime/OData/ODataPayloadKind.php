@@ -9,7 +9,7 @@ namespace Office365\PHP\Client\Runtime\OData;
 class ODataPayloadKind
 {
     /**
-     *
+     * Specifies an unknown format.
      */
     const Unsupported = -1;
 
@@ -24,18 +24,18 @@ class ODataPayloadKind
     const Collection = 1;
 
     /**
-     *
+     * Specifies a payload kind for writing an entry.
      */
     const Entity = 2;
 
     /**
-     *
+     * Specifies a payload kind for writing a property.
      */
     const Property = 3;
 
 
     /**
-     *
+     *  Specifies a payload kind for writing a parameter.
      */
     const Parameter = 4;
 
@@ -43,4 +43,10 @@ class ODataPayloadKind
      * Specifies the payload kind for writing a batch.
      */
     const Batch = 5;
+
+
+    /**
+     * Specifies a payload kind for writing a service document.
+     */
+    const ServiceDocument = 6;
 }

@@ -1,6 +1,5 @@
 <?php
 
-use Office365\PHP\Client\SharePoint\ChangeLogItemQuery;
 use Office365\PHP\Client\SharePoint\ChangeQuery;
 use Office365\PHP\Client\SharePoint\ChangeType;
 
@@ -16,7 +15,7 @@ class ChangeTest extends SharePointTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        $listTitle = "Tasks";
+        $listTitle = "Contacts";
         self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
     }
 
@@ -70,7 +69,6 @@ class ChangeTest extends SharePointTestCase
             $changeTypeName = ChangeType::getName($change->ChangeType);
             $this->assertNotNull($changeTypeName);
             $this->assertNotNull($changeName);
-            //print "Change ( {$change->Time} , {$changeTypeName} , {$change->ChangeToken->StringValue} )\r\n";
         }
     }
 
@@ -82,6 +80,7 @@ class ChangeTest extends SharePointTestCase
         //$query->ChangeToken = "1;3;e49a3225-13f6-47d4-a146-30d9caa05362;635969955256400000;10637059";
         $items = self::$targetList->getListItemChangesSinceToken($query);
         $ctx->executeQuery();
+        $this->assertNotNull($items->getServerObjectIsNull());
         foreach ($items->getData() as $item) {
             $this->assertNotNull($item->getProperty("Title"));
         }

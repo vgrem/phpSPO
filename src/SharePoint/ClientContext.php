@@ -4,6 +4,7 @@ namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\ClientAction;
+use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
@@ -67,10 +68,8 @@ class ClientContext extends ClientRuntimeContext
         $response = $this->executeQueryDirect($request);
         if(!isset($this->contextWebInformation))
             $this->contextWebInformation = new ContextWebInformation();
-        if($this->Format->MetadataLevel == ODataMetadataLevel::Verbose){
-            $this->contextWebInformation->EntityName = "GetContextWebInformation";
-        }
-        $this->processResponse($response,$this->contextWebInformation);
+        $result = new ClientResult("GetContextWebInformation",$this->contextWebInformation);
+        $this->processResponse($response,$result);
     }
 
     /**

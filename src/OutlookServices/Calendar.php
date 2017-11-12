@@ -25,7 +25,7 @@ class Calendar extends OutlookEntity
             $this->getContext(),
             new ResourcePathEntity($this->getContext(),$this->getResourcePath(),$url)
         );
-        $qry = new ReadEntityQuery($events->getResourcePath());
+        $qry = new ReadEntityQuery($events);
         $this->getContext()->addQuery($qry,$events);
         return $events;
     }

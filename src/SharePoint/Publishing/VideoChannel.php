@@ -64,9 +64,9 @@ class VideoChannel extends ClientObject
     }
 
 
-    public function getEntityTypeName()
+    public function getTypeName()
     {
-        return implode(".",array("SP","Publishing",parent::getEntityTypeName()));
+        return implode(".",array("SP","Publishing",parent::getTypeName()));
     }
 
 }

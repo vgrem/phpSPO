@@ -18,12 +18,12 @@ try {
 	$listTitle = "Orders_" . rand(1,1000);
 	//$listTitle = "Tasks" ;
 
-	//printLists($ctx);
-    $list = ensureList($ctx,$listTitle);
-	updateList($list);
+	printLists($ctx);
+    //$list = ensureList($ctx,$listTitle);
+	//updateList($list);
 	//assignUniquePermissions($list);
 	//printPermissions($list,$Settings['UserName']);
-    deleteList($list);
+    //deleteList($list);
 	//printListDetails($ctx,$listTitle);
 }
 catch (Exception $e) {
@@ -46,6 +46,7 @@ function printPermissions(SPList $list, $loginName){
 	$ctx = $list->getContext();
 	$permissions = $list->getUserEffectivePermissions($loginName);
 	$ctx->executeQuery();
+	var_dump($permissions);
 }
 
 

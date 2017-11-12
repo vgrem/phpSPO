@@ -3,21 +3,19 @@
 namespace Office365\PHP\Client\Runtime;
 
 
-use Office365\PHP\Client\Runtime\OData\ODataPrimitiveTypeKind;
-
-class ClientValueObjectCollection extends ClientValueObject
+class ClientValueObjectCollection extends ClientValueObject implements ISchemaTypeCollection
 {
 
     /**
+     * Adds property to collection
      * @param ClientValueObject $value
      */
-    public function addChild(ClientValueObject $value)
+    public function addChild($value)
     {
         if (is_null($this->data))
             $this->data = array();
         $this->data[] = $value;
     }
-
 
     /**
      * @return array
@@ -49,11 +47,12 @@ class ClientValueObjectCollection extends ClientValueObject
      * Creates entity for a collection
      * @return ClientValueObject
      */
-    public function createTypedValueObject()
+    public function createType()
     {
         $clientValueObjectType = $this->getItemTypeName();
         return new $clientValueObjectType();
     }
+
 
     /**
      * @return string
@@ -64,19 +63,22 @@ class ClientValueObjectCollection extends ClientValueObject
     }
 
 
-    function convertFromJson($json)
+    function getProperties($flag=SCHEMA_ALL_PROPERTIES)
     {
-        $this->clearData();
-        if (in_array($this->getEntityTypeName(), ODataPrimitiveTypeKind::getPrimitiveCollectionNames())) {
-            $this->data = $json->results;
-        } else {
-            foreach ($json as $item) {
-                $clientValueObject = $this->createTypedValueObject();
-                $clientValueObject->convertFromJson($item);
-                $this->addChild($clientValueObject);
-            }
-        }
+        return array_map(function (ClientValueObject $item) use ($flag) {
+            return $item->getProperties($flag);
+        }, $this->getData());
     }
+
+
+    /*function setProperty($name, $payload, $persistChanges = false)
+    {
+        foreach ($payload as $key => $value) {
+            $clientValueObject = $this->createTypedValueObject();
+            $clientValueObject->setProperty($key,$value,$persistChanges);
+            $this->addChild($clientValueObject);
+        }
+    }*/
 
 
     /**

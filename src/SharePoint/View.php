@@ -2,7 +2,7 @@
 
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\InvokeGetMethodQueryQuery;
+use Office365\PHP\Client\Runtime\InvokeMethodQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
@@ -50,7 +50,7 @@ class View extends ClientObject
      * Returns the list view as HTML.
      */
     public function renderAsHtml(){
-        $qry = new InvokeGetMethodQueryQuery(
+        $qry = new InvokeMethodQuery(
             $this,
             "renderashtml"
         );

@@ -12,7 +12,7 @@ class UserTest extends SharePointTestCase
         $curUser = self::$context->getWeb()->getCurrentUser();
         self::$context->load($curUser);
         self::$context->executeQuery();
-        $this->assertNotNull($curUser);
+        $this->assertNotNull($curUser->getServerObjectIsNull());
     }
 
 
@@ -48,7 +48,6 @@ class UserTest extends SharePointTestCase
      */
     public function testFindGroup(Group $group)
     {
-        //$ctx = $group->getContext();
         if(!$group->isPropertyAvailable("LoginName")){
             self::$context->load($group);
             self::$context->executeQuery();
@@ -68,7 +67,6 @@ class UserTest extends SharePointTestCase
      */
     public function testDeleteGroup(Group $group)
     {
-        //$ctx = $group->getContext();
         self::$context->getWeb()->getSiteGroups()->removeByLoginName($group->getProperty("LoginName"));
         self::$context->executeQuery();
 

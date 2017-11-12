@@ -1,22 +1,32 @@
 <?php
 
 namespace Office365\PHP\Client\Runtime;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
+
+
 
 class InvokePostMethodQuery extends InvokeMethodQuery
 {
+
 
     /**
      * ClientActionUpdateMethod constructor.
      * @param ClientObject $parentClientObject
      * @param string $methodName
      * @param array $methodParameters
-     * @param ODataPayload|string $methodPayload
+     * @param string|ISchemaType $methodPayload
      */
-    public function __construct(ClientObject $parentClientObject, $methodName = null, array $methodParameters = null, $methodPayload=null)
+    public function __construct(ClientObject $parentClientObject, $methodName = null,$methodParameters=null,$methodPayload=null)
     {
-        parent::__construct($parentClientObject,$methodName,$methodParameters,$methodPayload);
+        $this->MethodPayload = $methodPayload;
+        parent::__construct($parentClientObject,$methodName, $methodParameters);
     }
+
+
+
+    /**
+     * @var string|ISchemaType $MethodPayload
+     */
+    public $MethodPayload;
     
 
 }

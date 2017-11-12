@@ -42,25 +42,30 @@ class OutlookEntity extends ClientObject
 
     public function ensureTypeAnnotation()
     {
-        $typeName = $this->getEntityTypeName();
+        $typeName = $this->getTypeName();
         $this->addAnnotation("type","#Microsoft.OutlookServices.$typeName");
     }
 
 
-    function getChangedProperties()
+
+
+
+    function getProperties($flag=SCHEMA_ALL_PROPERTIES)
     {
-        $properties = parent::getChangedProperties();
+        $result = parent::getProperties($flag);
+        //include annotations
+        foreach ($this->annotations as $key => $val) {
+            $result[$key] = $val;
+        }
+
         $reflection = new ReflectionObject($this);
         foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $p) {
             $val = $p->getValue($this);
             if (!is_null($val)) {
-                $properties[$p->name] = $val;
+                $result[$p->name] = $val;
             }
         }
-        foreach ($this->annotations as $key => $val) {
-            $properties[$key] = $val;
-        }
-        return $properties;
+        return $result;
     }
 
 

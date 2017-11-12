@@ -4,6 +4,9 @@
 namespace Office365\PHP\Client\OneDrive;
 
 
+
+use Office365\PHP\Client\FileServices\ImageFacet;
+
 class File extends Item
 {
 
@@ -21,7 +24,7 @@ class File extends Item
      * @param string $value
      */
     public function setContentUrl($value){
-        return $this->setProperty("contentUrl",$value);
+        $this->setProperty("contentUrl",$value);
     }
 
 
@@ -39,12 +42,12 @@ class File extends Item
      * @param ImageFacet $value
      */
     public function setImage($value){
-        return $this->setProperty("image",$value);
+        $this->setProperty("image",$value);
     }
 
 
 
-    function getEntityTypeName()
+    function getTypeName()
     {
         return "#Microsoft.FileServices.File";
     }

@@ -5,8 +5,6 @@ namespace Office365\PHP\Client\Runtime\OData;
 
 abstract class ODataFormat
 {
-
-
     public function __construct($metadataLevel)
     {
         $this->MetadataLevel = $metadataLevel;
@@ -17,6 +15,12 @@ abstract class ODataFormat
      * @return string
      */
     public abstract function getMediaType();
+
+
+    /**
+     * @return string
+     */
+    public abstract function getCollectionTagName();
 
     /**
      * @return bool

@@ -2,65 +2,60 @@
 
 
 namespace Office365\PHP\Client\Runtime;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
-
 
 
 /**
  * Represents OData complex type(property) of a server-side property value.
  */
-class ClientValueObject extends ODataPayload
+class ClientValueObject implements ISchemaType
 {
 
     /**
      * ClientValueObject constructor.
-     * @param string $entityTypeName
+     * @param string $typeName
      */
-    public function __construct($entityTypeName = null)
+    public function __construct($typeName = null)
     {
-        $this->entityTypeName = $entityTypeName;
+        $this->typeName = $typeName;
     }
 
-    public function getEntityTypeName()
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @param bool $persistChanges
+     */
+    function setProperty($name, $value,$persistChanges = true)
     {
-        if(!isset($this->entityTypeName)){
+        $this->{$name} = $value;
+    }
+
+    public function getProperty($name)
+    {
+        return $this->{$name};
+    }
+
+    public function getTypeName()
+    {
+        if(!isset($this->typeName)){
             $typeInfo = explode("\\",get_class($this));
-            $this->entityTypeName =  end($typeInfo);
+            $this->typeName =  end($typeInfo);
         }
-        return $this->entityTypeName;
+        return $this->typeName;
     }
 
-    /**
-     * CConverts the JSON into a complex type
-     * @param mixed $json
-     */
-    function convertFromJson($json)
+    function getProperties($flag=SCHEMA_ALL_PROPERTIES)
     {
-        foreach ($json as $key => $value) {
-            if ($this->isMetadataProperty($key)) {
-                continue;
-            }
-            if (is_object($value)) {
-                if ($this->isDeferredProperty($value)) { //deferred property
-                    $this->{$key} = null;
-                }
-                else {
-                    if(property_exists($value,"results")) //collection of properties?
-                        $this->{$key} = $value->results;
-                }
-            }
-            else {
-                $this->{$key} = $value;
-            }
-        }
+        return array_filter(get_object_vars($this), function ($v, $k) {
+            return ($k != 'typeName' && !is_null($v));
+        }, ARRAY_FILTER_USE_BOTH);
     }
 
 
-
     /**
-     * @var string
+     * @var $typeName string
      */
-    private $entityTypeName;
+    private $typeName;
 
 
 }

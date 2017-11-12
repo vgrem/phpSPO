@@ -5,7 +5,6 @@ namespace Office365\PHP\Client\Runtime;
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\OData\ODataRequest;
 use Office365\PHP\Client\Runtime\OData\ODataFormat;
-use Office365\PHP\Client\Runtime\OData\ODataPayload;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
@@ -137,7 +136,7 @@ class ClientRuntimeContext
 
     /**
      * @param RequestOptions $options
-     * @return ODataPayload
+     * @return string
      */
     public function executeQueryDirect(RequestOptions $options)
     {
@@ -145,8 +144,8 @@ class ClientRuntimeContext
     }
 
     /**
-     * @param $response
-     * @param $resultObject
+     * @param string $response
+     * @param ClientObject|ClientResult $resultObject
      * @return self
      */
     public function processResponse($response, $resultObject)
@@ -157,7 +156,7 @@ class ClientRuntimeContext
 
     /**
      * @param ClientAction $query
-     * @param ClientObject $resultObject
+     * @param ClientObject|ClientResult $resultObject
      * @return self
      */
     public function addQuery(ClientAction $query, $resultObject = null)

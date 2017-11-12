@@ -16,6 +16,10 @@ class OutlookCalendarTest extends OutlookServicesTestCase
 
     public function testCreateEvent()
     {
+        $events = self::$context->getMe()->getEvents();
+        self::$context->load($events);
+        self::$context->executeQuery();
+
         $currentUser = self::$context->getMe();
         self::$context->load($currentUser);
         self::$context->executeQuery();

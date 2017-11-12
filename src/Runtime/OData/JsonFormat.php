@@ -14,6 +14,14 @@ class JsonFormat extends ODataFormat
         $this->IEEE754Compatible = true;
     }
 
+    /**
+     * @return string
+     */
+    public function getCollectionTagName()
+    {
+        return "value";
+    }
+
 
     public function getMediaType()
     {
@@ -40,4 +48,6 @@ class JsonFormat extends ODataFormat
      * @var bool
      */
     public $IEEE754Compatible;
+
+
 }
