@@ -8,6 +8,7 @@ namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\CreateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 class FolderCollection extends ClientObjectCollection
 {
@@ -18,5 +19,16 @@ class FolderCollection extends ClientObjectCollection
         $qry = new CreateEntityQuery($this, $folder);
         $this->getContext()->addQuery($qry, $folder);
         return $folder;
+    }
+
+    /**
+     * @param $serverRelativeUrl
+     * @return Folder
+     */
+    public function getByUrl($serverRelativeUrl){
+        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getbyurl",array(
+            rawurlencode($serverRelativeUrl)
+        ));
+        return new Folder($this->getContext(),$path);
     }
 }

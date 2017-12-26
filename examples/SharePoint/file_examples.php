@@ -1,6 +1,7 @@
 <?php
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\SharePoint\SPList;
@@ -16,11 +17,21 @@ try {
     $targetLibraryTitle = "Documents";
     $targetFolderUrl = "/sites/contoso/Documents/Archive/2017/08";
 
-    //$list = TestUtilities::ensureList($ctx->getWeb(),$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
+    $list = ListExtensions::ensureList($ctx->getWeb(),$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
+
+    $folderUrl = "Shared Documents";
+    $fileUrl = "Guide #123.docx";
+    $file = $ctx->getWeb()->getFolders()->getByUrl($folderUrl)->getFiles()->getByUrl($fileUrl);
+    $ctx->load($file);
+    $ctx->executeQuery();
+    print "File name: '{$file->getProperty("Name")}'\r\n";
+
+
+    //downloadFile($ctx,$fileUrl,$localPath);
     //enumFolders($list);
     //uploadFiles($localPath,$list);
-    $localFilePath = realpath ($localPath . "/SharePoint User Guide.docx");
-    uploadFileIntoFolder($ctx,$localFilePath,$targetFolderUrl);
+    //$localFilePath = realpath ($localPath . "/SharePoint User Guide.docx");
+    //uploadFileIntoFolder($ctx,$localFilePath,$targetFolderUrl);
     //processFiles($list,$localPath);
     //deleteFolder($ctx,$folderUrl);
     //saveFile($ctx,$localFilePath,$fileUrl);
@@ -34,6 +45,12 @@ catch (Exception $e) {
 }
 
 
+
+function downloadFileViaRPC(ClientContext $ctx,$webUrl,$fileUrl){
+    $fileAbsUrl = $webUrl . rawurlencode($fileUrl);
+    $options = new RequestOptions($fileAbsUrl);
+    $data = $ctx->executeQueryDirect($options);
+}
 
 function createSubFolder(ClientContext $ctx,$parentFolderUrl,$folderName){
 

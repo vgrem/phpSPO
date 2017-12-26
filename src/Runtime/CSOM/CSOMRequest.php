@@ -7,7 +7,7 @@ use Office365\PHP\Client\Runtime\ClientRequest;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use SimpleXMLElement;
 
-class CSOMClientRequest extends ClientRequest
+class CSOMRequest extends ClientRequest
 {
 
     /**

@@ -3,6 +3,7 @@
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 
 /**
@@ -51,6 +52,18 @@ class FileCollection extends ClientObjectCollection
         );
         $this->getContext()->addQuery($qry,$file);
         return $file;
+    }
+
+
+    /**
+     * @param $serverRelativeUrl
+     * @return File
+     */
+    public function getByUrl($serverRelativeUrl){
+        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getbyurl",array(
+            rawurlencode($serverRelativeUrl)
+        ));
+        return new File($this->getContext(),$path);
     }
 
 }
