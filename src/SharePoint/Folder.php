@@ -47,7 +47,6 @@ class Folder extends ClientObject
      * Gets the collection of all files contained in the list folder.
      * You can add a file to a folder by using the Add method on the folder’s FileCollection resource.
      * @return FileCollection
-     * @throws \Exception
      */
     public function getFiles()
     {

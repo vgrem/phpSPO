@@ -96,7 +96,6 @@ class SPList extends SecurableObject
      * Gets the set of permissions for the specified user
      * @param string $loginName
      * @return BasePermissions
-     * @throws \Exception
      */
     public function getUserEffectivePermissions($loginName)
     {

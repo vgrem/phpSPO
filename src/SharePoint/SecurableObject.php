@@ -14,7 +14,6 @@ class SecurableObject extends ClientObject
     /**
      * Creates unique role assignments for the securable object.
      * @param bool $copyRoleAssignments
-     * @throws \Exception
      */
     public function breakRoleInheritance($copyRoleAssignments)
     {

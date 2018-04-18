@@ -17,7 +17,7 @@ class ViewCollection extends ClientObjectCollection
     {
         return new View(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByTitle",array($title))
+            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByTitle",array(rawurlencode($title)))
         );
     }
 

@@ -15,6 +15,14 @@ try {
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 
 
+    $listTitle = 'Archive 2017';
+    //$listTitle = 'Archive%202017';
+    $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
+    $ctx->load($list);
+    $ctx->executeQuery();
+
+    echo  $list->getProperty('Title');
+
 	$listTitle = "Orders_" . rand(1,1000);
 	//$listTitle = "Tasks" ;
 

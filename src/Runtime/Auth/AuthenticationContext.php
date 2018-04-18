@@ -110,16 +110,14 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @param string $resource
      * @param string $clientId
-     * @param string $clientSecret
      * @param UserCredentials $credentials
      */
-    public function acquireTokenForUserCredential($resource, $clientId, $clientSecret, $credentials)
+    public function acquireTokenForUserCredential($resource, $clientId, $credentials)
     {
         $this->provider = new OAuthTokenProvider($this->authorityUrl);
         $parameters = array(
             'grant_type' => 'password',
             'client_id' => $clientId,
-            'client_secret' => $clientSecret,
             'username' => $credentials->Username,
             'password' => $credentials->Password,
             'scope' => 'openid',

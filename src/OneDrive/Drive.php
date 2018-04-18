@@ -22,7 +22,7 @@ class Drive extends ClientObject
      * @param string $value
      */
     public function setOwner($value){
-        return $this->setProperty("owner",$value);
+        $this->setProperty("owner",$value);
     }
 
 
@@ -49,7 +49,7 @@ class Drive extends ClientObject
      * @param string $value
      */
     public function setFiles($value){
-        return $this->setProperty("files",$value);
+        $this->setProperty("files",$value);
     }
 
 }

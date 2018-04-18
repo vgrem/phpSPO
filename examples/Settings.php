@@ -1,16 +1,16 @@
 <?php
 
 $Settings = array(
-	'Url' => "https://mediadev20.sharepoint.com/sites/contoso",
-    'OneDriveUrl' => "https://mediadev20-my.SharePoint.com",
+	'Url' => "https://mediadev23.sharepoint.com",
+    'OneDriveUrl' => "https://mediadev23-my.SharePoint.com",
 	'Password' => "P@ssw0rd",
-	'UserName' => "mattim@mediadev20.onmicrosoft.com"
+	'UserName' => "mattim@mediadev23.onmicrosoft.com"
 );
 
 $AppSettings = array(
-	'TenantName' => "mediadev20.onmicrosoft.com",
-	'ClientId' => "13d4cd98-1761-4416-b01c-a641c08d0737",
-	'ClientSecret' => "oYM9GUiE4uejyaQ0GuuHj7U",
+	'TenantName' => "mediadev23.onmicrosoft.com",
+	'ClientId' => "d426369e-c84b-47db-b6b1-b9c824ac2ea2",
+	'ClientSecret' => "wrizJBW41]|=@govNEDR059",
 	'Title' => "Office365 Graph explorer",
 	'RedirectUrl' => "http://localhost:8078/GraphExplorer/SignIn.php"
 );

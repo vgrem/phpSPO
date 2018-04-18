@@ -7,6 +7,8 @@ use Office365\PHP\Client\Runtime\OData\ODataRequest;
 use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Utilities\Version;
+
 
 /**
  * OData Runtime context for Office365 APIs
@@ -39,6 +41,12 @@ class ClientRuntimeContext
      * @var ODataFormat
      */
     public $Format;
+
+
+    /**
+     * @var Version $RequestSchemaVersion
+     */
+    public $RequestSchemaVersion;
 
     /**
      * REST client context ctor
@@ -137,6 +145,7 @@ class ClientRuntimeContext
     /**
      * @param RequestOptions $options
      * @return string
+     * @throws \Exception
      */
     public function executeQueryDirect(RequestOptions $options)
     {
@@ -176,5 +185,11 @@ class ClientRuntimeContext
         return $this->pendingRequest;
     }
 
+    /**
+     * @return Version
+     */
+    public function getServerLibraryVersion(){
+        return new Version();
+    }
 
 }

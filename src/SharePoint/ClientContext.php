@@ -61,7 +61,7 @@ class ClientContext extends ClientRuntimeContext
     /**
      * Request the SharePoint Context Info
      */
-    protected function requestFormDigest()
+    public function requestFormDigest()
     {
         $request = new RequestOptions($this->getServiceRootUrl() . "contextinfo");
         $request->Method = HttpMethod::Post;

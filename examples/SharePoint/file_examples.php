@@ -17,7 +17,14 @@ try {
     $targetLibraryTitle = "Documents";
     $targetFolderUrl = "/sites/contoso/Documents/Archive/2017/08";
 
-    $list = ListExtensions::ensureList($ctx->getWeb(),$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
+    //$list = ListExtensions::ensureList($ctx->getWeb(),$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
+
+
+    $fileUrl = "/sites/contoso/Shared Documents/Guide #123.docx";
+    $file = $ctx->getWeb()->getFileByServerRelativeUrl($fileUrl);
+    $ctx->load($file);
+    $ctx->executeQuery();
+
 
     $folderUrl = "Shared Documents";
     $fileUrl = "Guide #123.docx";
@@ -58,6 +65,7 @@ function createSubFolder(ClientContext $ctx,$parentFolderUrl,$folderName){
     $ctx->load($files);
     $ctx->executeQuery();
     //print files info
+    /* @var $file \Office365\PHP\Client\SharePoint\File */
     foreach ($files->getData() as $file) {
         print "File name: '{$file->getProperty("ServerRelativeUrl")}'\r\n";
     }

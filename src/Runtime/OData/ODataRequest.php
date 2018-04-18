@@ -46,6 +46,7 @@ class ODataRequest extends ClientRequest
 
     /**
      * Submit query to OData service
+     * @throws Exception
      */
     public function executeQuery()
     {

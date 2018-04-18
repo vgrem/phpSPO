@@ -1,5 +1,5 @@
 <?php
-use Office365\PHP\Client\GraphClient\ActiveDirectoryClient;
+use Office365\PHP\Client\GraphClient\GraphServiceClient;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
 require_once '../bootstrap.php';
@@ -14,11 +14,14 @@ if(isset($_SESSION['auth_ctx'])) {
     if (isset($_GET['text'])) {
         $requestUrl = $_GET['text'];
         $authorityUrl = "https://graph.windows.net/";
-        $client = new ActiveDirectoryClient($authorityUrl,$_SESSION['auth_ctx']);
+        $client = new GraphServiceClient($_SESSION['auth_ctx']);
         $request = new RequestOptions($requestUrl);
         //$request->Url .= "?api-version=1.0";
         $request->Url .= "?api-version=beta";
-        $response = $client->executeQueryDirect($request);
+        try {
+            $response = $client->executeQueryDirect($request);
+        } catch (Exception $e) {
+        }
         echo $response;
     }
     else

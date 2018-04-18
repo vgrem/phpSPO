@@ -120,6 +120,7 @@ abstract class ClientRequest
      * @param RequestOptions $request
      * @param array $responseInfo
      * @return string
+     * @throws \Exception
      */
     public function executeQueryDirect(RequestOptions $request,&$responseInfo=array())
     {

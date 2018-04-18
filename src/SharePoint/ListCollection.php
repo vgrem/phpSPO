@@ -20,7 +20,7 @@ class ListCollection extends ClientObjectCollection
     {
         return new SPList(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByTitle",array($title))
+            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByTitle",array(rawurlencode($title)))
         );
     }
 

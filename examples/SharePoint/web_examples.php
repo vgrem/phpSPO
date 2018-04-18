@@ -10,6 +10,7 @@ use Office365\PHP\Client\SharePoint\WebCreationInformation;
 global $Settings;
 
 try {
+
 	$authCtx = new AuthenticationContext($Settings['Url']);
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
 
