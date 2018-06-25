@@ -12,6 +12,8 @@ php:
   - 5.6
   # aliased to a recent 7.x version
   - 7.0
+  - 7.1
+  - 7.2
   # aliased to a recent hhvm version
   - hhvm
 
