@@ -16,6 +16,7 @@ The library provides a Office 365 REST client for PHP applications. It allows to
 [![Latest Stable Version](https://poser.pugx.org/vgrem/php-spo/v/stable)](https://packagist.org/packages/vgrem/php-spo)
 [![Build Status](https://travis-ci.org/vgrem/phpSPO.svg?branch=master)](https://travis-ci.org/vgrem/phpSPO)
 [![License](https://poser.pugx.org/vgrem/php-spo/license)](https://packagist.org/packages/vgrem/php-spo)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](vvgrem@gmail.com)
 
 ### Installation
 
