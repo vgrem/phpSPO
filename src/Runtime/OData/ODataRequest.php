@@ -260,6 +260,8 @@ class ODataRequest extends ClientRequest
             $request->Method = HttpMethod::Post;
             if (is_string($query->MethodPayload))
                 $request->Data = $query->MethodPayload;
+            if (is_array($query->MethodPayload))
+                $request->Data = json_encode($query->MethodPayload);
             else if ($query->MethodPayload instanceof ISchemaType) {
                 //build request payload
                 $payload = $this->normalizePayload($query->MethodPayload);

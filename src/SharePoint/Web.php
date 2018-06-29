@@ -3,6 +3,9 @@
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientResult;
+use Office365\PHP\Client\Runtime\ClientRuntimeContext;
+use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\PHP\Client\Runtime\ContextResourcePath;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
@@ -19,6 +22,50 @@ use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 class Web extends SecurableObject
 {
 
+
+    /**
+     * @param ClientRuntimeContext $context
+     * @param string $url
+     * @param boolean $isEditLink
+     * @return ClientResult
+     */
+    public static function createAnonymousLink($context, $url, $isEditLink)
+    {
+        $result = new ClientResult("CreateAnonymousLink");
+        $rootPath = new ContextResourcePath($context);
+        $qry = new InvokePostMethodQuery($rootPath,
+            "SP.Web.CreateAnonymousLink",
+            null,
+            array(
+                "url" => $url,
+                "isEditLink" => $isEditLink
+            ));
+        $context->addQuery($qry,$result);
+        return $result;
+    }
+
+    /**
+     * @param ClientRuntimeContext $context
+     * @param string $url
+     * @param boolean $isEditLink
+     * @param string $expirationString
+     * @return ClientResult
+     */
+    public static function createAnonymousLinkWithExpiration($context, $url, $isEditLink,$expirationString)
+    {
+        $result = new ClientResult("CreateAnonymousLinkWithExpiration");
+        $rootPath = new ContextResourcePath($context);
+        $qry = new InvokePostMethodQuery($rootPath,
+            "SP.Web.CreateAnonymousLinkWithExpiration",
+            null,
+            array(
+                "url" => $url,
+                "isEditLink" => $isEditLink,
+                "expirationString" => $expirationString
+            ));
+        $context->addQuery($qry,$result);
+        return $result;
+    }
 
     public function update()
     {
@@ -43,7 +90,7 @@ class Web extends SecurableObject
     {
         $changes = new ChangeCollection($this->getContext());
         $qry = new InvokePostMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "GetChanges",
             null,
             $query

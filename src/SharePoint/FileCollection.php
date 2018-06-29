@@ -22,7 +22,7 @@ class FileCollection extends ClientObjectCollection
     {
         $file = new File($this->getContext(),$this->getResourcePath());
         $qry = new InvokePostMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "add",
             array("overwrite"=>$fileCreationInformation->Overwrite,"url"=>rawurlencode($fileCreationInformation->Url)),
             $fileCreationInformation->Content
@@ -43,7 +43,7 @@ class FileCollection extends ClientObjectCollection
     {
         $file = new File($this->getContext(),$this->getResourcePath());
         $qry = new InvokePostMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "addTemplateFile",
             array(
                 "urlOfFile" => $urlOfFile,

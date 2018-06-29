@@ -23,7 +23,7 @@ class LimitedWebPartManager extends ClientObject
         $payload->setProperty("webPartXml",$webPartXml);
         $webPartDefinition = new WebPartDefinition($this->getContext());
         $qry = new InvokePostMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "ImportWebPart",
             null,
             $payload

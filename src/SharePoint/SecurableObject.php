@@ -17,7 +17,7 @@ class SecurableObject extends ClientObject
      */
     public function breakRoleInheritance($copyRoleAssignments)
     {
-        $qry = new InvokePostMethodQuery($this,"breakroleinheritance",array(
+        $qry = new InvokePostMethodQuery($this->getResourcePath(),"breakroleinheritance",array(
             $copyRoleAssignments
         ));
         $this->getContext()->addQuery($qry);

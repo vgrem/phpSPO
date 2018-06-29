@@ -30,7 +30,7 @@ class PeopleManager extends ClientObject
      */
     public function amIFollowedBy ($accountName){
         $result = new ClientResult("AmIFollowedBy");
-        $qry = new InvokeMethodQuery($this, "AmIFollowedBy",array(rawurlencode($accountName)));
+        $qry = new InvokeMethodQuery($this->getResourcePath(), "AmIFollowedBy",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry,$result);
         return $result;
     }
@@ -64,7 +64,7 @@ class PeopleManager extends ClientObject
      * @param string $accountName
      */
     public function follow($accountName){
-        $qry = new InvokePostMethodQuery($this, "follow",array(rawurlencode($accountName)));
+        $qry = new InvokePostMethodQuery($this->getResourcePath(), "follow",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry);
     }
 
@@ -76,7 +76,7 @@ class PeopleManager extends ClientObject
      */
     public function stopFollowing ($accountName){
         $result = new ClientResult("StopFollowing");
-        $qry = new InvokePostMethodQuery($this, "StopFollowing",array(rawurlencode($accountName)));
+        $qry = new InvokePostMethodQuery($this->getResourcePath(), "StopFollowing",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry,$result);
         return $result;
     }
@@ -90,7 +90,7 @@ class PeopleManager extends ClientObject
     public function amIFollowing ($accountName){
         $result = new ClientResult("AmIFollowing");
         $qry = new InvokeMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "AmIFollowing",
             array(rawurlencode($accountName))
         );
@@ -122,7 +122,7 @@ class PeopleManager extends ClientObject
     {
         $clientResult = new ClientResult("GetUserProfilePropertyFor");
         $qry = new InvokeMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "GetUserProfilePropertyFor",
             array(
                 "accountname" => rawurlencode($accountName),

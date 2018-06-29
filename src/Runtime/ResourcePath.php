@@ -43,7 +43,8 @@ abstract class ResourcePath
         $paths = array();
         $current = clone $this;
         while (isset($current)) {
-            array_unshift($paths, $current->toString());
+            if(!is_null($current->toString()))
+                array_unshift($paths, $current->toString());
             $current = $current->parent;
         }
         return implode("/", $paths);

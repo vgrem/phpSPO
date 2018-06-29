@@ -18,7 +18,7 @@ class AttachmentCollection extends ClientObjectCollection
     {
         $attachment = new Attachment($this->getContext(),$this->getResourcePath());
         $qry = new InvokePostMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "add",
             array("FileName" =>rawurlencode($information->FileName)),
             $information->ContentStream);

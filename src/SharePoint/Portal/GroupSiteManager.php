@@ -42,7 +42,7 @@ class GroupSiteManager extends ClientObject
 
         }
         $info = new GroupSiteInfo();
-        $qry = new InvokePostMethodQuery($this,"CreateGroupEx",null,$payload);
+        $qry = new InvokePostMethodQuery($this->getResourcePath(),"CreateGroupEx",null,$payload);
         $this->getContext()->addQuery($qry,$info);
         return $info;
     }

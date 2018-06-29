@@ -11,7 +11,6 @@ require_once('ListItemExtensions.php');
 
 class WebTest extends SharePointTestCase
 {
-
     public function testGetWebProperties()
     {
         $result = self::$context->getWeb()->getSupportedUILanguageIds();

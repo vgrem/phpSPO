@@ -13,7 +13,7 @@ class UpdateEntityQuery extends InvokePostMethodQuery
      */
     public function __construct(ClientObject $entity)
     {
-        parent::__construct($entity,null,null,$entity);
+        parent::__construct($entity->getResourcePath(),null,null,$entity);
     }
 
 

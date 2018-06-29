@@ -46,7 +46,7 @@ class ListCollection extends ClientObjectCollection
     public function add(ListCreationInformation $properties)
     {
         $list = new SPList($this->getContext());
-        $qry = new InvokePostMethodQuery($this,null,null,$properties);
+        $qry = new InvokePostMethodQuery($this->getResourcePath(),null,null,$properties);
         $this->getContext()->addQuery($qry,$list);
         $this->addChild($list);
         return $list;

@@ -23,7 +23,7 @@ class GroupCollection extends ClientObjectCollection
     public function add(GroupCreationInformation $parameters)
     {
         $group = new Group($this->getContext(), $this->getResourcePath());
-        $qry = new InvokePostMethodQuery($this,null,null, $parameters);
+        $qry = new InvokePostMethodQuery($this->getResourcePath(),null,null, $parameters);
         $this->getContext()->addQuery($qry, $group);
         $this->addChild($group);
         return $group;
@@ -66,7 +66,7 @@ class GroupCollection extends ClientObjectCollection
      */
     public function removeById($id)
     {
-        $qry = new InvokePostMethodQuery($this, "removebyid", array($id));
+        $qry = new InvokePostMethodQuery($this->getResourcePath(), "removebyid", array($id));
         $this->getContext()->addQuery($qry);
     }
 
@@ -77,7 +77,7 @@ class GroupCollection extends ClientObjectCollection
      */
     public function removeByLoginName($groupName)
     {
-        $qry = new InvokePostMethodQuery($this, "removeByLoginName", array($groupName));
+        $qry = new InvokePostMethodQuery($this->getResourcePath(), "removeByLoginName", array($groupName));
         $this->getContext()->addQuery($qry);
     }
 }

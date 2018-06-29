@@ -46,7 +46,7 @@ class ViewCollection extends ClientObjectCollection
     public function add(ViewCreationInformation $properties)
     {
         $view = new View($this->getContext(),$this->getResourcePath());
-        $qry = new InvokePostMethodQuery($this,null,null,$properties);
+        $qry = new InvokePostMethodQuery($this->getResourcePath(),null,null,$properties);
         $this->getContext()->addQuery($qry,$view);
         $this->addChild($view);
         return $view;

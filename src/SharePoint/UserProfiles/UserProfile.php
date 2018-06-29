@@ -21,7 +21,7 @@ class UserProfile extends ClientObject
      */
     public function createPersonalSiteEnque(){
         $qry = new InvokePostMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "createpersonalsiteenque",
             array(false)
         );

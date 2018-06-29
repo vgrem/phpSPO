@@ -11,7 +11,7 @@ require_once(__DIR__ . '/../src/SharePoint/UserProfiles/PeopleManager.php');
 class PeopleManagerTest extends SharePointTestCase
 {
 
-    private static $accountName = "i:0#.f|membership|vgrem@mediadev20.onmicrosoft.com";
+    private static $accountName = "i:0#.f|membership|vgrem@mediadev88.onmicrosoft.com";
 
     public function testGetMyProperties(){
         $peopleManager = new PeopleManager(self::$context);

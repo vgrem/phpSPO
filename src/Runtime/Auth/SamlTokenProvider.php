@@ -53,8 +53,11 @@ class SamlTokenProvider extends BaseTokenProvider
         return 'FedAuth=' . $this->FedAuth . '; rtFa=' . $this->rtFa;
     }
 
-    
 
+    /**
+     * @param $parameters
+     * @throws Exception
+     */
     public function acquireToken($parameters)
     {
         $token = $this->acquireSecurityToken($parameters['username'], $parameters['password']);

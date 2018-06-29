@@ -21,7 +21,7 @@ class File extends SecurableObject
       * Checks out the file from a document library based on the check-out type.
       */
      public function checkOut(){
-          $qry = new InvokePostMethodQuery($this,"checkout");
+          $qry = new InvokePostMethodQuery($this->getResourcePath(),"checkout");
           $this->getContext()->addQuery($qry);
      }
 
@@ -30,7 +30,7 @@ class File extends SecurableObject
       * Reverts an existing checkout for the file.
       */
      public function undoCheckout(){
-          $qry = new InvokePostMethodQuery($this,"undocheckout");
+          $qry = new InvokePostMethodQuery($this->getResourcePath(),"undocheckout");
           $this->getContext()->addQuery($qry);
      }
 
@@ -40,7 +40,7 @@ class File extends SecurableObject
       * @param string $comment A comment for the check-in. Its length must be <= 1023.
       */
      public function checkIn($comment){
-          $qry = new InvokePostMethodQuery($this,"checkIn",array(
+          $qry = new InvokePostMethodQuery($this->getResourcePath(),"checkIn",array(
               "comment" =>$comment,
               "checkintype" =>0
           ));
@@ -53,7 +53,7 @@ class File extends SecurableObject
       * @param string $comment The comment for the approval.
       */
      public function approve($comment){
-          $qry = new InvokePostMethodQuery($this,"approve",array(
+          $qry = new InvokePostMethodQuery($this->getResourcePath(),"approve",array(
               "comment" =>$comment
           ));
           $this->getContext()->addQuery($qry);
@@ -64,7 +64,7 @@ class File extends SecurableObject
       * @param string $comment The comment for the denial.
       */
      public function deny($comment){
-          $qry = new InvokePostMethodQuery($this, "deny",array(
+          $qry = new InvokePostMethodQuery($this->getResourcePath(), "deny",array(
               "comment" =>$comment
           ));
           $this->getContext()->addQuery($qry);
@@ -75,7 +75,7 @@ class File extends SecurableObject
       * @param string $comment The comment for the published file. Its length must be <= 1023.
       */
      public function publish($comment){
-          $qry = new InvokePostMethodQuery($this, "publish",array(
+          $qry = new InvokePostMethodQuery($this->getResourcePath(), "publish",array(
               "comment" =>$comment
           ));
           $this->getContext()->addQuery($qry);
@@ -87,7 +87,7 @@ class File extends SecurableObject
       * @param string $comment The comment for the unpublish operation. Its length must be <= 1023.
       */
      public function unpublish($comment){
-          $qry = new InvokePostMethodQuery($this,"unpublish", array(
+          $qry = new InvokePostMethodQuery($this->getResourcePath(),"unpublish", array(
               "comment" => $comment
           ));
           $this->getContext()->addQuery($qry);
@@ -100,7 +100,7 @@ class File extends SecurableObject
       * @param bool $bOverWrite true to overwrite a file with the same name in the same location; otherwise false.
       */
      public function copyTo($strNewUrl,$bOverWrite){
-          $qry = new InvokePostMethodQuery($this, "copyto", array(
+          $qry = new InvokePostMethodQuery($this->getResourcePath(), "copyto", array(
               "strnewurl"=>$strNewUrl,
               "boverwrite"=>$bOverWrite
           ));
@@ -113,7 +113,7 @@ class File extends SecurableObject
       * @param int $flags The bitwise SP.MoveOperations value for how to move the file. Overwrite = 1; AllowBrokenThickets (move even if supporting files are separated from the file) = 8.
       */
      public function moveTo($newUrl,$flags){
-          $qry = new InvokePostMethodQuery($this, "moveto", array(
+          $qry = new InvokePostMethodQuery($this->getResourcePath(), "moveto", array(
               "newurl"=>$newUrl,
               "flags"=>$flags
           ));
@@ -125,7 +125,7 @@ class File extends SecurableObject
       * Moves the file to the Recycle Bin and returns the identifier of the new Recycle Bin item.
       */
      public function recycle(){
-          $qry = new InvokePostMethodQuery($this, "recycle");
+          $qry = new InvokePostMethodQuery($this->getResourcePath(), "recycle");
           $this->getContext()->addQuery($qry);
      }
 

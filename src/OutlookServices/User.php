@@ -75,7 +75,7 @@ class User extends ClientObject
         $payload = new ClientValueObject();
         $payload->setProperty("Message", $message);
         $payload->setProperty("SaveToSentItems", $saveToSentItems);
-        $action = new InvokePostMethodQuery($this, "SendMail",null,$payload);
+        $action = new InvokePostMethodQuery($this->getResourcePath(), "SendMail",null,$payload);
         $this->getContext()->addQuery($action);
     }
 

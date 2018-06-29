@@ -61,7 +61,7 @@ class SPList extends SecurableObject
         $items = new ListItemCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items"));
         if(isset($camlQuery)){
             $qry = new InvokePostMethodQuery(
-                $this,
+                $this->getResourcePath(),
                 "GetItems",
                 null,
                 $camlQuery
@@ -101,7 +101,7 @@ class SPList extends SecurableObject
     {
         $permissions = new BasePermissions();
         $qry = new InvokeMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "GetUserEffectivePermissions",
             array(rawurlencode($loginName))
         );
@@ -118,7 +118,7 @@ class SPList extends SecurableObject
     {
         $result = new ListItemCollection($this->getContext());
         $qry = new InvokePostMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "getListItemChangesSinceToken",
             null,
             $query
@@ -136,7 +136,7 @@ class SPList extends SecurableObject
     {
         $changes = new ChangeCollection($this->getContext());
         $qry = new InvokePostMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "GetChanges",
             null,
             $query

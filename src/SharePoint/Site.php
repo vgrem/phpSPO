@@ -18,7 +18,7 @@ class Site extends ClientObject
     public function openWebById($webId)
     {
         $web = new Web($this->getContext(),$this->getResourcePath());
-        $qry = new InvokePostMethodQuery($this,"openWebById",array($webId));
+        $qry = new InvokePostMethodQuery($this->getResourcePath(),"openWebById",array($webId));
         $this->getContext()->addQuery($qry,$web);
         return $web;
     }

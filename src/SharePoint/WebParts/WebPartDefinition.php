@@ -12,7 +12,7 @@ class WebPartDefinition extends ClientObject
 
     public function saveWebPartChanges(){
         $qry = new InvokePostMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "SaveWebPartChanges"
         );
         $this->getContext()->addQuery($qry);
@@ -21,7 +21,7 @@ class WebPartDefinition extends ClientObject
     public function closeWebPart()
     {
         $qry = new InvokePostMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "CloseWebPart"
         );
         $this->getContext()->addQuery($qry);

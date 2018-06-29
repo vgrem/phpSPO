@@ -1,6 +1,8 @@
 <?php
 
 
+use Office365\PHP\Client\SharePoint\Web;
+
 class FileTest extends SharePointTestCase
 {
     /**
@@ -26,8 +28,9 @@ class FileTest extends SharePointTestCase
 
 
     public function testUploadFiles(){
-        $localPath = "../examples/data/";
+        $localPath = __DIR__ . "/../examples/data/";
         $searchPrefix = $localPath . '*.*';
+        $results = [];
         foreach(glob($searchPrefix) as $filename) {
             $fileCreationInformation = new \Office365\PHP\Client\SharePoint\FileCreationInformation();
             $fileCreationInformation->Content = file_get_contents($filename);
@@ -37,11 +40,32 @@ class FileTest extends SharePointTestCase
             $uploadFile = self::$targetList->getRootFolder()->getFiles()->add($fileCreationInformation);
             self::$context->executeQuery();
             $this->assertEquals($uploadFile->getProperty("Name"),$fileCreationInformation->Url);
-
+            $results[] = $uploadFile;
         }
         self::assertTrue(true);
+        return $results[0];
     }
 
+    /**
+     * @depends testUploadFiles
+     * @param $uploadFile
+     */
+    public function testUploadedFileCreateAnonymousLink(\Office365\PHP\Client\SharePoint\File $uploadFile)
+    {
+        $listItem = $uploadFile->getListItemAllFields();
+        self::$context->load($listItem,array("EncodedAbsUrl"));
+        self::$context->executeQuery();
+
+        $fileUrl = $listItem->getProperty("EncodedAbsUrl");
+        $result = Web::createAnonymousLink(self::$context,$fileUrl,false);
+        self::$context->executeQuery();
+        self::assertNotEmpty($result->Value);
+
+        $expireDate = new \DateTime('now +1 day');
+        $result = Web::createAnonymousLinkWithExpiration(self::$context,$fileUrl,false,$expireDate->format(DateTime::ATOM));
+        self::$context->executeQuery();
+        self::assertNotEmpty($result->Value);
+    }
 
     public function testGetFileVersions()
     {

@@ -20,7 +20,7 @@ class FieldCollection extends ClientObjectCollection
     public function add(FieldCreationInformation $parameters)
     {
         $field = new Field($this->getContext(),$this->getResourcePath());
-        $qry = new InvokePostMethodQuery($this,null,null,$parameters);
+        $qry = new InvokePostMethodQuery($this->getResourcePath(),null,null,$parameters);
         $this->getContext()->addQuery($qry,$field);
         $this->addChild($field);
         return $field;

@@ -51,7 +51,7 @@ class View extends ClientObject
      */
     public function renderAsHtml(){
         $qry = new InvokeMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "renderashtml"
         );
         $this->getContext()->addQuery($qry);

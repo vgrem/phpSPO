@@ -11,16 +11,16 @@ class InvokeMethodQuery extends ClientAction
 
     /**
      * InvokeMethodQuery constructor.
-     * @param ClientObject $parentClientObject
+     * @param ResourcePath $resourcePath
      * @param string $methodName
      * @param array|ISchemaType $methodParameters
      */
-    public function __construct(ClientObject $parentClientObject, $methodName=null, $methodParameters=null)
+    public function __construct(ResourcePath $resourcePath, $methodName=null, $methodParameters=null)
     {
 
         $path = new ResourcePathServiceOperation(
-            $parentClientObject->getContext(),
-            $parentClientObject->getResourcePath(),
+            $resourcePath->getContext(),
+            $resourcePath,
             $methodName,
             $methodParameters
         );

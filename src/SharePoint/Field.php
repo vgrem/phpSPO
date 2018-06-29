@@ -31,7 +31,7 @@ class Field extends ClientObject
      */
     public function setShowInDisplayForm($value){
         $qry = new InvokePostMethodQuery(
-            $this,
+            $this->getResourcePath(),
             "setShowInDisplayForm",
             array($value)
         );

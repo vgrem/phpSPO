@@ -33,7 +33,7 @@ class ContentTypeCollection extends ClientObjectCollection
     public function add(ContentTypeCreationInformation $information)
     {
         $contentType = new ContentType($this->getContext());
-        $qry = new InvokePostMethodQuery($this,null,null,$information);
+        $qry = new InvokePostMethodQuery($this->getResourcePath(),null,null,$information);
         $this->getContext()->addQuery($qry,$contentType);
         $this->addChild($contentType);
         return $contentType;
