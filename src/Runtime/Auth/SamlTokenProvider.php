@@ -249,17 +249,11 @@ class SamlTokenProvider extends BaseTokenProvider
         }
 
         if ($xpath->query("//S:Fault")->length > 0) {
-            $nodeErr = $xpath->query("//S:Fault/S:Detail/psf:error/psf:internalerror/psf:text")->item(0);
-            throw new \Exception($nodeErr->nodeValue);
-        }
-
-        if ($xpath->query("//S:Fault")->length > 0) {
-            $nodeErr = $xpath->query("//S:Fault/S:Detail/psf:error/psf:internalerror/psf:text")->item(0);
-            throw new \Exception($nodeErr->nodeValue);
+            // Returning the full fault value in case any other response comes within the fault node.
+            throw new \RuntimeException($xpath->query("//S:Fault")->item(0)->nodeValue);
         }
 
         throw new \RuntimeException('Error trying to get a token, check your URL or credentials');
-
     }
 
     /**
