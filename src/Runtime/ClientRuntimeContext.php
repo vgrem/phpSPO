@@ -4,7 +4,7 @@ namespace Office365\PHP\Client\Runtime;
 
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\OData\ODataRequest;
-use Office365\PHP\Client\Runtime\OData\ODataFormat;
+use Office365\PHP\Client\Runtime\OData\ODataSerializerContext;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\Version;
@@ -38,9 +38,9 @@ class ClientRuntimeContext
     private $pendingRequest;
 
     /**
-     * @var ODataFormat
+     * @var ODataSerializerContext
      */
-    public $Format;
+    private $serializerContext;
 
 
     /**
@@ -52,15 +52,15 @@ class ClientRuntimeContext
      * REST client context ctor
      * @param string $serviceUrl
      * @param IAuthenticationContext $authContext
-     * @param ODataFormat $format
+     * @param ODataSerializerContext $serializationContext
      * @param string $version
      */
-    public function __construct($serviceUrl, IAuthenticationContext $authContext, ODataFormat $format, $version = Office365Version::V1)
+    public function __construct($serviceUrl, IAuthenticationContext $authContext, ODataSerializerContext $serializationContext, $version = Office365Version::V1)
     {
         $this->version = $version;
         $this->serviceRootUrl = $serviceUrl;
         $this->authContext = $authContext;
-        $this->Format = $format;
+        $this->serializerContext = $serializationContext;
     }
 
     /**
@@ -138,9 +138,20 @@ class ClientRuntimeContext
      */
     public function executeQuery()
     {
-        $this->getPendingRequest()->executeQuery();
+        while ($this->hasPendingRequest()) {
+            $this->getPendingRequest()->executeQuery();
+        }
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasPendingRequest(){
+        $queries = $this->pendingRequest->getActions();
+        return !empty($queries);
+    }
+
 
     /**
      * @param RequestOptions $options
@@ -154,12 +165,11 @@ class ClientRuntimeContext
 
     /**
      * @param string $response
-     * @param ClientObject|ClientResult $resultObject
      * @return self
      */
-    public function processResponse($response, $resultObject)
+    public function processResponse($response)
     {
-        $this->getPendingRequest()->processResponse($response, $resultObject);
+        $this->getPendingRequest()->processResponse($response);
         return $this;
     }
 
@@ -180,7 +190,7 @@ class ClientRuntimeContext
     public function getPendingRequest()
     {
         if (!isset($this->pendingRequest)) {
-            $this->pendingRequest = new ODataRequest($this, $this->Format);
+            $this->pendingRequest = new ODataRequest($this);
         }
         return $this->pendingRequest;
     }
@@ -190,6 +200,15 @@ class ClientRuntimeContext
      */
     public function getServerLibraryVersion(){
         return new Version();
+    }
+
+
+    /**
+     * @return ODataSerializerContext
+     */
+    public function getSerializerContext()
+    {
+        return $this->serializerContext;
     }
 
 }

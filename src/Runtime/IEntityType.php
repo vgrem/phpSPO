@@ -6,7 +6,7 @@ define ("SCHEMA_ALL_PROPERTIES", 1);
 define ("SCHEMA_SERIALIZABLE_PROPERTIES", 2);
 
 
- interface ISchemaType
+ interface IEntityType
  {
      /**
       * @return string
@@ -29,7 +29,7 @@ define ("SCHEMA_SERIALIZABLE_PROPERTIES", 2);
 
      /**
       * @param string $name
-      * @param string $value
+      * @param mixed $value
       * @param bool $persistChanges
       */
      function setProperty($name, $value, $persistChanges = true);

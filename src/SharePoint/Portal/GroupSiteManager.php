@@ -17,7 +17,7 @@ class GroupSiteManager extends ClientObject
 
     public function __construct(ClientContext $ctx)
     {
-        $ctx->Format->MetadataLevel = ODataMetadataLevel::NoMetadata;
+        $ctx->getSerializerContext()->MetadataLevel = ODataMetadataLevel::NoMetadata;
         parent::__construct($ctx,new ResourcePathEntity($ctx,null,"GroupSiteManager"));
 
     }

@@ -7,7 +7,7 @@ namespace Office365\PHP\Client\Runtime;
 /**
  * Represents OData complex type(property) of a server-side property value.
  */
-class ClientValueObject implements ISchemaType
+class ClientValueObject implements IEntityType
 {
 
     /**

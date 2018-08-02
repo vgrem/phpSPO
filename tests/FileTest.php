@@ -1,7 +1,7 @@
 <?php
 
+require_once('SharePointTestCase.php');
 
-use Office365\PHP\Client\SharePoint\Web;
 
 class FileTest extends SharePointTestCase
 {
@@ -50,7 +50,7 @@ class FileTest extends SharePointTestCase
      * @depends testUploadFiles
      * @param $uploadFile
      */
-    public function testUploadedFileCreateAnonymousLink(\Office365\PHP\Client\SharePoint\File $uploadFile)
+    /*public function testUploadedFileCreateAnonymousLink(\Office365\PHP\Client\SharePoint\File $uploadFile)
     {
         $listItem = $uploadFile->getListItemAllFields();
         self::$context->load($listItem,array("EncodedAbsUrl"));
@@ -65,7 +65,7 @@ class FileTest extends SharePointTestCase
         $result = Web::createAnonymousLinkWithExpiration(self::$context,$fileUrl,false,$expireDate->format(DateTime::ATOM));
         self::$context->executeQuery();
         self::assertNotEmpty($result->Value);
-    }
+    }*/
 
     public function testGetFileVersions()
     {

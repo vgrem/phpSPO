@@ -10,7 +10,7 @@ use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\ContextWebInformation;
 use Office365\PHP\Client\Runtime\HttpMethod;
-use Office365\PHP\Client\Runtime\OData\JsonLightFormat;
+use Office365\PHP\Client\Runtime\OData\JsonLightSerializerContext;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
@@ -43,7 +43,7 @@ class ClientContext extends ClientRuntimeContext
     public function __construct($serviceUrl, IAuthenticationContext $authCtx)
     {
         $serviceRootUrl = $serviceUrl . '/_api/';
-        parent::__construct($serviceRootUrl,$authCtx,new JsonLightFormat(ODataMetadataLevel::Verbose));
+        parent::__construct($serviceRootUrl,$authCtx,new JsonLightSerializerContext(ODataMetadataLevel::Verbose));
     }
 
     /**
@@ -68,8 +68,12 @@ class ClientContext extends ClientRuntimeContext
         $response = $this->executeQueryDirect($request);
         if(!isset($this->contextWebInformation))
             $this->contextWebInformation = new ContextWebInformation();
-        $result = new ClientResult("GetContextWebInformation",$this->contextWebInformation);
-        $this->processResponse($response,$result);
+        $result = new ClientResult($this->contextWebInformation);
+        if ($this->getSerializerContext()->MetadataLevel == ODataMetadataLevel::Verbose) {
+            $this->getSerializerContext()->RootElement = "GetContextWebInformation";
+        }
+        $payload = json_decode($response);
+        $result->fromJson($payload,$this->getSerializerContext());
     }
 
     /**

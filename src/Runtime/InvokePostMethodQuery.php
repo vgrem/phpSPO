@@ -12,7 +12,7 @@ class InvokePostMethodQuery extends InvokeMethodQuery
      * @param ResourcePath $resourcePath
      * @param string $methodName
      * @param array $methodParameters
-     * @param string|ISchemaType $methodPayload
+     * @param string|IEntityType $methodPayload
      */
     public function __construct(ResourcePath $resourcePath, $methodName = null,$methodParameters=null,$methodPayload=null)
     {
@@ -23,7 +23,7 @@ class InvokePostMethodQuery extends InvokeMethodQuery
 
 
     /**
-     * @var string|ISchemaType $MethodPayload
+     * @var string|IEntityType $MethodPayload
      */
     public $MethodPayload;
     

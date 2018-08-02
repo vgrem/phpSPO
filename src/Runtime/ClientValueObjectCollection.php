@@ -3,7 +3,7 @@
 namespace Office365\PHP\Client\Runtime;
 
 
-class ClientValueObjectCollection extends ClientValueObject implements ISchemaTypeCollection
+class ClientValueObjectCollection extends ClientValueObject implements IEntityTypeCollection
 {
 
     /**
@@ -69,17 +69,6 @@ class ClientValueObjectCollection extends ClientValueObject implements ISchemaTy
             return $item->getProperties($flag);
         }, $this->getData());
     }
-
-
-    /*function setProperty($name, $payload, $persistChanges = false)
-    {
-        foreach ($payload as $key => $value) {
-            $clientValueObject = $this->createTypedValueObject();
-            $clientValueObject->setProperty($key,$value,$persistChanges);
-            $this->addChild($clientValueObject);
-        }
-    }*/
-
 
     /**
      * @var array

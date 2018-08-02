@@ -49,19 +49,11 @@ class Requests
         return Requests::execute($options);
     }
 
-    public static function getHead($url,$headers)
-    {
-        $options = new RequestOptions($url);
-        $options->Headers = $headers;
-        $options->IncludeHeaders = $headers;
-        return Requests::execute($options);
-    }
-
-    public static function head($url,$headers)
+    public static function head($url,$headers,$includeBody = false)
     {
         $options = new RequestOptions($url);
         $options->IncludeHeaders = true;
-        $options->IncludeBody = false;
+        $options->IncludeBody = $includeBody;
         $options->Headers = $headers;
         return Requests::execute($options);
     }

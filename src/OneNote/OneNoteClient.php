@@ -9,7 +9,7 @@ use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\HttpMethod;
-use Office365\PHP\Client\Runtime\OData\JsonFormat;
+use Office365\PHP\Client\Runtime\OData\JsonSerializerContext;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\Office365Version;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
@@ -22,7 +22,7 @@ class OneNoteClient extends ClientRuntimeContext
     {
         $this->version = $version;
         $this->serviceRootUrl = $this->serviceRootUrl . $version . "/";
-        parent::__construct($this->serviceRootUrl, $authContext, new JsonFormat(ODataMetadataLevel::NoMetadata), $version);
+        parent::__construct($this->serviceRootUrl, $authContext, new JsonSerializerContext(ODataMetadataLevel::NoMetadata), $version);
     }
 
 

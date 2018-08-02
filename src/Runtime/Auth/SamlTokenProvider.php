@@ -122,7 +122,7 @@ class SamlTokenProvider extends BaseTokenProvider
             $headers['Authorization'] = 'BPOSIDCRL ' . $token;
             $headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
-            $response = Requests::getHead($url,$headers,$token,true);
+            $response = Requests::head($url,$headers,true);
             $cookies = Requests::parseCookies($response);
             $this->SPOIDCRL = $cookies['SPOIDCRL'];
         }

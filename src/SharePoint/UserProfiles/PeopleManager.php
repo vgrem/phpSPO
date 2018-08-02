@@ -29,7 +29,7 @@ class PeopleManager extends ClientObject
      * @return ClientResult
      */
     public function amIFollowedBy ($accountName){
-        $result = new ClientResult("AmIFollowedBy");
+        $result = new ClientResult();
         $qry = new InvokeMethodQuery($this->getResourcePath(), "AmIFollowedBy",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry,$result);
         return $result;
@@ -75,7 +75,7 @@ class PeopleManager extends ClientObject
      * @return ClientResult
      */
     public function stopFollowing ($accountName){
-        $result = new ClientResult("StopFollowing");
+        $result = new ClientResult();
         $qry = new InvokePostMethodQuery($this->getResourcePath(), "StopFollowing",array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry,$result);
         return $result;
@@ -88,7 +88,7 @@ class PeopleManager extends ClientObject
      * @return ClientResult
      */
     public function amIFollowing ($accountName){
-        $result = new ClientResult("AmIFollowing");
+        $result = new ClientResult();
         $qry = new InvokeMethodQuery(
             $this->getResourcePath(),
             "AmIFollowing",
@@ -120,7 +120,7 @@ class PeopleManager extends ClientObject
      */
     public function getUserProfilePropertyFor ($accountName,$propertyName)
     {
-        $clientResult = new ClientResult("GetUserProfilePropertyFor");
+        $clientResult = new ClientResult();
         $qry = new InvokeMethodQuery(
             $this->getResourcePath(),
             "GetUserProfilePropertyFor",

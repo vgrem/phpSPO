@@ -94,16 +94,14 @@ abstract class ClientRequest
 
     /**
      * @param string $response
-     * @param ClientObject|ClientResult $resultObject
      */
-    public abstract function processResponse($response, $resultObject);
+    public abstract function processResponse($response);
 
     /**
      * Build Client Request
-     * @param ClientAction $query
      * @return RequestOptions
      */
-    protected abstract function buildRequest(ClientAction $query);
+    protected abstract function buildRequest();
 
     /**
      * @param ClientObject $clientObject
@@ -127,6 +125,13 @@ abstract class ClientRequest
         $this->context->authenticateRequest($request); //Auth mandatory headers
         $this->setRequestHeaders($request); //set request headers
         return Requests::execute($request,$responseInfo);
+    }
+
+    /**
+     * @return ClientAction[]
+     */
+    public function getActions(){
+        return $this->queries;
     }
 
 }

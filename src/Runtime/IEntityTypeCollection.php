@@ -5,20 +5,20 @@ namespace Office365\PHP\Client\Runtime;
 
 
 
-interface ISchemaTypeCollection
+interface IEntityTypeCollection extends IEntityType
 {
 
     function clearData();
 
     /**
      * Instantiates an item
-     * @return ISchemaType
+     * @return IEntityType
      */
     function createType();
 
 
     /**
-     * @param ISchemaType $type
+     * @param IEntityType $type
      */
     function addChild($type);
 }

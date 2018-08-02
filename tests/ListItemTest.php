@@ -128,6 +128,9 @@ class ListItemTest extends SharePointTestCase
                 self::assertNotNull($predecessors[0]->Title);
 
         }
+        else{
+            self::assertEmpty($items->getCount());
+        }
     }
 
 

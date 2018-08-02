@@ -8,7 +8,7 @@ use Office365\PHP\Client\Runtime\OData\ODataPathBuilder;
 /**
  * Represents OData base entity
  */
-class ClientObject implements ISchemaType
+class ClientObject implements IEntityType
 {
     /**
      * @var string

@@ -13,7 +13,7 @@ class InvokeMethodQuery extends ClientAction
      * InvokeMethodQuery constructor.
      * @param ResourcePath $resourcePath
      * @param string $methodName
-     * @param array|ISchemaType $methodParameters
+     * @param array|IEntityType $methodParameters
      */
     public function __construct(ResourcePath $resourcePath, $methodName=null, $methodParameters=null)
     {
@@ -56,7 +56,7 @@ class InvokeMethodQuery extends ClientAction
 
 
     /**
-     * @var $MethodParameters array|ISchemaType
+     * @var $MethodParameters array|IEntityType
      */
     public $MethodParameters;
 

@@ -101,7 +101,7 @@ class RequestOptions
 
 
     /**
-     * Do the download request without getting the body
+     * Do the request without getting the response
      * @var bool
      */
     public $IncludeBody;

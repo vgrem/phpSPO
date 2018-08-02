@@ -5,11 +5,9 @@ namespace Office365\PHP\Client\Runtime\OData;
 
 
 use Exception;
-use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientResult;
-use Office365\PHP\Client\Runtime\FormatType;
-use Office365\PHP\Client\Runtime\ISchemaType;
-use Office365\PHP\Client\Runtime\ISchemaTypeCollection;
+use Office365\PHP\Client\Runtime\IEntityType;
+use Office365\PHP\Client\Runtime\InvokeMethodQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientRequest;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
@@ -19,7 +17,7 @@ use Office365\PHP\Client\SharePoint\CamlQuery;
 use Office365\PHP\Client\SharePoint\ChangeLogItemQuery;
 use Office365\PHP\Client\SharePoint\ChangeQuery;
 use Office365\PHP\Client\SharePoint\WebCreationInformation;
-use stdClass;
+
 
 /**
  * Client Request for OData provider.
@@ -27,22 +25,11 @@ use stdClass;
 class ODataRequest extends ClientRequest
 {
 
-    /**
-     * @var ODataFormat
-     */
-    private $format;
 
-    /**
-     * @var int $responsePayloadFormat
-     */
-    private $responsePayloadFormat;
-
-    public function __construct(ClientRuntimeContext $context, ODataFormat $format)
+    public function __construct(ClientRuntimeContext $context)
     {
-        $this->format = $format;
         parent::__construct($context);
     }
-
 
     /**
      * Submit query to OData service
@@ -50,51 +37,48 @@ class ODataRequest extends ClientRequest
      */
     public function executeQuery()
     {
-        while (($qry = array_shift($this->queries)) !== null) {
-            $request = $this->buildRequest($qry);
-            if (is_callable($this->eventsList["BeforeExecuteQuery"])) {
-                call_user_func_array($this->eventsList["BeforeExecuteQuery"], array(
-                    $request,
-                    $qry
-                ));
-            }
-            $responseInfo = array();
-            $response = $this->executeQueryDirect($request, $responseInfo);
-            if (empty($response)) {
-                continue;
-            }
-
-            $this->responsePayloadFormat = FormatType::Json;
-            if ($qry instanceof InvokePostMethodQuery && $qry->MethodPayload instanceof ChangeLogItemQuery)
-                $this->responsePayloadFormat = FormatType::Xml;
-
-            if (array_key_exists($qry->getId(), $this->resultObjects)) { //initialize result object from a queue?
-                $resultObject = $this->resultObjects[$qry->getId()];
-                $this->processResponse($response, $resultObject);
-                unset($this->resultObjects[$qry->getId()]);
-            }
+        $request = $this->buildRequest();
+        if (is_callable($this->eventsList["BeforeExecuteQuery"])) {
+            call_user_func_array($this->eventsList["BeforeExecuteQuery"], array(
+                $request,
+                $this->getCurrentAction()
+            ));
         }
+        $responseInfo = array();
+        $response = $this->executeQueryDirect($request, $responseInfo);
+        if (!empty($response)) {
+            $this->processResponse($response);
+        }
+        array_shift($this->queries);
     }
 
 
     /**
      * @param string $response
-     * @param ISchemaType|ClientResult $resultObject
      * @throws Exception
      */
-    public function processResponse($response, $resultObject)
+    public function processResponse($response)
     {
-        if ($this->responsePayloadFormat == FormatType::Xml) {
+        if (!array_key_exists($this->getCurrentAction()->getId(), $this->resultObjects)) {
+            return;
+        }
+
+        $resultObject = $this->resultObjects[$this->getCurrentAction()->getId()];
+        if ($this->getCurrentAction() instanceof InvokePostMethodQuery && $this->getCurrentAction()->MethodPayload instanceof ChangeLogItemQuery) {
             $payload = $this->parseXmlResponse($response);
         } else {
             $payload = $this->parseJsonResponse($response);
         }
 
         if ($resultObject instanceof ClientResult) {
-            $this->mapResult($payload, $resultObject);
-        } else {
-            $this->mapType($payload, $resultObject);
+            if ($this->getCurrentAction() instanceof InvokeMethodQuery){
+                $this->getSerializationContext()->RootElement = $this->getCurrentAction()->MethodName;
+            }
+            $resultObject->fromJson($payload,$this->getSerializationContext());
+        } else if($resultObject instanceof IEntityType) {
+            $this->getSerializationContext()->map($payload,$resultObject);
         }
+        unset($this->resultObjects[$this->getCurrentAction()->getId()]);
     }
 
 
@@ -117,11 +101,11 @@ class ODataRequest extends ClientRequest
     /**
      * Process Xml response from SharePoint REST service
      * @param string $response
-     * @return stdClass
+     * @return array
      */
     private function parseXmlResponse($response)
     {
-        $items = array();
+        $payload = array();
         $xml = simplexml_load_string($response);
         $xml->registerXPathNamespace('z', '#RowsetSchema');
         $rows = $xml->xpath("//z:row");
@@ -131,88 +115,14 @@ class ODataRequest extends ClientRequest
                 $normalizedFieldName = str_replace('ows_', '', $k);
                 $item[$normalizedFieldName] = (string)$v;
             }
-            $items[] = $item;
+            $payload[] = $item;
         }
-        $payload = new stdClass();
-        $payload->{$this->format->getCollectionTagName()} = $items;
         return $payload;
     }
 
 
     /**
-     * Maps response payload to client object
-     * @param mixed $json
-     * @param ISchemaType $resultObject
-     */
-    private function mapType($json, ISchemaType $resultObject)
-    {
-        if ($this->format instanceof JsonLightFormat) {
-            if ($this->format->MetadataLevel == ODataMetadataLevel::Verbose) {
-                if (property_exists($json, JsonLightFormat::SecurityTag)) {
-                    $json = $json->{JsonLightFormat::SecurityTag};
-                }
-            }
-        }
-
-        if ($resultObject instanceof ISchemaTypeCollection) {
-            $this->mapTypeCollection($json, $resultObject);
-        } else {
-            foreach ($json as $key => $value) {
-                if ($this->isMetadataProperty($key)) { //skip metadata tag
-                    continue;
-                }
-
-                if (is_object($value)) {
-                    if ($this->isDeferredProperty($value)) {
-                        $resultObject->setProperty($key, null, false);
-                    } else {
-                        $property = $resultObject->getProperty($key);
-                        if ($property instanceof ISchemaType) {
-                            $this->mapType($value, $property);
-                        } else {
-                            $tagName = $this->format->getCollectionTagName();
-                            if (property_exists($value, $tagName)) {
-                                $value = $value->{$tagName};
-                            }
-                            $resultObject->setProperty($key, $value, false);
-                        }
-                    }
-                } else { //Primitive property?
-                    $resultObject->setProperty($key, $value, false);
-                }
-            }
-        }
-    }
-
-
-    function mapTypeCollection($json, ISchemaTypeCollection $resultObject)
-    {
-        $tagName = $this->format->getCollectionTagName();
-        if (property_exists($json, $tagName)) {
-            $json = $json->{$tagName};
-        }
-        $resultObject->clearData();
-        foreach ($json as $item) {
-            $type = $resultObject->createType();
-            $this->mapType($item, $type);
-            $resultObject->addChild($type);
-        }
-    }
-
-    public function mapResult($json, ClientResult $resultObject)
-    {
-        if ($this->format->MetadataLevel == ODataMetadataLevel::Verbose) {
-            $json = $json->{JsonLightFormat::SecurityTag};
-            $json = $json->{$resultObject->FunctionName};
-        }
-        if ($resultObject->Value instanceof ISchemaType)
-            $this->mapType($json, $resultObject->Value);
-        else {
-            $resultObject->Value = $json;
-        }
-    }
-
-    /**
+     * Validate payload response for errors
      * @param mixed $payload
      * @param array $error
      * @return bool
@@ -220,7 +130,6 @@ class ODataRequest extends ClientRequest
      */
     private function validateResponse($payload, &$error = array())
     {
-        //extract error
         if (property_exists($payload, 'error')) {
             if (is_string($payload->error->message)) {
                 $message = $payload->error->message;
@@ -240,31 +149,30 @@ class ODataRequest extends ClientRequest
      */
     protected function setRequestHeaders(RequestOptions $request)
     {
-        $request->addCustomHeader("Accept", $this->format->getMediaType());
-        $request->addCustomHeader("content-type", $this->format->getMediaType());
+        $request->addCustomHeader("Accept", $this->getSerializationContext()->getMediaType());
+        $request->addCustomHeader("content-type", $this->getSerializationContext()->getMediaType());
     }
 
 
     /**
-     * @param ClientAction $query
      * @return RequestOptions
      */
-    public function buildRequest(ClientAction $query)
+    public function buildRequest()
     {
-        $resourceUrl = $this->context->getServiceRootUrl() . $query->ResourcePath->toUrl();
-        if (!is_null($query->QueryOptions)) {
-            $resourceUrl .= '?' . $query->QueryOptions->toUrl();
+        $resourceUrl = $this->context->getServiceRootUrl() . $this->getCurrentAction()->ResourcePath->toUrl();
+        if (!is_null($this->getCurrentAction()->QueryOptions)) {
+            $resourceUrl .= '?' . $this->getCurrentAction()->QueryOptions->toUrl();
         }
         $request = new RequestOptions($resourceUrl);
-        if ($query instanceof InvokePostMethodQuery) {
+        if ($this->getCurrentAction() instanceof InvokePostMethodQuery) {
             $request->Method = HttpMethod::Post;
-            if (is_string($query->MethodPayload))
-                $request->Data = $query->MethodPayload;
-            if (is_array($query->MethodPayload))
-                $request->Data = json_encode($query->MethodPayload);
-            else if ($query->MethodPayload instanceof ISchemaType) {
+            if (is_string($this->getCurrentAction()->MethodPayload))
+                $request->Data = $this->getCurrentAction()->MethodPayload;
+            if (is_array($this->getCurrentAction()->MethodPayload))
+                $request->Data = json_encode($this->getCurrentAction()->MethodPayload);
+            else if ($this->getCurrentAction()->MethodPayload instanceof IEntityType) {
                 //build request payload
-                $payload = $this->normalizePayload($query->MethodPayload);
+                $payload = $this->normalizePayload($this->getCurrentAction()->MethodPayload);
                 $request->Data = json_encode($payload);
             }
         }
@@ -274,12 +182,12 @@ class ODataRequest extends ClientRequest
 
     /**
      * Normalize request payload
-     * @param ISchemaType|array $value
+     * @param IEntityType|array $value
      * @return array
      */
     protected function normalizePayload($value)
     {
-        if ($value instanceof ISchemaType) {
+        if ($value instanceof IEntityType) {
             $payload = array_map(function ($property) {
                 return $this->normalizePayload($property);
             }, $value->getProperties(SCHEMA_SERIALIZABLE_PROPERTIES));
@@ -297,10 +205,10 @@ class ODataRequest extends ClientRequest
 
 
     /**
-     * @param ISchemaType $value
+     * @param IEntityType $value
      * @param $payload
      */
-    private function ensureContainer(ISchemaType $value, &$payload)
+    private function ensureContainer(IEntityType $value, &$payload)
     {
         if ($value instanceof CamlQuery || $value instanceof ChangeQuery || $value instanceof ChangeLogItemQuery)
             $payload = array("query" => $payload);
@@ -309,12 +217,12 @@ class ODataRequest extends ClientRequest
     }
 
     /**
-     * @param ISchemaType $value
+     * @param IEntityType $value
      * @param $payload
      */
-    private function ensureMetadata(ISchemaType $value, &$payload)
+    private function ensureMetadata(IEntityType $value, &$payload)
     {
-        if ($this->format instanceof JsonLightFormat && $this->format->MetadataLevel == ODataMetadataLevel::Verbose) {
+        if ($this->getSerializationContext() instanceof JsonLightSerializerContext && $this->getSerializationContext()->MetadataLevel == ODataMetadataLevel::Verbose) {
             $metadataTypeName = $value->getTypeName();
             if (substr($metadataTypeName, 0, 3) !== "SP.")
                 $metadataTypeName = "SP." . $metadataTypeName;
@@ -324,12 +232,26 @@ class ODataRequest extends ClientRequest
 
 
     /**
+     * @return ODataSerializerContext
+     */
+    protected function getSerializationContext()
+    {
+        return $this->context->getSerializerContext();
+    }
+
+    protected function getCurrentAction(){
+        return current($this->getActions());
+    }
+
+
+
+    /**
      * @param string $key
      * @return bool
      */
     protected function isMetadataProperty($key)
     {
-        return ($key === JsonLightFormat::MetadataTag);
+        return ($key === JsonLightSerializerContext::MetadataTag);
     }
 
     protected function isDeferredProperty($value)

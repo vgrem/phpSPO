@@ -2,6 +2,7 @@
 
 
 namespace Office365\PHP\Client\Runtime;
+use Office365\PHP\Client\Runtime\OData\ODataSerializerContext;
 
 
 /**
@@ -10,9 +11,8 @@ namespace Office365\PHP\Client\Runtime;
 class ClientResult
 {
 
-    function __construct($functionName, $returnValue=null)
+    function __construct($returnValue=null)
     {
-        $this->FunctionName = $functionName;
         $this->Value = $returnValue;
     }
 
@@ -22,7 +22,7 @@ class ClientResult
     public function getType(){
         if(!is_null($this->Value))
         {
-            if($this->Value instanceof ISchemaType)
+            if($this->Value instanceof IEntityType)
                 return $this->Value->getTypeName();
             return basename(get_class($this->Value));
         }
@@ -31,9 +31,13 @@ class ClientResult
 
 
     /**
-     * @var string $FunctionName
+     * @param $json
+     * @param ODataSerializerContext $serializationContext
      */
-    public $FunctionName;
+    public function fromJson($json, ODataSerializerContext $serializationContext)
+    {
+        $serializationContext->map($json, $this->Value);
+    }
 
     /**
      * @var mixed $Value

@@ -3,10 +3,6 @@
 
 use Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager;
 
-require_once('SharePointTestCase.php');
-require_once('ListItemExtensions.php');
-require_once(__DIR__ . '/../src/SharePoint/UserProfiles/PeopleManager.php');
-
 
 class PeopleManagerTest extends SharePointTestCase
 {

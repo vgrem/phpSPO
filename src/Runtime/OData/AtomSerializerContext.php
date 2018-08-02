@@ -4,14 +4,15 @@
 namespace Office365\PHP\Client\Runtime\OData;
 
 
-class AtomFormat extends ODataFormat
+class AtomSerializerContext extends ODataSerializerContext
 {
 
     /**
      * @return string
+     * @throws \Exception
      */
     public function getMediaType()
     {
-        // TODO: Implement getMediaType() method.
+        throw new \Exception("Not implemented");
     }
 }

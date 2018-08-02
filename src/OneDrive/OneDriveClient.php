@@ -5,8 +5,7 @@ namespace Office365\PHP\Client\OneDrive;
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\ContextWebInformation;
-use Office365\PHP\Client\Runtime\OData\JsonFormat;
+use Office365\PHP\Client\Runtime\OData\JsonSerializerContext;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\Office365Version;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
@@ -18,7 +17,7 @@ class OneDriveClient extends ClientRuntimeContext
     public function __construct($authorityUrl,IAuthenticationContext $authContext)
     {
         $serviceRootUrl = $authorityUrl . "/_api/" . Office365Version::V1 . "/";
-        parent::__construct($serviceRootUrl, $authContext,new JsonFormat(ODataMetadataLevel::Verbose));
+        parent::__construct($serviceRootUrl, $authContext,new JsonSerializerContext(ODataMetadataLevel::Verbose));
     }
 
 

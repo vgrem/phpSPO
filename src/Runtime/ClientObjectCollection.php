@@ -8,7 +8,7 @@ use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 /**
  * Client objects collection (represents EntitySet in terms of OData)
  */
-class ClientObjectCollection extends ClientObject implements ISchemaTypeCollection
+class ClientObjectCollection extends ClientObject implements IEntityTypeCollection
 {
 
     /**

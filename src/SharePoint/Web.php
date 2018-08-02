@@ -4,10 +4,10 @@ namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\ClientValueObject;
 use Office365\PHP\Client\Runtime\ContextResourcePath;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
+use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
@@ -31,7 +31,7 @@ class Web extends SecurableObject
      */
     public static function createAnonymousLink($context, $url, $isEditLink)
     {
-        $result = new ClientResult("CreateAnonymousLink");
+        $result = new ClientResult();
         $rootPath = new ContextResourcePath($context);
         $qry = new InvokePostMethodQuery($rootPath,
             "SP.Web.CreateAnonymousLink",
@@ -40,6 +40,9 @@ class Web extends SecurableObject
                 "url" => $url,
                 "isEditLink" => $isEditLink
             ));
+        if ($context->getSerializerContext()->MetadataLevel == ODataMetadataLevel::Verbose) {
+            $context->getSerializerContext()->RootElement = "CreateAnonymousLink";
+        }
         $context->addQuery($qry,$result);
         return $result;
     }
@@ -53,7 +56,7 @@ class Web extends SecurableObject
      */
     public static function createAnonymousLinkWithExpiration($context, $url, $isEditLink,$expirationString)
     {
-        $result = new ClientResult("CreateAnonymousLinkWithExpiration");
+        $result = new ClientResult();
         $rootPath = new ContextResourcePath($context);
         $qry = new InvokePostMethodQuery($rootPath,
             "SP.Web.CreateAnonymousLinkWithExpiration",
@@ -63,6 +66,9 @@ class Web extends SecurableObject
                 "isEditLink" => $isEditLink,
                 "expirationString" => $expirationString
             ));
+        if ($context->getSerializerContext()->MetadataLevel == ODataMetadataLevel::Verbose) {
+            $context->getSerializerContext()->RootElement = "CreateAnonymousLinkWithExpiration";
+        }
         $context->addQuery($qry,$result);
         return $result;
     }
@@ -220,7 +226,7 @@ class Web extends SecurableObject
      */
     public function getSupportedUILanguageIds()
     {
-        $result = new ClientResult("SupportedUILanguageIds");
+        $result = new ClientResult();
         $path = new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"SupportedUILanguageIds");
         $qry = new ClientAction($path);
         $this->getContext()->addQuery($qry,$result);
