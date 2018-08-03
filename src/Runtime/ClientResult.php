@@ -13,18 +13,18 @@ class ClientResult
 
     function __construct($returnValue=null)
     {
-        $this->Value = $returnValue;
+        $this->value = $returnValue;
     }
 
     /**
      * @return null|string
      */
     public function getType(){
-        if(!is_null($this->Value))
+        if(!is_null($this->value))
         {
-            if($this->Value instanceof IEntityType)
-                return $this->Value->getTypeName();
-            return basename(get_class($this->Value));
+            if($this->value instanceof IEntityType)
+                return $this->value->getTypeName();
+            return basename(get_class($this->value));
         }
         return null;
     }
@@ -36,12 +36,20 @@ class ClientResult
      */
     public function fromJson($json, ODataSerializerContext $serializationContext)
     {
-        $serializationContext->map($json, $this->Value);
+        $serializationContext->map($json, $this->value);
+    }
+
+
+    public function getValue(){
+        return $this->value;
     }
 
     /**
-     * @var mixed $Value
+     * @var mixed $value
      */
-    public $Value;
+    protected $value;
+
+
+
 
 }

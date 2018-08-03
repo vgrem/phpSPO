@@ -22,7 +22,7 @@ class PeopleManagerTest extends SharePointTestCase
         $peopleManager = new PeopleManager(self::$context);
         $result = $peopleManager->getUserProfilePropertyFor(self::$accountName,"AccountName");
         self::$context->executeQuery();
-        $this->assertNotNull($result->Value);
+        $this->assertNotNull($result->getValue());
     }
 
 
@@ -32,7 +32,7 @@ class PeopleManagerTest extends SharePointTestCase
         $result = $peopleManager->amIFollowing(self::$accountName);
         self::$context->executeQuery();
 
-        if($result->Value == false){
+        if($result->getValue() == false){
             $peopleManager->follow(self::$accountName);
             self::$context->executeQuery();
         }
@@ -50,7 +50,7 @@ class PeopleManagerTest extends SharePointTestCase
         $result = $peopleManager->amIFollowing(self::$accountName);
         self::$context->executeQuery();
 
-        if($result->Value == true){
+        if($result->getValue() == true){
             $peopleManager->stopFollowing(self::$accountName);
             self::$context->executeQuery();
         }
@@ -58,7 +58,7 @@ class PeopleManagerTest extends SharePointTestCase
 
         $result = $peopleManager->amIFollowing(self::$accountName);
         self::$context->executeQuery();
-        self::assertFalse($result->Value);
+        self::assertFalse($result->getValue());
     }
 
 
@@ -66,7 +66,7 @@ class PeopleManagerTest extends SharePointTestCase
         $peopleManager = new PeopleManager(self::$context);
         $result = $peopleManager->amIFollowedBy(self::$accountName);
         self::$context->executeQuery();
-        self::assertNotNull($result->Value);
+        self::assertNotNull($result->getValue());
     }
 
 

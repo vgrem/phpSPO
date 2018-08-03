@@ -243,22 +243,4 @@ class ODataRequest extends ClientRequest
         return current($this->getActions());
     }
 
-
-
-    /**
-     * @param string $key
-     * @return bool
-     */
-    protected function isMetadataProperty($key)
-    {
-        return ($key === JsonLightSerializerContext::MetadataTag);
-    }
-
-    protected function isDeferredProperty($value)
-    {
-        if (isset($value->__deferred))
-            return true;
-        return false;
-    }
-
 }

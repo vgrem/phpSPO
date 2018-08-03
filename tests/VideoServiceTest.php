@@ -127,8 +127,7 @@ class VideoServiceTest extends SharePointTestCase
             function (VideoItem $item) use ($videoId) {
                 return  $item->getProperty("ID") === $videoId;
             });
-
-        self::assertEquals(0,count($result));
+        self::assertNull($result);
     }
 
 

@@ -15,7 +15,7 @@ class WebTest extends SharePointTestCase
     {
         $result = self::$context->getWeb()->getSupportedUILanguageIds();
         self::$context->executeQuery();
-        self::assertNotEmpty($result->Value);
+        self::assertNotEmpty($result->getValue());
     }
 
 
