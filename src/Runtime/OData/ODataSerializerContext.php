@@ -76,6 +76,27 @@ abstract class ODataSerializerContext
     }
 
 
+    /**
+     * Normalize request payload
+     * @param IEntityType|array $value
+     * @return array
+     */
+    public function normalize($value)
+    {
+        if ($value instanceof IEntityType) {
+            $payload = array_map(function ($property) {
+                return $this->normalize($property);
+            }, $value->getProperties(SCHEMA_SERIALIZABLE_PROPERTIES));
+            return $payload;
+        } else if (is_array($value)) {
+            return array_map(function ($item) {
+                return $this->normalize($item);
+            }, $value);
+        }
+        return $value;
+    }
+
+
 
     /**
      * @return string

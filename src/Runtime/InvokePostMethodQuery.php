@@ -12,20 +12,20 @@ class InvokePostMethodQuery extends InvokeMethodQuery
      * @param ResourcePath $resourcePath
      * @param string $methodName
      * @param array $methodParameters
-     * @param string|IEntityType $methodPayload
+     * @param string|IEntityType $methodBody
      */
-    public function __construct(ResourcePath $resourcePath, $methodName = null,$methodParameters=null,$methodPayload=null)
+    public function __construct(ResourcePath $resourcePath, $methodName = null, $methodParameters=null, $methodBody=null)
     {
-        $this->MethodPayload = $methodPayload;
+        $this->MethodBody = $methodBody;
         parent::__construct($resourcePath,$methodName, $methodParameters);
     }
 
 
 
     /**
-     * @var string|IEntityType $MethodPayload
+     * @var string|IEntityType $MethodBody
      */
-    public $MethodPayload;
+    public $MethodBody;
     
 
 }

@@ -5,6 +5,7 @@ namespace Office365\PHP\Client\Runtime\OData;
 
 
 use Exception;
+use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\IEntityType;
 use Office365\PHP\Client\Runtime\InvokeMethodQuery;
@@ -13,10 +14,7 @@ use Office365\PHP\Client\Runtime\ClientRequest;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\HttpMethod;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
-use Office365\PHP\Client\SharePoint\CamlQuery;
 use Office365\PHP\Client\SharePoint\ChangeLogItemQuery;
-use Office365\PHP\Client\SharePoint\ChangeQuery;
-use Office365\PHP\Client\SharePoint\WebCreationInformation;
 
 
 /**
@@ -64,7 +62,7 @@ class ODataRequest extends ClientRequest
         }
 
         $resultObject = $this->resultObjects[$this->getCurrentAction()->getId()];
-        if ($this->getCurrentAction() instanceof InvokePostMethodQuery && $this->getCurrentAction()->MethodPayload instanceof ChangeLogItemQuery) {
+        if ($this->getCurrentAction() instanceof InvokePostMethodQuery && $this->getCurrentAction()->MethodBody instanceof ChangeLogItemQuery) {
             $payload = $this->parseXmlResponse($response);
         } else {
             $payload = $this->parseJsonResponse($response);
@@ -166,68 +164,15 @@ class ODataRequest extends ClientRequest
         $request = new RequestOptions($resourceUrl);
         if ($this->getCurrentAction() instanceof InvokePostMethodQuery) {
             $request->Method = HttpMethod::Post;
-            if (is_string($this->getCurrentAction()->MethodPayload))
-                $request->Data = $this->getCurrentAction()->MethodPayload;
-            if (is_array($this->getCurrentAction()->MethodPayload))
-                $request->Data = json_encode($this->getCurrentAction()->MethodPayload);
-            else if ($this->getCurrentAction()->MethodPayload instanceof IEntityType) {
+            if (is_string($this->getCurrentAction()->MethodBody))
+                $request->Data = $this->getCurrentAction()->MethodBody;
+            else if ($this->getCurrentAction()->MethodBody instanceof IEntityType) {
                 //build request payload
-                $payload = $this->normalizePayload($this->getCurrentAction()->MethodPayload);
+                $payload = $this->getSerializationContext()->normalize($this->getCurrentAction()->MethodBody);
                 $request->Data = json_encode($payload);
             }
         }
         return $request;
-    }
-
-
-    /**
-     * Normalize request payload
-     * @param IEntityType|array $value
-     * @return array
-     */
-    protected function normalizePayload($value)
-    {
-        if ($value instanceof IEntityType) {
-            $payload = array_map(function ($property) {
-                return $this->normalizePayload($property);
-            }, $value->getProperties(SCHEMA_SERIALIZABLE_PROPERTIES));
-
-            $this->ensureMetadata($value, $payload); //ensure metadata
-            $this->ensureContainer($value, $payload); //ensure parent container
-            return $payload;
-        } else if (is_array($value)) {
-            return array_map(function ($item) {
-                return $this->normalizePayload($item);
-            }, $value);
-        }
-        return $value;
-    }
-
-
-    /**
-     * @param IEntityType $value
-     * @param $payload
-     */
-    private function ensureContainer(IEntityType $value, &$payload)
-    {
-        if ($value instanceof CamlQuery || $value instanceof ChangeQuery || $value instanceof ChangeLogItemQuery)
-            $payload = array("query" => $payload);
-        else if ($value instanceof WebCreationInformation)
-            $payload = array("parameters" => $payload);
-    }
-
-    /**
-     * @param IEntityType $value
-     * @param $payload
-     */
-    private function ensureMetadata(IEntityType $value, &$payload)
-    {
-        if ($this->getSerializationContext() instanceof JsonLightSerializerContext && $this->getSerializationContext()->MetadataLevel == ODataMetadataLevel::Verbose) {
-            $metadataTypeName = $value->getTypeName();
-            if (substr($metadataTypeName, 0, 3) !== "SP.")
-                $metadataTypeName = "SP." . $metadataTypeName;
-            $payload["__metadata"] = array("type" => $metadataTypeName);
-        }
     }
 
 
@@ -239,6 +184,10 @@ class ODataRequest extends ClientRequest
         return $this->context->getSerializerContext();
     }
 
+
+    /**
+     * @return ClientAction|InvokePostMethodQuery
+     */
     protected function getCurrentAction(){
         return current($this->getActions());
     }
