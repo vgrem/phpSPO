@@ -16,9 +16,9 @@ class ContactCollection extends ClientObjectCollection
      */
     public function createContact() {
         $contact = new Contact($this->getContext());
-        $qry = new CreateEntityQuery($this, $contact);
-        $this->getContext()->addQuery($qry, $contact);
         $this->addChild($contact);
+        $qry = new CreateEntityQuery($contact);
+        $this->getContext()->addQuery($qry, $contact);
         return $contact;
     }
 

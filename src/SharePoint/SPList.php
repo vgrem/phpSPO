@@ -31,7 +31,7 @@ class SPList extends SecurableObject
         foreach($listItemCreationInformation as $key => $value){
             $listItem->setProperty($key,$value);
         }
-        $qry = new CreateEntityQuery($items,$listItem);
+        $qry = new CreateEntityQuery($listItem);
         $this->getContext()->addQuery($qry,$listItem);
         return $listItem;
     }

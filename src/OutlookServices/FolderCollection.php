@@ -16,10 +16,10 @@ class FolderCollection extends ClientObjectCollection
      */
     public function createFolder($displayName) {
         $folder = new MailFolder($this->getContext(), $this->getResourcePath());
-        $folder->setProperty('DisplayName', $displayName);
-        $qry = new CreateEntityQuery($this, $folder);
-        $this->getContext()->addQuery($qry, $folder);
         $this->addChild($folder);
+        $folder->setProperty('DisplayName', $displayName);
+        $qry = new CreateEntityQuery($folder);
+        $this->getContext()->addQuery($qry, $folder);
         return $folder;
     }
 

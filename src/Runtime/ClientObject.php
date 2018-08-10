@@ -57,6 +57,14 @@ class ClientObject implements IEntityType
 
 
     /**
+     * @return ClientObjectCollection
+     */
+    public function getParentCollection()
+    {
+        return $this->parentCollection;
+    }
+
+    /**
      * @return null
      */
     protected function getServerTypeId()

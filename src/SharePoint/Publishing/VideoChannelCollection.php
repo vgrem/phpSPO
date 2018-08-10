@@ -17,11 +17,11 @@ class VideoChannelCollection extends ClientObjectCollection
      */
     public function add($title) {
         $channel = new VideoChannel($this->getContext());
+        $this->addChild($channel);
         $channel->setProperty("Title",$title);
         $channel->setProperty("TileHtmlColor","#0072c6");
-        $qry = new CreateEntityQuery($this, $channel);
+        $qry = new CreateEntityQuery($channel);
         $this->getContext()->addQuery($qry, $channel);
-        $this->addChild($channel);
         return $channel;
     }
 

@@ -13,14 +13,14 @@ class VideoCollection extends ClientObjectCollection
     public function add($title,$description=null,$fileName=null)
     {
         $videoItem = new VideoItem($this->getContext());
+        $this->addChild($videoItem);
         $videoItem->setProperty("Title",$title);
         if(isset($description))
             $videoItem->setProperty("Description",$description);
         if(isset($fileName))
             $videoItem->setProperty("FileName",$fileName);
-        $qry = new CreateEntityQuery($this, $videoItem);
+        $qry = new CreateEntityQuery($videoItem);
         $this->getContext()->addQuery($qry, $videoItem);
-        $this->addChild($videoItem);
         return $videoItem;
     }
 

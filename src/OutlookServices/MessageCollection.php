@@ -16,9 +16,9 @@ class MessageCollection extends ClientObjectCollection
      */
     public function createMessage() {
         $message = new Message($this->getContext());
-        $qry = new CreateEntityQuery($this, $message);
-        $this->getContext()->addQuery($qry, $message);
         $this->addChild($message);
+        $qry = new CreateEntityQuery($message);
+        $this->getContext()->addQuery($qry, $message);
         return $message;
     }
 

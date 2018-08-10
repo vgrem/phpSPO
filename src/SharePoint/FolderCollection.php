@@ -15,8 +15,9 @@ class FolderCollection extends ClientObjectCollection
     public function add($url)
     {
         $folder = new Folder($this->getContext());
+        $this->addChild($folder);
         $folder->setProperty("ServerRelativeUrl", rawurlencode($url));
-        $qry = new CreateEntityQuery($this, $folder);
+        $qry = new CreateEntityQuery($folder);
         $this->getContext()->addQuery($qry, $folder);
         return $folder;
     }

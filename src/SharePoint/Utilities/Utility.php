@@ -17,6 +17,7 @@ class Utility
      * @param SPList $list
      * @param string $title
      * @return ListItem
+     * @throws \Exception
      */
     public static function createNewDiscussion(SPList $list, $title)
     {

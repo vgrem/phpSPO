@@ -7,12 +7,12 @@ class CreateEntityQuery extends InvokePostMethodQuery
 
     /**
      * ClientActionUpdateEntity constructor.
-     * @param ClientObject $entityCollection
      * @param ClientObject $entity
      */
-    public function __construct(ClientObject $entityCollection, ClientObject $entity)
+    public function __construct(ClientObject $entity)
     {
-        parent::__construct($entityCollection->getResourcePath(),null,null,$entity);
+        $collection = $entity->getParentCollection();
+        parent::__construct($collection->getResourcePath(),null,null,$entity);
     }
 
 }
