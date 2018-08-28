@@ -208,7 +208,7 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
      */
     public function orderBy($value)
     {
-        $this->queryOptions->OrderBy = $value;
+        $this->queryOptions->OrderBy = rawurlencode($value);
         return $this;
     }
 
