@@ -1,10 +1,12 @@
 <?php
 
+$env_global = explode(";",getenv("phpSPO"));
+
 $Settings = array(
 	'Url' => "https://mediadev88.sharepoint.com",
     'OneDriveUrl' => "https://mediadev88-my.SharePoint.com",
-    'Password' => getenv("phpSPO_password"),
-    'UserName' => getenv("phpSPO_username")
+    'Password' => $env_global[1],
+    'UserName' => $env_global[0]
 );
 
 
