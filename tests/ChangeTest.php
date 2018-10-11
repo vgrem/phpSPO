@@ -39,7 +39,7 @@ class ChangeTest extends SharePointTestCase
 
         $changes = self::$targetList->getChanges($query);
         $ctx->executeQuery();
-        $this->assertTrue($changes->AreItemsAvailable());
+        $this->assertFalse($changes->getServerObjectIsNull());
 
         foreach ($changes->getData() as $change) {
             $changeTypeName = ChangeType::getName($change->ChangeType);
@@ -62,7 +62,7 @@ class ChangeTest extends SharePointTestCase
         $query->List = true;
         $changes = $targetWeb->getChanges($query);
         $ctx->executeQuery();
-        $this->assertTrue($changes->AreItemsAvailable());
+        $this->assertFalse($changes->getServerObjectIsNull());
 
         foreach ($changes->getData() as $change) {
             $changeName = basename(get_class($change));

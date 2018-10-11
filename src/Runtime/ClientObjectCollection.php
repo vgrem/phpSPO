@@ -28,7 +28,7 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
      * @param ResourcePath $resourcePath
      * @param ODataQueryOptions $queryOptions
      */
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, ODataQueryOptions $queryOptions = null)
+    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath, ODataQueryOptions $queryOptions = null)
     {
         parent::__construct($ctx, $resourcePath);
         $this->queryOptions = $queryOptions;
@@ -154,11 +154,6 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
         $this->data = array();
     }
 
-
-    public function AreItemsAvailable()
-    {
-        return ($this->getCount() > 0);
-    }
 
     /**
      * @return ODataQueryOptions

@@ -13,13 +13,13 @@ class ClientAction
     /**
      * @var ResourcePath
      */
-    public $ResourcePath;
+    protected $resourcePath;
 
 
     /**
-     * @var $QueryOptions ODataQueryOptions
+     * @var $queryOptions ODataQueryOptions
      */
-    public $QueryOptions;
+    protected $queryOptions;
 
 
     /**
@@ -28,7 +28,7 @@ class ClientAction
      */
     public function __construct(ResourcePath $resourcePath)
     {
-        $this->ResourcePath = $resourcePath;
+        $this->resourcePath = $resourcePath;
     }
 
     /**
@@ -36,6 +36,22 @@ class ClientAction
      */
     public function getId(){
         return spl_object_hash($this);
+    }
+
+
+    /**
+     * @return ResourcePath
+     */
+    public function getResourcePath(){
+        return $this->resourcePath;
+    }
+
+
+    /**
+     * @return ODataQueryOptions
+     */
+    public function getQueryOptions(){
+        return $this->queryOptions;
     }
 
 }

@@ -13,7 +13,7 @@ class EventCollection extends ClientObjectCollection
      * @return Event
      */
     public function createEvent() {
-        $event = new Event($this->getContext());
+        $event = new Event($this->getContext(),null);
         $this->addChild($event);
         $qry = new CreateEntityQuery($event);
         $this->getContext()->addQuery($qry, $event);

@@ -3,9 +3,10 @@
 $Settings = array(
 	'Url' => "https://mediadev88.sharepoint.com",
     'OneDriveUrl' => "https://mediadev88-my.SharePoint.com",
-	'Password' => "P@ssw0rd",
-	'UserName' => "mattim@mediadev88.onmicrosoft.com"
+    'Password' => getenv("phpSPO_password"),
+    'UserName' => getenv("phpSPO_username")
 );
+
 
 $AppSettings = array(
 	'TenantName' => "mediadev88.onmicrosoft.com",

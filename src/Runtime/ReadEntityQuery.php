@@ -15,7 +15,7 @@ class ReadEntityQuery extends ClientAction
      */
     public function __construct(ClientObject $clientObject,ODataQueryOptions $queryOptions = null)
     {
-        $this->QueryOptions = $queryOptions;
+        $this->queryOptions = $queryOptions;
         parent::__construct($clientObject->getResourcePath());
     }
 }

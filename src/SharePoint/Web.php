@@ -94,13 +94,13 @@ class Web extends SecurableObject
      */
     public function getChanges(ChangeQuery $query)
     {
-        $changes = new ChangeCollection($this->getContext());
         $qry = new InvokePostMethodQuery(
             $this->getResourcePath(),
             "GetChanges",
             null,
             $query
         );
+        $changes = new ChangeCollection($this->getContext(),$qry->getResourcePath());
         $this->getContext()->addQuery($qry,$changes);
         return $changes;
     }

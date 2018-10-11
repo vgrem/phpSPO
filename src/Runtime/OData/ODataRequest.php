@@ -57,6 +57,7 @@ class ODataRequest extends ClientRequest
      */
     public function processResponse($response)
     {
+
         if (!array_key_exists($this->getCurrentAction()->getId(), $this->resultObjects)) {
             return;
         }
@@ -75,6 +76,7 @@ class ODataRequest extends ClientRequest
             $resultObject->fromJson($payload,$this->getSerializationContext());
         } else if($resultObject instanceof IEntityType) {
             $this->getSerializationContext()->map($payload,$resultObject);
+            $this->getCurrentAction()->getResourcePath()->ServerObjectIsNull = false;
         }
         unset($this->resultObjects[$this->getCurrentAction()->getId()]);
     }
@@ -157,9 +159,9 @@ class ODataRequest extends ClientRequest
      */
     public function buildRequest()
     {
-        $resourceUrl = $this->context->getServiceRootUrl() . $this->getCurrentAction()->ResourcePath->toUrl();
-        if (!is_null($this->getCurrentAction()->QueryOptions)) {
-            $resourceUrl .= '?' . $this->getCurrentAction()->QueryOptions->toUrl();
+        $resourceUrl = $this->context->getServiceRootUrl() . $this->getCurrentAction()->getResourcePath()->toUrl();
+        if (!is_null($this->getCurrentAction()->getQueryOptions())) {
+            $resourceUrl .= '?' . $this->getCurrentAction()->getQueryOptions()->toUrl();
         }
         $request = new RequestOptions($resourceUrl);
         if ($this->getCurrentAction() instanceof InvokePostMethodQuery) {

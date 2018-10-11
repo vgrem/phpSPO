@@ -116,7 +116,7 @@ class SPList extends SecurableObject
      */
     public function getListItemChangesSinceToken(ChangeLogItemQuery $query)
     {
-        $result = new ListItemCollection($this->getContext());
+        $result = new ListItemCollection($this->getContext(),null);
         $qry = new InvokePostMethodQuery(
             $this->getResourcePath(),
             "getListItemChangesSinceToken",
@@ -134,13 +134,13 @@ class SPList extends SecurableObject
      */
     public function getChanges(ChangeQuery $query)
     {
-        $changes = new ChangeCollection($this->getContext());
         $qry = new InvokePostMethodQuery(
             $this->getResourcePath(),
             "GetChanges",
             null,
             $query
         );
+        $changes = new ChangeCollection($this->getContext(),$qry->getResourcePath());
         $this->getContext()->addQuery($qry,$changes);
         return $changes;
     }
