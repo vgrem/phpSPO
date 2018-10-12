@@ -74,7 +74,7 @@ The following examples demonstrates how to perform basic CRUD operations against
 
 Example 1. How to read SharePoint list items
 
-````
+```php
 
 $authCtx = new AuthenticationContext($Url);
 $authCtx->acquireTokenForUser($UserName,$Password); //authenticate
@@ -88,31 +88,31 @@ $ctx->executeQuery(); //submit query to SharePoint Online REST service
 foreach( $items->getData() as $item ) {
     print "Task: '{$item->Title}'\r\n";
 }
-````
+```
 
 
 Example 2. How to create SharePoint list item:
-````
+```php
 $listTitle = 'Tasks';
 $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
 $itemProperties = array('Title' => 'Order Approval', 'Body' => 'Order approval task','__metadata' => array('type' => 'SP.Data.TasksListItem'));
 $item = $list->addItem($itemProperties);
 $ctx->executeQuery();
 print "Task '{$item->Title}' has been created.\r\n";
-````
+```
 
 Example 3. How to delete a SharePoint list item:
-````
+```php
 $listTitle = 'Tasks';
 $itemToDeleteId = 1;
 $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
 $listItem = $list->getItemById($itemToDeleteId);
 $listItem->deleteObject();
 $ctx->executeQuery();
-````
+```
 
 Example 4. How to update SharePoint list item:
-````
+```php
 $listTitle = 'Tasks';
 $itemToUpdateId = 1;
 $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
@@ -120,7 +120,7 @@ $listItem = $list->getItemById($itemId);
 $listItem->setProperty('PercentComplete',1);
 $listItem->update();
 $ctx->executeQuery();
-````
+```
 
 
 
@@ -130,7 +130,7 @@ The following examples demonstrates how to read, create and send messages via Ou
 
 Example 1. How to create a draft message
 
-````
+```php
 
 $authCtx = new NetworkCredentialContext($UserName,$Password); //using Basic Auth scheme (for v1 API only)
 $ctx = new OutlookClient($authCtx); //initialize OutlookServices client
@@ -142,12 +142,12 @@ $message->ToRecipients = array(
      new Recipient(new EmailAddress("Jon Doe","jdoe@contoso.onmicrosoft.com"))
 );
 $ctx->executeQuery();
-````
+```
 
 
 Example 2. How to get messages
 
-````
+```php
 
 $authCtx = new NetworkCredentialContext($UserName,$Password); //using Basic Auth scheme (for v1 API only)
 $ctx = new OutlookClient($authCtx); //initialize OutlookServices client
@@ -158,12 +158,12 @@ $ctx->executeQuery();
 foreach ($messages->getData() as $curMessage){
    print $curMessage->Subject;
 }
-````
+```
 
 
 Example 3. How to send a message
 
-````
+```php
 
 $authCtx = new NetworkCredentialContext($UserName,$Password); //using Basic Auth scheme (for v1 API only)
 $ctx = new OutlookClient($authCtx); //initialize OutlookServices client
@@ -176,7 +176,7 @@ $message->ToRecipients = array(
 );
 $ctx->getMe()->sendEmail($message,false); //send a Message
 $ctx->executeQuery();
-````
+```
 
 
 ## Changelog
