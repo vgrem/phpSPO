@@ -134,4 +134,12 @@ abstract class ClientRequest
         return $this->queries;
     }
 
+    /**
+     * Clears all queries and resultObjects.
+     */
+    public function clear()
+    {
+        $this->queries = [];
+        $this->resultObjects = [];
+    }
 }
