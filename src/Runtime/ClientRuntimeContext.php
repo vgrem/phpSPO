@@ -196,6 +196,17 @@ class ClientRuntimeContext
     }
 
     /**
+     * Removes the pending request.
+     */
+    public function removePendingRequest()
+    {
+        if (!isset($this->pendingRequest)) {
+            return;
+        }
+        unset($this->pendingRequest);
+    }
+
+    /**
      * @return Version
      */
     public function getServerLibraryVersion(){
