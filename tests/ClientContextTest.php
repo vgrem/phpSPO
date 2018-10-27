@@ -1,8 +1,9 @@
 <?php
 
 
-class ClientContextTests extends SharePointTestCase
+class ClientContextTest extends SharePointTestCase
 {
+
     public function testIfSingleRequestProcessed()
     {
         try{

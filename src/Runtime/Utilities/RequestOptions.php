@@ -28,23 +28,12 @@ class RequestOptions
         $this->Verbose = false;
         $this->SSLVersion = null;
         $this->StreamHandle = null;
+        $this->Data = $data;
     }
 
     public function toArray()
     {
-        return [
-            'Url' => $this->Url,
-            'Method' => $this->Method,
-            'Headers' => $this->Headers,
-            'Data' => $this->Data,
-            'IncludeBody' => $this->IncludeBody,
-            'IncludeHeaders' => $this->IncludeHeaders,
-            'AuthType' => $this->AuthType,
-            'Verbose' => $this->Verbose,
-            'UserCredentials' => $this->UserCredentials,
-            'SSLVersion' => $this->SSLVersion,
-            'StreamHandle' => $this->StreamHandle,
-        ];
+        return get_object_vars($this);
     }
 
     public function addCustomHeader($name, $value)
@@ -135,5 +124,11 @@ class RequestOptions
      * @var resource
      */
     public $StreamHandle;
+
+
+    /**
+     * @var string
+     */
+    public $Proxy;
 
 }

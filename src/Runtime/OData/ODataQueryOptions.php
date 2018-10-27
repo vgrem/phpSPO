@@ -42,5 +42,7 @@ class ODataQueryOptions
 
     public $Skip;
 
+    public $SkipToken;
+
     public $Search;
 }

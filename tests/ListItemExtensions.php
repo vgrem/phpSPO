@@ -74,12 +74,12 @@ class ListItemExtensions
     }
 
 
-
     /**
      * Create list item operation
      * @param \Office365\PHP\Client\SharePoint\SPList $list
      * @param array $itemProperties
      * @return \Office365\PHP\Client\SharePoint\ListItem
+     * @throws Exception
      */
     public static function createListItem(\Office365\PHP\Client\SharePoint\SPList $list, array $itemProperties){
         $ctx = $list->getContext();

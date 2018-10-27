@@ -231,6 +231,18 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
 
 
     /**
+     * Sets the number of records to skip before it retrieves records in a collection.
+     * @param $value
+     * @return ClientObjectCollection $this
+     */
+    public function skiptoken($value)
+    {
+        $this->queryOptions->SkipToken = rawurlencode($value);
+        return $this;
+    }
+
+
+    /**
      * Creates resource for a collection
      * @return ClientObject
      */

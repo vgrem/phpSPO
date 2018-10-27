@@ -28,8 +28,6 @@ class ListItemTest extends SharePointTestCase
     }
 
 
-    
-    
     public function testItemsCount()
     {
         $itemsCount = self::$targetList->getProperty("ItemCount");
@@ -46,7 +44,6 @@ class ListItemTest extends SharePointTestCase
         $currentUser = self::$context->getWeb()->getCurrentUser();
         self::$context->load($currentUser);
         self::$context->executeQuery();
-
         $itemProperties = array(
             'Title' => 'Order Approval' . rand(1, 1000),
             'Body' => 'Please review a task',
@@ -54,9 +51,10 @@ class ListItemTest extends SharePointTestCase
             'PredecessorsId' => array( 'results' => array($currentUser->getProperty("Id")))
             //'__metadata' => array('type' => 'SP.Data.TasksListItem')
         );
-        $item = ListItemExtensions::createListItem(self::$targetList, $itemProperties);
-        $this->assertEquals($item->getProperty('Body'), $itemProperties['Body']);
-        return $item;
+        $items = $this->populateList($itemProperties,1);
+        $firstItem = $items[0];
+        $this->assertEquals($firstItem->getProperty('Body'), $itemProperties['Body']);
+        return $firstItem;
     }
 
 
@@ -134,6 +132,38 @@ class ListItemTest extends SharePointTestCase
     }
 
 
+    public function testQueryOptionsSkipToken()
+    {
+        $minItemsCount = 10;
+        $maxItemId = null;
+        $itemsCount = self::$targetList->getProperty("ItemCount");
+        if ($itemsCount < $minItemsCount) {
+            $itemProperties = array(
+                'Title' => 'Order Approval' . rand(1, 1000),
+                'Body' => 'Please review a task'
+            );
+            $this->populateList($itemProperties, $minItemsCount - $itemsCount);
+        }
+
+        $items = self::$targetList->getItems();
+        self::$context->load($items);
+        self::$context->executeQuery();
+        $maxItemId = max(
+            array_map(function (ListItem $item) {
+                return $item->getProperty("Id");
+            }, $items->getData())
+        );
+
+
+        $items = self::$targetList->getItems()
+            ->top($minItemsCount)
+            ->skiptoken("Paged=TRUE&p_SortBehavior=0&p_ID=" . $maxItemId);
+        self::$context->load($items);
+        self::$context->executeQuery();
+        $this->assertEquals(0, $items->getCount());
+    }
+
+
    
     public function testDeleteListItems()
     {
@@ -151,5 +181,16 @@ class ListItemTest extends SharePointTestCase
         $this->assertEquals($itemsCount, 0);
     }
 
+
+    public function populateList($itemProperties,$itemsCount)
+    {
+        $items = [];
+        $idx = 0;
+        while($idx < $itemsCount){
+            $items[] = ListItemExtensions::createListItem(self::$targetList, $itemProperties);
+            $idx++;
+        }
+        return $items;
+    }
     
 }

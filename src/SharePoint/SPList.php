@@ -22,7 +22,6 @@ class SPList extends SecurableObject
      */
     public function addItem(array $listItemCreationInformation)
     {
-
         $items = new ListItemCollection($this->getContext(),
             new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items"));
         $listItem = new ListItem($this->getContext());

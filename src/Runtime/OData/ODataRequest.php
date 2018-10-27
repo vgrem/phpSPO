@@ -6,6 +6,7 @@ namespace Office365\PHP\Client\Runtime\OData;
 
 use Exception;
 use Office365\PHP\Client\Runtime\ClientAction;
+use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ClientRequestStatus;
 use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\IEntityType;
@@ -70,9 +71,24 @@ class ODataRequest extends ClientRequest
         $resultObject = $this->resultObjects[$this->getCurrentAction()->getId()];
 
         if ($this->getCurrentAction() instanceof InvokePostMethodQuery && $this->getCurrentAction()->MethodBody instanceof ChangeLogItemQuery) {
-            $payload = $this->parseXmlResponse($response);
+            $this->processXmlResponse($response,$resultObject);
         } else {
-            $payload = $this->parseJsonResponse($response);
+            $this->processJsonResponse($response,$resultObject);
+        }
+    }
+
+
+    /**
+     * @param string $response
+     * @param ClientObject|ClientResult $resultObject
+     * @throws Exception
+     */
+    private function processJsonResponse($response, $resultObject)
+    {
+        $errorPayload = array();
+        $payload = json_decode($response);
+        if ($this->validateResponse($payload, $errorPayload) == false) {
+            throw new Exception($errorPayload['Message']);
         }
 
         if ($resultObject instanceof ClientResult) {
@@ -88,27 +104,11 @@ class ODataRequest extends ClientRequest
 
 
     /**
-     * @param string $response
-     * @return mixed
-     * @throws Exception
-     */
-    private function parseJsonResponse($response)
-    {
-        $error = array();
-        $payload = json_decode($response);
-        if ($this->validateResponse($payload, $error) == false) {
-            throw new Exception($error['Message']);
-        }
-        return $payload;
-    }
-
-
-    /**
      * Process Xml response from SharePoint REST service
      * @param string $response
-     * @return array
+     * @param ClientObject $resultObject
      */
-    private function parseXmlResponse($response)
+    private function processXmlResponse($response, $resultObject)
     {
         $payload = array();
         $xml = simplexml_load_string($response);
@@ -122,7 +122,7 @@ class ODataRequest extends ClientRequest
             }
             $payload[] = $item;
         }
-        return $payload;
+        $this->getSerializationContext()->map($payload,$resultObject);
     }
 
 
@@ -200,6 +200,9 @@ class ODataRequest extends ClientRequest
     }
 
 
+    /**
+     * @return ClientRequest
+     */
     public function getNextRequest()
     {
         $request = new ODataRequest($this->context);
