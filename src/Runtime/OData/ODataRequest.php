@@ -6,6 +6,7 @@ namespace Office365\PHP\Client\Runtime\OData;
 
 use Exception;
 use Office365\PHP\Client\Runtime\ClientAction;
+use Office365\PHP\Client\Runtime\ClientRequestStatus;
 use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\IEntityType;
 use Office365\PHP\Client\Runtime\InvokeMethodQuery;
@@ -17,12 +18,12 @@ use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\SharePoint\ChangeLogItemQuery;
 
 
+
 /**
  * Client Request for OData provider.
  */
 class ODataRequest extends ClientRequest
 {
-
 
     public function __construct(ClientRuntimeContext $context)
     {
@@ -35,19 +36,25 @@ class ODataRequest extends ClientRequest
      */
     public function executeQuery()
     {
-        $request = $this->buildRequest();
-        if (is_callable($this->eventsList["BeforeExecuteQuery"])) {
-            call_user_func_array($this->eventsList["BeforeExecuteQuery"], array(
-                $request,
-                $this->getCurrentAction()
-            ));
+        try{
+            $request = $this->buildRequest();
+            if (is_callable($this->eventsList["BeforeExecuteQuery"])) {
+                call_user_func_array($this->eventsList["BeforeExecuteQuery"], array(
+                    $request,
+                    $this->getCurrentAction()
+                ));
+            }
+            $responseInfo = array();
+            $response = $this->executeQueryDirect($request, $responseInfo);
+            if (!empty($response)) {
+                $this->processResponse($response);
+            }
+            $this->requestStatus = ClientRequestStatus::CompletedSuccess;
         }
-        $responseInfo = array();
-        $response = $this->executeQueryDirect($request, $responseInfo);
-        if (!empty($response)) {
-            $this->processResponse($response);
+        catch(Exception $e){
+            $this->requestStatus = ClientRequestStatus::CompletedException;
+            throw $e;
         }
-        array_shift($this->queries);
     }
 
 
@@ -57,12 +64,11 @@ class ODataRequest extends ClientRequest
      */
     public function processResponse($response)
     {
-
         if (!array_key_exists($this->getCurrentAction()->getId(), $this->resultObjects)) {
             return;
         }
-
         $resultObject = $this->resultObjects[$this->getCurrentAction()->getId()];
+
         if ($this->getCurrentAction() instanceof InvokePostMethodQuery && $this->getCurrentAction()->MethodBody instanceof ChangeLogItemQuery) {
             $payload = $this->parseXmlResponse($response);
         } else {
@@ -78,7 +84,6 @@ class ODataRequest extends ClientRequest
             $this->getSerializationContext()->map($payload,$resultObject);
             $this->getCurrentAction()->getResourcePath()->ServerObjectIsNull = false;
         }
-        unset($this->resultObjects[$this->getCurrentAction()->getId()]);
     }
 
 
@@ -191,7 +196,19 @@ class ODataRequest extends ClientRequest
      * @return ClientAction|InvokePostMethodQuery
      */
     protected function getCurrentAction(){
-        return current($this->getActions());
+        return current($this->queries);
     }
+
+
+    public function getNextRequest()
+    {
+        $request = new ODataRequest($this->context);
+        if(count($this->queries) > 1) {
+            $request->queries = array_slice($this->queries, 1, count($this->queries)-1, true);
+            $request->resultObjects = $this->resultObjects;
+        }
+        return $request;
+    }
+
 
 }

@@ -134,23 +134,14 @@ class ClientRuntimeContext
     /**
      * Submit client request to SharePoint OData/SOAP service
      *
-     * @return self
      */
     public function executeQuery()
     {
         while ($this->hasPendingRequest()) {
             $this->getPendingRequest()->executeQuery();
         }
-        return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasPendingRequest(){
-        $queries = $this->pendingRequest->getActions();
-        return !empty($queries);
-    }
 
 
     /**
@@ -192,19 +183,23 @@ class ClientRuntimeContext
         if (!isset($this->pendingRequest)) {
             $this->pendingRequest = new ODataRequest($this);
         }
+        if($this->pendingRequest->getRequestStatus() != ClientRequestStatus::Active){
+            $this->pendingRequest = $this->pendingRequest->getNextRequest();
+        }
         return $this->pendingRequest;
     }
 
+
     /**
-     * Removes the pending request.
+     * @return bool
      */
-    public function removePendingRequest()
+    public function hasPendingRequest()
     {
-        if (!isset($this->pendingRequest)) {
-            return;
-        }
-        unset($this->pendingRequest);
+        $request = $this->getPendingRequest();
+        return ($request->getRequestStatus() == ClientRequestStatus::Active &&
+            count($request->getActions()) > 0);
     }
+
 
     /**
      * @return Version

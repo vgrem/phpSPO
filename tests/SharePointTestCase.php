@@ -20,8 +20,6 @@ abstract class SharePointTestCase extends \PHPUnit\Framework\TestCase
         $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
         //$authCtx->acquireTokenForApp($AppSettings['ClientId'],$AppSettings['ClientSecret'],$AppSettings['RedirectUrl']);
         self::$context = new ClientContext($Settings['Url'],$authCtx);
-
-
     }
 
     public static function tearDownAfterClass()

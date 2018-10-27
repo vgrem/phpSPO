@@ -57,17 +57,16 @@ class CSOMRequest extends ClientRequest
      * @param $response
      * @param $resultObject
      */
-    public function processResponse($response, $resultObject)
+    public function processResponse($response)
     {
         // TODO: Implement processResponse() method.
     }
 
     /**
      * Build Client Request
-     * @param ClientAction $query
      * @return RequestOptions
      */
-    protected function buildRequest(ClientAction $query)
+    protected function buildRequest()
     {
         // TODO: Implement buildRequest() method.
     }

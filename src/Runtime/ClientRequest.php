@@ -5,6 +5,7 @@ namespace Office365\PHP\Client\Runtime;
 
 
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
+use Office365\PHP\Client\Runtime\Utilities\Guid;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\Requests;
 
@@ -37,6 +38,14 @@ abstract class ClientRequest
     protected $resultObjects = array();
 
 
+    /** @var Guid  */
+    protected $requestId;
+
+
+    /** @var integer */
+    protected $requestStatus;
+
+
     /**
      * ClientRequest constructor.
      * @param ClientRuntimeContext $context
@@ -48,6 +57,8 @@ abstract class ClientRequest
             "BeforeExecuteQuery" => null,
             "AfterExecuteQuery" => null
         );
+        $this->requestId = Guid::newGuid();
+        $this->requestStatus = ClientRequestStatus::Active;
     }
 
     /**
@@ -135,11 +146,14 @@ abstract class ClientRequest
     }
 
     /**
-     * Clears all queries and resultObjects.
+     * @return int
      */
-    public function clear()
-    {
-        $this->queries = [];
-        $this->resultObjects = [];
+    public function getRequestStatus(){
+        return $this->requestStatus;
     }
+
+    /**
+     * @return ClientRequest
+     */
+    public abstract function getNextRequest();
 }

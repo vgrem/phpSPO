@@ -1,14 +1,9 @@
 <?php
 
 
-require_once('SharePointTestCase.php');
-require_once('ListItemExtensions.php');
-
-
-
-
 class ListTest extends SharePointTestCase
 {
+
     public function testIfListCreated()
     {
         $listTitle = "Orders_" . rand(1,100000);
@@ -68,7 +63,5 @@ class ListTest extends SharePointTestCase
         self::$context->executeQuery();
         $this->assertEquals(0,$result->getCount());
     }
-
-
 
 }
