@@ -60,6 +60,13 @@ class Contact extends Item
 
 
     /**
+     * The contact's company name.
+     * @var string
+     */
+    public $CompanyName;
+
+
+    /**
      * @var string
      */
     public $Department;
@@ -83,6 +90,7 @@ class Contact extends Item
      */
     public $EmailAddresses;
 
+
     /**
      * The contact's generation.
      * @var string
@@ -98,6 +106,19 @@ class Contact extends Item
 
 
     /**
+	 * The contact's business address.
+     * @var PhysicalAddress
+     */
+    public $BusinessAddress;
+
+
+    /**
+     * @var PhysicalAddress
+     */
+    public $OtherAddress;
+
+
+    /**
      * @var array
      */
     public $HomePhones;
@@ -108,6 +129,7 @@ class Contact extends Item
      * @var array
      */
     public $ImAddresses;
+
 
     /**
      * The name of the contact's manager.
@@ -128,4 +150,18 @@ class Contact extends Item
      * @var string
      */
     public $NickName;
+
+
+    /**
+     * The contact's notes.
+     * @var string
+     */
+    public $PersonalNotes;
+
+
+    /**
+     * The contact's website.
+     * @var string
+     */
+    public $BusinessHomePage;
 }
