@@ -85,10 +85,10 @@ class ODataRequest extends ClientRequest
      */
     private function processJsonResponse($response, $resultObject)
     {
-        $errorPayload = array();
+        $error = array();
         $payload = json_decode($response);
-        if ($this->validateResponse($payload, $errorPayload) == false) {
-            throw new Exception($errorPayload['Message']);
+        if ($this->validateResponse($payload, $error) == false) {
+            throw new Exception($error['Message']);
         }
 
         if ($resultObject instanceof ClientResult) {

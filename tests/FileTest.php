@@ -1,5 +1,8 @@
 <?php
 
+use Office365\PHP\Client\Runtime\Utilities\Guid;
+use Office365\PHP\Client\SharePoint\FileCreationInformation;
+
 require_once('SharePointTestCase.php');
 
 
@@ -44,6 +47,41 @@ class FileTest extends SharePointTestCase
         }
         self::assertTrue(true);
         return $results[0];
+    }
+
+    public function testUploadLargeFile()
+    {
+        $uploadSessionId = Guid::newGuid();
+        $localPath = __DIR__ . "/../examples/data/big_buck_bunny.mp4";
+        $chunkSize = 1024 * 1024;
+        $fileSize = filesize($localPath);
+        $firstChunk = true;
+        $handle = fopen($localPath, 'rb');
+        $offset = 0;
+        $fileCreationInformation = new FileCreationInformation();
+        $fileCreationInformation->Url = "large_" . basename($localPath);
+        $uploadFile = self::$targetList->getRootFolder()->getFiles()->add($fileCreationInformation);
+        self::$context->executeQuery();
+
+        while (!feof($handle)) {
+            $buffer = fread($handle, $chunkSize);
+            $bytesRead = ftell ( $handle );
+            if ($firstChunk) {
+                $resultOffset = $uploadFile->startUpload($uploadSessionId, $buffer);
+                self::$context->executeQuery();
+                $firstChunk = false;
+            } elseif ($fileSize == $bytesRead) {
+                $uploadFile = $uploadFile->finishUpload($uploadSessionId,$offset, $buffer);
+                self::$context->executeQuery();
+            } else {
+                $resultOffset = $uploadFile->continueUpload($uploadSessionId,$offset, $buffer);
+                self::$context->executeQuery();
+            }
+            $offset = $bytesRead;
+        }
+        fclose($handle);
+        self::assertNotNull($uploadFile->getProperty("Name"));
+
     }
 
     /**

@@ -4,20 +4,47 @@
 namespace Office365\PHP\Client\Runtime\OData;
 
 
-class ODataBatchRequest extends ODataRequest
+use Office365\PHP\Client\Runtime\ClientRequest;
+use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+
+class ODataBatchRequest extends ClientRequest
 {
-    //private $mediaType = "multipart/mixed";
+    private $mediaType = "multipart/mixed";
 
     public function executeQuery()
     {
-        //$batchBoundary = $this->createBoundary("batch_");
+        $batchBoundary = $this->createBoundary("batch_");
         parent::executeQuery();
     }
 
 
     function buildRequest()
     {
-        return parent::buildRequest();
+        // TODO: Implement buildRequest() method.
+    }
+
+    /**
+     * @param RequestOptions $request
+     */
+    protected function setRequestHeaders(RequestOptions $request)
+    {
+        // TODO: Implement setRequestHeaders() method.
+    }
+
+    /**
+     * @param string $response
+     */
+    public function processResponse($response)
+    {
+        // TODO: Implement processResponse() method.
+    }
+
+    /**
+     * @return ClientRequest
+     */
+    public function getNextRequest()
+    {
+        // TODO: Implement getNextRequest() method.
     }
 
 
@@ -39,5 +66,6 @@ class ODataBatchRequest extends ODataRequest
         $val = dechex(floor((1 + ((float)rand()/(float)getrandmax())) * 0x10000));
         return substr($val,0,-1);
     }
+
 
 }
