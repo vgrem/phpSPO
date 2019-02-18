@@ -113,6 +113,24 @@ class FileTest extends SharePointTestCase
         $this->assertNotNull($files->getServerObjectIsNull());
     }
 
+
+    /**
+     * @depends testUploadFiles
+     * @param $fileToDelete
+     */
+    public function testDeleteFile(\Office365\PHP\Client\SharePoint\File $fileToDelete)
+    {
+        $fileName = $fileToDelete->getProperty("Name");
+        $fileToDelete->deleteObject();
+        self::$context->executeQuery();
+
+
+        $filesResult = self::$targetList->getRootFolder()->getFiles()->filter("Name eq '$fileName'");
+        self::$context->load($filesResult);
+        self::$context->executeQuery();
+        $this->assertEquals(0,$filesResult->getCount());
+    }
+
     public function testCreateFolder()
     {
         $folderName = "Archive_" . rand(1, 100000);

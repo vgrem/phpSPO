@@ -70,4 +70,12 @@ class CSOMRequest extends ClientRequest
     {
         // TODO: Implement buildRequest() method.
     }
+
+    /**
+     * @return ClientRequest
+     */
+    public function getNextRequest()
+    {
+        // TODO: Implement getNextRequest() method.
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientResult;
+use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\HttpMethod;
@@ -18,6 +19,15 @@ use Office365\PHP\Client\SharePoint\WebParts\LimitedWebPartManager;
  */
 class File extends SecurableObject
 {
+
+    /**
+     * Deletes the File object.
+     */
+    public function deleteObject(){
+        $qry = new DeleteEntityQuery($this);
+        $this->getContext()->addQuery($qry);
+        //$this->removeFromParentCollection();
+    }
 
     /**
      * Checks out the file from a document library based on the check-out type.
@@ -302,7 +312,6 @@ class File extends SecurableObject
      */
     public function finishUpload($uploadId,$fileOffset,$content)
     {
-        //$file = new File($this->getContext());
         $qry = new InvokePostMethodQuery($this->getResourcePath(),
             "finishupload",
             array('uploadId' => $uploadId->toString(),'fileOffset' => $fileOffset),
