@@ -58,6 +58,7 @@ class AuthenticationContext implements IAuthenticationContext
      * Acquire security token from STS
      * @param string $username
      * @param string $password
+     * @throws \Exception
      */
     public function acquireTokenForUser($username, $password)
     {
@@ -72,6 +73,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @param string $resource
      * @param ClientCredential $clientCredentials
+     * @throws \Exception
      */
     public function acquireTokenForClientCredential($resource, $clientCredentials)
     {
@@ -80,7 +82,8 @@ class AuthenticationContext implements IAuthenticationContext
             'grant_type' => 'client_credentials',
             'client_id' => $clientCredentials->ClientId,
             'client_secret' => $clientCredentials->ClientSecret,
-            'scope' => $resource,
+            #'scope' => $resource,
+            'scope' => "https://outlook.office365.com/mail.read https://outlook.office365.com/mail.send",
             'resource' => $resource
         );
         $this->provider->acquireToken($parameters);
@@ -92,6 +95,7 @@ class AuthenticationContext implements IAuthenticationContext
      * @param $clientSecret
      * @param $refreshToken
      * @param $redirectUri
+     * @throws \Exception
      */
     public function exchangeRefreshToken($resource, $clientId, $clientSecret, $refreshToken, $redirectUri)
     {
@@ -109,18 +113,21 @@ class AuthenticationContext implements IAuthenticationContext
 
     /**
      * @param string $resource
-     * @param string $clientId
-     * @param UserCredentials $credentials
+     * @param ClientCredential $clientCredentials
+     * @param UserCredentials $userCredentials
+     * @throws \Exception
+     * Resource owner password credential (ROPC) grant (https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc)
      */
-    public function acquireTokenForUserCredential($resource, $clientId, $credentials)
+    public function acquireTokenForPassword($resource, $clientCredentials, $userCredentials)
     {
         $this->provider = new OAuthTokenProvider($this->authorityUrl);
         $parameters = array(
             'grant_type' => 'password',
-            'client_id' => $clientId,
-            'username' => $credentials->Username,
-            'password' => $credentials->Password,
-            'scope' => 'openid',
+            'client_id' => $clientCredentials->ClientId,
+            'client_secret' => $clientCredentials->ClientSecret,
+            'username' => $userCredentials->Username,
+            'password' => $userCredentials->Password,
+            'scope' => 'user.read openid',
             'resource' => $resource
         );
         $this->provider->acquireToken($parameters);
@@ -133,6 +140,7 @@ class AuthenticationContext implements IAuthenticationContext
      * @param string $clientSecret
      * @param string $code
      * @param string $redirectUrl
+     * @throws \Exception
      */
     public function acquireTokenByAuthorizationCode($uri,$resource, $clientId, $clientSecret, $code, $redirectUrl)
     {

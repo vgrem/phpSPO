@@ -5,7 +5,7 @@ use Office365\PHP\Client\SharePoint\ClientContext;
 
 
 require_once('../bootstrap.php');
-global $Settings;
+$Settings = include('../../Settings.php');
 
 try {
 	$authCtx = new NetworkCredentialContext($Settings['UserName'], $Settings['Password']);

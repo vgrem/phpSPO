@@ -8,12 +8,12 @@ use Office365\PHP\Client\SharePoint\ChangeType;
 use Office365\PHP\Client\SharePoint\ClientContext;
 
 require_once '../bootstrap.php';
-global $Settings;
+$settings = include('../../Settings.php');
 
 try {
-    $authCtx = new AuthenticationContext($Settings['Url']);
-    $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
-    $ctx = new ClientContext($Settings['Url'],$authCtx);
+    $authCtx = new AuthenticationContext($settings['Url']);
+    $authCtx->acquireTokenForUser($settings['UserName'],$settings['Password']);
+    $ctx = new ClientContext($settings['Url'],$authCtx);
     
     $listTitle = "Tasks" ;
     $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
@@ -26,10 +26,10 @@ catch (Exception $e) {
     echo 'Error: ',  $e->getMessage(), "\n";
 }
 
-
+/*
 function getListItemChangesAlt($webUrl, AuthenticationContext $authCtx)
 {
-    /*$listTitle = "Documents";
+    $listTitle = "Documents";
     $payload = [
         'query' => [
             '__metadata' => ['type' => 'SP.ChangeLogItemQuery'],
@@ -51,8 +51,8 @@ function getListItemChangesAlt($webUrl, AuthenticationContext $authCtx)
     $rows = $xml->xpath("//z:row");
     foreach($rows as $row) {
         print (string)$row->attributes()["ows_FileLeafRef"] . "\n";
-    }*/
-}
+    }
+}*/
 
 function getListItemChanges(\Office365\PHP\Client\SharePoint\SPList $list)
 {

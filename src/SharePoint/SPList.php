@@ -18,7 +18,6 @@ class SPList extends SecurableObject
      * The recommended way to add a list item is to send a POST request to the ListItemCollection resource endpoint, as shown in ListItemCollection request examples.
      * @param array $listItemCreationInformation Creation information for a List item
      * @return ListItem List Item resource
-     * @throws \Exception
      */
     public function addItem(array $listItemCreationInformation)
     {
@@ -39,7 +38,6 @@ class SPList extends SecurableObject
      * Returns the list item with the specified list item identifier.
      * @param integer $id  SPList Item id
      * @return ListItem  List Item resource
-     * @throws \Exception
      */
     public function getItemById($id)
     {

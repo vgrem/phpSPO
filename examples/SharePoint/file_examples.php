@@ -6,12 +6,12 @@ use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\SharePoint\SPList;
 require_once '../bootstrap.php';
-global $Settings;
+$settings = include('../../Settings.php');
 
 try {
-    $authCtx = new AuthenticationContext($Settings['Url']);
-    $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
-    $ctx = new ClientContext($Settings['Url'],$authCtx);
+    $authCtx = new AuthenticationContext($settings['Url']);
+    $authCtx->acquireTokenForUser($settings['UserName'],$settings['Password']);
+    $ctx = new ClientContext($settings['Url'],$authCtx);
 
     $localPath = "../data/";
     $targetLibraryTitle = "Documents";
@@ -57,6 +57,7 @@ function downloadFileViaRPC(ClientContext $ctx,$webUrl,$fileUrl){
     $fileAbsUrl = $webUrl . rawurlencode($fileUrl);
     $options = new RequestOptions($fileAbsUrl);
     $data = $ctx->executeQueryDirect($options);
+    print (strlen($data));
 }
 
 function createSubFolder(ClientContext $ctx,$parentFolderUrl,$folderName){
@@ -189,15 +190,24 @@ function uploadFileIntoFolder(ClientContext $ctx, $localPath, $targetFolderUrl)
 function saveFile(ClientContext $ctx, $sourceFilePath, $targetFileUrl)
 {
     $fileContent = file_get_contents($sourceFilePath);
-    Office365\PHP\Client\SharePoint\File::saveBinary($ctx,$targetFileUrl,$fileContent);
-    print "File has been uploaded\r\n";
+    try {
+        Office365\PHP\Client\SharePoint\File::saveBinary($ctx, $targetFileUrl, $fileContent);
+        print "File has been uploaded\r\n";
+    } catch (Exception $e) {
+        print "File upload failed:\r\n";
+    }
 }
 
 
 function downloadFile(ClientRuntimeContext $ctx, $fileUrl, $targetFilePath){
-    $fileContent = Office365\PHP\Client\SharePoint\File::openBinary($ctx,$fileUrl);
-    file_put_contents($targetFilePath, $fileContent);
-    print "File {$fileUrl} has been downloaded successfully\r\n";
+    try {
+        $fileContent = Office365\PHP\Client\SharePoint\File::openBinary($ctx, $fileUrl);
+        file_put_contents($targetFilePath, $fileContent);
+        print "File {$fileUrl} has been downloaded successfully\r\n";
+    } catch (Exception $e) {
+        print "File download failed:\r\n";
+    }
+
 }
 
 function downloadFileAsStream(ClientRuntimeContext $ctx, $fileUrl, $targetFilePath) {

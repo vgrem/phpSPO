@@ -47,6 +47,11 @@ class ODataRequest extends ClientRequest
             }
             $responseInfo = array();
             $response = $this->executeQueryDirect($request, $responseInfo);
+            if ($responseInfo['HttpCode'] >= 400) {
+                $error = $this->extractError($response);
+                throw new Exception($error['Message']);
+            }
+
             if (!empty($response)) {
                 $this->processResponse($response);
             }
@@ -85,12 +90,7 @@ class ODataRequest extends ClientRequest
      */
     private function processJsonResponse($response, $resultObject)
     {
-        $error = array();
         $payload = json_decode($response);
-        if ($this->validateResponse($payload, $error) == false) {
-            throw new Exception($error['Message']);
-        }
-
         if ($resultObject instanceof ClientResult) {
             if ($this->getCurrentAction() instanceof InvokeMethodQuery){
                 $this->getSerializationContext()->RootElement = $this->getCurrentAction()->MethodName;
@@ -127,26 +127,27 @@ class ODataRequest extends ClientRequest
 
 
     /**
-     * Validate payload response for errors
-     * @param mixed $payload
-     * @param array $error
-     * @return bool
+     * Extract error from JSON payload response
+     * @param mixed $response
+     * @return array
      * @throws Exception
      */
-    private function validateResponse($payload, &$error = array())
+    private function extractError($response)
     {
-        if (property_exists($payload, 'error')) {
-            if (is_string($payload->error->message)) {
-                $message = $payload->error->message;
-            } elseif (is_object($payload->error->message)) {
-                $message = $payload->error->message->value;
+        $error = array();
+        $response = json_decode($response);
+        if (property_exists($response, 'error')) {
+            if (is_string($response->error->message)) {
+                $message = $response->error->message;
+            } elseif (is_object($response->error->message)) {
+                $message = $response->error->message->value;
             } else {
                 $message = "Unknown error";
             }
             $error['Message'] = $message;
-            return false;
+            return $error;
         }
-        return true;
+        return null;
     }
 
     /**

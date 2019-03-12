@@ -7,8 +7,6 @@ use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\Web;
 use Office365\PHP\Client\SharePoint\WebCreationInformation;
 
-global $Settings;
-
 try {
 
 	$authCtx = new AuthenticationContext($Settings['Url']);

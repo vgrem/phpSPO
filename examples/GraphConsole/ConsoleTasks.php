@@ -34,18 +34,25 @@ function downloadPhoto(GraphServiceClient $client,$targetFilePath){
     $url = $client->getServiceRootUrl() . "me/photo";
     $options = new \Office365\PHP\Client\Runtime\Utilities\RequestOptions($url);
     //$options->StreamHandle = $fp;
-    $content = $client->executeQueryDirect($options);
+    try {
+        $content = $client->executeQueryDirect($options);
+
+    } catch (Exception $e) {
+    }
     fclose($fp);
 }
 
 
+/**
+ * @return GraphServiceClient
+ * @throws Exception
+ */
 function getAuthenticatedClient(){
-    global $AppSettings;
-    global $Settings;
+    $settings = include('../../Settings.php');
     $resource = "https://graph.microsoft.com";
-    $authorityUrl = OAuthTokenProvider::$AuthorityUrl . $AppSettings['TenantName'];
+    $authorityUrl = OAuthTokenProvider::$AuthorityUrl . $settings['TenantName'];
     $authCtx = new AuthenticationContext($authorityUrl);
-    $authCtx->acquireTokenForUserCredential($resource,$AppSettings['ClientId'],new UserCredentials($Settings['UserName'],$Settings['Password']));
+    $authCtx->acquireTokenForPassword($resource, $settings['ClientId'], new UserCredentials($settings['UserName'], $settings['Password']));
     $client = new GraphServiceClient($authCtx);
     return $client;
 }

@@ -2,13 +2,14 @@
 
 
 require_once('../bootstrap.php');
+$Settings = include('../../Settings.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\SharePoint\ListCreationInformation;
 use Office365\PHP\Client\SharePoint\SPList;
 
-global $Settings;
+
 try {
 	$authCtx = new AuthenticationContext($Settings['Url']);
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);

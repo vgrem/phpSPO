@@ -143,7 +143,6 @@ class ClientRuntimeContext
     }
 
 
-
     /**
      * @param RequestOptions $options
      * @return string

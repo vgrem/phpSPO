@@ -2,12 +2,12 @@
 
 
 require_once('../bootstrap.php');
+$Settings = include('../../Settings.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\SharePoint\ClientContext;
 
-global $Settings;
 
 try {
 	$authCtx = new AuthenticationContext($Settings['Url']);
@@ -28,7 +28,8 @@ function renameFolder($webUrl, $authCtx, $folderUrl,$folderNewName)
     $url = $webUrl . "/_api/web/getFolderByServerRelativeUrl('{$folderUrl}')/ListItemAllFields";
     $request = new RequestOptions($url);
     $ctx = new ClientContext($url,$authCtx);
-    $data = $ctx->executeQueryDirect($request);
+    $resp = $ctx->executeQueryDirect($request);
+    $data = json_decode($resp);
 
     $itemPayload = array( 
         '__metadata' => array ('type' => $data->d->__metadata->type),
@@ -41,5 +42,5 @@ function renameFolder($webUrl, $authCtx, $folderUrl,$folderNewName)
     $request->addCustomHeader("X-HTTP-Method", "MERGE");
     $request->addCustomHeader("If-Match", "*");
     $request->Data = $itemPayload;
-    $data = $ctx->executeQueryDirect($request);
+    $ctx->executeQueryDirect($request);
 }

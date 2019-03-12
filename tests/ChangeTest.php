@@ -17,6 +17,10 @@ class ChangeTest extends SharePointTestCase
         parent::setUpBeforeClass();
         $listTitle = "Contacts";
         self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
+
+        $contactEntry = array('Title' => "New contact");
+        self::$targetList->addItem($contactEntry);
+        self::$context->executeQuery();
     }
 
     public static function tearDownAfterClass()

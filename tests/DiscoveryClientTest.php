@@ -16,7 +16,7 @@ class DiscoveryClientTest extends \PHPUnit\Framework\TestCase
 
     public static function setUpBeforeClass()
     {
-        global $Settings;
+        $Settings = include(__DIR__ . '/../Settings.php');
         $authCtx = new NetworkCredentialContext($Settings["UserName"],$Settings["Password"]);
         self::$client = new DiscoveryClient($authCtx);
     }

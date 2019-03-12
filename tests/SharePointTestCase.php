@@ -13,13 +13,11 @@ abstract class SharePointTestCase extends \PHPUnit\Framework\TestCase
 
     public static function setUpBeforeClass()
     {
-        global $Settings;
-        global  $AppSettings;
-
-        $authCtx = new AuthenticationContext($Settings['Url']);
-        $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
+        $settings = include(__DIR__ . '/../Settings.php');
+        $authCtx = new AuthenticationContext($settings['Url']);
+        $authCtx->acquireTokenForUser($settings['UserName'],$settings['Password']);
         //$authCtx->acquireTokenForApp($AppSettings['ClientId'],$AppSettings['ClientSecret'],$AppSettings['RedirectUrl']);
-        self::$context = new ClientContext($Settings['Url'],$authCtx);
+        self::$context = new ClientContext($settings['Url'],$authCtx);
     }
 
     public static function tearDownAfterClass()

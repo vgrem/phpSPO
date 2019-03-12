@@ -3,10 +3,11 @@
 
 require_once 'vendor/fzaninotto/Faker/src/autoload.php';
 require_once('../bootstrap.php');
+$Settings = include('../../Settings.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;
-global $Settings;
+
 
 try {
 	$authCtx = new AuthenticationContext($Settings['Url']);
@@ -37,6 +38,9 @@ function generateContacts(ClientContext $ctx){
 }
 
 
+/**
+ * @return array
+ */
 function createContactEntry()
 {
 	 $contactCard = Faker\Factory::create();

@@ -91,6 +91,7 @@ class OutlookClient extends ClientRuntimeContext
      * @var string
      */
     private $serviceRootUrl = "https://outlook.office365.com/api/";
+    //private $serviceRootUrl = "https://graph.microsoft.com/";
 
     /**
      * @var string

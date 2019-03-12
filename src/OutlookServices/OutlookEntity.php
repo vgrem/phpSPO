@@ -13,8 +13,6 @@ use ReflectionProperty;
 class OutlookEntity extends ClientObject
 {
 
-
-
     /**
      * Updates a resource
      */
@@ -71,15 +69,15 @@ class OutlookEntity extends ClientObject
 
     function setProperty($name, $value, $persistChanges = true)
     {
-        if($name == "Id"){
+        $normalizedName = ucfirst($name);
+        if($normalizedName == "Id"){
             if(is_null($this->getResourcePath()))
                 $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . "/" . $value);
-            $this->{$name} = $value;
+            $this->{$normalizedName} = $value;
         }
         else
-            parent::setProperty($name, $value, $persistChanges);
+            parent::setProperty($normalizedName, $value, $persistChanges);
     }
-
 
 
     /**

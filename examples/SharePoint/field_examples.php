@@ -5,13 +5,12 @@ use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;
 
 require_once '../bootstrap.php';
-
-global $Settings;
+$settings = include('../../Settings.php');
 
 try {
-    $authCtx = new AuthenticationContext($Settings['Url']);
-    $authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
-    $ctx = new ClientContext($Settings['Url'],$authCtx);
+    $authCtx = new AuthenticationContext($settings['Url']);
+    $authCtx->acquireTokenForUser($settings['UserName'],$settings['Password']);
+    $ctx = new ClientContext($settings['Url'],$authCtx);
 
     $listTitle = 'Tasks';
     $fieldTitle = "Title";

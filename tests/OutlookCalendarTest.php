@@ -84,7 +84,7 @@ class OutlookCalendarTest extends OutlookServicesTestCase
         $events = self::$context->getMe()->getEvents();
         self::$context->load($events);
         self::$context->executeQuery();
-        $foundEvent = $events->getItemById($event->getProperty("Id"));
+        $foundEvent = $events->findFirst("Id",$event->Id);
         self::assertNotEmpty($foundEvent->getProperty("Id"));
     }
 
@@ -102,7 +102,7 @@ class OutlookCalendarTest extends OutlookServicesTestCase
         $events = self::$context->getMe()->getEvents();
         self::$context->load($events);
         self::$context->executeQuery();
-        $deletedEvent = $events->getItemById($event->getProperty("Id"));
+        $deletedEvent = $events->findFirst("Id",$event->Id);
         self::assertNull($deletedEvent);
     }
 

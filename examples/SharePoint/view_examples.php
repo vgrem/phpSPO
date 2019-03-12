@@ -1,13 +1,10 @@
 <?php
 
 require_once('../bootstrap.php');
+$Settings = include('../../Settings.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
-use Office365\PHP\Client\Runtime\ClientAction;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\SharePoint\ClientContext;
-
-global $Settings;
 
 try {
 

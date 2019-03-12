@@ -4,7 +4,7 @@ use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;
 
 require_once('../bootstrap.php');
-global $Settings;
+$Settings = include('../../Settings.php');
 
 try {
     $authCtx = new AuthenticationContext($Settings['Url']);

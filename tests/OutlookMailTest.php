@@ -81,7 +81,7 @@ class OutlookMailTest extends OutlookServicesTestCase
             "Id" => $entity->Id,
             "@odata.type" => "#Microsoft.OutlookServices.Message"
         );*/
-        $entity->Id = null;
+        //$entity->Id = null;
         $entity->ConversationId = null;
         $entity->addAnnotation("type","#Microsoft.OutlookServices.Message");
         return $entity;
@@ -120,7 +120,7 @@ class OutlookMailTest extends OutlookServicesTestCase
         foreach ($messages->getData() as $curMessage){
             self::assertNotNull($curMessage->Id);
         }
-        $foundMessage = $messages->getItemById($message->Id);
+        $foundMessage = $messages->findFirst("Id", $message->Id);
         self::assertNotNull($foundMessage);
     }
 
@@ -174,7 +174,7 @@ class OutlookMailTest extends OutlookServicesTestCase
         $messages = self::$context->getMe()->getMessages();
         self::$context->load($messages);
         self::$context->executeQuery();
-        $deletedMessage = $messages->getItemById($message->getProperty("Id"));
+        $deletedMessage = $messages->findFirst("Id",$message->Id);
         self::assertNull($deletedMessage);
     }
 

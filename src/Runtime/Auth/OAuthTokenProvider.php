@@ -33,8 +33,8 @@ class OAuthTokenProvider extends BaseTokenProvider
     /**
      * @var string
      */
-    public static $ResourceId = 'https://outlook.office365.com/';
-    //private static $ResourceId = 'https://graph.windows.net/';
+    //public static $ResourceId = 'https://outlook.office365.com/';
+    //private static $ResourceId = 'https://graph.windows.com/';
 
     /**
      * @var string
@@ -73,12 +73,13 @@ class OAuthTokenProvider extends BaseTokenProvider
     /**
      * Acquires the access token
      * @param array $parameters
+     * @throws \Exception
      */
     public function acquireToken($parameters)
     {
         $request = $this->createRequest($parameters);
         $response = Requests::execute($request);
-        $this->parseToken($response, $parameters);
+        $this->parseToken($response);
     }
 
     /**
@@ -99,7 +100,7 @@ class OAuthTokenProvider extends BaseTokenProvider
      * Parse the id token that represents a JWT token that contains information about the user
      * @param string $tokenValue
      */
-    private function parseToken($tokenValue, $parameters)
+    private function parseToken($tokenValue)
     {
         $tokenPayload = json_decode($tokenValue);
         if (is_object($tokenPayload)) {

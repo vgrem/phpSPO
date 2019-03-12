@@ -93,21 +93,18 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
 
 
     /**
-     * Gets the item by entity identifier
-     * @param int $id
-     * @return ClientObject
+     * Finds the first item
+     * @param string $key
+     * @param string $value
+     * @return ClientObject|null
      */
-    public function getItemById($id)
+    public function findFirst($key,$value)
     {
-        $result = array_filter(
-            $this->data,
-            function (ClientObject $item) use ($id) {
-                return $item->getProperty("Id") === $id;
-            }
-        );
-        if (count($result) > 0)
-            return array_values($result)[0];
-        return null;
+        $result = $this->findItems(
+            function (ClientObject $item) use ($key, $value) {
+                return $item->getProperty($key) === $value;
+            });
+        return ((count($result) > 0) ? array_values($result)[0] : null);
     }
 
 

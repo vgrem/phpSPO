@@ -20,7 +20,7 @@ class OutlookContactTest extends OutlookServicesTestCase
                 new EmailAddress("Jon Doe","jondb@0ewq12uy752t946ds4567NDF2.onmicrosoft.com")
             );
         self::$context->executeQuery();
-        self::assertNotNull($contact->getProperty("Id"));
+        self::assertNotNull($contact->Id);
         return $contact;
     }
 
@@ -31,11 +31,10 @@ class OutlookContactTest extends OutlookServicesTestCase
      */
     public function testFindMyContact(Contact $contact)
     {
-        $contactId = $contact->Id;
         $contacts = self::$context->getMe()->getContacts();
         self::$context->load($contacts);
         self::$context->executeQuery();
-        $foundContact = $contacts->getItemById($contactId);
+        $foundContact = $contacts->findFirst("Id",$contact->Id);
         self::assertNotNull($foundContact);
     }
 
