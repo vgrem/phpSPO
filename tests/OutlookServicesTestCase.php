@@ -14,10 +14,6 @@ abstract class OutlookServicesTestCase extends \PHPUnit\Framework\TestCase
      */
     protected static $context;
 
-
-    /**
-     * @throws Exception
-     */
     public static function setUpBeforeClass()
     {
         $settings = include(__DIR__ . '/../Settings.php');
