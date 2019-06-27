@@ -64,7 +64,7 @@ class ClientContext extends ClientRuntimeContext
     {
         $request = new RequestOptions($this->getServiceRootUrl() . "contextinfo");
         $request->Method = HttpMethod::Post;
-        $response = $this->executeQueryDirect($request);
+        $response = $this->executeQueryDirect($request, true);
         if(!isset($this->contextWebInformation))
             $this->contextWebInformation = new ContextWebInformation();
         $result = new ClientResult($this->contextWebInformation);

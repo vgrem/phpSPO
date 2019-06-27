@@ -164,7 +164,7 @@ class File extends SecurableObject
         $serverRelativeUrl = rawurlencode($serverRelativeUrl);
         $url = $ctx->getServiceRootUrl() . "web/getfilebyserverrelativeurl('$serverRelativeUrl')/\$value";
         $options = new RequestOptions($url);
-        $data = $ctx->executeQueryDirect($options);
+        $data = $ctx->executeQueryDirect($options, true);
         return $data;
     }
 
@@ -187,7 +187,7 @@ class File extends SecurableObject
         if ($ctx instanceof ClientContext) {
             $ctx->ensureFormDigest($request);
         }
-        $ctx->executeQueryDirect($request);
+        $ctx->executeQueryDirect($request, true);
     }
 
 
