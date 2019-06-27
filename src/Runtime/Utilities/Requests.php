@@ -101,12 +101,16 @@ class Requests
         //include body in response
         curl_setopt($ch, CURLOPT_NOBODY, !$options->IncludeBody);
         //Set method
-        if($options->Method == HttpMethod::Post)
-            curl_setopt($ch, CURLOPT_POST, 1);
-        else if($options->Method == HttpMethod::Patch)
+        if($options->Method == HttpMethod::Post) {
+           curl_setopt($ch, CURLOPT_POST, 1);
+           if (!array_key_exists('Content-Length', $options->Headers)) {
+              $options->addCustomHeader("Transfer-Encoding", "chunked");
+           }
+        } else if($options->Method == HttpMethod::Patch) {
            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $options->Method);
-        else if($options->Method == HttpMethod::Delete)
+        } else if($options->Method == HttpMethod::Delete) {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $options->Method);
+        }
         //set Post Body
         if(isset($options->Data))
             curl_setopt($ch, CURLOPT_POSTFIELDS, $options->Data);
@@ -114,7 +118,7 @@ class Requests
             $opt = $options->Method === HttpMethod::Get ? CURLOPT_FILE : CURLOPT_INFILE;
             curl_setopt($ch, $opt, $options->StreamHandle);
         }
-        $options->addCustomHeader("content-length",strlen($options->Data));
+        $options->addCustomHeader("Content-Length",strlen($options->Data));
         //custom HTTP headers
         if($options->Headers)
             curl_setopt($ch, CURLOPT_HTTPHEADER, $options->getRawHeaders());
