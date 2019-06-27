@@ -103,7 +103,7 @@ class Requests
         //Set method
         if($options->Method == HttpMethod::Post) {
            curl_setopt($ch, CURLOPT_POST, 1);
-           if (!array_key_exists('Content-Length', $options->Headers)) {
+           if (is_array($options->Headers) && !array_key_exists('Content-Length', $options->Headers)) {
               $options->addCustomHeader("Transfer-Encoding", "chunked");
            }
         } else if($options->Method == HttpMethod::Patch) {
