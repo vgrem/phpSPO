@@ -67,7 +67,7 @@ class RequestOptions
 
 
     /**
-     * @var bool
+     * @var string
      */
     public $Method;
 
