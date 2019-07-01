@@ -5,8 +5,9 @@ namespace Office365\PHP\Client\Discovery;
 
 
 use Office365\PHP\Client\Runtime\Auth\NetworkCredentialContext;
+use PHPUnit\Framework\TestCase;
 
-class DiscoveryClientTest extends \PHPUnit\Framework\TestCase
+class DiscoveryClientTest extends TestCase
 {
 
     /**
@@ -14,7 +15,7 @@ class DiscoveryClientTest extends \PHPUnit\Framework\TestCase
      */
     protected static $client;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         $Settings = include(__DIR__ . '/../Settings.php');
         $authCtx = new NetworkCredentialContext($Settings["UserName"],$Settings["Password"]);

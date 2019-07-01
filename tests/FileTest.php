@@ -1,28 +1,29 @@
 <?php
 
 use Office365\PHP\Client\Runtime\Utilities\Guid;
+use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\FileCreationInformation;
-
-require_once('SharePointTestCase.php');
-
+use Office365\PHP\Client\SharePoint\Folder;
+use Office365\PHP\Client\SharePoint\ListTemplateType;
+use Office365\PHP\Client\SharePoint\SPList;
 
 class FileTest extends SharePointTestCase
 {
     /**
-     * @var \Office365\PHP\Client\SharePoint\SPList
+     * @var SPList
      */
     private static $targetList;
 
 
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         $listTitle = "Documents_" . rand(1, 100000);
-        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
+        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DocumentLibrary);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass() : void
     {
         self::$targetList->deleteObject();
         self::$context->executeQuery();
@@ -35,7 +36,7 @@ class FileTest extends SharePointTestCase
         $searchPrefix = $localPath . '*.*';
         $results = [];
         foreach(glob($searchPrefix) as $filename) {
-            $fileCreationInformation = new \Office365\PHP\Client\SharePoint\FileCreationInformation();
+            $fileCreationInformation = new FileCreationInformation();
             $fileCreationInformation->Content = file_get_contents($filename);
             $fileCreationInformation->Url = basename($filename);
             $fileCreationInformation->Overwrite = true;
@@ -45,7 +46,7 @@ class FileTest extends SharePointTestCase
             $this->assertEquals($uploadFile->getProperty("Name"),$fileCreationInformation->Url);
             $results[] = $uploadFile;
         }
-        self::assertTrue(true);
+        $this->assertTrue(true);
         return $results[0];
     }
 
@@ -69,6 +70,7 @@ class FileTest extends SharePointTestCase
             if ($firstChunk) {
                 $resultOffset = $uploadFile->startUpload($uploadSessionId, $buffer);
                 self::$context->executeQuery();
+                self::assertNotNull($resultOffset->getValue());
                 $firstChunk = false;
             } elseif ($fileSize == $bytesRead) {
                 $uploadFile = $uploadFile->finishUpload($uploadSessionId,$offset, $buffer);
@@ -76,6 +78,7 @@ class FileTest extends SharePointTestCase
             } else {
                 $resultOffset = $uploadFile->continueUpload($uploadSessionId,$offset, $buffer);
                 self::$context->executeQuery();
+                self::assertNotNull($resultOffset->getValue());
             }
             $offset = $bytesRead;
         }
@@ -118,7 +121,7 @@ class FileTest extends SharePointTestCase
      * @depends testUploadFiles
      * @param $fileToDelete
      */
-    public function testDeleteFile(\Office365\PHP\Client\SharePoint\File $fileToDelete)
+    public function testDeleteFile(File $fileToDelete)
     {
         $fileName = $fileToDelete->getProperty("Name");
         $fileToDelete->deleteObject();
@@ -145,10 +148,10 @@ class FileTest extends SharePointTestCase
 
     /**
      * @depends testCreateFolder
-     * @param \Office365\PHP\Client\SharePoint\Folder $folderToRename
-     * @return \Office365\PHP\Client\SharePoint\Folder
+     * @param Folder $folderToRename
+     * @return Folder
      */
-    public function testRenameFolder(\Office365\PHP\Client\SharePoint\Folder $folderToRename)
+    public function testRenameFolder(Folder $folderToRename)
     {
         $folderName = "2015";
         $folderToRename->rename($folderName);
@@ -167,9 +170,9 @@ class FileTest extends SharePointTestCase
 
     /**
      * @depends testRenameFolder
-     * @param \Office365\PHP\Client\SharePoint\Folder $folderToDelete
+     * @param Folder $folderToDelete
      */
-    public function testDeleteFolder(\Office365\PHP\Client\SharePoint\Folder $folderToDelete)
+    public function testDeleteFolder(Folder $folderToDelete)
     {
         $folderName = $folderToDelete->getProperty("Name");
         $folderToDelete->deleteObject();

@@ -1,28 +1,28 @@
 <?php
 
+use Office365\PHP\Client\SharePoint\CheckOutType;
+use Office365\PHP\Client\SharePoint\File;
+use Office365\PHP\Client\SharePoint\ListTemplateType;
+use Office365\PHP\Client\SharePoint\SPList;
 use Office365\PHP\Client\SharePoint\WebParts\PersonalizationScope;
-
-require_once('SharePointTestCase.php');
-require_once('ListItemExtensions.php');
-
 
 class PageTest extends SharePointTestCase
 {
     /**
-     * @var \Office365\PHP\Client\SharePoint\File
+     * @var File
      */
     private static $targetPage;
 
     /**
-     * @var \Office365\PHP\Client\SharePoint\SPList
+     * @var SPList
      */
     private static $targetList;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         parent::setUpBeforeClass();
         $listTitle = ListItemExtensions::createUniqueName("Wiki");
-        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(),$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::WebPageLibrary);
+        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(),$listTitle, ListTemplateType::WebPageLibrary);
         $pageName = ListItemExtensions::createUniqueName("Wiki") . ".aspx";
         self::$targetPage = ListItemExtensions::createWikiPage(self::$targetList,$pageName,"Welcome to site");
         if(!self::$targetPage->isPropertyAvailable("CheckOutType")){
@@ -31,7 +31,7 @@ class PageTest extends SharePointTestCase
         }
 
         //ensure whether the file is checked out to start tests
-        if(self::$targetPage->getCheckOutType() == \Office365\PHP\Client\SharePoint\CheckOutType::None)
+        if(self::$targetPage->getCheckOutType() == CheckOutType::None)
         {
             self::$targetPage->checkOut();
             self::$context->executeQuery();
@@ -39,7 +39,7 @@ class PageTest extends SharePointTestCase
 
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$targetList->deleteObject();
         self::$context->executeQuery();
@@ -52,7 +52,7 @@ class PageTest extends SharePointTestCase
         self::$targetPage->undoCheckout();
         self::$context->load(self::$targetPage);
         self::$context->executeQuery();
-        $this->assertEquals(\Office365\PHP\Client\SharePoint\CheckOutType::None,self::$targetPage->getCheckOutType());
+        $this->assertEquals(CheckOutType::None,self::$targetPage->getCheckOutType());
     }
 
 
@@ -60,7 +60,7 @@ class PageTest extends SharePointTestCase
         self::$targetPage->checkOut();
         self::$context->load(self::$targetPage);
         self::$context->executeQuery();
-        $this->assertEquals(\Office365\PHP\Client\SharePoint\CheckOutType::Online,self::$targetPage->getCheckOutType());
+        $this->assertEquals(CheckOutType::Online,self::$targetPage->getCheckOutType());
     }
 
 
@@ -68,7 +68,7 @@ class PageTest extends SharePointTestCase
         self::$targetPage->checkIn("Modified.");
         self::$context->load(self::$targetPage);
         self::$context->executeQuery();
-        $this->assertEquals(\Office365\PHP\Client\SharePoint\CheckOutType::None,self::$targetPage->getCheckOutType());
+        $this->assertEquals(CheckOutType::None,self::$targetPage->getCheckOutType());
     }
 
 

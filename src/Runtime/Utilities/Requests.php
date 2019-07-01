@@ -103,9 +103,6 @@ class Requests
         //Set method
         if($options->Method == HttpMethod::Post) {
            curl_setopt($ch, CURLOPT_POST, 1);
-           if (is_array($options->Headers) && !array_key_exists('Content-Length', $options->Headers)) {
-              $options->addCustomHeader("Transfer-Encoding", "chunked");
-           }
         } else if($options->Method == HttpMethod::Patch) {
            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $options->Method);
         } else if($options->Method == HttpMethod::Delete) {
@@ -133,8 +130,8 @@ class Requests
             curl_setopt($ch,CURLOPT_HTTPAUTH, $options->AuthType);
         if(!is_null($options->UserCredentials))
             curl_setopt($ch,CURLOPT_USERPWD, $options->UserCredentials->toString());
-        if(!is_null($options->connectTimeout))
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $options->connectTimeout);
+        if(!is_null($options->ConnectTimeout))
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $options->ConnectTimeout);
 
         return $ch;
     }

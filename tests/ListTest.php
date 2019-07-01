@@ -1,13 +1,16 @@
 <?php
 
 
+use Office365\PHP\Client\SharePoint\ListTemplateType;
+use Office365\PHP\Client\SharePoint\SPList;
+
 class ListTest extends SharePointTestCase
 {
 
     public function testIfListCreated()
     {
         $listTitle = "Orders_" . rand(1,100000);
-        $list = ListExtensions::ensureList(self::$context->getWeb(),$listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
+        $list = ListExtensions::ensureList(self::$context->getWeb(),$listTitle, ListTemplateType::Tasks);
         $this->assertEquals($list->getProperty('Title'),$listTitle);
         return $list;
     }
@@ -15,7 +18,7 @@ class ListTest extends SharePointTestCase
 
     /**
      * @depends testIfListCreated
-     * @param \Office365\PHP\Client\SharePoint\SPList $list
+     * @param SPList $list
      */
     /*public function testAssignUniquePermissions(\Office365\PHP\Client\SharePoint\SPList $list){
         $list->breakRoleInheritance(true);
@@ -30,7 +33,7 @@ class ListTest extends SharePointTestCase
 
     /**
      * @depends testIfListCreated
-     * @param \Office365\PHP\Client\SharePoint\SPList $list
+     * @param SPList $list
      */
     /*public function testVerifyListPermissions(\SharePoint\PHP\Client\SPList $list){
         //1. retrieve current user
@@ -49,9 +52,9 @@ class ListTest extends SharePointTestCase
 
     /**
      * @depends testIfListCreated
-     * @param \Office365\PHP\Client\SharePoint\SPList $listToDelete
+     * @param SPList $listToDelete
      */
-    public function testDeleteList(\Office365\PHP\Client\SharePoint\SPList $listToDelete)
+    public function testDeleteList(SPList $listToDelete)
     {
         //$ctx = $listToDelete->getContext();
         $listId = $listToDelete->getProperty('Id');

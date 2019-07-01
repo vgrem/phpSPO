@@ -1,24 +1,25 @@
 <?php
 
-require_once('SharePointTestCase.php');
-require_once('ListItemExtensions.php');
+use Office365\PHP\Client\SharePoint\ListTemplateType;
+use Office365\PHP\Client\SharePoint\SPList;
+use Office365\PHP\Client\SharePoint\ViewCreationInformation;
 
 class ViewTest extends SharePointTestCase
 {
 
     /**
-     * @var \Office365\PHP\Client\SharePoint\SPList
+     * @var SPList
      */
     private static $targetList;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         parent::setUpBeforeClass();
         $listTitle = ListItemExtensions::createUniqueName("Orders");
-        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
+        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::Tasks);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$targetList->deleteObject();
         self::$context->executeQuery();
@@ -31,13 +32,13 @@ class ViewTest extends SharePointTestCase
         $views = self::$targetList->getViews();
         self::$context->load($views);
         self::$context->executeQuery();
-        $this->assertGreaterThan(0, $views->getCount());
+        self::assertGreaterThan(0, $views->getCount());
     }
 
 
     public function testCreateView()
     {
-        $viewCreateInfo = new \Office365\PHP\Client\SharePoint\ViewCreationInformation();
+        $viewCreateInfo = new ViewCreationInformation();
         $viewTitle = ListItemExtensions::createUniqueName("My Orders");
         $viewCreateInfo->Title = $viewTitle;
         self::$targetList->getViews()->add($viewCreateInfo);

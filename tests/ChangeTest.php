@@ -2,28 +2,29 @@
 
 use Office365\PHP\Client\SharePoint\ChangeQuery;
 use Office365\PHP\Client\SharePoint\ChangeType;
-
+use Office365\PHP\Client\SharePoint\ListTemplateType;
+use Office365\PHP\Client\SharePoint\SPList;
 
 
 class ChangeTest extends SharePointTestCase
 {
     /**
-     * @var \Office365\PHP\Client\SharePoint\SPList
+     * @var SPList
      */
     private static $targetList;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         parent::setUpBeforeClass();
         $listTitle = "Contacts";
-        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
+        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::TasksWithTimelineAndHierarchy);
 
         $contactEntry = array('Title' => "New contact");
         self::$targetList->addItem($contactEntry);
         self::$context->executeQuery();
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass() : void
     {
         //self::$targetList->deleteObject();
         //self::$context->executeQuery();

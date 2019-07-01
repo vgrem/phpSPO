@@ -2,24 +2,27 @@
 
 
 use Office365\PHP\Client\SharePoint\Field;
+use Office365\PHP\Client\SharePoint\FieldCreationInformation;
 use Office365\PHP\Client\SharePoint\FieldType;
+use Office365\PHP\Client\SharePoint\ListTemplateType;
+use Office365\PHP\Client\SharePoint\SPList;
 
 
 class FieldTest extends SharePointTestCase
 {
     /**
-     * @var \Office365\PHP\Client\SharePoint\SPList
+     * @var SPList
      */
     private static $targetList;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         parent::setUpBeforeClass();
         $listTitle = "Contacts_" . rand(1, 100000);
-        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Contacts);
+        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::Contacts);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass() : void
     {
         self::$targetList->deleteObject();
         self::$context->executeQuery();
@@ -46,7 +49,7 @@ class FieldTest extends SharePointTestCase
 
     public function testCreateColumn()
     {
-        $fieldProperties = new \Office365\PHP\Client\SharePoint\FieldCreationInformation();
+        $fieldProperties = new FieldCreationInformation();
         $fieldProperties->Title =  'Contact location' . rand(1, 100);
         $fieldProperties->FieldTypeKind = FieldType::Geolocation;
 
@@ -61,7 +64,7 @@ class FieldTest extends SharePointTestCase
 
     /**
      * @depends testCreateColumn
-     * @param \Office365\PHP\Client\SharePoint\Field $fieldToDelete
+     * @param Field $fieldToDelete
      */
     public function testDeleteColumn(Field $fieldToDelete)
     {
@@ -74,7 +77,7 @@ class FieldTest extends SharePointTestCase
         self::$context->load($result);
         self::$context->executeQuery();
 
-        $this->assertEquals(0,$result->getCount());
+        self::assertEquals(0,$result->getCount());
     }
 
 

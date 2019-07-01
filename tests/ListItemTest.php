@@ -3,6 +3,7 @@
 use Office365\PHP\Client\SharePoint\AttachmentCreationInformation;
 use Office365\PHP\Client\SharePoint\CamlQuery;
 use Office365\PHP\Client\SharePoint\ListItem;
+use Office365\PHP\Client\SharePoint\ListTemplateType;
 use Office365\PHP\Client\SharePoint\SPList;
 
 
@@ -13,14 +14,14 @@ class ListItemTest extends SharePointTestCase
      */
     private static $targetList;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         $listTitle = ListItemExtensions::createUniqueName("Orders");
-        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::Tasks);
+        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::Tasks);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$targetList->deleteObject();
         self::$context->executeQuery();
@@ -121,7 +122,7 @@ class ListItemTest extends SharePointTestCase
         if($items->getCount() > 0){
             $item = $items->getItem(0);
             $predecessors = $item->getProperty("Predecessors");
-            self::assertInternalType('array',$predecessors);
+            self::assertIsArray($predecessors);
             if(count($predecessors) > 0)
                 self::assertNotNull($predecessors[0]->Title);
 
@@ -168,7 +169,7 @@ class ListItemTest extends SharePointTestCase
     public function testDeleteListItems()
     {
         $ctx = self::$targetList->getContext();
-        $items = self::$targetList->getItems(\Office365\PHP\Client\SharePoint\CamlQuery::createAllItemsQuery());
+        $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery());
         $ctx->load($items);
         $ctx->executeQuery();
         foreach ($items->getData() as $item) {

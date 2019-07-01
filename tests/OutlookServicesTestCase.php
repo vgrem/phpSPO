@@ -5,16 +5,17 @@ use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\Auth\OAuthTokenProvider;
 use Office365\PHP\Client\Runtime\Utilities\ClientCredential;
 use Office365\PHP\Client\Runtime\Utilities\UserCredentials;
+use PHPUnit\Framework\TestCase;
 
 
-abstract class OutlookServicesTestCase extends \PHPUnit\Framework\TestCase
+abstract class OutlookServicesTestCase extends TestCase
 {
     /**
      * @var OutlookClient
      */
     protected static $context;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $settings = include(__DIR__ . '/../Settings.php');
 
@@ -28,7 +29,7 @@ abstract class OutlookServicesTestCase extends \PHPUnit\Framework\TestCase
         self::$context = new OutlookClient($authCtx);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$context = NULL;
     }

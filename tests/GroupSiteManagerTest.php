@@ -15,7 +15,7 @@ class GroupSiteManagerTest extends SharePointTestCase
         $siteName = ListItemExtensions::createUniqueName("Site");
         $info = $siteManager->createGroupEx($siteName,$siteName,true);
         self::$context->executeQuery();
-        self::assertNotNull($info->SiteUrl);
+        self::assertNotNull($info->GroupId);
     }
 
 }

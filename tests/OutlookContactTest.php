@@ -3,9 +3,6 @@
 use Office365\PHP\Client\OutlookServices\Contact;
 use Office365\PHP\Client\OutlookServices\EmailAddress;
 
-require_once('OutlookServicesTestCase.php');
-
-
 class OutlookContactTest extends OutlookServicesTestCase
 {
 

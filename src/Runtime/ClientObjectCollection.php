@@ -104,7 +104,7 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
             function (ClientObject $item) use ($key, $value) {
                 return $item->getProperty($key) === $value;
             });
-        return ((count($result) > 0) ? array_values($result)[0] : null);
+        return (is_array($result) && (count($result) > 0) ? array_values($result)[0] : null);
     }
 
 

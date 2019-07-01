@@ -29,7 +29,7 @@ class RequestOptions
         $this->SSLVersion = null;
         $this->StreamHandle = null;
         $this->Data = $data;
-        $this->connectTimeout = null;
+        $this->ConnectTimeout = null;
     }
 
     public function toArray()
@@ -136,5 +136,5 @@ class RequestOptions
     /**
      * @var ?int
      */
-    public $connectTimeout;
+    public $ConnectTimeout;
 }

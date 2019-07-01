@@ -7,7 +7,7 @@ use Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager;
 class PeopleManagerTest extends SharePointTestCase
 {
 
-    private static $accountName = "i:0#.f|membership|vgrem@mediadev88.onmicrosoft.com";
+    private static $accountName = "i:0#.f|membership|marta@mediadev88.onmicrosoft.com";
 
     public function testGetMyProperties(){
         $peopleManager = new PeopleManager(self::$context);
@@ -56,9 +56,9 @@ class PeopleManagerTest extends SharePointTestCase
         }
 
 
-        $result = $peopleManager->amIFollowing(self::$accountName);
+        $result2 = $peopleManager->amIFollowing(self::$accountName);
         self::$context->executeQuery();
-        self::assertFalse($result->getValue());
+        self::assertFalse($result2->getValue());
     }
 
 
