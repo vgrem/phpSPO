@@ -12,7 +12,7 @@ abstract class SharePointTestCase extends TestCase
      */
     protected static $context;
 
-    public static function setUpBeforeClass() : void
+    public static function setUpBeforeClass()
     {
         $settings = include(__DIR__ . '/../Settings.php');
         $authCtx = new AuthenticationContext($settings['Url']);
@@ -21,7 +21,7 @@ abstract class SharePointTestCase extends TestCase
         self::$context = new ClientContext($settings['Url'],$authCtx);
     }
 
-    public static function tearDownAfterClass() : void
+    public static function tearDownAfterClass()
     {
         self::$context = NULL;
     }

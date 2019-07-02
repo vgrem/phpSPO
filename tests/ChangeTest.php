@@ -13,7 +13,7 @@ class ChangeTest extends SharePointTestCase
      */
     private static $targetList;
 
-    public static function setUpBeforeClass() : void
+    public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
         $listTitle = "Contacts";
@@ -24,7 +24,7 @@ class ChangeTest extends SharePointTestCase
         self::$context->executeQuery();
     }
 
-    public static function tearDownAfterClass() : void
+    public static function tearDownAfterClass()
     {
         //self::$targetList->deleteObject();
         //self::$context->executeQuery();

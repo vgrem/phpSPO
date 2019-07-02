@@ -14,14 +14,14 @@ class ListItemTest extends SharePointTestCase
      */
     private static $targetList;
 
-    public static function setUpBeforeClass(): void
+    public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
         $listTitle = ListItemExtensions::createUniqueName("Orders");
         self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::Tasks);
     }
 
-    public static function tearDownAfterClass(): void
+    public static function tearDownAfterClass()
     {
         self::$targetList->deleteObject();
         self::$context->executeQuery();
@@ -122,7 +122,7 @@ class ListItemTest extends SharePointTestCase
         if($items->getCount() > 0){
             $item = $items->getItem(0);
             $predecessors = $item->getProperty("Predecessors");
-            self::assertIsArray($predecessors);
+            self::assertInternalType("array",$predecessors);
             if(count($predecessors) > 0)
                 self::assertNotNull($predecessors[0]->Title);
 

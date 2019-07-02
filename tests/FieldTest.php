@@ -15,14 +15,14 @@ class FieldTest extends SharePointTestCase
      */
     private static $targetList;
 
-    public static function setUpBeforeClass() : void
+    public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
         $listTitle = "Contacts_" . rand(1, 100000);
         self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::Contacts);
     }
 
-    public static function tearDownAfterClass() : void
+    public static function tearDownAfterClass()
     {
         self::$targetList->deleteObject();
         self::$context->executeQuery();

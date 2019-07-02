@@ -19,5 +19,8 @@
         "psr-4": {
             "Office365\\PHP\\Client\\": "src/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5"
     }
 }

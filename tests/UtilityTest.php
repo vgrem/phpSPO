@@ -16,14 +16,14 @@ class UtilityTest extends SharePointTestCase
      */
     private static $discussionsList;
 
-    public static function setUpBeforeClass(): void
+    public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
         $listTitle = ListItemExtensions::createUniqueName("Discussions");
         self::$discussionsList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DiscussionBoard);
     }
 
-    public static function tearDownAfterClass(): void
+    public static function tearDownAfterClass()
     {
         self::$discussionsList->deleteObject();
         self::$context->executeQuery();
@@ -43,6 +43,7 @@ class UtilityTest extends SharePointTestCase
     /**
      * @depends testCreateNewDiscussion
      * @param ListItem $discussion
+     * @throws Exception
      */
     public function testCreateNewDiscussionReply(ListItem $discussion)
     {

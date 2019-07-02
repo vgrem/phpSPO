@@ -15,7 +15,7 @@ abstract class OutlookServicesTestCase extends TestCase
      */
     protected static $context;
 
-    public static function setUpBeforeClass(): void
+    public static function setUpBeforeClass()
     {
         $settings = include(__DIR__ . '/../Settings.php');
 
@@ -29,7 +29,7 @@ abstract class OutlookServicesTestCase extends TestCase
         self::$context = new OutlookClient($authCtx);
     }
 
-    public static function tearDownAfterClass(): void
+    public static function tearDownAfterClass()
     {
         self::$context = NULL;
     }

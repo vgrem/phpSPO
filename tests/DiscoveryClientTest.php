@@ -15,7 +15,7 @@ class DiscoveryClientTest extends TestCase
      */
     protected static $client;
 
-    public static function setUpBeforeClass() : void
+    public static function setUpBeforeClass()
     {
         $Settings = include(__DIR__ . '/../Settings.php');
         $authCtx = new NetworkCredentialContext($Settings["UserName"],$Settings["Password"]);

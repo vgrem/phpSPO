@@ -18,7 +18,7 @@ class PageTest extends SharePointTestCase
      */
     private static $targetList;
 
-    public static function setUpBeforeClass() : void
+    public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
         $listTitle = ListItemExtensions::createUniqueName("Wiki");
@@ -39,7 +39,7 @@ class PageTest extends SharePointTestCase
 
     }
 
-    public static function tearDownAfterClass(): void
+    public static function tearDownAfterClass()
     {
         self::$targetList->deleteObject();
         self::$context->executeQuery();
