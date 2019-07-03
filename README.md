@@ -1,5 +1,5 @@
 ﻿### About
-The library provides a Office 365 REST client for PHP applications. It allows to performs CRUD operations against Office 365 resources via an REST/OData based API. 
+The library provides a Office 365 Library for PHP. It allows to performs CRUD operations against Office 365 resources via an REST/OData based API. 
 
 #### The list of supported Office 365 REST APIs:
 
