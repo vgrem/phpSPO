@@ -105,6 +105,8 @@ class Requests
            curl_setopt($ch, CURLOPT_POST, 1);
         } else if($options->Method == HttpMethod::Patch) {
            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $options->Method);
+        } else if($options->Method == HttpMethod::Put) {
+           curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $options->Method);
         } else if($options->Method == HttpMethod::Delete) {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $options->Method);
         }
