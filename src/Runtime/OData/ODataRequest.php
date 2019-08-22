@@ -135,18 +135,23 @@ class ODataRequest extends ClientRequest
     private function extractError($response)
     {
         $error = array();
-        $response = json_decode($response);
-        if (property_exists($response, 'error')) {
-            if (is_string($response->error->message)) {
-                $message = $response->error->message;
-            } elseif (is_object($response->error->message)) {
-                $message = $response->error->message->value;
+        $parsedResponse = json_decode($response);
+        if (null !== $parsedResponse && property_exists($parsedResponse, 'error')) {
+            if (is_string($parsedResponse->error->message)) {
+                $message = $parsedResponse->error->message;
+            } elseif (is_object($parsedResponse->error->message)) {
+                $message = $parsedResponse->error->message->value;
             } else {
                 $message = "Unknown error";
             }
             $error['Message'] = $message;
             return $error;
         }
+
+        if (is_string($response)) {
+            return ['Message' => $response];
+        }
+
         return null;
     }
 
