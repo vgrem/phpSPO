@@ -1,9 +1,5 @@
 <?php
 
-require_once('SharePointTestCase.php');
-require_once('ListItemExtensions.php');
-
-
 class SiteTest extends SharePointTestCase
 {
     public function testIfSiteLoaded()

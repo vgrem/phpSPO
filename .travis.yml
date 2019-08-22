@@ -1,5 +1,7 @@
 language: php
 
+dist: trusty
+
 # list any PHP version you want to test against
 php:
   # using major version aliases
@@ -22,10 +24,9 @@ install:
 
 # optionally set up exclutions and allowed failures in the matrix
 matrix:
-  exclude:
-    - php: 5.5
-    - php: 5.6
   allow_failures:
+      - php: 5.5
+      - php: 5.6
       - php: 7.0
       - php: 7.1
 

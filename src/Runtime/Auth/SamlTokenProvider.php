@@ -165,6 +165,7 @@ class SamlTokenProvider extends BaseTokenProvider
      * @param string $username
      * @param string $password
      * @return string
+     * @throws Exception
      */
     protected function acquireSecurityTokenFromFederatedSTS($username, $password) {
 
