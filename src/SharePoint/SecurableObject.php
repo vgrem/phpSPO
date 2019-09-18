@@ -7,6 +7,9 @@ use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
+/**
+ * An object that can be assigned security permissions.
+ */
 class SecurableObject extends ClientObject
 {
 

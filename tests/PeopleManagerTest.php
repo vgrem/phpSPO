@@ -7,7 +7,7 @@ use Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager;
 class PeopleManagerTest extends SharePointTestCase
 {
 
-    private static $accountName = "i:0#.f|membership|marta@mediadev88.onmicrosoft.com";
+    private static $accountName = "i:0#.f|membership|mdoe@mediadev8.onmicrosoft.com";
 
     public function testGetMyProperties(){
         $peopleManager = new PeopleManager(self::$context);

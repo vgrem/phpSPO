@@ -66,7 +66,7 @@ class VideoServiceTest extends SharePointTestCase
     /**
      * @depends testEnsureChannel
      * @param VideoChannel $channel
-     * @return \Office365\PHP\Client\SharePoint\Publishing\VideoItem
+     * @return VideoItem
      */
     public function testCreateVideo(VideoChannel $channel)
     {

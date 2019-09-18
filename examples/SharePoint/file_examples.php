@@ -4,6 +4,7 @@ use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\SharePoint\ClientContext;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
+use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\SPList;
 require_once '../bootstrap.php';
 $settings = include('../../Settings.php');
@@ -15,23 +16,42 @@ try {
 
     $localPath = "../data/";
     $targetLibraryTitle = "Documents";
-    $targetFolderUrl = "/sites/contoso/Documents/Archive/2017/08";
+    $targetFolderUrl = "Shared Documents";
 
     //$list = ListExtensions::ensureList($ctx->getWeb(),$targetLibraryTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::DocumentLibrary);
 
-
-    $fileUrl = "/sites/contoso/Shared Documents/Guide #123.docx";
+    //Break role inheritance on the file.
+    $fileUrl = "/Shared Documents/Book1.xlsx";
     $file = $ctx->getWeb()->getFileByServerRelativeUrl($fileUrl);
-    $ctx->load($file);
+    $listItem = $file->getListItemAllFields();
+    $listItem->breakRoleInheritance(false);
+    $ctx->executeQuery();
+
+    //get role definition
+    $roleDefs = $ctx->getWeb()->getRoleDefinitions();
+    $ctx->load($roleDefs);
     $ctx->executeQuery();
 
 
-    $folderUrl = "Shared Documents";
+    //get site users
+    $siteUsers = $ctx->getWeb()->getSiteUsers();
+    $ctx->load($siteUsers);
+    $ctx->executeQuery();
+
+
+    //Add the new role assignment for the user on the file
+    $targetRole = $roleDefs->findFirst("Name","Edit");
+    $targetUser = $siteUsers->findFirst("Title","Marta Doe");
+    $listItem->getRoleAssignments()->addRoleAssignment($targetUser->getProperty("Id"),$targetRole->getProperty("Id"));
+    $ctx->executeQuery();
+    print ("Done");
+
+    /*$folderUrl = "Shared Documents";
     $fileUrl = "Guide #123.docx";
     $file = $ctx->getWeb()->getFolders()->getByUrl($folderUrl)->getFiles()->getByUrl($fileUrl);
     $ctx->load($file);
     $ctx->executeQuery();
-    print "File name: '{$file->getProperty("Name")}'\r\n";
+    print "File name: '{$file->getProperty("Name")}'\r\n";*/
 
 
     //downloadFile($ctx,$fileUrl,$localPath);
@@ -66,7 +86,7 @@ function createSubFolder(ClientContext $ctx,$parentFolderUrl,$folderName){
     $ctx->load($files);
     $ctx->executeQuery();
     //print files info
-    /* @var $file \Office365\PHP\Client\SharePoint\File */
+    /* @var $file File */
     foreach ($files->getData() as $file) {
         print "File name: '{$file->getProperty("ServerRelativeUrl")}'\r\n";
     }
