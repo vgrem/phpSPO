@@ -185,7 +185,7 @@ class Web extends SecurableObject
     
     /**
      * Gets the collection of role definitions for the Web site.
-     * @return RoleAssignmentCollection
+     * @return RoleDefinitionCollection
      */
     public function getRoleDefinitions()
     {

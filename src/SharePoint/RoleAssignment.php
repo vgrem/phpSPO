@@ -53,5 +53,10 @@ class RoleAssignment extends ClientObject
         return parent::getProperty($name);
     }
 
+    public function getPrincipalId()
+    {
+        return $this->getProperty("PrincipalId");
+    }
+
 
 }

@@ -44,7 +44,21 @@ class RoleType
      */
     const Contributor = 3;
 
+    /**
+     * Has Contributor rights, plus rights to cancel check-out, delete items, manage lists, add and customize pages,
+     * define and apply themes and borders, and link style sheets. Includes all rights in the Contributor role,
+     * plus the following: AddAndCustomizePages, ApplyStyleSheets, ApplyThemeAndBorder, CancelCheckout, ManageLists.
+     * WebDesigners can modify the structure of the site and create new lists or document libraries.
+     */
     const WebDesigner = 4;
 
+    /**
+     * Has all rights from other roles, plus rights to manage roles and view usage analysis data.
+     * Includes all rights in the WebDesigner role, plus the following:
+     * ManageListPermissions, ManageRoles, ManageSubwebs, ViewUsageData.
+     * The Administrator role cannot be customized or deleted, and must always contain at least one member.
+     * Members of the Administrator role always have access to, or can grant themselves access to,
+     * any item in the Web site.
+     */
     const Administrator = 5;
 }

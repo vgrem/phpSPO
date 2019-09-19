@@ -1,12 +1,8 @@
 <?php
 
 use Office365\PHP\Client\SharePoint\PrincipalType;
+use Office365\PHP\Client\SharePoint\RoleAssignment;
 use Office365\PHP\Client\SharePoint\Web;
-
-require_once('SharePointTestCase.php');
-require_once('ListItemExtensions.php');
-
-
 
 
 class WebTest extends SharePointTestCase
@@ -38,7 +34,7 @@ class WebTest extends SharePointTestCase
 
         $result = array_filter(
             $assignments->getData(),
-            function (\Office365\PHP\Client\SharePoint\RoleAssignment $assignment)  {
+            function (RoleAssignment $assignment)  {
                 $principal = $assignment->getMember();
                 return  ($principal->getProperty("PrincipalType") === PrincipalType::SharePointGroup
                     || $principal->getProperty("PrincipalType") === PrincipalType::User);
@@ -57,10 +53,10 @@ class WebTest extends SharePointTestCase
 
     /**
      * @depends testCreateWeb
-     * @param \Office365\PHP\Client\SharePoint\Web $targetWeb
-     * @return \Office365\PHP\Client\SharePoint\Web
+     * @param Web $targetWeb
+     * @return Web
      */
-    public function testIfWebExist(\Office365\PHP\Client\SharePoint\Web $targetWeb)
+    public function testIfWebExist(Web $targetWeb)
     {
         $webTitle = $targetWeb->getProperty('Title');
         $webs = self::$context->getWeb()->getWebs()->filter("Title eq '$webTitle'");
@@ -73,10 +69,10 @@ class WebTest extends SharePointTestCase
 
     /**
      * @depends testCreateWeb
-     * @param \Office365\PHP\Client\SharePoint\Web $targetWeb
-     * @return \Office365\PHP\Client\SharePoint\Web
+     * @param Web $targetWeb
+     * @return Web
      */
-    public function testUpdateWeb(\Office365\PHP\Client\SharePoint\Web $targetWeb)
+    public function testUpdateWeb(Web $targetWeb)
     {
         $ctx = $targetWeb->getContext();
         $webTitle = ListItemExtensions::createUniqueName("WS_Updated");
@@ -110,9 +106,9 @@ class WebTest extends SharePointTestCase
 
     /**
      * @depends testCreateWeb
-     * @param \Office365\PHP\Client\SharePoint\Web $targetWeb
+     * @param Web $targetWeb
      */
-    public function testTryDeleteWeb(\Office365\PHP\Client\SharePoint\Web $targetWeb){
+    public function testTryDeleteWeb(Web $targetWeb){
         $title = $targetWeb->getProperty("Title");
         $targetWeb->deleteObject();
         self::$context->executeQuery();
