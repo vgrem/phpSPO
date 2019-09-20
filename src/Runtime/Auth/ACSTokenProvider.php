@@ -49,12 +49,14 @@ class ACSTokenProvider extends BaseTokenProvider
         $this->redirectUrl = $redirectUrl;
     }
 
+    /**
+     * Generate Authorization header
+     * @return string
+     */
     public function getAuthorizationHeader()
     {
         return 'Bearer ' . $this->accessToken->access_token;
     }
-
-
 
 
     /**
@@ -86,7 +88,7 @@ class ACSTokenProvider extends BaseTokenProvider
         $result = array_filter(
             explode("\r\n", $response),
             function ($line) use ($headerKey) {
-                return substr($line, 0, strlen($headerKey)) === $headerKey;
+                return stripos($line,$headerKey) === 0;
             }
         );
 

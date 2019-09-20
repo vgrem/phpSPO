@@ -4,8 +4,11 @@
 namespace Office365\PHP\Client\Runtime;
 
 
+use Office365\PHP\Client\Runtime\OData\ODataPathKind;
+
 abstract class ResourcePath
 {
+
     /**
      * ResourcePath constructor.
      * @param ClientRuntimeContext $context
@@ -16,6 +19,7 @@ abstract class ResourcePath
         $this->context = $context;
         $this->parent = $parent;
         $this->ServerObjectIsNull = true;
+        $this->pathKind = null;
     }
 
 
@@ -79,5 +83,11 @@ abstract class ResourcePath
      * @var int
      */
     public $Id;
+
+
+    /**
+     * @var ODataPathKind
+     */
+    private $pathKind;
 
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 require_once 'vendor/fzaninotto/Faker/src/autoload.php';
 require_once('../bootstrap.php');
 $Settings = include('../../Settings.php');
@@ -19,9 +18,6 @@ try {
 catch (Exception $e) {
 	echo 'Error: ',  $e->getMessage(), "\n";
 }
-
-
-
 
 function generateContacts(ClientContext $ctx){
 
@@ -58,6 +54,3 @@ function createContactEntry()
 }
 
 
-
-
-?>

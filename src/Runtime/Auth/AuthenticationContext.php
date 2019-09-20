@@ -70,6 +70,19 @@ class AuthenticationContext implements IAuthenticationContext
         $this->provider->acquireToken($parameters);
     }
 
+
+    /**
+     * Acquire SharePoint App-Only via ACS
+     * @param $clientId string
+     * @param $clientSecret string
+     * @throws \Exception
+     */
+    public function acquireAppOnlyAccessToken($clientId, $clientSecret){
+        $this->provider = new ACSTokenProvider($this->authorityUrl,$clientId,$clientSecret,"");
+        $this->provider->acquireToken(null);
+    }
+
+
     /**
      * @param string $resource
      * @param ClientCredential $clientCredentials

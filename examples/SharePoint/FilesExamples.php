@@ -72,7 +72,6 @@ catch (Exception $e) {
 }
 
 
-
 function downloadFileViaRPC(ClientContext $ctx,$webUrl,$fileUrl){
     $fileAbsUrl = $webUrl . rawurlencode($fileUrl);
     $options = new RequestOptions($fileAbsUrl);
@@ -98,23 +97,6 @@ function createSubFolder(ClientContext $ctx,$parentFolderUrl,$folderName){
     print "Child folder {$childFolder->getProperty("ServerRelativeUrl")} has been created ";
 }
 
-
-function enumFolders(SPList $list)
-{
-    $ctx = $list->getContext();
-    $folders = $list->getRootFolder()->getFolders();
-    if($folders->getServerObjectIsNull() == true){  //determine whether folders has been loaded or not
-        $ctx->load($folders);
-        $ctx->executeQuery();
-    }
-
-    foreach ($folders->getData() as $folder) {
-        print "File name: '{$folder->Name}'\r\n";
-    }
-
-}
-
-
 function processFiles(SPList $list,$targetPath)
 {
     $ctx = $list->getContext();
@@ -135,37 +117,6 @@ function processFiles(SPList $list,$targetPath)
 }
 
 
-
-
-function deleteFolder(ClientContext $ctx, $folderUrl){
-    $folder = $ctx->getWeb()->getFolderByServerRelativeUrl($folderUrl);
-    $folder->deleteObject();
-    $ctx->executeQuery();
-    print "Folder has been deleted\r\n";
-}
-
-
-function checkoutFile(ClientContext $ctx, $fileUrl){
-    $file = $ctx->getWeb()->getFileByServerRelativeUrl($fileUrl);
-    $file->checkOut();
-    $ctx->executeQuery();
-    print "File has been checked out\r\n";
-}
-
-
-function checkinFile(ClientContext $ctx, $fileUrl){
-    $file = $ctx->getWeb()->getFileByServerRelativeUrl($fileUrl);
-    $file->checkIn('');
-    $ctx->executeQuery();
-    print "File has been checked in\r\n";
-}
-
-function approveFile(ClientContext $ctx, $fileUrl){
-    $file = $ctx->getWeb()->getFileByServerRelativeUrl($fileUrl);
-    $file->approve('');
-    $ctx->executeQuery();
-    print "File {$fileUrl} has been approved\r\n";
-}
 
 function uploadFiles($localPath, \Office365\PHP\Client\SharePoint\SPList $targetList){
 
@@ -188,7 +139,6 @@ function uploadFiles($localPath, \Office365\PHP\Client\SharePoint\SPList $target
 
 
 }
-
 
 function uploadFileIntoFolder(ClientContext $ctx, $localPath, $targetFolderUrl)
 {
@@ -227,7 +177,6 @@ function downloadFile(ClientRuntimeContext $ctx, $fileUrl, $targetFilePath){
     } catch (Exception $e) {
         print "File download failed:\r\n";
     }
-
 }
 
 function downloadFileAsStream(ClientRuntimeContext $ctx, $fileUrl, $targetFilePath) {
@@ -243,19 +192,25 @@ function downloadFileAsStream(ClientRuntimeContext $ctx, $fileUrl, $targetFilePa
     print "File {$fileUrl} has been downloaded successfully\r\n";
 }
 
-function overwriteFileAsStream(ClientContext $ctx, $fileUrl, $sourceFilePath) {
-    $fileUrl = rawurlencode($fileUrl);
-    $fp = fopen($sourceFilePath, 'r');
 
-    $url = $ctx->getServiceRootUrl() . "web/getfilebyserverrelativeurl('$fileUrl')/\$value";
-    $options = new \Office365\PHP\Client\Runtime\Utilities\RequestOptions($url);
-    $options->Method = \Office365\PHP\Client\Runtime\HttpMethod::Post;
-    $options->addCustomHeader('X-HTTP-Method','PUT');
-    $ctx->ensureFormDigest($options);
-    $options->StreamHandle = $fp;
-    $options->addCustomHeader("content-length", filesize($sourceFilePath));
+function renameFolder($webUrl, $authCtx, $folderUrl,$folderNewName)
+{
+    $url = $webUrl . "/_api/web/getFolderByServerRelativeUrl('{$folderUrl}')/ListItemAllFields";
+    $request = new RequestOptions($url);
+    $ctx = new ClientContext($url,$authCtx);
+    $resp = $ctx->executeQueryDirect($request);
+    $data = json_decode($resp);
 
-    $ctx->executeQueryDirect($options);
-    fclose($fp);
-    print "File {$fileUrl} has been uploaded successfully\r\n";
+    $itemPayload = array(
+        '__metadata' => array ('type' => $data->d->__metadata->type),
+        'Title' => $folderNewName,
+        'FileLeafRef' => $folderNewName
+    );
+
+    $itemUrl = $data->d->__metadata->uri;
+    $request = new RequestOptions($itemUrl);
+    $request->addCustomHeader("X-HTTP-Method", "MERGE");
+    $request->addCustomHeader("If-Match", "*");
+    $request->Data = $itemPayload;
+    $ctx->executeQueryDirect($request);
 }
