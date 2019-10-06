@@ -9,9 +9,14 @@ abstract class EnumType
 {
 
     public static function getName($value){
-        $reflection = new ReflectionClass(get_called_class());
-        $enums = array_flip($reflection->getConstants());
-        return $enums[$value];
+        try{
+            $reflection = new ReflectionClass(get_called_class());
+            $enums = array_flip($reflection->getConstants());
+            return $enums[$value];
+        }
+        catch (\Exception $ex){
+            return null;
+        }
     }
 
     public static function getNames(){

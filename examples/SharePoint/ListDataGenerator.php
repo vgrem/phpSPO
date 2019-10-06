@@ -11,7 +11,6 @@ use Office365\PHP\Client\SharePoint\ClientContext;
 try {
 	$authCtx = new AuthenticationContext($Settings['Url']);
 	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
-
     $ctx = new ClientContext($Settings['Url'],$authCtx);
 	generateContacts($ctx);
 }
@@ -23,7 +22,7 @@ function generateContacts(ClientContext $ctx){
 
     $listTitle = 'Contacts';
     $list =  ListExtensions::ensureList($ctx->getWeb(),$listTitle,\Office365\PHP\Client\SharePoint\ListTemplateType::Contacts);
-	$contactsCount = 1000;
+	$contactsCount = 1;
 	for($i = 0; $i < $contactsCount; $i++){
 	     $contactEntry = createContactEntry();
          $contactEntry['__metadata'] = array('type' => 'SP.Data.ContactsListItem'); //mandatory!

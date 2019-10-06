@@ -18,7 +18,7 @@ class MetadataReaderTest extends SharePointTestCase
      * @param string $edmxContent
      */
     public function  testParseMetadata($edmxContent){
-        $reader = new ODataV3Reader();
+        $reader = new ODataV3Reader(self::$context);
         $model = $reader->generateModel($edmxContent);
         $this->assertNotNull($model);
     }

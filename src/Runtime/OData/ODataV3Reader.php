@@ -7,6 +7,12 @@ namespace Office365\PHP\Client\Runtime\OData;
 class ODataV3Reader implements IODataReader
 {
 
+
+    /**
+     * @param $content string
+     * @return ODataModel
+     * @throws \ReflectionException
+     */
     function generateModel($content)
     {
         $model = new ODataModel();
@@ -15,12 +21,18 @@ class ODataV3Reader implements IODataReader
         $dataServices = $edmx->xpath("///edmx:DataServices");
         $dataService = $dataServices[0];
         foreach ($dataService as $schema) {
-            $nsName = (string)$schema->attributes()["Namespace"];
-            foreach ($schema as $type) {
-                $typeName = $nsName . "." .  (string)$type->attributes()["Name"];
-                $model->addType($typeName);
+            $typeNs = (string)$schema->attributes()["Namespace"];
+            foreach ($schema->ComplexType as $type) {
+                $typeName = (string)$type->attributes()["Name"];
+                $typeProps = [];
+                foreach ($type->Property as $prop) {
+                   $typeProps[(string)$prop->attributes()["Name"]] = (string)$prop->attributes()["Type"];
+                }
+                $model->tryResolveType($typeNs,$typeName,$typeProps);
             }
         }
         return $model;
     }
+
+
 }
