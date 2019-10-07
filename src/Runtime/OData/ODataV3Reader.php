@@ -7,11 +7,9 @@ namespace Office365\PHP\Client\Runtime\OData;
 class ODataV3Reader implements IODataReader
 {
 
-
     /**
      * @param $content string
      * @return ODataModel
-     * @throws \ReflectionException
      */
     function generateModel($content)
     {
@@ -28,7 +26,8 @@ class ODataV3Reader implements IODataReader
                 foreach ($type->Property as $prop) {
                    $typeProps[(string)$prop->attributes()["Name"]] = (string)$prop->attributes()["Type"];
                 }
-                $model->tryResolveType($typeNs,$typeName,$typeProps);
+                $typeFullName = "$typeNs.$typeName";
+                $model->tryResolveType($typeFullName,$typeProps);
             }
         }
         return $model;

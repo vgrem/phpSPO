@@ -2,9 +2,6 @@
 
 
 namespace Office365\PHP\Client\Runtime\OData;
-use http\Exception;
-use Office365\PHP\Client\SharePoint\ClientContext;
-use Office365\PHP\Client\SharePoint\Web;
 use ReflectionClass;
 use ReflectionException;
 
@@ -16,15 +13,6 @@ class ODataModel
         return $this->types;
     }
 
-    /**
-     * @param $namespace string
-     * @param $name string
-     * @return string
-     */
-    private function getTypeName($namespace, $name)
-    {
-        return "$namespace.$name";
-    }
 
     /**
      * @param $typeName string
@@ -45,42 +33,40 @@ class ODataModel
 
 
     /**
-     * @param $namespace string
-     * @param $name string
+     * @param $typeName string
      * @param $properties array
-     * @throws ReflectionException
      */
-    public function tryResolveType($namespace, $name, $properties)
+    public function tryResolveType($typeName, $properties)
     {
-        /*if($name == "FieldUserValue"){
-            echo "OK";
-        }*/
-
-        $typeName = $this->getTypeName($namespace, $name);
-        if($this->validateType($typeName,$className)){
+        if ($this->validateType($typeName, $className)) {
             try {
                 $class = new ReflectionClass($className);
-                $this->tryResolveProperty($class,$properties);
+                $this->tryResolveProperty($class, $properties);
                 $type = array('state' => 'attached', 'file' => $class->getFileName(), 'properties' => $properties);
                 $this->types[$typeName] = $type;
             } catch (\ReflectionException $ex) {
-                foreach ($properties as $pName=>$pType){
-                    //$properties[$name] = array('state' => 'detached', 'type' => ODataPrimitiveTypeKind::getName($type));
-                    $properties[$pName] = array( 'name' => $pName,'state' => 'detached', 'type' => null);
+                foreach ($properties as $name => $propTypeName) {
+                    $properties[$name] = array('state' => 'detached', 'type' => $this->getPrimitiveType($propTypeName));
                 }
-
-                $ctxClass = new ReflectionClass(ClientContext::class);
-                $parts = explode('.', $namespace);
-                array_shift($parts);
-                $fixedTypeName = implode('\\', $parts);
-                $fileName = dirname($ctxClass->getFileName()) . $fixedTypeName . "\\$name.php";
-                $type = array('state' => 'detached', 'file' => $fileName, 'properties' => $properties);
+                $type = array('state' => 'detached', 'file' => null, 'properties' => $properties);
                 $this->types[$typeName] = $type;
             }
-        }
-        else{
+        } else {
             //echo "Unknown type: $typeName" . PHP_EOL;
         }
+    }
+
+    private function getPrimitiveType($typeName)
+    {
+        $mappings = array(
+            "Edm.String" => "string",
+            "Collection(SP.KeyValue)"
+        );
+        if (array_key_exists($typeName, $mappings))
+            return $mappings[$typeName];
+        elseif (substr($typeName,0,strlen("Collection")))
+            return "array";
+        return null;
     }
 
     /**
@@ -91,16 +77,10 @@ class ODataModel
         foreach ($properties as $name=>$type){
             try{
                 $prop = $class->getProperty($name);
-                $properties[$name] = array('name' => $name, 'state' => 'attached', 'type' => null);
-                /*if($prop->hasType()){
-                    //$properties[$name] = array('state' => 'attached', 'type' => $prop->getType());
-                }
-                else
-                    $properties[$name] = array('state' => 'attached', 'type' => ODataPrimitiveTypeKind::getName($type));*/
+                $properties[$name] = array('name' => $name, 'state' => 'attached', 'type' => $this->getPrimitiveType($type));
             }
             catch(ReflectionException $ex){
-                //$propType = ODataPrimitiveTypeKind::getName($type);
-                $properties[$name] = array('name' => $name, 'type'=> null, 'state' => 'detached');
+                $properties[$name] = array('name' => $name, 'type'=> $this->getPrimitiveType($type), 'state' => 'detached');
             }
         }
     }

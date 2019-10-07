@@ -8,6 +8,10 @@ use ReflectionClass;
 abstract class EnumType
 {
 
+    /**
+     * @param $value string
+     * @return string |null
+     */
     public static function getName($value){
         try{
             $reflection = new ReflectionClass(get_called_class());

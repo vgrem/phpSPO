@@ -9,9 +9,6 @@ use Office365\PHP\Client\Runtime\OData\MetadataResolver;
 use Office365\PHP\Client\Runtime\OData\ODataModel;
 use Office365\PHP\Client\Runtime\OData\ODataV3Reader;
 use Office365\PHP\Client\SharePoint\ClientContext;
-use PhpParser\NodeTraverser;
-use PhpParser\ParserFactory;
-use PhpParser\PrettyPrinter;
 
 
 $Settings = include('../Settings.php');
@@ -31,41 +28,40 @@ function connectWithUserCredentials($url,$username,$password){
 }
 
 /**
+ * @param $rootPath string
  * @param $typeName string
  * @param $typeSchema array
  */
-function generateTypeFile($typeName,$typeSchema)
+function generateTypeFile($rootPath, $typeName,$typeSchema)
 {
-    $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP5);
-    if($typeSchema['state'] === "attached"){
-        //echo "Updating type: $typeName" . PHP_EOL;
-        $code = file_get_contents($typeSchema['file']);
-        $ast = $parser->parse($code);
-        $traverser = new NodeTraverser();
-        $builder = new ClientValueBuilder($typeSchema['properties']);
-        $traverser->addVisitor($builder);
-        $generatedAst = $traverser->traverse($ast);
-        if($builder->getStatistics()['new'] > 0){
-            $traverser->removeVisitor($builder);
-            $traverser->addVisitor(new DocsBuilder());
-            $generatedAst = $traverser->traverse($generatedAst);
-
-            $prettyPrinter = new PrettyPrinter\Standard();
-            $code = $prettyPrinter->prettyPrintFile($generatedAst);
-            //$testPath = __DIR__ .  "/$typeName.php";
-            //file_put_contents($testPath, $code);
-            file_put_contents($typeSchema['file'], $code);
+    $builder = new ClientValueBuilder($typeName, $typeSchema);
+    if ($typeSchema['state'] === "attached") {
+        $updated = $builder->updateTypeFile();
+        if ($updated) {
+            echo "$typeName has been updated" . PHP_EOL;
         }
-    }
-    else{
-         echo "Creating type: $typeName" . PHP_EOL;
+    } else {
+        $systemTypeList = array(
+            "SP.MethodInformation",
+            "SP.TypeInformation",
+            "SP.PropertyInformation",
+            "SP.ParameterInformation",
+            "SP.ResourcePath");
+
+        if (!in_array($typeName, $systemTypeList)) {
+            $parts = explode('.', $typeName);
+            array_shift($parts);
+            $fileName = $rootPath . "\\" . implode('\\', $parts) . ".php";
+            $builder->createTypeFile($fileName);
+            echo "$typeName has been generated" . PHP_EOL;
+        }
     }
 }
 
-function generateFiles(ODataModel $model){
+function generateFiles($rootPath, ODataModel $model){
     $types = $model->getTypes();
     foreach ($types as $typeName => $type){
-        generateTypeFile($typeName,$type);
+        generateTypeFile($rootPath,$typeName,$type);
     }
 }
 
@@ -74,7 +70,8 @@ try{
     $edmxContents = MetadataResolver::getMetadata($ctx);
     $reader = new ODataV3Reader();
     $model = $reader->generateModel($edmxContents);
-    generateFiles($model);
+    $rootPath = dirname((new \ReflectionClass($ctx))->getFileName());
+    generateFiles($rootPath,$model);
 }
 catch (Exception $ex){
     $message = $ex->getMessage();
