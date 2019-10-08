@@ -28,50 +28,56 @@ function connectWithUserCredentials($url,$username,$password){
 }
 
 /**
- * @param $rootPath string
- * @param $typeName string
  * @param $typeSchema array
+ * @param $options array
  */
-function generateTypeFile($rootPath, $typeName,$typeSchema)
+function generateTypeFile($typeSchema,$options)
 {
-    $builder = new ClientValueBuilder($typeName, $typeSchema);
+    $builder = new ClientValueBuilder($typeSchema,$options);
     if ($typeSchema['state'] === "attached") {
         $updated = $builder->updateTypeFile();
         if ($updated) {
-            echo "$typeName has been updated" . PHP_EOL;
+            echo $typeSchema['file'] . " has been updated" . PHP_EOL;
         }
     } else {
-        $systemTypeList = array(
+        $outputFile = $builder->createTypeFile();
+        echo "$outputFile has been generated" . PHP_EOL;
+    }
+}
+
+function generateFiles(ODataModel $model){
+    $types = $model->getTypes();
+    foreach ($types as $typeName => $type){
+        generateTypeFile($type,$model->getOptions());
+    }
+}
+
+try {
+    $ctx = connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
+    $edmxContents = MetadataResolver::getMetadata($ctx);
+    $outputPath = dirname((new \ReflectionClass($ctx))->getFileName());
+    $rootNamespace = ((new \ReflectionClass($ctx))->getNamespaceName());
+    $ctx->requestFormDigest();
+    $ctx->executeQuery();
+    $now = date('c');
+    $version = $ctx->getContextWebInformation()->LibraryVersion;
+    $generatorOptions = array(
+        'outputPath' => $outputPath,
+        'rootNamespace' => $rootNamespace,
+        'version' => $version,
+        'timestamp' => $now,
+        'placeholder' => "Updated By PHP Office365 Generator",
+        'ignoredTypes' => array(
             "SP.MethodInformation",
             "SP.TypeInformation",
             "SP.PropertyInformation",
             "SP.ParameterInformation",
-            "SP.ResourcePath");
+            "SP.ResourcePath")
+    );
 
-        if (!in_array($typeName, $systemTypeList)) {
-            $parts = explode('.', $typeName);
-            array_shift($parts);
-            $fileName = $rootPath . "\\" . implode('\\', $parts) . ".php";
-            $builder->createTypeFile($fileName);
-            echo "$typeName has been generated" . PHP_EOL;
-        }
-    }
-}
-
-function generateFiles($rootPath, ODataModel $model){
-    $types = $model->getTypes();
-    foreach ($types as $typeName => $type){
-        generateTypeFile($rootPath,$typeName,$type);
-    }
-}
-
-try{
-    $ctx = connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
-    $edmxContents = MetadataResolver::getMetadata($ctx);
     $reader = new ODataV3Reader();
-    $model = $reader->generateModel($edmxContents);
-    $rootPath = dirname((new \ReflectionClass($ctx))->getFileName());
-    generateFiles($rootPath,$model);
+    $model = $reader->generateModel($edmxContents,$generatorOptions);
+    generateFiles($model);
 }
 catch (Exception $ex){
     $message = $ex->getMessage();

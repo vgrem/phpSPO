@@ -9,11 +9,12 @@ class ODataV3Reader implements IODataReader
 
     /**
      * @param $content string
+     * @param $options array
      * @return ODataModel
      */
-    function generateModel($content)
+    function generateModel($content,$options)
     {
-        $model = new ODataModel();
+        $model = new ODataModel($options);
         $edmx = simplexml_load_string($content);
         $edmx->registerXPathNamespace('edmx', 'http://schemas.microsoft.com/ado/2007/06/edmx');
         $dataServices = $edmx->xpath("///edmx:DataServices");
@@ -27,7 +28,7 @@ class ODataV3Reader implements IODataReader
                    $typeProps[(string)$prop->attributes()["Name"]] = (string)$prop->attributes()["Type"];
                 }
                 $typeFullName = "$typeNs.$typeName";
-                $model->tryResolveType($typeFullName,$typeProps);
+                $model->resolveType($typeFullName,$typeProps);
             }
         }
         return $model;

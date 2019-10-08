@@ -11,69 +11,74 @@ use PhpParser\PrettyPrinter;
 
 
 class ClientValueBuilder extends NodeVisitorAbstract {
-    private $properties;
+    private $typeSchema;
     private $statistics;
-    private $typeName;
-    private $fileName;
+    private $options;
 
-    public function __construct($typeName,$type)
+    public function __construct($typeSchema,$options)
     {
-        $this->typeName = $typeName;
-        $this->fileName = $type['file'];
-        $this->properties = $type['properties'];
+        $this->typeSchema = $typeSchema;
+        $this->options = $options;
         $this->statistics = array('created' => 0, 'updated' => 0);
     }
 
 
+    /**
+     * @return bool
+     */
     public function updateTypeFile(){
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP5);
-        $code = file_get_contents($this->fileName);
+        $code = file_get_contents($this->typeSchema['file']);
         $ast = $parser->parse($code);
         $traverser = new NodeTraverser();
         $traverser->addVisitor($this);
         $generatedAst = $traverser->traverse($ast);
         if ($this->getStatistics()['created'] > 0) {
             $traverser->removeVisitor($this);
-            $traverser->addVisitor(new DocCommentBuilder());
+            $traverser->addVisitor(new DocCommentBuilder($this->options));
             $generatedAst = $traverser->traverse($generatedAst);
-            $this->printFile($generatedAst,$this->fileName);
+            $this->printFile($generatedAst,$this->typeSchema['file']);
             return true;
         }
         return false;
     }
 
-    public function createTypeFile($fileName)
+    /**
+     * @return string
+     */
+    public function createTypeFile()
     {
-        $parts = explode('.', $this->typeName);
-        $className = array_slice($parts, -1)[0];
+        $parts = explode('\\', $this->typeSchema['type']);
+        $classShortName = array_slice($parts, -1)[0];
         $factory = new BuilderFactory;
         $node = $factory->namespace('Office365\PHP\Client\SharePoint')
             ->addStmt($factory->use('Office365\PHP\Client\Runtime\ClientValueObject'))
-            ->setDocComment(DocCommentBuilder::createDocComment())
-            ->addStmt($factory->class($className)
+            ->setDocComment((new DocCommentBuilder($this->options))->createHeader())
+            ->addStmt($factory->class($classShortName)
                 ->extend('ClientValueObject')
                 ->addStmts(array_map(function ($name, $prop) use ($factory) {
                     $propStmt = $factory->property($name)->makePublic();
                     if (!is_null($prop['type'])) {
                         $type = $prop['type'];
-                        $propStmt->setDocComment("/** \r\n * @var $type  \r\n */");
+                        $propStmt->setDocComment((new DocCommentBuilder($this->options))->createPropertyTypeHint($type));
                     }
-
                     return $propStmt;
-                }, array_keys($this->properties), $this->properties))
+                }, array_keys($this->typeSchema['properties']), $this->typeSchema['properties']))
             )->getNode();
 
         $ast = array($node);
-        $this->printFile($ast, $fileName);
+        return $this->printFile($ast,$this->typeSchema['file']);
     }
 
 
-    private function printFile($ast,$path){
+    /**
+     * @param $ast array
+     * @param $outputFile string
+     */
+    private function printFile($ast, $outputFile){
         $prettyPrinter = new PrettyPrinter\Standard();
         $code = $prettyPrinter->prettyPrintFile($ast);
-        //$testPath = __DIR__ .  "/Test.php";
-        //file_put_contents($testPath, $code);
-        file_put_contents($path, $code);
+        file_put_contents($outputFile, $code);
     }
 
 
@@ -84,36 +89,46 @@ class ClientValueBuilder extends NodeVisitorAbstract {
     public function enterNode(Node $node) {
         $factory = new BuilderFactory;
         if ($node instanceof Node\Stmt\Class_) {
-            foreach ($this->properties as $prop){
+            foreach ($this->typeSchema as $prop){
                 if($prop['state'] === 'detached'){
                     //$prop = $factory->property($prop['name'])->makePublic()->setType($prop['type']);
                     $prop = $factory->property($prop['name'])->makePublic();
                     $node->stmts[] = $prop->getNode();
                     $this->statistics['created']++;
                 }
-                /*if($prop['state'] === 'attached'){
-                    //$this->statistics['updated']++;
-                }*/
             }
         }
-        /*elseif ($node instanceof Node\Stmt\Property){
-
-        }*/
+        elseif ($node instanceof Node\Stmt\Property){
+           //todo
+        }
     }
 }
 
 
 class DocCommentBuilder extends NodeVisitorAbstract
 {
-    static $DefaultPlaceholder = "Updated By PHP Office365 Generator";
+    private $options;
+
+
+    public function __construct($options)
+    {
+        $this->options = $options;
+    }
 
     /**
      * @return Doc
      */
-    static function createDocComment(){
-        $now = date('c');
-        $commentText = self::$DefaultPlaceholder  . " " .  $now;
+    function createHeader(){
+        $commentText = $this->options['placeholder'] . ' ' .$this->options['timestamp'] . ' ' . $this->options['version'];
         return new Doc("/**\r\n * $commentText \r\n*/");
+    }
+
+    /**
+     * @param $type string
+     * @return Doc
+     */
+    function createPropertyTypeHint($type){
+        return new Doc("/** \r\n * @var $type  \r\n */");
     }
 
     public function enterNode(Node $node)
@@ -123,10 +138,10 @@ class DocCommentBuilder extends NodeVisitorAbstract
             $result = array_filter(
                 $comments,
                 function (Doc $comment) {
-                    return strpos($comment->getText(), self::$DefaultPlaceholder) === false;
+                    return strpos($comment->getText(), $this->options['placeholder']) === false;
                 }
             );
-            $result[] = DocCommentBuilder::createDocComment();
+            $result[] = DocCommentBuilder::createHeader();
             $node->setAttribute('comments', $result);
         }
     }

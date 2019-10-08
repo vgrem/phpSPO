@@ -201,6 +201,7 @@ class ClientRuntimeContext
 
 
     /**
+     * Gets the build version of Microsoft.SharePoint.Client.ServerRuntime.dll on the server.
      * @return Version
      */
     public function getServerLibraryVersion(){

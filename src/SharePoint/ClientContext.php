@@ -8,7 +8,6 @@ use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\ContextWebInformation;
 use Office365\PHP\Client\Runtime\HttpMethod;
 use Office365\PHP\Client\Runtime\OData\JsonLightSerializerContext;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;

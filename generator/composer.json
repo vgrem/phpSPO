@@ -1,0 +1,12 @@
+{
+    "name": "vgrem/php-office365-generator",
+    "authors": [
+        {
+            "name": "vgrem",
+            "email": "vvgrem@gmail.com"
+        }
+    ],
+    "require": {
+        "nikic/php-parser": "*"
+    }
+}

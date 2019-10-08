@@ -160,4 +160,5 @@ examples/SharePoint/todoapp/
 src/ExcelServices/
 src/SharePoint/DocumentManagement/Video/
 examples/GraphExplorer/bower_components
-vendor
+vendor/*
+*.lock
