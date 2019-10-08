@@ -16,10 +16,22 @@ class MetadataReaderTest extends SharePointTestCase
     /**
      * @depends testLoadMetadata
      * @param string $edmxContent
+     * @throws ReflectionException
      */
     public function  testParseMetadata($edmxContent){
-        $reader = new ODataV3Reader(self::$context);
-        $model = $reader->generateModel($edmxContent);
+        $outputPath = dirname((new \ReflectionClass(self::$context))->getFileName());
+        $rootNamespace = ((new \ReflectionClass(self::$context))->getNamespaceName());
+        self::$context->requestFormDigest();
+        self::$context->executeQuery();
+
+        $generatorOptions = array(
+            'outputPath' => $outputPath,
+            'rootNamespace' => $rootNamespace,
+            'ignoredTypes' => array()
+        );
+        $reader = new ODataV3Reader();
+        $model = $reader->generateModel($edmxContent,$generatorOptions);
         $this->assertNotNull($model);
+        $this->assertNotEquals(0,count($model->getTypes()));
     }
 }

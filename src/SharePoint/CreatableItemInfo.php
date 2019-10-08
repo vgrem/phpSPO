@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * Updated By PHP Office365 Generator 2019-10-08T21:36:37+00:00 16.0.19325.12009 
+*/
+namespace Office365\PHP\Client\SharePoint;
+
+use Office365\PHP\Client\Runtime\ClientValueObject;
+class CreatableItemInfo extends ClientValueObject
+{
+    /** 
+     * @var integer  
+     */
+    public $DocumentTemplate;
+    /** 
+     * @var string  
+     */
+    public $FileExtension;
+    /** 
+     * @var string  
+     */
+    public $ItemType;
+}
