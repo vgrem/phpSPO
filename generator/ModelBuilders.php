@@ -89,7 +89,7 @@ class ClientValueBuilder extends NodeVisitorAbstract {
     public function enterNode(Node $node) {
         $factory = new BuilderFactory;
         if ($node instanceof Node\Stmt\Class_) {
-            foreach ($this->typeSchema as $prop){
+            foreach ($this->typeSchema['properties'] as $prop){
                 if($prop['state'] === 'detached'){
                     //$prop = $factory->property($prop['name'])->makePublic()->setType($prop['type']);
                     $prop = $factory->property($prop['name'])->makePublic();
