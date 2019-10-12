@@ -15,9 +15,14 @@ class AnnotationsResolver
         $this->loadDocSet();
     }
 
-    public function loadDocSet(){
+    /**
+     * Load Docs repository
+     * @throws Exception
+     */
+    public function loadDocSet()
+    {
         $options = new RequestOptions($this->options['docsRoot'] . 'toc.json');
-        $content = Requests::execute($options,$responseInfo);
+        $content = Requests::execute($options, $responseInfo);
         $this->toc = json_decode($content, true);
     }
 
@@ -65,11 +70,13 @@ class AnnotationsResolver
     {
         $xpath = new DOMXpath($doc);
         $contentNodes = $xpath->query("//*[preceding::comment()[. = ' <content> ']][following::comment()[. = ' </content> ']]/text()[normalize-space()]");
-        if (count($contentNodes) <= 4 and (strpos($contentNodes[0]->nodeValue, "TypeId:") === false ||
-                strpos($contentNodes[0]->nodeValue, "Type:") === false
-            )) {
+
+        if (count($contentNodes) <= 4) {
             return null;
         }
+        $token = $contentNodes[0]->nodeValue;
+        if(strpos($token, "TypeId:") === false && strpos($token, "Type:") === false)
+            return null;
 
         $result = '';
         /**

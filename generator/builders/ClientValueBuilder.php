@@ -36,7 +36,7 @@ class ClientValueBuilder extends NodeVisitorAbstract {
             || $this->getStatistics()['updated'] > 0
             || $this->getStatistics()['deleted'] > 0) {
             $traverser->removeVisitor($this);
-            $traverser->addVisitor(new DocCommentBuilder($this->options,$this->typeSchema['comment']));
+            $traverser->addVisitor(new DocCommentBuilder($this->options));
             $generatedAst = $traverser->traverse($generatedAst);
             $this->printFile($generatedAst, $this->typeSchema['file']);
             return true;
@@ -49,7 +49,8 @@ class ClientValueBuilder extends NodeVisitorAbstract {
         $parts = explode('\\', $this->typeSchema['type']);
         $classShortName = array_slice($parts, -1)[0];
         $factory = new BuilderFactory;
-        $node = $factory->namespace('Office365\PHP\Client\SharePoint')
+        $nsName = str_replace("\\" . $classShortName ,"",$this->typeSchema['type']);
+        $node = $factory->namespace($nsName)
             ->addStmt($factory->use('Office365\PHP\Client\Runtime\ClientValueObject'))
             ->setDocComment((new DocCommentBuilder($this->options))->createHeaderComment())
             ->addStmt($factory->class($classShortName)
@@ -74,7 +75,15 @@ class ClientValueBuilder extends NodeVisitorAbstract {
     private function printFile($ast, $outputFile){
         $prettyPrinter = new PrettyPrinter\Standard();
         $code = $prettyPrinter->prettyPrintFile($ast);
+        $outputFolder = dirname($outputFile);
+        $this->ensureFolder($outputFolder);
         file_put_contents($outputFile, $code);
+    }
+
+    private function  ensureFolder(&$path){
+        if (!is_dir($path)) {
+            mkdir($path,0777,true);
+        }
     }
 
 
@@ -94,8 +103,8 @@ class ClientValueBuilder extends NodeVisitorAbstract {
                 }
             }
         }
-        elseif ($node instanceof Node\Stmt\Property){
+        /*elseif ($node instanceof Node\Stmt\Property){
             //todo
-        }
+        }*/
     }
 }

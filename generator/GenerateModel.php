@@ -52,10 +52,16 @@ function generateFiles(ODataModel $model){
     $annotations = new AnnotationsResolver($model->getOptions());
     $types = $model->getTypes();
 
+    $curIdx = 0;
+    $startIdx = 212;
+    $count = count($types);
     foreach ($types as $typeName => $type){
-        echo "Processing type:  $typeName ... " . PHP_EOL;
-        $annotations->resolveTypeComment($typeName,$type);
-        generateTypeFile($type,$model->getOptions());
+        $curIdx++;
+        if($curIdx >= $startIdx){
+            echo "Processing type ($curIdx of $count):  $typeName ... " . PHP_EOL;
+            $annotations->resolveTypeComment($typeName,$type);
+            generateTypeFile($type,$model->getOptions());
+        }
     }
 }
 
@@ -63,8 +69,8 @@ try {
 
     $ctx = connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
     $edmxContents = MetadataResolver::getMetadata($ctx);
-    $outputPath = dirname((new \ReflectionClass($ctx))->getFileName());
-    $rootNamespace = ((new \ReflectionClass($ctx))->getNamespaceName());
+    $outputPath = dirname((new ReflectionClass($ctx))->getFileName());
+    $rootNamespace = (new ReflectionClass($ctx))->getNamespaceName();
     $ctx->requestFormDigest();
     $ctx->executeQuery();
     $now = date('c');
@@ -83,7 +89,8 @@ try {
             "SP.TypeInformation",
             "SP.PropertyInformation",
             "SP.ParameterInformation",
-            "SP.ResourcePath")
+            "SP.ResourcePath",
+            "SP.WebResponseInfo")
     );
 
     $reader = new ODataV3Reader();

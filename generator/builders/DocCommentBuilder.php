@@ -31,7 +31,7 @@ class DocCommentBuilder extends NodeVisitorAbstract
             $commentText = self::sanitizeComment($typeSchema['comment']);
             return new Doc("/**\r\n $commentText \r\n*/");
         }
-        return null;
+        return new Doc("");
     }
 
 
@@ -49,13 +49,13 @@ class DocCommentBuilder extends NodeVisitorAbstract
         if (!is_null($property['type'])) {
             $commentText = '';
             if (isset($property['comment'])) {
-                $commentText .= "\n" . self::sanitizeComment($property['comment']);
+                $commentText .= self::sanitizeComment($property['comment']);
 
             }
             $commentText .= self::sanitizeComment("@var " . $property['type']);
-            return new Doc("/** $commentText  */");
+            return new Doc("/**\r\n  $commentText  */");
         }
-        return null;
+        return new Doc("");
     }
 
     public function enterNode(Node $node)
