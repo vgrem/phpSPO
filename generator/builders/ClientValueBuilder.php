@@ -2,13 +2,11 @@
 
 
 use PhpParser\BuilderFactory;
-use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter;
-
 
 class ClientValueBuilder extends NodeVisitorAbstract {
     private $typeSchema;
@@ -19,33 +17,33 @@ class ClientValueBuilder extends NodeVisitorAbstract {
     {
         $this->typeSchema = $typeSchema;
         $this->options = $options;
-        $this->statistics = array('created' => 0, 'updated' => 0);
+        $this->statistics = array('created' => 0, 'updated' => 0,'deleted' => 0);
     }
 
 
     /**
      * @return bool
      */
-    public function updateTypeFile(){
+    public function updateTypeFile()
+    {
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP5);
         $code = file_get_contents($this->typeSchema['file']);
         $ast = $parser->parse($code);
         $traverser = new NodeTraverser();
         $traverser->addVisitor($this);
         $generatedAst = $traverser->traverse($ast);
-        if ($this->getStatistics()['created'] > 0) {
+        if ($this->getStatistics()['created'] > 0
+            || $this->getStatistics()['updated'] > 0
+            || $this->getStatistics()['deleted'] > 0) {
             $traverser->removeVisitor($this);
-            $traverser->addVisitor(new DocCommentBuilder($this->options));
+            $traverser->addVisitor(new DocCommentBuilder($this->options,$this->typeSchema['comment']));
             $generatedAst = $traverser->traverse($generatedAst);
-            $this->printFile($generatedAst,$this->typeSchema['file']);
+            $this->printFile($generatedAst, $this->typeSchema['file']);
             return true;
         }
         return false;
     }
 
-    /**
-     * @return string
-     */
     public function createTypeFile()
     {
         $parts = explode('\\', $this->typeSchema['type']);
@@ -53,21 +51,19 @@ class ClientValueBuilder extends NodeVisitorAbstract {
         $factory = new BuilderFactory;
         $node = $factory->namespace('Office365\PHP\Client\SharePoint')
             ->addStmt($factory->use('Office365\PHP\Client\Runtime\ClientValueObject'))
-            ->setDocComment((new DocCommentBuilder($this->options))->createHeader())
+            ->setDocComment((new DocCommentBuilder($this->options))->createHeaderComment())
             ->addStmt($factory->class($classShortName)
                 ->extend('ClientValueObject')
+                ->setDocComment(DocCommentBuilder::createClassComment($this->typeSchema))
                 ->addStmts(array_map(function ($name, $prop) use ($factory) {
                     $propStmt = $factory->property($name)->makePublic();
-                    if (!is_null($prop['type'])) {
-                        $type = $prop['type'];
-                        $propStmt->setDocComment((new DocCommentBuilder($this->options))->createPropertyTypeHint($type));
-                    }
+                    $propStmt->setDocComment(DocCommentBuilder::createPropertyComment($prop));
                     return $propStmt;
                 }, array_keys($this->typeSchema['properties']), $this->typeSchema['properties']))
             )->getNode();
 
         $ast = array($node);
-        return $this->printFile($ast,$this->typeSchema['file']);
+        $this->printFile($ast,$this->typeSchema['file']);
     }
 
 
@@ -99,51 +95,7 @@ class ClientValueBuilder extends NodeVisitorAbstract {
             }
         }
         elseif ($node instanceof Node\Stmt\Property){
-           //todo
+            //todo
         }
     }
 }
-
-
-class DocCommentBuilder extends NodeVisitorAbstract
-{
-    private $options;
-
-
-    public function __construct($options)
-    {
-        $this->options = $options;
-    }
-
-    /**
-     * @return Doc
-     */
-    function createHeader(){
-        $commentText = $this->options['placeholder'] . ' ' .$this->options['timestamp'] . ' ' . $this->options['version'];
-        return new Doc("/**\r\n * $commentText \r\n*/");
-    }
-
-    /**
-     * @param $type string
-     * @return Doc
-     */
-    function createPropertyTypeHint($type){
-        return new Doc("/** \r\n * @var $type  \r\n */");
-    }
-
-    public function enterNode(Node $node)
-    {
-        if ($node instanceof Node\Stmt\Namespace_) {
-            $comments = $node->getComments();
-            $result = array_filter(
-                $comments,
-                function (Doc $comment) {
-                    return strpos($comment->getText(), $this->options['placeholder']) === false;
-                }
-            );
-            $result[] = DocCommentBuilder::createHeader();
-            $node->setAttribute('comments', $result);
-        }
-    }
-}
-

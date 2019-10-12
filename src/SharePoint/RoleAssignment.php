@@ -1,8 +1,4 @@
 <?php
-/**
- * Defines the securable object role assignments for a user or group on the Web site, list, or list item.
- */
-
 namespace Office365\PHP\Client\SharePoint;
 
 
@@ -11,6 +7,9 @@ use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
+/**
+ * Defines the securable object role assignments for a user or group on the Web site, list, or list item.
+ */
 class RoleAssignment extends ClientObject
 {
 

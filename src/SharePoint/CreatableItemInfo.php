@@ -1,23 +1,37 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-10-08T21:36:37+00:00 16.0.19325.12009 
-*/
+ * Updated By PHP Office365 Generator 2019-10-12T15:24:30+00:00 16.0.19402.12016
+ */
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientValueObject;
+/**
+ * Information 
+ * on a creatable item: what the item is and where to go to create it. 
+ * Alternatively, the information provided here can be used to call CreateDocument 
+ * (section 3.2.5.79.2.2.9) or CreateDocumentAndGetEditLink 
+ * (section 3.2.5.79.2.1.13).
+ */
 class CreatableItemInfo extends ClientValueObject
 {
     /** 
-     * @var integer  
+     * The 
+     * enumeration value of this item's type, corresponding to DocumentTemplateType 
+     * (section 3.2.5.288).
+     * @var integer
      */
     public $DocumentTemplate;
     /** 
-     * @var string  
+     * The file 
+     * extension of the item to be created.
+     * @var string
      */
     public $FileExtension;
     /** 
-     * @var string  
+     * The name 
+     * of the item's type (e.g. Word or PowerPoint).
+     * @var string
      */
     public $ItemType;
 }

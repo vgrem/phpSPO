@@ -2,7 +2,9 @@
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 require_once(__DIR__ . '/vendor/autoload.php');
-require_once(__DIR__ . '/ModelBuilders.php');
+require_once(__DIR__ . '/builders/DocCommentBuilder.php');
+require_once(__DIR__ . '/builders/ClientValueBuilder.php');
+require_once(__DIR__ . '/AnnotationsResolver.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\OData\MetadataResolver;
@@ -40,19 +42,25 @@ function generateTypeFile($typeSchema,$options)
             echo $typeSchema['file'] . " has been updated" . PHP_EOL;
         }
     } else {
-        $outputFile = $builder->createTypeFile();
+        $builder->createTypeFile();
+        $outputFile = $typeSchema['file'];
         echo "$outputFile has been generated" . PHP_EOL;
     }
 }
 
 function generateFiles(ODataModel $model){
+    $annotations = new AnnotationsResolver($model->getOptions());
     $types = $model->getTypes();
+
     foreach ($types as $typeName => $type){
+        echo "Processing type:  $typeName ... " . PHP_EOL;
+        $annotations->resolveTypeComment($typeName,$type);
         generateTypeFile($type,$model->getOptions());
     }
 }
 
 try {
+
     $ctx = connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
     $edmxContents = MetadataResolver::getMetadata($ctx);
     $outputPath = dirname((new \ReflectionClass($ctx))->getFileName());
@@ -63,11 +71,14 @@ try {
     $version = $ctx->getContextWebInformation()->LibraryVersion;
     $generatorOptions = array(
         'outputPath' => $outputPath,
+        'docsRoot' => 'https://docs.microsoft.com/en-us/openspecs/sharepoint_protocols/ms-csomspt/',
         'rootNamespace' => $rootNamespace,
         'version' => $version,
         'timestamp' => $now,
         'placeholder' => "Updated By PHP Office365 Generator",
         'ignoredTypes' => array(
+            "SP.SimpleDataRow",
+            "SP.SimpleDataTable",
             "SP.MethodInformation",
             "SP.TypeInformation",
             "SP.PropertyInformation",
