@@ -128,14 +128,15 @@ abstract class ClientRequest
     /**
      * @param RequestOptions $request
      * @param array $responseInfo
+     * @param bool $transferEncodingChunkedAllowed
      * @return string
      * @throws \Exception
      */
-    public function executeQueryDirect(RequestOptions $request,&$responseInfo=array())
+    public function executeQueryDirect(RequestOptions $request, &$responseInfo = array(), bool $transferEncodingChunkedAllowed = false)
     {
         $this->context->authenticateRequest($request); //Auth mandatory headers
         $this->setRequestHeaders($request); //set request headers
-        return Requests::execute($request,$responseInfo);
+        return Requests::execute($request,$responseInfo, $transferEncodingChunkedAllowed);
     }
 
     /**
