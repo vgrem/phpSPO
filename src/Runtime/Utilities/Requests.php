@@ -19,12 +19,12 @@ class Requests
 
     protected static $history = [];
 
-	public static function execute(RequestOptions $options, &$responseInfo = array(), $transferEncodingChunkedAllowed = false)
+	public static function execute(RequestOptions $options, &$responseInfo = array())
 	{
         $call = [];
         $call['request'] = $options->toArray();
 
-		$ch = Requests::init($options, $transferEncodingChunkedAllowed);
+		$ch = Requests::init($options);
         $response = curl_exec($ch);
         $responseInfo["HttpCode"] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $responseInfo["ContentType"] = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
@@ -89,10 +89,9 @@ class Requests
     /**
      * Init Curl with the default parameters
      * @param RequestOptions $options
-     * @param bool $transferEncodingChunkedAllowed if true, add the "Transfer-Encoding: chunked" HTTP header if the "Content-Length" header is absent.
      * @return resource [type]    [description]
      */
-    private static function init(RequestOptions $options, bool $transferEncodingChunkedAllowed)
+    private static function init(RequestOptions $options)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $options->Url);
@@ -104,7 +103,8 @@ class Requests
         //Set method
         if($options->Method === HttpMethod::Post) {
            curl_setopt($ch, CURLOPT_POST, 1);
-           if ($transferEncodingChunkedAllowed && !array_key_exists('Content-Length', $options->Headers)) {
+           //if true, add the "Transfer-Encoding: chunked" HTTP header if the "Content-Length" header is absent.
+           if ($options->TransferEncodingChunkedAllowed && !array_key_exists('Content-Length', $options->Headers)) {
               $options->addCustomHeader("Transfer-Encoding", "chunked");
            }
         } else if($options->Method == HttpMethod::Patch) {

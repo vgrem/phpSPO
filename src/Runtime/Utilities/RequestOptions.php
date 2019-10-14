@@ -8,7 +8,6 @@ use Office365\PHP\Client\Runtime\HttpMethod;
 class RequestOptions
 {
 
-
     /**
      * RequestOptions constructor.
      * @param $url string
@@ -30,6 +29,7 @@ class RequestOptions
         $this->StreamHandle = null;
         $this->Data = $data;
         $this->ConnectTimeout = null;
+        $this->TransferEncodingChunkedAllowed = false;
     }
 
     public function toArray()
@@ -137,4 +137,10 @@ class RequestOptions
      * @var ?int
      */
     public $ConnectTimeout;
+
+
+    /**
+     * @var bool
+     */
+    public $TransferEncodingChunkedAllowed;
 }

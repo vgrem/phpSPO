@@ -36,7 +36,7 @@ class ListItem extends SecurableObject
             //determine whether ListItemEntityTypeFullName property has been requested
             if(!$list->isPropertyAvailable("ListItemEntityTypeFullName")){
                 $request = new RequestOptions($list->getResourceUrl() . "?\$select=ListItemEntityTypeFullName");
-                $response = $this->getContext()->executeQueryDirect($request, true);
+                $response = $this->getContext()->executeQueryDirect($request);
                 $payload = json_decode($response);
                 $this->getContext()->getSerializerContext()->map($payload,$list);
             }

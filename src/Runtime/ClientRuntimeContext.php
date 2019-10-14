@@ -145,15 +145,14 @@ class ClientRuntimeContext
 
     /**
      * @param RequestOptions $options
-     * @param bool $transferEncodingChunkedAllowed
      * @return string
      * @throws \Exception
      */
-    public function executeQueryDirect(RequestOptions $options, bool $transferEncodingChunkedAllowed = false)
+    public function executeQueryDirect(RequestOptions $options)
     {
         // $_ is not used, just to avoid the "Only variables can be passed by reference" error
         $_ = [];
-        return $this->getPendingRequest()->executeQueryDirect($options, $_, $transferEncodingChunkedAllowed);
+        return $this->getPendingRequest()->executeQueryDirect($options, $_);
     }
 
     /**

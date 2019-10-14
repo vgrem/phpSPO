@@ -26,7 +26,7 @@ class File extends SecurableObject
     public function deleteObject(){
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
-        //$this->removeFromParentCollection();
+        $this->removeFromParentCollection();
     }
 
     /**
@@ -164,7 +164,8 @@ class File extends SecurableObject
         $serverRelativeUrl = rawurlencode($serverRelativeUrl);
         $url = $ctx->getServiceRootUrl() . "web/getfilebyserverrelativeurl('$serverRelativeUrl')/\$value";
         $options = new RequestOptions($url);
-        $data = $ctx->executeQueryDirect($options, true);
+        $options->TransferEncodingChunkedAllowed = true;
+        $data = $ctx->executeQueryDirect($options);
         return $data;
     }
 
@@ -187,7 +188,8 @@ class File extends SecurableObject
         if ($ctx instanceof ClientContext) {
             $ctx->ensureFormDigest($request);
         }
-        $ctx->executeQueryDirect($request, true);
+        $request->TransferEncodingChunkedAllowed = true;
+        $ctx->executeQueryDirect($request);
     }
 
 
@@ -216,7 +218,8 @@ class File extends SecurableObject
     public function getInformationRightsManagementSettings()
     {
         if (!$this->isPropertyAvailable('InformationRightsManagementSettings')) {
-            $this->setProperty("InformationRightsManagementSettings", new InformationRightsManagementSettings($this->getContext(), $this->getResourcePath(), "InformationRightsManagementSettings"));
+            $this->setProperty("InformationRightsManagementSettings",
+                new InformationRightsManagementSettings());
         }
         return $this->getProperty("InformationRightsManagementSettings");
     }
@@ -229,7 +232,9 @@ class File extends SecurableObject
     public function getVersions()
     {
         if (!$this->isPropertyAvailable('Versions')) {
-            $this->setProperty("Versions", new FileVersionCollection($this->getContext(), $this->getResourcePath(), "Versions"));
+            $this->setProperty("Versions",
+                new FileVersionCollection($this->getContext(),
+                    new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Versions")));
         }
         return $this->getProperty("Versions");
     }
