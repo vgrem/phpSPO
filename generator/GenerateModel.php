@@ -53,7 +53,7 @@ function generateFiles(ODataModel $model){
     $types = $model->getTypes();
 
     $curIdx = 0;
-    $startIdx = 212;
+    $startIdx = 0;
     $count = count($types);
     foreach ($types as $typeName => $type){
         $curIdx++;
@@ -90,11 +90,13 @@ try {
             "SP.PropertyInformation",
             "SP.ParameterInformation",
             "SP.ResourcePath",
-            "SP.WebResponseInfo")
+            "SP.WebResponseInfo",
+            "SP.ApiMetadata",
+            "SP.Data.*")
     );
 
-    $reader = new ODataV3Reader();
-    $model = $reader->generateModel($edmxContents,$generatorOptions);
+    $reader = new ODataV3Reader($edmxContents,$generatorOptions);
+    $model = $reader->generateModel();
     generateFiles($model);
 }
 catch (Exception $ex){

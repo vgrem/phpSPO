@@ -8,7 +8,7 @@ Office 365 Library for PHP. It allows to performs CRUD operations against Office
     -   [Outlook Contacts REST API](https://msdn.microsoft.com/en-us/office/office365/api/contacts-rest-operations)
     -   [Outlook Calendar REST API](https://msdn.microsoft.com/en-us/office/office365/api/calendar-rest-operations)
     -   [Outlook Mail REST API](https://msdn.microsoft.com/en-us/office/office365/api/mail-rest-operations)
-    -   OneNote REST API
+- OneNote REST API
 
 ### Status
 

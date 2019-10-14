@@ -6,10 +6,12 @@ use ReflectionClass;
 use ReflectionException;
 
 
+
 class ODataModel
 {
 
     private $options;
+
 
     public function __construct($options)
     {
@@ -42,62 +44,78 @@ class ODataModel
         if (in_array($typeName, $this->options['ignoredTypes'])) {
             return false;
         }
+
+        $result = array_filter($this->options['ignoredTypes'],function ($ignoredType) use($typeName){
+            return fnmatch($ignoredType, $typeName);
+        });
+        if(count($result) !== 0)
+            return false;
+
         return true;
     }
 
-
-    /**
-     * @param $typeName string
-     * @return ReflectionClass|null
-     */
-    private function tryResolveClass($typeName)
+    public function addType($typeName,array $type)
     {
-        try {
-            $parts = explode('.', $typeName);
-            array_shift($parts);
-            $className = $this->options['rootNamespace'] . '\\' . implode('\\', $parts);
-            return new ReflectionClass($className);
-        } catch (\ReflectionException $ex) {
-            return null;
-        }
+        $this->types[$typeName] = &$type;
     }
 
 
     /**
      * @param $typeName string
-     * @param $typeProperties array
+     * @return bool
      */
-    public function resolveType($typeName, $typeProperties)
+    public function resolveType($typeName)
     {
-        if ($this->validateType($typeName)) {
-            $typeClass = $this->tryResolveClass($typeName);
-            if ($typeClass) {
-                foreach ($typeProperties as $propName => $propTypeName) {
-                    $typeProperties[$propName] = $this->resolveProperty($typeClass, $propName, $propTypeName);
-                }
-                $type = array('state' => 'attached', 'type' => $typeClass->getName(), 'file' => $typeClass->getFileName(), 'properties' => $typeProperties);
-                $this->types[$typeName] = $type;
-            } else {
-                foreach ($typeProperties as $propName => $propTypeName) {
-                    $typeProperties[$propName] = array('state' => 'detached', 'type' => $this->resolvePropertyType($propTypeName));
-                }
-                $parts = explode('.', $typeName);
-                array_shift($parts);
-                $outputFile = $this->options['outputPath'] . "\\" . implode('\\', $parts) . ".php";
-                $className = $this->options['rootNamespace'] . "\\" . implode('\\', $parts);
-                $type = array('state' => 'detached', 'type' => $className, 'file' => $outputFile, 'properties' => $typeProperties);
-                $this->types[$typeName] = $type;
-            }
-        } else {
+        if (!$this->validateType($typeName)) {
             //echo "Unknown type: $typeName" . PHP_EOL;
+            return false;
         }
+
+        $parts = explode('.', $typeName);
+        array_shift($parts);
+        $className = $this->options['rootNamespace'] . '\\' . implode('\\', $parts);
+        try {
+            $class = new ReflectionClass($className);
+            $type = array('state' => 'attached', 'type' => $class->getName(), 'file' => $class->getFileName(), 'properties' => array());
+        } catch (ReflectionException $e) {
+            $outputFile = $this->options['outputPath'] . "\\" . implode('\\', $parts) . ".php";
+            $className = $this->options['rootNamespace'] . "\\" . implode('\\', $parts);
+            $type = array('state' => 'detached', 'type' => $className, 'file' => $outputFile, 'properties' => array());
+        }
+        $this->addType($typeName,$type);
+        return true;
+    }
+
+    /**
+     * @param $propertyFullName string
+     * @param $propertyTypeName string
+     */
+    public function resolveProperty($propertyFullName, $propertyTypeName)
+    {
+        $parts = explode('.', $propertyFullName);
+        $propertyName = array_pop($parts);
+        $typeName = implode('.',$parts);
+        $type = &$this->types[$typeName];
+        if ($type['state'] === 'detached') {
+            $prop = array('state' => 'detached', 'type' => $this->getPropertyType($propertyTypeName));
+        } else {
+            try {
+                $class = new ReflectionClass($type['type']);
+                $class->getProperty($propertyName);
+                $prop = array('name' => $propertyName, 'state' => 'attached', 'type' => $this->getPropertyType($propertyTypeName));
+            }
+            catch (ReflectionException $e) {
+                $prop = array('name' => $propertyName, 'type' => $this->getPropertyType($propertyTypeName), 'state' => 'detached');
+            }
+        }
+        $type['properties'][$propertyName] = $prop;
     }
 
     /**
      * @param $typeName string
      * @return string|null
      */
-    private function resolvePropertyType($typeName)
+    private function getPropertyType($typeName)
     {
         $mappings = array(
             "Edm.String" => "string",
@@ -115,30 +133,17 @@ class ODataModel
         elseif (substr($typeName, 0, strlen("Collection")) === "Collection")
             return "array";
         if ($this->validateType($typeName)) {
-            $propClass = $this->tryResolveClass($typeName);
-            return $propClass ? $propClass->getName() : null;
+            $type = $this->resolveType($typeName);
+            return $type ? $type['type'] : null;
         }
         return null;
     }
 
-    /**
-     * @param $class ReflectionClass
-     * @param $name string
-     * @param $type string
-     * @return array
-     */
-    private function resolveProperty($class, $name, $type)
-    {
-        try {
-            $prop = $class->getProperty($name);
-            return array('name' => $name, 'state' => 'attached', 'type' => $this->resolvePropertyType($type));
-        } catch (ReflectionException $ex) {
-            return array('name' => $name, 'type' => $this->resolvePropertyType($type), 'state' => 'detached');
-        }
-    }
 
     /**
      * @var array
      */
     private $types = null;
+
+
 }
