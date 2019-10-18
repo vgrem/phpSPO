@@ -1,7 +1,9 @@
 <?php
 
 namespace Office365\PHP\Client\SharePoint;
+use Exception;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
+use Office365\PHP\Client\Runtime\OData\ODataResponse;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
@@ -30,15 +32,19 @@ class ListItem extends SecurableObject
     }
 
 
+    /**
+     * Determine whether ListItemEntityTypeFullName property has been requested
+     * @return mixed|string|null
+     * @throws Exception
+     */
     public function getTypeName(){
         $list = $this->getParentList();
         if(!isset($this->resourceType)) {
-            //determine whether ListItemEntityTypeFullName property has been requested
             if(!$list->isPropertyAvailable("ListItemEntityTypeFullName")){
                 $request = new RequestOptions($list->getResourceUrl() . "?\$select=ListItemEntityTypeFullName");
-                $response = $this->getContext()->executeQueryDirect($request);
-                $payload = json_decode($response);
-                $this->getContext()->getSerializerContext()->map($payload,$list);
+                $payload = $this->getContext()->executeQueryDirect($request,$responseDetails);
+                $response = new ODataResponse($payload,$responseDetails);
+                $response->map($list,$this->getContext()->getFormat());
             }
             $this->resourceType = $list->getProperty("ListItemEntityTypeFullName");
         }
@@ -49,9 +55,14 @@ class ListItem extends SecurableObject
     /**
      * @return AttachmentCollection
      */
-    public function getAttachmentFiles(){
-        if(!$this->isPropertyAvailable('AttachmentFiles')){
-            $this->setProperty("AttachmentFiles", new AttachmentCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "AttachmentFiles")),false);
+    public function getAttachmentFiles()
+    {
+        if (!$this->isPropertyAvailable('AttachmentFiles')) {
+            $this->setProperty("AttachmentFiles",
+                new AttachmentCollection(
+                    $this->getContext(),
+                    new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "AttachmentFiles")),
+                false);
         }
         return $this->getProperty("AttachmentFiles");
     }
@@ -63,7 +74,10 @@ class ListItem extends SecurableObject
      */
     public function getParentList(){
         if(!$this->isPropertyAvailable('ParentList')){
-            $this->setProperty("ParentList", new SPList($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "parentlist")),false);
+            $this->setProperty("ParentList",
+                new SPList(
+                    $this->getContext(),
+                    new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "parentlist")),false);
         }
         return $this->getProperty("ParentList");
     }
@@ -73,9 +87,12 @@ class ListItem extends SecurableObject
      * Gets the associated Folder resource.
      * @return Folder
      */
-    public function getFolder(){
-        if(!$this->isPropertyAvailable('Folder')){
-            $this->setProperty("Folder", new Folder($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(), "Folder")),false);
+    public function getFolder()
+    {
+        if (!$this->isPropertyAvailable('Folder')) {
+            $this->setProperty("Folder",
+                new Folder($this->getContext(),
+                    new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Folder")), false);
         }
         return $this->getProperty("Folder");
     }

@@ -4,10 +4,11 @@ namespace Office365\PHP\Client\Runtime;
 
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\OData\ODataRequest;
-use Office365\PHP\Client\Runtime\OData\ODataSerializerContext;
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\Version;
+
 
 
 /**
@@ -38,9 +39,9 @@ class ClientRuntimeContext
     private $pendingRequest;
 
     /**
-     * @var ODataSerializerContext
+     * @var ODataFormat
      */
-    private $serializerContext;
+    private $format;
 
 
     /**
@@ -52,15 +53,15 @@ class ClientRuntimeContext
      * REST client context ctor
      * @param string $serviceUrl
      * @param IAuthenticationContext $authContext
-     * @param ODataSerializerContext $serializationContext
+     * @param ODataFormat $format
      * @param string $version
      */
-    public function __construct($serviceUrl, IAuthenticationContext $authContext, ODataSerializerContext $serializationContext, $version = Office365Version::V1)
+    public function __construct($serviceUrl, IAuthenticationContext $authContext, ODataFormat $format, $version = Office365Version::V1)
     {
         $this->version = $version;
         $this->serviceRootUrl = $serviceUrl;
         $this->authContext = $authContext;
-        $this->serializerContext = $serializationContext;
+        $this->format = $format;
     }
 
     /**
@@ -142,28 +143,17 @@ class ClientRuntimeContext
         }
     }
 
-
     /**
      * @param RequestOptions $options
+     * @param array $responseInfo
      * @return string
      * @throws \Exception
      */
-    public function executeQueryDirect(RequestOptions $options)
+    public function executeQueryDirect(RequestOptions $options,&$responseInfo = [])
     {
-        // $_ is not used, just to avoid the "Only variables can be passed by reference" error
-        $_ = [];
-        return $this->getPendingRequest()->executeQueryDirect($options, $_);
+        return $this->getPendingRequest()->executeQueryDirect($options, $responseInfo);
     }
 
-    /**
-     * @param string $response
-     * @return self
-     */
-    public function processResponse($response)
-    {
-        $this->getPendingRequest()->processResponse($response);
-        return $this;
-    }
 
     /**
      * @param ClientAction $query
@@ -184,9 +174,6 @@ class ClientRuntimeContext
         if (!isset($this->pendingRequest)) {
             $this->pendingRequest = new ODataRequest($this);
         }
-        if($this->pendingRequest->getRequestStatus() != ClientRequestStatus::Active){
-            $this->pendingRequest = $this->pendingRequest->getNextRequest();
-        }
         return $this->pendingRequest;
     }
 
@@ -197,8 +184,7 @@ class ClientRuntimeContext
     public function hasPendingRequest()
     {
         $request = $this->getPendingRequest();
-        return ($request->getRequestStatus() == ClientRequestStatus::Active &&
-            count($request->getActions()) > 0);
+        return count($request->getActions()) > 0;
     }
 
 
@@ -212,11 +198,11 @@ class ClientRuntimeContext
 
 
     /**
-     * @return ODataSerializerContext
+     * @return ODataFormat
      */
-    public function getSerializerContext()
+    public function getFormat()
     {
-        return $this->serializerContext;
+        return $this->format;
     }
 
 }

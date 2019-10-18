@@ -97,7 +97,7 @@ class ListItemTest extends SharePointTestCase
 
     public function testQueryOptionsForUserField()
     {
-        $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery())
+        $items = self::$targetList->getItems()
             ->select("AssignedTo/Title")
             ->expand("AssignedTo");
         self::$context->load($items);
@@ -106,14 +106,14 @@ class ListItemTest extends SharePointTestCase
         if($items->getCount() > 0){
             $item = $items->getItem(0);
             $assignedTo = $item->getProperty("AssignedTo");
-            self::assertNotNull($assignedTo->Title);
+            self::assertNotNull($assignedTo['Title']);
         }
     }
 
 
     public function testQueryOptionsForMultiUserField()
     {
-        $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery())
+        $items = self::$targetList->getItems()
             ->select("Predecessors/Title")
             ->expand("Predecessors");
         self::$context->load($items);
@@ -124,7 +124,7 @@ class ListItemTest extends SharePointTestCase
             $predecessors = $item->getProperty("Predecessors");
             self::assertInternalType("array",$predecessors);
             if(count($predecessors) > 0)
-                self::assertNotNull($predecessors[0]->Title);
+                self::assertNotNull($predecessors[0]['Title']);
 
         }
         else{
@@ -172,17 +172,26 @@ class ListItemTest extends SharePointTestCase
         $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery());
         $ctx->load($items);
         $ctx->executeQuery();
+        /** @var ListItem $item */
         foreach ($items->getData() as $item) {
             $item->deleteObject();
             $ctx->load(self::$targetList);
             $ctx->executeQuery();
         }
 
+
         $itemsCount = self::$targetList->getProperty("ItemCount");
         $this->assertEquals($itemsCount, 0);
     }
 
 
+    /**
+     * Populate List
+     * @param $itemProperties array
+     * @param $itemsCount integer
+     * @return array
+     * @throws Exception
+     */
     public function populateList($itemProperties,$itemsCount)
     {
         $items = [];

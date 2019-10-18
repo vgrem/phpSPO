@@ -2,6 +2,7 @@
 
 namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
 
 
 /**
@@ -9,6 +10,12 @@ use Office365\PHP\Client\Runtime\ClientValueObject;
  */
 class WebCreationInformation extends ClientValueObject
 {
+
+    public function toJson(ODataFormat $format)
+    {
+        $payload = parent::toJson($format);
+        return array("parameters" => $payload);
+    }
 
     /**
      * The description of the site.
@@ -60,4 +67,5 @@ class WebCreationInformation extends ClientValueObject
         $this->UseSamePermissionsAsParentSite = true;
         parent::__construct(null);
     }
+
 }

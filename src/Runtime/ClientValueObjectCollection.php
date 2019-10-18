@@ -3,6 +3,8 @@
 namespace Office365\PHP\Client\Runtime;
 
 
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
+
 class ClientValueObjectCollection extends ClientValueObject implements IEntityTypeCollection
 {
 
@@ -63,10 +65,10 @@ class ClientValueObjectCollection extends ClientValueObject implements IEntityTy
     }
 
 
-    function getProperties($flag=SCHEMA_ALL_PROPERTIES)
+    function toJson(ODataFormat $format)
     {
-        return array_map(function (ClientValueObject $item) use ($flag) {
-            return $item->getProperties($flag);
+        return array_map(function (ClientValueObject $item) use ($format) {
+            return $item->toJson($format);
         }, $this->getData());
     }
 

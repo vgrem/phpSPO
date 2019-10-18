@@ -4,10 +4,12 @@
 namespace Office365\PHP\Client\Runtime;
 
 
-use SimpleXMLElement;
-
 class InvokeMethodQuery extends ClientAction
 {
+    /**
+     * @var string|null
+     */
+    private $methodName;
 
     /**
      * InvokeMethodQuery constructor.
@@ -17,22 +19,16 @@ class InvokeMethodQuery extends ClientAction
      */
     public function __construct(ResourcePath $resourcePath, $methodName=null, $methodParameters=null)
     {
-
-        $path = new ResourcePathServiceOperation(
+        parent::__construct(new ResourcePathServiceOperation(
             $resourcePath->getContext(),
             $resourcePath,
             $methodName,
             $methodParameters
-        );
-
-        parent::__construct($path);
-        $this->MethodName = $methodName;
-        $this->MethodParameters = $methodParameters;
+        ));
+        $this->methodName = $methodName;
     }
 
-
-
-    protected function toXmlQuery(SimpleXMLElement $writer){
+    /*protected function toXmlQuery(SimpleXMLElement $writer){
         $method = $writer->addChild("Method");
         $method->addAttribute("Name", $this->MethodName);
         $method->addAttribute("Id", $this->getId());
@@ -46,23 +42,14 @@ class InvokeMethodQuery extends ClientAction
 
             }
         }
+    }*/
+
+    /**
+     * @return string|null
+     */
+    public function getMethodName(){
+        return $this->methodName;
     }
 
 
-    /**
-     * @var $MethodName string
-     */
-    public $MethodName;
-
-
-    /**
-     * @var $MethodParameters array|IEntityType
-     */
-    public $MethodParameters;
-
-
-    /**
-     * @var $Version string
-     */
-    public $Version;
 }

@@ -17,7 +17,7 @@ class GroupSiteManager extends ClientObject
 
     public function __construct(ClientContext $ctx)
     {
-        $ctx->getSerializerContext()->MetadataLevel = ODataMetadataLevel::NoMetadata;
+        $ctx->getFormat()->MetadataLevel = ODataMetadataLevel::NoMetadata;
         parent::__construct($ctx,new ResourcePathEntity($ctx,null,"GroupSiteManager"));
 
     }
@@ -38,9 +38,9 @@ class GroupSiteManager extends ClientObject
         if(!empty($description)){
             $payload->setProperty("description",$description);
         }
-        if(!is_null($additionalOwners)){
-
-        }
+        //if(!is_null($additionalOwners)){
+        //
+        //}
         $info = new GroupSiteInfo();
         $qry = new InvokePostMethodQuery($this->getResourcePath(),"CreateGroupEx",null,$payload);
         $this->getContext()->addQuery($qry,$info);

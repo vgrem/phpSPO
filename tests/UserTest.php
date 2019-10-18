@@ -1,9 +1,7 @@
 <?php
 
 use Office365\PHP\Client\SharePoint\Group;
-
-require_once('SharePointTestCase.php');
-require_once('ListItemExtensions.php');
+use Office365\PHP\Client\SharePoint\GroupCreationInformation;
 
 class UserTest extends SharePointTestCase
 {
@@ -34,7 +32,7 @@ class UserTest extends SharePointTestCase
     public function testCreateGroup()
     {
         $groupName = "TestGroup_"  . rand(1,10000);
-        $info = new \Office365\PHP\Client\SharePoint\GroupCreationInformation($groupName);
+        $info = new GroupCreationInformation($groupName);
         $group = self::$context->getWeb()->getSiteGroups()->add($info);
         self::$context->executeQuery();
         $this->assertNotNull($group->getProperty("LoginName"));
@@ -45,6 +43,7 @@ class UserTest extends SharePointTestCase
     /**
      * @depends testCreateGroup
      * @param Group $group
+     * @throws Exception
      */
     public function testFindGroup(Group $group)
     {
@@ -64,6 +63,7 @@ class UserTest extends SharePointTestCase
     /**
      * @depends testCreateGroup
      * @param Group $group
+     * @throws Exception
      */
     public function testDeleteGroup(Group $group)
     {

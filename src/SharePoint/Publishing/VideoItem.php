@@ -28,6 +28,10 @@ class VideoItem extends ClientObject
         $this->getContext()->addQuery($qry);
     }
 
+    /**
+     * @param $content
+     * @throws \Exception
+     */
     public function saveBinaryStream($content){
         $ctx = $this->getContext();
         $methodName = "GetFile()/SaveBinaryStream";
@@ -42,14 +46,14 @@ class VideoItem extends ClientObject
     }
 
 
-    function setProperty($name, $value, $persistChanges = true)
+    function setProperty($name, $value, $serializable = true)
     {
         if($name == "ID"){
             if(is_null($this->getResourcePath()))
                 $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . "(guid'{$value}')");
             $this->{$name} = $value;
         }
-        parent::setProperty($name, $value, $persistChanges);
+        parent::setProperty($name, $value, $serializable);
     }
 
 

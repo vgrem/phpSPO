@@ -6,7 +6,7 @@ use Office365\PHP\Client\OneDrive\CurrentUserRequestContext;
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\OData\JsonSerializerContext;
+use Office365\PHP\Client\Runtime\OData\JsonFormat;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\Office365Version;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
@@ -17,7 +17,7 @@ class GraphServiceClient extends ClientRuntimeContext
     public function __construct(IAuthenticationContext $authContext)
     {
         $serviceRootUrl = "https://graph.microsoft.com/" . Office365Version::V1 . "/";
-        parent::__construct($serviceRootUrl, $authContext,new JsonSerializerContext(ODataMetadataLevel::Verbose));
+        parent::__construct($serviceRootUrl, $authContext,new JsonFormat(ODataMetadataLevel::Verbose));
     }
 
 

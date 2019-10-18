@@ -49,7 +49,7 @@ class OutlookMailTest extends OutlookServicesTestCase
         $attachment->IsInline = false;
         $attachment->Name = $existingMessage->Subject;
         $attachment->Item = $this->getLink($existingMessage);
-        $attachment->ensureTypeAnnotation();
+        $attachment->IncludeTypeAnnotation = true;
         self::$context->executeQuery();
         self::assertTrue(true);
     }
@@ -70,20 +70,20 @@ class OutlookMailTest extends OutlookServicesTestCase
         $attachment = $message->addAttachment(FileAttachment::getType());
         $attachment->ContentBytes = "bWFjIGFuZCBjaGVlc2UgdG9kYXk="; //file_get_contents($attachmentPath);
         $attachment->Name = basename($attachmentPath);
-        $attachment->ensureTypeAnnotation();
+        //$attachment->ensureTypeAnnotation($attachment->getTypeName());
+        $attachment->IncludeTypeAnnotation = true;
         self::$context->executeQuery();
         self::assertTrue(true);
     }
 
 
     private function getLink(OutlookEntity $entity){
-        /*return array(
-            "Id" => $entity->Id,
-            "@odata.type" => "#Microsoft.OutlookServices.Message"
-        );*/
         //$entity->Id = null;
         $entity->ConversationId = null;
-        $entity->addAnnotation("type","#Microsoft.OutlookServices.Message");
+        //$entity->addTypeAnnotation("type","#Microsoft.OutlookServices.Message");
+        //$type = $entity->getTypeName();
+        //$entity->ensureTypeAnnotation("Message");
+        $entity->IncludeTypeAnnotation = true;
         return $entity;
     }
 

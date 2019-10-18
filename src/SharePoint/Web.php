@@ -40,8 +40,8 @@ class Web extends SecurableObject
                 "url" => $url,
                 "isEditLink" => $isEditLink
             ));
-        if ($context->getSerializerContext()->MetadataLevel == ODataMetadataLevel::Verbose) {
-            $context->getSerializerContext()->RootElement = "CreateAnonymousLink";
+        if ($context->getFormat()->MetadataLevel == ODataMetadataLevel::Verbose) {
+            $context->getFormat()->SecurityTagName = "CreateAnonymousLink";
         }
         $context->addQuery($qry,$result);
         return $result;
@@ -66,8 +66,8 @@ class Web extends SecurableObject
                 "isEditLink" => $isEditLink,
                 "expirationString" => $expirationString
             ));
-        if ($context->getSerializerContext()->MetadataLevel == ODataMetadataLevel::Verbose) {
-            $context->getSerializerContext()->RootElement = "CreateAnonymousLinkWithExpiration";
+        if ($context->getFormat()->MetadataLevel == ODataMetadataLevel::Verbose) {
+            $context->getFormat()->SecurityTagName = "CreateAnonymousLinkWithExpiration";
         }
         $context->addQuery($qry,$result);
         return $result;
@@ -290,11 +290,11 @@ class Web extends SecurableObject
     /**
      * @param string $name
      * @param mixed $value
-     * @param bool $persistChanges
+     * @param bool $serializable
      */
-    public function setProperty($name, $value, $persistChanges = true)
+    public function setProperty($name, $value, $serializable = true)
     {
-        parent::setProperty($name, $value, $persistChanges);
+        parent::setProperty($name, $value, $serializable);
         if ($name === 'Id') {
             $this->setResourceUrl("Site/openWebById(guid'{$value}')");
         }

@@ -17,7 +17,7 @@ class ResourcePathServiceOperation extends ResourcePath implements ICSOMCallable
      * @param string $methodName
      * @param array $methodParameters
      */
-    public function __construct(ClientRuntimeContext $context, ResourcePath $parent=null, $methodName, $methodParameters = null)
+    public function __construct(ClientRuntimeContext $context, ResourcePath $parent=null, $methodName=null, $methodParameters = null)
     {
         parent::__construct($context, $parent);
         $this->methodName = $methodName;

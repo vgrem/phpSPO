@@ -89,9 +89,9 @@ class Folder extends ClientObject
     }
 
 
-    function setProperty($name, $value, $persistChanges = true)
+    function setProperty($name, $value, $serializable = true)
     {
-        parent::setProperty($name, $value, $persistChanges);
+        parent::setProperty($name, $value, $serializable);
         if ($name == "UniqueId") {
             $this->setResourceUrl("Web/GetFolderById(guid'{$value}')");
         }

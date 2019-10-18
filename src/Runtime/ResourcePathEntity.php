@@ -18,11 +18,10 @@ class ResourcePathEntity extends ResourcePath
      * @param ResourcePath $parent
      * @param $entityName
      */
-    public function __construct(ClientRuntimeContext $context, ResourcePath $parent = null, $entityName)
+    public function __construct(ClientRuntimeContext $context, ResourcePath $parent = null, $entityName=null)
     {
         parent::__construct($context, $parent);
         $this->entityName = $entityName;
-        //$this->ServerObjectIsNull = false;
     }
 
 
@@ -34,9 +33,6 @@ class ResourcePathEntity extends ResourcePath
     {
         return $this->entityName;
     }
-
-
-    
 
     /**
      * @var string

@@ -20,17 +20,17 @@ class ContentType extends ClientObject
 
 
 
-    function setProperty($name, $value, $persistChanges = true)
+    function setProperty($name, $value, $serializable = true)
     {
         if ($name == "StringId") {
             $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . "('{$value}')");
             $this->{$name} = $value;
         }
         elseif ($name == "Id"){
-            $this->{$name} = $value->StringValue;
+            $this->{$name} = $value['StringValue'];
         }
         else
-            parent::setProperty($name, $value, $persistChanges);
+            parent::setProperty($name, $value, $serializable);
     }
 
 

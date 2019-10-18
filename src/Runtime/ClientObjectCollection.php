@@ -2,6 +2,7 @@
 
 namespace Office365\PHP\Client\Runtime;
 
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 
 
@@ -19,7 +20,7 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
     /**
      * @var array
      */
-    private $data = array();
+    private $data = null;
 
 
     /**
@@ -31,9 +32,24 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
     public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath, ODataQueryOptions $queryOptions = null)
     {
         parent::__construct($ctx, $resourcePath);
+        $this->data = array();
         $this->queryOptions = $queryOptions;
         if (!isset($this->queryOptions))
             $this->queryOptions = new ODataQueryOptions();
+    }
+
+
+    /**
+     * @return bool
+     */
+    function getServerObjectIsNull()
+    {
+        return !is_array($this->data);
+    }
+
+    function isPropertyAvailable($name)
+    {
+        return isset($this->data[$name]);
     }
 
     /**
@@ -251,10 +267,6 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
         return $clientObject;
     }
 
-
-    /**
-     * @return string
-     */
     /**
      * @return string
      */
@@ -264,10 +276,10 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
     }
 
 
-   function getProperties($flag=SCHEMA_ALL_PROPERTIES)
+   function toJson(ODataFormat $format)
    {
-       return array_map(function (ClientObject $item) use ($flag) {
-           return $item->getProperties($flag);
+       return array_map(function (ClientObject $item) use($format) {
+           return $item->toJson($format);
        }, $this->getData());
    }
 

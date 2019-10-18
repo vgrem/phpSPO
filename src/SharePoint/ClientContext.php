@@ -6,10 +6,12 @@ use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
+use Office365\PHP\Client\Runtime\InvokeMethodQuery;
+use Office365\PHP\Client\Runtime\OData\ODataResponse;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\HttpMethod;
-use Office365\PHP\Client\Runtime\OData\JsonLightSerializerContext;
+use Office365\PHP\Client\Runtime\OData\JsonLightFormat;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
@@ -42,12 +44,26 @@ class ClientContext extends ClientRuntimeContext
     public function __construct($serviceUrl, IAuthenticationContext $authCtx)
     {
         $serviceRootUrl = $serviceUrl . '/_api/';
-        parent::__construct($serviceRootUrl,$authCtx,new JsonLightSerializerContext(ODataMetadataLevel::Verbose));
+        parent::__construct($serviceRootUrl,$authCtx,new JsonLightFormat(ODataMetadataLevel::Verbose));
     }
+
+    public function addQuery(ClientAction $query, $resultObject = null)
+    {
+        if ($this->getFormat()->MetadataLevel === ODataMetadataLevel::Verbose) {
+            if ($query instanceof InvokeMethodQuery) {
+                $this->getFormat()->addAnnotation('function',$query->getMethodName());
+            }
+        }
+        return parent::addQuery($query, $resultObject);
+    }
+
+
+
 
     /**
      * Ensure form digest value for POST request
      * @param RequestOptions $request
+     * @throws \Exception
      */
     public function ensureFormDigest(RequestOptions $request)
     {
@@ -59,21 +75,23 @@ class ClientContext extends ClientRuntimeContext
 
     /**
      * Request the SharePoint Context Info
+     * @throws \Exception
      */
     public function requestFormDigest()
     {
         $request = new RequestOptions($this->getServiceRootUrl() . "contextinfo");
         $request->Method = HttpMethod::Post;
-        $response = $this->executeQueryDirect($request);
+        $payload = $this->executeQueryDirect($request,$responseDetails);
         if(!isset($this->contextWebInformation))
             $this->contextWebInformation = new ContextWebInformation();
         $result = new ClientResult($this->contextWebInformation);
-        if ($this->getSerializerContext()->MetadataLevel == ODataMetadataLevel::Verbose) {
-            $this->getSerializerContext()->RootElement = "GetContextWebInformation";
+        $response = new ODataResponse($payload,$responseDetails);
+        if ($this->getFormat()->MetadataLevel === ODataMetadataLevel::Verbose) {
+            $this->getFormat()->setFunctionAnnotation("GetContextWebInformation");
         }
-        $payload = json_decode($response);
-        $result->fromJson($payload,$this->getSerializerContext());
+        $response->map($result,$this->getFormat());
     }
+
 
     /**
      * Submits query to SharePoint REST/OData service
@@ -89,6 +107,7 @@ class ClientContext extends ClientRuntimeContext
     /**
      * @param RequestOptions $request
      * @param ClientAction $query
+     * @throws \Exception
      */
     private function buildSharePointSpecificRequest(RequestOptions $request,ClientAction $query){
 

@@ -2,10 +2,9 @@
 
 namespace Office365\PHP\Client\Runtime\CSOM;
 
-use Office365\PHP\Client\Runtime\ClientAction;
+
 use Office365\PHP\Client\Runtime\ClientRequest;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
-use SimpleXMLElement;
 
 class CSOMRequest extends ClientRequest
 {
@@ -13,13 +12,13 @@ class CSOMRequest extends ClientRequest
     /**
      * @var string $AppName
      */
-    private static $AppName = "phpSPO Client";
+    //private static $AppName = "phpSPO Client";
 
 
     /**
      * @var string $SchemaVersion
      */
-    private static $SchemaVersion = "16.0.0.0";
+    //private static $SchemaVersion = "16.0.0.0";
 
     /**
      * Submit client request(s) to Office 365 API OData/SOAP service
@@ -55,7 +54,6 @@ class CSOMRequest extends ClientRequest
 
     /**
      * @param $response
-     * @param $resultObject
      */
     public function processResponse($response)
     {
@@ -64,18 +62,11 @@ class CSOMRequest extends ClientRequest
 
     /**
      * Build Client Request
-     * @return RequestOptions
+     * @return void
      */
     protected function buildRequest()
     {
         // TODO: Implement buildRequest() method.
     }
 
-    /**
-     * @return ClientRequest
-     */
-    public function getNextRequest()
-    {
-        // TODO: Implement getNextRequest() method.
-    }
 }

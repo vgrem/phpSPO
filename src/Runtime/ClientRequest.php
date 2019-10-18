@@ -4,6 +4,7 @@
 namespace Office365\PHP\Client\Runtime;
 
 
+use Exception;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 use Office365\PHP\Client\Runtime\Utilities\Guid;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
@@ -129,7 +130,7 @@ abstract class ClientRequest
      * @param RequestOptions $request
      * @param array $responseInfo
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function executeQueryDirect(RequestOptions $request, &$responseInfo = array())
     {
@@ -152,8 +153,4 @@ abstract class ClientRequest
         return $this->requestStatus;
     }
 
-    /**
-     * @return ClientRequest
-     */
-    public abstract function getNextRequest();
 }

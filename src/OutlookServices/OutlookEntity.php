@@ -5,6 +5,7 @@ namespace Office365\PHP\Client\OutlookServices;
 
 
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 use ReflectionObject;
@@ -33,41 +34,32 @@ class OutlookEntity extends ClientObject
     }
 
 
-    public function addAnnotation($name, $value)
+    protected function ensureTypeAnnotation(&$json)
     {
-        $this->annotations["@odata.$name"] = $value;
-    }
-
-    public function ensureTypeAnnotation()
-    {
-        $typeName = $this->getTypeName();
-        $this->addAnnotation("type","#Microsoft.OutlookServices.$typeName");
-    }
-
-
-
-
-
-    function getProperties($flag=SCHEMA_ALL_PROPERTIES)
-    {
-        $result = parent::getProperties($flag);
-        //include annotations
-        foreach ($this->annotations as $key => $val) {
-            $result[$key] = $val;
+        if($this->IncludeTypeAnnotation){
+            $typeName = $this->getTypeName();
+            $json["@odata.type"] = "#Microsoft.OutlookServices.$typeName";
         }
+    }
 
+
+
+    function toJson(ODataFormat $format)
+    {
+        $json = array();
+        $this->ensureTypeAnnotation($json);
         $reflection = new ReflectionObject($this);
         foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $p) {
             $val = $p->getValue($this);
-            if (!is_null($val)) {
-                $result[$p->name] = $val;
+            if (!is_null($val) && $p->getName() !== "IncludeTypeAnnotation") {
+                $json[$p->name] = $val;
             }
         }
-        return $result;
+        return $json;
     }
 
 
-    function setProperty($name, $value, $persistChanges = true)
+    function setProperty($name, $value, $serializable = true)
     {
         $normalizedName = ucfirst($name);
         if($normalizedName == "Id"){
@@ -76,7 +68,7 @@ class OutlookEntity extends ClientObject
             $this->{$normalizedName} = $value;
         }
         else
-            parent::setProperty($normalizedName, $value, $persistChanges);
+            parent::setProperty($normalizedName, $value, $serializable);
     }
 
 
@@ -85,10 +77,5 @@ class OutlookEntity extends ClientObject
      */
     public $Id;
 
-
-    /**
-     * @var array
-     */
-    protected $annotations = array();
-
+    public $IncludeTypeAnnotation;
 }

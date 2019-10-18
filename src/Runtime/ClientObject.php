@@ -2,7 +2,9 @@
 
 namespace Office365\PHP\Client\Runtime;
 
-
+use Office365\PHP\Client\Runtime\OData\JsonLightFormat;
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
+use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\OData\ODataPathBuilder;
 
 /**
@@ -28,7 +30,7 @@ class ClientObject implements IEntityType
     /**
      * @var array
      */
-    private $properties = array();
+    private $properties = null;
 
 
     /**
@@ -42,8 +44,6 @@ class ClientObject implements IEntityType
     protected $parentCollection;
 
 
-
-
     /**
      * ClientObject constructor.
      * @param ClientRuntimeContext $ctx
@@ -53,6 +53,7 @@ class ClientObject implements IEntityType
     {
         $this->context = $ctx;
         $this->resourcePath = $resourcePath;
+        $this->properties = array();
     }
 
 
@@ -134,21 +135,22 @@ class ClientObject implements IEntityType
     }
 
     /**
-     * @param int $flag
+     *
+     * @param ODataFormat $format
      * @return array
      */
-    function getProperties($flag=SCHEMA_ALL_PROPERTIES)
+    function toJson(ODataFormat $format)
     {
-        if($flag === SCHEMA_ALL_PROPERTIES)
-            return $this->properties;
-        //exclude non serializable properties
-        $result = array();
+        $payload = array();
         foreach( $this->properties as $key=>$value ) {
             $metadata = $this->propertiesMetadata[$key];
-            if(($metadata !== null && $metadata["Serializable"] == true))
-                $result[$key] = $value;
+            if(($metadata !== null && $metadata["Serializable"] === true))
+                $payload[$key] = $value;
         }
-        return $result;
+        if ($format instanceof JsonLightFormat && $format->MetadataLevel == ODataMetadataLevel::Verbose) {
+            $format->ensureMetadataAnnotation($this, $payload);
+        }
+        return $payload;
     }
 
 
@@ -159,7 +161,7 @@ class ClientObject implements IEntityType
      */
     public function isPropertyAvailable($name)
     {
-        return isset($this->properties[$name]) && !isset($this->properties[$name]->__deferred);
+        return isset($this->properties[$name]);
     }
 
 
@@ -168,9 +170,7 @@ class ClientObject implements IEntityType
      * @return bool
      */
     public function getServerObjectIsNull(){
-        if(!is_null($this->resourcePath))
-            return $this->resourcePath->ServerObjectIsNull;
-        return true;
+        return is_null($this->properties);
     }
 
 
@@ -188,12 +188,11 @@ class ClientObject implements IEntityType
      * A preferred way of setting the client object property
      * @param string $name
      * @param mixed $value
-     * @param bool $persistChanges
+     * @param bool $serializable
      */
-    public function setProperty($name, $value, $persistChanges = true)
+    public function setProperty($name, $value, $serializable = true)
     {
-        $this->propertiesMetadata[$name] = array("Serializable" => $persistChanges);
-
+        $this->propertiesMetadata[$name] = array("Serializable" => $serializable);
         //save property
         $this->{$name} = $value;
 

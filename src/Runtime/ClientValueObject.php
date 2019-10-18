@@ -3,9 +3,13 @@
 
 namespace Office365\PHP\Client\Runtime;
 
+use Office365\PHP\Client\Runtime\OData\JsonLightFormat;
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
+use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
+
 
 /**
- * Represents OData complex type(property) of a server-side property value.
+ * Represents OData complex type of a server-side property value.
  */
 class ClientValueObject implements IEntityType
 {
@@ -18,14 +22,12 @@ class ClientValueObject implements IEntityType
     {
         $this->typeName = $typeName;
     }
-
-
     /**
      * @param string $name
      * @param mixed $value
-     * @param bool $persistChanges
+     * @param bool $serializable
      */
-    function setProperty($name, $value,$persistChanges = true)
+    function setProperty($name, $value, $serializable = true)
     {
         $this->{$name} = $value;
     }
@@ -44,14 +46,25 @@ class ClientValueObject implements IEntityType
         return $this->typeName;
     }
 
-    function getProperties($flag=SCHEMA_ALL_PROPERTIES)
+    function toJson(ODataFormat $format)
     {
-        $result = array();
+        $payload = array();
         foreach (get_object_vars($this) as $key => $val) {
             if ($key != 'typeName' && !is_null($val))
-                $result[$key] = $val;
+                $payload[$key] = $val;
         }
-        return $result;
+        if ($format instanceof JsonLightFormat && $format->MetadataLevel == ODataMetadataLevel::Verbose) {
+            $format->ensureMetadataAnnotation($this, $payload);
+        }
+        return $payload;
+    }
+
+    /**
+     * @return bool
+     */
+    function getServerObjectIsNull()
+    {
+        return !is_null($this->typeName);
     }
 
 

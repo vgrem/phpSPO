@@ -9,11 +9,11 @@ use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
 class ODataBatchRequest extends ClientRequest
 {
-    private $mediaType = "multipart/mixed";
+    //private $mediaType = "multipart/mixed";
 
     public function executeQuery()
     {
-        $batchBoundary = $this->createBoundary("batch_");
+        //$batchBoundary = $this->createBoundary("batch_");
         parent::executeQuery();
     }
 
@@ -38,15 +38,6 @@ class ODataBatchRequest extends ClientRequest
     {
         // TODO: Implement processResponse() method.
     }
-
-    /**
-     * @return ClientRequest
-     */
-    public function getNextRequest()
-    {
-        // TODO: Implement getNextRequest() method.
-    }
-
 
     /**
      * Creates a string that can be used as a multipart request boundary.

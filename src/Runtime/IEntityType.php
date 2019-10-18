@@ -2,11 +2,9 @@
 
 namespace Office365\PHP\Client\Runtime;
 
-define ("SCHEMA_ALL_PROPERTIES", 1);
-define ("SCHEMA_SERIALIZABLE_PROPERTIES", 2);
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
 
-
- interface IEntityType
+interface IEntityType
  {
      /**
       * @return string
@@ -14,11 +12,17 @@ define ("SCHEMA_SERIALIZABLE_PROPERTIES", 2);
      function getTypeName();
 
 
-     /**
-      * @param int $flag
-      * @return mixed
-      */
-     function getProperties($flag=SCHEMA_ALL_PROPERTIES);
+    /**
+     * @return bool
+     */
+    function getServerObjectIsNull();
+
+
+    /**
+     * @param ODataFormat $format
+     * @return mixed
+     */
+     function toJson(ODataFormat $format);
 
 
      /**
@@ -27,10 +31,10 @@ define ("SCHEMA_SERIALIZABLE_PROPERTIES", 2);
       */
      public function getProperty($name);
 
-     /**
-      * @param string $name
-      * @param mixed $value
-      * @param bool $persistChanges
-      */
-     function setProperty($name, $value, $persistChanges = true);
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @param bool $serializable
+     */
+     function setProperty($name, $value, $serializable = true);
  }

@@ -4,9 +4,9 @@
 namespace Office365\PHP\Client\Runtime\OData;
 
 
-use Office365\PHP\Client\Runtime\IEntityTypeCollection;
+use Exception;
 
-class JsonSerializerContext extends ODataSerializerContext
+class JsonFormat extends ODataFormat
 {
 
     public function __construct($metadataLevel)
@@ -14,37 +14,13 @@ class JsonSerializerContext extends ODataSerializerContext
         parent::__construct($metadataLevel);
         $this->Streaming = false;
         $this->IEEE754Compatible = true;
+        $this->Annotations["collection"] = "value";
+        $this->Annotations["annotation"] = "@odata.*";
     }
-
-    function isAnnotationProperty($key)
-    {
-        return substr( $key, 0, 7 ) === "@odata.";
-    }
-
-
-    function mapType($json, $type)
-    {
-        foreach ($json as $key => $val) {
-            if ($this->isAnnotationProperty($key)){
-                unset($json->{$key});
-            }
-        }
-        parent::mapType($json, $type);
-    }
-
-    function  mapTypeCollection($json, IEntityTypeCollection $resultTypeCollection)
-    {
-        $collectionTagName = "value";
-        if (property_exists($json, $collectionTagName)) {
-            $json = $json->{$collectionTagName};
-        }
-        parent::mapTypeCollection($json, $resultTypeCollection);
-    }
-
 
     /**
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function getMediaType()
     {
@@ -61,7 +37,7 @@ class JsonSerializerContext extends ODataSerializerContext
                 $metadataValue = "none";
                 break;
             default:
-                throw  new \Exception("Unsupported metadata");
+                throw  new Exception("Unsupported metadata");
                 break;
         }
         return "application/json;OData.metadata={$metadataValue};OData.streaming={$streamingValue};IEEE754Compatible={$IEEE754CompatibleValue}";

@@ -18,7 +18,6 @@ abstract class ResourcePath
     {
         $this->context = $context;
         $this->parent = $parent;
-        $this->ServerObjectIsNull = true;
         $this->pathKind = null;
     }
 
@@ -71,12 +70,6 @@ abstract class ResourcePath
      * @var ClientRuntimeContext
      */
     protected $context;
-
-
-    /**
-     * @var bool
-     */
-    public $ServerObjectIsNull;
 
 
     /**

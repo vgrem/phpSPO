@@ -2,8 +2,6 @@
 
 
 namespace Office365\PHP\Client\Runtime;
-use Office365\PHP\Client\Runtime\OData\ODataSerializerContext;
-
 
 /**
  * Represents a Service Operation result value.
@@ -30,26 +28,17 @@ class ClientResult
     }
 
 
-    /**
-     * @param $json
-     * @param ODataSerializerContext $serializationContext
-     */
-    public function fromJson($json, ODataSerializerContext $serializationContext)
-    {
-        $serializationContext->map($json, $this->value);
-    }
-
-
     public function getValue(){
         return $this->value;
     }
 
+    public function setValue($value){
+        $this->value = $value;
+    }
+
     /**
-     * @var mixed $value
+     * @var $value
      */
     protected $value;
-
-
-
 
 }

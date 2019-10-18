@@ -11,7 +11,7 @@ use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\HttpMethod;
 use Office365\PHP\Client\Runtime\Office365Version;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\OData\JsonSerializerContext;
+use Office365\PHP\Client\Runtime\OData\JsonFormat;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 
@@ -25,7 +25,7 @@ class OutlookClient extends ClientRuntimeContext
     {
         $this->version = $version;
         $this->serviceRootUrl = $this->serviceRootUrl . $version . "/";
-        parent::__construct($this->serviceRootUrl, $authContext, new JsonSerializerContext(ODataMetadataLevel::Verbose), $version);
+        parent::__construct($this->serviceRootUrl, $authContext, new JsonFormat(ODataMetadataLevel::Verbose), $version);
     }
 
 
@@ -40,9 +40,6 @@ class OutlookClient extends ClientRuntimeContext
         });
         parent::executeQuery();
     }
-
-
-
 
 
     private function prepareOutlookServicesRequest(RequestOptions $request,ClientAction $query)

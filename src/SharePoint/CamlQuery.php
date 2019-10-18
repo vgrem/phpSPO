@@ -6,11 +6,21 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
+
+
 /**
  * Specifies a Collaborative Application Markup Language (CAML) query on a list or joined lists.
  */
 class CamlQuery extends ClientValueObject
 {
+
+    public function toJson(ODataFormat $format)
+    {
+        $payload = parent::toJson($format);
+        return array("query" => $payload);
+    }
+
     public static function createAllItemsQuery()
     {
         $qry = new CamlQuery();

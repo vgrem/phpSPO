@@ -6,6 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\PHP\Client\Runtime\OData\ODataFormat;
+
 /**
  * Class ChangeLogItemQuery
  */
@@ -19,6 +21,14 @@ class ChangeLogItemQuery extends ClientValueObject
         $this->Contains = "";
         parent::__construct();
     }
+
+    public function toJson(ODataFormat $format)
+    {
+        $payload = parent::toJson($format);
+        return array("query" => $payload);
+    }
+
+
     /**
      * A string that contains either the title or the GUID for the list. When querying the UserInfo table,
      * the string contains UserInfo. Using the GUID results in better performance.

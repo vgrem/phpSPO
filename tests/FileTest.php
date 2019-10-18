@@ -163,7 +163,7 @@ class FileTest extends SharePointTestCase
         $folder = self::$context->getWeb()->getFolderByServerRelativeUrl($folderUrl);
         self::$context->load($folder);
         self::$context->executeQuery();
-        self::assertNotEmpty($folder->getProperties());
+        self::assertFalse($folder->getServerObjectIsNull());
         return $folder;
     }
 
