@@ -35,7 +35,7 @@ function downloadPhoto(GraphServiceClient $client,$targetFilePath){
     $options = new \Office365\PHP\Client\Runtime\Utilities\RequestOptions($url);
     //$options->StreamHandle = $fp;
     try {
-        $content = $client->executeQueryDirect($options);
+        $response = $client->executeQueryDirect($options);
 
     } catch (Exception $e) {
     }

@@ -8,7 +8,6 @@ use Exception;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 use Office365\PHP\Client\Runtime\Utilities\Guid;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
-use Office365\PHP\Client\Runtime\Utilities\Requests;
 
 
 /**
@@ -69,10 +68,8 @@ abstract class ClientRequest
      */
     public function addQuery(ClientAction $query, $resultObject = null)
     {
-        if (isset($resultObject)) {
-            $queryId = $query->getId();
-            $this->resultObjects[$queryId] = $resultObject;
-        }
+        $queryId = $query->getId();
+        $this->resultObjects[$queryId] = $resultObject;
         $this->queries[] = $query;
     }
 
@@ -100,6 +97,14 @@ abstract class ClientRequest
 
     /**
      * @param RequestOptions $request
+     * @return ClientResponse
+     * @throws Exception
+     */
+    public abstract function executeQueryDirect(RequestOptions $request);
+
+
+    /**
+     * @param RequestOptions $request
      */
     protected abstract function setRequestHeaders(RequestOptions $request);
 
@@ -110,7 +115,7 @@ abstract class ClientRequest
     public abstract function processResponse($response);
 
     /**
-     * Build Client Request
+     * Build Request
      * @return RequestOptions
      */
     protected abstract function buildRequest();
@@ -125,19 +130,6 @@ abstract class ClientRequest
         $this->addQuery($qry, $clientObject);
     }
 
-
-    /**
-     * @param RequestOptions $request
-     * @param array $responseInfo
-     * @return string
-     * @throws Exception
-     */
-    public function executeQueryDirect(RequestOptions $request, &$responseInfo = array())
-    {
-        $this->context->authenticateRequest($request); //Auth mandatory headers
-        $this->setRequestHeaders($request); //set request headers
-        return Requests::execute($request,$responseInfo);
-    }
 
     /**
      * @return ClientAction[]

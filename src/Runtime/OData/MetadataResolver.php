@@ -19,8 +19,8 @@ class MetadataResolver
     {
         $metadataUrl = $ctx->getServiceRootUrl() . "/\$metadata";
         $options = new RequestOptions($metadataUrl);
-        $content = $ctx->executeQueryDirect($options);
-        return $content;
+        $response = $ctx->executeQueryDirect($options);
+        return $response->getContent();
     }
 
 }

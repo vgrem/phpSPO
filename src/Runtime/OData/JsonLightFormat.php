@@ -11,27 +11,31 @@ use Office365\PHP\Client\Runtime\IEntityType;
 class JsonLightFormat extends ODataFormat
 {
 
-
     public function __construct($metadataLevel)
     {
         parent::__construct($metadataLevel);
         if($metadataLevel === ODataMetadataLevel::Verbose){
-            $this->Annotations['__deferred'] = "deferred";
-            $this->Annotations['__metadata'] = "metadata";
-            $this->Annotations['collection'] = "results";
-            $this->Annotations['security'] = "d";
+            $this->addProperty('deferred',"__deferred");
+            $this->addProperty('metadata',"__metadata");
+            $this->addProperty('collection',"results");
+            $this->addProperty('security',"d");
         }
     }
 
-    public function setFunctionAnnotation($fnName){
-        $this->Annotations['function'] = $fnName;
+
+    public  function getFunctionProperty(){
+        return $this->getProperty('function');
+    }
+
+    public  function getSecurityProperty(){
+        return $this->getProperty('security');
     }
 
     /**
      * @param $type IEntityType
      * @param $payload array
      */
-    public function ensureMetadataAnnotation($type, &$payload)
+    public function ensureMetadataProperty($type, &$payload)
     {
         $typeName = $type->getTypeName();
         if (substr($typeName, 0, 3) !== "SP.")

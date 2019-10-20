@@ -44,9 +44,9 @@ class ListExtensions
 
 
     /**
-     * @param \Office365\PHP\Client\SharePoint\SPList $list
+     * @param SPList $list
      */
-    public static function deleteList(\Office365\PHP\Client\SharePoint\SPList $list){
+    public static function deleteList(SPList $list){
         $ctx = $list->getContext();
         $list->deleteObject();
         $ctx->executeQuery();

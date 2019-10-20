@@ -3,7 +3,6 @@
 namespace Office365\PHP\Client\SharePoint;
 use Exception;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\OData\ODataResponse;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
@@ -42,8 +41,7 @@ class ListItem extends SecurableObject
         if(!isset($this->resourceType)) {
             if(!$list->isPropertyAvailable("ListItemEntityTypeFullName")){
                 $request = new RequestOptions($list->getResourceUrl() . "?\$select=ListItemEntityTypeFullName");
-                $payload = $this->getContext()->executeQueryDirect($request,$responseDetails);
-                $response = new ODataResponse($payload,$responseDetails);
+                $response = $this->getContext()->executeQueryDirect($request);
                 $response->map($list,$this->getContext()->getFormat());
             }
             $this->resourceType = $list->getProperty("ListItemEntityTypeFullName");

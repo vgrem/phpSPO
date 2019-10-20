@@ -3,6 +3,7 @@
 
 namespace Office365\PHP\Client\Runtime\OData;
 
+use Cassandra\Value;
 use Exception;
 use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientRequestStatus;
@@ -13,6 +14,7 @@ use Office365\PHP\Client\Runtime\ClientRequest;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\HttpMethod;
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Utilities\Requests;
 
 
 /**
@@ -32,6 +34,22 @@ class ODataRequest extends ClientRequest
         $this->currentQuery = null;
     }
 
+
+
+    /**
+     * @param RequestOptions $request
+     * @return ClientResponse
+     * @throws Exception
+     */
+    public function executeQueryDirect(RequestOptions $request)
+    {
+        $this->context->authenticateRequest($request); //Auth mandatory headers
+        $this->setRequestHeaders($request); //set request headers
+        $content = Requests::execute($request,$responseInfo);
+        return new ODataResponse($content,$responseInfo);
+    }
+
+
     /**
      * Submit query to OData service
      * @throws Exception
@@ -48,18 +66,14 @@ class ODataRequest extends ClientRequest
                 ));
             }
 
-            $responseInfo = array();
-            $payload = $this->executeQueryDirect($request, $responseInfo);
-            $response = new ODataResponse($payload,$responseInfo);
+            $response = $this->executeQueryDirect($request);
             $response->validate();
             if (is_callable($this->eventsList["AfterExecuteQuery"])) {
                 call_user_func_array($this->eventsList["AfterExecuteQuery"], array(
                     $response
                 ));
             }
-            if (!empty($payload)) {
-                $this->processResponse($response);
-            }
+            $this->processResponse($response);
             $this->requestStatus = ClientRequestStatus::CompletedSuccess;
         }
         catch(Exception $e){
@@ -75,11 +89,16 @@ class ODataRequest extends ClientRequest
      */
     public function processResponse($response)
     {
-        $queryId = $this->currentQuery->getId();
-        if (!array_key_exists($queryId, $this->resultObjects)) {
+        $payload = $response->getContent();
+        if (empty($payload)) {
             return;
         }
+
+        $queryId = $this->currentQuery->getId();
         $resultObject = $this->resultObjects[$queryId];
+        if (is_null($resultObject)) {
+            return;
+        }
         $response->map($resultObject, $this->getFormat());
     }
 

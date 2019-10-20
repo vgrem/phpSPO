@@ -165,8 +165,8 @@ class File extends SecurableObject
         $url = $ctx->getServiceRootUrl() . "web/getfilebyserverrelativeurl('$serverRelativeUrl')/\$value";
         $options = new RequestOptions($url);
         $options->TransferEncodingChunkedAllowed = true;
-        $data = $ctx->executeQueryDirect($options);
-        return $data;
+        $response = $ctx->executeQueryDirect($options);
+        return $response->getContent();
     }
 
     /**

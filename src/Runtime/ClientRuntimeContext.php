@@ -2,6 +2,7 @@
 
 namespace Office365\PHP\Client\Runtime;
 
+use Exception;
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\OData\ODataRequest;
 use Office365\PHP\Client\Runtime\OData\ODataFormat;
@@ -145,13 +146,12 @@ class ClientRuntimeContext
 
     /**
      * @param RequestOptions $options
-     * @param array $responseInfo
-     * @return string
-     * @throws \Exception
+     * @return ClientResponse
+     * @throws Exception
      */
-    public function executeQueryDirect(RequestOptions $options,&$responseInfo = [])
+    public function executeQueryDirect(RequestOptions $options)
     {
-        return $this->getPendingRequest()->executeQueryDirect($options, $responseInfo);
+        return $this->getPendingRequest()->executeQueryDirect($options);
     }
 
 

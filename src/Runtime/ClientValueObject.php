@@ -54,7 +54,7 @@ class ClientValueObject implements IEntityType
                 $payload[$key] = $val;
         }
         if ($format instanceof JsonLightFormat && $format->MetadataLevel == ODataMetadataLevel::Verbose) {
-            $format->ensureMetadataAnnotation($this, $payload);
+            $format->ensureMetadataProperty($this, $payload);
         }
         return $payload;
     }

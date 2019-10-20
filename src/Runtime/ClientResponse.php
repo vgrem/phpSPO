@@ -8,10 +8,14 @@ use Office365\PHP\Client\Runtime\OData\ODataFormat;
 
 abstract class ClientResponse
 {
-    public function __construct($payload,$details)
+    public function __construct($content, $details)
     {
-        $this->Payload = $payload;
+        $this->Content = $content;
         $this->StatusCode = $details['HttpCode'];
+    }
+
+    public function getContent(){
+        return $this->Content;
     }
 
     /**
@@ -22,8 +26,12 @@ abstract class ClientResponse
 
     abstract function validate();
 
+    /**
+     * @var integer
+     */
     protected $StatusCode;
 
-    protected $Payload;
+
+    protected $Content;
 
 }

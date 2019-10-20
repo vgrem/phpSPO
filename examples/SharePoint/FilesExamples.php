@@ -184,7 +184,7 @@ function downloadFileAsStream(ClientRuntimeContext $ctx, $fileUrl, $targetFilePa
 
     $fp = fopen($targetFilePath, 'w+');
     $url = $ctx->getServiceRootUrl() . "web/getfilebyserverrelativeurl('$fileUrl')/\$value";
-    $options = new \Office365\PHP\Client\Runtime\Utilities\RequestOptions($url);
+    $options = new RequestOptions($url);
     $options->StreamHandle = $fp;
     $ctx->executeQueryDirect($options);
     fclose($fp);
@@ -199,7 +199,7 @@ function renameFolder($webUrl, $authCtx, $folderUrl,$folderNewName)
     $request = new RequestOptions($url);
     $ctx = new ClientContext($url,$authCtx);
     $resp = $ctx->executeQueryDirect($request);
-    $data = json_decode($resp);
+    $data = json_decode($resp->getContent());
 
     $itemPayload = array(
         '__metadata' => array ('type' => $data->d->__metadata->type),

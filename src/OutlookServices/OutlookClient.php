@@ -25,7 +25,9 @@ class OutlookClient extends ClientRuntimeContext
     {
         $this->version = $version;
         $this->serviceRootUrl = $this->serviceRootUrl . $version . "/";
-        parent::__construct($this->serviceRootUrl, $authContext, new JsonFormat(ODataMetadataLevel::Verbose), $version);
+        $format = new JsonFormat(ODataMetadataLevel::Verbose);
+        $format->addProperty("type","#Microsoft.OutlookServices.*");
+        parent::__construct($this->serviceRootUrl, $authContext,$format, $version);
     }
 
 
@@ -51,7 +53,6 @@ class OutlookClient extends ClientRuntimeContext
             $request->Method = HttpMethod::Delete;
         }
     }
-
 
 
     /**

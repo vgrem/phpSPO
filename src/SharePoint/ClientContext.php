@@ -7,7 +7,6 @@ use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\InvokeMethodQuery;
-use Office365\PHP\Client\Runtime\OData\ODataResponse;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\HttpMethod;
@@ -51,7 +50,7 @@ class ClientContext extends ClientRuntimeContext
     {
         if ($this->getFormat()->MetadataLevel === ODataMetadataLevel::Verbose) {
             if ($query instanceof InvokeMethodQuery) {
-                $this->getFormat()->addAnnotation('function',$query->getMethodName());
+                $this->getFormat()->addProperty('function',$query->getMethodName());
             }
         }
         return parent::addQuery($query, $resultObject);
@@ -81,13 +80,12 @@ class ClientContext extends ClientRuntimeContext
     {
         $request = new RequestOptions($this->getServiceRootUrl() . "contextinfo");
         $request->Method = HttpMethod::Post;
-        $payload = $this->executeQueryDirect($request,$responseDetails);
+        $response = $this->executeQueryDirect($request);
         if(!isset($this->contextWebInformation))
             $this->contextWebInformation = new ContextWebInformation();
         $result = new ClientResult($this->contextWebInformation);
-        $response = new ODataResponse($payload,$responseDetails);
         if ($this->getFormat()->MetadataLevel === ODataMetadataLevel::Verbose) {
-            $this->getFormat()->setFunctionAnnotation("GetContextWebInformation");
+            $this->getFormat()->addProperty('function',"GetContextWebInformation");
         }
         $response->map($result,$this->getFormat());
     }

@@ -14,9 +14,10 @@ class JsonFormat extends ODataFormat
         parent::__construct($metadataLevel);
         $this->Streaming = false;
         $this->IEEE754Compatible = true;
-        $this->Annotations["collection"] = "value";
-        $this->Annotations["annotation"] = "@odata.*";
+        $this->addProperty("control","*@odata.*");
+        $this->addProperty("collection","value");
     }
+
 
     /**
      * @return string

@@ -6,16 +6,26 @@ namespace Office365\PHP\Client\Runtime\OData;
 
 abstract class ODataFormat
 {
+
+
     public function __construct($metadataLevel)
     {
         $this->MetadataLevel = $metadataLevel;
-        $this->Annotations = array();
+        $this->properties = array();
+
     }
 
 
-    public function addAnnotation($name, $value)
+    public function addProperty($name, $value)
     {
-        $this->Annotations[$name] = $value;
+        $this->properties[$name] = $value;
+    }
+
+
+    public function getProperty($name){
+        if(isset($this->properties[$name]))
+            return $this->properties[$name];
+        return null;
     }
 
 
@@ -55,6 +65,6 @@ abstract class ODataFormat
     /**
      * @var array
      */
-    public $Annotations;
+    protected $properties;
 
 }

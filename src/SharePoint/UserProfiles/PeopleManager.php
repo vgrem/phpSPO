@@ -107,7 +107,10 @@ class PeopleManager extends ClientObject
     public function getFollowersFor($accountName){
         return new PersonPropertiesCollection(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getfollowersfor",array(rawurlencode($accountName)))
+            new ResourcePathServiceOperation($this->getContext(),
+                $this->getResourcePath(),
+                "getfollowersfor",
+                array(rawurlencode($accountName)))
         );
     }
 
