@@ -14,7 +14,6 @@ use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 class ListItem extends SecurableObject
 {
 
-
     /**
      * Updates list item resource
      */
@@ -28,6 +27,16 @@ class ListItem extends SecurableObject
     {
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
+    }
+
+
+    function getProperty($name)
+    {
+        if(!$this->isPropertyAvailable($name)){
+            if($name == "Folder") return $this->getFolder();
+            elseif ($name == "File") return $this->getFile();
+        }
+        return parent::getProperty($name);
     }
 
 

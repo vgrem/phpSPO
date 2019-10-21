@@ -59,8 +59,8 @@ function generateFiles(ODataModel $model){
         $curIdx++;
         if($curIdx >= $startIdx){
             echo "Processing type ($curIdx of $count):  $typeName ... " . PHP_EOL;
-            $annotations->resolveTypeComment($typeName,$type);
-            generateTypeFile($type,$model->getOptions());
+            //$annotations->resolveTypeComment($typeName,$type);
+            //generateTypeFile($type,$model->getOptions());
         }
     }
 }

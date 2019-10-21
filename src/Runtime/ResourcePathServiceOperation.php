@@ -15,7 +15,7 @@ class ResourcePathServiceOperation extends ResourcePath implements ICSOMCallable
      * @param ClientRuntimeContext $context
      * @param ResourcePath|null $parent
      * @param string $methodName
-     * @param array $methodParameters
+     * @param array|IEntityType $methodParameters
      */
     public function __construct(ClientRuntimeContext $context, ResourcePath $parent=null, $methodName=null, $methodParameters = null)
     {
@@ -28,7 +28,7 @@ class ResourcePathServiceOperation extends ResourcePath implements ICSOMCallable
     public function toString()
     {
         $url = isset($this->methodName) ? $this->methodName : "";
-        if (!isset($this->methodParameters))
+        if (!isset($this->methodParameters) || !is_array($this->methodParameters))
             return $url;
 
         if (count(array_filter(array_keys($this->methodParameters), 'is_string')) === 0) {
@@ -73,8 +73,16 @@ class ResourcePathServiceOperation extends ResourcePath implements ICSOMCallable
         }*/
     }
 
+    function getMethodName(){
+        return $this->methodName;
+    }
+
+    function getMethodParameters(){
+        return $this->methodParameters;
+    }
+
     /**
-     * @var array
+     * @var array|IEntityType
      */
     protected $methodParameters;
 

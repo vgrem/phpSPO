@@ -46,6 +46,7 @@ class ODataV3Reader implements IODataReader
             $nodeName = $node->getName();
             switch ($nodeName) {
                 case "ComplexType":
+                case "EntityType":
                     $nsName = (string)$prevIterator->attributes()["Namespace"];
                     $typeName = (string)$node->attributes()["Name"];
                     $typeFullName = "$nsName.$typeName";

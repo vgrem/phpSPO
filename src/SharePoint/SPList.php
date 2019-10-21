@@ -5,6 +5,7 @@ use Office365\PHP\Client\Runtime\CreateEntityQuery;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\InvokeMethodQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
+use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
@@ -55,17 +56,15 @@ class SPList extends SecurableObject
      */
     public function getItems(CamlQuery $camlQuery = null)
     {
-        $items = new ListItemCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"items"));
-        if(isset($camlQuery)){
-            $qry = new InvokePostMethodQuery(
+        if (isset($camlQuery)) {
+            $path = new ResourcePathServiceOperation(
+                $this->getContext(),
                 $this->getResourcePath(),
                 "GetItems",
-                null,
-                $camlQuery
-            );
-            $this->getContext()->addQuery($qry,$items);
+                $camlQuery);
+            return new ListItemCollection($this->getContext(),$path);
         }
-        return $items;
+        return new ListItemCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "items"));
     }
 
 

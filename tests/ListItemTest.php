@@ -2,6 +2,7 @@
 
 use Office365\PHP\Client\SharePoint\AttachmentCreationInformation;
 use Office365\PHP\Client\SharePoint\CamlQuery;
+use Office365\PHP\Client\SharePoint\Folder;
 use Office365\PHP\Client\SharePoint\ListItem;
 use Office365\PHP\Client\SharePoint\ListTemplateType;
 use Office365\PHP\Client\SharePoint\SPList;
@@ -39,6 +40,52 @@ class ListItemTest extends SharePointTestCase
     }
 
 
+    public function testCreateFolderInList(){
+        //ensure Folder creation is enabled for a List
+        $enableFolderCreation =  self::$targetList->getProperty('EnableFolderCreation');
+        if($enableFolderCreation === false){
+            self::$targetList->setProperty('EnableFolderCreation',true);
+            self::$targetList->update();
+            self::$context->executeQuery();
+        }
+
+        $folderName = "Archive_" . rand(1, 100000);
+        $folderItem = array(
+            "Title" => $folderName,
+            "FileLeafRef" => $folderName,
+            "FileSystemObjectType" => 1,
+            "ContentTypeId" => "0x0120"
+        );
+        $item = self::$targetList->addItem($folderItem);
+        self::$context->executeQuery();
+        self::assertNotNull($item->getServerObjectIsNull());
+
+        $folder = $item->getFolder();
+        $folder->rename($folderName);
+        self::$context->executeQuery();
+        return $folder;
+    }
+
+
+    /**
+     * @depends testCreateFolderInList
+     * @param Folder $targetFolder
+     */
+    public function testCamlFolderQuery($targetFolder)
+    {
+        self::$context->load($targetFolder);
+        self::$context->executeQuery();
+
+        $items = self::$targetList->getItems(CamlQuery::createAllFoldersQuery())->expand("Folder");
+        self::$context->load($items);
+        self::$context->executeQuery();
+        $result = $items->findItems(function (ListItem $item) use ($targetFolder) {
+            return $item->getFolder()->getProperty("Name") === $targetFolder->getProperty('Name');
+
+        });
+        self::assertNotNull($result);
+    }
+
 
     public function testCreateListItems()
     {
@@ -52,12 +99,11 @@ class ListItemTest extends SharePointTestCase
             'PredecessorsId' => array( 'results' => array($currentUser->getProperty("Id")))
             //'__metadata' => array('type' => 'SP.Data.TasksListItem')
         );
-        $items = $this->populateList($itemProperties,1);
+        $items = ListItemExtensions::populateList(self::$targetList,$itemProperties,1);
         $firstItem = $items[0];
         $this->assertEquals($firstItem->getProperty('Body'), $itemProperties['Body']);
         return $firstItem;
     }
-
 
     /**
      * @depends testCreateListItems
@@ -99,7 +145,8 @@ class ListItemTest extends SharePointTestCase
     {
         $items = self::$targetList->getItems()
             ->select("AssignedTo/Title")
-            ->expand("AssignedTo");
+            ->expand("AssignedTo")
+            ->filter("FSObjType eq 0");
         self::$context->load($items);
         self::$context->executeQuery();
 
@@ -113,9 +160,10 @@ class ListItemTest extends SharePointTestCase
 
     public function testQueryOptionsForMultiUserField()
     {
-        $items = self::$targetList->getItems()
+        $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery())
             ->select("Predecessors/Title")
-            ->expand("Predecessors");
+            ->expand("Predecessors")
+            ->filter("FSObjType eq 0");
         self::$context->load($items);
         self::$context->executeQuery();
 
@@ -143,7 +191,7 @@ class ListItemTest extends SharePointTestCase
                 'Title' => 'Order Approval' . rand(1, 1000),
                 'Body' => 'Please review a task'
             );
-            $this->populateList($itemProperties, $minItemsCount - $itemsCount);
+            ListItemExtensions::populateList(self::$targetList,$itemProperties, $minItemsCount - $itemsCount);
         }
 
         $items = self::$targetList->getItems();
@@ -169,38 +217,19 @@ class ListItemTest extends SharePointTestCase
     public function testDeleteListItems()
     {
         $ctx = self::$targetList->getContext();
-        $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery());
+        $items = self::$targetList->getItems();
         $ctx->load($items);
         $ctx->executeQuery();
         /** @var ListItem $item */
         foreach ($items->getData() as $item) {
             $item->deleteObject();
-            $ctx->load(self::$targetList);
             $ctx->executeQuery();
         }
 
-
+        $ctx->load(self::$targetList);
+        $ctx->executeQuery();
         $itemsCount = self::$targetList->getProperty("ItemCount");
         $this->assertEquals($itemsCount, 0);
-    }
-
-
-    /**
-     * Populate List
-     * @param $itemProperties array
-     * @param $itemsCount integer
-     * @return array
-     * @throws Exception
-     */
-    public function populateList($itemProperties,$itemsCount)
-    {
-        $items = [];
-        $idx = 0;
-        while($idx < $itemsCount){
-            $items[] = ListItemExtensions::createListItem(self::$targetList, $itemProperties);
-            $idx++;
-        }
-        return $items;
     }
     
 }

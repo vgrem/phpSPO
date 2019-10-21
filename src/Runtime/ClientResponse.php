@@ -24,6 +24,9 @@ abstract class ClientResponse
      */
     abstract  function map($object,$format);
 
+    /**
+     * @return bool
+     */
     abstract function validate();
 
     /**

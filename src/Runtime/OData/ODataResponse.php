@@ -92,9 +92,6 @@ class ODataResponse extends ClientResponse
             $this->mapCollection($json, $object, $format);
         } else {
             foreach ($json as $key => $value) {
-                /*if($key == "Predecessors"){
-                    echo "OK";
-                }*/
                 if ($key !== $format->getProperty('metadata')
                     && fnmatch($format->getProperty('control'), $key) !== true) {
                     if (is_array($value) && !empty($value)) {

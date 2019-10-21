@@ -1,9 +1,12 @@
 <?php
 
+
 use Office365\PHP\Client\Runtime\Utilities\Guid;
+use Office365\PHP\Client\SharePoint\CamlQuery;
 use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\FileCreationInformation;
 use Office365\PHP\Client\SharePoint\Folder;
+use Office365\PHP\Client\SharePoint\ListItem;
 use Office365\PHP\Client\SharePoint\ListTemplateType;
 use Office365\PHP\Client\SharePoint\SPList;
 
@@ -28,6 +31,23 @@ class FileTest extends SharePointTestCase
         self::$targetList->deleteObject();
         self::$context->executeQuery();
         parent::tearDownAfterClass();
+    }
+
+
+    public function testCamlFolderQuery()
+    {
+        $folderName = "Archive_" . rand(1, 100000);
+        $folder = self::$targetList->getRootFolder()->getFolders()->add($folderName);
+        self::$context->executeQuery();
+
+        $items = self::$targetList->getItems(CamlQuery::createAllFoldersQuery())->expand("Folder");
+        self::$context->load($items);
+        self::$context->executeQuery();
+        $result = $items->findItems(function (ListItem $item) use ($folder) {
+                return $item->getFolder()->getProperty("Name") === $folder->getProperty('Name');
+
+        });
+        self::assertNotNull($result);
     }
 
 
