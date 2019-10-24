@@ -14,6 +14,11 @@ abstract class ClientResponse
         $this->StatusCode = $details['HttpCode'];
     }
 
+    public function getStatusCode()
+    {
+        return $this->StatusCode;
+    }
+
     public function getContent(){
         return $this->Content;
     }
