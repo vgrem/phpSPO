@@ -1,6 +1,8 @@
 <?php
 
 namespace Office365\PHP\Client\SharePoint;
+
+use Office365\PHP\Client\Exception\IOException;
 use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
@@ -166,6 +168,14 @@ class File extends SecurableObject
         $options = new RequestOptions($url);
         $options->TransferEncodingChunkedAllowed = true;
         $response = $ctx->executeQueryDirect($options);
+        if (400 <= $statusCode = $response->getStatusCode()) {
+            throw new IOException(sprintf(
+                'Could not open file located at "%s". SharePoint has responded with status code %d, error was: %s',
+                rawurldecode($serverRelativeUrl),
+                $statusCode,
+                $response->getContent()
+            ), $statusCode, $response->getContent());
+        }
         return $response->getContent();
     }
 
