@@ -8,7 +8,7 @@ use PhpParser\NodeVisitorAbstract;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter;
 
-class ClientValueBuilder extends NodeVisitorAbstract {
+class ModelTypeBuilder extends NodeVisitorAbstract {
     private $typeSchema;
     private $statistics;
     private $options;
@@ -44,27 +44,67 @@ class ClientValueBuilder extends NodeVisitorAbstract {
         return false;
     }
 
+    private function getClassName($type){
+        $parts = explode('\\', $type);
+        return array_slice($parts, -1)[0];
+    }
+
     public function createTypeFile()
     {
-        $parts = explode('\\', $this->typeSchema['type']);
-        $classShortName = array_slice($parts, -1)[0];
+        $baseType = $this->typeSchema['baseType'];
+        $classShortName = $this->getClassName($this->typeSchema['type']);
+        $baseClassShortName = $this->getClassName($baseType);
         $factory = new BuilderFactory;
         $nsName = str_replace("\\" . $classShortName ,"",$this->typeSchema['type']);
         $node = $factory->namespace($nsName)
-            ->addStmt($factory->use('Office365\PHP\Client\Runtime\ClientValueObject'))
+            ->addStmt($factory->use($baseType))
             ->setDocComment((new DocCommentBuilder($this->options))->createHeaderComment())
             ->addStmt($factory->class($classShortName)
-                ->extend('ClientValueObject')
+                ->extend($baseClassShortName)
                 ->setDocComment(DocCommentBuilder::createClassComment($this->typeSchema))
                 ->addStmts(array_map(function ($name, $prop) use ($factory) {
-                    $propStmt = $factory->property($name)->makePublic();
-                    $propStmt->setDocComment(DocCommentBuilder::createPropertyComment($prop));
-                    return $propStmt;
+                    return $this->buildProperty($factory,$name,$prop);
                 }, array_keys($this->typeSchema['properties']), $this->typeSchema['properties']))
             )->getNode();
 
         $ast = array($node);
         $this->printFile($ast,$this->typeSchema['file']);
+    }
+
+
+    /**
+     * @param BuilderFactory $factory
+     * @param $propName string
+     * @param $prop array
+     * @return Node
+     */
+    private function buildProperty(BuilderFactory $factory,$propName,$prop){
+        if(is_null($prop['baseType'])){
+            $propStmt = $factory->property($propName)->makePublic();
+            $propStmt->setDocComment(DocCommentBuilder::createPropertyComment($prop));
+            return $propStmt->getNode();
+        }
+        /*$templateBuilder = new TemplateBuilder();
+        $propNode = $templateBuilder->create($prop);
+        $propNode->setDocComment(DocCommentBuilder::createPropertyComment($prop));
+        return $propNode;*/
+    }
+
+
+    public function enterNode(Node $node) {
+        $factory = new BuilderFactory;
+        if ($node instanceof Node\Stmt\Class_) {
+            foreach ($this->typeSchema['properties'] as $prop){
+                if($prop['state'] === 'detached'){
+                    $prop = $this->buildProperty($factory,$prop['name'],$prop);
+                    $node->stmts[] = $prop;
+                    $this->statistics['created']++;
+                }
+            }
+        }
+        /*elseif ($node instanceof Node\Stmt\Property){
+            //todo
+        }*/
     }
 
 
@@ -89,22 +129,5 @@ class ClientValueBuilder extends NodeVisitorAbstract {
 
     public function getStatistics(){
         return $this->statistics;
-    }
-
-    public function enterNode(Node $node) {
-        $factory = new BuilderFactory;
-        if ($node instanceof Node\Stmt\Class_) {
-            foreach ($this->typeSchema['properties'] as $prop){
-                if($prop['state'] === 'detached'){
-                    //$prop = $factory->property($prop['name'])->makePublic()->setType($prop['type']);
-                    $prop = $factory->property($prop['name'])->makePublic();
-                    $node->stmts[] = $prop->getNode();
-                    $this->statistics['created']++;
-                }
-            }
-        }
-        /*elseif ($node instanceof Node\Stmt\Property){
-            //todo
-        }*/
     }
 }

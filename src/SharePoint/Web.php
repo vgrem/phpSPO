@@ -41,7 +41,7 @@ class Web extends SecurableObject
                 "isEditLink" => $isEditLink
             ));
         if ($context->getFormat()->MetadataLevel == ODataMetadataLevel::Verbose) {
-            $context->getFormat()->SecurityTagName = "CreateAnonymousLink";
+            $context->getFormat()->addProperty('function', "CreateAnonymousLink");
         }
         $context->addQuery($qry,$result);
         return $result;
@@ -67,7 +67,7 @@ class Web extends SecurableObject
                 "expirationString" => $expirationString
             ));
         if ($context->getFormat()->MetadataLevel == ODataMetadataLevel::Verbose) {
-            $context->getFormat()->SecurityTagName = "CreateAnonymousLinkWithExpiration";
+            $context->getFormat()->addProperty('function',"CreateAnonymousLinkWithExpiration");
         }
         $context->addQuery($qry,$result);
         return $result;

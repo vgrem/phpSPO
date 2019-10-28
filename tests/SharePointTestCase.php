@@ -12,6 +12,8 @@ abstract class SharePointTestCase extends TestCase
      */
     protected static $context;
 
+    protected static $testLoginName = "i:0#.f|membership|mdoe@mediadev8.onmicrosoft.com";
+
     public static function setUpBeforeClass()
     {
         $settings = include(__DIR__ . '/../Settings.php');

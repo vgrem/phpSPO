@@ -81,6 +81,6 @@ abstract class ResourcePath
     /**
      * @var ODataPathKind
      */
-    private $pathKind;
+    protected $pathKind;
 
 }

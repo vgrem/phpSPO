@@ -3,6 +3,7 @@
 
 namespace Office365\PHP\Client\Runtime;
 use Office365\PHP\Client\Runtime\CSOM\ICSOMCallable;
+use Office365\PHP\Client\Runtime\OData\ODataPathKind;
 use SimpleXMLElement;
 
 /**
@@ -22,6 +23,7 @@ class ResourcePathServiceOperation extends ResourcePath implements ICSOMCallable
         parent::__construct($context, $parent);
         $this->methodName = $methodName;
         $this->methodParameters = $methodParameters;
+        $this->pathKind = ODataPathKind::Operation;
     }
 
 

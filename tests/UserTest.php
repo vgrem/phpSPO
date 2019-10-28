@@ -65,6 +65,25 @@ class UserTest extends SharePointTestCase
      * @param Group $group
      * @throws Exception
      */
+    public function testAddUserIntoGroup(Group $group)
+    {
+        $user = $group->getUsers()->addUser(self::$testLoginName);
+        self::$context->executeQuery();
+        $this->assertNotNull($user->getProperty("Id"));
+
+        $groupUsers = $group->getUsers();
+        self::$context->load($groupUsers);
+        self::$context->executeQuery();
+        $result = $group->getUsers()->findFirst("LoginName",self::$testLoginName);
+        $this->assertNotNull($result);
+    }
+
+
+    /**
+     * @depends testCreateGroup
+     * @param Group $group
+     * @throws Exception
+     */
     public function testDeleteGroup(Group $group)
     {
         self::$context->getWeb()->getSiteGroups()->removeByLoginName($group->getProperty("LoginName"));

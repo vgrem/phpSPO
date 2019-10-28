@@ -59,11 +59,7 @@ class ListItemTest extends SharePointTestCase
         $item = self::$targetList->addItem($folderItem);
         self::$context->executeQuery();
         self::assertNotNull($item->getServerObjectIsNull());
-
-        $folder = $item->getFolder();
-        $folder->rename($folderName);
-        self::$context->executeQuery();
-        return $folder;
+        return $item->getFolder();
     }
 
 

@@ -75,8 +75,8 @@ catch (Exception $e) {
 function downloadFileViaRPC(ClientContext $ctx,$webUrl,$fileUrl){
     $fileAbsUrl = $webUrl . rawurlencode($fileUrl);
     $options = new RequestOptions($fileAbsUrl);
-    $data = $ctx->executeQueryDirect($options);
-    print (strlen($data));
+    $response = $ctx->executeQueryDirect($options);
+    print (strlen($response->getContent()));
 }
 
 function createSubFolder(ClientContext $ctx,$parentFolderUrl,$folderName){

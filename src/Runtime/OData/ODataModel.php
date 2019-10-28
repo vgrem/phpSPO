@@ -59,17 +59,25 @@ class ODataModel
         $this->types[$typeName] = &$type;
     }
 
+    private function addProperty(&$type,$propertyName,array $property)
+    {
+        $type['properties'][$propertyName] = $property;
+    }
+
 
     /**
      * @param $typeName string
+     * @param $baseTypeName string
      * @return bool
      */
-    public function resolveType($typeName)
+    public function resolveType($typeName, $baseTypeName)
     {
         if (!$this->validateType($typeName)) {
             //echo "Unknown type: $typeName" . PHP_EOL;
             return false;
         }
+        if(isset($this->types[$typeName]))
+            return true;
 
         $parts = explode('.', $typeName);
         array_shift($parts);
@@ -82,6 +90,7 @@ class ODataModel
             $className = $this->options['rootNamespace'] . "\\" . implode('\\', $parts);
             $type = array('state' => 'detached', 'type' => $className, 'file' => $outputFile, 'properties' => array());
         }
+        $type['baseType'] = str_replace("\\SharePoint","\\Runtime",$this->options['rootNamespace']) . "\\" . $baseTypeName;
         $this->addType($typeName,$type);
         return true;
     }
@@ -89,35 +98,39 @@ class ODataModel
     /**
      * @param $propertyFullName string
      * @param $propertyTypeName string
+     * @param string|null $basePropertyTypeName
      */
-    public function resolveProperty($propertyFullName, $propertyTypeName)
+    public function resolveProperty($propertyFullName, $propertyTypeName, $basePropertyTypeName=null)
     {
         $parts = explode('.', $propertyFullName);
         $propertyName = array_pop($parts);
         $typeName = implode('.',$parts);
         $type = &$this->types[$typeName];
+
         if ($type['state'] === 'detached') {
-            $prop = array('state' => 'detached', 'type' => $this->getPropertyType($propertyTypeName));
+            $prop = array('state' => 'detached', 'type' => $this->getPropertyType($propertyTypeName,$basePropertyTypeName));
         } else {
             try {
                 $class = new ReflectionClass($type['type']);
                 $class->getProperty($propertyName);
-                $prop = array('name' => $propertyName, 'state' => 'attached', 'type' => $this->getPropertyType($propertyTypeName));
+                $prop = array('name' => $propertyName, 'state' => 'attached', 'type' => $this->getPropertyType($propertyTypeName,$basePropertyTypeName));
             }
             catch (ReflectionException $e) {
-                $prop = array('name' => $propertyName, 'type' => $this->getPropertyType($propertyTypeName), 'state' => 'detached');
+                $prop = array('name' => $propertyName, 'type' => $this->getPropertyType($propertyTypeName,$basePropertyTypeName), 'state' => 'detached');
             }
         }
-        $type['properties'][$propertyName] = $prop;
+        $prop['baseType'] = $basePropertyTypeName;
+        $this->addProperty($type,$propertyName,$prop);
     }
 
     /**
      * @param $typeName string
+     * @param $baseTypeName|null string
      * @return string|null
      */
-    private function getPropertyType($typeName)
+    private function getPropertyType($typeName, $baseTypeName)
     {
-        $mappings = array(
+        $valueTypeMappings = array(
             "Edm.String" => "string",
             "Edm.Boolean" => "bool",
             "Edm.Guid" => "string",
@@ -128,13 +141,34 @@ class ODataModel
             "Edm.Int64" => "integer",
             "Edm.Double" => "double"
         );
-        if (array_key_exists($typeName, $mappings))
-            return $mappings[$typeName];
-        elseif (substr($typeName, 0, strlen("Collection")) === "Collection")
+
+        $collTypeMappings = array();
+        foreach ($valueTypeMappings as $k=>$v){
+            $collTypeMappings["Collection($k)"] = "array";
+        }
+        $valueTypeMappings = array_merge($valueTypeMappings, $collTypeMappings);
+
+
+        if (array_key_exists($typeName, $valueTypeMappings))
+            return $valueTypeMappings[$typeName];
+        elseif (substr($typeName, 0, strlen("Collection")) === "Collection") {
+            $colTypeName = str_replace("Collection(","",$typeName);
+            $colTypeName = str_replace(")","Collection",$colTypeName);
+            if(is_null($baseTypeName))
+                $baseTypeName = "ClientValueObjectCollection";
+            if ($this->resolveType($colTypeName,$baseTypeName)) {
+                $type = $this->types[$colTypeName];
+                $type['baseType'] = $type['baseType'] . 'Collection';
+                return $type['type'];
+            }
             return "array";
-        if ($this->validateType($typeName)) {
-            $type = $this->resolveType($typeName);
-            return $type ? $type['type'] : null;
+        }
+
+        if(is_null($baseTypeName))
+            $baseTypeName = "ClientValueObject";
+        if ($this->resolveType($typeName,$baseTypeName)) {
+            $type = $this->types[$typeName];
+            return $type['type'];
         }
         return null;
     }

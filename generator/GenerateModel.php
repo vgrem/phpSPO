@@ -3,7 +3,8 @@
 require_once(__DIR__ . '/../vendor/autoload.php');
 require_once(__DIR__ . '/vendor/autoload.php');
 require_once(__DIR__ . '/builders/DocCommentBuilder.php');
-require_once(__DIR__ . '/builders/ClientValueBuilder.php');
+require_once(__DIR__ . '/builders/ModelTypeBuilder.php');
+require_once(__DIR__ . '/builders/TemplateBuilder.php');
 require_once(__DIR__ . '/AnnotationsResolver.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
@@ -11,6 +12,8 @@ use Office365\PHP\Client\Runtime\OData\MetadataResolver;
 use Office365\PHP\Client\Runtime\OData\ODataModel;
 use Office365\PHP\Client\Runtime\OData\ODataV3Reader;
 use Office365\PHP\Client\SharePoint\ClientContext;
+use PhpParser\ParserFactory;
+
 
 
 $Settings = include('../Settings.php');
@@ -35,7 +38,7 @@ function connectWithUserCredentials($url,$username,$password){
  */
 function generateTypeFile($typeSchema,$options)
 {
-    $builder = new ClientValueBuilder($typeSchema,$options);
+    $builder = new ModelTypeBuilder($typeSchema,$options);
     if ($typeSchema['state'] === "attached") {
         $updated = $builder->updateTypeFile();
         if ($updated) {
@@ -53,20 +56,20 @@ function generateFiles(ODataModel $model){
     $types = $model->getTypes();
 
     $curIdx = 0;
-    $startIdx = 0;
+    $startIdx = 113;
     $count = count($types);
+
     foreach ($types as $typeName => $type){
         $curIdx++;
         if($curIdx >= $startIdx){
             echo "Processing type ($curIdx of $count):  $typeName ... " . PHP_EOL;
-            //$annotations->resolveTypeComment($typeName,$type);
-            //generateTypeFile($type,$model->getOptions());
+            $annotations->resolveTypeComment($typeName,$type);
+            generateTypeFile($type,$model->getOptions());
         }
     }
 }
 
 try {
-
     $ctx = connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
     $edmxContents = MetadataResolver::getMetadata($ctx);
     $outputPath = dirname((new ReflectionClass($ctx))->getFileName());
@@ -77,6 +80,7 @@ try {
     $version = $ctx->getContextWebInformation()->LibraryVersion;
     $generatorOptions = array(
         'outputPath' => $outputPath,
+        'templatePath' => './templates/ClientObjectTemplate.php',
         'docsRoot' => 'https://docs.microsoft.com/en-us/openspecs/sharepoint_protocols/ms-csomspt/',
         'rootNamespace' => $rootNamespace,
         'version' => $version,
@@ -94,6 +98,15 @@ try {
             "SP.ApiMetadata",
             "SP.Data.*")
     );
+
+    $templateBuilder = new TemplateBuilder($generatorOptions);
+    $type = array(
+        'properties' => array(
+            'Foo' => array('name' => "Web",'type' => 'Office365\PHP\Client\SharePoint\Web')
+        )
+    );
+    $ast = $templateBuilder->create($type);
+
 
     $reader = new ODataV3Reader($edmxContents,$generatorOptions);
     $model = $reader->generateModel();

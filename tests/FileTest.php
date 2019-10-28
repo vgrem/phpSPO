@@ -70,6 +70,20 @@ class FileTest extends SharePointTestCase
         return $results[0];
     }
 
+    /**
+     * @depends testUploadFiles
+     * @param File $file
+     */
+    /*public function testFileProperties($file)
+    {
+        $versions =$file->getVersions();
+        self::$context->load($versions);
+        self::$context->executeQuery();
+        self::assertIsArray($versions);
+    }*/
+
+
+
     public function testUploadLargeFile()
     {
         $uploadSessionId = Guid::newGuid();

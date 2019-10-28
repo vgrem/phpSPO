@@ -22,7 +22,7 @@ class GroupCollection extends ClientObjectCollection
      */
     public function add(GroupCreationInformation $parameters)
     {
-        $group = new Group($this->getContext(), $this->getResourcePath());
+        $group = new Group($this->getContext());
         $qry = new InvokePostMethodQuery($this->getResourcePath(),null,null, $parameters);
         $this->getContext()->addQuery($qry, $group);
         $this->addChild($group);
