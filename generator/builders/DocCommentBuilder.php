@@ -1,10 +1,8 @@
 <?php
 
 use PhpParser\Comment\Doc;
-use PhpParser\Node;
-use PhpParser\NodeVisitorAbstract;
 
-class DocCommentBuilder extends NodeVisitorAbstract
+class DocCommentBuilder
 {
 
     private $headerText;
@@ -17,7 +15,7 @@ class DocCommentBuilder extends NodeVisitorAbstract
     }
 
 
-    static function sanitizeComment($comment){
+    private function sanitizeComment($comment){
         $result = " * " . str_replace("\n", " \r\n * ",$comment) . "\r\n";
         return $result;
     }
@@ -26,9 +24,9 @@ class DocCommentBuilder extends NodeVisitorAbstract
      * @param $typeSchema array
      * @return Doc
      */
-    static function createClassComment($typeSchema){
-        if($typeSchema['comment']){
-            $commentText = self::sanitizeComment($typeSchema['comment']);
+    public function createClassComment($typeSchema){
+        if(isset($typeSchema['comment'])){
+            $commentText = $this->sanitizeComment($typeSchema['comment']);
             return new Doc("/**\r\n $commentText \r\n*/");
         }
         return new Doc("");
@@ -36,29 +34,37 @@ class DocCommentBuilder extends NodeVisitorAbstract
 
 
     function createHeaderComment(){
-        $commentText = self::sanitizeComment($this->headerText);
+        $commentText = $this->sanitizeComment($this->headerText);
         return new Doc("/**\r\n $commentText \r\n*/");
     }
 
     /**
      * @param $property array
+     * @param array $annotations
      * @return Doc
      */
-    static function createPropertyComment($property)
+    public function createPropertyComment($property,$annotations=array('var'))
     {
         if (!is_null($property['type'])) {
             $commentText = '';
             if (isset($property['comment'])) {
-                $commentText .= self::sanitizeComment($property['comment']);
+                $commentText .= $this->sanitizeComment($property['comment']);
 
             }
-            $commentText .= self::sanitizeComment("@var " . $property['type']);
+            $commentText .= $this->sanitizeComment("@$annotations[0] " . $this->getTypeAlias($property['type']));
             return new Doc("/**\r\n  $commentText  */");
         }
         return new Doc("");
     }
 
-    public function enterNode(Node $node)
+
+    private function getTypeAlias($type){
+        $parts = explode('\\', $type);
+        return array_slice($parts, -1)[0];
+    }
+
+
+    /*public function enterNode(Node $node)
     {
         if ($node instanceof Node\Stmt\Namespace_) {
             $comments = $node->getComments();
@@ -71,5 +77,5 @@ class DocCommentBuilder extends NodeVisitorAbstract
             $result[] = $this->createHeaderComment();
             $node->setAttribute('comments', $result);
         }
-    }
+    }*/
 }

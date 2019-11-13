@@ -22,7 +22,7 @@ class ODataResponse extends ClientResponse
     public function validate()
     {
         if ($this->StatusCode >= 400) {
-            $this->extractError($error);
+            $this->extractError($error,$this->Content);
             throw new Exception($error['Message']);
         }
         return true;
@@ -150,12 +150,16 @@ class ODataResponse extends ClientResponse
     /**
      * Extract error from JSON payload response
      * @param $error array
-     * @param $json array
+     * @param $payload string
      */
-    private function extractError(&$error,$json=null)
+    private function extractError(&$error, $payload=null)
     {
-        $json = $json === null ? json_decode($this->Content) : $json;
-        foreach ($json as $key=>$value){
+        $json = is_string($payload) ? json_decode($payload) : $payload;
+        if(is_null($json)){
+            $error = ['Message' => $payload];
+            return;
+        }
+        foreach ($json as $key=> $value){
             if(is_object($value)){
                 $this->extractError($error,$value);
             }

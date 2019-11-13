@@ -1,8 +1,10 @@
 <?php
 
-
+namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 
 class ClientObjectTemplate extends ClientObject
 {
@@ -29,5 +31,18 @@ class ClientObjectTemplate extends ClientObject
         $this->setProperty("{name}",$value,true);
     }
 
+
+    public function updateOperation()
+    {
+        $qry = new UpdateEntityQuery($this);
+        $this->getContext()->addQuery($qry,$this);
+    }
+
+    public function deleteOperation()
+    {
+        $qry = new DeleteEntityQuery($this);
+        $this->getContext()->addQuery($qry);
+        $this->removeFromParentCollection();
+    }
 
 }

@@ -12,27 +12,30 @@ class AnnotationsResolver
     public function __construct($options)
     {
         $this->options = $options;
-        $this->loadDocSet();
     }
 
     /**
      * Load Docs repository
      * @throws Exception
      */
-    public function loadDocSet()
+    private function ensureDocSet()
     {
-        $options = new RequestOptions($this->options['docsRoot'] . 'toc.json');
-        $content = Requests::execute($options, $responseInfo);
-        $this->toc = json_decode($content, true);
+        if(is_null($this->toc)){
+            $options = new RequestOptions($this->options['docsRoot'] . 'toc.json');
+            $content = Requests::execute($options, $responseInfo);
+            $this->toc = json_decode($content, true);
+        }
     }
 
 
     /**
      * @param $typeName string
      * @param $typeSchema array
+     * @throws Exception
      */
     public function resolveTypeComment($typeName,&$typeSchema)
     {
+        $this->ensureDocSet();
         $typeKey = str_replace("SP", "Microsoft.SharePoint.Client",$typeName);
         $typeSchema['comment'] = null;
         $this->scanDocInToc(function ($key, $value) use ($typeKey) {
@@ -43,7 +46,8 @@ class AnnotationsResolver
             $pageUrl = $this->options['docsRoot'] . $tocEntry['href'];
             $typeSchema['comment'] = $this->loadDocComments($pageUrl);
 
-            foreach ($typeSchema['properties'] as $propName => &$prop){
+            foreach ($typeSchema['properties'] as &$prop){
+                $propName = $prop['name'];
                 $propEntry = null;
                 $this->scanDocInToc(function ($key, $value) use ($propName) {
                     return $key === 'toc_title' &&  strpos($value, $propName) !== false;

@@ -54,15 +54,15 @@ class ODataModel
         return true;
     }
 
+    /**
+     * @param $typeName string
+     * @param array $type
+     */
     public function addType($typeName,array $type)
     {
         $this->types[$typeName] = &$type;
     }
 
-    private function addProperty(&$type,$propertyName,array $property)
-    {
-        $type['properties'][$propertyName] = $property;
-    }
 
 
     /**
@@ -82,6 +82,7 @@ class ODataModel
         $parts = explode('.', $typeName);
         array_shift($parts);
         $className = $this->options['rootNamespace'] . '\\' . implode('\\', $parts);
+
         try {
             $class = new ReflectionClass($className);
             $type = array('state' => 'attached', 'type' => $class->getName(), 'file' => $class->getFileName(), 'properties' => array());
@@ -90,45 +91,70 @@ class ODataModel
             $className = $this->options['rootNamespace'] . "\\" . implode('\\', $parts);
             $type = array('state' => 'detached', 'type' => $className, 'file' => $outputFile, 'properties' => array());
         }
+        $type['name'] = array_slice($parts, -1)[0];
         $type['baseType'] = str_replace("\\SharePoint","\\Runtime",$this->options['rootNamespace']) . "\\" . $baseTypeName;
         $this->addType($typeName,$type);
         return true;
     }
 
-    /**
-     * @param $propertyFullName string
-     * @param $propertyTypeName string
-     * @param string|null $basePropertyTypeName
-     */
-    public function resolveProperty($propertyFullName, $propertyTypeName, $basePropertyTypeName=null)
-    {
-        $parts = explode('.', $propertyFullName);
-        $propertyName = array_pop($parts);
-        $typeName = implode('.',$parts);
-        $type = &$this->types[$typeName];
 
-        if ($type['state'] === 'detached') {
-            $prop = array('state' => 'detached', 'type' => $this->getPropertyType($propertyTypeName,$basePropertyTypeName));
-        } else {
-            try {
-                $class = new ReflectionClass($type['type']);
-                $class->getProperty($propertyName);
-                $prop = array('name' => $propertyName, 'state' => 'attached', 'type' => $this->getPropertyType($propertyTypeName,$basePropertyTypeName));
+    /**
+     * @param $propertyName string
+     * @param $typeName string
+     * @param null|string $baseTypeName
+     */
+    public function resolveProperty($propertyName, $typeName, $baseTypeName=null)
+    {
+        $parts = explode('.', $propertyName);
+        $propertyLocalName = array_pop($parts);
+        $key = implode('.', $parts);
+        $type = &$this->types[$key];
+
+        $propertyList = array();
+        if ($type['baseType'] === 'Office365\PHP\Client\Runtime\ClientObject') {
+            if (!is_null($baseTypeName)) {
+                $propertyList["get$propertyLocalName"] = array('name' => $propertyLocalName, 'template' => 'getObjectProperty');
             }
-            catch (ReflectionException $e) {
-                $prop = array('name' => $propertyName, 'type' => $this->getPropertyType($propertyTypeName,$basePropertyTypeName), 'state' => 'detached');
+            else {
+                $propertyList["get$propertyLocalName"] = array( 'name' => $propertyLocalName, 'template' => 'getValueProperty');
+                $propertyList["set$propertyLocalName"] = array( 'name' => $propertyLocalName , 'template' => 'setValueProperty');
             }
         }
-        $prop['baseType'] = $basePropertyTypeName;
-        $this->addProperty($type,$propertyName,$prop);
+        else{
+            $propertyList[$propertyLocalName] = array( 'name' => $propertyLocalName, 'template' => null);
+        }
+
+        foreach ($propertyList as $name => $property){
+            if ($type['state'] === 'detached') {
+                $property['state'] = 'detached';
+            } else {
+                try {
+                    $class = new ReflectionClass($type['type']);
+                    if(!is_null($property['template']))
+                        $class->getMethod($name);
+                    else
+                        $class->getProperty($name);
+                    $property['state']  = 'attached';
+                }
+                catch (ReflectionException $e) {
+                    $property['state'] = 'detached';
+                }
+            }
+            $property['type'] = $this->getPropertyType($typeName,$baseTypeName);
+            $property['baseType'] = $baseTypeName;
+            $type['properties'][$name] = $property;
+        }
     }
+
+
+
 
     /**
      * @param $typeName string
      * @param $baseTypeName|null string
      * @return string|null
      */
-    private function getPropertyType($typeName, $baseTypeName)
+    public function getPropertyType($typeName, $baseTypeName)
     {
         $valueTypeMappings = array(
             "Edm.String" => "string",

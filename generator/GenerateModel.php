@@ -3,16 +3,14 @@
 require_once(__DIR__ . '/../vendor/autoload.php');
 require_once(__DIR__ . '/vendor/autoload.php');
 require_once(__DIR__ . '/builders/DocCommentBuilder.php');
-require_once(__DIR__ . '/builders/ModelTypeBuilder.php');
-require_once(__DIR__ . '/builders/TemplateBuilder.php');
+require_once(__DIR__ . '/builders/PropertyBuilder.php');
+require_once(__DIR__ . '/builders/TypeBuilder.php');
 require_once(__DIR__ . '/AnnotationsResolver.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
-use Office365\PHP\Client\Runtime\OData\MetadataResolver;
 use Office365\PHP\Client\Runtime\OData\ODataModel;
 use Office365\PHP\Client\Runtime\OData\ODataV3Reader;
 use Office365\PHP\Client\SharePoint\ClientContext;
-use PhpParser\ParserFactory;
 
 
 
@@ -38,18 +36,22 @@ function connectWithUserCredentials($url,$username,$password){
  */
 function generateTypeFile($typeSchema,$options)
 {
-    $builder = new ModelTypeBuilder($typeSchema,$options);
-    if ($typeSchema['state'] === "attached") {
-        $updated = $builder->updateTypeFile();
-        if ($updated) {
-            echo $typeSchema['file'] . " has been updated" . PHP_EOL;
-        }
-    } else {
-        $builder->createTypeFile();
+    $builder = new TypeBuilder($options,$typeSchema);
+    if($builder->build()){
         $outputFile = $typeSchema['file'];
-        echo "$outputFile has been generated" . PHP_EOL;
+        $outputFolder = dirname($outputFile);
+        ensureFolder($outputFolder);
+        $builder->save($outputFile);
+        echo "File: " . $typeSchema['file'] . ' has been generated' . PHP_EOL;
     }
 }
+
+function ensureFolder(&$path){
+    if (!is_dir($path)) {
+        mkdir($path,0777,true);
+    }
+}
+
 
 function generateFiles(ODataModel $model){
     $annotations = new AnnotationsResolver($model->getOptions());
@@ -63,7 +65,8 @@ function generateFiles(ODataModel $model){
         $curIdx++;
         if($curIdx >= $startIdx){
             echo "Processing type ($curIdx of $count):  $typeName ... " . PHP_EOL;
-            $annotations->resolveTypeComment($typeName,$type);
+            if($model->getOptions()['includeDocAnnotations'])
+                $annotations->resolveTypeComment($typeName,$type);
             generateTypeFile($type,$model->getOptions());
         }
     }
@@ -71,7 +74,8 @@ function generateFiles(ODataModel $model){
 
 try {
     $ctx = connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
-    $edmxContents = MetadataResolver::getMetadata($ctx);
+    //$edmxContents = MetadataResolver::getMetadata($ctx);
+    $edmxContents = file_get_contents('./metadata/SharePoint_311019.xml');
     $outputPath = dirname((new ReflectionClass($ctx))->getFileName());
     $rootNamespace = (new ReflectionClass($ctx))->getNamespaceName();
     $ctx->requestFormDigest();
@@ -80,7 +84,8 @@ try {
     $version = $ctx->getContextWebInformation()->LibraryVersion;
     $generatorOptions = array(
         'outputPath' => $outputPath,
-        'templatePath' => './templates/ClientObjectTemplate.php',
+        'templatePath' => './templates/',
+        'includeDocAnnotations' => true,
         'docsRoot' => 'https://docs.microsoft.com/en-us/openspecs/sharepoint_protocols/ms-csomspt/',
         'rootNamespace' => $rootNamespace,
         'version' => $version,
@@ -98,15 +103,6 @@ try {
             "SP.ApiMetadata",
             "SP.Data.*")
     );
-
-    $templateBuilder = new TemplateBuilder($generatorOptions);
-    $type = array(
-        'properties' => array(
-            'Foo' => array('name' => "Web",'type' => 'Office365\PHP\Client\SharePoint\Web')
-        )
-    );
-    $ast = $templateBuilder->create($type);
-
 
     $reader = new ODataV3Reader($edmxContents,$generatorOptions);
     $model = $reader->generateModel();

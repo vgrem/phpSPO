@@ -70,7 +70,12 @@ class ODataV3Reader implements IODataReader
                     $typeName = $this->getPropertyType($childNode,$parentNode,$propName);
                     $fullName = "$prevValue.$propName";
                     $baseTypeName = $this->getPropertyBaseType($parentNode,$propName);
-                    $model->resolveProperty($fullName,$typeName,$baseTypeName);
+
+                    if($model->resolveType($typeName,$baseTypeName)){
+                        $type = $model->getTypes()[$typeName];
+                        if($type['state'] === 'attached')
+                            $model->resolveProperty($fullName,$typeName,$baseTypeName);
+                    }
                     break;
                 default:
                     if(is_null($childNode->getChildren())) {
@@ -104,8 +109,4 @@ class ODataV3Reader implements IODataReader
 
         return null;
     }
-
-
-
-
 }
