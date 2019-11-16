@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T14:58:56+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2019-11-16T17:57:50+00:00 16.0.19506.12022
  */
 namespace Office365\PHP\Client\SharePoint;
 
@@ -46,18 +46,6 @@ class SecurableObject extends ClientObject
     }
     /**
      * Specifies 
-     * whether the role assignments are 
-     * uniquely defined for this securable object or 
-     * inherited from a parent securable object. If the value is "false", role 
-     * assignments are inherited from a parent securable object.
-     * @var bool
-     */
-    public function setHasUniqueRoleAssignments($value)
-    {
-        $this->setProperty("HasUniqueRoleAssignments", $value, true);
-    }
-    /**
-     * Specifies 
      * the object where role assignments for 
      * this object are defined.<85>
      * @return SecurableObject
@@ -68,5 +56,17 @@ class SecurableObject extends ClientObject
             $this->setProperty("FirstUniqueAncestorSecurableObject", new SecurableObject($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "FirstUniqueAncestorSecurableObject")));
         }
         return $this->getProperty("FirstUniqueAncestorSecurableObject");
+    }
+    /**
+     * Specifies 
+     * whether the role assignments are 
+     * uniquely defined for this securable object or 
+     * inherited from a parent securable object. If the value is "false", role 
+     * assignments are inherited from a parent securable object.
+     * @var bool
+     */
+    public function setHasUniqueRoleAssignments($value)
+    {
+        $this->setProperty("HasUniqueRoleAssignments", $value, true);
     }
 }

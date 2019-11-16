@@ -147,6 +147,12 @@ class ODataModel
         if ($type['state'] !== 'attached')
             return false;
 
+        //exclude properties if unknown type
+        $typeInfo = $this->getTypeInfo($propType);
+        if ($typeInfo['primitive'] === false && !file_exists($typeInfo['file'])) {
+          return false;
+        }
+
         if ($baseType === 'ClientObject' || $baseType === 'ClientObjectCollection') {
             if ($readOnly) {
                 $propertyList["get$propertyAlias"] = array('name' => $propertyAlias, 'template' => 'getObjectProperty');
@@ -158,6 +164,7 @@ class ODataModel
             $propertyList[$propertyAlias] = array('name' => $propertyAlias, 'template' => null);
         }
 
+
         foreach ($propertyList as $name => $property) {
             try {
                 $class = new ReflectionClass($type['type']);
@@ -168,8 +175,8 @@ class ODataModel
                 $property['state'] = 'attached';
             } catch (ReflectionException $e) {
                 $property['state'] = 'detached';
+
             }
-            $typeInfo = $this->getTypeInfo($propType);
             $property['type'] = $typeInfo['name'];
             $type['properties'][$name] = $property;
         }
