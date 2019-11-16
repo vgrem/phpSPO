@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-10-12T19:41:09+00:00 16.0.19402.12016
+ * Updated By PHP Office365 Generator 2019-11-16T20:25:28+00:00 16.0.19506.12022
  */
 namespace Office365\PHP\Client\SharePoint\Publishing;
 
@@ -45,4 +45,8 @@ class SitePageFieldsData extends ClientValueObject
      * @var string
      */
     public $TopicHeader;
+    /**
+     * @var string
+     */
+    public $PublishStartDate;
 }

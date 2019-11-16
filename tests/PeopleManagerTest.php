@@ -14,7 +14,7 @@ class PeopleManagerTest extends SharePointTestCase
         $properties = $peopleManager->getMyProperties();
         self::$context->load($properties);
         self::$context->executeQuery();
-        $this->assertNotNull($properties->AccountName);
+        $this->assertNotNull($properties->getAccountName());
     }
 
 

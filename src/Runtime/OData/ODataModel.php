@@ -123,6 +123,11 @@ class ODataModel
     }
 
 
+    private function isValidProperty(){
+        return true;
+    }
+
+
     /**
      * @param $propName
      * @param string $propType
@@ -137,15 +142,20 @@ class ODataModel
         $propertyAlias = array_pop($parts);
         $typeName = implode('.', $parts);
 
-        //ensure type exists
+        //verify if property is not marked as ignored
+        if (in_array($propertyAlias, $this->options['ignoredProperties'])) {
+            return false;
+        }
+
+        //ensure type exists for a property
         if (!$this->resolveType($typeName, $baseType)) {
             return false;
         }
 
         //skip properties for non existent types
         $type = &$this->types[$typeName];
-        if ($type['state'] !== 'attached')
-            return false;
+        //if ($type['state'] !== 'attached')
+        //    return false;
 
         //exclude properties if unknown type
         $typeInfo = $this->getTypeInfo($propType);

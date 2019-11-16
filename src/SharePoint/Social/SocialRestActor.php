@@ -1,25 +1,64 @@
 <?php
 
+/**
+ * Updated By PHP Office365 Generator 2019-11-16T20:16:35+00:00 16.0.19506.12022
+ */
 namespace Office365\PHP\Client\SharePoint\Social;
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\PHP\Client\Runtime\ClientObject;
 
-/**
- * Represents a user, document, site, or tag.
- */
-class SocialRestActor extends ClientValueObject
+class SocialRestActor extends ClientObject
 {
 
     /**
-     * @var SocialActor The specified user.
-     * Returns null if the user is the current user or if the resource is not a user-type actor.
+     * @return string
      */
-    public $FollowableItemActor;
-
-
+    public function getFollowableItem()
+    {
+        if (!$this->isPropertyAvailable("FollowableItem")) {
+            return null;
+        }
+        return $this->getProperty("FollowableItem");
+    }
     /**
-     * @var SocialActor The current user.
+     * @var string
      */
-    public $Me;
-
+    public function setFollowableItem($value)
+    {
+        $this->setProperty("FollowableItem", $value, true);
+    }
+    /**
+     * @return SocialActor
+     */
+    public function getFollowableItemActor()
+    {
+        if (!$this->isPropertyAvailable("FollowableItemActor")) {
+            return null;
+        }
+        return $this->getProperty("FollowableItemActor");
+    }
+    /**
+     * @var SocialActor
+     */
+    public function setFollowableItemActor($value)
+    {
+        $this->setProperty("FollowableItemActor", $value, true);
+    }
+    /**
+     * @return SocialActor
+     */
+    public function getMe()
+    {
+        if (!$this->isPropertyAvailable("Me")) {
+            return null;
+        }
+        return $this->getProperty("Me");
+    }
+    /**
+     * @var SocialActor
+     */
+    public function setMe($value)
+    {
+        $this->setProperty("Me", $value, true);
+    }
 }

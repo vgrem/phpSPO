@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-10-12T20:10:10+00:00 16.0.19402.12016
+ * Updated By PHP Office365 Generator 2019-11-16T20:28:28+00:00 16.0.19506.12022
  */
 namespace Office365\PHP\Client\SharePoint\Sharing;
 
@@ -53,12 +53,18 @@ class SharingLinkAbilities extends ClientValueObject
      * @var SharingAbilityStatus
      */
     public $canManageReadLink;
-    
     public $linkExpiration;
-    
     public $passwordProtected;
     /**
      * @var SharingAbilityStatus
      */
     public $supportsRestrictedView;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $canGetReviewLink;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $canManageReviewLink;
 }

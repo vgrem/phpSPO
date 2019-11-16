@@ -58,7 +58,7 @@ function generateFiles(ODataModel $model){
     $types = $model->getTypes();
 
     $curIdx = 0;
-    $startIdx = 201;
+    $startIdx = 0;
     $count = count($types);
     foreach ($types as $typeName => $type){
         $curIdx++;
@@ -107,7 +107,10 @@ try {
             "SP.WorkflowServices.*",
             "SP.OAuth.*",
             "SP.Directory.*",
-            "SP.CompliancePolicy.*")
+            "SP.CompliancePolicy.*"),
+        'ignoredProperties' => array(
+            'Id4a81de82eeb94d6080ea5bf63e27023a'
+        )
     );
 
     $reader = new ODataV3Reader($edmxContents,$generatorOptions);

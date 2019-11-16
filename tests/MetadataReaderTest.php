@@ -27,7 +27,8 @@ class MetadataReaderTest extends SharePointTestCase
         $generatorOptions = array(
             'outputPath' => $outputPath,
             'rootNamespace' => $rootNamespace,
-            'ignoredTypes' => array()
+            'ignoredTypes' => array(),
+            'ignoredProperties' => array()
         );
         $reader = new ODataV3Reader($edmxContent,$generatorOptions);
         $model = $reader->generateModel();

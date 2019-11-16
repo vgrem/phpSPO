@@ -47,7 +47,6 @@ class TypeBuilder extends NodeVisitorAbstract {
         }
         else {
             $this->buildFromTemplate($template);
-            $this->ast = $template;
         }
         $traverser = new NodeTraverser();
         $traverser->addVisitor($this);
@@ -93,6 +92,7 @@ class TypeBuilder extends NodeVisitorAbstract {
         $classNode = $this->findNodeByType($template, Node\Stmt\Class_::class);
         $classNode->name = $this->typeSchema['name'];
         $classNode->stmts = $propertyNodes;
+        $this->ast = $template;
     }
 
     private function loadTemplate(){

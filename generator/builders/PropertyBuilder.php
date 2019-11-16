@@ -23,9 +23,9 @@ class PropertyBuilder extends NodeVisitorAbstract
         $commentBuilder = new DocCommentBuilder($this->options);
         if (is_null($this->propertySchema['template'])) {
             $factory = new BuilderFactory;
-            $node = $factory->property($this->propertySchema['name'])->makePublic();
-            $node->setDocComment($commentBuilder->createPropertyComment($this->propertySchema));
-            return array($node);
+            $property = $factory->property($this->propertySchema['name'])->makePublic();
+            $property->setDocComment($commentBuilder->createPropertyComment($this->propertySchema));
+            return array($property->getNode());
         } else {
             $traverser = new NodeTraverser();
             $traverser->addVisitor($this);
