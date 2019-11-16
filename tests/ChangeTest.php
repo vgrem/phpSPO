@@ -1,5 +1,6 @@
 <?php
 
+use Office365\PHP\Client\SharePoint\Change;
 use Office365\PHP\Client\SharePoint\ChangeQuery;
 use Office365\PHP\Client\SharePoint\ChangeType;
 use Office365\PHP\Client\SharePoint\ListTemplateType;
@@ -46,8 +47,9 @@ class ChangeTest extends SharePointTestCase
         $ctx->executeQuery();
         $this->assertFalse($changes->getServerObjectIsNull());
 
+        /** @var Change  $change */
         foreach ($changes->getData() as $change) {
-            $changeTypeName = ChangeType::getName($change->ChangeType);
+            $changeTypeName = ChangeType::getName($change->getChangeType());
             $changeName = basename(get_class($change));
             $this->assertNotNull($changeName);
             $this->assertNotNull($changeTypeName);
@@ -69,9 +71,10 @@ class ChangeTest extends SharePointTestCase
         $ctx->executeQuery();
         $this->assertFalse($changes->getServerObjectIsNull());
 
+        /** @var Change  $change */
         foreach ($changes->getData() as $change) {
             $changeName = basename(get_class($change));
-            $changeTypeName = ChangeType::getName($change->ChangeType);
+            $changeTypeName = ChangeType::getName($change->getChangeType());
             $this->assertNotNull($changeTypeName);
             $this->assertNotNull($changeName);
         }
