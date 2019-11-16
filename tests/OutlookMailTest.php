@@ -132,7 +132,7 @@ class OutlookMailTest extends OutlookServicesTestCase
     public function testForwardMessage(Message $message)
     {
         $recipients = array(
-            new Recipient(new EmailAddress("","jdoe@contoso.onmicrosoft.com"))
+            new Recipient(new EmailAddress("",self::$testUserAccount))
         );
         $message->forward("For your consideration",$recipients);
         self::$context->executeQuery();

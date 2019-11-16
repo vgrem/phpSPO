@@ -30,14 +30,14 @@ class ODataV3Reader implements IODataReader
     }
 
 
-    function parseEdmx(ODataModel $model, SimpleXMLIterator &$parentNode = null, SimpleXMLIterator &$prevNode = null, $prevValue=null){
-        if(is_null($parentNode)){
+    function parseEdmx(ODataModel $model, SimpleXMLIterator &$parentNode = null, SimpleXMLIterator &$prevNode = null, $prevValue=null)
+    {
+        if (is_null($parentNode)) {
             $parentNode = new SimpleXMLIterator($this->content);
             $parentNode->registerXPathNamespace('edmx', 'http://schemas.microsoft.com/ado/2007/06/edmx');
             $dataServices = $parentNode->xpath("///edmx:DataServices");
             $curNode = $dataServices[0];
-        }
-        else {
+        } else {
             $curNode = new SimpleXMLIterator($prevNode->asXML());
         }
 
@@ -48,53 +48,64 @@ class ODataV3Reader implements IODataReader
                 case "ComplexType":
                 case "EntityType":
                     $nsName = (string)$prevNode->attributes()["Namespace"];
-                    $typeName = (string)$childNode->attributes()["Name"];
-                    $typeFullName = "$nsName.$typeName";
-                    $baseTypeName =  ($nodeName === 'ComplexType' ? "ClientValueObject" : "ClientObject");
-                    if($model->resolveType($typeFullName,$baseTypeName)){
-                        if(is_null($childNode->getChildren())) {
-                            $this->parseEdmx($model,$curNode,$childNode,$typeFullName);
+                    $alias = (string)$childNode->attributes()["Name"];
+                    $typeName = "$nsName.$alias";
+                    $baseType = ($nodeName === 'ComplexType' ? "ClientValueObject" : "ClientObject");
+                    if ($model->resolveType($typeName, $baseType)) {
+                        if (is_null($childNode->getChildren())) {
+                            $this->parseEdmx($model, $curNode, $childNode, $typeName);
                         }
                     }
                     break;
                 case "Property":
-                    if($prevValue){
-                        $propName = (string)$childNode->attributes()["Name"];
-                        $typeName = (string)$childNode->attributes()["Type"];
-                        $propFullName = "$prevValue.$propName";
-                        $model->resolveProperty($propFullName,$typeName);
+                    if ($prevValue) {
+                        $propAlias = (string)$childNode->attributes()["Name"];
+                        $propType = (string)$childNode->attributes()["Type"];
+                        $propName = "$prevValue.$propAlias";
+                        $baseType = ($prevNode->getName() === 'ComplexType' ? "ClientValueObject" : "ClientObject");
+                        $model->resolveProperty($propName, $propType,$baseType);
                     }
                     break;
                 case "NavigationProperty":
-                    $propName = (string)$childNode->attributes()["Name"];
-                    $typeName = $this->getPropertyType($childNode,$parentNode,$propName);
-                    $fullName = "$prevValue.$propName";
-                    $baseTypeName = $this->getPropertyBaseType($parentNode,$propName);
-
-                    if($model->resolveType($typeName,$baseTypeName)){
-                        $type = $model->getTypes()[$typeName];
-                        if($type['state'] === 'attached')
-                            $model->resolveProperty($fullName,$typeName,$baseTypeName);
+                    $propAlias = (string)$childNode->attributes()["Name"];
+                    $propType = $this->findPropertyType($childNode, $parentNode, $propAlias);
+                    $baseType = $this->findBaseType($parentNode,$propType);
+                    $propName = "$prevValue.$propAlias";
+                    if(!is_null($propType)) {
+                        $model->resolveProperty($propName, $propType, $baseType, true);
                     }
                     break;
                 default:
-                    if(is_null($childNode->getChildren())) {
-                        $this->parseEdmx($model,$parentNode,$childNode);
+                    if (is_null($childNode->getChildren())) {
+                        $this->parseEdmx($model, $parentNode, $childNode);
                     }
                     break;
             }
         }
     }
 
-    private function getPropertyBaseType(SimpleXMLIterator $schemaNode, $name)
+    private function findBaseType(SimpleXMLIterator $schemaNode, $typeName)
     {
-        $entities = $schemaNode->xpath("////xmlns:EntityType[@Name='$name']");
-        if($entities)
-            return "ClientObject";
-        return "ClientValueObject";
+        $isCollection = false;
+        $collTag = "Collection";
+        if (substr($typeName, 0, strlen($collTag)) === $collTag) {
+            $isCollection = true;
+            $typeName = str_replace(")", "", str_replace("Collection(", "", $typeName));
+        }
+        $parts = explode('.', $typeName);
+        $typeAlias = array_pop($parts);
+        $typeNs = implode(".",$parts);
+
+        $result = $schemaNode->xpath("///xmlns:Schema[@Namespace='$typeNs']/xmlns:EntityType[@Name='$typeAlias']");
+        if ($result)
+            return $isCollection ? "ClientObjectCollection" : "ClientObject";
+        $result = $schemaNode->xpath("///xmlns:Schema[@Namespace='$typeNs']/xmlns:ComplexType[@Name='$typeAlias']");
+        if ($result)
+            return $isCollection ? "ClientValueObjectCollection" : "ClientValueObject";
+        return null;
     }
 
-    private function getPropertyType(SimpleXMLIterator $propertyNode, SimpleXMLIterator $schemaNode, $name){
+    private function findPropertyType(SimpleXMLIterator $propertyNode, SimpleXMLIterator $schemaNode, $name){
         $schemaNode->registerXPathNamespace('xmlns', 'http://schemas.microsoft.com/ado/2009/11/edm');
         $relationship = explode('.',(string)$propertyNode->attributes()['Relationship']);
         $associations = $schemaNode->xpath("////xmlns:Association[@Name='$relationship[1]']/xmlns:End[@Role='$name']");
@@ -104,9 +115,6 @@ class ODataV3Reader implements IODataReader
                 return "Collection(" . (string)$associations[0]->attributes()['Type'] . ")";
             return (string)$associations[0]->attributes()['Type'];
         }
-
-
-
         return null;
     }
 }

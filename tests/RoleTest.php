@@ -32,7 +32,7 @@ class RoleTest extends SharePointTestCase
 
         self::$context->load(self::$securedTargetObject,["HasUniqueRoleAssignments"]);
         self::$context->executeQuery();
-        $value = self::$securedTargetObject->hasUniqueRoleAssignments();
+        $value = self::$securedTargetObject->getHasUniqueRoleAssignments();
         self::assertTrue($value);
     }
 

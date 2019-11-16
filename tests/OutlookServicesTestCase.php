@@ -14,6 +14,10 @@ abstract class OutlookServicesTestCase extends TestCase
      * @var OutlookClient
      */
     protected static $context;
+    /**
+     * @var string
+     */
+    protected static $testUserAccount;
 
     public static function setUpBeforeClass()
     {
@@ -27,6 +31,7 @@ abstract class OutlookServicesTestCase extends TestCase
         $resource = "https://outlook.office365.com";
         $authCtx->acquireTokenForPassword($resource,$clientCredentials,$userCredentials);
         self::$context = new OutlookClient($authCtx);
+        self::$testUserAccount = "mdoe@mediadev8.onmicrosoft.com";
     }
 
     public static function tearDownAfterClass()

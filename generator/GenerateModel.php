@@ -58,9 +58,8 @@ function generateFiles(ODataModel $model){
     $types = $model->getTypes();
 
     $curIdx = 0;
-    $startIdx = 113;
+    $startIdx = 117;
     $count = count($types);
-
     foreach ($types as $typeName => $type){
         $curIdx++;
         if($curIdx >= $startIdx){
@@ -101,7 +100,14 @@ try {
             "SP.ResourcePath",
             "SP.WebResponseInfo",
             "SP.ApiMetadata",
-            "SP.Data.*")
+            "SP.Data.*",
+            "SP.BusinessData.*",
+            "SP.Workflow.*",
+            "SP.WorkManagement.OM.*",
+            "SP.WorkflowServices.*",
+            "SP.OAuth.*",
+            "SP.Directory.*",
+            "SP.CompliancePolicy.*")
     );
 
     $reader = new ODataV3Reader($edmxContents,$generatorOptions);

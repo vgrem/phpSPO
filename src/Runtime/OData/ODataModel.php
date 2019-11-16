@@ -11,17 +11,38 @@ class ODataModel
 {
 
     private $options;
+    /**
+     * @var array
+     */
+    private $primitiveTypeMappings;
 
 
     public function __construct($options)
     {
         $this->options = $options;
+        $this->primitiveTypeMappings = array(
+            "Edm.String" => "string",
+            "Edm.Boolean" => "bool",
+            "Edm.Guid" => "string",
+            "Edm.Int32" => "integer",
+            "Edm.Binary" => "string",
+            "Edm.Byte" => "string",
+            "Edm.DateTime" => "string",
+            "Edm.Int64" => "integer",
+            "Edm.Double" => "double"
+        );
+        $collTypeMappings = array();
+        foreach ($this->primitiveTypeMappings as $k=>$v){
+            $collTypeMappings["Collection($k)"] = "array";
+        }
+        $this->primitiveTypeMappings = array_merge($this->primitiveTypeMappings, $collTypeMappings);
     }
 
     public function getTypes()
     {
         return $this->types;
     }
+
 
 
     public function getOptions()
@@ -37,14 +58,16 @@ class ODataModel
     {
         $class = null;
         $parts = explode('.', $typeName);
-        if (count($parts) < 2 || $parts[0] !== "SP") {
+
+        //validate against namespaces
+        if (count($parts) < 2 || ($parts[0] !== "SP")) {
             return false;
         }
 
+        //verify if type is not marked as ignored
         if (in_array($typeName, $this->options['ignoredTypes'])) {
             return false;
         }
-
         $result = array_filter($this->options['ignoredTypes'],function ($ignoredType) use($typeName){
             return fnmatch($ignoredType, $typeName);
         });
@@ -67,136 +90,119 @@ class ODataModel
 
     /**
      * @param $typeName string
-     * @param $baseTypeName string
+     * @param $baseType string
      * @return bool
      */
-    public function resolveType($typeName, $baseTypeName)
+    public function resolveType($typeName, $baseType)
     {
+        //validate type
         if (!$this->validateType($typeName)) {
+            return null;
+        }
+
+        $typeInfo = $this->getTypeInfo($typeName);
+        if(is_null($typeInfo)){
             //echo "Unknown type: $typeName" . PHP_EOL;
             return false;
         }
+
+        //ensure the existing type
         if(isset($this->types[$typeName]))
             return true;
 
-        $parts = explode('.', $typeName);
-        array_shift($parts);
-        $className = $this->options['rootNamespace'] . '\\' . implode('\\', $parts);
-
         try {
-            $class = new ReflectionClass($className);
+            $class = new ReflectionClass($typeInfo['name']);
             $type = array('state' => 'attached', 'type' => $class->getName(), 'file' => $class->getFileName(), 'properties' => array());
         } catch (ReflectionException $e) {
-            $outputFile = $this->options['outputPath'] . "\\" . implode('\\', $parts) . ".php";
-            $className = $this->options['rootNamespace'] . "\\" . implode('\\', $parts);
-            $type = array('state' => 'detached', 'type' => $className, 'file' => $outputFile, 'properties' => array());
+            $type = array('state' => 'detached', 'type' => $typeInfo['name'], 'file' => $typeInfo['file'], 'properties' => array());
         }
-        $type['name'] = array_slice($parts, -1)[0];
-        $type['baseType'] = str_replace("\\SharePoint","\\Runtime",$this->options['rootNamespace']) . "\\" . $baseTypeName;
+        $type['name'] = $typeInfo['alias'];
+        $type['baseType'] = $baseType;
         $this->addType($typeName,$type);
         return true;
     }
 
 
     /**
-     * @param $propertyName string
-     * @param $typeName string
-     * @param null|string $baseTypeName
+     * @param $propName
+     * @param string $propType
+     * @param string $baseType
+     * @param bool $readOnly
+     * @return bool
      */
-    public function resolveProperty($propertyName, $typeName, $baseTypeName=null)
+    public function resolveProperty($propName, $propType, $baseType,$readOnly=false)
     {
-        $parts = explode('.', $propertyName);
-        $propertyLocalName = array_pop($parts);
-        $key = implode('.', $parts);
-        $type = &$this->types[$key];
-
         $propertyList = array();
-        if ($type['baseType'] === 'Office365\PHP\Client\Runtime\ClientObject') {
-            if (!is_null($baseTypeName)) {
-                $propertyList["get$propertyLocalName"] = array('name' => $propertyLocalName, 'template' => 'getObjectProperty');
-            }
-            else {
-                $propertyList["get$propertyLocalName"] = array( 'name' => $propertyLocalName, 'template' => 'getValueProperty');
-                $propertyList["set$propertyLocalName"] = array( 'name' => $propertyLocalName , 'template' => 'setValueProperty');
-            }
-        }
-        else{
-            $propertyList[$propertyLocalName] = array( 'name' => $propertyLocalName, 'template' => null);
+        $parts = explode('.', $propName);
+        $propertyAlias = array_pop($parts);
+        $typeName = implode('.', $parts);
+
+        //ensure type exists
+        if (!$this->resolveType($typeName, $baseType)) {
+            return false;
         }
 
-        foreach ($propertyList as $name => $property){
-            if ($type['state'] === 'detached') {
-                $property['state'] = 'detached';
+        //skip properties for non existent types
+        $type = &$this->types[$typeName];
+        if ($type['state'] !== 'attached')
+            return false;
+
+        if ($baseType === 'ClientObject' || $baseType === 'ClientObjectCollection') {
+            if ($readOnly) {
+                $propertyList["get$propertyAlias"] = array('name' => $propertyAlias, 'template' => 'getObjectProperty');
             } else {
-                try {
-                    $class = new ReflectionClass($type['type']);
-                    if(!is_null($property['template']))
-                        $class->getMethod($name);
-                    else
-                        $class->getProperty($name);
-                    $property['state']  = 'attached';
-                }
-                catch (ReflectionException $e) {
-                    $property['state'] = 'detached';
-                }
+                $propertyList["get$propertyAlias"] = array('name' => $propertyAlias, 'template' => 'getValueProperty');
+                $propertyList["set$propertyAlias"] = array('name' => $propertyAlias, 'template' => 'setValueProperty');
             }
-            $property['type'] = $this->getPropertyType($typeName,$baseTypeName);
-            $property['baseType'] = $baseTypeName;
+        } else {
+            $propertyList[$propertyAlias] = array('name' => $propertyAlias, 'template' => null);
+        }
+
+        foreach ($propertyList as $name => $property) {
+            try {
+                $class = new ReflectionClass($type['type']);
+                if (!is_null($property['template']))
+                    $class->getMethod($name);
+                else
+                    $class->getProperty($name);
+                $property['state'] = 'attached';
+            } catch (ReflectionException $e) {
+                $property['state'] = 'detached';
+            }
+            $typeInfo = $this->getTypeInfo($propType);
+            $property['type'] = $typeInfo['name'];
             $type['properties'][$name] = $property;
         }
+        return true;
     }
-
-
 
 
     /**
      * @param $typeName string
-     * @param $baseTypeName|null string
-     * @return string|null
+     * @return array|null
      */
-    public function getPropertyType($typeName, $baseTypeName)
+    public function getTypeInfo($typeName)
     {
-        $valueTypeMappings = array(
-            "Edm.String" => "string",
-            "Edm.Boolean" => "bool",
-            "Edm.Guid" => "string",
-            "Edm.Int32" => "integer",
-            "Edm.Binary" => "string",
-            "Edm.Byte" => "string",
-            "Edm.DateTime" => "string",
-            "Edm.Int64" => "integer",
-            "Edm.Double" => "double"
+        if (array_key_exists($typeName, $this->primitiveTypeMappings)) {
+            return array(
+                'name' => $this->primitiveTypeMappings[$typeName],
+                'primitive' => true
+            );
+        }
+
+        if (substr($typeName, 0, strlen("Collection")) === "Collection") {
+            $itemTypeName = str_replace("Collection(", "", $typeName);
+            $itemTypeName = str_replace(")", "", $itemTypeName);
+            $typeName = $itemTypeName . "Collection";
+        }
+        $parts = explode('.', $typeName);
+        array_shift($parts);
+        return array(
+            'alias' => array_slice($parts, -1)[0],
+            'name' => $this->options['rootNamespace'] . '\\' . implode('\\', $parts),
+            'file' => $this->options['outputPath'] . "\\" . implode('\\', $parts) . ".php",
+            'primitive' => false
         );
-
-        $collTypeMappings = array();
-        foreach ($valueTypeMappings as $k=>$v){
-            $collTypeMappings["Collection($k)"] = "array";
-        }
-        $valueTypeMappings = array_merge($valueTypeMappings, $collTypeMappings);
-
-
-        if (array_key_exists($typeName, $valueTypeMappings))
-            return $valueTypeMappings[$typeName];
-        elseif (substr($typeName, 0, strlen("Collection")) === "Collection") {
-            $colTypeName = str_replace("Collection(","",$typeName);
-            $colTypeName = str_replace(")","Collection",$colTypeName);
-            if(is_null($baseTypeName))
-                $baseTypeName = "ClientValueObjectCollection";
-            if ($this->resolveType($colTypeName,$baseTypeName)) {
-                $type = $this->types[$colTypeName];
-                $type['baseType'] = $type['baseType'] . 'Collection';
-                return $type['type'];
-            }
-            return "array";
-        }
-
-        if(is_null($baseTypeName))
-            $baseTypeName = "ClientValueObject";
-        if ($this->resolveType($typeName,$baseTypeName)) {
-            $type = $this->types[$typeName];
-            return $type['type'];
-        }
-        return null;
     }
 
 
