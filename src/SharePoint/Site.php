@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-13T13:04:35+00:00 16.0.19430.12066
+ * Updated By PHP Office365 Generator 2019-11-17T14:19:29+00:00 16.0.19506.12022
  */
 namespace Office365\PHP\Client\SharePoint;
 
@@ -782,7 +782,6 @@ class Site extends ClientObject
     {
         $this->setProperty("NeedsB2BUpgrade", $value, true);
     }
-    
     public function setResourcePath($value)
     {
         $this->setProperty("ResourcePath", $value, true);
@@ -934,7 +933,6 @@ class Site extends ClientObject
     {
         $this->setProperty("SearchBoxPlaceholderText", $value, true);
     }
-    
     public function getServerRelativePath()
     {
         if (!$this->isPropertyAvailable("ServerRelativePath")) {
@@ -942,7 +940,6 @@ class Site extends ClientObject
         }
         return $this->getProperty("ServerRelativePath");
     }
-    
     public function setServerRelativePath($value)
     {
         $this->setProperty("ServerRelativePath", $value, true);
@@ -1407,5 +1404,32 @@ class Site extends ClientObject
             $this->setProperty("SecondaryContact", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "SecondaryContact")));
         }
         return $this->getProperty("SecondaryContact");
+    }
+    /**
+     * Gets or 
+     * sets the number of days of audit log data to retain. If unset and audit 
+     * trimming is enabled, the retention defaults to one schedule window of the 
+     * administrator-configured schedule for trimming.
+     * @return Audit
+     */
+    public function getAudit()
+    {
+        if (!$this->isPropertyAvailable("Audit")) {
+            $this->setProperty("Audit", new Audit($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Audit")));
+        }
+        return $this->getProperty("Audit");
+    }
+    /**
+     * Specifies 
+     * the collection of Recycle Bin items 
+     * for the site collection.
+     * @return RecycleBinItemCollection
+     */
+    public function getRecycleBin()
+    {
+        if (!$this->isPropertyAvailable("RecycleBin")) {
+            $this->setProperty("RecycleBin", new RecycleBinItemCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "RecycleBin")));
+        }
+        return $this->getProperty("RecycleBin");
     }
 }

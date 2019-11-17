@@ -21,7 +21,7 @@ class PropertyBuilder extends NodeVisitorAbstract
     public function build($template)
     {
         $commentBuilder = new DocCommentBuilder($this->options);
-        if (is_null($this->propertySchema['template'])) {
+        if (!isset($this->propertySchema['template'])) {
             $factory = new BuilderFactory;
             $property = $factory->property($this->propertySchema['name'])->makePublic();
             $property->setDocComment($commentBuilder->createPropertyComment($this->propertySchema));

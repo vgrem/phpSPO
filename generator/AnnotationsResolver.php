@@ -4,6 +4,9 @@
 use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 use Office365\PHP\Client\Runtime\Utilities\Requests;
 
+/**
+ * Documentation annotation service
+ */
 class AnnotationsResolver
 {
     private $toc;
@@ -29,14 +32,13 @@ class AnnotationsResolver
 
 
     /**
-     * @param $typeName string
      * @param $typeSchema array
      * @throws Exception
      */
-    public function resolveTypeComment($typeName,&$typeSchema)
+    public function resolveTypeComment(&$typeSchema)
     {
         $this->ensureDocSet();
-        $typeKey = str_replace("SP", "Microsoft.SharePoint.Client",$typeName);
+        $typeKey = str_replace("SP", "Microsoft.SharePoint.Client",$typeSchema['name']);
         $typeSchema['comment'] = null;
         $this->scanDocInToc(function ($key, $value) use ($typeKey) {
             return $key === 'toc_title' &&  strpos($value, $typeKey) !== false;
@@ -57,7 +59,6 @@ class AnnotationsResolver
                     $prop['comment'] = $this->loadDocComments($pageUrl);
                 }
             }
-
         }
     }
 

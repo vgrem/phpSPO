@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T19:13:59+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2019-11-17T16:30:08+00:00 16.0.19506.12022
  */
 namespace Office365\PHP\Client\SharePoint;
 
@@ -325,5 +325,15 @@ class Folder extends ClientObject
             $this->setProperty("ParentFolder", new Folder($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ParentFolder")));
         }
         return $this->getProperty("ParentFolder");
+    }
+    /**
+     * @return StorageMetrics
+     */
+    public function getStorageMetrics()
+    {
+        if (!$this->isPropertyAvailable("StorageMetrics")) {
+            $this->setProperty("StorageMetrics", new StorageMetrics($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "StorageMetrics")));
+        }
+        return $this->getProperty("StorageMetrics");
     }
 }

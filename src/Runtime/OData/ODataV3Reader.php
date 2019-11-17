@@ -47,32 +47,27 @@ class ODataV3Reader implements IODataReader
             switch ($nodeName) {
                 case "ComplexType":
                 case "EntityType":
-                    $nsName = (string)$prevNode->attributes()["Namespace"];
-                    $alias = (string)$childNode->attributes()["Name"];
-                    $typeName = "$nsName.$alias";
-                    $baseType = ($nodeName === 'ComplexType' ? "ClientValueObject" : "ClientObject");
-                    if ($model->resolveType($typeName, $baseType)) {
+                    $typeSchema = $this->processTypeNode($childNode,$prevNode);
+                    if ($model->resolveType($typeSchema)) {
                         if (is_null($childNode->getChildren())) {
-                            $this->parseEdmx($model, $curNode, $childNode, $typeName);
+                            $this->parseEdmx($model, $curNode, $childNode, $typeSchema);
                         }
                     }
                     break;
+                /*case "FunctionImport":
+                    //$funcSchema = $this->processFunctionNode($childNode,$parentNode);
+                    //$model->resolveFunction($funcSchema);
+                    break;*/
                 case "Property":
                     if ($prevValue) {
-                        $propAlias = (string)$childNode->attributes()["Name"];
-                        $propType = (string)$childNode->attributes()["Type"];
-                        $propName = "$prevValue.$propAlias";
-                        $baseType = ($prevNode->getName() === 'ComplexType' ? "ClientValueObject" : "ClientObject");
-                        $model->resolveProperty($propName, $propType,$baseType);
+                        $propertySchema = $this->processPropertyNode($childNode,$parentNode);
+                        $model->resolveProperty($prevValue, $propertySchema);
                     }
                     break;
                 case "NavigationProperty":
-                    $propAlias = (string)$childNode->attributes()["Name"];
-                    $propType = $this->findPropertyType($childNode, $parentNode, $propAlias);
-                    $baseType = $this->findBaseType($parentNode,$propType);
-                    $propName = "$prevValue.$propAlias";
-                    if(!is_null($propType)) {
-                        $model->resolveProperty($propName, $propType, $baseType, true);
+                    $propertySchema = $this->processNavPropertyNode($childNode,$parentNode);
+                    if(!is_null($propertySchema['type'])) {
+                        $model->resolveProperty($prevValue, $propertySchema);
                     }
                     break;
                 default:
@@ -82,6 +77,61 @@ class ODataV3Reader implements IODataReader
                     break;
             }
         }
+    }
+
+    private function processTypeNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
+    {
+        $result = array(
+            'alias' => (string)$curNode->attributes()["Name"],
+            'baseType' => ($curNode->getName() === 'ComplexType' ? "ClientValueObject" : "ClientObject"),
+            'properties' => array(),
+            'functions' => array()
+        );
+
+
+        if($result['alias'] === "List"){
+            $result['alias'] = "SPList";
+        }
+        $result['name'] = (string)$parentNode->attributes()["Namespace"] . "." . $result['alias'];
+        return $result;
+    }
+
+
+    private function processFunctionNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
+    {
+        $parentNode->registerXPathNamespace('xmlns', 'http://schemas.microsoft.com/ado/2009/11/edm');
+        $funcAlias = (string)$curNode->attributes()["Name"];
+        $returnType = (string)$curNode->attributes()["ReturnType"];
+        $entitySet = (string)$curNode->attributes()["EntitySet"];
+        $result = $parentNode->xpath("////xmlns:EntityContainer[@Name='ApiData']/xmlns:EntitySet[@Name='$entitySet']");
+        $typeName = null;
+        if($result){
+            $typeName = (string)$result[0]->attributes()['EntityType'];
+        }
+
+        return array('name' => $funcAlias,'returnType' => $returnType, 'type' => $typeName);
+    }
+
+    private function processNavPropertyNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
+    {
+        $propAlias = (string)$curNode->attributes()["Name"];
+        $propType = $this->findPropertyType($curNode, $parentNode, $propAlias);
+        $baseType = $this->findBaseType($parentNode,$propType);
+        return array(
+            'name' => $propAlias,
+            'type' => $propType,
+            'baseType' => $baseType,
+            'readOnly' => true
+        );
+    }
+
+
+    private function processPropertyNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
+    {
+        return array(
+            'name' => (string)$curNode->attributes()["Name"],
+            'type' => (string)$curNode->attributes()["Type"]
+        );
     }
 
     private function findBaseType(SimpleXMLIterator $schemaNode, $typeName)

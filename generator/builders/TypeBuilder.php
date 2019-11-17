@@ -18,7 +18,7 @@ class TypeBuilder extends NodeVisitorAbstract {
     public function __construct($options,$typeSchema)
     {
         $this->options = $options;
-        $this->changes = array('created' => 0);
+        $this->changes = array('type' => null, 'properties' => array());
         $this->typeSchema = $typeSchema;
     }
 
@@ -41,17 +41,28 @@ class TypeBuilder extends NodeVisitorAbstract {
                 if($property['state'] === "detached"){
                     $node = $this->buildProperty($template,$property);
                     $classNode->stmts = array_merge($classNode->stmts,$node);
-                    $this->changes['created']++;
+                    $this->changes['properties'][] = array('state' => 'created');
                 }
             }
+            if(count($this->changes['properties']) > 0)
+                $this->changes['type'] = array('state' => 'updated');
         }
         else {
             $this->buildFromTemplate($template);
+            $this->changes['type'] = array('state' => 'created');
         }
+
+        if(!is_null($this->changes['type'])){
+            $annotations = new AnnotationsResolver($this->options);
+            if($this->options['includeDocAnnotations']) {
+                $annotations->resolveTypeComment($this->typeSchema);
+            }
+        }
+
         $traverser = new NodeTraverser();
         $traverser->addVisitor($this);
         $traverser->traverse($this->ast);
-        return $this->changes['created'] > 0;
+        return !is_null($this->changes['type']);
     }
 
 
@@ -63,6 +74,9 @@ class TypeBuilder extends NodeVisitorAbstract {
 
     public function enterNode(Node $node) {
         if($node instanceof Node\Stmt\Namespace_){
+            if($node->name instanceof Node\Name){
+                $node->name->parts = explode("\\",$this->typeSchema['namespace']);
+            }
             $node->setDocComment((new DocCommentBuilder($this->options))->createHeaderComment());
         }
         elseif ($node instanceof Node\Stmt\Class_) {
@@ -87,16 +101,16 @@ class TypeBuilder extends NodeVisitorAbstract {
         foreach ($this->typeSchema['properties'] as $propertySchema) {
             $node = $this->buildProperty($template,$propertySchema);
             $propertyNodes = array_merge($propertyNodes, $node);
-            $this->changes['created']++;
+            $this->changes['properties'][] = array('name' => $propertySchema['name'], 'state' => 'created');
         }
         $classNode = $this->findNodeByType($template, Node\Stmt\Class_::class);
-        $classNode->name = $this->typeSchema['name'];
+        $classNode->name = $this->typeSchema['alias'];
         $classNode->stmts = $propertyNodes;
         $this->ast = $template;
     }
 
     private function loadTemplate(){
-        $fileName =  $this->getTypeAlias($this->typeSchema['baseType']) . 'Template.php';
+        $fileName =  $this->typeSchema['baseType'] . 'Template.php';
         $fileName = $this->options['templatePath'] . $fileName;
         $template = file_get_contents($fileName);
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP5);
@@ -117,8 +131,4 @@ class TypeBuilder extends NodeVisitorAbstract {
         return $node;
     }
 
-    private function getTypeAlias($type){
-        $parts = explode('\\', $type);
-        return array_slice($parts, -1)[0];
-    }
 }

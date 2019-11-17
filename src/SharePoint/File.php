@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T19:09:39+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2019-11-17T16:30:08+00:00 16.0.19506.12022
  */
 namespace Office365\PHP\Client\SharePoint;
 
@@ -891,5 +891,15 @@ class File extends SecurableObject
             $this->setProperty("ModifiedBy", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ModifiedBy")));
         }
         return $this->getProperty("ModifiedBy");
+    }
+    /**
+     * @return EffectiveInformationRightsManagementSettings
+     */
+    public function getEffectiveInformationRightsManagementSettings()
+    {
+        if (!$this->isPropertyAvailable("EffectiveInformationRightsManagementSettings")) {
+            $this->setProperty("EffectiveInformationRightsManagementSettings", new EffectiveInformationRightsManagementSettings($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "EffectiveInformationRightsManagementSettings")));
+        }
+        return $this->getProperty("EffectiveInformationRightsManagementSettings");
     }
 }

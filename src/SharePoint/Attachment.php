@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T17:59:25+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2019-11-17T14:36:24+00:00 16.0.19506.12022
  */
 namespace Office365\PHP\Client\SharePoint;
 
@@ -42,8 +42,6 @@ class Attachment extends ClientObject
     {
         $this->setProperty("FileName", $value, true);
     }
-
-
     /**
      * Specifies 
      * the server-relative 

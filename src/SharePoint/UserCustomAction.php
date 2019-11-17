@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T19:33:31+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2019-11-17T17:00:44+00:00 16.0.19506.12022
  */
 namespace Office365\PHP\Client\SharePoint;
 
@@ -514,5 +514,25 @@ class UserCustomAction extends ClientObject
     public function setVersionOfUserCustomAction($value)
     {
         $this->setProperty("VersionOfUserCustomAction", $value, true);
+    }
+    /**
+     * @return UserResource
+     */
+    public function getDescriptionResource()
+    {
+        if (!$this->isPropertyAvailable("DescriptionResource")) {
+            $this->setProperty("DescriptionResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "DescriptionResource")));
+        }
+        return $this->getProperty("DescriptionResource");
+    }
+    /**
+     * @return UserResource
+     */
+    public function getTitleResource()
+    {
+        if (!$this->isPropertyAvailable("TitleResource")) {
+            $this->setProperty("TitleResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "TitleResource")));
+        }
+        return $this->getProperty("TitleResource");
     }
 }

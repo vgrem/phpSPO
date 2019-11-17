@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T19:06:19+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2019-11-17T16:07:15+00:00 16.0.19506.12022
  */
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
+use Office365\PHP\Client\Runtime\ResourcePathEntity;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 /**
@@ -984,5 +985,42 @@ class Field extends ClientObject
     public function setValidationMessage($value)
     {
         $this->setProperty("ValidationMessage", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getIndexStatus()
+    {
+        if (!$this->isPropertyAvailable("IndexStatus")) {
+            return null;
+        }
+        return $this->getProperty("IndexStatus");
+    }
+    /**
+     * @var integer
+     */
+    public function setIndexStatus($value)
+    {
+        $this->setProperty("IndexStatus", $value, true);
+    }
+    /**
+     * @return UserResource
+     */
+    public function getDescriptionResource()
+    {
+        if (!$this->isPropertyAvailable("DescriptionResource")) {
+            $this->setProperty("DescriptionResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "DescriptionResource")));
+        }
+        return $this->getProperty("DescriptionResource");
+    }
+    /**
+     * @return UserResource
+     */
+    public function getTitleResource()
+    {
+        if (!$this->isPropertyAvailable("TitleResource")) {
+            $this->setProperty("TitleResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "TitleResource")));
+        }
+        return $this->getProperty("TitleResource");
     }
 }

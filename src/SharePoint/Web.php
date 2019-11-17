@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T19:23:36+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2019-11-17T18:20:30+00:00 16.0.19506.12022
  */
 namespace Office365\PHP\Client\SharePoint;
 
@@ -2087,5 +2087,85 @@ class Web extends SecurableObject
             $this->setProperty("RootFolder", new Folder($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "RootFolder")));
         }
         return $this->getProperty("RootFolder");
+    }
+    /**
+     * @return UserResource
+     */
+    public function getDescriptionResource()
+    {
+        if (!$this->isPropertyAvailable("DescriptionResource")) {
+            $this->setProperty("DescriptionResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "DescriptionResource")));
+        }
+        return $this->getProperty("DescriptionResource");
+    }
+    /**
+     * @return UserResource
+     */
+    public function getTitleResource()
+    {
+        if (!$this->isPropertyAvailable("TitleResource")) {
+            $this->setProperty("TitleResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "TitleResource")));
+        }
+        return $this->getProperty("TitleResource");
+    }
+    /**
+     * @return SPDataLeakagePreventionStatusInfo
+     */
+    public function getDataLeakagePreventionStatusInfo()
+    {
+        if (!$this->isPropertyAvailable("DataLeakagePreventionStatusInfo")) {
+            $this->setProperty("DataLeakagePreventionStatusInfo", new SPDataLeakagePreventionStatusInfo($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "DataLeakagePreventionStatusInfo")));
+        }
+        return $this->getProperty("DataLeakagePreventionStatusInfo");
+    }
+    /**
+     * @return MultilingualSettings
+     */
+    public function getMultilingualSettings()
+    {
+        if (!$this->isPropertyAvailable("MultilingualSettings")) {
+            $this->setProperty("MultilingualSettings", new MultilingualSettings($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "MultilingualSettings")));
+        }
+        return $this->getProperty("MultilingualSettings");
+    }
+    /**
+     * @return Navigation
+     */
+    public function getNavigation()
+    {
+        if (!$this->isPropertyAvailable("Navigation")) {
+            $this->setProperty("Navigation", new Navigation($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Navigation")));
+        }
+        return $this->getProperty("Navigation");
+    }
+    /**
+     * @return WebInformation
+     */
+    public function getParentWeb()
+    {
+        if (!$this->isPropertyAvailable("ParentWeb")) {
+            $this->setProperty("ParentWeb", new WebInformation($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ParentWeb")));
+        }
+        return $this->getProperty("ParentWeb");
+    }
+    /**
+     * @return RegionalSettings
+     */
+    public function getRegionalSettings()
+    {
+        if (!$this->isPropertyAvailable("RegionalSettings")) {
+            $this->setProperty("RegionalSettings", new RegionalSettings($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "RegionalSettings")));
+        }
+        return $this->getProperty("RegionalSettings");
+    }
+    /**
+     * @return ThemeInfo
+     */
+    public function getThemeInfo()
+    {
+        if (!$this->isPropertyAvailable("ThemeInfo")) {
+            $this->setProperty("ThemeInfo", new ThemeInfo($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ThemeInfo")));
+        }
+        return $this->getProperty("ThemeInfo");
     }
 }

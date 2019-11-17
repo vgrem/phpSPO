@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T17:57:50+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2019-11-17T16:07:15+00:00 16.0.19506.12022
  */
 namespace Office365\PHP\Client\SharePoint;
 
@@ -460,6 +460,44 @@ class ListItem extends SecurableObject
         }
         return $this->getProperty("ContentType");
     }
-
-
+    /**
+     * @return DlpPolicyTip
+     */
+    public function getGetDlpPolicyTip()
+    {
+        if (!$this->isPropertyAvailable("GetDlpPolicyTip")) {
+            $this->setProperty("GetDlpPolicyTip", new DlpPolicyTip($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "GetDlpPolicyTip")));
+        }
+        return $this->getProperty("GetDlpPolicyTip");
+    }
+    /**
+     * @return FieldStringValues
+     */
+    public function getFieldValuesAsHtml()
+    {
+        if (!$this->isPropertyAvailable("FieldValuesAsHtml")) {
+            $this->setProperty("FieldValuesAsHtml", new FieldStringValues($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "FieldValuesAsHtml")));
+        }
+        return $this->getProperty("FieldValuesAsHtml");
+    }
+    /**
+     * @return FieldStringValues
+     */
+    public function getFieldValuesAsText()
+    {
+        if (!$this->isPropertyAvailable("FieldValuesAsText")) {
+            $this->setProperty("FieldValuesAsText", new FieldStringValues($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "FieldValuesAsText")));
+        }
+        return $this->getProperty("FieldValuesAsText");
+    }
+    /**
+     * @return FieldStringValues
+     */
+    public function getFieldValuesForEdit()
+    {
+        if (!$this->isPropertyAvailable("FieldValuesForEdit")) {
+            $this->setProperty("FieldValuesForEdit", new FieldStringValues($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "FieldValuesForEdit")));
+        }
+        return $this->getProperty("FieldValuesForEdit");
+    }
 }

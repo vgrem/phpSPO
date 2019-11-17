@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T17:59:35+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2019-11-17T16:07:15+00:00 16.0.19506.12022
  */
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
-
 /**
  * Specifies 
  * a content 
@@ -592,8 +591,6 @@ class ContentType extends ClientObject
     {
         $this->setProperty("StringId", $value, true);
     }
-
-
     /**
      * Specifies 
      * the collection of fields (2) for the content 
@@ -607,7 +604,6 @@ class ContentType extends ClientObject
         }
         return $this->getProperty("Fields");
     }
-
     /**
      * Specifies 
      * the parent content type of the 
@@ -620,5 +616,25 @@ class ContentType extends ClientObject
             $this->setProperty("Parent", new ContentType($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Parent")));
         }
         return $this->getProperty("Parent");
+    }
+    /**
+     * @return UserResource
+     */
+    public function getDescriptionResource()
+    {
+        if (!$this->isPropertyAvailable("DescriptionResource")) {
+            $this->setProperty("DescriptionResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "DescriptionResource")));
+        }
+        return $this->getProperty("DescriptionResource");
+    }
+    /**
+     * @return UserResource
+     */
+    public function getNameResource()
+    {
+        if (!$this->isPropertyAvailable("NameResource")) {
+            $this->setProperty("NameResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "NameResource")));
+        }
+        return $this->getProperty("NameResource");
     }
 }

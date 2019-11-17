@@ -51,25 +51,23 @@ class ODataModel
     }
 
     /**
-     * @param $typeName string
+     * @param array $typeSchema
      * @return bool
      */
-    public function validateType($typeName)
+    public function validateType($typeSchema)
     {
-        $class = null;
-        $parts = explode('.', $typeName);
-
+        $typeParts = explode('.', $typeSchema['name']);
         //validate against namespaces
-        if (count($parts) < 2 || ($parts[0] !== "SP")) {
+        if (count($typeParts) < 2 || ($typeParts[0] !== "SP")) {
             return false;
         }
 
         //verify if type is not marked as ignored
-        if (in_array($typeName, $this->options['ignoredTypes'])) {
+        if (in_array($typeSchema['name'], $this->options['ignoredTypes'])) {
             return false;
         }
-        $result = array_filter($this->options['ignoredTypes'],function ($ignoredType) use($typeName){
-            return fnmatch($ignoredType, $typeName);
+        $result = array_filter($this->options['ignoredTypes'],function ($ignoredType) use($typeSchema){
+            return fnmatch($ignoredType, $typeSchema['name']);
         });
         if(count($result) !== 0)
             return false;
@@ -78,117 +76,117 @@ class ODataModel
     }
 
     /**
-     * @param $typeName string
-     * @param array $type
+     * @param array $typeSchema
      */
-    public function addType($typeName,array $type)
+    public function addType(array $typeSchema)
     {
-        $this->types[$typeName] = &$type;
+        $typeName = $typeSchema['name'];
+        $this->types[$typeName] = $typeSchema;
+    }
+
+    public function addProperty(array $typeSchema,$propertyName, array $propSchema)
+    {
+        $typeName = $typeSchema['name'];
+        $this->types[$typeName]['properties'][$propertyName] = $propSchema;
     }
 
 
+    public function resolveFunction(array $funcSchema)
+    {
+    }
+
 
     /**
-     * @param $typeName string
-     * @param $baseType string
+     * @param $typeSchema
      * @return bool
      */
-    public function resolveType($typeName, $baseType)
+    public function resolveType(&$typeSchema)
     {
         //validate type
-        if (!$this->validateType($typeName)) {
+        if (!$this->validateType($typeSchema)) {
+            //echo "Unknown type: $typeName" . PHP_EOL;
             return null;
         }
 
-        $typeInfo = $this->getTypeInfo($typeName);
-        if(is_null($typeInfo)){
-            //echo "Unknown type: $typeName" . PHP_EOL;
-            return false;
-        }
-
         //ensure the existing type
-        if(isset($this->types[$typeName]))
+        if(isset($this->types[$typeSchema['name']]))
             return true;
 
+        $typeInfo = $this->getTypeInfo($typeSchema['name']);
         try {
             $class = new ReflectionClass($typeInfo['name']);
-            $type = array('state' => 'attached', 'type' => $class->getName(), 'file' => $class->getFileName(), 'properties' => array());
+            $typeSchema['state'] = 'attached';
+            $typeSchema['type'] = $class->getName();
+            $typeSchema['file'] = $class->getFileName();
+            $typeSchema['namespace'] = $class->getNamespaceName();
         } catch (ReflectionException $e) {
-            $type = array('state' => 'detached', 'type' => $typeInfo['name'], 'file' => $typeInfo['file'], 'properties' => array());
+            $typeSchema['state'] = 'detached';
+            $typeSchema['file'] = $typeInfo['file'];
+            $typeSchema['type'] = $typeInfo['name'];
+            $typeSchema['namespace'] = $typeInfo['namespace'];
         }
-        $type['name'] = $typeInfo['alias'];
-        $type['baseType'] = $baseType;
-        $this->addType($typeName,$type);
-        return true;
-    }
-
-
-    private function isValidProperty(){
+        $this->addType($typeSchema);
         return true;
     }
 
 
     /**
-     * @param $propName
-     * @param string $propType
-     * @param string $baseType
-     * @param bool $readOnly
+     * @param array $typeSchema
+     * @param array $propSchema
      * @return bool
      */
-    public function resolveProperty($propName, $propType, $baseType,$readOnly=false)
+    public function resolveProperty( &$typeSchema,&$propSchema)
     {
-        $propertyList = array();
-        $parts = explode('.', $propName);
-        $propertyAlias = array_pop($parts);
-        $typeName = implode('.', $parts);
-
         //verify if property is not marked as ignored
-        if (in_array($propertyAlias, $this->options['ignoredProperties'])) {
+        if (in_array($propSchema['name'], $this->options['ignoredProperties'])) {
             return false;
         }
 
         //ensure type exists for a property
-        if (!$this->resolveType($typeName, $baseType)) {
+        if (!$this->resolveType($typeSchema)) {
             return false;
         }
 
-        //skip properties for non existent types
-        $type = &$this->types[$typeName];
-        //if ($type['state'] !== 'attached')
-        //    return false;
-
         //exclude properties if unknown type
-        $typeInfo = $this->getTypeInfo($propType);
+        $typeInfo = $this->getTypeInfo($propSchema['type']);
+        $propSchema['type'] = $typeInfo['name'];
         if ($typeInfo['primitive'] === false && !file_exists($typeInfo['file'])) {
           return false;
         }
 
-        if ($baseType === 'ClientObject' || $baseType === 'ClientObjectCollection') {
-            if ($readOnly) {
-                $propertyList["get$propertyAlias"] = array('name' => $propertyAlias, 'template' => 'getObjectProperty');
+        $templateMapping = array();
+        $propertyName = $propSchema['name'];
+        if ($typeSchema['baseType'] === 'ClientObject' || $typeSchema['baseType'] === 'ClientObjectCollection') {
+            if (isset($propSchema['readOnly'])) {
+                $templateMapping['getObjectProperty'] = "get$propertyName";
             } else {
-                $propertyList["get$propertyAlias"] = array('name' => $propertyAlias, 'template' => 'getValueProperty');
-                $propertyList["set$propertyAlias"] = array('name' => $propertyAlias, 'template' => 'setValueProperty');
+                $templateMapping['getValueProperty'] = "get$propertyName";
+                $templateMapping['setValueProperty'] = "set$propertyName";
             }
-        } else {
-            $propertyList[$propertyAlias] = array('name' => $propertyAlias, 'template' => null);
         }
 
-
-        foreach ($propertyList as $name => $property) {
-            try {
-                $class = new ReflectionClass($type['type']);
-                if (!is_null($property['template']))
-                    $class->getMethod($name);
-                else
-                    $class->getProperty($name);
-                $property['state'] = 'attached';
-            } catch (ReflectionException $e) {
-                $property['state'] = 'detached';
-
+        if(count($templateMapping) > 0){
+            foreach ($templateMapping as $key=>$value) {
+                try {
+                    $class = new ReflectionClass($typeSchema['type']);
+                    $class->getMethod($value);
+                    $propSchema['state'] = 'attached';
+                } catch (ReflectionException $e) {
+                    $propSchema['state'] = 'detached';
+                }
+                $propSchema['template'] = $key;
+                $this->addProperty($typeSchema,$value,$propSchema);
             }
-            $property['type'] = $typeInfo['name'];
-            $type['properties'][$name] = $property;
+        }
+        else{
+            try {
+                $class = new ReflectionClass($typeSchema['type']);
+                $class->getProperty($propertyName);
+                $propSchema['state'] = 'attached';
+            } catch (ReflectionException $e) {
+                $propSchema['state'] = 'detached';
+            }
+            $this->addProperty($typeSchema,$propertyName,$propSchema);
         }
         return true;
     }
@@ -214,12 +212,15 @@ class ODataModel
         }
         $parts = explode('.', $typeName);
         array_shift($parts);
-        return array(
+        $types = array_slice($parts, 0, -1);
+        $result = array(
             'alias' => array_slice($parts, -1)[0],
             'name' => $this->options['rootNamespace'] . '\\' . implode('\\', $parts),
             'file' => $this->options['outputPath'] . "\\" . implode('\\', $parts) . ".php",
+            'namespace' => count($types) > 0 ? $this->options['rootNamespace'] .  '\\' . implode('\\', $types) : $this->options['rootNamespace'],
             'primitive' => false
         );
+        return $result;
     }
 
 
@@ -227,6 +228,4 @@ class ODataModel
      * @var array
      */
     private $types = null;
-
-
 }

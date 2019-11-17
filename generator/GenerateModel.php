@@ -8,6 +8,7 @@ require_once(__DIR__ . '/builders/TypeBuilder.php');
 require_once(__DIR__ . '/AnnotationsResolver.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\Runtime\OData\MetadataResolver;
 use Office365\PHP\Client\Runtime\OData\ODataModel;
 use Office365\PHP\Client\Runtime\OData\ODataV3Reader;
 use Office365\PHP\Client\SharePoint\ClientContext;
@@ -54,9 +55,7 @@ function ensureFolder(&$path){
 
 
 function generateFiles(ODataModel $model){
-    $annotations = new AnnotationsResolver($model->getOptions());
     $types = $model->getTypes();
-
     $curIdx = 0;
     $startIdx = 0;
     $count = count($types);
@@ -64,8 +63,6 @@ function generateFiles(ODataModel $model){
         $curIdx++;
         if($curIdx >= $startIdx){
             echo "Processing type ($curIdx of $count):  $typeName ... " . PHP_EOL;
-            if($model->getOptions()['includeDocAnnotations'])
-                $annotations->resolveTypeComment($typeName,$type);
             generateTypeFile($type,$model->getOptions());
         }
     }
@@ -73,8 +70,8 @@ function generateFiles(ODataModel $model){
 
 try {
     $ctx = connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
-    //$edmxContents = MetadataResolver::getMetadata($ctx);
-    $edmxContents = file_get_contents('./metadata/SharePoint_311019.xml');
+    $edmxContents = MetadataResolver::getMetadata($ctx);
+    //$edmxContents = file_get_contents('./metadata/SharePoint_311019.xml');
     $outputPath = dirname((new ReflectionClass($ctx))->getFileName());
     $rootNamespace = (new ReflectionClass($ctx))->getNamespaceName();
     $ctx->requestFormDigest();
@@ -100,6 +97,9 @@ try {
             "SP.ResourcePath",
             "SP.WebResponseInfo",
             "SP.ApiMetadata",
+            "SP.ScriptSafeDomain",
+            "SP.PropertyValues",
+            "SP.WebProxy",
             "SP.Data.*",
             "SP.BusinessData.*",
             "SP.Workflow.*",
@@ -107,6 +107,7 @@ try {
             "SP.WorkflowServices.*",
             "SP.OAuth.*",
             "SP.Directory.*",
+            "SP.Internal.*",
             "SP.CompliancePolicy.*"),
         'ignoredProperties' => array(
             'Id4a81de82eeb94d6080ea5bf63e27023a'
