@@ -2,11 +2,28 @@
 
 namespace Office365\PHP\Client\OneDrive;
 
+use Office365\PHP\Client\OneNote\OneNote;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
 class CurrentUserRequestContext extends ClientObject
 {
+
+    /**
+     * @return OneNote
+     */
+    public function getOneNote()
+    {
+        if (!$this->isPropertyAvailable("OneNote")) {
+            $this->setProperty("OneNote",
+                new OneNote($this->getContext(), new ResourcePathEntity(
+                    $this->getContext(),
+                    $this->getResourcePath(),
+                    "OneNote"
+                )));
+        }
+        return $this->getProperty("OneNote");
+    }
 
 
     /**

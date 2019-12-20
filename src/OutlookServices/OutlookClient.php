@@ -3,11 +3,12 @@
 namespace Office365\PHP\Client\OutlookServices;
 
 
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\Runtime\Auth\OAuthTokenProvider;
 use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\HttpMethod;
 use Office365\PHP\Client\Runtime\Office365Version;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
@@ -21,16 +22,24 @@ use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 class OutlookClient extends ClientRuntimeContext
 {
 
-    public function __construct(IAuthenticationContext $authContext, $version = Office365Version::V1)
+    /**
+     * OutlookClient constructor.
+     * @param string $tenant
+     * @param callable $acquireToken
+     * @param string $version
+     */
+    public function __construct($tenant, callable $acquireToken, $version = Office365Version::V1)
     {
         $this->version = $version;
         $this->serviceRootUrl = $this->serviceRootUrl . $version . "/";
         $format = new JsonFormat(ODataMetadataLevel::Verbose);
         $format->addProperty("type","#Microsoft.OutlookServices.*");
+
+        $authorityUrl = OAuthTokenProvider::$AuthorityUrl . $tenant;
+        $authContext = new AuthenticationContext($authorityUrl);
+        call_user_func($acquireToken, $authContext);
         parent::__construct($this->serviceRootUrl, $authContext,$format, $version);
     }
-
-
 
     /**
      * Submits query to Outlook REST/OData service
@@ -38,13 +47,13 @@ class OutlookClient extends ClientRuntimeContext
     public function executeQuery()
     {
         $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request,ClientAction $query){
-            $this->prepareOutlookServicesRequest($request,$query);
+            $this->prepareRequest($request,$query);
         });
         parent::executeQuery();
     }
 
 
-    private function prepareOutlookServicesRequest(RequestOptions $request,ClientAction $query)
+    private function prepareRequest(RequestOptions $request,ClientAction $query)
     {
         //set data modification headers
         if ($query instanceof UpdateEntityQuery) {

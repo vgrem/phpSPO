@@ -22,15 +22,17 @@ abstract class OutlookServicesTestCase extends TestCase
     public static function setUpBeforeClass()
     {
         $settings = include(__DIR__ . '/../Settings.php');
-
-        $authorityUrl = OAuthTokenProvider::$AuthorityUrl . $settings['TenantName'];
-        $authCtx = new AuthenticationContext($authorityUrl);
-        $userCredentials = new UserCredentials($settings['UserName'],$settings['Password']);
-        $clientCredentials = new ClientCredential($settings['ClientId'],$settings['ClientSecret']);
-        //$resource = "https://graph.microsoft.com";
-        $resource = "https://outlook.office365.com";
-        $authCtx->acquireTokenForPassword($resource,$clientCredentials,$userCredentials);
-        self::$context = new OutlookClient($authCtx);
+        self::$context = new OutlookClient($settings['TenantName'],function (AuthenticationContext $ctx) use($settings) {
+            //$resource = "https://graph.microsoft.com";
+            $resource = "https://outlook.office365.com";
+            try {
+                $ctx->acquireTokenForPassword($resource,
+                    $settings['ClientId'],
+                    new UserCredentials($settings['UserName'],$settings['Password']));
+            } catch (Exception $e) {
+                print("Failed to acquire token");
+            }
+        });
         self::$testUserAccount = "mdoe@mediadev8.onmicrosoft.com";
     }
 

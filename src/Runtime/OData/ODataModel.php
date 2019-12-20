@@ -90,11 +90,12 @@ class ODataModel
         $this->types[$typeName]['properties'][$propertyName] = $propSchema;
     }
 
-
-    public function resolveFunction(array $funcSchema)
+    public function addFunction(array $funcSchema)
     {
+        $typeName = $funcSchema['name'];
+        $funcName = $funcSchema['alias'];
+        $this->types[$typeName]['functions'][$funcName] = $funcSchema;
     }
-
 
     /**
      * @param $typeSchema
@@ -126,6 +127,21 @@ class ODataModel
             $typeSchema['namespace'] = $typeInfo['namespace'];
         }
         $this->addType($typeSchema);
+        return true;
+    }
+
+
+    public function resolveFunction(array $funcSchema)
+    {
+        if(is_null($funcSchema['name'])){
+            return false;
+        }
+
+        /*if (!$this->resolveType($funcSchema)) {
+            return false;
+        }
+
+        //$this->addFunction($funcSchema);*/
         return true;
     }
 
@@ -213,14 +229,13 @@ class ODataModel
         $parts = explode('.', $typeName);
         array_shift($parts);
         $types = array_slice($parts, 0, -1);
-        $result = array(
+        return array(
             'alias' => array_slice($parts, -1)[0],
             'name' => $this->options['rootNamespace'] . '\\' . implode('\\', $parts),
             'file' => $this->options['outputPath'] . "\\" . implode('\\', $parts) . ".php",
             'namespace' => count($types) > 0 ? $this->options['rootNamespace'] .  '\\' . implode('\\', $types) : $this->options['rootNamespace'],
             'primitive' => false
         );
-        return $result;
     }
 
 

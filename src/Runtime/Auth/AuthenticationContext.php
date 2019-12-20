@@ -126,18 +126,16 @@ class AuthenticationContext implements IAuthenticationContext
 
     /**
      * @param string $resource
-     * @param ClientCredential $clientCredentials
+     * @param string $clientId
      * @param UserCredentials $userCredentials
-     * @throws \Exception
-     * Resource owner password credential (ROPC) grant (https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc)
+     * @throws \Exception Resource owner password credential (ROPC) grant (https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc)
      */
-    public function acquireTokenForPassword($resource, $clientCredentials, $userCredentials)
+    public function acquireTokenForPassword($resource, $clientId, $userCredentials)
     {
         $this->provider = new OAuthTokenProvider($this->authorityUrl);
         $parameters = array(
             'grant_type' => 'password',
-            'client_id' => $clientCredentials->ClientId,
-            'client_secret' => $clientCredentials->ClientSecret,
+            'client_id' => $clientId,
             'username' => $userCredentials->Username,
             'password' => $userCredentials->Password,
             'scope' => 'user.read openid',

@@ -1,14 +1,15 @@
 ﻿### About
-Office 365 Library for PHP. It allows to performs CRUD operations against Office 365 resources via an REST/OData based API. 
+Office 365 Library for PHP. 
+A REST/OData based client library for Office 365.
 
-#### The list of supported Office 365 REST APIs:
 
--   [SharePoint REST API](https://msdn.microsoft.com/en-us/library/office/jj860569.aspx) Supported versions: [SharePoint On-Premises (2013/2016/2019)](https://msdn.microsoft.com/library/office/jj860569(v=office.15).aspx), SharePoint Online and OneDrive for Business
--   [Outlook REST API](https://msdn.microsoft.com/en-us/office/office365/api/use-outlook-rest-api#DefineOutlookRESTAPI) 
-    -   [Outlook Contacts REST API](https://msdn.microsoft.com/en-us/office/office365/api/contacts-rest-operations)
-    -   [Outlook Calendar REST API](https://msdn.microsoft.com/en-us/office/office365/api/calendar-rest-operations)
-    -   [Outlook Mail REST API](https://msdn.microsoft.com/en-us/office/office365/api/mail-rest-operations)
-- OneNote REST API
+### Usage 
+
+1.   [Installation](#Installation)
+1.   [Working with SharePoint API](#Working-with-SharePoint-API) 
+2.   [Working with Outlook API](#Working-with-Outlook-API) 
+3.   [Working with OneDrive API](#Working-with-OneDrive-API)
+
 
 ### Status
 
@@ -17,9 +18,6 @@ Office 365 Library for PHP. It allows to performs CRUD operations against Office
 [![Build Status](https://travis-ci.org/vgrem/phpSPO.svg?branch=master)](https://travis-ci.org/vgrem/phpSPO)
 [![License](https://poser.pugx.org/vgrem/php-spo/license)](https://packagist.org/packages/vgrem/php-spo)
 
-<!---
-[![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=J99W9EM829BQC)
--->
 
 ### Installation
 
@@ -34,7 +32,17 @@ composer installed.
 Once composer is installed, execute the following command in your project root to install this library:
 
 ```sh
-composer require vgrem/php-spo:dev-master -n --no-progress
+composer require vgrem/php-spo
+```
+
+or via `composer.json` file:
+
+```json
+{
+    "require": {
+        "vgrem/php-spo": "^2.3"
+    }
+}
 ```
 
 Finally, be sure to include the autoloader:
@@ -43,39 +51,54 @@ Finally, be sure to include the autoloader:
 require_once '/path/to/your-project/vendor/autoload.php';
 ```
 
+#### Requirements 
+
+PHP version: [PHP 5.4 or later](https://secure.php.net/)
 
 
-### PHP version
-- [PHP 5.4 or later](https://secure.php.net/)
+#### Working with SharePoint API
+
+The list of supported SharePoint versions:
+
+- SharePoint Online and OneDrive for Business
+- SharePoint On-Premises (2013-2019) 
+
+#### Authentication
+
+The following auth flows are supported:
+
+- app principals (client credentials) auth (refer [Granting access using SharePoint App-Only](https://docs.microsoft.com/en-us/sharepoint/dev/solution-guidance/security-apponly-azureacs) for a details): 
+  ```
+   $authCtx = new AuthenticationContext($url);
+   $authCtx->acquireAppOnlyAccessToken($clientId,$clientSecret);
+   $ctx = new ClientContext($url,$authCtx);
+  ```
 
 
-### API
-
--  PHP:cURL underlying library is used to perform HTTP requests 
--  `ClientContext` - represents a SharePoint client context to performs CRUD operations against SharePoint resources via SharePoint Online REST API
--  `OutlookClient` - represents a client context to performs CRUD operations against Office resources such as Outlook resources
--  `ClientRequest` - represents a client request (more low level compared to `ClientContext`) to to performs CRUD operations against SharePoint resources via SharePoint Online REST API
--  `AuthenticationContext` - represents an object that provides credentials to access SharePoint Online resources.
--  `NetworkCredentialContext` - provides credentials for password-based authentication schemes such as Basic.
+- user credentials auth: 
+  ```
   
+  $authCtx = new AuthenticationContext($url);
+  $authCtx->acquireTokenForUser($username,$password);
+  $ctx = new ClientContext($url,$authCtx);
 
-There are **two** approaches available to perform REST based queries:
+  ```
+  
+  
+- NTLM auth (for SharePoint On-Premises):
+  ```
+   $authCtx = new NetworkCredentialContext($username, $password);
+   $authCtx->AuthType = CURLAUTH_NTLM;
+   $ctx = new ClientContext($url,$authCtx);
+  ```
 
--   via `ClientRequest` class where you need to construct REST queries by specifying endpoint url, headers if required and payload (low level approach), see [renameFolder.php](https://github.com/vgrem/phpSPO/blob/master/examples/renameFolder.php) for a more details
--   via `ClientContext` class where you target client object resources such as Web, ListItem and etc., see [list_examples.php](https://github.com/vgrem/phpSPO/blob/master/examples/list_examples.php) for a more details 
+#### Examples  
 
-
-### Usage 
-
-
-#### Using SharePoint REST API
-
-
-The following examples demonstrates how to perform basic CRUD operations against **SharePoint** list item resources.
+The following examples demonstrates how to perform basic CRUD operations against **SharePoint** list item resources:
 
 Example 1. How to read SharePoint list items
 
-```php
+```
 
 $authCtx = new AuthenticationContext($Url);
 $authCtx->acquireTokenForUser($UserName,$Password); //authenticate
@@ -93,7 +116,7 @@ foreach( $items->getData() as $item ) {
 
 
 Example 2. How to create SharePoint list item:
-```php
+```
 $listTitle = 'Tasks';
 $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
 $itemProperties = array('Title' => 'Order Approval', 'Body' => 'Order approval task','__metadata' => array('type' => 'SP.Data.TasksListItem'));
@@ -103,7 +126,7 @@ print "Task '{$item->Title}' has been created.\r\n";
 ```
 
 Example 3. How to delete a SharePoint list item:
-```php
+```
 $listTitle = 'Tasks';
 $itemToDeleteId = 1;
 $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
@@ -113,7 +136,7 @@ $ctx->executeQuery();
 ```
 
 Example 4. How to update SharePoint list item:
-```php
+```
 $listTitle = 'Tasks';
 $itemToUpdateId = 1;
 $list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
@@ -125,57 +148,47 @@ $ctx->executeQuery();
 
 
 
-#### Using Outlook REST API
+### Working with Outlook API
 
-The following examples demonstrates how to read, create and send messages via Outlook Mail API.
+Supported list of APIs:
 
-Example 1. How to create a draft message
+-   [Outlook REST API](https://msdn.microsoft.com/en-us/office/office365/api/use-outlook-rest-api#DefineOutlookRESTAPI) 
+    -   [Outlook Contacts REST API](https://msdn.microsoft.com/en-us/office/office365/api/contacts-rest-operations)
+    -   [Outlook Calendar REST API](https://msdn.microsoft.com/en-us/office/office365/api/calendar-rest-operations)
+    -   [Outlook Mail REST API](https://msdn.microsoft.com/en-us/office/office365/api/mail-rest-operations)
 
-```php
+The following example demonstrates how to send a message via Outlook Mail API:
 
-$authCtx = new NetworkCredentialContext($UserName,$Password); //using Basic Auth scheme (for v1 API only)
-$ctx = new OutlookClient($authCtx); //initialize OutlookServices client
-$message = $ctx->getMe()->getMessages()->createMessage(); //create a Message resource
-//set Message properties
-$message->Subject = "--subject--";
-$message->Body = new ItemBody(BodyType::Text,"--Content goes here--");
-$message->ToRecipients = array(
-     new Recipient(new EmailAddress("Jon Doe","jdoe@contoso.onmicrosoft.com"))
-);
-$ctx->executeQuery();
 ```
 
+ $client = new OutlookClient($settings['TenantName'],function (AuthenticationContext $authCtx) {        
+        $authCtx->setAccessToken("--access token goes here--");
+ });
+ $message = $client->getMe()->getMessages()->createMessage();
+ $message->Subject = "Meet for lunch?";
+ $message->Body = new ItemBody(BodyType::Text,"The new cafeteria is open.");
+ $message->ToRecipients = array(
+     new Recipient(new EmailAddress(null,"vgrem@mediadev8.onmicrosoft.com"))
+ );
+ $client->getMe()->sendEmail($message,true);
+ $client->executeQuery();
 
-Example 2. How to get messages
 
-```php
-
-$authCtx = new NetworkCredentialContext($UserName,$Password); //using Basic Auth scheme (for v1 API only)
-$ctx = new OutlookClient($authCtx); //initialize OutlookServices client
-$messages = $ctx->getMe()->getMessages();
-$ctx->load($messages);
-$ctx->executeQuery();
-//print messages subjects
-foreach ($messages->getData() as $curMessage){
-   print $curMessage->Subject;
-}
 ```
 
+### Working with OneDrive API
 
-Example 3. How to send a message
+The following example demonstrates how retrieve my drive Url via OneDrive API:
 
-```php
-
-$authCtx = new NetworkCredentialContext($UserName,$Password); //using Basic Auth scheme (for v1 API only)
-$ctx = new OutlookClient($authCtx); //initialize OutlookServices client
-$message = $ctx->getMe()->getMessages()->createMessage(); //create a Message resource
-//set Message properties
-$message->Subject = "--subject--";
-$message->Body = new ItemBody(BodyType::Text,"--Content goes here--");
-$message->ToRecipients = array(
-     new Recipient(new EmailAddress("Jon Doe","jdoe@contoso.onmicrosoft.com"))
-);
-$ctx->getMe()->sendEmail($message,false); //send a Message
-$ctx->executeQuery();
 ```
-  
+
+$client = new GraphServiceClient($settings['TenantName'],function (AuthenticationContext $authCtx) use($settings) {
+      $authCtx->setAccessToken("--access token goes here--");
+});
+
+$drive = $client->getMe()->getDrive();
+$client->load($drive);
+$client->executeQuery();
+print $drive->getProperty("webUrl");
+
+```

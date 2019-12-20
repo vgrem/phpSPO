@@ -47,26 +47,28 @@ class ODataV3Reader implements IODataReader
             switch ($nodeName) {
                 case "ComplexType":
                 case "EntityType":
-                    $typeSchema = $this->processTypeNode($childNode,$prevNode);
+                    $typeSchema = $this->processTypeNode($childNode, $prevNode);
                     if ($model->resolveType($typeSchema)) {
                         if (is_null($childNode->getChildren())) {
                             $this->parseEdmx($model, $curNode, $childNode, $typeSchema);
                         }
                     }
                     break;
-                /*case "FunctionImport":
-                    //$funcSchema = $this->processFunctionNode($childNode,$parentNode);
-                    //$model->resolveFunction($funcSchema);
-                    break;*/
+                case "FunctionImport":
+                    $funcSchema = $this->processFunctionNode($childNode, $parentNode);
+                    if ($model->resolveFunction($funcSchema)) {
+                        //$this->parseEdmx($model, $curNode, $childNode, $funcSchema);
+                    }
+                    break;
                 case "Property":
                     if ($prevValue) {
-                        $propertySchema = $this->processPropertyNode($childNode,$parentNode);
+                        $propertySchema = $this->processPropertyNode($childNode, $parentNode);
                         $model->resolveProperty($prevValue, $propertySchema);
                     }
                     break;
                 case "NavigationProperty":
-                    $propertySchema = $this->processNavPropertyNode($childNode,$parentNode);
-                    if(!is_null($propertySchema['type'])) {
+                    $propertySchema = $this->processNavPropertyNode($childNode, $parentNode);
+                    if (!is_null($propertySchema['type'])) {
                         $model->resolveProperty($prevValue, $propertySchema);
                     }
                     break;
@@ -109,7 +111,7 @@ class ODataV3Reader implements IODataReader
             $typeName = (string)$result[0]->attributes()['EntityType'];
         }
 
-        return array('name' => $funcAlias,'returnType' => $returnType, 'type' => $typeName);
+        return array('alias' => $funcAlias,'returnType' => $returnType, 'name' => $typeName);
     }
 
     private function processNavPropertyNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)

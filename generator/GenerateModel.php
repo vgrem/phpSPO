@@ -8,7 +8,6 @@ require_once(__DIR__ . '/builders/TypeBuilder.php');
 require_once(__DIR__ . '/AnnotationsResolver.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
-use Office365\PHP\Client\Runtime\OData\MetadataResolver;
 use Office365\PHP\Client\Runtime\OData\ODataModel;
 use Office365\PHP\Client\Runtime\OData\ODataV3Reader;
 use Office365\PHP\Client\SharePoint\ClientContext;
@@ -70,8 +69,8 @@ function generateFiles(ODataModel $model){
 
 try {
     $ctx = connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
-    $edmxContents = MetadataResolver::getMetadata($ctx);
-    //$edmxContents = file_get_contents('./metadata/SharePoint_311019.xml');
+    //$edmxContents = MetadataResolver::getMetadata($ctx);
+    $edmxContents = file_get_contents('./metadata/SharePoint_311019.xml');
     $outputPath = dirname((new ReflectionClass($ctx))->getFileName());
     $rootNamespace = (new ReflectionClass($ctx))->getNamespaceName();
     $ctx->requestFormDigest();

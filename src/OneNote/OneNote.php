@@ -4,12 +4,11 @@
 namespace Office365\PHP\Client\OneNote;
 
 
-use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
 
-class Notes extends ClientObjectCollection
+class OneNote extends ClientObject
 {
-
 
     /**
      * @return PageCollection
