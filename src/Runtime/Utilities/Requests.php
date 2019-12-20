@@ -1,6 +1,7 @@
 <?php
 namespace Office365\PHP\Client\Runtime\Utilities;
 
+use Office365\PHP\Client\Exception\UnavailableServerException;
 use Office365\PHP\Client\Runtime\HttpMethod;
 
 class Requests
@@ -32,7 +33,7 @@ class Requests
         $call['response'] = $response;
 
         if ($response === false) {
-            throw new \Exception(curl_error($ch));
+            throw new UnavailableServerException(curl_error($ch), curl_errno($ch));
         }
         curl_close($ch);
 
