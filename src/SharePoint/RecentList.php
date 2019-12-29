@@ -1,14 +1,12 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T17:00:44+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2019-12-21T23:09:34+00:00 16.0.19520.12047
  */
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+
 
 class RecentList extends ClientObject
 {
@@ -79,5 +77,22 @@ class RecentList extends ClientObject
     public function setlistUrl($value)
     {
         $this->setProperty("listUrl", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getsiteId()
+    {
+        if (!$this->isPropertyAvailable("siteId")) {
+            return null;
+        }
+        return $this->getProperty("siteId");
+    }
+    /**
+     * @var string
+     */
+    public function setsiteId($value)
+    {
+        $this->setProperty("siteId", $value, true);
     }
 }

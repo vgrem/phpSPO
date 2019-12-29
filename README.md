@@ -47,7 +47,7 @@ or via `composer.json` file:
 
 Finally, be sure to include the autoloader:
 
-```php
+```
 require_once '/path/to/your-project/vendor/autoload.php';
 ```
 
@@ -103,7 +103,7 @@ Example 1. How to read SharePoint list items
 $authCtx = new AuthenticationContext($Url);
 $authCtx->acquireTokenForUser($UserName,$Password); //authenticate
 
-$ctx = new ClientContext($Url,$authCtx); //initialize REST client    
+$ctx = new ClientContext($Url,$authCtx);     
 $web = $ctx->getWeb();
 $list = $web->getLists()->getByTitle($listTitle); //init List resource
 $items = $list->getItems();  //prepare a query to retrieve from the 

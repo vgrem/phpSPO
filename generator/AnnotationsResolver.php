@@ -33,10 +33,14 @@ class AnnotationsResolver
 
     /**
      * @param $typeSchema array
+     * @return bool
      * @throws Exception
      */
     public function resolveTypeComment(&$typeSchema)
     {
+        if(!$this->options['includeDocAnnotations'])
+            return false;
+
         $this->ensureDocSet();
         $typeKey = str_replace("SP", "Microsoft.SharePoint.Client",$typeSchema['name']);
         $typeSchema['comment'] = null;
@@ -60,7 +64,9 @@ class AnnotationsResolver
                 }
             }
         }
+        return true;
     }
+
 
     private function loadDocComments($pageUrl)
     {

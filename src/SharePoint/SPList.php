@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T16:34:18+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2019-12-21T23:07:44+00:00 16.0.19520.12047
  */
 namespace Office365\PHP\Client\SharePoint;
 
@@ -1423,5 +1423,15 @@ class SPList extends SecurableObject
             $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "UserCustomActions")));
         }
         return $this->getProperty("UserCustomActions");
+    }
+    /**
+     * @return User
+     */
+    public function getAuthor()
+    {
+        if (!$this->isPropertyAvailable("Author")) {
+            $this->setProperty("Author", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Author")));
+        }
+        return $this->getProperty("Author");
     }
 }

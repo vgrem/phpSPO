@@ -10,13 +10,6 @@ use ReflectionException;
 class ODataModel
 {
 
-    private $options;
-    /**
-     * @var array
-     */
-    private $primitiveTypeMappings;
-
-
     public function __construct($options)
     {
         $this->options = $options;
@@ -43,6 +36,10 @@ class ODataModel
         return $this->types;
     }
 
+    public function getFunctions()
+    {
+        return $this->functions;
+    }
 
 
     public function getOptions()
@@ -51,23 +48,23 @@ class ODataModel
     }
 
     /**
-     * @param array $typeSchema
+     * @param string $typeName
      * @return bool
      */
-    public function validateType($typeSchema)
+    public function validateType($typeName)
     {
-        $typeParts = explode('.', $typeSchema['name']);
+        $typeParts = explode('.', $typeName);
         //validate against namespaces
         if (count($typeParts) < 2 || ($typeParts[0] !== "SP")) {
             return false;
         }
 
         //verify if type is not marked as ignored
-        if (in_array($typeSchema['name'], $this->options['ignoredTypes'])) {
+        if (in_array($typeName, $this->options['ignoredTypes'])) {
             return false;
         }
-        $result = array_filter($this->options['ignoredTypes'],function ($ignoredType) use($typeSchema){
-            return fnmatch($ignoredType, $typeSchema['name']);
+        $result = array_filter($this->options['ignoredTypes'],function ($ignoredType) use($typeName){
+            return fnmatch($ignoredType, $typeName);
         });
         if(count($result) !== 0)
             return false;
@@ -84,17 +81,24 @@ class ODataModel
         $this->types[$typeName] = $typeSchema;
     }
 
-    public function addProperty(array $typeSchema,$propertyName, array $propSchema)
+    public function addProperty(array $typeSchema,array $propSchema)
     {
         $typeName = $typeSchema['name'];
-        $this->types[$typeName]['properties'][$propertyName] = $propSchema;
+        $propertyKey = $propSchema['alias'];
+        $this->types[$typeName]['properties'][$propertyKey] = $propSchema;
     }
 
     public function addFunction(array $funcSchema)
     {
-        $typeName = $funcSchema['name'];
         $funcName = $funcSchema['alias'];
-        $this->types[$typeName]['functions'][$funcName] = $funcSchema;
+        $this->functions[$funcName] = $funcSchema;
+    }
+
+    public function resolveParameter(array $funcSchema, array $parameterSchema)
+    {
+        $key = $parameterSchema['name'];
+        $funcName = $funcSchema['alias'];
+        $this->functions[$funcName]['parameters'][$key] = $parameterSchema;
     }
 
     /**
@@ -104,7 +108,7 @@ class ODataModel
     public function resolveType(&$typeSchema)
     {
         //validate type
-        if (!$this->validateType($typeSchema)) {
+        if (!$this->validateType($typeSchema['name'])) {
             //echo "Unknown type: $typeName" . PHP_EOL;
             return null;
         }
@@ -133,15 +137,14 @@ class ODataModel
 
     public function resolveFunction(array $funcSchema)
     {
-        if(is_null($funcSchema['name'])){
+        if(is_null($funcSchema['name']) || $funcSchema['isBindable'] === false ){
             return false;
         }
-
-        /*if (!$this->resolveType($funcSchema)) {
-            return false;
+        if (!$this->validateType($funcSchema['returnType'])) {
+            return null;
         }
 
-        //$this->addFunction($funcSchema);*/
+        $this->addFunction($funcSchema);
         return true;
     }
 
@@ -191,7 +194,8 @@ class ODataModel
                     $propSchema['state'] = 'detached';
                 }
                 $propSchema['template'] = $key;
-                $this->addProperty($typeSchema,$value,$propSchema);
+                $propSchema['alias'] = $value;
+                $this->addProperty($typeSchema,$propSchema);
             }
         }
         else{
@@ -202,7 +206,8 @@ class ODataModel
             } catch (ReflectionException $e) {
                 $propSchema['state'] = 'detached';
             }
-            $this->addProperty($typeSchema,$propertyName,$propSchema);
+            $propSchema['alias'] = $propertyName;
+            $this->addProperty($typeSchema,$propSchema);
         }
         return true;
     }
@@ -243,4 +248,20 @@ class ODataModel
      * @var array
      */
     private $types = null;
+
+    /**
+     * @var array
+     */
+    private $functions = null;
+
+    /**
+     * @var array
+     */
+    private $options;
+
+    /**
+     * @var array
+     */
+    private $primitiveTypeMappings;
+
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-10-12T20:10:10+00:00 16.0.19402.12016
+ * Updated By PHP Office365 Generator 2019-12-28T21:24:14+00:00 16.0.19520.12054
  */
 namespace Office365\PHP\Client\SharePoint\Sharing;
 

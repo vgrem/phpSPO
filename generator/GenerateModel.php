@@ -2,12 +2,15 @@
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 require_once(__DIR__ . '/vendor/autoload.php');
+require_once(__DIR__ . '/builders/TemplateContext.php');
 require_once(__DIR__ . '/builders/DocCommentBuilder.php');
 require_once(__DIR__ . '/builders/PropertyBuilder.php');
+require_once(__DIR__ . '/builders/FunctionBuilder.php');
 require_once(__DIR__ . '/builders/TypeBuilder.php');
 require_once(__DIR__ . '/AnnotationsResolver.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
+use Office365\PHP\Client\Runtime\OData\MetadataResolver;
 use Office365\PHP\Client\Runtime\OData\ODataModel;
 use Office365\PHP\Client\Runtime\OData\ODataV3Reader;
 use Office365\PHP\Client\SharePoint\ClientContext;
@@ -26,8 +29,7 @@ $Settings = include('../Settings.php');
 function connectWithUserCredentials($url,$username,$password){
     $authCtx = new AuthenticationContext($url);
     $authCtx->acquireTokenForUser($username,$password);
-    $ctx = new ClientContext($url,$authCtx);
-    return $ctx;
+    return new ClientContext($url,$authCtx);
 }
 
 /**
@@ -36,8 +38,10 @@ function connectWithUserCredentials($url,$username,$password){
  */
 function generateTypeFile($typeSchema,$options)
 {
+    $templatePath =  $options['templatePath'] . $typeSchema['baseType'] . 'Template.php';
+    $template = new TemplateContext($templatePath);
     $builder = new TypeBuilder($options,$typeSchema);
-    if($builder->build()){
+    if($builder->build($template)){
         $outputFile = $typeSchema['file'];
         $outputFolder = dirname($outputFile);
         ensureFolder($outputFolder);
@@ -63,6 +67,15 @@ function generateFiles(ODataModel $model){
         if($curIdx >= $startIdx){
             echo "Processing type ($curIdx of $count):  $typeName ... " . PHP_EOL;
             generateTypeFile($type,$model->getOptions());
+        }
+    }
+
+    $curIdx = 0;
+    foreach ($model->getFunctions() as $funcName => $function){
+        $curIdx++;
+        if($curIdx >= $startIdx){
+            echo "Processing function ($curIdx of $count):  $funcName ... " . PHP_EOL;
+            //generateTypeFile($funcName,$model->getOptions());
         }
     }
 }

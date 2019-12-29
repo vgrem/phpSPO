@@ -16,20 +16,16 @@ class DocCommentBuilder
 
 
     private function sanitizeComment($comment){
-        $result = " * " . str_replace("\n", " \r\n * ",$comment) . "\r\n";
-        return $result;
+        return " * " . str_replace("\n", " \r\n * ",$comment) . "\r\n";
     }
 
     /**
-     * @param $typeSchema array
+     * @param string $commentText
      * @return Doc
      */
-    public function createClassComment($typeSchema){
-        if(isset($typeSchema['comment'])){
-            $commentText = $this->sanitizeComment($typeSchema['comment']);
-            return new Doc("/**\r\n $commentText \r\n*/");
-        }
-        return new Doc("");
+    public function createClassComment($commentText){
+        $commentText = $this->sanitizeComment($commentText);
+        return new Doc("/**\r\n $commentText \r\n*/");
     }
 
 

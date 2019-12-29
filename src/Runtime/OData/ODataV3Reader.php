@@ -57,17 +57,24 @@ class ODataV3Reader implements IODataReader
                 case "FunctionImport":
                     $funcSchema = $this->processFunctionNode($childNode, $parentNode);
                     if ($model->resolveFunction($funcSchema)) {
-                        //$this->parseEdmx($model, $curNode, $childNode, $funcSchema);
+                        $this->parseEdmx($model, $curNode, $childNode, $funcSchema);
                     }
+                    break;
+                case "Parameter":
+                    $parameterSchema = array(
+                        'type' => (string)$childNode->attributes()["Type"],
+                        'name' => (string)$childNode->attributes()["Name"]
+                    );
+                    $model->resolveParameter($prevValue, $parameterSchema);
                     break;
                 case "Property":
                     if ($prevValue) {
-                        $propertySchema = $this->processPropertyNode($childNode, $parentNode);
+                        $propertySchema = $this->processPropertyNode($childNode, $parentNode,false);
                         $model->resolveProperty($prevValue, $propertySchema);
                     }
                     break;
                 case "NavigationProperty":
-                    $propertySchema = $this->processNavPropertyNode($childNode, $parentNode);
+                    $propertySchema = $this->processPropertyNode($childNode, $parentNode,true);
                     if (!is_null($propertySchema['type'])) {
                         $model->resolveProperty($prevValue, $propertySchema);
                     }
@@ -86,8 +93,7 @@ class ODataV3Reader implements IODataReader
         $result = array(
             'alias' => (string)$curNode->attributes()["Name"],
             'baseType' => ($curNode->getName() === 'ComplexType' ? "ClientValueObject" : "ClientObject"),
-            'properties' => array(),
-            'functions' => array()
+            'properties' => array()
         );
 
 
@@ -105,17 +111,24 @@ class ODataV3Reader implements IODataReader
         $funcAlias = (string)$curNode->attributes()["Name"];
         $returnType = (string)$curNode->attributes()["ReturnType"];
         $entitySet = (string)$curNode->attributes()["EntitySet"];
+        $isBindable = (string)$curNode->attributes()["IsBindable"] !== "";
         $result = $parentNode->xpath("////xmlns:EntityContainer[@Name='ApiData']/xmlns:EntitySet[@Name='$entitySet']");
         $typeName = null;
         if($result){
             $typeName = (string)$result[0]->attributes()['EntityType'];
         }
-
-        return array('alias' => $funcAlias,'returnType' => $returnType, 'name' => $typeName);
+        return array('alias' => $funcAlias,'returnType' => $returnType, 'name' => $typeName, 'isBindable' => $isBindable);
     }
 
-    private function processNavPropertyNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
+
+    private function processPropertyNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode,$isNavigation)
     {
+        if(!$isNavigation){
+            return array(
+                'name' => (string)$curNode->attributes()["Name"],
+                'type' => (string)$curNode->attributes()["Type"]
+            );
+        }
         $propAlias = (string)$curNode->attributes()["Name"];
         $propType = $this->findPropertyType($curNode, $parentNode, $propAlias);
         $baseType = $this->findBaseType($parentNode,$propType);
@@ -124,15 +137,6 @@ class ODataV3Reader implements IODataReader
             'type' => $propType,
             'baseType' => $baseType,
             'readOnly' => true
-        );
-    }
-
-
-    private function processPropertyNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
-    {
-        return array(
-            'name' => (string)$curNode->attributes()["Name"],
-            'type' => (string)$curNode->attributes()["Type"]
         );
     }
 
