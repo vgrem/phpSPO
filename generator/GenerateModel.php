@@ -38,6 +38,9 @@ function connectWithUserCredentials($url,$username,$password){
  */
 function generateTypeFile($typeSchema,$options)
 {
+    if(!isset($typeSchema['baseType'])){
+        print ("OK");
+    }
     $templatePath =  $options['templatePath'] . $typeSchema['baseType'] . 'Template.php';
     $template = new TemplateContext($templatePath);
     $builder = new TypeBuilder($options,$typeSchema);
@@ -67,15 +70,6 @@ function generateFiles(ODataModel $model){
         if($curIdx >= $startIdx){
             echo "Processing type ($curIdx of $count):  $typeName ... " . PHP_EOL;
             generateTypeFile($type,$model->getOptions());
-        }
-    }
-
-    $curIdx = 0;
-    foreach ($model->getFunctions() as $funcName => $function){
-        $curIdx++;
-        if($curIdx >= $startIdx){
-            echo "Processing function ($curIdx of $count):  $funcName ... " . PHP_EOL;
-            //generateTypeFile($funcName,$model->getOptions());
         }
     }
 }

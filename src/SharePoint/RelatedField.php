@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T17:00:44+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-01-12T21:40:05+00:00 16.0.19527.12070
  */
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+
 /**
  * Represents 
  * a Lookup Field that points to a given list on a Web site.
@@ -82,5 +81,18 @@ class RelatedField extends ClientObject
     public function setWebId($value)
     {
         $this->setProperty("WebId", $value, true);
+    }
+    /**
+     * Specifies 
+     * the List that the corresponding Lookup Field looks up to.It MUST 
+     * NOT be NULL. 
+     * @return SPList
+     */
+    public function getLookupList()
+    {
+        if (!$this->isPropertyAvailable("LookupList")) {
+            $this->setProperty("LookupList", new SPList($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "LookupList")));
+        }
+        return $this->getProperty("LookupList");
     }
 }

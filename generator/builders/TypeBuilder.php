@@ -30,11 +30,14 @@ class TypeBuilder extends NodeVisitorAbstract {
 
     public function build(TemplateContext $template)
     {
-        $annotations = new AnnotationsResolver($this->options);
-        $result = array_filter($this->typeSchema['properties'], function($propertySchema)  {
+        $saveChanges = $this->typeSchema['state'] === "detached" ||
+            sizeof(array_filter($this->typeSchema['properties'], function($propertySchema)  {
             return $propertySchema['state'] === "detached";
-        });
-        if (!empty($result)){
+        }));
+
+
+        if ($saveChanges){
+            $annotations = new AnnotationsResolver($this->options);
             $annotations->resolveTypeComment($this->typeSchema);
         }
 
@@ -58,7 +61,7 @@ class TypeBuilder extends NodeVisitorAbstract {
         $traverser = new NodeTraverser();
         $traverser->addVisitor($this);
         $traverser->traverse($this->typeNode);
-        return !empty($result);
+        return $saveChanges;
     }
 
 
@@ -67,7 +70,7 @@ class TypeBuilder extends NodeVisitorAbstract {
             $node->setDocComment((new DocCommentBuilder($this->options))->createHeaderComment());
         }
         elseif ($node instanceof Node\Stmt\Class_) {
-            if(isset($this->changes['comment']))
+            if(isset($this->typeSchema['comment']))
                 $node->setDocComment((new DocCommentBuilder($this->options))->createClassComment($this->typeSchema['comment']));
             foreach($this->propertyNodes as $property){  //insert missing properties
                 $node->stmts[] = $property;

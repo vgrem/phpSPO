@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T14:35:07+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-01-12T20:55:26+00:00 16.0.19527.12070
  */
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ResourcePathEntity;
-
 /**
  * Represents 
  * an alert, which generates periodic e-mail notifications sent to a user about 
@@ -383,5 +382,17 @@ class Alert extends ClientObject
             $this->setProperty("User", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "User")));
         }
         return $this->getProperty("User");
+    }
+    /**
+     * Gets the 
+     * GUID of the list or document library to which the alert applies.
+     * @return SPList
+     */
+    public function getList()
+    {
+        if (!$this->isPropertyAvailable("List")) {
+            $this->setProperty("List", new SPList($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "List")));
+        }
+        return $this->getProperty("List");
     }
 }

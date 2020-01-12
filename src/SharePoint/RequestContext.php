@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T18:22:48+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-01-12T21:00:13+00:00 16.0.19527.12070
  */
 namespace Office365\PHP\Client\SharePoint;
 
@@ -46,5 +46,17 @@ class RequestContext extends ClientObject
             $this->setProperty("Current", new RequestContext($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Current")));
         }
         return $this->getProperty("Current");
+    }
+    /**
+     * Returns 
+     * the list that is associated with the Windows SharePoint Services context.
+     * @return SPList
+     */
+    public function getList()
+    {
+        if (!$this->isPropertyAvailable("List")) {
+            $this->setProperty("List", new SPList($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "List")));
+        }
+        return $this->getProperty("List");
     }
 }

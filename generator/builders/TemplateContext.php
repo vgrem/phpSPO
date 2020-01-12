@@ -34,6 +34,7 @@ class TemplateContext extends NodeVisitorAbstract
         $traverser->addVisitor($this);
         $this->values['function'] = $propertySchema['alias'];
         $this->values['property'] = $propertySchema['name'];
+        $this->values['type'] = $propertySchema['typeAlias'];
         $traverser->traverse($template);
         return $template[0];
     }
@@ -101,8 +102,11 @@ class TemplateContext extends NodeVisitorAbstract
             $node->name = $this->values['function'];
         }
         elseif ($node instanceof Node\Name) {
-            if($node->parts[0] === "ClientObject" && count($node->parts) > 1) {
+            /*if($node->parts[0] === "ClientObject" && count($node->parts) > 1) {
                 $node->parts[0] = $this->values['property'];
+            }*/
+            if($node->parts[0] === "ClientObject") {
+                $node->parts[0] = $this->values['type'];
             }
         }
         elseif ($node instanceof Node\Scalar\String_){

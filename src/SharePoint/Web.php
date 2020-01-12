@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T18:20:30+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-01-12T20:58:24+00:00 16.0.19527.12070
  */
 namespace Office365\PHP\Client\SharePoint;
 
@@ -2167,5 +2167,19 @@ class Web extends SecurableObject
             $this->setProperty("ThemeInfo", new ThemeInfo($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ThemeInfo")));
         }
         return $this->getProperty("ThemeInfo");
+    }
+    /**
+     * Specifies 
+     * the user 
+     * information list for the site collection that 
+     * contains the site (2).
+     * @return SPList
+     */
+    public function getSiteUserInfoList()
+    {
+        if (!$this->isPropertyAvailable("SiteUserInfoList")) {
+            $this->setProperty("SiteUserInfoList", new SPList($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "SiteUserInfoList")));
+        }
+        return $this->getProperty("SiteUserInfoList");
     }
 }

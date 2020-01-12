@@ -59,19 +59,4 @@ class DocCommentBuilder
         return array_slice($parts, -1)[0];
     }
 
-
-    /*public function enterNode(Node $node)
-    {
-        if ($node instanceof Node\Stmt\Namespace_) {
-            $comments = $node->getComments();
-            $result = array_filter(
-                $comments,
-                function (Doc $comment) {
-                    return strpos($comment->getText(), $this->headerKey) === false;
-                }
-            );
-            $result[] = $this->createHeaderComment();
-            $node->setAttribute('comments', $result);
-        }
-    }*/
 }

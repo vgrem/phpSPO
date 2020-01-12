@@ -29,6 +29,7 @@ class ODataModel
             $collTypeMappings["Collection($k)"] = "array";
         }
         $this->primitiveTypeMappings = array_merge($this->primitiveTypeMappings, $collTypeMappings);
+        $this->functions = array();
     }
 
     public function getTypes()
@@ -72,14 +73,7 @@ class ODataModel
         return true;
     }
 
-    /**
-     * @param array $typeSchema
-     */
-    public function addType(array $typeSchema)
-    {
-        $typeName = $typeSchema['name'];
-        $this->types[$typeName] = $typeSchema;
-    }
+
 
     public function addProperty(array $typeSchema,array $propSchema)
     {
@@ -88,17 +82,55 @@ class ODataModel
         $this->types[$typeName]['properties'][$propertyKey] = $propSchema;
     }
 
-    public function addFunction(array $funcSchema)
+    /**
+     * @param array $funcSchema
+     * @return bool
+     *
+     */
+    public function resolveFunction(array &$funcSchema)
     {
-        $funcName = $funcSchema['alias'];
-        $this->functions[$funcName] = $funcSchema;
+        if(is_null($funcSchema['name'])){
+            return false;
+        }
+        if (!$this->validateType($funcSchema['returnType'])) {
+            return false;
+        }
+
+        if($funcSchema['isBindable'] === false){
+            $funcName = $funcSchema['alias'];
+            $this->functions[$funcName] = &$funcSchema;
+        }
+        return true;
     }
 
-    public function resolveParameter(array $funcSchema, array $parameterSchema)
+
+    public function resolveParameter(&$funcSchema, array $parameterSchema)
     {
-        $key = $parameterSchema['name'];
+        if($funcSchema['isBindable'] === false) {
+           return false;
+        }
+
         $funcName = $funcSchema['alias'];
-        $this->functions[$funcName]['parameters'][$key] = $parameterSchema;
+        $paramName = $parameterSchema['name'];
+        if ($paramName === "this") {
+            $typeSchema = array('name' => $parameterSchema['type']);
+            if ($this->resolveType($typeSchema) === true) {
+                try {
+                    $class = new ReflectionClass($typeSchema['type']);
+                    $class->getMethod($funcName);
+                    $funcSchema['state'] = 'attached';
+                } catch (ReflectionException $e) {
+                    $funcSchema['state'] = 'detached';
+                }
+                $typeName = $typeSchema['name'];
+                $this->types[$typeName]['functions'][$funcName] = &$funcSchema;
+            }
+        } else {
+            $typeInfo = $this->getTypeInfo($parameterSchema['type']);
+            $parameterSchema['type'] = $typeInfo;
+            $funcSchema['parameters'][$paramName] = $parameterSchema;
+        }
+        return true;
     }
 
     /**
@@ -107,17 +139,22 @@ class ODataModel
      */
     public function resolveType(&$typeSchema)
     {
+        $typeName = $typeSchema['name'];
         //validate type
-        if (!$this->validateType($typeSchema['name'])) {
+        if (!$this->validateType($typeName)) {
             //echo "Unknown type: $typeName" . PHP_EOL;
-            return null;
+            return false;
         }
 
         //ensure the existing type
-        if(isset($this->types[$typeSchema['name']]))
+        if(isset($this->types[$typeName])) {
+            $this->types[$typeName] = array_merge($typeSchema, $this->types[$typeName]);
+            $typeSchema = $this->types[$typeName];
             return true;
+        }
 
-        $typeInfo = $this->getTypeInfo($typeSchema['name']);
+        $typeInfo = $this->getTypeInfo($typeName);
+        $typeSchema['alias'] = $typeInfo['alias'];
         try {
             $class = new ReflectionClass($typeInfo['name']);
             $typeSchema['state'] = 'attached';
@@ -130,21 +167,7 @@ class ODataModel
             $typeSchema['type'] = $typeInfo['name'];
             $typeSchema['namespace'] = $typeInfo['namespace'];
         }
-        $this->addType($typeSchema);
-        return true;
-    }
-
-
-    public function resolveFunction(array $funcSchema)
-    {
-        if(is_null($funcSchema['name']) || $funcSchema['isBindable'] === false ){
-            return false;
-        }
-        if (!$this->validateType($funcSchema['returnType'])) {
-            return null;
-        }
-
-        $this->addFunction($funcSchema);
+        $this->types[$typeName] = $typeSchema;
         return true;
     }
 
@@ -169,6 +192,7 @@ class ODataModel
         //exclude properties if unknown type
         $typeInfo = $this->getTypeInfo($propSchema['type']);
         $propSchema['type'] = $typeInfo['name'];
+        $propSchema['typeAlias'] = isset($typeInfo['alias']) ? $typeInfo['alias'] : $typeInfo['name'];
         if ($typeInfo['primitive'] === false && !file_exists($typeInfo['file'])) {
           return false;
         }
@@ -219,6 +243,10 @@ class ODataModel
      */
     public function getTypeInfo($typeName)
     {
+        if($typeName=== "SP.List"){
+            $typeName = "SP.SPList";
+        }
+
         if (array_key_exists($typeName, $this->primitiveTypeMappings)) {
             return array(
                 'name' => $this->primitiveTypeMappings[$typeName],

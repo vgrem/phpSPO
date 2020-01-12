@@ -90,18 +90,13 @@ class ODataV3Reader implements IODataReader
 
     private function processTypeNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
     {
-        $result = array(
+        $schema = array(
             'alias' => (string)$curNode->attributes()["Name"],
             'baseType' => ($curNode->getName() === 'ComplexType' ? "ClientValueObject" : "ClientObject"),
             'properties' => array()
         );
-
-
-        if($result['alias'] === "List"){
-            $result['alias'] = "SPList";
-        }
-        $result['name'] = (string)$parentNode->attributes()["Namespace"] . "." . $result['alias'];
-        return $result;
+        $schema['name'] = (string)$parentNode->attributes()["Namespace"] . "." . $schema['alias'];
+        return $schema;
     }
 
 
@@ -117,7 +112,7 @@ class ODataV3Reader implements IODataReader
         if($result){
             $typeName = (string)$result[0]->attributes()['EntityType'];
         }
-        return array('alias' => $funcAlias,'returnType' => $returnType, 'name' => $typeName, 'isBindable' => $isBindable);
+        return array('alias' => $funcAlias,'returnType' => $returnType, 'name' => $typeName, 'parameters' => array(), 'isBindable' => $isBindable);
     }
 
 
@@ -173,4 +168,6 @@ class ODataV3Reader implements IODataReader
         }
         return null;
     }
+
+
 }
