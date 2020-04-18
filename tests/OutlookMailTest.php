@@ -80,7 +80,7 @@ class OutlookMailTest extends OutlookServicesTestCase
     private function getLink(OutlookEntity $entity){
         //$entity->Id = null;
         $entity->ConversationId = null;
-        //$entity->addTypeAnnotation("type","#Microsoft.OutlookServices.Message");
+        //$entity->addTypeAnnotation("type","#Microsoft.Outlook.Message");
         //$type = $entity->getTypeName();
         //$entity->ensureTypeAnnotation("Message");
         $entity->IncludeTypeAnnotation = true;

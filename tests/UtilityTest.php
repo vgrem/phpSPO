@@ -5,8 +5,8 @@ use Office365\PHP\Client\SharePoint\ListTemplateType;
 use Office365\PHP\Client\SharePoint\SPList;
 use Office365\PHP\Client\SharePoint\Utilities\Utility;
 
-require_once('SharePointTestCase.php');
-require_once('ListItemExtensions.php');
+//require_once('SharePointTestCase.php');
+
 
 class UtilityTest extends SharePointTestCase
 {
@@ -19,8 +19,8 @@ class UtilityTest extends SharePointTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        $listTitle = ListItemExtensions::createUniqueName("Discussions");
-        self::$discussionsList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DiscussionBoard);
+        $listTitle = self::createUniqueName("Discussions");
+        self::$discussionsList = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DiscussionBoard);
     }
 
     public static function tearDownAfterClass()
@@ -33,7 +33,7 @@ class UtilityTest extends SharePointTestCase
 
     public function testCreateNewDiscussion()
     {
-        $topicTitle = ListItemExtensions::createUniqueName("Topic");
+        $topicTitle = self::createUniqueName("Topic");
         $discussion = Utility::createNewDiscussion(self::$discussionsList,$topicTitle);
         self::assertEquals($discussion->getProperty("FileLeafRef"),$topicTitle);
         return $discussion;
@@ -47,7 +47,7 @@ class UtilityTest extends SharePointTestCase
      */
     public function testCreateNewDiscussionReply(ListItem $discussion)
     {
-        $messageTitle = ListItemExtensions::createUniqueName("Reply");
+        $messageTitle = self::createUniqueName("Reply");
         Utility::createNewDiscussionReply($discussion,$messageTitle);
         $discussionFolder = $discussion->getFolder();
         self::$context->load($discussionFolder,array("ItemCount"));

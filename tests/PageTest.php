@@ -21,10 +21,10 @@ class PageTest extends SharePointTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        $listTitle = ListItemExtensions::createUniqueName("Wiki");
-        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(),$listTitle, ListTemplateType::WebPageLibrary);
-        $pageName = ListItemExtensions::createUniqueName("Wiki") . ".aspx";
-        self::$targetPage = ListItemExtensions::createWikiPage(self::$targetList,$pageName,"Welcome to site");
+        $listTitle = self::createUniqueName("Wiki");
+        self::$targetList = self::ensureList(self::$context->getWeb(),$listTitle, ListTemplateType::WebPageLibrary);
+        $pageName = self::createUniqueName("Wiki") . ".aspx";
+        self::$targetPage = self::createWikiPage(self::$targetList,$pageName,"Welcome to site");
         if(!self::$targetPage->isPropertyAvailable("CheckOutType")){
             self::$context->load(self::$targetPage);
             self::$context->executeQuery();

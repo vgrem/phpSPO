@@ -19,7 +19,7 @@ class FieldTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = "Contacts_" . rand(1, 100000);
-        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::Contacts);
+        self::$targetList = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::Contacts);
     }
 
     public static function tearDownAfterClass()
@@ -88,8 +88,5 @@ class FieldTest extends SharePointTestCase
         self::$context->executeQuery();
         $this->assertNotNull($field->getProperty("Title"));
     }
-
-
-
 
 }

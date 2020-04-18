@@ -8,7 +8,7 @@ use Office365\PHP\Client\Runtime\ClientValueObject;
 
 /**
  * Class Reminder
- * @package Office365\PHP\Client\OutlookServices
+ * @package Office365\PHP\Client\Outlook
  */
 class Reminder extends ClientValueObject
 {

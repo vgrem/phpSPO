@@ -8,9 +8,6 @@ use Office365\PHP\Client\OutlookServices\ItemBody;
 use Office365\PHP\Client\OutlookServices\Location;
 use Office365\PHP\Client\OutlookServices\PhysicalAddress;
 
-
-
-
 class OutlookCalendarTest extends OutlookServicesTestCase
 {
 
@@ -42,7 +39,7 @@ class OutlookCalendarTest extends OutlookServicesTestCase
             function (Event $event) use ($key) {
                 return  $event->getProperty("Id") === $key;
             });
-        self:self::assertCount(1,$filteredResult);
+        self::assertCount(1,$filteredResult);
         return $event;
     }
 

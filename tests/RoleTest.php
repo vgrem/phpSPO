@@ -2,8 +2,6 @@
 
 namespace Office365\PHP\Client\SharePoint;
 
-
-use ListExtensions;
 use SharePointTestCase;
 
 class RoleTest extends SharePointTestCase
@@ -15,7 +13,7 @@ class RoleTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = "Documents_" . rand(1, 100000);
-        self::$securedTargetObject = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DocumentLibrary);
+        self::$securedTargetObject = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DocumentLibrary);
     }
 
     public static function tearDownAfterClass()

@@ -1,36 +1,13 @@
 <?php
 
-require_once(__DIR__ . '/../vendor/autoload.php');
 require_once(__DIR__ . '/vendor/autoload.php');
-require_once(__DIR__ . '/builders/TemplateContext.php');
-require_once(__DIR__ . '/builders/DocCommentBuilder.php');
-require_once(__DIR__ . '/builders/PropertyBuilder.php');
-require_once(__DIR__ . '/builders/FunctionBuilder.php');
-require_once(__DIR__ . '/builders/TypeBuilder.php');
-require_once(__DIR__ . '/AnnotationsResolver.php');
+$Settings = include('../Settings.php');
 
-use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\OData\MetadataResolver;
 use Office365\PHP\Client\Runtime\OData\ODataModel;
 use Office365\PHP\Client\Runtime\OData\ODataV3Reader;
 use Office365\PHP\Client\SharePoint\ClientContext;
 
-
-
-$Settings = include('../Settings.php');
-
-/**
- * @param $url string
- * @param $username string
- * @param $password string
- * @return ClientContext
- * @throws Exception
- */
-function connectWithUserCredentials($url,$username,$password){
-    $authCtx = new AuthenticationContext($url);
-    $authCtx->acquireTokenForUser($username,$password);
-    return new ClientContext($url,$authCtx);
-}
 
 /**
  * @param $typeSchema array
@@ -38,9 +15,6 @@ function connectWithUserCredentials($url,$username,$password){
  */
 function generateTypeFile($typeSchema,$options)
 {
-    if(!isset($typeSchema['baseType'])){
-        print ("OK");
-    }
     $templatePath =  $options['templatePath'] . $typeSchema['baseType'] . 'Template.php';
     $template = new TemplateContext($templatePath);
     $builder = new TypeBuilder($options,$typeSchema);
@@ -75,7 +49,7 @@ function generateFiles(ODataModel $model){
 }
 
 try {
-    $ctx = connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
+    $ctx = ClientContext::connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
     //$edmxContents = MetadataResolver::getMetadata($ctx);
     $edmxContents = file_get_contents('./metadata/SharePoint_311019.xml');
     $outputPath = dirname((new ReflectionClass($ctx))->getFileName());
@@ -122,12 +96,9 @@ try {
 
     $reader = new ODataV3Reader($edmxContents,$generatorOptions);
     $model = $reader->generateModel();
-    generateFiles($model);
+    //generateFiles($model);
 }
 catch (Exception $ex){
     $message = $ex->getMessage();
     print_r("An error occurred while generating model: $message \r\n");
 }
-
-
-

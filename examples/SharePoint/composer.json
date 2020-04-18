@@ -1,7 +1,0 @@
-{
-  "name": "SharePoint related examples",
-  "description": "Examples that demonstrate how to utilize SharePoint API",
-  "require": {
-    "fzaninotto/faker": "*"
-  }
-}

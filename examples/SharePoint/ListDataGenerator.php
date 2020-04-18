@@ -1,11 +1,12 @@
 <?php
 
-require_once 'vendor/fzaninotto/Faker/src/autoload.php';
-require_once('../bootstrap.php');
+
+require_once '../vendor/autoload.php';
 $Settings = include('../../Settings.php');
 
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\PHP\Client\SharePoint\ListTemplateType;
 
 
 try {
@@ -21,7 +22,7 @@ catch (Exception $e) {
 function generateContacts(ClientContext $ctx){
 
     $listTitle = 'Contacts';
-    $list =  ListExtensions::ensureList($ctx->getWeb(),$listTitle,\Office365\PHP\Client\SharePoint\ListTemplateType::Contacts);
+    $list =  ListExtensions::ensureList($ctx->getWeb(),$listTitle, ListTemplateType::Contacts);
 	$contactsCount = 1;
 	for($i = 0; $i < $contactsCount; $i++){
 	     $contactEntry = createContactEntry();

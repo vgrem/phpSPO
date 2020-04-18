@@ -8,5 +8,10 @@
     ],
     "require": {
         "nikic/php-parser": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Office365\\PHP\\Client\\": "../src/"
+        }
     }
 }

@@ -18,8 +18,8 @@ class ListItemTest extends SharePointTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        $listTitle = ListItemExtensions::createUniqueName("Orders");
-        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::Tasks);
+        $listTitle = self::createUniqueName("Orders");
+        self::$targetList = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::Tasks);
     }
 
     public static function tearDownAfterClass()
@@ -95,7 +95,7 @@ class ListItemTest extends SharePointTestCase
             'PredecessorsId' => array( 'results' => array($currentUser->getProperty("Id")))
             //'__metadata' => array('type' => 'SP.Data.TasksListItem')
         );
-        $items = ListItemExtensions::populateList(self::$targetList,$itemProperties,1);
+        $items = self::populateList(self::$targetList,$itemProperties,1);
         $firstItem = $items[0];
         $this->assertEquals($firstItem->getProperty('Body'), $itemProperties['Body']);
         return $firstItem;
@@ -187,7 +187,7 @@ class ListItemTest extends SharePointTestCase
                 'Title' => 'Order Approval' . rand(1, 1000),
                 'Body' => 'Please review a task'
             );
-            ListItemExtensions::populateList(self::$targetList,$itemProperties, $minItemsCount - $itemsCount);
+            self::populateList(self::$targetList,$itemProperties, $minItemsCount - $itemsCount);
         }
 
         $items = self::$targetList->getItems();

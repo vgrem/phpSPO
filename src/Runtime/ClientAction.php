@@ -94,10 +94,9 @@ class ClientAction
     protected function normalizePayload($value,ODataFormat $format)
     {
         if ($value instanceof IEntityType) {
-            $payload = array_map(function ($property) use($format){
+            return array_map(function ($property) use($format){
                 return $this->normalizePayload($property,$format);
             }, $value->toJson($format));
-            return $payload;
         } else if (is_array($value)) {
             return array_map(function ($item) use($format){
                 return $this->normalizePayload($item,$format);

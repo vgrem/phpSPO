@@ -7,7 +7,8 @@ class MetadataReaderTest extends SharePointTestCase
 {
     public function testLoadMetadata()
     {
-        $edmxContents = MetadataResolver::getMetadata(self::$context);
+        //$edmxContents = MetadataResolver::getMetadata(self::$context);
+        $edmxContents = file_get_contents(__DIR__ . '/../generator/metadata/SharePoint_311019.xml');
         $this->assertNotNull($edmxContents);
         return $edmxContents;
     }
@@ -19,8 +20,8 @@ class MetadataReaderTest extends SharePointTestCase
      * @throws ReflectionException
      */
     public function  testParseMetadata($edmxContent){
-        $outputPath = dirname((new \ReflectionClass(self::$context))->getFileName());
-        $rootNamespace = ((new \ReflectionClass(self::$context))->getNamespaceName());
+        $outputPath = dirname((new ReflectionClass(self::$context))->getFileName());
+        $rootNamespace = ((new ReflectionClass(self::$context))->getNamespaceName());
         self::$context->requestFormDigest();
         self::$context->executeQuery();
 

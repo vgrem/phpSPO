@@ -46,7 +46,7 @@ class WebTest extends SharePointTestCase
     public function testCreateWeb()
     {
         $targetWebUrl = "Workspace_" . date("Y-m-d") . rand(1,10000);
-        $targetWeb = WebExtensions::createWeb(self::$context,$targetWebUrl);
+        $targetWeb = self::createWeb(self::$context,$targetWebUrl);
         $this->assertEquals($targetWebUrl,$targetWeb->getProperty('Title'));
         return $targetWeb;
     }
@@ -75,7 +75,7 @@ class WebTest extends SharePointTestCase
     public function testUpdateWeb(Web $targetWeb)
     {
         $ctx = $targetWeb->getContext();
-        $webTitle = ListItemExtensions::createUniqueName("WS_Updated");
+        $webTitle = self::createUniqueName("WS_Updated");
         $targetWeb->setProperty("Title",$webTitle);
         $targetWeb->update();
         $ctx->executeQuery();

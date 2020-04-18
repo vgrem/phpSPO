@@ -10,7 +10,7 @@ class ListTest extends SharePointTestCase
     public function testIfListCreated()
     {
         $listTitle = "Orders_" . rand(1,100000);
-        $list = ListExtensions::ensureList(self::$context->getWeb(),$listTitle, ListTemplateType::Tasks);
+        $list = self::ensureList(self::$context->getWeb(),$listTitle, ListTemplateType::Tasks);
         $this->assertEquals($list->getProperty('Title'),$listTitle);
         return $list;
     }

@@ -23,7 +23,7 @@ class FileTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = "Documents_" . rand(1, 100000);
-        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DocumentLibrary);
+        self::$targetList = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DocumentLibrary);
     }
 
     public static function tearDownAfterClass()

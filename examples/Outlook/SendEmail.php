@@ -10,7 +10,7 @@ use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\Utilities\UserCredentials;
 
 
-require_once '../bootstrap.php';
+require_once '../vendor/autoload.php';
 $settings = include('../../Settings.php');
 
 function acquireToken(AuthenticationContext $authCtx,$clientId,$userName,$password)

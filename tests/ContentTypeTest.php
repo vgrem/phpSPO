@@ -1,18 +1,22 @@
 <?php
 
+use Office365\PHP\Client\SharePoint\ContentType;
+use Office365\PHP\Client\SharePoint\ContentTypeCreationInformation;
+use Office365\PHP\Client\SharePoint\ListTemplateType;
+
 class ContentTypeTest extends SharePointTestCase
 {
 
     public function testGetListContentTypes(){
-        $listTitle = ListItemExtensions::createUniqueName("Orders");
-        $list = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, \Office365\PHP\Client\SharePoint\ListTemplateType::TasksWithTimelineAndHierarchy);
+        $listTitle = self::createUniqueName("Orders");
+        $list = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::TasksWithTimelineAndHierarchy);
         $contentTypes = $list->getContentTypes();
         self::$context->load($contentTypes);
         self::$context->executeQuery();
 
         $this->assertGreaterThan(0,$contentTypes->getCount());
 
-        ListExtensions::deleteList($list);
+        self::deleteList($list);
     }
 
 
@@ -35,8 +39,8 @@ class ContentTypeTest extends SharePointTestCase
 
 
     public function testCreateContentType(){
-        $params = new \Office365\PHP\Client\SharePoint\ContentTypeCreationInformation();
-        $params->Name = ListItemExtensions::createUniqueName("Custom Task");
+        $params = new ContentTypeCreationInformation();
+        $params->Name = self::createUniqueName("Custom Task");
         //$params->setParentId("0x0108");
         $ct = self::$context->getSite()->getRootWeb()->getContentTypes()->add($params);
         self::$context->executeQuery();
@@ -47,9 +51,9 @@ class ContentTypeTest extends SharePointTestCase
 
     /**
      * @depends testCreateContentType
-     * @param \Office365\PHP\Client\SharePoint\ContentType $ct
+     * @param ContentType $ct
      */
-    public function testDeleteContentType(\Office365\PHP\Client\SharePoint\ContentType $ct){
+    public function testDeleteContentType(ContentType $ct){
         $ctId = $ct->getProperty("StringId");
         $ct->deleteObject();
         self::$context->executeQuery();

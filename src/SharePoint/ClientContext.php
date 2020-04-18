@@ -2,6 +2,7 @@
 
 namespace Office365\PHP\Client\SharePoint;
 
+use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\ClientAction;
 use Office365\PHP\Client\Runtime\ClientResult;
@@ -46,6 +47,37 @@ class ClientContext extends ClientRuntimeContext
         parent::__construct($serviceRootUrl,$authCtx,new JsonLightFormat(ODataMetadataLevel::Verbose));
     }
 
+
+    /**
+     * @param string $url
+     * @param string $username
+     * @param string $password
+     * @return ClientContext
+     * @throws \Exception
+     */
+    public static function connectWithUserCredentials($url,$username,$password)
+    {
+        $authCtx = new AuthenticationContext($url);
+        $authCtx->acquireTokenForUser($username,$password);
+        return new ClientContext($url,$authCtx);
+    }
+
+
+    /**
+     * @param string $url
+     * @param string $clientId
+     * @param string $clientSecret
+     * @return ClientContext
+     * @throws \Exception
+     */
+    public static function connectWithClientCredentials($url, $clientId, $clientSecret)
+    {
+        $authCtx = new AuthenticationContext($url);
+        $authCtx->acquireAppOnlyAccessToken($clientId,$clientSecret);
+        return new ClientContext($url,$authCtx);
+    }
+
+
     public function addQuery(ClientAction $query, $resultObject = null)
     {
         if ($this->getFormat()->MetadataLevel === ODataMetadataLevel::Verbose) {
@@ -55,9 +87,6 @@ class ClientContext extends ClientRuntimeContext
         }
         return parent::addQuery($query, $resultObject);
     }
-
-
-
 
     /**
      * Ensure form digest value for POST request

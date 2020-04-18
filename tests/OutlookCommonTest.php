@@ -1,12 +1,6 @@
 <?php
 
 
-use Office365\PHP\Client\Runtime\ClientObjectCollection;
-
-
-require_once('OutlookServicesTestCase.php');
-
-
 class OutlookCommonTest extends OutlookServicesTestCase
 {
 
@@ -59,12 +53,6 @@ class OutlookCommonTest extends OutlookServicesTestCase
             self::$context->executeQuery();
         }
     }*/
-
-
-
-
-
-
 
 
 }

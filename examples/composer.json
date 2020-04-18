@@ -1,0 +1,12 @@
+{
+  "name": "vgrem/php-spo-examples",
+  "description": "Examples that demonstrate how to utilize library",
+  "require": {
+    "fzaninotto/faker": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Office365\\PHP\\Client\\": "../src/"
+    }
+  }
+}

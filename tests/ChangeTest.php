@@ -18,7 +18,7 @@ class ChangeTest extends SharePointTestCase
     {
         parent::setUpBeforeClass();
         $listTitle = "Contacts";
-        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::TasksWithTimelineAndHierarchy);
+        self::$targetList = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::TasksWithTimelineAndHierarchy);
 
         $contactEntry = array('Title' => "New contact");
         self::$targetList->addItem($contactEntry);

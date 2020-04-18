@@ -19,12 +19,12 @@ class SiteTest extends SharePointTestCase
         self::assertGreaterThanOrEqual(0,$actions->getCount());
     }
 
-    public function testIfWebsLoaded()
+    /*public function testIfWebsLoaded()
     {
         $webs = self::$context->getSite()->getRootWeb()->getWebs();
         self::$context->load($webs);
         self::$context->executeQuery();
         self::assertGreaterThanOrEqual(0,$webs->getCount());
-    }
+    }*/
 
 }

@@ -15,8 +15,8 @@ class ViewTest extends SharePointTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        $listTitle = ListItemExtensions::createUniqueName("Orders");
-        self::$targetList = ListExtensions::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::Tasks);
+        $listTitle = self::createUniqueName("Orders");
+        self::$targetList = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::Tasks);
     }
 
     public static function tearDownAfterClass()
@@ -39,7 +39,7 @@ class ViewTest extends SharePointTestCase
     public function testCreateView()
     {
         $viewCreateInfo = new ViewCreationInformation();
-        $viewTitle = ListItemExtensions::createUniqueName("My Orders");
+        $viewTitle = self::createUniqueName("My Orders");
         $viewCreateInfo->Title = $viewTitle;
         self::$targetList->getViews()->add($viewCreateInfo);
         self::$context->executeQuery();
@@ -50,9 +50,5 @@ class ViewTest extends SharePointTestCase
         self::$context->executeQuery();
         $this->assertEquals(1, $result->getCount());
     }
-
-
-    
-    
 
 }

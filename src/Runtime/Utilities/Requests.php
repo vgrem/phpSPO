@@ -13,13 +13,12 @@ class Requests
 			CURLOPT_RETURNTRANSFER => true,
 	);
 
-    public static function getHistory()
-    {
-        return self::$history;
-    }
-
-    protected static $history = [];
-
+    /**
+     * @param RequestOptions $options
+     * @param array $responseInfo
+     * @return bool|string
+     * @throws UnavailableServerException
+     */
 	public static function execute(RequestOptions $options, &$responseInfo = array())
 	{
         $call = [];
@@ -36,13 +35,16 @@ class Requests
             throw new UnavailableServerException(curl_error($ch), curl_errno($ch));
         }
         curl_close($ch);
-
-        self::$history[] = $call;
-
 		return $response;
 	}
 
 
+    /**
+     * @param string $url
+     * @param array $headers
+     * @return bool|string
+     * @throws UnavailableServerException
+     */
     public static function get($url,$headers)
     {
         $options = new RequestOptions($url);
