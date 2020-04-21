@@ -8,7 +8,7 @@ namespace Office365\PHP\Client\SharePoint\WebParts;
 use Office365\PHP\Client\Runtime\ClientValueObject;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 /**
  * Provides 
  * operations to access and modify the existing Web Parts on a Web Part 
@@ -26,8 +26,8 @@ class LimitedWebPartManager extends ClientObject
         $payload = new ClientValueObject();
         $payload->setProperty("webPartXml", $webPartXml);
         $webPartDefinition = new WebPartDefinition($this->getContext());
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "ImportWebPart", null, $payload);
-        $this->getContext()->addQuery($qry, $webPartDefinition);
+        $qry = new InvokePostMethodQuery($this, "ImportWebPart", null,null, $payload);
+        $this->getContext()->addQueryAndResultObject($qry, $webPartDefinition);
         return $webPartDefinition;
     }
     /**
@@ -36,7 +36,9 @@ class LimitedWebPartManager extends ClientObject
     public function getWebParts()
     {
         if (!$this->isPropertyAvailable('WebParts')) {
-            $this->setProperty("WebParts", new WebPartDefinitionCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "WebParts")));
+            $this->setProperty("WebParts",
+                new WebPartDefinitionCollection($this->getContext(),
+                    new ResourcePath("WebParts", $this->getResourcePath())));
         }
         return $this->getProperty("WebParts");
     }

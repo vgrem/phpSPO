@@ -6,9 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+use Office365\PHP\Client\Runtime\ResourcePath;
+
 /**
  * Specifies 
  * the tenant properties.
@@ -38,7 +37,7 @@ class TenantSettings extends ClientObject
     public function getCurrent()
     {
         if (!$this->isPropertyAvailable("Current")) {
-            $this->setProperty("Current", new TenantSettings($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Current")));
+            $this->setProperty("Current", new TenantSettings($this->getContext(), new ResourcePath("Current", $this->getResourcePath())));
         }
         return $this->getProperty("Current");
     }

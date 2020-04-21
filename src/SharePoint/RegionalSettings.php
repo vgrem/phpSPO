@@ -6,9 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+use Office365\PHP\Client\Runtime\ResourcePath;
+
 /**
  * Specifies 
  * the locale settings of a site (2).<222>
@@ -378,7 +377,8 @@ class RegionalSettings extends ClientObject
     public function getInstalledLanguages()
     {
         if (!$this->isPropertyAvailable("InstalledLanguages")) {
-            $this->setProperty("InstalledLanguages", new LanguageCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "InstalledLanguages")));
+            $this->setProperty("InstalledLanguages", new LanguageCollection($this->getContext(),
+                new ResourcePath("InstalledLanguages", $this->getResourcePath())));
         }
         return $this->getProperty("InstalledLanguages");
     }
@@ -388,7 +388,8 @@ class RegionalSettings extends ClientObject
     public function getTimeZone()
     {
         if (!$this->isPropertyAvailable("TimeZone")) {
-            $this->setProperty("TimeZone", new TimeZone($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "TimeZone")));
+            $this->setProperty("TimeZone", new TimeZone($this->getContext(),
+                new ResourcePath("TimeZone", $this->getResourcePath())));
         }
         return $this->getProperty("TimeZone");
     }

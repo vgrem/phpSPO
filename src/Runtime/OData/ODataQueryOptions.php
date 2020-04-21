@@ -16,13 +16,12 @@ class ODataQueryOptions
 
     public function toUrl()
     {
-        $url = implode('&',array_map(
+        return implode('&',array_map(
                 function ($key,$val) {
                     $key = "\$" . strtolower($key);
                     return "$key=$val";
                 },array_keys($this->getProperties()),$this->getProperties())
         );
-        return $url;
     }
 
 

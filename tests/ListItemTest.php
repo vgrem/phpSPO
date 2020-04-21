@@ -34,7 +34,6 @@ class ListItemTest extends SharePointTestCase
     {
         $itemsCount = self::$targetList->getProperty("ItemCount");
         $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery());
-        self::$context->load($items);
         self::$context->executeQuery();
         $this->assertEquals($itemsCount, $items->getCount());
     }
@@ -72,7 +71,7 @@ class ListItemTest extends SharePointTestCase
         self::$context->load($targetFolder);
         self::$context->executeQuery();
 
-        $items = self::$targetList->getItems(CamlQuery::createAllFoldersQuery())->expand("Folder");
+        $items = self::$targetList->getItems()->expand("Folder");
         self::$context->load($items);
         self::$context->executeQuery();
         $result = $items->findItems(function (ListItem $item) use ($targetFolder) {
@@ -93,7 +92,6 @@ class ListItemTest extends SharePointTestCase
             'Body' => 'Please review a task',
             'AssignedToId' => $currentUser->getProperty("Id"),
             'PredecessorsId' => array( 'results' => array($currentUser->getProperty("Id")))
-            //'__metadata' => array('type' => 'SP.Data.TasksListItem')
         );
         $items = self::populateList(self::$targetList,$itemProperties,1);
         $firstItem = $items[0];
@@ -156,7 +154,7 @@ class ListItemTest extends SharePointTestCase
 
     public function testQueryOptionsForMultiUserField()
     {
-        $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery())
+        $items = self::$targetList->getItems()
             ->select("Predecessors/Title")
             ->expand("Predecessors")
             ->filter("FSObjType eq 0");

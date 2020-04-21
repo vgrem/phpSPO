@@ -4,8 +4,14 @@
 namespace Office365\PHP\Client\Runtime\Auth;
 
 
+use DOMDocument;
+use DOMNode;
+use DOMNodeList;
+use DOMXPath;
 use Exception;
-use Office365\PHP\Client\Runtime\Utilities\Requests;
+use Office365\PHP\Client\Runtime\Http\Requests;
+use Office365\PHP\Client\Runtime\Http\Response;
+use RuntimeException;
 
 class SamlTokenProvider extends BaseTokenProvider
 {
@@ -110,11 +116,10 @@ class SamlTokenProvider extends BaseTokenProvider
      */
     protected function acquireAuthenticationCookies($token)
     {
-        $urlInfo = parse_url($this->authorityUrl);
-
-        $url =  $urlInfo['scheme'] . '://' . $urlInfo['host'] . self::$SignInPageUrl;
+        $hostInfo = parse_url($this->authorityUrl);
+        $url =  $hostInfo['scheme'] . '://' . $hostInfo['host'] . self::$SignInPageUrl;
         if ($this->usingFederatedSTS) {
-            $url =  $urlInfo['scheme'] . '://' . $urlInfo['host'] . self::$IDCRLSVCPageUrl;
+            $url =  $hostInfo['scheme'] . '://' . $hostInfo['host'] . self::$IDCRLSVCPageUrl;
 
             $headers = array();
             $headers['User-Agent'] = '';
@@ -123,12 +128,12 @@ class SamlTokenProvider extends BaseTokenProvider
             $headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
             $response = Requests::head($url,$headers,true);
-            $cookies = Requests::parseCookies($response);
+            $cookies = Requests::parseCookies($response->getContent());
             $this->SPOIDCRL = $cookies['SPOIDCRL'];
         }
         else {
             $response = Requests::post($url,null,$token,true);
-            $cookies = Requests::parseCookies($response);
+            $cookies = Requests::parseCookies($response->getContent());
             $this->FedAuth = $cookies['FedAuth'];
             $this->rtFa = $cookies['rtFa'];
         }
@@ -146,17 +151,15 @@ class SamlTokenProvider extends BaseTokenProvider
     protected function acquireSecurityToken($username, $password)
     {
         $data = $this->prepareSecurityTokenRequest($username, $password, $this->authorityUrl);
-        $response = Requests::post(self::$StsUrl,null,$data);
+        $response = Requests::post(self::$StsUrl, null, $data);
 
         try {
-          $this->processSecurityTokenResponse($response);
-        }
-        catch (Exception $e) {
+            return $this->processSecurityTokenResponse($response->getContent());
+        } catch (Exception $e) {
             // Try to get the token with a federated authentication.
             $response = $this->acquireSecurityTokenFromFederatedSTS($username, $password);
-
+            return $this->processSecurityTokenResponse($response->getContent());
         }
-        return $this->processSecurityTokenResponse($response);
     }
 
     /**
@@ -164,13 +167,13 @@ class SamlTokenProvider extends BaseTokenProvider
      *
      * @param string $username
      * @param string $password
-     * @return string
+     * @return Response
      * @throws Exception
      */
     protected function acquireSecurityTokenFromFederatedSTS($username, $password) {
 
         $response = Requests::get(str_replace('{username}', $username, self::$RealmUrlTemplate),null);
-        $federatedStsUrl = $this->getFederatedAuthenticationInformation($response);
+        $federatedStsUrl = $this->getFederatedAuthenticationInformation($response->getContent());
 
         if ($federatedStsUrl) {
           $message_id = md5(uniqid($username . '-' . time() . '-' . rand() , true));
@@ -180,30 +183,28 @@ class SamlTokenProvider extends BaseTokenProvider
           $headers['Content-Type'] = 'application/soap+xml';
           $response = Requests::post($federatedStsUrl->textContent, $headers, $data);
 
-          $samlAssertion = $this->getSamlAssertion($response);
+          $samlAssertion = $this->getSamlAssertion($response->getContent());
 
           if ($samlAssertion) {
             $samlAssertion_node = $samlAssertion->item(0);
             $data = $this->prepareRST2Request($samlAssertion_node);
             $response = Requests::post(self::$RST2Url, $headers, $data);
             $this->usingFederatedSTS = TRUE;
-
             return $response;
           }
         }
-
-        return NULL;
+        return null;
     }
 
     /**
      * Get SAML assertion Node so it can be used within the RST2 template
-     * @param $response
-     * @return \DOMNodeList|null
+     * @param $payload
+     * @return DOMNodeList|null
      */
-    protected function getSamlAssertion($response) {
-      $xml = new \DOMDocument();
-      $xml->loadXML($response);
-      $xpath = new \DOMXPath($xml);
+    protected function getSamlAssertion($payload) {
+      $xml = new DOMDocument();
+      $xml->loadXML($payload);
+      $xpath = new DOMXPath($xml);
 
       if ($xpath->query("//*[name()='saml:Assertion']")->length > 0) {
         $nodeToken = $xpath->query("//*[name()='saml:Assertion']");
@@ -211,37 +212,37 @@ class SamlTokenProvider extends BaseTokenProvider
           return $nodeToken;
         }
       }
-      return NULL;
+      return null;
     }
 
     /**
      * Retrieves the STS federated URL if any.
      * @param $response
-     * @return string Federated STS Url
+     * @return DOMNode|null Federated STS Url
      */
     protected function getFederatedAuthenticationInformation($response) {
         if ($response) {
-            $xml = new \DOMDocument();
+            $xml = new DOMDocument();
             $xml->loadXML($response);
-            $xpath = new \DOMXPath($xml);
+            $xpath = new DOMXPath($xml);
             if ($xpath->query("//STSAuthURL")->length > 0) {
                 return $xpath->query("//STSAuthURL")->item(0);
             }
         }
-        return '';
+        return null;
     }
 
     /**
      * Verify and extract security token from the HTTP response
-     * @param mixed $response
+     * @param mixed $payload
      * @return mixed BinarySecurityToken or Exception when an error is present
      * @throws Exception
      */
-    protected function processSecurityTokenResponse($response)
+    protected function processSecurityTokenResponse($payload)
     {
-        $xml = new \DOMDocument();
-        $xml->loadXML($response);
-        $xpath = new \DOMXPath($xml);
+        $xml = new DOMDocument();
+        $xml->loadXML($payload);
+        $xpath = new DOMXPath($xml);
         if ($xpath->query("//wsse:BinarySecurityToken")->length > 0) {
             $nodeToken = $xpath->query("//wsse:BinarySecurityToken")->item(0);
             if (!empty($nodeToken)) {
@@ -251,10 +252,9 @@ class SamlTokenProvider extends BaseTokenProvider
 
         if ($xpath->query("//S:Fault")->length > 0) {
             // Returning the full fault value in case any other response comes within the fault node.
-            throw new \RuntimeException($xpath->query("//S:Fault")->item(0)->nodeValue);
+            throw new RuntimeException($xpath->query("//S:Fault")->item(0)->nodeValue);
         }
-
-        throw new \RuntimeException('Error trying to get a token, check your URL or credentials');
+        throw new RuntimeException('An error occurred while obtaining a token, check your URL or credentials');
     }
 
     /**
@@ -270,7 +270,7 @@ class SamlTokenProvider extends BaseTokenProvider
     {
         $fileName = __DIR__ . '/xml/SAML.xml';
         if (!file_exists($fileName)) {
-            throw new \Exception("The file $fileName does not exist");
+            throw new Exception("The file $fileName does not exist");
         }
 
         $template = file_get_contents($fileName);
@@ -294,7 +294,7 @@ class SamlTokenProvider extends BaseTokenProvider
     {
       $fileName = __DIR__ . '/xml/federatedSAML.xml';
       if (!file_exists($fileName)) {
-        throw new \Exception("The file $fileName does not exist");
+        throw new Exception("The file $fileName does not exist");
       }
 
       $template = file_get_contents($fileName);
@@ -309,20 +309,20 @@ class SamlTokenProvider extends BaseTokenProvider
      * Prepare the request to be sent to RST2 endpoint with the saml assertion
      * @param $samlAssertion
      * @return bool|mixed|string
-     * @throws \Exception
+     * @throws Exception
      */
     protected function prepareRST2Request($samlAssertion)
     {
 
       $fileName = __DIR__ . '/xml/RST2.xml';
       if (!file_exists($fileName)) {
-        throw new \Exception("The file $fileName does not exist");
+        throw new Exception("The file $fileName does not exist");
       }
       $template = file_get_contents($fileName);
 
-      $xml = new \DOMDocument();
+      $xml = new DOMDocument();
       $xml->loadXML($template);
-      $xpath = new \DOMXPath($xml);
+      $xpath = new DOMXPath($xml);
 
       $samlAssertion = $xml->importNode($samlAssertion, true);
       if ($xpath->query("//*[name()='wsse:Security']")->length > 0) {
@@ -331,7 +331,6 @@ class SamlTokenProvider extends BaseTokenProvider
           $parentNode->appendChild($samlAssertion);
           return $xml->saveXML();
       }
-
       return NULL;
     }
 }

@@ -3,30 +3,26 @@
 
 namespace Office365\PHP\Client\Runtime;
 
-
-use Office365\PHP\Client\Runtime\OData\ODataPathKind;
-
-abstract class ResourcePath
+class ResourcePath
 {
 
     /**
      * ResourcePath constructor.
-     * @param ClientRuntimeContext $context
+     * @param string $segment
      * @param ResourcePath|null $parent
      */
-    public function __construct(ClientRuntimeContext $context, ResourcePath $parent = null)
+    public function __construct($segment, ResourcePath $parent = null)
     {
-        $this->context = $context;
+        $this->segment = $segment;
         $this->parent = $parent;
-        $this->pathKind = null;
     }
 
 
     /**
-     * @return ClientRuntimeContext
+     * @return string
      */
-    public function getContext(){
-        return $this->context;
+    public function getSegment(){
+        return $this->segment;
     }
 
     /**
@@ -36,51 +32,34 @@ abstract class ResourcePath
         return $this->parent;
     }
 
-
-
     /**
      * @return string
      */
     public function toUrl()
     {
-        $paths = array();
+        $segments = array();
         $current = clone $this;
         while (isset($current)) {
-            if(!is_null($current->toString()))
-                array_unshift($paths, $current->toString());
-            $current = $current->parent;
+            if(!is_null($current->getSegment()))
+                array_unshift($segments, $current->getSegment());
+            $current = $current->getParent();
         }
-        return implode("/", $paths);
+        return implode("/", $segments);
     }
-
-
-    /**
-     * @return string
-     */
-    public abstract function toString();
-
 
     /**
      * @var ResourcePath
      */
     protected $parent;
 
-
     /**
-     * @var ClientRuntimeContext
+     * @var string $segment
      */
-    protected $context;
+    protected $segment;
 
 
     /**
      * @var int
      */
     public $Id;
-
-
-    /**
-     * @var ODataPathKind
-     */
-    protected $pathKind;
-
 }

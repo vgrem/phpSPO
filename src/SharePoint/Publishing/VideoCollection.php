@@ -20,7 +20,7 @@ class VideoCollection extends ClientObjectCollection
         if(isset($fileName))
             $videoItem->setProperty("FileName",$fileName);
         $qry = new CreateEntityQuery($videoItem);
-        $this->getContext()->addQuery($qry, $videoItem);
+        $this->getContext()->addQueryAndResultObject($qry,$videoItem);
         return $videoItem;
     }
 

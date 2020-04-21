@@ -3,44 +3,30 @@
 namespace Office365\PHP\Client\Runtime;
 
 
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
-
 class InvokePostMethodQuery extends InvokeMethodQuery
 {
+
     /**
-     * ClientActionUpdateMethod constructor.
-     * @param ResourcePath $resourcePath
+     * @param ClientObject $bindingType
      * @param string $methodName
      * @param array $methodParameters
-     * @param string|IEntityType $payload
+     * @param string $parameterName
+     * @param string|ClientObject $parameterType
      */
-    public function __construct(ResourcePath $resourcePath, $methodName = null, $methodParameters=null, $payload=null)
+    public function __construct($bindingType, $methodName = null, $methodParameters=null, $parameterName=null, $parameterType=null)
     {
-        parent::__construct($resourcePath,$methodName, $methodParameters);
-        $this->payload = $payload;
-    }
-
-
-    /**
-     * @return RequestOptions
-     */
-    public function buildRequest()
-    {
-        $request = parent::buildRequest();
-        $request->Method = HttpMethod::Post;
-        if ($this->payload) {
-            if (is_string($this->payload))
-                $request->Data = $this->payload;
-            else {
-                $payload = $this->normalizePayload($this->payload, $this->getContext()->getFormat());
-                $request->Data = json_encode($payload);
-            }
-        }
-        return $request;
+        parent::__construct($bindingType,$methodName, $methodParameters);
+        $this->ParameterName = $parameterName;
+        $this->ParameterType = $parameterType;
     }
 
     /**
-     * @var string|IEntityType $payload
+     * @var ClientObject $ParameterType
      */
-    protected $payload;
+    public $ParameterType;
+
+    /**
+     * @var string
+     */
+    public $ParameterName;
 }

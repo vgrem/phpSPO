@@ -2,19 +2,19 @@
 
 namespace Office365\PHP\Client\SharePoint;
 
+use Exception;
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
 use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
 use Office365\PHP\Client\Runtime\ClientAction;
-use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\InvokeMethodQuery;
+use Office365\PHP\Client\Runtime\Http\HttpMethod;
+use Office365\PHP\Client\Runtime\OData\ODataRequest;
+use Office365\PHP\Client\Runtime\ResourcePath;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\HttpMethod;
 use Office365\PHP\Client\Runtime\OData\JsonLightFormat;
 use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
 
 /**
  * Client context for SharePoint REST/OData service
@@ -37,6 +37,11 @@ class ClientContext extends ClientRuntimeContext
     private $contextWebInformation;
 
     /**
+     * @var ODataRequest
+     */
+    private $pendingRequest;
+
+    /**
      * ClientContext constructor.
      * @param string $serviceUrl
      * @param IAuthenticationContext $authCtx
@@ -44,7 +49,18 @@ class ClientContext extends ClientRuntimeContext
     public function __construct($serviceUrl, IAuthenticationContext $authCtx)
     {
         $serviceRootUrl = $serviceUrl . '/_api/';
-        parent::__construct($serviceRootUrl,$authCtx,new JsonLightFormat(ODataMetadataLevel::Verbose));
+        parent::__construct($serviceRootUrl,$authCtx);
+    }
+
+    /**
+     * @return ODataRequest
+     */
+    public function getPendingRequest()
+    {
+        if (!isset($this->pendingRequest)) {
+            $this->pendingRequest = new ODataRequest($this,new JsonLightFormat(ODataMetadataLevel::Verbose));
+        }
+        return $this->pendingRequest;
     }
 
 
@@ -53,7 +69,7 @@ class ClientContext extends ClientRuntimeContext
      * @param string $username
      * @param string $password
      * @return ClientContext
-     * @throws \Exception
+     * @throws Exception
      */
     public static function connectWithUserCredentials($url,$username,$password)
     {
@@ -68,7 +84,7 @@ class ClientContext extends ClientRuntimeContext
      * @param string $clientId
      * @param string $clientSecret
      * @return ClientContext
-     * @throws \Exception
+     * @throws Exception
      */
     public static function connectWithClientCredentials($url, $clientId, $clientSecret)
     {
@@ -77,21 +93,10 @@ class ClientContext extends ClientRuntimeContext
         return new ClientContext($url,$authCtx);
     }
 
-
-    public function addQuery(ClientAction $query, $resultObject = null)
-    {
-        if ($this->getFormat()->MetadataLevel === ODataMetadataLevel::Verbose) {
-            if ($query instanceof InvokeMethodQuery) {
-                $this->getFormat()->addProperty('function',$query->getMethodName());
-            }
-        }
-        return parent::addQuery($query, $resultObject);
-    }
-
     /**
      * Ensure form digest value for POST request
      * @param RequestOptions $request
-     * @throws \Exception
+     * @throws Exception
      */
     public function ensureFormDigest(RequestOptions $request)
     {
@@ -103,7 +108,7 @@ class ClientContext extends ClientRuntimeContext
 
     /**
      * Request the SharePoint Context Info
-     * @throws \Exception
+     * @throws Exception
      */
     public function requestFormDigest()
     {
@@ -112,11 +117,10 @@ class ClientContext extends ClientRuntimeContext
         $response = $this->executeQueryDirect($request);
         if(!isset($this->contextWebInformation))
             $this->contextWebInformation = new ContextWebInformation();
-        $result = new ClientResult($this->contextWebInformation);
-        if ($this->getFormat()->MetadataLevel === ODataMetadataLevel::Verbose) {
-            $this->getFormat()->addProperty('function',"GetContextWebInformation");
-        }
-        $response->map($result,$this->getFormat());
+        $format = new JsonLightFormat();
+        $format->FunctionTag = "GetContextWebInformation";
+        $payload = json_decode($response->getContent(), true);
+        $this->getPendingRequest()->mapJson($payload,$this->contextWebInformation, $format);
     }
 
 
@@ -125,7 +129,7 @@ class ClientContext extends ClientRuntimeContext
      */
     public function executeQuery()
     {
-        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request,ClientAction $query){
+        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request,ClientAction $query) {
             $this->buildSharePointSpecificRequest($request,$query);
         });
         parent::executeQuery();
@@ -134,13 +138,15 @@ class ClientContext extends ClientRuntimeContext
     /**
      * @param RequestOptions $request
      * @param ClientAction $query
-     * @throws \Exception
+     * @throws Exception
      */
     private function buildSharePointSpecificRequest(RequestOptions $request,ClientAction $query){
 
         if($request->Method === HttpMethod::Post) {
             $this->ensureFormDigest($request);
         }
+
+
         //set data modification headers
         if ($query instanceof UpdateEntityQuery) {
             $request->addCustomHeader("IF-MATCH", "*");
@@ -157,7 +163,7 @@ class ClientContext extends ClientRuntimeContext
     public function getWeb()
     {
         if(!isset($this->web)){
-            $this->web = new Web($this,new ResourcePathEntity($this,null,"Web"));
+            $this->web = new Web($this,new ResourcePath("Web"));
         }
         return $this->web;
     }
@@ -168,7 +174,7 @@ class ClientContext extends ClientRuntimeContext
     public function getSite()
     {
         if(!isset($this->site)){
-            $this->site = new Site($this, new ResourcePathEntity($this,null,"Site"));
+            $this->site = new Site($this, new ResourcePath("Site"));
         }
         return $this->site;
     }

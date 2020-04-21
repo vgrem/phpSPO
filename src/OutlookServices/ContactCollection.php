@@ -5,7 +5,7 @@ namespace Office365\PHP\Client\OutlookServices;
 
 use Office365\PHP\Client\Runtime\CreateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 class ContactCollection extends ClientObjectCollection
 {
@@ -18,11 +18,9 @@ class ContactCollection extends ClientObjectCollection
         $contact = new Contact($this->getContext());
         $this->addChild($contact);
         $qry = new CreateEntityQuery($contact);
-        $this->getContext()->addQuery($qry, $contact);
+        $this->getContext()->addQueryAndResultObject($qry, $contact);
         return $contact;
     }
-
-
 
 
     /**
@@ -33,7 +31,7 @@ class ContactCollection extends ClientObjectCollection
     function getById($contactId){
         return new Contact(
             $this->getContext(),
-            new ResourcePathEntity($this->getContext(),$this->getResourcePath(),$contactId)
+            new ResourcePath($contactId,$this->getResourcePath())
         );
     }
 }

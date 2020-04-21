@@ -3,84 +3,132 @@
 
 namespace Office365\PHP\Client\Runtime\OData;
 
-
 use Exception;
-use Office365\PHP\Client\Runtime\ClientAction;
-use Office365\PHP\Client\Runtime\ClientRequestStatus;
-use Office365\PHP\Client\Runtime\ClientResponse;
+use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ClientRequest;
+use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
-use Office365\PHP\Client\Runtime\Utilities\Requests;
+use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
+use Office365\PHP\Client\Runtime\Http\Response;
+use Office365\PHP\Client\Runtime\Http\HttpMethod;
+use Office365\PHP\Client\Runtime\InvokeMethodQuery;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 
 
 /**
- * Client Request for OData provider.
+ * OData V3 provider
  */
 class ODataRequest extends ClientRequest
 {
 
     /**
-     * @var ClientAction
+     * @param ClientRuntimeContext $context
+     * @param ODataFormat $format
      */
-    private $currentQuery;
-
-    public function __construct(ClientRuntimeContext $context)
+    public function __construct(ClientRuntimeContext $context, ODataFormat $format)
     {
         parent::__construct($context);
-        $this->currentQuery = null;
-    }
-
-
-
-    /**
-     * @param RequestOptions $request
-     * @return ClientResponse
-     * @throws Exception
-     */
-    public function executeQueryDirect(RequestOptions $request)
-    {
-        $this->context->authenticateRequest($request); //Auth mandatory headers
-        $this->setRequestHeaders($request); //set request headers
-        $content = Requests::execute($request,$responseInfo);
-        return new ODataResponse($content,$responseInfo);
+        $this->format = $format;
     }
 
 
     /**
-     * Submit query to OData service
-     * @throws Exception
+     * @return RequestOptions
      */
-    public function executeQuery()
+    protected function buildRequest()
     {
-        try{
-            $request = $this->buildRequest();
-            if (is_callable($this->eventsList["BeforeExecuteQuery"])) {
-                call_user_func_array($this->eventsList["BeforeExecuteQuery"], array(
-                    $request,
-                    $this->currentQuery
-                ));
+
+        $resourceUrl = $this->currentQuery->BindingType->getResourceUrl();
+        if($this->currentQuery instanceof InvokeMethodQuery){
+            $methodUrl = $this->currentQuery->getResourcePath()->toUrl();
+            if ($methodUrl) $resourceUrl .= "/" . $methodUrl;
+        }
+        $request = new RequestOptions($resourceUrl);
+
+        if($this->currentQuery->ReturnType instanceof ClientResult){
+            if($this->format instanceof JsonLightFormat) {
+                $this->format->FunctionTag = $this->currentQuery->MethodName;
+            }
+        }
+
+
+        if ($this->currentQuery instanceof InvokePostMethodQuery) {
+            if($this->format instanceof JsonLightFormat) {
+                $this->format->FunctionTag = $this->currentQuery->ParameterName;
             }
 
-            $response = $this->executeQueryDirect($request);
-            $response->validate();
-            if (is_callable($this->eventsList["AfterExecuteQuery"])) {
-                call_user_func_array($this->eventsList["AfterExecuteQuery"], array(
-                    $response
-                ));
+            $request->Method = HttpMethod::Post;
+            $payload = $this->currentQuery->ParameterType;
+            if ($payload) {
+                if (is_string($payload))
+                    $request->Data = $payload;
+                else {
+                    $payload = $this->normalizePayload($payload,$this->getFormat());
+                    $request->Data = json_encode($payload);
+                }
             }
-            $this->processResponse($response);
-            $this->requestStatus = ClientRequestStatus::CompletedSuccess;
         }
-        catch(Exception $e){
-            $this->requestStatus = ClientRequestStatus::CompletedException;
-            throw $e;
-        }
+        return $request;
     }
 
 
     /**
-     * @param ClientResponse $response
+     * @param ClientObject|ClientValueObject|array $value
+     * @param ODataFormat $format
+     * @return array
+     */
+    protected function normalizePayload($value,ODataFormat $format)
+    {
+        if ($value instanceof ClientObject || $value instanceof ClientValueObject) {
+            $json = array_map(function ($property) use($format){
+                return $this->normalizePayload($property,$format);
+            }, $value->toJson($format));
+
+            $this->ensureAnnotation($value,$json,$format);
+            return $json;
+        } else if (is_array($value)) {
+            return array_map(function ($item) use($format){
+                return $this->normalizePayload($item,$format);
+            }, $value);
+        }
+        return $value;
+    }
+
+    /**
+     * @param ClientObject|ClientValueObject $type
+     * @param array $json
+     * @param ODataFormat $format
+     */
+    protected function ensureAnnotation($type, &$json,$format)
+    {
+        $typeName = $type->getTypeName();
+        if ($format instanceof JsonLightFormat && $format->MetadataLevel == ODataMetadataLevel::Verbose) {
+
+            if (substr($typeName, 0, 3) !== "SP.")
+                $typeName = "SP." . $typeName;
+            $json[$format->MetadataTag] = array("type" => $typeName);
+
+            if($format->FunctionTag){
+                $json = array($format->FunctionTag => $json);
+            }
+        }
+        elseif ($format instanceof JsonFormat){
+            $json[$format->TypeTag] = "$format->NamespaceTag.$typeName";
+        }
+    }
+
+
+
+    function executeQueryDirect(RequestOptions $request)
+    {
+        $request->addCustomHeader("Accept", $this->getFormat()->getMediaType());
+        $request->addCustomHeader("Content-Type", $this->getFormat()->getMediaType());
+        return parent::executeQueryDirect($request);
+    }
+
+    /**
+     * @param Response $response
      * @throws Exception
      */
     public function processResponse($response)
@@ -90,42 +138,147 @@ class ODataRequest extends ClientRequest
             return;
         }
 
-        $queryId = $this->currentQuery->getId();
-        $resultObject = $this->resultObjects[$queryId];
+        $resultObject = $this->currentQuery->ReturnType;
         if (is_null($resultObject)) {
             return;
         }
-        $response->map($resultObject, $this->getFormat());
+
+        $payload = json_decode($response->getContent(), true);
+        $this->mapJson($payload, $resultObject, $this->getFormat());
     }
+
+
+    /**
+     * Maps response payload to client object
+     * @param array $payload
+     * @param $resultType ClientObject|ClientValueObject|ClientResult
+     * @param $format ODataFormat
+     */
+    public function mapJson($payload, $resultType, $format)
+    {
+        $json = $this->sanitizeJsonPayload($payload,$format);
+        $resultType->mapJson($json);
+    }
+
 
 
 
     /**
-     * @param RequestOptions $request
+     * Process Xml response from SharePoint REST service
+     * @param $payload string
+     * @return array
      */
-    protected function setRequestHeaders(RequestOptions $request)
+    protected function transformXml($payload)
     {
-        $request->addCustomHeader("Accept", $this->getFormat()->getMediaType());
-        $request->addCustomHeader("content-type", $this->getFormat()->getMediaType());
+        $json = array();
+        $xml = simplexml_load_string($payload);
+        $xml->registerXPathNamespace('z', '#RowsetSchema');
+        $rows = $xml->xpath("//z:row");
+        foreach ($rows as $row) {
+            $item = null;
+            foreach ($row->attributes() as $k => $v) {
+                $normalizedFieldName = str_replace('ows_', '', $k);
+                $item[$normalizedFieldName] = (string)$v;
+            }
+            $json[] = $item;
+        }
+        return $json;
     }
 
+
     /**
-     * @return RequestOptions
+     * @param array $json
+     * @param ODataFormat $format
+     * @return array
      */
-    protected function buildRequest()
+    private function sanitizeJsonPayload($json, $format)
     {
-        $this->currentQuery = array_shift($this->queries);
-        return $this->currentQuery->buildRequest();
+        if ($format instanceof JsonLightFormat) {
+            if (isset($json[$format->SecurityTag]))
+                $json = $json[$format->SecurityTag];
+            if (isset($json[$format->FunctionTag]))
+                $json = $json[$format->FunctionTag];
+        }
+
+        if(!is_array($json))
+            return $json;
+
+        if (isset($json[$format->CollectionTag]))
+            $json = $json[$format->CollectionTag];
+
+
+        foreach ($json as $key => $value) {
+            if (is_array($value)) {
+                $json[$key] = $this->sanitizeJsonPayload($value, $format);
+                if(empty($json[$key])){
+                    unset($json[$key]);
+                }
+            }
+
+            if(!$this->isValidProperty((string)$key, $value, $format)){
+                 unset($json[$key]);
+            }
+
+        }
+        return $json;
     }
+
+
+    /**
+     * @param string $key
+     * @param array $value
+     * @param ODataFormat $format
+     * @return bool
+     */
+    private function isValidProperty($key,$value,$format)
+    {
+        if ($format instanceof JsonLightFormat) {
+            if (is_array($value) && array_key_exists($format->DeferredTag, $value))
+                return false;
+            $propsToExclude = array(
+                $format->MetadataTag
+            );
+            return !in_array($key, $propsToExclude);
+        } else if ($format instanceof JsonFormat) {
+            return fnmatch("$format->ControlFamilyTag.*", $key) !== true
+                && fnmatch("*$format->ControlFamilyTag.*", $key) !== true
+                && fnmatch("$format->TypeTag.*", $key) !== true;
+
+        }
+        return true;
+    }
+
+
+    /**
+     * Extract error from JSON payload response
+     * @param $payload array
+     * @return string|null
+     */
+    private function parseError($payload)
+    {
+        foreach ($payload as $key=> $value){
+            if(is_array($value)){
+                return $this->parseError($value);
+            }
+            if($key === "message" || $key === "value")
+                return $value;
+        }
+        return null;
+    }
+
 
 
     /**
      * @return ODataFormat
      */
-    protected function getFormat()
+    public function getFormat()
     {
-        return $this->context->getFormat();
+        return $this->format;
     }
 
+    /**
+     * @var ODataFormat
+     */
+    private $format;
 
 }

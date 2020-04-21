@@ -3,24 +3,21 @@
 
 namespace Office365\PHP\Client\Runtime\OData;
 
-
-use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 class ODataPathBuilder
 {
 
 
     /**
-     * @param ClientRuntimeContext $context
      * @param string $url
-     * @return null|ResourcePathEntity
+     * @return null|ResourcePath
      */
-    public static function fromUrl(ClientRuntimeContext $context, $url){
+    public static function fromUrl($url){
         $segments = ODataPathBuilder::parseUrl($url);
         $path = null;
         foreach ($segments as $segment){
-            $path = new ResourcePathEntity($context,$path,$segment);
+            $path = new ResourcePath($segment,$path);
         }
         return $path;
     }

@@ -11,21 +11,6 @@ abstract class ODataFormat
     public function __construct($metadataLevel)
     {
         $this->MetadataLevel = $metadataLevel;
-        $this->properties = array();
-
-    }
-
-
-    public function addProperty($name, $value)
-    {
-        $this->properties[$name] = $value;
-    }
-
-
-    public function getProperty($name){
-        if(isset($this->properties[$name]))
-            return $this->properties[$name];
-        return null;
     }
 
 
@@ -61,10 +46,5 @@ abstract class ODataFormat
      * @var int
      */
     public $MetadataLevel;
-
-    /**
-     * @var array
-     */
-    protected $properties;
 
 }

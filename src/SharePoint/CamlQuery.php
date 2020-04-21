@@ -6,7 +6,7 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientValueObject;
-use Office365\PHP\Client\Runtime\OData\ODataFormat;
+
 
 
 /**
@@ -14,12 +14,6 @@ use Office365\PHP\Client\Runtime\OData\ODataFormat;
  */
 class CamlQuery extends ClientValueObject
 {
-
-    public function toJson(ODataFormat $format)
-    {
-        $payload = parent::toJson($format);
-        return array("query" => $payload);
-    }
 
     public static function createAllItemsQuery()
     {

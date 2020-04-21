@@ -2,12 +2,14 @@
 
 namespace Office365\PHP\Client\Runtime\Auth;
 
-use Office365\PHP\Client\Runtime\Utilities\ClientCredential;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
-use Office365\PHP\Client\Runtime\Utilities\UserCredentials;
+
+use Exception;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
+use stdClass;
+
 
 /**
- * Authentication context for Azure AD/Office 365.
+ * Authentication context for Azure AD STS
  *
  */
 class AuthenticationContext implements IAuthenticationContext
@@ -58,7 +60,7 @@ class AuthenticationContext implements IAuthenticationContext
      * Acquire security token from STS
      * @param string $username
      * @param string $password
-     * @throws \Exception
+     * @throws Exception
      */
     public function acquireTokenForUser($username, $password)
     {
@@ -75,7 +77,7 @@ class AuthenticationContext implements IAuthenticationContext
      * Acquire SharePoint App-Only via ACS
      * @param $clientId string
      * @param $clientSecret string
-     * @throws \Exception
+     * @throws Exception
      */
     public function acquireAppOnlyAccessToken($clientId, $clientSecret){
         $this->provider = new ACSTokenProvider($this->authorityUrl,$clientId,$clientSecret,"");
@@ -86,7 +88,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @param string $resource
      * @param ClientCredential $clientCredentials
-     * @throws \Exception
+     * @throws Exception
      */
     public function acquireTokenForClientCredential($resource, $clientCredentials)
     {
@@ -108,7 +110,7 @@ class AuthenticationContext implements IAuthenticationContext
      * @param $clientSecret
      * @param $refreshToken
      * @param $redirectUri
-     * @throws \Exception
+     * @throws Exception
      */
     public function exchangeRefreshToken($resource, $clientId, $clientSecret, $refreshToken, $redirectUri)
     {
@@ -128,7 +130,7 @@ class AuthenticationContext implements IAuthenticationContext
      * @param string $resource
      * @param string $clientId
      * @param UserCredentials $userCredentials
-     * @throws \Exception Resource owner password credential (ROPC) grant (https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc)
+     * @throws Exception Resource owner password credential (ROPC) grant (https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc)
      */
     public function acquireTokenForPassword($resource, $clientId, $userCredentials)
     {
@@ -151,7 +153,7 @@ class AuthenticationContext implements IAuthenticationContext
      * @param string $clientSecret
      * @param string $code
      * @param string $redirectUrl
-     * @throws \Exception
+     * @throws Exception
      */
     public function acquireTokenByAuthorizationCode($uri,$resource, $clientId, $clientSecret, $code, $redirectUrl)
     {
@@ -169,7 +171,7 @@ class AuthenticationContext implements IAuthenticationContext
 
     /**
      * @param RequestOptions $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function authenticateRequest(RequestOptions $options)
     {
@@ -178,12 +180,12 @@ class AuthenticationContext implements IAuthenticationContext
         } elseif ($this->provider instanceof ACSTokenProvider || $this->provider instanceof OAuthTokenProvider) {
             $options->addCustomHeader('Authorization', $this->provider->getAuthorizationHeader());
         } else {
-            throw new \Exception("Unknown authentication provider");
+            throw new Exception("Unknown authentication provider");
         }
     }
 
     /**
-     * @return null|\stdClass
+     * @return null|stdClass
      */
     public function getAccessToken()
     {

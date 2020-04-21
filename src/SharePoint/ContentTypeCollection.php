@@ -18,7 +18,7 @@ class ContentTypeCollection extends ClientObjectCollection
     {
         $contentType = new ContentType(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"GetById",array($id))
+            new ResourcePathServiceOperation("GetById",array($id),$this->getResourcePath())
         );
         $contentType->parentCollection = $this;
         return $contentType;
@@ -33,8 +33,8 @@ class ContentTypeCollection extends ClientObjectCollection
     public function add(ContentTypeCreationInformation $information)
     {
         $contentType = new ContentType($this->getContext());
-        $qry = new InvokePostMethodQuery($this->getResourcePath(),null,null,$information);
-        $this->getContext()->addQuery($qry,$contentType);
+        $qry = new InvokePostMethodQuery($this,null,null,null,$information);
+        $this->getContext()->addQueryAndResultObject($qry,$contentType);
         $this->addChild($contentType);
         return $contentType;
     }

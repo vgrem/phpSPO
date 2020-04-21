@@ -5,9 +5,11 @@ namespace Office365\PHP\Client\Runtime;
 
 
 use Exception;
-use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
-use Office365\PHP\Client\Runtime\Utilities\Guid;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Http\RequestException;
+use Office365\PHP\Client\Runtime\Http\Requests;
+use Office365\PHP\Client\Runtime\Http\Response;
+use Office365\PHP\Client\Runtime\Types\Guid;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
 
 
 /**
@@ -32,10 +34,6 @@ abstract class ClientRequest
      */
     protected $queries = array();
 
-    /**
-     * @var array
-     */
-    protected $resultObjects = array();
 
 
     /** @var Guid  */
@@ -44,6 +42,12 @@ abstract class ClientRequest
 
     /** @var integer */
     protected $requestStatus;
+
+
+    /**
+     * @var ClientAction
+     */
+    protected $currentQuery = array();
 
 
     /**
@@ -64,14 +68,22 @@ abstract class ClientRequest
     /**
      * Add query into request queue
      * @param ClientAction $query
-     * @param ClientObject $resultObject
      */
-    public function addQuery(ClientAction $query, $resultObject = null)
+    public function addQuery(ClientAction $query)
     {
-        $queryId = $query->getId();
-        $this->resultObjects[$queryId] = $resultObject;
         $this->queries[] = $query;
     }
+
+    /**
+     * @param ClientAction $query
+     * @param ClientObject|ClientResult $resultObject
+     */
+    public function addQueryAndResultObject(ClientAction $query, $resultObject = null)
+    {
+        $query->ReturnType = $resultObject;
+        $this->addQuery($query);
+    }
+
 
     /**
      * @param callable $event
@@ -90,27 +102,63 @@ abstract class ClientRequest
     }
 
     /**
-     * Submit client request(s) to Office 365 API OData/SOAP service
+     * Submit client request(s)
      */
-    public abstract function executeQuery();
-
-
     /**
-     * @param RequestOptions $request
-     * @return ClientResponse
+     * Submit query to OData service
      * @throws Exception
      */
-    public abstract function executeQueryDirect(RequestOptions $request);
+    public function executeQuery()
+    {
+        $this->currentQuery = array_shift($this->queries);
+        try{
+            $request = $this->buildRequest();
+            if (is_callable($this->eventsList["BeforeExecuteQuery"])) {
+                call_user_func_array($this->eventsList["BeforeExecuteQuery"], array(
+                    $request,
+                    $this->currentQuery
+                ));
+            }
+
+            $response = $this->executeQueryDirect($request);
+            $this->processResponse($response);
+            if (is_callable($this->eventsList["AfterExecuteQuery"])) {
+                call_user_func_array($this->eventsList["AfterExecuteQuery"], array(
+                    $response,
+                    $this->currentQuery
+                ));
+            }
+            $this->requestStatus = ClientRequestStatus::CompletedSuccess;
+        }
+        catch(Exception $e){
+            $this->requestStatus = ClientRequestStatus::CompletedException;
+            throw $e;
+        }
+    }
+
 
 
     /**
      * @param RequestOptions $request
+     * @return Response
+     * @throws Exception
      */
-    protected abstract function setRequestHeaders(RequestOptions $request);
+    /**
+     * @param RequestOptions $request
+     * @return Response
+     * @throws Exception
+     */
+    public function executeQueryDirect(RequestOptions $request)
+    {
+        $this->context->authenticateRequest($request); //Auth mandatory headers
+        $response = Requests::execute($request);
+        $this->validate($response);
+        return $response;
+    }
 
 
     /**
-     * @param string $response
+     * @param Response $response
      */
     public abstract function processResponse($response);
 
@@ -119,16 +167,6 @@ abstract class ClientRequest
      * @return RequestOptions
      */
     protected abstract function buildRequest();
-
-    /**
-     * @param ClientObject $clientObject
-     * @param ODataQueryOptions $queryOptions
-     */
-    public function addQueryAndResultObject(ClientObject $clientObject, ODataQueryOptions $queryOptions = null)
-    {
-        $qry = new ReadEntityQuery($clientObject,$queryOptions);
-        $this->addQuery($qry, $clientObject);
-    }
 
 
     /**
@@ -143,6 +181,20 @@ abstract class ClientRequest
      */
     public function getRequestStatus(){
         return $this->requestStatus;
+    }
+
+
+    /**
+     * @param Response $response
+     * @return bool
+     * @throws Exception
+     */
+    public function validate($response)
+    {
+        if ($response->getStatusCode() >= 400) {
+            throw new RequestException($response->getContent(),$response->getStatusCode());
+        }
+        return true;
     }
 
 }

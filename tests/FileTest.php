@@ -1,8 +1,7 @@
 <?php
 
 
-use Office365\PHP\Client\Runtime\Utilities\Guid;
-use Office365\PHP\Client\SharePoint\CamlQuery;
+use Office365\PHP\Client\Runtime\Types\Guid;
 use Office365\PHP\Client\SharePoint\File;
 use Office365\PHP\Client\SharePoint\FileCreationInformation;
 use Office365\PHP\Client\SharePoint\Folder;
@@ -40,7 +39,7 @@ class FileTest extends SharePointTestCase
         $folder = self::$targetList->getRootFolder()->getFolders()->add($folderName);
         self::$context->executeQuery();
 
-        $items = self::$targetList->getItems(CamlQuery::createAllFoldersQuery())->expand("Folder");
+        $items = self::$targetList->getItems()->expand("Folder");
         self::$context->load($items);
         self::$context->executeQuery();
         $result = $items->findItems(function (ListItem $item) use ($folder) {

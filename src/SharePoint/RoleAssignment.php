@@ -8,7 +8,7 @@ namespace Office365\PHP\Client\SharePoint;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 /**
  * Specifies 
  * the role 
@@ -23,7 +23,7 @@ class RoleAssignment extends ClientObject
     public function update()
     {
         $qry = new UpdateEntityQuery($this);
-        $this->getContext()->addQuery($qry, $this);
+        $this->getContext()->addQueryAndResultObject($qry, $this);
     }
     /**
      * Deletes Role Assignment
@@ -39,7 +39,8 @@ class RoleAssignment extends ClientObject
     public function getMember()
     {
         if (!$this->isPropertyAvailable("Member")) {
-            $this->setProperty("Member", new Principal($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Member")));
+            $this->setProperty("Member", new Principal($this->getContext(),
+                new ResourcePath("Member", $this->getResourcePath())));
         }
         return $this->getProperty("Member");
     }
@@ -75,7 +76,8 @@ class RoleAssignment extends ClientObject
     public function getRoleDefinitionBindings()
     {
         if (!$this->isPropertyAvailable("RoleDefinitionBindings")) {
-            $this->setProperty("RoleDefinitionBindings", new RoleDefinitionCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "RoleDefinitionBindings")));
+            $this->setProperty("RoleDefinitionBindings", new RoleDefinitionCollection($this->getContext(),
+                new ResourcePath("RoleDefinitionBindings", $this->getResourcePath())));
         }
         return $this->getProperty("RoleDefinitionBindings");
     }

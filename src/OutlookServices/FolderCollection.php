@@ -19,7 +19,7 @@ class FolderCollection extends ClientObjectCollection
         $this->addChild($folder);
         $folder->setProperty('DisplayName', $displayName);
         $qry = new CreateEntityQuery($folder);
-        $this->getContext()->addQuery($qry, $folder);
+        $this->getContext()->addQueryAndResultObject($qry, $folder);
         return $folder;
     }
 

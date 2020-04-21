@@ -9,13 +9,16 @@ use Exception;
 class JsonFormat extends ODataFormat
 {
 
+
+
     public function __construct($metadataLevel)
     {
         parent::__construct($metadataLevel);
         $this->Streaming = false;
         $this->IEEE754Compatible = true;
-        $this->addProperty("control","*@odata.*");
-        $this->addProperty("collection","value");
+        $this->ControlFamilyTag = "@odata";
+        $this->CollectionTag = "value";
+        $this->TypeTag = "@odata.type";
     }
 
 
@@ -55,5 +58,28 @@ class JsonFormat extends ODataFormat
      */
     public $IEEE754Compatible;
 
+
+    /**
+     * @var string
+     */
+    public $TypeTag;
+
+
+    /**
+     * @var string
+     */
+    public $ControlFamilyTag;
+
+
+    /**
+     * @var string
+     */
+    public $CollectionTag;
+
+
+    /**
+     * @var string
+     */
+    public $NamespaceTag;
 
 }

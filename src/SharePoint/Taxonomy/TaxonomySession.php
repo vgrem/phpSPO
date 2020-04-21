@@ -3,16 +3,15 @@
 
 namespace Office365\PHP\Client\SharePoint\Taxonomy;
 
+use InvalidArgumentException;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\CSOM\ICSOMCallable;
-use Office365\PHP\Client\Runtime\CSOM\ObjectIdentityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
+use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use SimpleXMLElement;
 
 class TaxonomySession extends ClientObject implements ICSOMCallable
 {
-
 
     function getServerTypeId()
     {
@@ -27,14 +26,12 @@ class TaxonomySession extends ClientObject implements ICSOMCallable
     public function getTaxonomySession(ClientRuntimeContext $ctx)
     {
         if(is_null($ctx))
-            throw new \InvalidArgumentException("Context is not initialized");
-        $path = new ResourcePathServiceOperation($ctx, null, "GetTaxonomySession", null);
-        $path->TypeId = $this->getServerTypeId();
-        $path->IsStatic = true;
-        $taxonomySession = new TaxonomySession($ctx, $path);
-        $objectIdentityQuery = new ObjectIdentityQuery($taxonomySession->getResourcePath());
-        $this->context->addQuery($objectIdentityQuery, $taxonomySession);
-        $this->context->addQuery($objectIdentityQuery);
+            throw new InvalidArgumentException("Context is not initialized");
+        $qry = new InvokePostMethodQuery($this, null, "GetTaxonomySession", null,null);
+        $qry->TypeId = $this->getServerTypeId();
+        $qry->IsStatic = true;
+        $taxonomySession = new TaxonomySession($ctx);
+        $this->context->addQuery($qry);
         return $taxonomySession;
     }
 

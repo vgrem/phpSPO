@@ -8,8 +8,8 @@ namespace Office365\PHP\Client\SharePoint\Publishing;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\HttpMethod;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Http\HttpMethod;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
 use Office365\PHP\Client\SharePoint\ClientContext;
 
 class VideoItem extends ClientObject
@@ -42,7 +42,7 @@ class VideoItem extends ClientObject
         $request->TransferEncodingChunkedAllowed = true;
         $ctx->executeQueryDirect($request);
     }
-    function setProperty($name, $value, $serializable = true)
+    function setProperty($name, $value, $persistChanges = true)
     {
         if ($name == "ID") {
             if (is_null($this->getResourcePath())) {
@@ -50,7 +50,7 @@ class VideoItem extends ClientObject
             }
             $this->{$name} = $value;
         }
-        parent::setProperty($name, $value, $serializable);
+        parent::setProperty($name, $value, $persistChanges);
     }
     public function getTypeName()
     {

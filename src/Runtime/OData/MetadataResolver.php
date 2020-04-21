@@ -5,7 +5,7 @@ namespace Office365\PHP\Client\Runtime\OData;
 
 
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
 
 class MetadataResolver
 {

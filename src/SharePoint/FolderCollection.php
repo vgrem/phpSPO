@@ -18,7 +18,7 @@ class FolderCollection extends ClientObjectCollection
         $this->addChild($folder);
         $folder->setProperty("ServerRelativeUrl", rawurlencode($url));
         $qry = new CreateEntityQuery($folder);
-        $this->getContext()->addQuery($qry, $folder);
+        $this->getContext()->addQueryAndResultObject($qry, $folder);
         return $folder;
     }
 
@@ -27,9 +27,9 @@ class FolderCollection extends ClientObjectCollection
      * @return Folder
      */
     public function getByUrl($serverRelativeUrl){
-        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getbyurl",array(
+        $path = new ResourcePathServiceOperation("getByUrl",array(
             rawurlencode($serverRelativeUrl)
-        ));
+        ),$this->getResourcePath());
         return new Folder($this->getContext(),$path);
     }
 }

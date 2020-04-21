@@ -3,9 +3,11 @@
 
 namespace Office365\PHP\Client\Runtime\Auth;
 
-use Office365\PHP\Client\Runtime\HttpMethod;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
-use Office365\PHP\Client\Runtime\Utilities\Requests;
+use Exception;
+use Office365\PHP\Client\Runtime\Http\HttpMethod;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
+use Office365\PHP\Client\Runtime\Http\Requests;
+use stdClass;
 
 /**
  * Provider to acquire the access token from Azure AD
@@ -42,7 +44,7 @@ class OAuthTokenProvider extends BaseTokenProvider
     private $authorityUrl;
 
     /**
-     * @var \stdClass
+     * @var stdClass
      */
     private $accessToken;
 
@@ -64,8 +66,8 @@ class OAuthTokenProvider extends BaseTokenProvider
 
     public function setAccessToken($accessToken)
     {
-        if (!$this->accessToken instanceof \stdClass) {
-            $this->accessToken = new \stdClass();
+        if (!$this->accessToken instanceof stdClass) {
+            $this->accessToken = new stdClass();
         }
         $this->accessToken->access_token = $accessToken;
     }
@@ -73,13 +75,13 @@ class OAuthTokenProvider extends BaseTokenProvider
     /**
      * Acquires the access token
      * @param array $parameters
-     * @throws \Exception
+     * @throws Exception
      */
     public function acquireToken($parameters)
     {
         $request = $this->createRequest($parameters);
         $response = Requests::execute($request);
-        $this->parseToken($response);
+        $this->parseToken($response->getContent());
     }
 
     /**

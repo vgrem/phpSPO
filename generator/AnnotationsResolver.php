@@ -1,8 +1,8 @@
 <?php
 
 
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
-use Office365\PHP\Client\Runtime\Utilities\Requests;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
+use Office365\PHP\Client\Runtime\Http\Requests;
 
 /**
  * Documentation annotation service
@@ -25,8 +25,8 @@ class AnnotationsResolver
     {
         if(is_null($this->toc)){
             $options = new RequestOptions($this->options['docsRoot'] . 'toc.json');
-            $content = Requests::execute($options, $responseInfo);
-            $this->toc = json_decode($content, true);
+            $response = Requests::execute($options);
+            $this->toc = json_decode($response->getContent(), true);
         }
     }
 

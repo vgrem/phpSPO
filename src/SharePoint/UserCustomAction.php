@@ -6,6 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\PHP\Client\Runtime\ResourcePath;
+
 /**
  * Specifies 
  * a custom 
@@ -521,7 +523,8 @@ class UserCustomAction extends ClientObject
     public function getDescriptionResource()
     {
         if (!$this->isPropertyAvailable("DescriptionResource")) {
-            $this->setProperty("DescriptionResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "DescriptionResource")));
+            $this->setProperty("DescriptionResource", new UserResource($this->getContext(),
+                new ResourcePath("DescriptionResource", $this->getResourcePath())));
         }
         return $this->getProperty("DescriptionResource");
     }
@@ -531,7 +534,8 @@ class UserCustomAction extends ClientObject
     public function getTitleResource()
     {
         if (!$this->isPropertyAvailable("TitleResource")) {
-            $this->setProperty("TitleResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "TitleResource")));
+            $this->setProperty("TitleResource", new UserResource($this->getContext(),
+                new ResourcePath("TitleResource", $this->getResourcePath())));
         }
         return $this->getProperty("TitleResource");
     }

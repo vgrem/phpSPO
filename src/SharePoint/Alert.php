@@ -6,7 +6,7 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 /**
  * Represents 
  * an alert, which generates periodic e-mail notifications sent to a user about 
@@ -367,7 +367,7 @@ class Alert extends ClientObject
     public function getItem()
     {
         if (!$this->isPropertyAvailable("Item")) {
-            $this->setProperty("Item", new ListItem($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Item")));
+            $this->setProperty("Item", new ListItem($this->getContext(), new ResourcePath("Item", $this->getResourcePath())));
         }
         return $this->getProperty("Item");
     }
@@ -379,7 +379,7 @@ class Alert extends ClientObject
     public function getUser()
     {
         if (!$this->isPropertyAvailable("User")) {
-            $this->setProperty("User", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "User")));
+            $this->setProperty("User", new User($this->getContext(), new ResourcePath("User", $this->getResourcePath())));
         }
         return $this->getProperty("User");
     }
@@ -391,7 +391,7 @@ class Alert extends ClientObject
     public function getList()
     {
         if (!$this->isPropertyAvailable("List")) {
-            $this->setProperty("List", new SPList($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "List")));
+            $this->setProperty("List", new SPList($this->getContext(), new ResourcePath("List", $this->getResourcePath())));
         }
         return $this->getProperty("List");
     }

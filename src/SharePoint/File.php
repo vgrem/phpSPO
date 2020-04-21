@@ -5,16 +5,17 @@
  */
 namespace Office365\PHP\Client\SharePoint;
 
-use Office365\PHP\Client\Exception\IOException;
+
 use Office365\PHP\Client\Runtime\ClientResult;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
+use Office365\PHP\Client\Runtime\Http\RequestException;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\HttpMethod;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\Http\HttpMethod;
+use Office365\PHP\Client\Runtime\ResourcePath;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
-use Office365\PHP\Client\Runtime\Utilities\Guid;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Types\Guid;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
 use Office365\PHP\Client\SharePoint\WebParts\LimitedWebPartManager;
 /**
  * Represents 
@@ -41,7 +42,7 @@ class File extends SecurableObject
      */
     public function checkOut()
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "checkout");
+        $qry = new InvokePostMethodQuery($this, "checkout");
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -49,7 +50,7 @@ class File extends SecurableObject
      */
     public function undoCheckout()
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "undocheckout");
+        $qry = new InvokePostMethodQuery($this, "undocheckout");
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -58,7 +59,7 @@ class File extends SecurableObject
      */
     public function checkIn($comment)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "checkIn", array("comment" => $comment, "checkintype" => 0));
+        $qry = new InvokePostMethodQuery($this, "checkIn", array("comment" => $comment, "checkintype" => 0));
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -67,7 +68,7 @@ class File extends SecurableObject
      */
     public function approve($comment)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "approve", array("comment" => $comment));
+        $qry = new InvokePostMethodQuery($this, "approve", array("comment" => $comment));
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -76,7 +77,7 @@ class File extends SecurableObject
      */
     public function deny($comment)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "deny", array("comment" => $comment));
+        $qry = new InvokePostMethodQuery($this, "deny", array("comment" => $comment));
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -85,7 +86,7 @@ class File extends SecurableObject
      */
     public function publish($comment)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "publish", array("comment" => $comment));
+        $qry = new InvokePostMethodQuery($this, "publish", array("comment" => $comment));
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -94,7 +95,7 @@ class File extends SecurableObject
      */
     public function unpublish($comment)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "unpublish", array("comment" => $comment));
+        $qry = new InvokePostMethodQuery($this, "unpublish", array("comment" => $comment));
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -104,7 +105,7 @@ class File extends SecurableObject
      */
     public function copyTo($strNewUrl, $bOverWrite)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "copyto", array("strnewurl" => $strNewUrl, "boverwrite" => $bOverWrite));
+        $qry = new InvokePostMethodQuery($this, "copyto", array("strnewurl" => $strNewUrl, "boverwrite" => $bOverWrite));
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -114,7 +115,7 @@ class File extends SecurableObject
      */
     public function moveTo($newUrl, $flags)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "moveto", array("newurl" => $newUrl, "flags" => $flags));
+        $qry = new InvokePostMethodQuery($this, "moveto", array("newurl" => $newUrl, "flags" => $flags));
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -122,7 +123,7 @@ class File extends SecurableObject
      */
     public function recycle()
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "recycle");
+        $qry = new InvokePostMethodQuery($this, "recycle");
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -140,7 +141,7 @@ class File extends SecurableObject
         $options->TransferEncodingChunkedAllowed = true;
         $response = $ctx->executeQueryDirect($options);
         if (400 <= ($statusCode = $response->getStatusCode())) {
-            throw new IOException(sprintf('Could not open file located at "%s". SharePoint has responded with status code %d, error was: %s', rawurldecode($serverRelativeUrl), $statusCode, $response->getContent()), $statusCode, $response->getContent());
+            throw new RequestException(sprintf('Could not open file located at "%s". SharePoint has responded with status code %d, error was: %s', rawurldecode($serverRelativeUrl), $statusCode, $response->getContent()), $statusCode, $response->getContent());
         }
         return $response->getContent();
     }
@@ -174,8 +175,8 @@ class File extends SecurableObject
      */
     public function getLimitedWebPartManager($scope)
     {
-        $manager = new LimitedWebPartManager($this->getContext(), new ResourcePathServiceOperation($this->getContext(), $this->getResourcePath(), "getlimitedwebpartmanager", array($scope)));
-        return $manager;
+        return new LimitedWebPartManager($this->getContext(),
+            new ResourcePathServiceOperation("getLimitedWebPartManager",array($scope), $this->getResourcePath()));
     }
     /**
      * Returns IRM settings for given file.
@@ -196,7 +197,8 @@ class File extends SecurableObject
     public function getVersions()
     {
         if (!$this->isPropertyAvailable('Versions')) {
-            $this->setProperty("Versions", new FileVersionCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Versions")));
+            $this->setProperty("Versions", new FileVersionCollection($this->getContext(),
+                new ResourcePath("Versions", $this->getResourcePath())));
         }
         return $this->getProperty("Versions");
     }
@@ -218,7 +220,8 @@ class File extends SecurableObject
     public function getListItemAllFields()
     {
         if (!$this->isPropertyAvailable("ListItemAllFields")) {
-            $this->setProperty("ListItemAllFields", new ListItem($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ListItemAllFields")));
+            $this->setProperty("ListItemAllFields", new ListItem($this->getContext(),
+                new ResourcePath("ListItemAllFields", $this->getResourcePath())));
         }
         return $this->getProperty("ListItemAllFields");
     }
@@ -230,9 +233,9 @@ class File extends SecurableObject
      */
     public function startUpload($uploadId, $content)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "StartUpload", array('uploadId' => $uploadId->toString()), $content);
+        $qry = new InvokePostMethodQuery($this, "StartUpload", array('uploadId' => $uploadId->toString()),null, $content);
         $returnValue = new ClientResult();
-        $this->getContext()->addQuery($qry, $returnValue);
+        $this->getContext()->addQueryAndResultObject($qry, $returnValue);
         return $returnValue;
     }
     /**
@@ -245,8 +248,8 @@ class File extends SecurableObject
     public function continueUpload($uploadId, $fileOffset, $content)
     {
         $returnValue = new ClientResult();
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "ContinueUpload", array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset), $content);
-        $this->getContext()->addQuery($qry, $returnValue);
+        $qry = new InvokePostMethodQuery($this, "ContinueUpload", array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset),null, $content);
+        $this->getContext()->addQueryAndResultObject($qry, $returnValue);
         return $returnValue;
     }
     /**
@@ -259,13 +262,13 @@ class File extends SecurableObject
      */
     public function finishUpload($uploadId, $fileOffset, $content)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "finishupload", array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset), $content);
-        $this->getContext()->addQuery($qry, $this);
+        $qry = new InvokePostMethodQuery($this, "finishupload", array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset),null, $content);
+        $this->getContext()->addQueryAndResultObject($qry, $this);
         return $this;
     }
-    function setProperty($name, $value, $serializable = true)
+    function setProperty($name, $value, $persistChanges = true)
     {
-        parent::setProperty($name, $value, $serializable);
+        parent::setProperty($name, $value, $persistChanges);
         if ($name == "UniqueId") {
             $this->setResourceUrl("Web/GetFileById(guid'{$value}')");
         }
@@ -850,7 +853,8 @@ class File extends SecurableObject
     public function getAuthor()
     {
         if (!$this->isPropertyAvailable("Author")) {
-            $this->setProperty("Author", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Author")));
+            $this->setProperty("Author", new User($this->getContext(),
+                new ResourcePath("Author", $this->getResourcePath())));
         }
         return $this->getProperty("Author");
     }
@@ -862,7 +866,7 @@ class File extends SecurableObject
     public function getCheckedOutByUser()
     {
         if (!$this->isPropertyAvailable("CheckedOutByUser")) {
-            $this->setProperty("CheckedOutByUser", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "CheckedOutByUser")));
+            $this->setProperty("CheckedOutByUser", new User($this->getContext(), new ResourcePath("CheckedOutByUser", $this->getResourcePath())));
         }
         return $this->getProperty("CheckedOutByUser");
     }
@@ -875,7 +879,7 @@ class File extends SecurableObject
     public function getLockedByUser()
     {
         if (!$this->isPropertyAvailable("LockedByUser")) {
-            $this->setProperty("LockedByUser", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "LockedByUser")));
+            $this->setProperty("LockedByUser", new User($this->getContext(), new ResourcePath("LockedByUser", $this->getResourcePath())));
         }
         return $this->getProperty("LockedByUser");
     }
@@ -888,7 +892,8 @@ class File extends SecurableObject
     public function getModifiedBy()
     {
         if (!$this->isPropertyAvailable("ModifiedBy")) {
-            $this->setProperty("ModifiedBy", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ModifiedBy")));
+            $this->setProperty("ModifiedBy", new User($this->getContext(),
+                new ResourcePath("ModifiedBy", $this->getResourcePath())));
         }
         return $this->getProperty("ModifiedBy");
     }
@@ -898,7 +903,9 @@ class File extends SecurableObject
     public function getEffectiveInformationRightsManagementSettings()
     {
         if (!$this->isPropertyAvailable("EffectiveInformationRightsManagementSettings")) {
-            $this->setProperty("EffectiveInformationRightsManagementSettings", new EffectiveInformationRightsManagementSettings($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "EffectiveInformationRightsManagementSettings")));
+            $this->setProperty("EffectiveInformationRightsManagementSettings",
+                new EffectiveInformationRightsManagementSettings($this->getContext(),
+                    new ResourcePath("EffectiveInformationRightsManagementSettings", $this->getResourcePath())));
         }
         return $this->getProperty("EffectiveInformationRightsManagementSettings");
     }

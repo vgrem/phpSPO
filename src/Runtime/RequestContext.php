@@ -26,7 +26,7 @@ class RequestContext extends ClientObject
     public function getSite()
     {
         if(!isset($this->site)){
-            $this->site = new Site($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"Site"));
+            $this->site = new Site($this->getContext(),new ResourcePath("Site",$this->getResourcePath()));
         }
         return $this->site;
     }
@@ -37,7 +37,7 @@ class RequestContext extends ClientObject
     public function getWeb()
     {
         if(!isset($this->web)){
-            $this->web = new Web($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"Web"));
+            $this->web = new Web($this->getContext(),new ResourcePath("Web",$this->getResourcePath()));
         }
         return $this->web;
     }

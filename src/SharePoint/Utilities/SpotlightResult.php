@@ -6,9 +6,7 @@
 namespace Office365\PHP\Client\SharePoint\Utilities;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+
 /**
  * Contains 
  * the result of a spotlight operation, such as AddToSpotlight or RemoveFromSpotlight, 

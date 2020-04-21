@@ -20,8 +20,8 @@ class FieldCollection extends ClientObjectCollection
     public function add(FieldCreationInformation $parameters)
     {
         $field = new Field($this->getContext());
-        $qry = new InvokePostMethodQuery($this->getResourcePath(),null,null,$parameters);
-        $this->getContext()->addQuery($qry,$field);
+        $qry = new InvokePostMethodQuery($this,null,null,null,$parameters);
+        $this->getContext()->addQueryAndResultObject($qry,$field);
         $this->addChild($field);
         return $field;
     }
@@ -35,7 +35,7 @@ class FieldCollection extends ClientObjectCollection
     {
         return new Field(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByTitle",array($title))
+            new ResourcePathServiceOperation("getByTitle",array($title),$this->getResourcePath())
         );
     }
 
@@ -47,7 +47,7 @@ class FieldCollection extends ClientObjectCollection
     {
         return new Field(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByInternalNameOrTitle",array($internalNameOrTitle))
+            new ResourcePathServiceOperation("getByInternalNameOrTitle",array($internalNameOrTitle),$this->getResourcePath())
         );
     }
 }

@@ -6,6 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\PHP\Client\Runtime\ResourcePath;
+
 /**
  * Represents 
  * a version of a fileobject 
@@ -205,7 +207,8 @@ class FileVersion extends ClientObject
     public function getCreatedBy()
     {
         if (!$this->isPropertyAvailable("CreatedBy")) {
-            $this->setProperty("CreatedBy", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "CreatedBy")));
+            $this->setProperty("CreatedBy", new User($this->getContext(),
+                new ResourcePath("CreatedBy", $this->getResourcePath())));
         }
         return $this->getProperty("CreatedBy");
     }

@@ -2,8 +2,8 @@
 
 namespace Office365\PHP\Client\Runtime\Auth;
 
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
-use Office365\PHP\Client\Runtime\Utilities\UserCredentials;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
+
 
 /**
  * Provides credentials for password-based authentication schemes such

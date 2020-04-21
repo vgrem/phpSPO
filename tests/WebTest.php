@@ -7,14 +7,6 @@ use Office365\PHP\Client\SharePoint\Web;
 
 class WebTest extends SharePointTestCase
 {
-    public function testGetWebProperties()
-    {
-        $result = self::$context->getWeb()->getSupportedUILanguageIds();
-        self::$context->executeQuery();
-        self::assertNotEmpty($result->getValue());
-    }
-
-
 
     public function testGetWebGroups()
     {

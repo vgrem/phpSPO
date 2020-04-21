@@ -22,13 +22,14 @@ class FileCollection extends ClientObjectCollection
     {
         $file = new File($this->getContext(),$this->getResourcePath());
         $qry = new InvokePostMethodQuery(
-            $this->getResourcePath(),
+            $this,
             "add",
             array("overwrite"=>$fileCreationInformation->Overwrite,"url"=>rawurlencode($fileCreationInformation->Url)),
+            null,
             $fileCreationInformation->Content
             );
-        $this->getContext()->addQuery($qry,$file);
-        //$this->addChild($file);
+        $this->getContext()->addQueryAndResultObject($qry,$file);
+        $this->addChild($file);
         return $file;
     }
 
@@ -43,26 +44,26 @@ class FileCollection extends ClientObjectCollection
     {
         $file = new File($this->getContext(),$this->getResourcePath());
         $qry = new InvokePostMethodQuery(
-            $this->getResourcePath(),
+            $this,
             "addTemplateFile",
             array(
                 "urlOfFile" => $urlOfFile,
                 "templateFileType" => (int)$templateFileType
             )
         );
-        $this->getContext()->addQuery($qry,$file);
+        $this->getContext()->addQueryAndResultObject($qry,$file);
         return $file;
     }
 
 
     /**
-     * @param $serverRelativeUrl
+     * @param string $serverRelativeUrl
      * @return File
      */
     public function getByUrl($serverRelativeUrl){
-        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getbyurl",array(
+        $path = new ResourcePathServiceOperation("getByUrl",array(
             rawurlencode($serverRelativeUrl)
-        ));
+        ),$this->getResourcePath());
         return new File($this->getContext(),$path);
     }
 

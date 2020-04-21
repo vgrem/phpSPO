@@ -5,7 +5,7 @@
  */
 namespace Office365\PHP\Client\SharePoint;
 
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 /**
  * Specifies 
@@ -194,7 +194,7 @@ class ChangeList extends Change
     public function getCreator()
     {
         if (!$this->isPropertyAvailable("Creator")) {
-            $this->setProperty("Creator", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Creator")));
+            $this->setProperty("Creator", new User($this->getContext(), new ResourcePath("Creator", $this->getResourcePath())));
         }
         return $this->getProperty("Creator");
     }

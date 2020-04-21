@@ -4,7 +4,7 @@ namespace Office365\PHP\Client\Runtime\CSOM;
 
 
 use Office365\PHP\Client\Runtime\ClientRequest;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
 
 class CSOMRequest extends ClientRequest
 {

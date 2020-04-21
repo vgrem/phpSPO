@@ -8,11 +8,10 @@ class DeleteEntityQuery extends InvokePostMethodQuery
 {
 
     /**
-     * DeleteEntityQuery constructor.
-     * @param ClientObject $clientObject
+     * @param ClientObject $entityToDelete
      */
-    public function __construct(ClientObject $clientObject)
+    public function __construct($entityToDelete)
     {
-        parent::__construct($clientObject->getResourcePath());
+        parent::__construct($entityToDelete);
     }
 }

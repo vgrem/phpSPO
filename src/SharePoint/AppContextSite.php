@@ -6,7 +6,7 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 /**
  * Specifies 
  * the request context information for a site collection when 
@@ -21,7 +21,8 @@ class AppContextSite extends ClientObject
     public function getSite()
     {
         if (!$this->isPropertyAvailable("Site")) {
-            $this->setProperty("Site", new Site($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Site")));
+            $this->setProperty("Site", new Site($this->getContext(),
+                new ResourcePath("Site", $this->getResourcePath())));
         }
         return $this->getProperty("Site");
     }
@@ -31,7 +32,8 @@ class AppContextSite extends ClientObject
     public function getWeb()
     {
         if (!$this->isPropertyAvailable("Web")) {
-            $this->setProperty("Web", new Web($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Web")));
+            $this->setProperty("Web", new Web($this->getContext(),
+                new ResourcePath("Web", $this->getResourcePath())));
         }
         return $this->getProperty("Web");
     }

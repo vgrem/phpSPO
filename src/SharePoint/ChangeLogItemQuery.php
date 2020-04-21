@@ -6,7 +6,6 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientValueObject;
-use Office365\PHP\Client\Runtime\OData\ODataFormat;
 
 /**
  * Class ChangeLogItemQuery
@@ -20,12 +19,6 @@ class ChangeLogItemQuery extends ClientValueObject
         $this->QueryOptions = "";
         $this->Contains = "";
         parent::__construct();
-    }
-
-    public function toJson(ODataFormat $format)
-    {
-        $payload = parent::toJson($format);
-        return array("query" => $payload);
     }
 
 

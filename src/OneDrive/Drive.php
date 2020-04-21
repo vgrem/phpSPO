@@ -3,7 +3,7 @@
 namespace Office365\PHP\Client\OneDrive;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 class Drive extends ClientObject
 {
@@ -34,14 +34,11 @@ class Drive extends ClientObject
             $this->setProperty("files",
                 new ItemCollection(
                     $this->getContext(),
-                    new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"files")
+                    new ResourcePath("files",$this->getResourcePath())
                 ));
         }
         return $this->getProperty("files");
     }
-
-
-
 
 
 

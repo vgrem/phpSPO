@@ -9,7 +9,7 @@ use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\InvokeMethodQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 /**
  * Specifies 
  * a list 
@@ -24,7 +24,7 @@ class View extends ClientObject
     public function update()
     {
         $qry = new UpdateEntityQuery($this);
-        $this->getContext()->addQuery($qry, $this);
+        $this->getContext()->addQueryAndResultObject($qry, $this);
     }
     /**
      * Gets a value that specifies the collection of fields in the list view.
@@ -33,7 +33,8 @@ class View extends ClientObject
     public function getViewFields()
     {
         if (!$this->isPropertyAvailable('ViewFields')) {
-            $this->setProperty("ViewFields", new ViewFieldCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ViewFields")));
+            $this->setProperty("ViewFields", new ViewFieldCollection($this->getContext(),
+                new ResourcePath("ViewFields", $this->getResourcePath())));
         }
         return $this->getProperty("ViewFields");
     }
@@ -51,7 +52,7 @@ class View extends ClientObject
      */
     public function renderAsHtml()
     {
-        $qry = new InvokeMethodQuery($this->getResourcePath(), "renderashtml");
+        $qry = new InvokeMethodQuery($this, "renderashtml");
         $this->getContext()->addQuery($qry);
     }
     /**

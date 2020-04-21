@@ -6,9 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+use Office365\PHP\Client\Runtime\ResourcePath;
+
 
 class TranslationNotificationRecipientUsers extends ClientObject
 {
@@ -35,7 +34,7 @@ class TranslationNotificationRecipientUsers extends ClientObject
     public function getRecipients()
     {
         if (!$this->isPropertyAvailable("Recipients")) {
-            $this->setProperty("Recipients", new UserCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Recipients")));
+            $this->setProperty("Recipients", new UserCollection($this->getContext(), new ResourcePath("Recipients", $this->getResourcePath())));
         }
         return $this->getProperty("Recipients");
     }

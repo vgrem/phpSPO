@@ -13,7 +13,6 @@ use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 class UserCollection extends ClientObjectCollection
 {
 
-
     /**
      * Add a user
      * @param string $loginName
@@ -23,8 +22,8 @@ class UserCollection extends ClientObjectCollection
     {
         $user = new User($this->getContext());
         $user->setProperty('LoginName',$loginName);
-        $qry = new InvokePostMethodQuery($this->getResourcePath(),null,null,$user);
-        $this->getContext()->addQuery($qry,$user);
+        $qry = new InvokePostMethodQuery($this,null,null,null,$user);
+        $this->getContext()->addQueryAndResultObject($qry,$user);
         $this->addChild($user);
         return $user;
     }
@@ -36,7 +35,7 @@ class UserCollection extends ClientObjectCollection
      */
     public function getById($id)
     {
-        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getById",array($id));
+        $path = new ResourcePathServiceOperation("getById",array($id),$this->getResourcePath());
         return new User($this->getContext(),$path);
     }
 
@@ -47,7 +46,7 @@ class UserCollection extends ClientObjectCollection
      */
     public function getByEmail($emailAddress)
     {
-        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByEmail",array($emailAddress));
+        $path = new ResourcePathServiceOperation("getByEmail",array($emailAddress),$this->getResourcePath());
         return new User($this->getContext(),$path);
     }
 
@@ -57,7 +56,7 @@ class UserCollection extends ClientObjectCollection
      */
     public function getByLoginName($loginName)
     {
-        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByLoginName",array($loginName));
+        $path = new ResourcePathServiceOperation("getByLoginName",array($loginName),$this->getResourcePath());
         return new User($this->getContext(),$path);
     }
 
@@ -68,7 +67,7 @@ class UserCollection extends ClientObjectCollection
      */
     public function removeById($id)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(),"removebyid",array($id));
+        $qry = new InvokePostMethodQuery($this,"removeById",array($id));
         $this->getContext()->addQuery($qry);
     }
 
@@ -79,8 +78,8 @@ class UserCollection extends ClientObjectCollection
     public function removeByLoginName($loginName)
     {
         $qry = new InvokePostMethodQuery(
-            $this->getResourcePath(),
-            "removebyloginname",
+            $this,
+            "removeByLoginName",
             array(rawurlencode($loginName)));
         $this->getContext()->addQuery($qry);
     }

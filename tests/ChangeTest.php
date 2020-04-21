@@ -27,8 +27,8 @@ class ChangeTest extends SharePointTestCase
 
     public static function tearDownAfterClass()
     {
-        //self::$targetList->deleteObject();
-        //self::$context->executeQuery();
+        self::$targetList->deleteObject();
+        self::$context->executeQuery();
         parent::tearDownAfterClass();
     }
 

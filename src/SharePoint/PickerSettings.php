@@ -6,9 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+use Office365\PHP\Client\SharePoint\UI\ApplicationPages\PeoplePickerQuerySettings;
+
 /**
  * This class 
  * contains configuration settings for the client people picker control hosted by 

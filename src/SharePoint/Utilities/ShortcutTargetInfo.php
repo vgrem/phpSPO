@@ -6,9 +6,7 @@
 namespace Office365\PHP\Client\SharePoint\Utilities;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+
 /**
  * The entity 
  * data object for shortcut link target information.Some of the properties only apply to shortcut targets that 

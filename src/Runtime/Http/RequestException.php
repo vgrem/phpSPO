@@ -1,11 +1,13 @@
 <?php
 
-namespace Office365\PHP\Client\Exception;
+namespace Office365\PHP\Client\Runtime\Http;
+
+use Exception;
 
 /**
  * An exception thrown if the remote service returns an error.
  */
-class IOException extends \Exception
+class RequestException extends Exception
 {
     /**
      * @var string|null
@@ -13,7 +15,7 @@ class IOException extends \Exception
     private $responseBody;
 
     /**
-     * IOException constructor.
+     * ClientRequestException constructor.
      * @param string $message an error message for the logs
      * @param int $statusCode the HTTP status code returned by the remote service
      * @param string|null $responseBody the body of the remote service response.

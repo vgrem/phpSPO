@@ -2,7 +2,7 @@
 
 
 namespace Office365\PHP\Client\Runtime\Auth;
-use Office365\PHP\Client\Runtime\Utilities\Requests;
+use Office365\PHP\Client\Runtime\Http\Requests;
 
 /**
  * Provider to acquire the access token from a Microsoft Azure Access Control Service (ACS)
@@ -79,14 +79,14 @@ class ACSTokenProvider extends BaseTokenProvider
         $headers = array();
         $headers['Authorization'] = 'Bearer';
         $response = Requests::head($this->url, $headers);
-        return $this->processRealmResponse($response);
+        return $this->processRealmResponse($response->getContent());
     }
 
 
-    private function processRealmResponse($response){
+    private function processRealmResponse($payload){
         $headerKey = "WWW-Authenticate";
         $result = array_filter(
-            explode("\r\n", $response),
+            explode("\r\n", $payload),
             function ($line) use ($headerKey) {
                 return stripos($line,$headerKey) === 0;
             }
@@ -111,7 +111,7 @@ class ACSTokenProvider extends BaseTokenProvider
         $headers = array();
         $headers[] = 'content-Type: application/x-www-form-urlencoded';
         $response = Requests::post($stsUrl, $headers, $oauth2Request);
-        return json_decode($response);
+        return json_decode($response->getContent());
     }
 
 

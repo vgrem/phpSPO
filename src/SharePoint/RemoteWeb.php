@@ -6,9 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+use Office365\PHP\Client\Runtime\ResourcePath;
+
 /**
  * Specifies 
  * a remote web that might be on a different domain.
@@ -72,7 +71,7 @@ class RemoteWeb extends ClientObject
     public function getWeb()
     {
         if (!$this->isPropertyAvailable("Web")) {
-            $this->setProperty("Web", new Web($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Web")));
+            $this->setProperty("Web", new Web($this->getContext(), new ResourcePath("Web", $this->getResourcePath())));
         }
         return $this->getProperty("Web");
     }

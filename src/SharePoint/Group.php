@@ -5,7 +5,7 @@
  */
 namespace Office365\PHP\Client\SharePoint;
 
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 /**
  * Represents 
  * a collection of users. The CanCurrentUserEditMembership, CanCurrentUserManageGroup 
@@ -21,7 +21,8 @@ class Group extends Principal
     public function getUsers()
     {
         if (!$this->isPropertyAvailable('Users')) {
-            $this->setProperty("Users", new UserCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Users")));
+            $this->setProperty("Users", new UserCollection($this->getContext(),
+                new ResourcePath("Users", $this->getResourcePath())));
         }
         return $this->getProperty("Users");
     }
@@ -263,7 +264,8 @@ class Group extends Principal
     public function getOwner()
     {
         if (!$this->isPropertyAvailable("Owner")) {
-            $this->setProperty("Owner", new Principal($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Owner")));
+            $this->setProperty("Owner", new Principal($this->getContext(),
+                new ResourcePath("Owner", $this->getResourcePath())));
         }
         return $this->getProperty("Owner");
     }

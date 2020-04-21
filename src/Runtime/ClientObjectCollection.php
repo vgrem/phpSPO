@@ -2,20 +2,14 @@
 
 namespace Office365\PHP\Client\Runtime;
 
-use Office365\PHP\Client\Runtime\OData\ODataFormat;
 use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 
 
 /**
  * Client objects collection (represents EntitySet in terms of OData)
  */
-class ClientObjectCollection extends ClientObject implements IEntityTypeCollection
+class ClientObjectCollection extends ClientObject
 {
-
-    /**
-     * @var ODataQueryOptions
-     */
-    protected $queryOptions;
 
     /**
      * @var array
@@ -29,13 +23,10 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
      * @param ResourcePath $resourcePath
      * @param ODataQueryOptions $queryOptions
      */
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath, ODataQueryOptions $queryOptions = null)
+    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, ODataQueryOptions $queryOptions = null)
     {
-        parent::__construct($ctx, $resourcePath);
+        parent::__construct($ctx, $resourcePath, $queryOptions);
         $this->data = array();
-        $this->queryOptions = $queryOptions;
-        if (!isset($this->queryOptions))
-            $this->queryOptions = new ODataQueryOptions();
     }
 
 
@@ -53,25 +44,13 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
     }
 
     /**
-     * @return string
-     */
-    public function getResourceUrl()
-    {
-        $url = parent::getResourceUrl();
-        if (!$this->queryOptions->isEmpty())
-            $url = $url . "?" . $this->queryOptions->toUrl();
-        return $url;
-    }
-
-
-    /**
      * Adds client object into collection
      * @param ClientObject $clientObject
      * @param int $index
      */
-    public function addChildAt(ClientObject $clientObject, $index )
+    public function addChildAt(ClientObject $clientObject, $index)
     {
-        array_splice($this->data,$index,0,[$clientObject]);
+        array_splice($this->data, $index, 0, [$clientObject]);
         if (is_null($clientObject->parentCollection))
             $clientObject->parentCollection = $this;
     }
@@ -86,7 +65,6 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
         if (is_null($clientObject->parentCollection))
             $clientObject->parentCollection = $this;
     }
-
 
 
     /**
@@ -114,7 +92,7 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
      * @param string $value
      * @return ClientObject|null
      */
-    public function findFirst($key,$value)
+    public function findFirst($key, $value)
     {
         $result = $this->findItems(
             function (ClientObject $item) use ($key, $value) {
@@ -167,26 +145,6 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
         $this->data = array();
     }
 
-
-    /**
-     * @return ODataQueryOptions
-     */
-    public function getQueryOptions()
-    {
-        return $this->queryOptions;
-    }
-
-    /**
-     * Specifies a subset of properties to return.
-     * @param $value
-     * @return ClientObjectCollection $this
-     */
-    public function select($value)
-    {
-        $this->queryOptions->Select = $value;
-        return $this;
-    }
-
     /**
      * Specifies an expression or function that must evaluate to true for a record to be returned in the collection.
      * @param $value
@@ -198,16 +156,6 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
         return $this;
     }
 
-    /**
-     * Directs that related records should be retrieved in the record or collection being retrieved.
-     * @param $value
-     * @return ClientObjectCollection $this
-     */
-    public function expand($value)
-    {
-        $this->queryOptions->Expand = $value;
-        return $this;
-    }
 
     /**
      * Determines the maximum number of records to return.
@@ -276,11 +224,22 @@ class ClientObjectCollection extends ClientObject implements IEntityTypeCollecti
     }
 
 
-   function toJson(ODataFormat $format)
-   {
-       return array_map(function (ClientObject $item) use($format) {
-           return $item->toJson($format);
-       }, $this->getData());
-   }
+    function toJson()
+    {
+        return array_map(function (ClientObject $item) {
+            return $item->toJson();
+        }, $this->getData());
+    }
+
+
+    public function mapJson($json)
+    {
+        $this->clearData();
+        foreach ($json as $item) {
+            $itemType = $this->createType();
+            $itemType->mapJson($item);
+            $this->addChild($itemType);
+        }
+    }
 
 }

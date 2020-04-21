@@ -12,6 +12,6 @@ class ObjectIdentityQuery extends ClientAction  implements ICSOMCallable
     {
         $query = $writer->addChild("ObjectIdentityQuery");
         $query->addAttribute("Id", $this->getId());
-        $query->addAttribute("ObjectPathId", $this->getResourcePath()->Id);
+        //$query->addAttribute("ObjectPathId", $this->getBindingType()->Id);
     }
 }

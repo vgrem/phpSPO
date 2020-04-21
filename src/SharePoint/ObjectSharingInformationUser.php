@@ -6,7 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
+
 
 /**
  * Contains 
@@ -294,7 +295,8 @@ class ObjectSharingInformationUser extends ClientObject
     public function getPrincipal()
     {
         if (!$this->isPropertyAvailable("Principal")) {
-            $this->setProperty("Principal", new Principal($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Principal")));
+            $this->setProperty("Principal", new Principal($this->getContext(),
+                new ResourcePath("Principal", $this->getResourcePath())));
         }
         return $this->getProperty("Principal");
     }
@@ -304,7 +306,8 @@ class ObjectSharingInformationUser extends ClientObject
     public function getUser()
     {
         if (!$this->isPropertyAvailable("User")) {
-            $this->setProperty("User", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "User")));
+            $this->setProperty("User", new User($this->getContext(),
+                new ResourcePath("User", $this->getResourcePath())));
         }
         return $this->getProperty("User");
     }

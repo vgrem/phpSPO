@@ -9,9 +9,8 @@ use Office365\PHP\Client\Runtime\CreateEntityQuery;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\InvokeMethodQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
-use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 class SPList extends SecurableObject
 {
@@ -22,15 +21,15 @@ class SPList extends SecurableObject
      */
     public function addItem(array $listItemCreationInformation)
     {
-        $items = new ListItemCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "items"));
+        $items = new ListItemCollection($this->getContext(), new ResourcePath("items", $this->getResourcePath()));
         $listItem = new ListItem($this->getContext());
         $listItem->parentCollection = $items;
-        $listItem->setProperty('ParentList', $this, false);
         foreach ($listItemCreationInformation as $key => $value) {
             $listItem->setProperty($key, $value);
         }
+        $listItem->ensureTypeName($this);
         $qry = new CreateEntityQuery($listItem);
-        $this->getContext()->addQuery($qry, $listItem);
+        $this->getContext()->addQueryAndResultObject($qry,$listItem);
         return $listItem;
     }
     /**
@@ -40,7 +39,7 @@ class SPList extends SecurableObject
      */
     public function getItemById($id)
     {
-        return new ListItem($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "items({$id})"));
+        return new ListItem($this->getContext(), new ResourcePath("items({$id})", $this->getResourcePath()));
     }
     /**
      * Returns a collection of items from the list based on the specified query.
@@ -50,10 +49,13 @@ class SPList extends SecurableObject
     public function getItems(CamlQuery $camlQuery = null)
     {
         if (isset($camlQuery)) {
-            $path = new ResourcePathServiceOperation($this->getContext(), $this->getResourcePath(), "GetItems", $camlQuery);
-            return new ListItemCollection($this->getContext(), $path);
+            $targetItems = new ListItemCollection($this->getContext());
+            $qry = new InvokePostMethodQuery($this,"GetItems",$camlQuery,"query",$camlQuery);
+            $this->getContext()->addQueryAndResultObject($qry,$targetItems);
+            return $targetItems;
         }
-        return new ListItemCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "items"));
+        $targetItems = new ListItemCollection($this->getContext(), new ResourcePath("items", $this->getResourcePath()));
+        return $targetItems;
     }
     /**
      * Updates a list resource
@@ -80,8 +82,8 @@ class SPList extends SecurableObject
     public function getUserEffectivePermissions($loginName)
     {
         $permissions = new BasePermissions();
-        $qry = new InvokeMethodQuery($this->getResourcePath(), "GetUserEffectivePermissions", array(rawurlencode($loginName)));
-        $this->getContext()->addQuery($qry, $permissions);
+        $qry = new InvokeMethodQuery($this, "getUserEffectivePermissions", array(rawurlencode($loginName)));
+        $this->getContext()->addQueryAndResultObject($qry, $permissions);
         return $permissions;
     }
     /**
@@ -91,8 +93,8 @@ class SPList extends SecurableObject
     public function getListItemChangesSinceToken(ChangeLogItemQuery $query)
     {
         $result = new ListItemCollection($this->getContext(), null);
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "getListItemChangesSinceToken", null, $query);
-        $this->getContext()->addQuery($qry, $result);
+        $qry = new InvokePostMethodQuery($this, "getListItemChangesSinceToken", null,"query", $query);
+        $this->getContext()->addQueryAndResultObject($qry, $result);
         return $result;
     }
     /**
@@ -101,9 +103,9 @@ class SPList extends SecurableObject
      */
     public function getChanges(ChangeQuery $query)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "GetChanges", null, $query);
+        $qry = new InvokePostMethodQuery($this, "GetChanges", null, "query", $query);
         $changes = new ChangeCollection($this->getContext(), $qry->getResourcePath());
-        $this->getContext()->addQuery($qry, $changes);
+        $this->getContext()->addQueryAndResultObject($qry, $changes);
         return $changes;
     }
     /**
@@ -112,7 +114,8 @@ class SPList extends SecurableObject
     public function getContentTypes()
     {
         if (!$this->isPropertyAvailable('ContentTypes')) {
-            $this->setProperty("ContentTypes", new ContentTypeCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ContentTypes")), false);
+            $this->setProperty("ContentTypes", new ContentTypeCollection($this->getContext(),
+                new ResourcePath("ContentTypes", $this->getResourcePath())), false);
         }
         return $this->getProperty("ContentTypes");
     }
@@ -122,7 +125,8 @@ class SPList extends SecurableObject
     public function getFields()
     {
         if (!$this->isPropertyAvailable('Fields')) {
-            $this->setProperty("Fields", new FieldCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "fields")));
+            $this->setProperty("Fields", new FieldCollection($this->getContext(),
+                new ResourcePath("fields", $this->getResourcePath())));
         }
         return $this->getProperty("Fields");
     }
@@ -132,7 +136,8 @@ class SPList extends SecurableObject
     public function getRootFolder()
     {
         if (!$this->isPropertyAvailable('RootFolder')) {
-            $this->setProperty("RootFolder", new Folder($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "rootFolder")));
+            $this->setProperty("RootFolder", new Folder($this->getContext(),
+                new ResourcePath("rootFolder", $this->getResourcePath())));
         }
         return $this->getProperty("RootFolder");
     }
@@ -142,7 +147,8 @@ class SPList extends SecurableObject
     public function getViews()
     {
         if (!$this->isPropertyAvailable('Views')) {
-            $this->setProperty("Views", new ViewCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "views")));
+            $this->setProperty("Views", new ViewCollection($this->getContext(),
+                new ResourcePath("views", $this->getResourcePath())));
         }
         return $this->getProperty("Views");
     }
@@ -159,7 +165,8 @@ class SPList extends SecurableObject
     public function getParentWeb()
     {
         if (!$this->isPropertyAvailable('ParentWeb')) {
-            $this->setProperty("ParentWeb", new Web($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ParentWeb")));
+            $this->setProperty("ParentWeb", new Web($this->getContext(),
+                new ResourcePath("ParentWeb", $this->getResourcePath())));
         }
         return $this->getProperty("ParentWeb");
     }
@@ -1380,7 +1387,8 @@ class SPList extends SecurableObject
     public function getCreatablesInfo()
     {
         if (!$this->isPropertyAvailable("CreatablesInfo")) {
-            $this->setProperty("CreatablesInfo", new CreatablesInfo($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "CreatablesInfo")));
+            $this->setProperty("CreatablesInfo", new CreatablesInfo($this->getContext(),
+                new ResourcePath("CreatablesInfo", $this->getResourcePath())));
         }
         return $this->getProperty("CreatablesInfo");
     }
@@ -1390,7 +1398,8 @@ class SPList extends SecurableObject
     public function getDefaultView()
     {
         if (!$this->isPropertyAvailable("DefaultView")) {
-            $this->setProperty("DefaultView", new View($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "DefaultView")));
+            $this->setProperty("DefaultView", new View($this->getContext(),
+                new ResourcePath("DefaultView", $this->getResourcePath())));
         }
         return $this->getProperty("DefaultView");
     }
@@ -1400,7 +1409,8 @@ class SPList extends SecurableObject
     public function getDescriptionResource()
     {
         if (!$this->isPropertyAvailable("DescriptionResource")) {
-            $this->setProperty("DescriptionResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "DescriptionResource")));
+            $this->setProperty("DescriptionResource", new UserResource($this->getContext(),
+                new ResourcePath("DescriptionResource", $this->getResourcePath())));
         }
         return $this->getProperty("DescriptionResource");
     }
@@ -1410,7 +1420,8 @@ class SPList extends SecurableObject
     public function getTitleResource()
     {
         if (!$this->isPropertyAvailable("TitleResource")) {
-            $this->setProperty("TitleResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "TitleResource")));
+            $this->setProperty("TitleResource", new UserResource($this->getContext(),
+                new ResourcePath("TitleResource", $this->getResourcePath())));
         }
         return $this->getProperty("TitleResource");
     }
@@ -1420,7 +1431,8 @@ class SPList extends SecurableObject
     public function getUserCustomActions()
     {
         if (!$this->isPropertyAvailable("UserCustomActions")) {
-            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "UserCustomActions")));
+            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(),
+                new ResourcePath("UserCustomActions", $this->getResourcePath())));
         }
         return $this->getProperty("UserCustomActions");
     }
@@ -1430,7 +1442,8 @@ class SPList extends SecurableObject
     public function getAuthor()
     {
         if (!$this->isPropertyAvailable("Author")) {
-            $this->setProperty("Author", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Author")));
+            $this->setProperty("Author", new User($this->getContext(),
+                new ResourcePath("Author", $this->getResourcePath())));
         }
         return $this->getProperty("Author");
     }

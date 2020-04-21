@@ -3,45 +3,18 @@
 
 namespace Office365\PHP\Client\Runtime\OData;
 
-
-
-use Office365\PHP\Client\Runtime\IEntityType;
-
-
 class JsonLightFormat extends ODataFormat
 {
 
-    public function __construct($metadataLevel)
+    public function __construct($metadataLevel = ODataMetadataLevel::Verbose)
     {
         parent::__construct($metadataLevel);
-        if($metadataLevel === ODataMetadataLevel::Verbose){
-            $this->addProperty('deferred',"__deferred");
-            $this->addProperty('metadata',"__metadata");
-            $this->addProperty('collection',"results");
-            $this->addProperty('security',"d");
-        }
+        $this->DeferredTag = "__deferred";
+        $this->MetadataTag = "__metadata";
+        $this->CollectionTag = "results";
+        $this->SecurityTag ="d";
     }
 
-
-    public  function getFunctionProperty(){
-        return $this->getProperty('function');
-    }
-
-    public  function getSecurityProperty(){
-        return $this->getProperty('security');
-    }
-
-    /**
-     * @param $type IEntityType
-     * @param $payload array
-     */
-    public function ensureMetadataProperty($type, &$payload)
-    {
-        $typeName = $type->getTypeName();
-        if (substr($typeName, 0, 3) !== "SP.")
-            $typeName = "SP." . $typeName;
-        $payload["__metadata"] = array("type" => $typeName);
-    }
 
 
     public function getMediaType()
@@ -49,4 +22,31 @@ class JsonLightFormat extends ODataFormat
         return "application/json; OData={$this->MetadataLevel}";
     }
 
+
+    /**
+     * @var string
+     */
+    public $DeferredTag;
+
+    /**
+     * @var string
+     */
+    public $MetadataTag;
+
+
+    /**
+     * @var string
+     */
+    public $CollectionTag;
+
+
+    /**
+     * @var string
+     */
+    public $SecurityTag;
+
+    /**
+     * @var string
+     */
+    public $FunctionTag;
 }

@@ -23,8 +23,8 @@ class GroupCollection extends ClientObjectCollection
     public function add(GroupCreationInformation $parameters)
     {
         $group = new Group($this->getContext());
-        $qry = new InvokePostMethodQuery($this->getResourcePath(),null,null, $parameters);
-        $this->getContext()->addQuery($qry, $group);
+        $qry = new InvokePostMethodQuery($this,null,null,null, $parameters);
+        $this->getContext()->addQueryAndResultObject($qry, $group);
         $this->addChild($group);
         return $group;
     }
@@ -37,11 +37,10 @@ class GroupCollection extends ClientObjectCollection
      */
     public function getById($id)
     {
-        $group = new Group(
+        return new Group(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(), $this->getResourcePath(), "getById", array($id))
+            new ResourcePathServiceOperation("getById", array($id),$this->getResourcePath())
         );
-        return $group;
     }
 
     /**
@@ -52,11 +51,10 @@ class GroupCollection extends ClientObjectCollection
      */
     public function getByName($name)
     {
-        $group = new Group(
+        return new Group(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(), $this->getResourcePath(), "getbyname", array($name))
+            new ResourcePathServiceOperation( "getByName", array($name),$this->getResourcePath())
         );
-        return $group;
     }
 
     /**
@@ -66,7 +64,7 @@ class GroupCollection extends ClientObjectCollection
      */
     public function removeById($id)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "removebyid", array($id));
+        $qry = new InvokePostMethodQuery($this, "removeById", array($id));
         $this->getContext()->addQuery($qry);
     }
 
@@ -77,7 +75,7 @@ class GroupCollection extends ClientObjectCollection
      */
     public function removeByLoginName($groupName)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "removeByLoginName", array($groupName));
+        $qry = new InvokePostMethodQuery($this, "removeByLoginName", array($groupName));
         $this->getContext()->addQuery($qry);
     }
 }

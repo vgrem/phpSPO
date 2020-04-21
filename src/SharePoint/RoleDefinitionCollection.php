@@ -22,9 +22,9 @@ class RoleDefinitionCollection extends ClientObjectCollection
      */
     public function getById($Id)
     {
-        $path = new ResourcePathServiceOperation($this->getContext(), $this->getResourcePath(), "getbyid", array(
+        $path = new ResourcePathServiceOperation("getById", array(
             $Id
-        ));
+        ),$this->getResourcePath());
         $roleDef = new RoleDefinition($this->getContext(), $path);
         $this->addChild($roleDef);
         return $roleDef;
@@ -37,9 +37,9 @@ class RoleDefinitionCollection extends ClientObjectCollection
      */
     public function getByName($name)
     {
-        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getbyname",array(
+        $path = new ResourcePathServiceOperation("getByName",array(
             $name
-        ));
+        ),$this->getResourcePath());
         $roleDef = new RoleDefinition($this->getContext(),$path);
         $this->addChild($roleDef);
         return $roleDef;
@@ -53,11 +53,9 @@ class RoleDefinitionCollection extends ClientObjectCollection
      */
     public function getByType($type)
     {
-        $qry = new InvokeMethodQuery($this->getResourcePath(), "getbytype", array(
-            $type
-        ));
+        $qry = new InvokeMethodQuery($this, "getbytype", array($type));
         $roleDef = new RoleDefinition($this->getContext(),$qry->getResourcePath());
-        $this->getContext()->addQuery($qry,$roleDef);
+        $this->getContext()->addQueryAndResultObject($qry,$roleDef);
         $this->addChild($roleDef);
         return $roleDef;
     }

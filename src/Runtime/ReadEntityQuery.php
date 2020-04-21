@@ -3,19 +3,17 @@
 
 namespace Office365\PHP\Client\Runtime;
 
-use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 
 class ReadEntityQuery extends ClientAction
 {
-
     /**
-     * ReadEntityQuery constructor.
-     * @param ClientObject $clientObject
-     * @param ODataQueryOptions|null $queryOptions
+     * @param ClientObject $entityToRead
+     * @param array|null $selectProperties
      */
-    public function __construct(ClientObject $clientObject,ODataQueryOptions $queryOptions = null)
+    public function __construct(ClientObject $entityToRead,$selectProperties = null)
     {
-        $this->queryOptions = $queryOptions;
-        parent::__construct($clientObject->getResourcePath());
+        if($selectProperties)
+            $entityToRead->getQueryOptions()->Select = implode(",",$selectProperties);
+        parent::__construct($entityToRead,$entityToRead);
     }
 }

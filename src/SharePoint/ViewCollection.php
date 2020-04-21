@@ -17,7 +17,7 @@ class ViewCollection extends ClientObjectCollection
     {
         return new View(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByTitle",array(rawurlencode($title)))
+            new ResourcePathServiceOperation("getByTitle",array(rawurlencode($title)),$this->getResourcePath())
         );
     }
 
@@ -31,7 +31,7 @@ class ViewCollection extends ClientObjectCollection
     {
         return new View(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getById",array($id))
+            new ResourcePathServiceOperation("getById",array($id),$this->getResourcePath())
         );
     }
 
@@ -46,8 +46,8 @@ class ViewCollection extends ClientObjectCollection
     public function add(ViewCreationInformation $properties)
     {
         $view = new View($this->getContext(),$this->getResourcePath());
-        $qry = new InvokePostMethodQuery($this->getResourcePath(),null,null,$properties);
-        $this->getContext()->addQuery($qry,$view);
+        $qry = new InvokePostMethodQuery($this,null,null,null,$properties);
+        $this->getContext()->addQueryAndResultObject($qry,$view);
         $this->addChild($view);
         return $view;
     }

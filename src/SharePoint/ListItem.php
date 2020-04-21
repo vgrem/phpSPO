@@ -8,8 +8,7 @@ namespace Office365\PHP\Client\SharePoint;
 use Exception;
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\ResourcePath;
 /**
  * Specifies 
  * a list 
@@ -74,42 +73,36 @@ class ListItem extends SecurableObject
      */
     public function update()
     {
+        $this->ensureTypeName($this->getParentList());
         $qry = new UpdateEntityQuery($this);
-        $this->getContext()->addQuery($qry, $this);
+        $this->getContext()->addQueryAndResultObject($qry, $this);
     }
     public function deleteObject()
     {
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
     }
-    function getProperty($name)
-    {
-        if (!$this->isPropertyAvailable($name)) {
-            if ($name == "Folder") {
-                return $this->getFolder();
-            } elseif ($name == "File") {
-                return $this->getFile();
-            }
-        }
-        return parent::getProperty($name);
-    }
+
+
     /**
-     * Determine whether ListItemEntityTypeFullName property has been requested
-     * @return mixed|string|null
+     * Ensure ListItem entity type name (mandatory property)
+     * @param SPList $list
      * @throws Exception
      */
-    public function getTypeName()
+    public function ensureTypeName(SPList $list)
     {
-        $list = $this->getParentList();
-        if (!isset($this->resourceType)) {
+        if (!isset($this->typeName)) {
             if (!$list->isPropertyAvailable("ListItemEntityTypeFullName")) {
-                $request = new RequestOptions($list->getResourceUrl() . "?\$select=ListItemEntityTypeFullName");
-                $response = $this->getContext()->executeQueryDirect($request);
-                $response->map($list, $this->getContext()->getFormat());
+                $this->getContext()->load($list,array("ListItemEntityTypeFullName"));
+                $this->getContext()->getPendingRequest()->afterExecuteQuery(function () use($list)
+                {
+                    $this->typeName = $list->getListItemEntityTypeFullName();
+                });
             }
-            $this->resourceType = $list->getProperty("ListItemEntityTypeFullName");
+            else{
+                $this->typeName = $list->getListItemEntityTypeFullName();
+            }
         }
-        return $this->resourceType;
     }
     /**
      * @return AttachmentCollection
@@ -117,7 +110,8 @@ class ListItem extends SecurableObject
     public function getAttachmentFiles()
     {
         if (!$this->isPropertyAvailable('AttachmentFiles')) {
-            $this->setProperty("AttachmentFiles", new AttachmentCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "AttachmentFiles")), false);
+            $this->setProperty("AttachmentFiles", new AttachmentCollection($this->getContext(),
+                new ResourcePath("AttachmentFiles", $this->getResourcePath())), false);
         }
         return $this->getProperty("AttachmentFiles");
     }
@@ -128,7 +122,8 @@ class ListItem extends SecurableObject
     public function getParentList()
     {
         if (!$this->isPropertyAvailable('ParentList')) {
-            $this->setProperty("ParentList", new SPList($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "parentlist")), false);
+            $this->setProperty("ParentList", new SPList($this->getContext(),
+                new ResourcePath("parentlist", $this->getResourcePath())), false);
         }
         return $this->getProperty("ParentList");
     }
@@ -139,7 +134,8 @@ class ListItem extends SecurableObject
     public function getFolder()
     {
         if (!$this->isPropertyAvailable('Folder')) {
-            $this->setProperty("Folder", new Folder($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Folder")), false);
+            $this->setProperty("Folder", new Folder($this->getContext(),
+                new ResourcePath("Folder", $this->getResourcePath())), false);
         }
         return $this->getProperty("Folder");
     }
@@ -150,7 +146,8 @@ class ListItem extends SecurableObject
     public function getFile()
     {
         if (!$this->isPropertyAvailable('File')) {
-            $this->setProperty("File", new File($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "File")), false);
+            $this->setProperty("File", new File($this->getContext(),
+                new ResourcePath("File", $this->getResourcePath())), false);
         }
         return $this->getProperty("File");
     }
@@ -456,7 +453,8 @@ class ListItem extends SecurableObject
     public function getContentType()
     {
         if (!$this->isPropertyAvailable("ContentType")) {
-            $this->setProperty("ContentType", new ContentType($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ContentType")));
+            $this->setProperty("ContentType", new ContentType($this->getContext(),
+                new ResourcePath("ContentType", $this->getResourcePath())));
         }
         return $this->getProperty("ContentType");
     }
@@ -466,7 +464,8 @@ class ListItem extends SecurableObject
     public function getGetDlpPolicyTip()
     {
         if (!$this->isPropertyAvailable("GetDlpPolicyTip")) {
-            $this->setProperty("GetDlpPolicyTip", new DlpPolicyTip($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "GetDlpPolicyTip")));
+            $this->setProperty("GetDlpPolicyTip", new DlpPolicyTip($this->getContext(),
+                new ResourcePath("GetDlpPolicyTip", $this->getResourcePath())));
         }
         return $this->getProperty("GetDlpPolicyTip");
     }
@@ -476,7 +475,8 @@ class ListItem extends SecurableObject
     public function getFieldValuesAsHtml()
     {
         if (!$this->isPropertyAvailable("FieldValuesAsHtml")) {
-            $this->setProperty("FieldValuesAsHtml", new FieldStringValues($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "FieldValuesAsHtml")));
+            $this->setProperty("FieldValuesAsHtml", new FieldStringValues($this->getContext(),
+                new ResourcePath("FieldValuesAsHtml", $this->getResourcePath())));
         }
         return $this->getProperty("FieldValuesAsHtml");
     }
@@ -486,7 +486,8 @@ class ListItem extends SecurableObject
     public function getFieldValuesAsText()
     {
         if (!$this->isPropertyAvailable("FieldValuesAsText")) {
-            $this->setProperty("FieldValuesAsText", new FieldStringValues($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "FieldValuesAsText")));
+            $this->setProperty("FieldValuesAsText", new FieldStringValues($this->getContext(),
+                new ResourcePath("FieldValuesAsText", $this->getResourcePath())));
         }
         return $this->getProperty("FieldValuesAsText");
     }
@@ -496,7 +497,8 @@ class ListItem extends SecurableObject
     public function getFieldValuesForEdit()
     {
         if (!$this->isPropertyAvailable("FieldValuesForEdit")) {
-            $this->setProperty("FieldValuesForEdit", new FieldStringValues($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "FieldValuesForEdit")));
+            $this->setProperty("FieldValuesForEdit", new FieldStringValues($this->getContext(),
+                new ResourcePath("FieldValuesForEdit", $this->getResourcePath())));
         }
         return $this->getProperty("FieldValuesForEdit");
     }

@@ -3,10 +3,10 @@
 
 namespace Office365\PHP\Client\OutlookServices;
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
+use Exception;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\Office365Version;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 /**
  * A user in the system.
@@ -22,10 +22,9 @@ class User extends OutlookEntity
     {
         if (!$this->isPropertyAvailable("Messages")) {
             $this->setProperty("Messages",
-                new MessageCollection($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "Messages"
+                new MessageCollection($this->getContext(), new ResourcePath(
+                    "Messages",
+                    $this->getResourcePath()
                 )));
         }
         return $this->getProperty("Messages");
@@ -34,16 +33,15 @@ class User extends OutlookEntity
     /**
      * @param string $folderId
      * @return MailFolder
-     * @throws \Exception
+     * @throws Exception
      */
     public function getFolder($folderId)
     {
         if (!$this->isPropertyAvailable("Folders")) {
             $this->setProperty("Folders",
-                new MailFolder($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    $this->getFolderEntityName() . "/" . $folderId
+                new MailFolder($this->getContext(), new ResourcePath(
+                    $this->getFolderEntityName() . "/" . $folderId,
+                    $this->getResourcePath()
                 )));
         }
         return $this->getProperty("Folders");
@@ -51,16 +49,15 @@ class User extends OutlookEntity
 
     /**
      * @return MailFolder
-     * @throws \Exception
+     * @throws Exception
      */
     public function getFolders()
     {
         if (!$this->isPropertyAvailable("Folders")) {
             $this->setProperty("Folders",
-                new MailFolder($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    $this->getFolderEntityName()
+                new MailFolder($this->getContext(), new ResourcePath(
+                    $this->getFolderEntityName(),
+                    $this->getResourcePath()
                 )));
         }
         return $this->getProperty("Folders");
@@ -73,10 +70,10 @@ class User extends OutlookEntity
      */
     public function sendEmail(Message $message, $saveToSentItems)
     {
-        $payload = new ClientValueObject();
-        $payload->setProperty("Message", $message);
-        $payload->setProperty("SaveToSentItems", $saveToSentItems);
-        $action = new InvokePostMethodQuery($this->getResourcePath(), "SendMail",null,$payload);
+        $payload = array();
+        $payload["Message"] =$message;
+        $payload["SaveToSentItems"] = $saveToSentItems;
+        $action = new InvokePostMethodQuery($this, "SendMail",null,null,$payload);
         $this->getContext()->addQuery($action);
     }
 
@@ -87,10 +84,9 @@ class User extends OutlookEntity
     {
         if (!$this->isPropertyAvailable("Contacts")) {
             $this->setProperty("Contacts",
-                new ContactCollection($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "Contacts"
+                new ContactCollection($this->getContext(), new ResourcePath(
+                    "Contacts",
+                    $this->getResourcePath()
                 )));
         }
         return $this->getProperty("Contacts");
@@ -104,10 +100,9 @@ class User extends OutlookEntity
     {
         if (!$this->isPropertyAvailable("Events")) {
             $this->setProperty("Events",
-                new EventCollection($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "Events"
+                new EventCollection($this->getContext(), new ResourcePath(
+                    "Events",
+                    $this->getResourcePath()
                 )));
         }
         return $this->getProperty("Events");
@@ -121,10 +116,9 @@ class User extends OutlookEntity
     {
         if (!$this->isPropertyAvailable("Calendars")) {
             $this->setProperty("Calendars",
-                new CalendarCollection($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "Calendars"
+                new CalendarCollection($this->getContext(), new ResourcePath(
+                    "Calendars",
+                    $this->getResourcePath()
                 )));
         }
         return $this->getProperty("Calendars");
@@ -138,10 +132,9 @@ class User extends OutlookEntity
     {
         if (!$this->isPropertyAvailable("CalendarGroups")) {
             $this->setProperty("CalendarGroups",
-                new CalendarGroupCollection($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "CalendarGroups"
+                new CalendarGroupCollection($this->getContext(), new ResourcePath(
+                    "CalendarGroups",
+                    $this->getResourcePath()
                 )));
         }
         return $this->getProperty("CalendarGroups");
@@ -155,10 +148,9 @@ class User extends OutlookEntity
     {
         if (!$this->isPropertyAvailable("Subscriptions")) {
             $this->setProperty("Subscriptions",
-                new SubscriptionCollection($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "Subscriptions"
+                new SubscriptionCollection($this->getContext(), new ResourcePath(
+                    "Subscriptions",
+                    $this->getResourcePath()
                 )));
         }
         return $this->getProperty("Subscriptions");
@@ -174,7 +166,7 @@ class User extends OutlookEntity
             $this->setProperty("Calendar",
                 new Calendar(
                     $this->getContext(),
-                    new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"Calendar")
+                    new ResourcePath("Calendar",$this->getResourcePath())
                 ));
         }
         return $this->getProperty("Calendar");
@@ -183,7 +175,7 @@ class User extends OutlookEntity
 
     /**
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     private function getFolderEntityName()
     {
@@ -192,7 +184,7 @@ class User extends OutlookEntity
         if ($this->getContext()->getApiVersion() == Office365Version::V2)
             return "MailFolders";
 
-        throw new \Exception("Unknown API version '" . $this->getContext()->getApiVersion() . "'");
+        throw new Exception("Unknown API version '" . $this->getContext()->getApiVersion() . "'");
     }
 
 

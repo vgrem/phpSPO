@@ -6,7 +6,7 @@ $settings = include('../../Settings.php');
 use Office365\PHP\Client\GraphClient\GraphServiceClient;
 use Office365\PHP\Client\OneNote\Page;
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
-use Office365\PHP\Client\Runtime\Utilities\UserCredentials;
+use Office365\PHP\Client\Runtime\Auth\UserCredentials;
 
 function acquireToken(AuthenticationContext $authCtx, $clientId, $userName, $password)
 {

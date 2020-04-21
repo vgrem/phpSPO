@@ -5,7 +5,7 @@ namespace Office365\PHP\Client\OneNote;
 
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 class OneNote extends ClientObject
 {
@@ -17,10 +17,9 @@ class OneNote extends ClientObject
     {
         if (!$this->isPropertyAvailable("Pages")) {
             $this->setProperty("Pages",
-                new PageCollection($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "Pages"
+                new PageCollection($this->getContext(), new ResourcePath(
+                    "Pages",
+                    $this->getResourcePath()
                 )));
         }
         return $this->getProperty("Pages");

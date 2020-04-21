@@ -16,13 +16,14 @@ class AttachmentCollection extends ClientObjectCollection
      */
     public function add(AttachmentCreationInformation $information)
     {
-        $attachment = new Attachment($this->getContext(),$this->getResourcePath());
+        $attachment = new Attachment($this->getContext(),null);
         $qry = new InvokePostMethodQuery(
-            $this->getResourcePath(),
+            $this,
             "add",
             array("FileName" =>rawurlencode($information->FileName)),
+            null,
             $information->ContentStream);
-        $this->getContext()->addQuery($qry,$attachment);
+        $this->getContext()->addQueryAndResultObject($qry,$attachment);
         $this->addChild($attachment);
         return $attachment;
     }
@@ -35,7 +36,7 @@ class AttachmentCollection extends ClientObjectCollection
     {
         return new Attachment(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"GetByFileName",array($fileName))
+            new ResourcePathServiceOperation("GetByFileName",array($fileName),$this->getResourcePath())
         );
     }
 

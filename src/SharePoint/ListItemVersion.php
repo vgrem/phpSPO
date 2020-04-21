@@ -6,9 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+use Office365\PHP\Client\Runtime\ResourcePath;
+
 /**
  * Represents 
  * a version of a list item.
@@ -89,7 +88,8 @@ class ListItemVersion extends ClientObject
     public function getCreatedBy()
     {
         if (!$this->isPropertyAvailable("CreatedBy")) {
-            $this->setProperty("CreatedBy", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "CreatedBy")));
+            $this->setProperty("CreatedBy", new User($this->getContext(),
+                new ResourcePath("CreatedBy", $this->getResourcePath())));
         }
         return $this->getProperty("CreatedBy");
     }
@@ -99,7 +99,8 @@ class ListItemVersion extends ClientObject
     public function getFields()
     {
         if (!$this->isPropertyAvailable("Fields")) {
-            $this->setProperty("Fields", new FieldCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Fields")));
+            $this->setProperty("Fields", new FieldCollection($this->getContext(),
+                new ResourcePath("Fields", $this->getResourcePath())));
         }
         return $this->getProperty("Fields");
     }
@@ -109,7 +110,8 @@ class ListItemVersion extends ClientObject
     public function getFileVersion()
     {
         if (!$this->isPropertyAvailable("FileVersion")) {
-            $this->setProperty("FileVersion", new FileVersion($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "FileVersion")));
+            $this->setProperty("FileVersion", new FileVersion($this->getContext(),
+                new ResourcePath("FileVersion", $this->getResourcePath())));
         }
         return $this->getProperty("FileVersion");
     }

@@ -2,8 +2,8 @@
 
 
 namespace Office365\PHP\Client\Runtime;
+use Exception;
 use Office365\PHP\Client\Runtime\CSOM\ICSOMCallable;
-use Office365\PHP\Client\Runtime\OData\ODataPathKind;
 use SimpleXMLElement;
 
 /**
@@ -13,39 +13,42 @@ class ResourcePathServiceOperation extends ResourcePath implements ICSOMCallable
 {
     /**
      * ResourcePathMethod constructor.
-     * @param ClientRuntimeContext $context
-     * @param ResourcePath|null $parent
      * @param string $methodName
-     * @param array|IEntityType $methodParameters
+     * @param array|ClientObject|ClientValueObject $methodParameters
+     * @param ResourcePath|null $parent
      */
-    public function __construct(ClientRuntimeContext $context, ResourcePath $parent=null, $methodName=null, $methodParameters = null)
+    public function __construct($methodName=null, $methodParameters = null,ResourcePath $parent=null)
     {
-        parent::__construct($context, $parent);
+        parent::__construct($this->buildSegment($methodName,$methodParameters), $parent);
         $this->methodName = $methodName;
         $this->methodParameters = $methodParameters;
-        $this->pathKind = ODataPathKind::Operation;
     }
 
 
-    public function toString()
+    /**
+     * @param string $methodName
+     * @param array $methodParameters
+     * @return string|null
+     */
+    private function buildSegment($methodName,$methodParameters)
     {
-        $url = isset($this->methodName) ? $this->methodName : "";
-        if (!isset($this->methodParameters) || !is_array($this->methodParameters))
+        $url = isset($methodName) ? $methodName : "";
+        if (!isset($methodParameters) || !is_array($methodParameters))
             return $url;
 
-        if (count(array_filter(array_keys($this->methodParameters), 'is_string')) === 0) {
+        if (count(array_filter(array_keys($methodParameters), 'is_string')) === 0) {
             $url = $url . "(" . implode(',', array_map(
                         function ($value) {
                             $encValue = self::escapeValue($value);
                             return "$encValue";
-                        }, $this->methodParameters)
+                        }, $methodParameters)
                 ) . ")";
         } else {
             $url = $url . "(" . implode(',', array_map(
                         function ($key, $value) {
                             $encValue = self::escapeValue($value);
                             return "$key=$encValue";
-                        }, array_keys($this->methodParameters), $this->methodParameters)
+                        }, array_keys($methodParameters), $methodParameters)
                 ) . ")";
         }
         return $url;
@@ -62,29 +65,26 @@ class ResourcePathServiceOperation extends ResourcePath implements ICSOMCallable
 
     function buildQuery(SimpleXMLElement $writer)
     {
-        /*$method = $writer->addChild("Method");
-        $method->addAttribute("Id", $this->Id);
-        $method->addAttribute("ParentId", $this->parent->Id);
-        $method->addAttribute("Name", $this->methodName);
-        if(isset($this->MethodParameters)){
-            $parameters = $method->addChild("Parameters");
-            foreach ($this->MethodParameters as $parameter){
-                $parameter = $parameters->addChild("Parameter");
-
-            }
-        }*/
+        throw new Exception("Not implemented");
     }
 
+
+    /**
+     * @return string|null
+     */
     function getMethodName(){
         return $this->methodName;
     }
 
+    /**
+     * @return array|ClientObject|ClientValueObject|null
+     */
     function getMethodParameters(){
         return $this->methodParameters;
     }
 
     /**
-     * @var array|IEntityType
+     * @var array|ClientObject|ClientValueObject
      */
     protected $methodParameters;
 
@@ -92,18 +92,5 @@ class ResourcePathServiceOperation extends ResourcePath implements ICSOMCallable
      * @var string
      */
     protected $methodName;
-
-
-    /**
-     * @var string
-     */
-    public $TypeId;
-
-
-    /**
-     * @var $IsStatic boolean
-     */
-    public $IsStatic;
-
 
 }

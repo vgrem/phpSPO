@@ -7,42 +7,42 @@ namespace Office365\PHP\Client\SharePoint\Publishing;
 
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 class VideoServiceManager extends ClientObject
 {
     public function __construct(ClientRuntimeContext $ctx, $videoPortalUrl)
     {
         $ctx->setServiceRootUrl($videoPortalUrl . "/_api/");
-        parent::__construct($ctx, new ResourcePathEntity($ctx, null, "VideoService"));
+        parent::__construct($ctx, new ResourcePath("VideoService"));
     }
     /**
      * @return VideoChannelCollection
      */
     public function getChannels()
     {
-        return new VideoChannelCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Channels"));
+        return new VideoChannelCollection($this->getContext(), new ResourcePath("Channels", $this->getResourcePath()));
     }
     /**
      * @return VideoChannelCollection
      */
     public function getCanEditChannels()
     {
-        return new VideoChannelCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "CanEditChannels"));
+        return new VideoChannelCollection($this->getContext(), new ResourcePath("CanEditChannels", $this->getResourcePath()));
     }
     /**
      * @return SpotlightChannelCollection
      */
     public function getSpotlightChannels()
     {
-        return new SpotlightChannelCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "SpotlightChannels"));
+        return new SpotlightChannelCollection($this->getContext(), new ResourcePath("SpotlightChannels", $this->getResourcePath()));
     }
     /**
      * @return SpotlightVideoCollection
      */
     public function getSpotlightVideos()
     {
-        return new SpotlightVideoCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "SpotlightVideos"));
+        return new SpotlightVideoCollection($this->getContext(), new ResourcePath("SpotlightVideos", $this->getResourcePath()));
     }
     /**
      * @return string

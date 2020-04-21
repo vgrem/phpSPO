@@ -6,7 +6,7 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 /**
  * Represents 
@@ -351,7 +351,7 @@ class RecycleBinItem extends ClientObject
     public function getAuthor()
     {
         if (!$this->isPropertyAvailable("Author")) {
-            $this->setProperty("Author", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Author")));
+            $this->setProperty("Author", new User($this->getContext(), new ResourcePath("Author", $this->getResourcePath())));
         }
         return $this->getProperty("Author");
     }
@@ -365,7 +365,7 @@ class RecycleBinItem extends ClientObject
     public function getDeletedBy()
     {
         if (!$this->isPropertyAvailable("DeletedBy")) {
-            $this->setProperty("DeletedBy", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "DeletedBy")));
+            $this->setProperty("DeletedBy", new User($this->getContext(), new ResourcePath("DeletedBy", $this->getResourcePath())));
         }
         return $this->getProperty("DeletedBy");
     }

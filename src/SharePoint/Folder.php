@@ -9,7 +9,7 @@ use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 /**
  * Represents 
  * a list 
@@ -38,14 +38,14 @@ class Folder extends ClientObject
         $item->setProperty('Title', $name);
         $item->setProperty('FileLeafRef', $name);
         $qry = new UpdateEntityQuery($item);
-        $this->getContext()->addQuery($qry, $this);
+        $this->getContext()->addQueryAndResultObject($qry, $this);
     }
     /**
      * Moves the list folder to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      */
     public function recycle()
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "recycle");
+        $qry = new InvokePostMethodQuery($this, "recycle");
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -56,7 +56,8 @@ class Folder extends ClientObject
     public function getFiles()
     {
         if (!$this->isPropertyAvailable('Files')) {
-            $this->setProperty("Files", new FileCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Files")));
+            $this->setProperty("Files", new FileCollection($this->getContext(),
+                new ResourcePath("Files", $this->getResourcePath())));
         }
         return $this->getProperty("Files");
     }
@@ -67,7 +68,8 @@ class Folder extends ClientObject
     public function getFolders()
     {
         if (!$this->isPropertyAvailable("Folders")) {
-            $this->setProperty("Folders", new FolderCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "folders")));
+            $this->setProperty("Folders", new FolderCollection($this->getContext(),
+                new ResourcePath("folders", $this->getResourcePath())));
         }
         return $this->getProperty("Folders");
     }
@@ -78,13 +80,14 @@ class Folder extends ClientObject
     public function getListItemAllFields()
     {
         if (!$this->isPropertyAvailable("ListItemAllFields")) {
-            $this->setProperty("ListItemAllFields", new ListItem($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ListItemAllFields")));
+            $this->setProperty("ListItemAllFields", new ListItem($this->getContext(),
+                new ResourcePath("ListItemAllFields", $this->getResourcePath())));
         }
         return $this->getProperty("ListItemAllFields");
     }
-    function setProperty($name, $value, $serializable = true)
+    function setProperty($name, $value, $persistChanges = true)
     {
-        parent::setProperty($name, $value, $serializable);
+        parent::setProperty($name, $value, $persistChanges);
         if ($name == "UniqueId") {
             $this->setResourceUrl("Web/GetFolderById(guid'{$value}')");
         }
@@ -322,7 +325,8 @@ class Folder extends ClientObject
     public function getParentFolder()
     {
         if (!$this->isPropertyAvailable("ParentFolder")) {
-            $this->setProperty("ParentFolder", new Folder($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ParentFolder")));
+            $this->setProperty("ParentFolder", new Folder($this->getContext(),
+                new ResourcePath("ParentFolder", $this->getResourcePath())));
         }
         return $this->getProperty("ParentFolder");
     }
@@ -332,7 +336,8 @@ class Folder extends ClientObject
     public function getStorageMetrics()
     {
         if (!$this->isPropertyAvailable("StorageMetrics")) {
-            $this->setProperty("StorageMetrics", new StorageMetrics($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "StorageMetrics")));
+            $this->setProperty("StorageMetrics", new StorageMetrics($this->getContext(),
+                new ResourcePath("StorageMetrics", $this->getResourcePath())));
         }
         return $this->getProperty("StorageMetrics");
     }

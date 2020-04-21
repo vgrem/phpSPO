@@ -21,7 +21,7 @@ class Message extends Item
     {
         $parameter = new ClientValueObject();
         $parameter->setProperty("Comment",$comment);
-        $qry = new InvokePostMethodQuery($this->getResourcePath(),"Reply",null,$parameter);
+        $qry = new InvokePostMethodQuery($this,"Reply",null,null,$parameter);
         $this->getContext()->addQuery($qry);
     }
 
@@ -34,7 +34,7 @@ class Message extends Item
     {
         $parameter = new ClientValueObject();
         $parameter->setProperty("Comment",$comment);
-        $qry = new InvokePostMethodQuery($this->getResourcePath(),"ReplyAll",null,$parameter);
+        $qry = new InvokePostMethodQuery($this,"ReplyAll",null,null,$parameter);
         $this->getContext()->addQuery($qry);
     }
 
@@ -46,10 +46,10 @@ class Message extends Item
      */
     public function forward($comment,$toRecipients)
     {
-        $parameter = new ClientValueObject();
-        $parameter->setProperty("Comment",$comment);
-        $parameter->setProperty("ToRecipients",$toRecipients);
-        $qry = new InvokePostMethodQuery($this->getResourcePath(),"Forward",null,$parameter);
+        $parameter = array();
+        $parameter["Comment"] =$comment;
+        $parameter["ToRecipients"] = $toRecipients;
+        $qry = new InvokePostMethodQuery($this,"Forward",null,null, $parameter);
         $this->getContext()->addQuery($qry);
     }
 
@@ -62,7 +62,7 @@ class Message extends Item
     public function move($destinationId){
         $parameter = new ClientValueObject();
         $parameter->setProperty("DestinationId",$destinationId);
-        $qry = new InvokePostMethodQuery($this->getResourcePath(),"Move",null,$parameter);
+        $qry = new InvokePostMethodQuery($this,"Move",null,null, $parameter);
         $this->getContext()->addQuery($qry);
     }
 

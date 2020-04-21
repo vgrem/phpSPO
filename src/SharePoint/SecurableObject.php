@@ -7,7 +7,7 @@ namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 /**
  * An object 
  * (1) that can be assigned security permissions.The HasUniqueRoleAssignments property is not included in the 
@@ -22,7 +22,7 @@ class SecurableObject extends ClientObject
      */
     public function breakRoleInheritance($copyRoleAssignments)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "breakroleinheritance", array($copyRoleAssignments));
+        $qry = new InvokePostMethodQuery($this, "breakroleinheritance", array($copyRoleAssignments));
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -31,7 +31,8 @@ class SecurableObject extends ClientObject
     public function getRoleAssignments()
     {
         if (!isset($this->RoleAssignments)) {
-            $this->setProperty('RoleAssignments', new RoleAssignmentCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "roleassignments")));
+            $this->setProperty('RoleAssignments', new RoleAssignmentCollection($this->getContext(),
+                new ResourcePath("roleAssignments", $this->getResourcePath())));
         }
         return $this->getProperty('RoleAssignments');
     }
@@ -53,7 +54,8 @@ class SecurableObject extends ClientObject
     public function getFirstUniqueAncestorSecurableObject()
     {
         if (!$this->isPropertyAvailable("FirstUniqueAncestorSecurableObject")) {
-            $this->setProperty("FirstUniqueAncestorSecurableObject", new SecurableObject($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "FirstUniqueAncestorSecurableObject")));
+            $this->setProperty("FirstUniqueAncestorSecurableObject", new SecurableObject($this->getContext(),
+                new ResourcePath("FirstUniqueAncestorSecurableObject", $this->getResourcePath())));
         }
         return $this->getProperty("FirstUniqueAncestorSecurableObject");
     }

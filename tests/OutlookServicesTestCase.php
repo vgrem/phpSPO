@@ -3,7 +3,7 @@
 
 use Office365\PHP\Client\OutlookServices\OutlookClient;
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
-use Office365\PHP\Client\Runtime\Utilities\UserCredentials;
+use Office365\PHP\Client\Runtime\Auth\UserCredentials;
 use PHPUnit\Framework\TestCase;
 
 

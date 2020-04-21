@@ -6,7 +6,7 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 /**
  * This class 
  * contains the information necessary to read and change the sharing status of a 
@@ -829,7 +829,8 @@ class ObjectSharingSettings extends ClientObject
     public function getObjectSharingInformation()
     {
         if (!$this->isPropertyAvailable("ObjectSharingInformation")) {
-            $this->setProperty("ObjectSharingInformation", new ObjectSharingInformation($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "ObjectSharingInformation")));
+            $this->setProperty("ObjectSharingInformation", new ObjectSharingInformation($this->getContext(),
+                new ResourcePath("ObjectSharingInformation", $this->getResourcePath())));
         }
         return $this->getProperty("ObjectSharingInformation");
     }
@@ -839,7 +840,8 @@ class ObjectSharingSettings extends ClientObject
     public function getSharePointSettings()
     {
         if (!$this->isPropertyAvailable("SharePointSettings")) {
-            $this->setProperty("SharePointSettings", new SharePointSharingSettings($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "SharePointSettings")));
+            $this->setProperty("SharePointSettings", new SharePointSharingSettings($this->getContext(),
+                new ResourcePath("SharePointSettings", $this->getResourcePath())));
         }
         return $this->getProperty("SharePointSettings");
     }

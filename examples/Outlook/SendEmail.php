@@ -7,7 +7,7 @@ use Office365\PHP\Client\OutlookServices\ItemBody;
 use Office365\PHP\Client\OutlookServices\OutlookClient;
 use Office365\PHP\Client\OutlookServices\Recipient;
 use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
-use Office365\PHP\Client\Runtime\Utilities\UserCredentials;
+use Office365\PHP\Client\Runtime\Auth\UserCredentials;
 
 
 require_once '../vendor/autoload.php';

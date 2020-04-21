@@ -1,8 +1,9 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime\Utilities;
+namespace Office365\PHP\Client\Runtime\Types;
 
+use Exception;
 use ReflectionClass;
 
 abstract class EnumType
@@ -18,7 +19,7 @@ abstract class EnumType
             $enums = array_flip($reflection->getConstants());
             return $enums[$value];
         }
-        catch (\Exception $ex){
+        catch (Exception $ex){
             return null;
         }
     }

@@ -4,7 +4,7 @@ namespace Office365\PHP\Client\OneDrive;
 
 use Office365\PHP\Client\OneNote\OneNote;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 class CurrentUserRequestContext extends ClientObject
 {
@@ -16,10 +16,9 @@ class CurrentUserRequestContext extends ClientObject
     {
         if (!$this->isPropertyAvailable("OneNote")) {
             $this->setProperty("OneNote",
-                new OneNote($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "OneNote"
+                new OneNote($this->getContext(), new ResourcePath(
+                    "OneNote",
+                    $this->getResourcePath()
                 )));
         }
         return $this->getProperty("OneNote");
@@ -33,10 +32,9 @@ class CurrentUserRequestContext extends ClientObject
     {
         if (!$this->isPropertyAvailable("Drive")) {
             $this->setProperty("Drive",
-                new Drive($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "Drive"
+                new Drive($this->getContext(), new ResourcePath(
+                    "Drive",
+                    $this->getResourcePath()
                 )));
         }
         return $this->getProperty("Drive");
@@ -50,10 +48,9 @@ class CurrentUserRequestContext extends ClientObject
     {
         if (!$this->isPropertyAvailable("Files")) {
             $this->setProperty("Files",
-                new FileCollection($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "Files"
+                new FileCollection($this->getContext(), new ResourcePath(
+                    "Files",
+                    $this->getResourcePath()
                 )));
         }
         return $this->getProperty("Files");

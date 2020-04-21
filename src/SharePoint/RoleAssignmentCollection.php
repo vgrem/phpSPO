@@ -7,9 +7,8 @@ namespace Office365\PHP\Client\SharePoint;
 
 
 use Office365\PHP\Client\Runtime\ClientObjectCollection;
-use Office365\PHP\Client\Runtime\InvokeMethodQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 /**
@@ -23,7 +22,8 @@ class RoleAssignmentCollection extends ClientObjectCollection
     public function getGroups()
     {
         if(!$this->isPropertyAvailable("Groups")){
-            $this->setProperty("Groups", new GroupCollection($this->getContext(),new ResourcePathEntity($this->getContext(),$this->getResourcePath(),"Groups")));
+            $this->setProperty("Groups", new GroupCollection($this->getContext(),
+                new ResourcePath("Groups",$this->getResourcePath())));
         }
         return $this->getProperty("Groups");
     }
@@ -36,7 +36,7 @@ class RoleAssignmentCollection extends ClientObjectCollection
      */
     public function addRoleAssignment($principalId,$roleDefId)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "addroleassignment", array(
+        $qry = new InvokePostMethodQuery($this, "addroleassignment", array(
             "principalid" => $principalId,
             "roledefid" => $roleDefId
         ));
@@ -50,9 +50,9 @@ class RoleAssignmentCollection extends ClientObjectCollection
      */
     public function getByPrincipalId($principalId)
     {
-        $path = new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByPrincipalId",array(
+        $path = new ResourcePathServiceOperation("getByPrincipalId",array(
             $principalId
-        ));
+        ),$this->getResourcePath());
         $roleAssignment = new RoleAssignment($this->getContext(),$path);
         $this->addChild($roleAssignment);
         return $roleAssignment;
@@ -65,7 +65,7 @@ class RoleAssignmentCollection extends ClientObjectCollection
      */
     public function removeRoleAssignment($principalId,$roleDefId)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "removeroleassignment", array(
+        $qry = new InvokePostMethodQuery($this, "removeroleassignment", array(
             "principalid" => $principalId,
             "roledefid" => $roleDefId
         ));

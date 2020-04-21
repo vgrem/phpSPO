@@ -6,7 +6,7 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 /**
  * Represents 
@@ -91,7 +91,8 @@ class RelatedField extends ClientObject
     public function getLookupList()
     {
         if (!$this->isPropertyAvailable("LookupList")) {
-            $this->setProperty("LookupList", new SPList($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "LookupList")));
+            $this->setProperty("LookupList", new SPList($this->getContext(),
+                new ResourcePath("LookupList", $this->getResourcePath())));
         }
         return $this->getProperty("LookupList");
     }

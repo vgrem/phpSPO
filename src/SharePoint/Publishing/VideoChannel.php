@@ -6,7 +6,7 @@
 namespace Office365\PHP\Client\SharePoint\Publishing;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 class VideoChannel extends ClientObject
 {
@@ -35,21 +35,21 @@ class VideoChannel extends ClientObject
      */
     public function GetAllVideos()
     {
-        return new VideoCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "GetAllVideos"));
+        return new VideoCollection($this->getContext(), new ResourcePath("GetAllVideos", $this->getResourcePath()));
     }
     /**
      * @return SpotlightVideoCollection
      */
     public function getSpotlightVideos()
     {
-        return new SpotlightVideoCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "SpotlightVideos"));
+        return new SpotlightVideoCollection($this->getContext(), new ResourcePath("SpotlightVideos", $this->getResourcePath()));
     }
     /**
      * @return VideoCollection
      */
     public function getVideos()
     {
-        return new VideoCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Videos"));
+        return new VideoCollection($this->getContext(), new ResourcePath("Videos", $this->getResourcePath()));
     }
     public function getTypeName()
     {

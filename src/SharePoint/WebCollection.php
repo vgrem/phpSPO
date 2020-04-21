@@ -20,12 +20,13 @@ class WebCollection extends ClientObjectCollection
     {
         $web = new Web($this->getContext(),$this->getResourcePath());
         $qry = new InvokePostMethodQuery(
-            $this->getResourcePath(),
+            $this,
             "Add",
             null,
+            "parameters",
             $webCreationInformation
         );
-        $this->getContext()->addQuery($qry,$web);
+        $this->getContext()->addQueryAndResultObject($qry,$web);
         $this->addChild($web);
         return $web;
     }

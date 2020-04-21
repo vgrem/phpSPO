@@ -6,9 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+use Office365\PHP\Client\Runtime\ResourcePath;
+
 /**
  * Provides 
  * basic WSS context information: site, web, list, and list item.Use this class to return context information about such 
@@ -23,7 +22,8 @@ class RequestContext extends ClientObject
     public function getSite()
     {
         if (!$this->isPropertyAvailable("Site")) {
-            $this->setProperty("Site", new Site($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Site")));
+            $this->setProperty("Site", new Site($this->getContext(),
+                new ResourcePath("Site", $this->getResourcePath())));
         }
         return $this->getProperty("Site");
     }
@@ -33,7 +33,8 @@ class RequestContext extends ClientObject
     public function getWeb()
     {
         if (!$this->isPropertyAvailable("Web")) {
-            $this->setProperty("Web", new Web($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Web")));
+            $this->setProperty("Web", new Web($this->getContext(),
+                new ResourcePath("Web", $this->getResourcePath())));
         }
         return $this->getProperty("Web");
     }
@@ -43,7 +44,8 @@ class RequestContext extends ClientObject
     public function getCurrent()
     {
         if (!$this->isPropertyAvailable("Current")) {
-            $this->setProperty("Current", new RequestContext($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Current")));
+            $this->setProperty("Current", new RequestContext($this->getContext(),
+                new ResourcePath("Current", $this->getResourcePath())));
         }
         return $this->getProperty("Current");
     }
@@ -55,7 +57,8 @@ class RequestContext extends ClientObject
     public function getList()
     {
         if (!$this->isPropertyAvailable("List")) {
-            $this->setProperty("List", new SPList($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "List")));
+            $this->setProperty("List", new SPList($this->getContext(),
+                new ResourcePath("List", $this->getResourcePath())));
         }
         return $this->getProperty("List");
     }

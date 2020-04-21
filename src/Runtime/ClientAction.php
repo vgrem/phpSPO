@@ -1,9 +1,7 @@
 <?php
 
 namespace Office365\PHP\Client\Runtime;
-use Office365\PHP\Client\Runtime\OData\ODataFormat;
-use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+
 
 
 /**
@@ -12,26 +10,13 @@ use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
 class ClientAction
 {
 
-    /**
-     * @var ResourcePath
-     */
-    protected $resourcePath;
-
-
-    /**
-     * @var $queryOptions ODataQueryOptions
-     */
-    protected $queryOptions;
-
-
-    /**
-     * ClientAction constructor.
-     * @param ResourcePath $resourcePath
-     */
-    public function __construct(ResourcePath $resourcePath)
+    public function __construct($bindingType,$returnType)
     {
-        $this->resourcePath = $resourcePath;
+        $this->BindingType = $bindingType;
+        $this->ReturnType = $returnType;
     }
+
+
 
     /**
      * @return string
@@ -40,70 +25,15 @@ class ClientAction
         return spl_object_hash($this);
     }
 
+    /**
+     * @var ClientObject
+     */
+    public $BindingType;
 
     /**
-     * @return ResourcePath
+     * @var ClientObject
      */
-    public function getResourcePath(){
-        return $this->resourcePath;
-    }
-
-
-    /**
-     * @return ODataQueryOptions
-     */
-    public function getQueryOptions(){
-        return $this->queryOptions;
-    }
-
-
-    /**
-     * Build request from query
-     * @return RequestOptions
-     */
-    public function buildRequest(){
-        $path = $this->getResourcePath();
-        $resourceUrl = $this->getContext()->getServiceRootUrl() . $path->toUrl();
-        if (!is_null($this->getQueryOptions())) {
-            $resourceUrl .= '?' . $this->getQueryOptions()->toUrl();
-        }
-        $request = new RequestOptions($resourceUrl);
-
-        if($path instanceof ResourcePathServiceOperation){
-            if($path->getMethodParameters() instanceof IEntityType){
-                $request->Method = HttpMethod::Post;
-                $payload = $this->normalizePayload($path->getMethodParameters(),$this->getContext()->getFormat());
-                $request->Data = json_encode($payload);
-            }
-        }
-        return $request;
-    }
-
-    /**
-     * @return ClientRuntimeContext
-     */
-    protected function getContext(){
-        return $this->resourcePath->getContext();
-    }
-
-    /**
-     * @param IEntityType|array $value
-     * @param ODataFormat $format
-     * @return array
-     */
-    protected function normalizePayload($value,ODataFormat $format)
-    {
-        if ($value instanceof IEntityType) {
-            return array_map(function ($property) use($format){
-                return $this->normalizePayload($property,$format);
-            }, $value->toJson($format));
-        } else if (is_array($value)) {
-            return array_map(function ($item) use($format){
-                return $this->normalizePayload($item,$format);
-            }, $value);
-        }
-        return $value;
-    }
+    public $ReturnType;
 
 }
 

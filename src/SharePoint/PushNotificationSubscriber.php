@@ -6,9 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+use Office365\PHP\Client\Runtime\ResourcePath;
+
 /**
  * Specifies 
  * a push notification subscriber.<229>
@@ -123,7 +122,7 @@ class PushNotificationSubscriber extends ClientObject
     public function getUser()
     {
         if (!$this->isPropertyAvailable("User")) {
-            $this->setProperty("User", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "User")));
+            $this->setProperty("User", new User($this->getContext(), new ResourcePath("User", $this->getResourcePath())));
         }
         return $this->getProperty("User");
     }

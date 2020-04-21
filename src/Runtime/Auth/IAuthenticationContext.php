@@ -2,7 +2,7 @@
 
 namespace Office365\PHP\Client\Runtime\Auth;
 
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
 
 interface IAuthenticationContext
 {

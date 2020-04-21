@@ -2,20 +2,18 @@
 
 namespace Office365\PHP\Client\Runtime;
 
-use Office365\PHP\Client\Runtime\OData\JsonLightFormat;
-use Office365\PHP\Client\Runtime\OData\ODataFormat;
-use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
 use Office365\PHP\Client\Runtime\OData\ODataPathBuilder;
+use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
 
 /**
  * Represents OData base entity
  */
-class ClientObject implements IEntityType
+class ClientObject
 {
     /**
      * @var string
      */
-    protected $resourceType;
+    protected $typeName;
 
     /**
      * @var ClientRuntimeContext
@@ -36,24 +34,44 @@ class ClientObject implements IEntityType
     /**
      * @var array
      */
-    private $propertiesMetadata = array();
+    private $changes = array();
 
     /**
      * @var ClientObjectCollection
      */
     protected $parentCollection;
 
+    /**
+     * @var ODataQueryOptions
+     */
+    protected $queryOptions;
+
 
     /**
      * ClientObject constructor.
      * @param ClientRuntimeContext $ctx
      * @param ResourcePath|null $resourcePath
+     * @param ODataQueryOptions|null $queryOptions
      */
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null)
+    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null,ODataQueryOptions $queryOptions = null)
     {
         $this->context = $ctx;
         $this->resourcePath = $resourcePath;
         $this->properties = array();
+        $this->queryOptions = $queryOptions;
+        if (!isset($this->queryOptions))
+           $this->queryOptions = new ODataQueryOptions();
+        else
+            $this->queryOptions = $queryOptions;
+    }
+
+
+    /**
+     * @return ODataQueryOptions
+     */
+    public function getQueryOptions()
+    {
+        return $this->queryOptions;
     }
 
 
@@ -109,17 +127,47 @@ class ClientObject implements IEntityType
      */
     public function setResourceUrl($value)
     {
-        $this->resourcePath = ODataPathBuilder::fromUrl($this->getContext(), $value);
+        $this->resourcePath = ODataPathBuilder::fromUrl($value);
     }
 
     /**
      * Resolve the resource path
+     * @param bool $includeQueryOptions
      * @return string
      */
-    public function getResourceUrl()
+    public function getResourceUrl($includeQueryOptions=true)
     {
-        return $this->getContext()->getServiceRootUrl() . $this->getResourcePath()->toUrl();
+        $url = $this->getContext()->getServiceRootUrl() . $this->getResourcePath()->toUrl();
+        if ($includeQueryOptions && !$this->getQueryOptions()->isEmpty()) {
+            $url .= '?' . $this->getQueryOptions()->toUrl();
+        }
+        return $url;
     }
+
+
+    /**
+     * Directs that related records should be retrieved in the record or collection being retrieved.
+     * @param $value
+     * @return ClientObject $this
+     */
+    public function expand($value)
+    {
+        $this->queryOptions->Expand = $value;
+        return $this;
+    }
+
+
+    /**
+     * Specifies a subset of properties to return.
+     * @param $value
+     * @return ClientObject $this
+     */
+    public function select($value)
+    {
+        $this->queryOptions->Select = $value;
+        return $this;
+    }
+
 
     /**
      * Gets entity type name for a resource
@@ -127,30 +175,19 @@ class ClientObject implements IEntityType
      */
     public function getTypeName()
     {
-        if (isset($this->resourceType)) {
-            return $this->resourceType;
+        if (isset($this->typeName)) {
+            return $this->typeName;
         }
         $classInfo = explode("\\", get_class($this));
         return end($classInfo);
     }
 
     /**
-     *
-     * @param ODataFormat $format
      * @return array
      */
-    function toJson(ODataFormat $format)
+    function toJson()
     {
-        $payload = array();
-        foreach( $this->properties as $key=>$value ) {
-            $metadata = $this->propertiesMetadata[$key];
-            if(($metadata !== null && $metadata["Serializable"] === true))
-                $payload[$key] = $value;
-        }
-        if ($format instanceof JsonLightFormat && $format->MetadataLevel == ODataMetadataLevel::Verbose) {
-            $format->ensureMetadataProperty($this, $payload);
-        }
-        return $payload;
+        return $this->changes;
     }
 
 
@@ -188,11 +225,13 @@ class ClientObject implements IEntityType
      * A preferred way of setting the client object property
      * @param string $name
      * @param mixed $value
-     * @param bool $serializable
+     * @param bool $persistChanges
      */
-    public function setProperty($name, $value, $serializable = true)
+    public function setProperty($name, $value, $persistChanges = true)
     {
-        $this->propertiesMetadata[$name] = array("Serializable" => $serializable);
+        if($persistChanges)
+            $this->changes[$name] = $value;
+
         //save property
         $this->{$name} = $value;
 
@@ -241,5 +280,22 @@ class ClientObject implements IEntityType
     }
 
 
+    public function mapJson($json){
+        foreach ($json as $key => $value) {
+            if(is_array($value)){
+                $getterName = "get$key";
+                if(method_exists($this,$getterName))
+                    $propertyType = $this->{$getterName}();
+                else
+                    $propertyType = $this->getProperty($key);
+                if($propertyType instanceof ClientObject || $propertyType instanceof ClientValueObject)
+                    $propertyType->mapJson($value);
+                else
+                    $this->setProperty($key,$value,false);
+            }
+            else
+                $this->setProperty($key,$value,false);
+        }
+    }
 
 }

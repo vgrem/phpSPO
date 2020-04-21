@@ -49,7 +49,6 @@ class OutlookMailTest extends OutlookServicesTestCase
         $attachment->IsInline = false;
         $attachment->Name = $existingMessage->Subject;
         $attachment->Item = $this->getLink($existingMessage);
-        $attachment->IncludeTypeAnnotation = true;
         self::$context->executeQuery();
         self::assertTrue(true);
     }
@@ -70,8 +69,6 @@ class OutlookMailTest extends OutlookServicesTestCase
         $attachment = $message->addAttachment(FileAttachment::getType());
         $attachment->ContentBytes = "bWFjIGFuZCBjaGVlc2UgdG9kYXk="; //file_get_contents($attachmentPath);
         $attachment->Name = basename($attachmentPath);
-        //$attachment->ensureTypeAnnotation($attachment->getTypeName());
-        $attachment->IncludeTypeAnnotation = true;
         self::$context->executeQuery();
         self::assertTrue(true);
     }
@@ -83,7 +80,6 @@ class OutlookMailTest extends OutlookServicesTestCase
         //$entity->addTypeAnnotation("type","#Microsoft.Outlook.Message");
         //$type = $entity->getTypeName();
         //$entity->ensureTypeAnnotation("Message");
-        $entity->IncludeTypeAnnotation = true;
         return $entity;
     }
 
@@ -102,9 +98,6 @@ class OutlookMailTest extends OutlookServicesTestCase
         self::$context->executeQuery();
         self::assertTrue($message->getProperty("IsRead"));
     }
-
-
-
 
 
     /**

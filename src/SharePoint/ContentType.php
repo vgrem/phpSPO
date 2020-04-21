@@ -7,7 +7,7 @@ namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 /**
  * Specifies 
  * a content 
@@ -25,7 +25,7 @@ class ContentType extends ClientObject
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
     }
-    function setProperty($name, $value, $serializable = true)
+    function setProperty($name, $value, $persistChanges = true)
     {
         if ($name == "StringId") {
             $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . "('{$value}')");
@@ -33,7 +33,7 @@ class ContentType extends ClientObject
         } elseif ($name == "Id") {
             $this->{$name} = $value['StringValue'];
         } else {
-            parent::setProperty($name, $value, $serializable);
+            parent::setProperty($name, $value, $persistChanges);
         }
     }
     /**
@@ -600,7 +600,7 @@ class ContentType extends ClientObject
     public function getFields()
     {
         if (!$this->isPropertyAvailable("Fields")) {
-            $this->setProperty("Fields", new FieldCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Fields")));
+            $this->setProperty("Fields", new FieldCollection($this->getContext(), new ResourcePath("Fields", $this->getResourcePath())));
         }
         return $this->getProperty("Fields");
     }
@@ -613,7 +613,7 @@ class ContentType extends ClientObject
     public function getParent()
     {
         if (!$this->isPropertyAvailable("Parent")) {
-            $this->setProperty("Parent", new ContentType($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Parent")));
+            $this->setProperty("Parent", new ContentType($this->getContext(), new ResourcePath("Parent", $this->getResourcePath())));
         }
         return $this->getProperty("Parent");
     }
@@ -623,7 +623,7 @@ class ContentType extends ClientObject
     public function getDescriptionResource()
     {
         if (!$this->isPropertyAvailable("DescriptionResource")) {
-            $this->setProperty("DescriptionResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "DescriptionResource")));
+            $this->setProperty("DescriptionResource", new UserResource($this->getContext(), new ResourcePath("DescriptionResource", $this->getResourcePath())));
         }
         return $this->getProperty("DescriptionResource");
     }
@@ -633,7 +633,8 @@ class ContentType extends ClientObject
     public function getNameResource()
     {
         if (!$this->isPropertyAvailable("NameResource")) {
-            $this->setProperty("NameResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "NameResource")));
+            $this->setProperty("NameResource",
+                new UserResource($this->getContext(), new ResourcePath("NameResource", $this->getResourcePath())));
         }
         return $this->getProperty("NameResource");
     }

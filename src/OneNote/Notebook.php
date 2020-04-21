@@ -5,7 +5,7 @@ namespace Office365\PHP\Client\OneNote;
 
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 class Notebook extends ClientObject
 {
@@ -16,16 +16,10 @@ class Notebook extends ClientObject
     public function getUserRole()
     {
         if (!$this->isPropertyAvailable("UserRole")) {
-            $this->setProperty("UserRole",
-                new UserRole($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "UserRole"
-                )));
+            return null;
         }
         return $this->getProperty("UserRole");
     }
-
 
 
     /**
@@ -35,11 +29,8 @@ class Notebook extends ClientObject
     {
         if (!$this->isPropertyAvailable("NotebookLinks")) {
             $this->setProperty("NotebookLinks",
-                new NotebookLinks($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "NotebookLinks"
-                )));
+                new NotebookLinks($this->getContext(), new ResourcePath(
+                    "NotebookLinks",$this->getResourcePath())));
         }
         return $this->getProperty("NotebookLinks");
     }

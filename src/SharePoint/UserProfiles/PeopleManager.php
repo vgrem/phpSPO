@@ -10,14 +10,14 @@ use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\ClientObject;
 use Office365\PHP\Client\Runtime\ClientResult;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
 
 class PeopleManager extends ClientObject
 {
     public function __construct(ClientRuntimeContext $ctx)
     {
-        parent::__construct($ctx, new ResourcePathEntity($ctx, null, "sp.UserProfiles.peoplemanager"));
+        parent::__construct($ctx, new ResourcePath("SP.UserProfiles.PeopleManager"));
     }
     /**
      * Checks whether the specified user is following the current user.
@@ -27,8 +27,8 @@ class PeopleManager extends ClientObject
     public function amIFollowedBy($accountName)
     {
         $result = new ClientResult();
-        $qry = new InvokeMethodQuery($this->getResourcePath(), "AmIFollowedBy", array(rawurlencode($accountName)));
-        $this->getContext()->addQuery($qry, $result);
+        $qry = new InvokeMethodQuery($this, "AmIFollowedBy", array(rawurlencode($accountName)));
+        $this->getContext()->addQueryAndResultObject($qry, $result);
         return $result;
     }
     /**
@@ -37,7 +37,8 @@ class PeopleManager extends ClientObject
      */
     public function getMyProperties()
     {
-        return new PersonProperties($this->getContext(), new ResourcePathServiceOperation($this->getContext(), $this->getResourcePath(), "getmyproperties"));
+        return new PersonProperties($this->getContext(),
+            new ResourcePathServiceOperation("getMyProperties",null,$this->getResourcePath()));
     }
     /**
      * Gets the people who are following the current user.
@@ -45,7 +46,8 @@ class PeopleManager extends ClientObject
      */
     public function getMyFollowers()
     {
-        return new PersonProperties($this->getContext(), new ResourcePathServiceOperation($this->getContext(), $this->getResourcePath(), "getmyfollowers"));
+        return new PersonProperties($this->getContext(),
+            new ResourcePathServiceOperation("getMyFollowers",null,$this->getResourcePath()));
     }
     /**
      * Adds the specified user to the current user's list of followed users.
@@ -53,7 +55,7 @@ class PeopleManager extends ClientObject
      */
     public function follow($accountName)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "follow", array(rawurlencode($accountName)));
+        $qry = new InvokePostMethodQuery($this, "follow", array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -64,8 +66,8 @@ class PeopleManager extends ClientObject
     public function stopFollowing($accountName)
     {
         $result = new ClientResult();
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "StopFollowing", array(rawurlencode($accountName)));
-        $this->getContext()->addQuery($qry, $result);
+        $qry = new InvokePostMethodQuery($this, "StopFollowing", array(rawurlencode($accountName)));
+        $this->getContext()->addQueryAndResultObject($qry, $result);
         return $result;
     }
     /**
@@ -76,8 +78,8 @@ class PeopleManager extends ClientObject
     public function amIFollowing($accountName)
     {
         $result = new ClientResult();
-        $qry = new InvokeMethodQuery($this->getResourcePath(), "AmIFollowing", array(rawurlencode($accountName)));
-        $this->getContext()->addQuery($qry, $result);
+        $qry = new InvokeMethodQuery($this, "AmIFollowing", array(rawurlencode($accountName)));
+        $this->getContext()->addQueryAndResultObject($qry, $result);
         return $result;
     }
     /**
@@ -87,7 +89,8 @@ class PeopleManager extends ClientObject
      */
     public function getFollowersFor($accountName)
     {
-        return new PersonPropertiesCollection($this->getContext(), new ResourcePathServiceOperation($this->getContext(), $this->getResourcePath(), "getfollowersfor", array(rawurlencode($accountName))));
+        return new PersonPropertiesCollection($this->getContext(),
+            new ResourcePathServiceOperation("getFollowersFor", array(rawurlencode($accountName)),$this->getResourcePath()));
     }
     /**
      * Gets the specified user profile property for the specified user.
@@ -98,8 +101,8 @@ class PeopleManager extends ClientObject
     public function getUserProfilePropertyFor($accountName, $propertyName)
     {
         $clientResult = new ClientResult();
-        $qry = new InvokeMethodQuery($this->getResourcePath(), "GetUserProfilePropertyFor", array("accountname" => rawurlencode($accountName), "propertyname" => $propertyName));
-        $this->getContext()->addQuery($qry, $clientResult);
+        $qry = new InvokeMethodQuery($this, "GetUserProfilePropertyFor", array("accountname" => rawurlencode($accountName), "propertyname" => $propertyName));
+        $this->getContext()->addQueryAndResultObject($qry, $clientResult);
         return $clientResult;
     }
 

@@ -7,8 +7,7 @@ namespace Office365\PHP\Client\SharePoint\Portal;
 use Office365\PHP\Client\Runtime\ClientValueObject;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 use Office365\PHP\Client\SharePoint\ClientContext;
 
 
@@ -17,9 +16,7 @@ class GroupSiteManager extends ClientObject
 
     public function __construct(ClientContext $ctx)
     {
-        $ctx->getFormat()->MetadataLevel = ODataMetadataLevel::NoMetadata;
-        parent::__construct($ctx,new ResourcePathEntity($ctx,null,"GroupSiteManager"));
-
+        parent::__construct($ctx,new ResourcePath("GroupSiteManager"));
     }
 
     /**
@@ -27,10 +24,9 @@ class GroupSiteManager extends ClientObject
      * @param string $alias
      * @param boolean $isPublic
      * @param string $description
-     * @param null $additionalOwners
      * @return GroupSiteInfo
      */
-    public function createGroupEx($displayName,$alias,$isPublic,$description="",$additionalOwners=null) {
+    public function createGroupEx($displayName,$alias,$isPublic,$description="") {
         $payload = new ClientValueObject();
         $payload->setProperty("displayName",$displayName);
         $payload->setProperty("alias",$alias);
@@ -42,11 +38,9 @@ class GroupSiteManager extends ClientObject
         //
         //}
         $info = new GroupSiteInfo();
-        $qry = new InvokePostMethodQuery($this->getResourcePath(),"CreateGroupEx",null,$payload);
-        $this->getContext()->addQuery($qry,$info);
+        $qry = new InvokePostMethodQuery($this,"CreateGroupEx",null,null,$payload);
+        $this->getContext()->addQueryAndResultObject($qry,$info);
         return $info;
     }
-
-
 
 }

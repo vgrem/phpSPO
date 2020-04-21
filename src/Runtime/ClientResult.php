@@ -15,25 +15,17 @@ class ClientResult
     }
 
     /**
-     * @return null|string
+     * @param array $json
      */
-    public function getType(){
-        if(!is_null($this->value))
-        {
-            if($this->value instanceof IEntityType)
-                return $this->value->getTypeName();
-            return basename(get_class($this->value));
-        }
-        return null;
+    public function mapJson($json){
+        if($this->value instanceof ClientObject || $this->value instanceof ClientValueObject)
+            $this->value->mapJson($json);
+        else
+            $this->value = $json;
     }
-
 
     public function getValue(){
         return $this->value;
-    }
-
-    public function setValue($value){
-        $this->value = $value;
     }
 
     /**

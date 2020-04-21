@@ -7,7 +7,7 @@ $settings = include('../../Settings.php');
 require_once '../vendor/autoload.php';
 
 
-$ctx = ClientContext::connectWithClientCredentials($settings['Url'],$Settings['ClientId'], $Settings['ClientSecret']);
+$ctx = ClientContext::connectWithClientCredentials($settings['Url'],$settings['ClientId'], $settings['ClientSecret']);
 $sourceLibraryTitle = "Documents";
 $sourceList = $ctx->getWeb()->getLists()->getByTitle($sourceLibraryTitle);
 $files = $sourceList->getRootFolder()->getFiles();

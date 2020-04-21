@@ -7,7 +7,7 @@ namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 /**
  * Represents 
  * a collection of sites (2) in a Web 
@@ -28,8 +28,8 @@ class Site extends ClientObject
     public function openWebById($webId)
     {
         $web = new Web($this->getContext(), $this->getResourcePath());
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "openWebById", array($webId));
-        $this->getContext()->addQuery($qry, $web);
+        $qry = new InvokePostMethodQuery($this, "openWebById", array($webId));
+        $this->getContext()->addQueryAndResultObject($qry, $web);
         return $web;
     }
     /**
@@ -38,7 +38,8 @@ class Site extends ClientObject
     public function getRootWeb()
     {
         if (!$this->isPropertyAvailable("RootWeb")) {
-            $this->setProperty("RootWeb", new Web($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "RootWeb")));
+            $this->setProperty("RootWeb", new Web($this->getContext(),
+                new ResourcePath("RootWeb", $this->getResourcePath())));
         }
         return $this->getProperty("RootWeb");
     }
@@ -48,7 +49,8 @@ class Site extends ClientObject
     public function getUserCustomActions()
     {
         if (!$this->isPropertyAvailable("UserCustomActions")) {
-            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "UserCustomActions")));
+            $this->setProperty("UserCustomActions",
+                new UserCustomActionCollection($this->getContext(), new ResourcePath("UserCustomActions", $this->getResourcePath())));
         }
         return $this->getProperty("UserCustomActions");
     }
@@ -1374,7 +1376,8 @@ class Site extends ClientObject
     public function getHubSiteSynchronizableVisitorGroup()
     {
         if (!$this->isPropertyAvailable("HubSiteSynchronizableVisitorGroup")) {
-            $this->setProperty("HubSiteSynchronizableVisitorGroup", new Group($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "HubSiteSynchronizableVisitorGroup")));
+            $this->setProperty("HubSiteSynchronizableVisitorGroup", new Group($this->getContext(),
+                new ResourcePath("HubSiteSynchronizableVisitorGroup", $this->getResourcePath())));
         }
         return $this->getProperty("HubSiteSynchronizableVisitorGroup");
     }
@@ -1386,7 +1389,8 @@ class Site extends ClientObject
     public function getOwner()
     {
         if (!$this->isPropertyAvailable("Owner")) {
-            $this->setProperty("Owner", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Owner")));
+            $this->setProperty("Owner", new User($this->getContext(),
+                new ResourcePath("Owner", $this->getResourcePath())));
         }
         return $this->getProperty("Owner");
     }
@@ -1401,7 +1405,8 @@ class Site extends ClientObject
     public function getSecondaryContact()
     {
         if (!$this->isPropertyAvailable("SecondaryContact")) {
-            $this->setProperty("SecondaryContact", new User($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "SecondaryContact")));
+            $this->setProperty("SecondaryContact", new User($this->getContext(),
+                new ResourcePath("SecondaryContact", $this->getResourcePath())));
         }
         return $this->getProperty("SecondaryContact");
     }
@@ -1415,7 +1420,8 @@ class Site extends ClientObject
     public function getAudit()
     {
         if (!$this->isPropertyAvailable("Audit")) {
-            $this->setProperty("Audit", new Audit($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "Audit")));
+            $this->setProperty("Audit", new Audit($this->getContext(),
+                new ResourcePath("Audit", $this->getResourcePath())));
         }
         return $this->getProperty("Audit");
     }
@@ -1428,7 +1434,8 @@ class Site extends ClientObject
     public function getRecycleBin()
     {
         if (!$this->isPropertyAvailable("RecycleBin")) {
-            $this->setProperty("RecycleBin", new RecycleBinItemCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "RecycleBin")));
+            $this->setProperty("RecycleBin", new RecycleBinItemCollection($this->getContext(),
+                new ResourcePath("RecycleBin", $this->getResourcePath())));
         }
         return $this->getProperty("RecycleBin");
     }

@@ -6,9 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+use Office365\PHP\Client\Runtime\ResourcePath;
+
 /**
  * Contains 
  * properties generated as a result of sharing.
@@ -123,7 +122,8 @@ class SharingResult extends ClientObject
     public function getGroupsSharedWith()
     {
         if (!$this->isPropertyAvailable("GroupsSharedWith")) {
-            $this->setProperty("GroupsSharedWith", new GroupCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "GroupsSharedWith")));
+            $this->setProperty("GroupsSharedWith", new GroupCollection($this->getContext(),
+                new ResourcePath("GroupsSharedWith", $this->getResourcePath())));
         }
         return $this->getProperty("GroupsSharedWith");
     }
@@ -133,7 +133,8 @@ class SharingResult extends ClientObject
     public function getGroupUsersAddedTo()
     {
         if (!$this->isPropertyAvailable("GroupUsersAddedTo")) {
-            $this->setProperty("GroupUsersAddedTo", new Group($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "GroupUsersAddedTo")));
+            $this->setProperty("GroupUsersAddedTo", new Group($this->getContext(),
+                new ResourcePath("GroupUsersAddedTo", $this->getResourcePath())));
         }
         return $this->getProperty("GroupUsersAddedTo");
     }
@@ -143,7 +144,8 @@ class SharingResult extends ClientObject
     public function getUsersWithAccessRequests()
     {
         if (!$this->isPropertyAvailable("UsersWithAccessRequests")) {
-            $this->setProperty("UsersWithAccessRequests", new UserCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "UsersWithAccessRequests")));
+            $this->setProperty("UsersWithAccessRequests", new UserCollection($this->getContext(),
+                new ResourcePath("UsersWithAccessRequests", $this->getResourcePath())));
         }
         return $this->getProperty("UsersWithAccessRequests");
     }

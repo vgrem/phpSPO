@@ -6,9 +6,8 @@
 namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+use Office365\PHP\Client\Runtime\ResourcePath;
+
 /**
  * Microsoft.SharePoint.Client.VisualizationAppSynchronizationResult 
  * is not applicable.<283>
@@ -55,7 +54,8 @@ class VisualizationAppSynchronizationResult extends ClientObject
     public function getAppMappedViews()
     {
         if (!$this->isPropertyAvailable("AppMappedViews")) {
-            $this->setProperty("AppMappedViews", new ViewCollection($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "AppMappedViews")));
+            $this->setProperty("AppMappedViews", new ViewCollection($this->getContext(),
+                new ResourcePath("AppMappedViews", $this->getResourcePath())));
         }
         return $this->getProperty("AppMappedViews");
     }

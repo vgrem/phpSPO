@@ -1,8 +1,6 @@
 <?php
-namespace Office365\PHP\Client\Runtime\Utilities;
+namespace Office365\PHP\Client\Runtime\Http;
 
-use Office365\PHP\Client\Exception\UnavailableServerException;
-use Office365\PHP\Client\Runtime\HttpMethod;
 
 class Requests
 {
@@ -15,35 +13,29 @@ class Requests
 
     /**
      * @param RequestOptions $options
-     * @param array $responseInfo
-     * @return bool|string
-     * @throws UnavailableServerException
+     * @param array $headers
+     * @return Response
+     * @throws RequestException
      */
-	public static function execute(RequestOptions $options, &$responseInfo = array())
+	public static function execute(RequestOptions $options, &$headers = array())
 	{
-        $call = [];
-        $call['request'] = $options->toArray();
-
 		$ch = Requests::init($options);
         $response = curl_exec($ch);
-        $responseInfo["HttpCode"] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $responseInfo["ContentType"] = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-
-        $call['response'] = $response;
-
+        $headers["HttpCode"] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $headers["ContentType"] = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         if ($response === false) {
-            throw new UnavailableServerException(curl_error($ch), curl_errno($ch));
+            throw new RequestException(curl_error($ch), curl_errno($ch));
         }
         curl_close($ch);
-		return $response;
+		return new Response($response,$headers);
 	}
 
 
     /**
      * @param string $url
      * @param array $headers
-     * @return bool|string
-     * @throws UnavailableServerException
+     * @return Response
+     * @throws RequestException
      */
     public static function get($url,$headers)
     {
@@ -52,6 +44,13 @@ class Requests
         return Requests::execute($options);
     }
 
+    /**
+     * @param $url
+     * @param $headers
+     * @param bool $includeBody
+     * @return Response
+     * @throws RequestException
+     */
     public static function head($url,$headers,$includeBody = false)
     {
         $options = new RequestOptions($url);
@@ -61,6 +60,15 @@ class Requests
         return Requests::execute($options);
     }
 
+
+    /**
+     * @param $url
+     * @param $headers
+     * @param $data
+     * @param bool $includeHeaders
+     * @return Response
+     * @throws RequestException
+     */
     public static function post($url, $headers, $data, $includeHeaders = false)
     {
         $options = new RequestOptions($url);

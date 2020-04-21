@@ -20,7 +20,7 @@ class ListCollection extends ClientObjectCollection
     {
         return new SPList(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getByTitle",array(rawurlencode($title)))
+            new ResourcePathServiceOperation("getByTitle",array(rawurlencode($title)),$this->getResourcePath())
         );
     }
 
@@ -33,7 +33,7 @@ class ListCollection extends ClientObjectCollection
     {
         return new SPList(
             $this->getContext(),
-            new ResourcePathServiceOperation($this->getContext(),$this->getResourcePath(),"getById",array($id))
+            new ResourcePathServiceOperation("getById",array($id),$this->getResourcePath())
         );
     }
 
@@ -46,8 +46,8 @@ class ListCollection extends ClientObjectCollection
     public function add(ListCreationInformation $properties)
     {
         $list = new SPList($this->getContext());
-        $qry = new InvokePostMethodQuery($this->getResourcePath(),null,null,$properties);
-        $this->getContext()->addQuery($qry,$list);
+        $qry = new InvokePostMethodQuery($this,null,null,null,$properties);
+        $this->getContext()->addQueryAndResultObject($qry,$list);
         $this->addChild($list);
         return $list;
     }

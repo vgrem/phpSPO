@@ -1,6 +1,6 @@
 <?php
 
-use Office365\PHP\Client\Runtime\Utilities\RequestOptions;
+use Office365\PHP\Client\Runtime\Http\RequestOptions;
 use Office365\PHP\Client\SharePoint\ClientContext;
 
 

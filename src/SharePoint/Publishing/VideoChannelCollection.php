@@ -21,7 +21,7 @@ class VideoChannelCollection extends ClientObjectCollection
         $channel->setProperty("Title",$title);
         $channel->setProperty("TileHtmlColor","#0072c6");
         $qry = new CreateEntityQuery($channel);
-        $this->getContext()->addQuery($qry, $channel);
+        $this->getContext()->addQueryAndResultObject($qry, $channel);
         return $channel;
     }
 

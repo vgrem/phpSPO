@@ -7,7 +7,7 @@ namespace Office365\PHP\Client\SharePoint;
 
 use Office365\PHP\Client\Runtime\DeleteEntityQuery;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 use Office365\PHP\Client\Runtime\UpdateEntityQuery;
 use Office365\PHP\Client\Runtime\ClientObject;
 /**
@@ -23,7 +23,7 @@ class Field extends ClientObject
     public function update()
     {
         $qry = new UpdateEntityQuery($this);
-        $this->getContext()->addQuery($qry, $this);
+        $this->getContext()->addQueryAndResultObject($qry, $this);
     }
     public function deleteObject()
     {
@@ -36,7 +36,7 @@ class Field extends ClientObject
      */
     public function setShowInDisplayForm($value)
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "setShowInDisplayForm", array($value));
+        $qry = new InvokePostMethodQuery($this, "setShowInDisplayForm", array($value));
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -1009,7 +1009,8 @@ class Field extends ClientObject
     public function getDescriptionResource()
     {
         if (!$this->isPropertyAvailable("DescriptionResource")) {
-            $this->setProperty("DescriptionResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "DescriptionResource")));
+            $this->setProperty("DescriptionResource", new UserResource($this->getContext(),
+                new ResourcePath("DescriptionResource", $this->getResourcePath())));
         }
         return $this->getProperty("DescriptionResource");
     }
@@ -1019,7 +1020,8 @@ class Field extends ClientObject
     public function getTitleResource()
     {
         if (!$this->isPropertyAvailable("TitleResource")) {
-            $this->setProperty("TitleResource", new UserResource($this->getContext(), new ResourcePathEntity($this->getContext(), $this->getResourcePath(), "TitleResource")));
+            $this->setProperty("TitleResource", new UserResource($this->getContext(),
+                new ResourcePath("TitleResource", $this->getResourcePath())));
         }
         return $this->getProperty("TitleResource");
     }

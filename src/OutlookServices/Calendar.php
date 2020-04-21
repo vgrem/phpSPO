@@ -3,7 +3,7 @@
 namespace Office365\PHP\Client\OutlookServices;
 use DateTime;
 use Office365\PHP\Client\Runtime\ReadEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 
 /**
@@ -23,10 +23,10 @@ class Calendar extends OutlookEntity
             . "&endDateTime=" . rawurlencode($endDateTime->format(DateTime::W3C));
         $events = new EventCollection(
             $this->getContext(),
-            new ResourcePathEntity($this->getContext(),$this->getResourcePath(),$url)
+            new ResourcePath($url,$this->getResourcePath())
         );
         $qry = new ReadEntityQuery($events);
-        $this->getContext()->addQuery($qry,$events);
+        $this->getContext()->addQueryAndResultObject($qry,$events);
         return $events;
     }
 

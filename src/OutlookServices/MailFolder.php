@@ -4,7 +4,7 @@
 namespace Office365\PHP\Client\OutlookServices;
 
 
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 class MailFolder extends OutlookEntity
 {
@@ -21,11 +21,8 @@ class MailFolder extends OutlookEntity
     {
         if (!$this->isPropertyAvailable("Messages")) {
             $this->setProperty("Messages",
-                new MessageCollection($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "Messages"
-                )));
+                new MessageCollection($this->getContext(),
+                    new ResourcePath("Messages",$this->getResourcePath())));
         }
         return $this->getProperty("Messages");
     }
@@ -37,10 +34,9 @@ class MailFolder extends OutlookEntity
     {
         if (!$this->isPropertyAvailable("ChildFolders")) {
             $this->setProperty("ChildFolders",
-                new FolderCollection($this->getContext(), new ResourcePathEntity(
-                    $this->getContext(),
-                    $this->getResourcePath(),
-                    "ChildFolders"
+                new FolderCollection($this->getContext(), new ResourcePath(
+                    "ChildFolders",
+                    $this->getResourcePath()
                 )));
         }
 

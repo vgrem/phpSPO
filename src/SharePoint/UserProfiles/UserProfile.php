@@ -8,20 +8,20 @@ namespace Office365\PHP\Client\SharePoint\UserProfiles;
 use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
 use Office365\PHP\Client\Runtime\ClientRuntimeContext;
 use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePathEntity;
+use Office365\PHP\Client\Runtime\ResourcePath;
 
 class UserProfile extends ClientObject
 {
     public function __construct(ClientRuntimeContext $ctx)
     {
-        parent::__construct($ctx, new ResourcePathEntity($ctx, null, "sp.UserProfiles.profileloader.getprofileloader/getuserprofile"));
+        parent::__construct($ctx, new ResourcePath("SP.UserProfiles.ProfileLoader.getProfileLoader/getUserProfile"));
     }
     /**
      * Enqueues creating a personal site for this user, which can be used to share documents, web pages, and other files.
      */
     public function createPersonalSiteEnque()
     {
-        $qry = new InvokePostMethodQuery($this->getResourcePath(), "createpersonalsiteenque", array(false));
+        $qry = new InvokePostMethodQuery($this, "createPersonalSiteEnque", array(false));
         $this->getContext()->addQuery($qry);
     }
     /**
