@@ -85,9 +85,8 @@ class VideoServiceTest extends SharePointTestCase
      */
     public function testUploadVideo(VideoItem $videoItem)
     {
-        $parentPath = basename(getcwd()) === "tests" ? "../" : "./";
-        $filePath = "${parentPath}examples/data/big_buck_bunny.mp4";
-        $videoContent = file_get_contents($filePath);
+        $localPath = __DIR__ . "/../examples/data/big_buck_bunny.mp4";
+        $videoContent = file_get_contents($localPath);
         $videoItem->saveBinaryStream($videoContent);
         self::assertTrue(true);
     }

@@ -50,7 +50,6 @@ class VideoItem extends ClientObject
                 $parentPath = $this->parentCollection->getResourcePath();
                 $this->resourcePath = new ResourcePath($parentPath->getSegment() . "(guid'{$value}')", $parentPath->getParent());
             }
-            $this->{$name} = $value;
         }
         parent::setProperty($name, $value, $persistChanges);
     }

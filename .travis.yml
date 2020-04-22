@@ -37,7 +37,7 @@ before_script:
 
 # omitting "script:" will default to phpunit
 script:
-  - phpunit --configuration phpunit_o365.xml --coverage-text
+  - phpunit --configuration phpunit_phpspo.xml --coverage-text
 notifications:
   email: never
 
