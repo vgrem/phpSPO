@@ -3,9 +3,9 @@
 /**
  * Updated By PHP Office365 Generator 2020-01-12T21:42:50+00:00 16.0.19527.12070
  */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValueObject;
 class TranslationStatus extends ClientValueObject
 {
     /**

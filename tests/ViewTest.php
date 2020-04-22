@@ -1,8 +1,8 @@
 <?php
 
-use Office365\PHP\Client\SharePoint\ListTemplateType;
-use Office365\PHP\Client\SharePoint\SPList;
-use Office365\PHP\Client\SharePoint\ViewCreationInformation;
+use Office365\SharePoint\ListTemplateType;
+use Office365\SharePoint\SPList;
+use Office365\SharePoint\ViewCreationInformation;
 
 class ViewTest extends SharePointTestCase
 {

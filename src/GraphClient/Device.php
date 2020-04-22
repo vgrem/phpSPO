@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\GraphClient;
+namespace Office365\GraphClient;
 
 
 class Device extends DirectoryObject

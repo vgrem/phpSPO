@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint\Publishing;
+namespace Office365\SharePoint\Publishing;
 
 
-use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\Runtime\ClientObjectCollection;
 
 class SpotlightVideoCollection extends ClientObjectCollection
 {

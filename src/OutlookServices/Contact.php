@@ -1,6 +1,6 @@
 <?php
 
-namespace Office365\PHP\Client\OutlookServices;
+namespace Office365\OutlookServices;
 
 
 /**

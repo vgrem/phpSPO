@@ -1,21 +1,21 @@
 <?php
 
-namespace Office365\PHP\Client\OutlookServices;
+namespace Office365\OutlookServices;
 
 
-use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
-use Office365\PHP\Client\Runtime\Auth\OAuthTokenProvider;
-use Office365\PHP\Client\Runtime\ClientAction;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\OData\ODataRequest;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
-use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\Http\HttpMethod;
-use Office365\PHP\Client\Runtime\Office365Version;
-use Office365\PHP\Client\Runtime\ResourcePath;
-use Office365\PHP\Client\Runtime\OData\JsonFormat;
-use Office365\PHP\Client\Runtime\OData\ODataMetadataLevel;
-use Office365\PHP\Client\Runtime\Http\RequestOptions;
+use Office365\Runtime\Auth\AuthenticationContext;
+use Office365\Runtime\Auth\OAuthTokenProvider;
+use Office365\Runtime\ClientAction;
+use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\OData\ODataRequest;
+use Office365\Runtime\UpdateEntityQuery;
+use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\Http\HttpMethod;
+use Office365\Runtime\Office365Version;
+use Office365\Runtime\ResourcePath;
+use Office365\Runtime\OData\JsonFormat;
+use Office365\Runtime\OData\ODataMetadataLevel;
+use Office365\Runtime\Http\RequestOptions;
 
 /**
  * Outlook Services OData client

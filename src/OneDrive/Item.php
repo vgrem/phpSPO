@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Office365\PHP\Client\OneDrive;
+namespace Office365\OneDrive;
 
 
-use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\Runtime\ClientObject;
 
 class Item extends ClientObject
 {
@@ -23,7 +23,7 @@ class Item extends ClientObject
      * @param string $value
      */
     public function setWebUrl($value){
-        return $this->setProperty("webUrl",$value);
+        $this->setProperty("webUrl",$value);
     }
 
 
@@ -42,7 +42,7 @@ class Item extends ClientObject
      * @param ItemCollection $value
      */
     public function setChildren($value){
-        return $this->setProperty("children",$value);
+        $this->setProperty("children",$value);
     }
 
 

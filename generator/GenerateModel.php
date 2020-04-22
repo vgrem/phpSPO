@@ -3,10 +3,9 @@
 require_once(__DIR__ . '/vendor/autoload.php');
 $Settings = include('../Settings.php');
 
-use Office365\PHP\Client\Runtime\OData\MetadataResolver;
-use Office365\PHP\Client\Runtime\OData\ODataModel;
-use Office365\PHP\Client\Runtime\OData\ODataV3Reader;
-use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\Runtime\OData\ODataModel;
+use Office365\Runtime\OData\ODataV3Reader;
+use Office365\SharePoint\ClientContext;
 
 
 /**

@@ -1,9 +1,9 @@
 <?php
 
-namespace Office365\PHP\Client\SharePoint;
-use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
-use Office365\PHP\Client\Runtime\ClientObjectCollection;
-use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
+namespace Office365\SharePoint;
+use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\ClientObjectCollection;
+use Office365\Runtime\ResourcePathServiceOperation;
 
 
 /**

@@ -2,14 +2,14 @@
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-use Office365\PHP\Client\SharePoint\ClientContext;
-use Office365\PHP\Client\SharePoint\File;
-use Office365\PHP\Client\SharePoint\ListCreationInformation;
-use Office365\PHP\Client\SharePoint\ListItem;
-use Office365\PHP\Client\SharePoint\SPList;
-use Office365\PHP\Client\SharePoint\TemplateFileType;
-use Office365\PHP\Client\SharePoint\Web;
-use Office365\PHP\Client\SharePoint\WebCreationInformation;
+use Office365\SharePoint\ClientContext;
+use Office365\SharePoint\File;
+use Office365\SharePoint\ListCreationInformation;
+use Office365\SharePoint\ListItem;
+use Office365\SharePoint\SPList;
+use Office365\SharePoint\TemplateFileType;
+use Office365\SharePoint\Web;
+use Office365\SharePoint\WebCreationInformation;
 use PHPUnit\Framework\TestCase;
 
 
@@ -40,7 +40,7 @@ abstract class SharePointTestCase extends TestCase
      * @param string $webUrl
      * @return Web
      */
-    public static function createWeb(Office365\PHP\Client\SharePoint\ClientContext $ctx, $webUrl)
+    public static function createWeb(Office365\SharePoint\ClientContext $ctx, $webUrl)
     {
         $web = $ctx->getWeb();
         $info = new WebCreationInformation($webUrl,$webUrl);

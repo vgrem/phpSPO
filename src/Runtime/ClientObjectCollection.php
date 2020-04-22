@@ -1,8 +1,8 @@
 <?php
 
-namespace Office365\PHP\Client\Runtime;
+namespace Office365\Runtime;
 
-use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
+use Office365\Runtime\OData\ODataQueryOptions;
 
 
 /**

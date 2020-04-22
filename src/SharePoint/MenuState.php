@@ -3,9 +3,9 @@
 /**
  * Updated By PHP Office365 Generator 2019-10-12T15:42:43+00:00 16.0.19402.12016
  */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValueObject;
 /**
  * A menu 
  * tree which can be shown in the Quick Launch of a site (2).

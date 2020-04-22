@@ -1,10 +1,12 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime\OData;
+namespace Office365\Runtime\OData;
 
 
-class ODataException extends \Exception
+use Exception;
+
+class ODataException extends Exception
 {
 
 }

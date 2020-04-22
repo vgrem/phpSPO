@@ -1,7 +1,7 @@
 <?php
 
-use Office365\PHP\Client\Runtime\OData\MetadataResolver;
-use Office365\PHP\Client\Runtime\OData\ODataV3Reader;
+
+use Office365\Runtime\OData\ODataV3Reader;
 
 class MetadataReaderTest extends SharePointTestCase
 {

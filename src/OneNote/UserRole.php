@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\OneNote;
+namespace Office365\OneNote;
 
 
 class UserRole

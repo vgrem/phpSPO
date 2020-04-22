@@ -1,8 +1,8 @@
 <?php
 
-use Office365\PHP\Client\SharePoint\ContentType;
-use Office365\PHP\Client\SharePoint\ContentTypeCreationInformation;
-use Office365\PHP\Client\SharePoint\ListTemplateType;
+use Office365\SharePoint\ContentType;
+use Office365\SharePoint\ContentTypeCreationInformation;
+use Office365\SharePoint\ListTemplateType;
 
 class ContentTypeTest extends SharePointTestCase
 {

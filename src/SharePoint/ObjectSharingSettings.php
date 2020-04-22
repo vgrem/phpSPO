@@ -3,10 +3,10 @@
 /**
  * Updated By PHP Office365 Generator 2019-11-17T18:22:48+00:00 16.0.19506.12022
  */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
-use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePath;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\ResourcePath;
 /**
  * This class 
  * contains the information necessary to read and change the sharing status of a 

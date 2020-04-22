@@ -1,6 +1,6 @@
 <?php
 
-namespace Office365\PHP\Client\Runtime\Http;
+namespace Office365\Runtime\Http;
 
 use Exception;
 

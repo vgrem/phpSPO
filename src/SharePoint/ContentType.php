@@ -3,11 +3,11 @@
 /**
  * Updated By PHP Office365 Generator 2019-11-17T16:07:15+00:00 16.0.19506.12022
  */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePath;
+use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\ResourcePath;
 /**
  * Specifies 
  * a content 
@@ -27,14 +27,15 @@ class ContentType extends ClientObject
     }
     function setProperty($name, $value, $persistChanges = true)
     {
-        if ($name == "StringId") {
-            $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . "('{$value}')");
-            $this->{$name} = $value;
-        } elseif ($name == "Id") {
-            $this->{$name} = $value['StringValue'];
-        } else {
-            parent::setProperty($name, $value, $persistChanges);
+        if ($name == "Id") {
+            $value = $value['StringValue'];
         }
+        else if ($name == "StringId") {
+            $parentPath = $this->parentCollection->getResourcePath();
+            $this->resourcePath = new ResourcePath($parentPath->getSegment() . "('{$value}')",
+                    $parentPath->getParent());
+        }
+        parent::setProperty($name, $value, $persistChanges);
     }
     /**
      * Specifies 

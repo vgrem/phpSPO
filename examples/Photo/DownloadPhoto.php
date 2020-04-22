@@ -4,10 +4,10 @@ require_once '../vendor/autoload.php';
 $settings = include('../../Settings.php');
 
 
-use Office365\PHP\Client\GraphClient\GraphServiceClient;
-use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
-use Office365\PHP\Client\Runtime\Http\RequestOptions;
-use Office365\PHP\Client\Runtime\Auth\UserCredentials;
+use Office365\GraphClient\GraphServiceClient;
+use Office365\Runtime\Auth\AuthenticationContext;
+use Office365\Runtime\Http\RequestOptions;
+use Office365\Runtime\Auth\UserCredentials;
 
 
 function acquireToken(AuthenticationContext $authCtx, $clientId, $userName, $password)

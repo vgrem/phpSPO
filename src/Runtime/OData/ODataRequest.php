@@ -1,19 +1,19 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime\OData;
+namespace Office365\Runtime\OData;
 
 use Exception;
-use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ClientRequest;
-use Office365\PHP\Client\Runtime\ClientResult;
-use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\ClientValueObject;
-use Office365\PHP\Client\Runtime\Http\RequestOptions;
-use Office365\PHP\Client\Runtime\Http\Response;
-use Office365\PHP\Client\Runtime\Http\HttpMethod;
-use Office365\PHP\Client\Runtime\InvokeMethodQuery;
-use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\ClientRequest;
+use Office365\Runtime\ClientResult;
+use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\Http\RequestOptions;
+use Office365\Runtime\Http\Response;
+use Office365\Runtime\Http\HttpMethod;
+use Office365\Runtime\InvokeMethodQuery;
+use Office365\Runtime\InvokePostMethodQuery;
 
 
 /**

@@ -1,11 +1,11 @@
 <?php
 
-namespace Office365\PHP\Client\Runtime\Auth;
+namespace Office365\Runtime\Auth;
 
 
 use Exception;
-use Office365\PHP\Client\Runtime\Http\RequestOptions;
-use stdClass;
+use Office365\Runtime\Http\RequestOptions;
+
 
 
 /**
@@ -105,11 +105,11 @@ class AuthenticationContext implements IAuthenticationContext
     }
 
     /**
-     * @param $resource
-     * @param $clientId
-     * @param $clientSecret
-     * @param $refreshToken
-     * @param $redirectUri
+     * @param string $resource
+     * @param string $clientId
+     * @param string $clientSecret
+     * @param string $refreshToken
+     * @param string $redirectUri
      * @throws Exception
      */
     public function exchangeRefreshToken($resource, $clientId, $clientSecret, $refreshToken, $redirectUri)
@@ -185,7 +185,7 @@ class AuthenticationContext implements IAuthenticationContext
     }
 
     /**
-     * @return null|stdClass
+     * @return string
      */
     public function getAccessToken()
     {

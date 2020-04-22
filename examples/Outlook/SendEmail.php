@@ -1,13 +1,13 @@
 <?php
 
 
-use Office365\PHP\Client\OutlookServices\BodyType;
-use Office365\PHP\Client\OutlookServices\EmailAddress;
-use Office365\PHP\Client\OutlookServices\ItemBody;
-use Office365\PHP\Client\OutlookServices\OutlookClient;
-use Office365\PHP\Client\OutlookServices\Recipient;
-use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
-use Office365\PHP\Client\Runtime\Auth\UserCredentials;
+use Office365\OutlookServices\BodyType;
+use Office365\OutlookServices\EmailAddress;
+use Office365\OutlookServices\ItemBody;
+use Office365\OutlookServices\OutlookClient;
+use Office365\OutlookServices\Recipient;
+use Office365\Runtime\Auth\AuthenticationContext;
+use Office365\Runtime\Auth\UserCredentials;
 
 
 require_once '../vendor/autoload.php';

@@ -3,9 +3,9 @@
 /**
  * Updated By PHP Office365 Generator 2019-11-16T19:41:02+00:00 16.0.19506.12022
  */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
-use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\Runtime\ClientObject;
 /**
  * Base class 
  * for a change. installation.The RelativeTime property is not included in the default 

@@ -3,9 +3,9 @@
 /**
  * Updated By PHP Office365 Generator 2020-01-12T18:07:40+00:00 16.0.19527.12070
  */
-namespace Office365\PHP\Client\SharePoint\Social;
+namespace Office365\SharePoint\Social;
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValueObject;
 class SocialActor extends ClientValueObject
 {
     public $Status;

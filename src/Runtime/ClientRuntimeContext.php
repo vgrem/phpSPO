@@ -1,11 +1,11 @@
 <?php
 
-namespace Office365\PHP\Client\Runtime;
+namespace Office365\Runtime;
 
 use Exception;
-use Office365\PHP\Client\Runtime\Auth\IAuthenticationContext;
-use Office365\PHP\Client\Runtime\Http\Response;
-use Office365\PHP\Client\Runtime\Http\RequestOptions;
+use Office365\Runtime\Auth\IAuthenticationContext;
+use Office365\Runtime\Http\Response;
+use Office365\Runtime\Http\RequestOptions;
 
 
 

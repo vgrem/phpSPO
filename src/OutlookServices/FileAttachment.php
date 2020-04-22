@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\OutlookServices;
+namespace Office365\OutlookServices;
 
 /**
  * A file (such as a text file or Word document) attached to a message or event.

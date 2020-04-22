@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Office365\PHP\Client\OutlookServices;
-use Office365\PHP\Client\Runtime\CreateEntityQuery;
-use Office365\PHP\Client\Runtime\ClientObjectCollection;
+namespace Office365\OutlookServices;
+use Office365\Runtime\CreateEntityQuery;
+use Office365\Runtime\ClientObjectCollection;
 
 class EventCollection extends ClientObjectCollection
 {

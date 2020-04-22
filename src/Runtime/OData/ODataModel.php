@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime\OData;
+namespace Office365\Runtime\OData;
 use ReflectionClass;
 use ReflectionException;
 

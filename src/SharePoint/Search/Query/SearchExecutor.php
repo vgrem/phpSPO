@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint\Search\Query;
-use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ClientResult;
-use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
-use Office365\PHP\Client\Runtime\ResourcePath;
+namespace Office365\SharePoint\Search\Query;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\ClientResult;
+use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\ResourcePath;
 
 /**
  * Executes queries against a search server.

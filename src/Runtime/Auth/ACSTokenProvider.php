@@ -1,8 +1,9 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime\Auth;
-use Office365\PHP\Client\Runtime\Http\Requests;
+namespace Office365\Runtime\Auth;
+use Office365\Runtime\Http\RequestException;
+use Office365\Runtime\Http\Requests;
 
 /**
  * Provider to acquire the access token from a Microsoft Azure Access Control Service (ACS)
@@ -36,7 +37,7 @@ class ACSTokenProvider extends BaseTokenProvider
     private $redirectUrl;
 
     /**
-     * @var \stdClass
+     * @var array
      */
     private $accessToken;
 
@@ -55,13 +56,14 @@ class ACSTokenProvider extends BaseTokenProvider
      */
     public function getAuthorizationHeader()
     {
-        return 'Bearer ' . $this->accessToken->access_token;
+        return 'Bearer ' . $this->accessToken['access_token'];
     }
 
 
     /**
      * Acquires the access token from a Microsoft Azure Access Control Service (ACS)
      * @param array $parameters
+     * @throws RequestException
      */
     public function acquireToken($parameters)
     {
@@ -101,6 +103,14 @@ class ACSTokenProvider extends BaseTokenProvider
         return null;
     }
 
+
+    /**
+     * Obtain access token from Azure ACS
+     * @param string $targetHost
+     * @param string $targetRealm
+     * @return mixed
+     * @throws RequestException
+     */
     private function getAppOnlyAccessToken($targetHost,$targetRealm)
     {
         $resource = $this->getFormattedPrincipal(self::$SharePointPrincipal,$targetHost,$targetRealm);
@@ -111,7 +121,7 @@ class ACSTokenProvider extends BaseTokenProvider
         $headers = array();
         $headers[] = 'content-Type: application/x-www-form-urlencoded';
         $response = Requests::post($stsUrl, $headers, $oauth2Request);
-        return json_decode($response->getContent());
+        return json_decode($response->getContent(),true);
     }
 
 

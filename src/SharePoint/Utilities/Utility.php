@@ -1,10 +1,11 @@
 <?php
 
-namespace Office365\PHP\Client\SharePoint\Utilities;
+namespace Office365\SharePoint\Utilities;
 
-use Office365\PHP\Client\SharePoint\ContentType;
-use Office365\PHP\Client\SharePoint\ListItem;
-use Office365\PHP\Client\SharePoint\SPList;
+use Exception;
+use Office365\SharePoint\ContentType;
+use Office365\SharePoint\ListItem;
+use Office365\SharePoint\SPList;
 
 /**
  * Class DiscussionBoard
@@ -17,7 +18,7 @@ class Utility
      * @param SPList $list
      * @param string $title
      * @return ListItem
-     * @throws \Exception
+     * @throws Exception
      */
     public static function createNewDiscussion(SPList $list, $title)
     {
@@ -40,7 +41,7 @@ class Utility
      * @param ListItem $discussionItem
      * @param string $subject
      * @return ListItem
-     * @throws \Exception
+     * @throws Exception
      */
     public static function createNewDiscussionReply(ListItem $discussionItem,$subject){
         $ctx = $discussionItem->getContext();
@@ -54,7 +55,7 @@ class Utility
               return  $item->getProperty("Name") === "Message";
         });
         if(count($result) == 0){
-            throw new \Exception("Message content type not found");
+            throw new Exception("Message content type not found");
         }
 
         $messagePayload = array(

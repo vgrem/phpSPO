@@ -3,9 +3,9 @@
 /**
  * Updated By PHP Office365 Generator 2019-11-16T20:28:28+00:00 16.0.19506.12022
  */
-namespace Office365\PHP\Client\SharePoint\Taxonomy;
+namespace Office365\SharePoint\Taxonomy;
 
-use Office365\PHP\Client\SharePoint\FieldLookup;
+use Office365\SharePoint\FieldLookup;
 
 class TaxonomyField extends FieldLookup
 {

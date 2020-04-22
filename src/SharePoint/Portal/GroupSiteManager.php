@@ -1,14 +1,13 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint\Portal;
+namespace Office365\SharePoint\Portal;
 
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
-use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
-use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePath;
-use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\ResourcePath;
+use Office365\SharePoint\ClientContext;
 
 
 class GroupSiteManager extends ClientObject
@@ -27,20 +26,20 @@ class GroupSiteManager extends ClientObject
      * @return GroupSiteInfo
      */
     public function createGroupEx($displayName,$alias,$isPublic,$description="") {
-        $payload = new ClientValueObject();
-        $payload->setProperty("displayName",$displayName);
-        $payload->setProperty("alias",$alias);
-        $payload->setProperty("isPublic",$isPublic);
+        $payload = array();
+        $payload["displayName"] = $displayName;
+        $payload["alias"] =$alias;
+        $payload["isPublic"] = $isPublic;
         if(!empty($description)){
-            $payload->setProperty("description",$description);
+            $payload["description"] = $description;
         }
         //if(!is_null($additionalOwners)){
         //
         //}
-        $info = new GroupSiteInfo();
-        $qry = new InvokePostMethodQuery($this,"CreateGroupEx",null,null,$payload);
-        $this->getContext()->addQueryAndResultObject($qry,$info);
-        return $info;
+        $result = new GroupSiteInfo();
+        $qry = new InvokePostMethodQuery($this,"CreateGroupEx",null,"CreateGroupEx",$payload);
+        $this->getContext()->addQueryAndResultObject($qry,$result);
+        return $result;
     }
 
 }

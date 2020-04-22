@@ -1,14 +1,14 @@
 <?php
 
 
-namespace Office365\PHP\Client\OutlookServices;
+namespace Office365\OutlookServices;
 
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValueObject;
 
 /**
  * Class Reminder
- * @package Office365\PHP\Client\Outlook
+ * @package Office365\Outlook
  */
 class Reminder extends ClientValueObject
 {

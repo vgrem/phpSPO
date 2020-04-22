@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\OneDrive;
+namespace Office365\OneDrive;
 
 
 class Folder extends Item
@@ -21,7 +21,7 @@ class Folder extends Item
      * @param int $value
      */
     public function setChildCount($value){
-        return $this->setProperty("childCount",$value);
+        $this->setProperty("childCount",$value);
     }
 
 

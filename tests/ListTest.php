@@ -1,8 +1,8 @@
 <?php
 
 
-use Office365\PHP\Client\SharePoint\ListTemplateType;
-use Office365\PHP\Client\SharePoint\SPList;
+use Office365\SharePoint\ListTemplateType;
+use Office365\SharePoint\SPList;
 
 class ListTest extends SharePointTestCase
 {
@@ -20,7 +20,7 @@ class ListTest extends SharePointTestCase
      * @depends testIfListCreated
      * @param SPList $list
      */
-    /*public function testAssignUniquePermissions(\Office365\PHP\Client\SharePoint\SPList $list){
+    /*public function testAssignUniquePermissions(\Office365\SharePoint\SPList $list){
         $list->breakRoleInheritance(true);
         //$list->update();
         self::$context->executeQuery();
@@ -35,7 +35,7 @@ class ListTest extends SharePointTestCase
      * @depends testIfListCreated
      * @param SPList $list
      */
-    /*public function testVerifyListPermissions(\SharePoint\PHP\Client\SPList $list){
+    /*public function testVerifyListPermissions(\SharePoint\SPList $list){
         //1. retrieve current user
         $currentUser = self::$context->getWeb()->getCurrentUser();
         self::$context->load($currentUser);
@@ -46,7 +46,7 @@ class ListTest extends SharePointTestCase
         $loginName = $currentUser->getProperty("LoginName");
         $permissions = $list->getUserEffectivePermissions($loginName);
         self::$context->executeQuery();
-        $result = $permissions->has(\SharePoint\PHP\Client\PermissionKind::AddListItems);
+        $result = $permissions->has(\SharePoint\PermissionKind::AddListItems);
         $this->assertTrue($result);
     }*/
 

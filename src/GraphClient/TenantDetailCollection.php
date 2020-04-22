@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Office365\PHP\Client\GraphClient;
+namespace Office365\GraphClient;
 
 
-use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\Runtime\ClientObjectCollection;
 
 class TenantDetailCollection extends ClientObjectCollection
 {

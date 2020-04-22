@@ -1,10 +1,10 @@
 <?php
 
 
-use Office365\PHP\Client\SharePoint\Publishing\VideoChannel;
-use Office365\PHP\Client\SharePoint\Publishing\VideoItem;
-use Office365\PHP\Client\SharePoint\Publishing\VideoServiceDiscoverer;
-use Office365\PHP\Client\SharePoint\Publishing\VideoServiceManager;
+use Office365\SharePoint\Publishing\VideoChannel;
+use Office365\SharePoint\Publishing\VideoItem;
+use Office365\SharePoint\Publishing\VideoServiceDiscoverer;
+use Office365\SharePoint\Publishing\VideoServiceManager;
 
 class VideoServiceTest extends SharePointTestCase
 {

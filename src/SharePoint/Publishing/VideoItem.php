@@ -3,14 +3,15 @@
 /**
  * Updated By PHP Office365 Generator 2019-11-16T20:26:56+00:00 16.0.19506.12022
  */
-namespace Office365\PHP\Client\SharePoint\Publishing;
+namespace Office365\SharePoint\Publishing;
 
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
-use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\Http\HttpMethod;
-use Office365\PHP\Client\Runtime\Http\RequestOptions;
-use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\ResourcePath;
+use Office365\Runtime\UpdateEntityQuery;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\Http\HttpMethod;
+use Office365\Runtime\Http\RequestOptions;
+use Office365\SharePoint\ClientContext;
 
 class VideoItem extends ClientObject
 {
@@ -46,7 +47,8 @@ class VideoItem extends ClientObject
     {
         if ($name == "ID") {
             if (is_null($this->getResourcePath())) {
-                $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . "(guid'{$value}')");
+                $parentPath = $this->parentCollection->getResourcePath();
+                $this->resourcePath = new ResourcePath($parentPath->getSegment() . "(guid'{$value}')", $parentPath->getParent());
             }
             $this->{$name} = $value;
         }

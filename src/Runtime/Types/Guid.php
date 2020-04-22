@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime\Types;
+namespace Office365\Runtime\Types;
 
 
 class Guid

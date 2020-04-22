@@ -3,10 +3,10 @@
  * Specifies the value of a lookup for a field within a list item
  */
 
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValueObject;
 
 class FieldLookupValue extends ClientValueObject
 {

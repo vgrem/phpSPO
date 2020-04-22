@@ -1,15 +1,15 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime;
+namespace Office365\Runtime;
 
 
 use Exception;
-use Office365\PHP\Client\Runtime\Http\RequestException;
-use Office365\PHP\Client\Runtime\Http\Requests;
-use Office365\PHP\Client\Runtime\Http\Response;
-use Office365\PHP\Client\Runtime\Types\Guid;
-use Office365\PHP\Client\Runtime\Http\RequestOptions;
+use Office365\Runtime\Http\RequestException;
+use Office365\Runtime\Http\Requests;
+use Office365\Runtime\Http\Response;
+use Office365\Runtime\Types\Guid;
+use Office365\Runtime\Http\RequestOptions;
 
 
 /**

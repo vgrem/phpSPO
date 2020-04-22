@@ -3,14 +3,14 @@
 /**
  * Updated By PHP Office365 Generator 2019-12-21T23:07:44+00:00 16.0.19520.12047
  */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
-use Office365\PHP\Client\Runtime\CreateEntityQuery;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\InvokeMethodQuery;
-use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePath;
+use Office365\Runtime\CreateEntityQuery;
+use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\InvokeMethodQuery;
+use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\UpdateEntityQuery;
+use Office365\Runtime\ResourcePath;
 
 class SPList extends SecurableObject
 {

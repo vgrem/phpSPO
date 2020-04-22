@@ -3,9 +3,9 @@
 /**
  * Updated By PHP Office365 Generator 2019-10-05T21:27:52+00:00 
 */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValueObject;
 /**
  * Specifies the properties used to create a new list view.
  */

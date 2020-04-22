@@ -1,9 +1,9 @@
 <?php
 
-namespace Office365\PHP\Client\OutlookServices;
+namespace Office365\OutlookServices;
 use DateTime;
-use Office365\PHP\Client\Runtime\ReadEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePath;
+use Office365\Runtime\ReadEntityQuery;
+use Office365\Runtime\ResourcePath;
 
 
 /**

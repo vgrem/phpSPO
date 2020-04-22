@@ -1,9 +1,9 @@
 <?php
 
-use Office365\PHP\Client\SharePoint\ListItem;
-use Office365\PHP\Client\SharePoint\ListTemplateType;
-use Office365\PHP\Client\SharePoint\SPList;
-use Office365\PHP\Client\SharePoint\Utilities\Utility;
+use Office365\SharePoint\ListItem;
+use Office365\SharePoint\ListTemplateType;
+use Office365\SharePoint\SPList;
+use Office365\SharePoint\Utilities\Utility;
 
 //require_once('SharePointTestCase.php');
 

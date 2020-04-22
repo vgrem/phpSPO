@@ -1,12 +1,12 @@
 <?php
 
-namespace Office365\PHP\Client\OutlookServices;
+namespace Office365\OutlookServices;
 
 
 
 /**
  * A folder that contains contacts.
- * @package Office365\PHP\Client\Outlook
+ * @package Office365\Outlook
  */
 class ContactFolder extends OutlookEntity
 {

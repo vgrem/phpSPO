@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Office365\PHP\Client\OutlookServices;
+namespace Office365\OutlookServices;
 
 use Exception;
-use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
-use Office365\PHP\Client\Runtime\Office365Version;
-use Office365\PHP\Client\Runtime\ResourcePath;
+use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\Office365Version;
+use Office365\Runtime\ResourcePath;
 
 /**
  * A user in the system.

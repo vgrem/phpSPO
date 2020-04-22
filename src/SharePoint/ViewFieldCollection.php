@@ -3,9 +3,9 @@
 /**
  * Updated By PHP Office365 Generator 2019-11-16T19:13:59+00:00 16.0.19506.12022
  */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
-use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\Runtime\ClientObjectCollection;
 /**
  * Specifies 
  * the collection of fields (2) in a list view.

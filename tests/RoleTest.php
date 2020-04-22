@@ -1,8 +1,9 @@
 <?php
 
-namespace Office365\PHP\Client\SharePoint;
 
-use SharePointTestCase;
+use Office365\SharePoint\ListTemplateType;
+use Office365\SharePoint\RoleAssignment;
+use Office365\SharePoint\RoleDefinition;
 
 class RoleTest extends SharePointTestCase
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\OutlookServices;
+namespace Office365\OutlookServices;
 
 /**
  * Specifies the availability status of an attendee for a meeting.

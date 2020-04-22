@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime;
+namespace Office365\Runtime;
 
 
 class ContextResourcePath extends ResourcePath

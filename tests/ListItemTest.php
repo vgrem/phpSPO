@@ -1,11 +1,11 @@
 <?php
 
-use Office365\PHP\Client\SharePoint\AttachmentCreationInformation;
-use Office365\PHP\Client\SharePoint\CamlQuery;
-use Office365\PHP\Client\SharePoint\Folder;
-use Office365\PHP\Client\SharePoint\ListItem;
-use Office365\PHP\Client\SharePoint\ListTemplateType;
-use Office365\PHP\Client\SharePoint\SPList;
+use Office365\SharePoint\AttachmentCreationInformation;
+use Office365\SharePoint\CamlQuery;
+use Office365\SharePoint\Folder;
+use Office365\SharePoint\ListItem;
+use Office365\SharePoint\ListTemplateType;
+use Office365\SharePoint\SPList;
 
 
 class ListItemTest extends SharePointTestCase
@@ -164,7 +164,7 @@ class ListItemTest extends SharePointTestCase
         if($items->getCount() > 0){
             $item = $items->getItem(0);
             $predecessors = $item->getProperty("Predecessors");
-            self::assertInternalType("array",$predecessors);
+            self::assertIsArray($predecessors);
             if(count($predecessors) > 0)
                 self::assertNotNull($predecessors[0]['Title']);
 

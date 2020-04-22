@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint\Taxonomy;
+namespace Office365\SharePoint\Taxonomy;
 
 use InvalidArgumentException;
-use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\CSOM\ICSOMCallable;
-use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\CSOM\ICSOMCallable;
+use Office365\Runtime\InvokePostMethodQuery;
 use SimpleXMLElement;
 
 class TaxonomySession extends ClientObject implements ICSOMCallable

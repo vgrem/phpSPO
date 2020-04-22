@@ -3,12 +3,12 @@
  * Represents a collection of Folder resources.
  */
 
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
 
-use Office365\PHP\Client\Runtime\CreateEntityQuery;
-use Office365\PHP\Client\Runtime\ClientObjectCollection;
-use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
+use Office365\Runtime\CreateEntityQuery;
+use Office365\Runtime\ClientObjectCollection;
+use Office365\Runtime\ResourcePathServiceOperation;
 
 class FolderCollection extends ClientObjectCollection
 {

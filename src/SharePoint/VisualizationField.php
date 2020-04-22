@@ -3,9 +3,9 @@
 /**
  * Updated By PHP Office365 Generator 2019-10-12T19:04:49+00:00 16.0.19402.12016
  */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValueObject;
 /**
  * Contains 
  * CSS properties relating to how an individual field is layed out relative to 

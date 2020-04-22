@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime\Auth;
+namespace Office365\Runtime\Auth;
 
 use DateTime;
 

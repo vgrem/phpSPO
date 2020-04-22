@@ -1,7 +1,7 @@
 <?php
 
-use Office365\PHP\Client\Runtime\Http\RequestOptions;
-use Office365\PHP\Client\SharePoint\ClientContext;
+use Office365\Runtime\Http\RequestOptions;
+use Office365\SharePoint\ClientContext;
 
 
 $settings = include('../../Settings.php');

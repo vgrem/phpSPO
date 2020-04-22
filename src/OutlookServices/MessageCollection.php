@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Office365\PHP\Client\OutlookServices;
+namespace Office365\OutlookServices;
 
-use Office365\PHP\Client\Runtime\CreateEntityQuery;
-use Office365\PHP\Client\Runtime\ClientObjectCollection;
-use Office365\PHP\Client\Runtime\ResourcePath;
+use Office365\Runtime\CreateEntityQuery;
+use Office365\Runtime\ClientObjectCollection;
+use Office365\Runtime\ResourcePath;
 
 class MessageCollection extends ClientObjectCollection
 {

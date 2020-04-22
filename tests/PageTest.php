@@ -1,10 +1,10 @@
 <?php
 
-use Office365\PHP\Client\SharePoint\CheckOutType;
-use Office365\PHP\Client\SharePoint\File;
-use Office365\PHP\Client\SharePoint\ListTemplateType;
-use Office365\PHP\Client\SharePoint\SPList;
-use Office365\PHP\Client\SharePoint\WebParts\PersonalizationScope;
+use Office365\SharePoint\CheckOutType;
+use Office365\SharePoint\File;
+use Office365\SharePoint\ListTemplateType;
+use Office365\SharePoint\SPList;
+use Office365\SharePoint\WebParts\PersonalizationScope;
 
 class PageTest extends SharePointTestCase
 {

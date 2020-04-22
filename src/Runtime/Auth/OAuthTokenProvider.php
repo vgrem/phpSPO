@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime\Auth;
+namespace Office365\Runtime\Auth;
 
 use Exception;
-use Office365\PHP\Client\Runtime\Http\HttpMethod;
-use Office365\PHP\Client\Runtime\Http\RequestOptions;
-use Office365\PHP\Client\Runtime\Http\Requests;
-use stdClass;
+use Office365\Runtime\Http\HttpMethod;
+use Office365\Runtime\Http\RequestOptions;
+use Office365\Runtime\Http\Requests;
+
 
 /**
  * Provider to acquire the access token from Azure AD
@@ -44,7 +44,7 @@ class OAuthTokenProvider extends BaseTokenProvider
     private $authorityUrl;
 
     /**
-     * @var stdClass
+     * @var array
      */
     private $accessToken;
 
@@ -56,20 +56,23 @@ class OAuthTokenProvider extends BaseTokenProvider
 
     public function getAuthorizationHeader()
     {
-        return 'Bearer ' . $this->accessToken->access_token;
+        return 'Bearer ' . $this->accessToken['access_token'];
     }
 
     public function getAccessToken()
     {
-        return $this->accessToken;
+        return $this->accessToken['access_token'];
     }
 
+    /**
+     * @param string $accessToken
+     */
     public function setAccessToken($accessToken)
     {
-        if (!$this->accessToken instanceof stdClass) {
-            $this->accessToken = new stdClass();
+        if (is_null($this->accessToken)) {
+            $this->accessToken = array();
         }
-        $this->accessToken->access_token = $accessToken;
+        $this->accessToken['access_token'] = $accessToken;
     }
 
     /**
@@ -104,15 +107,15 @@ class OAuthTokenProvider extends BaseTokenProvider
      */
     private function parseToken($tokenValue)
     {
-        $tokenPayload = json_decode($tokenValue);
-        if (is_object($tokenPayload)) {
+        $tokenPayload = json_decode($tokenValue,true);
+        if (!is_null($tokenPayload)) {
             $this->accessToken = $tokenPayload;
-            if (isset($tokenPayload->id_token)) {
-                $idToken = $tokenPayload->id_token;
+            if (isset($tokenPayload['id_token'])) {
+                $idToken = $tokenPayload['id_token'];
                 $idTokenPayload = base64_decode(
                     explode('.', $idToken)[1]
                 );
-                $this->accessToken->id_token_info = json_decode($idTokenPayload, true);
+                $this->accessToken['id_token_info'] = json_decode($idTokenPayload, true);
             }
         }
     }

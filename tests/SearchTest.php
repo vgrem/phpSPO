@@ -1,8 +1,8 @@
 <?php
 
 
-use Office365\PHP\Client\SharePoint\Search\Query\KeywordQuery;
-use Office365\PHP\Client\SharePoint\Search\Query\SearchExecutor;
+use Office365\SharePoint\Search\Query\KeywordQuery;
+use Office365\SharePoint\Search\Query\SearchExecutor;
 
 class SearchTest extends SharePointTestCase
 {

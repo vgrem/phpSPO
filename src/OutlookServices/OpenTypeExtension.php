@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Office365\PHP\Client\OutlookServices;
+namespace Office365\OutlookServices;
 
 
-use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\Runtime\ClientObject;
 
 class OpenTypeExtension extends ClientObject
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Office365\PHP\Client\OneDrive;
+namespace Office365\OneDrive;
 
-use Office365\PHP\Client\OneNote\OneNote;
-use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePath;
+use Office365\OneNote\OneNote;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\ResourcePath;
 
 class CurrentUserRequestContext extends ClientObject
 {

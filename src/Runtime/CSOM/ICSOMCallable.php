@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime\CSOM;
+namespace Office365\Runtime\CSOM;
 
 
 use SimpleXMLElement;

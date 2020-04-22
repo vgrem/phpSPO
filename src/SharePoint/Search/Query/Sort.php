@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint\Search\Query;
+namespace Office365\SharePoint\Search\Query;
 
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValueObject;
 
 /**
  * Defines how search results are sorted.

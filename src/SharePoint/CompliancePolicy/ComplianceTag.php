@@ -3,9 +3,9 @@
 /**
  * Updated By PHP Office365 Generator 2019-10-12T19:32:10+00:00 16.0.19402.12016
  */
-namespace Office365\PHP\Client\SharePoint\CompliancePolicy;
+namespace Office365\SharePoint\CompliancePolicy;
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValueObject;
 
 class ComplianceTag extends ClientValueObject
 {

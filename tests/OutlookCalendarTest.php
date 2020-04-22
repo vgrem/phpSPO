@@ -1,12 +1,12 @@
 <?php
 
-use Office365\PHP\Client\OutlookServices\Attendee;
-use Office365\PHP\Client\OutlookServices\BodyType;
-use Office365\PHP\Client\OutlookServices\EmailAddress;
-use Office365\PHP\Client\OutlookServices\Event;
-use Office365\PHP\Client\OutlookServices\ItemBody;
-use Office365\PHP\Client\OutlookServices\Location;
-use Office365\PHP\Client\OutlookServices\PhysicalAddress;
+use Office365\OutlookServices\Attendee;
+use Office365\OutlookServices\BodyType;
+use Office365\OutlookServices\EmailAddress;
+use Office365\OutlookServices\Event;
+use Office365\OutlookServices\ItemBody;
+use Office365\OutlookServices\Location;
+use Office365\OutlookServices\PhysicalAddress;
 
 class OutlookCalendarTest extends OutlookServicesTestCase
 {

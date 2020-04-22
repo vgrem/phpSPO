@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Office365\PHP\Client\OutlookServices;
-use Office365\PHP\Client\Runtime\ClientValueObject;
-use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+namespace Office365\OutlookServices;
+use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\UpdateEntityQuery;
 
 
 /**

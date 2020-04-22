@@ -3,10 +3,10 @@
 $settings = include('../../Settings.php');
 require_once '../vendor/autoload.php';
 
-use Office365\PHP\Client\SharePoint\ClientContext;
-use Office365\PHP\Client\SharePoint\File;
-use Office365\PHP\Client\SharePoint\FileCreationInformation;
-use Office365\PHP\Client\SharePoint\SPList;
+use Office365\SharePoint\ClientContext;
+use Office365\SharePoint\File;
+use Office365\SharePoint\FileCreationInformation;
+use Office365\SharePoint\SPList;
 
 
 try {
@@ -48,7 +48,7 @@ function uploadFileAlt(ClientContext $ctx, $sourceFilePath, $targetFileUrl)
 {
     $fileContent = file_get_contents($sourceFilePath);
     try {
-        Office365\PHP\Client\SharePoint\File::saveBinary($ctx, $targetFileUrl, $fileContent);
+        Office365\SharePoint\File::saveBinary($ctx, $targetFileUrl, $fileContent);
         print "File has been uploaded\r\n";
     } catch (Exception $e) {
         print "File upload failed:\r\n";

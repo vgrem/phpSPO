@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint\UserProfiles;
+namespace Office365\SharePoint\UserProfiles;
 
 
-use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\Runtime\ClientObjectCollection;
 
 class PersonPropertiesCollection extends ClientObjectCollection
 {

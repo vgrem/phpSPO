@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime\Auth;
+namespace Office365\Runtime\Auth;
 
 
 use DOMDocument;
@@ -9,8 +9,8 @@ use DOMNode;
 use DOMNodeList;
 use DOMXPath;
 use Exception;
-use Office365\PHP\Client\Runtime\Http\Requests;
-use Office365\PHP\Client\Runtime\Http\Response;
+use Office365\Runtime\Http\Requests;
+use Office365\Runtime\Http\Response;
 use RuntimeException;
 
 class SamlTokenProvider extends BaseTokenProvider

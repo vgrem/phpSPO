@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint\Search\Query;
+namespace Office365\SharePoint\Search\Query;
 
 
 class SortDirection

@@ -1,9 +1,8 @@
 <?php
 
-namespace Office365\PHP\Client\Runtime;
+namespace Office365\Runtime;
 
-use Office365\PHP\Client\Runtime\OData\ODataPathBuilder;
-use Office365\PHP\Client\Runtime\OData\ODataQueryOptions;
+use Office365\Runtime\OData\ODataQueryOptions;
 
 /**
  * Represents OData base entity
@@ -123,14 +122,6 @@ class ClientObject
     }
 
     /**
-     * @param string $value
-     */
-    public function setResourceUrl($value)
-    {
-        $this->resourcePath = ODataPathBuilder::fromUrl($value);
-    }
-
-    /**
      * Resolve the resource path
      * @param bool $includeQueryOptions
      * @return string
@@ -243,7 +234,8 @@ class ClientObject
                 } else {
                     $entityKey = "(guid'{$value}')";
                 }
-                $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . $entityKey);
+                $segment = $this->parentCollection->getResourcePath()->getSegment() . $entityKey;
+                $this->resourcePath = new ResourcePath($segment,$this->parentCollection->getResourcePath()->getParent());
             }
         }
 

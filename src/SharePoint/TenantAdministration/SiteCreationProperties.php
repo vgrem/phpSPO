@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint\TenantAdministration;
+namespace Office365\SharePoint\TenantAdministration;
 
-use Office365\PHP\Client\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValueObject;
 
 /**
  * Sets the initial properties for a new site when it is created.
- * @package Office365\PHP\Client\SharePoint\TenantAdministration
+ * @package Office365\SharePoint\TenantAdministration
  */
 class SiteCreationProperties extends ClientValueObject
 {

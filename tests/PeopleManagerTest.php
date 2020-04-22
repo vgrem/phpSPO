@@ -1,7 +1,7 @@
 <?php
 
 
-use Office365\PHP\Client\SharePoint\UserProfiles\PeopleManager;
+use Office365\SharePoint\UserProfiles\PeopleManager;
 
 
 class PeopleManagerTest extends SharePointTestCase
@@ -72,7 +72,7 @@ class PeopleManagerTest extends SharePointTestCase
 
 
     /*public function testGetMyFollowers(){
-        $peopleManager = new \SharePoint\PHP\Client\UserProfiles\PeopleManager(self::$context);
+        $peopleManager = new \SharePoint\UserProfiles\PeopleManager(self::$context);
         $properties = $peopleManager->getMyFollowers();
         self::$context->load($properties);
         self::$context->executeQuery();

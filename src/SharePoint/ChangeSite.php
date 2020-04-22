@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
 
 class ChangeSite extends Change

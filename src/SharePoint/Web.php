@@ -3,15 +3,15 @@
 /**
  * Updated By PHP Office365 Generator 2020-01-12T20:58:24+00:00 16.0.19527.12070
  */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
 
-use Office365\PHP\Client\Runtime\ClientResult;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
-use Office365\PHP\Client\Runtime\ResourcePath;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePathServiceOperation;
+use Office365\Runtime\ClientResult;
+use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\ResourcePath;
+use Office365\Runtime\UpdateEntityQuery;
+use Office365\Runtime\ResourcePathServiceOperation;
 /**
  * Specifies 
  * a site 
@@ -241,7 +241,7 @@ class Web extends SecurableObject
     {
         parent::setProperty($name, $value, $persistChanges);
         if ($name === 'Id') {
-            $this->setResourceUrl("Site/openWebById(guid'{$value}')");
+            $this->resourcePath = new ResourcePath("openWebById(guid'{$value}')", new ResourcePath("Site"));
         }
     }
     /**

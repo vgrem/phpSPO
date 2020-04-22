@@ -1,10 +1,10 @@
 <?php
 
-namespace Office365\PHP\Client\SharePoint;
-use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePath;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
+namespace Office365\SharePoint;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\ResourcePath;
+use Office365\Runtime\UpdateEntityQuery;
 
 class ClientObjectTemplate extends ClientObject
 {

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint\TenantAdministration;
+namespace Office365\SharePoint\TenantAdministration;
 
 
-use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\Runtime\ClientObject;
 
 class LogExport extends ClientObject
 {

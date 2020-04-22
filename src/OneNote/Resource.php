@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Office365\PHP\Client\OneNote;
+namespace Office365\OneNote;
 
 
-use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\Runtime\ClientObject;
 
 class Resource extends ClientObject
 {

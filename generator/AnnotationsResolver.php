@@ -1,8 +1,8 @@
 <?php
 
 
-use Office365\PHP\Client\Runtime\Http\RequestOptions;
-use Office365\PHP\Client\Runtime\Http\Requests;
+use Office365\Runtime\Http\RequestOptions;
+use Office365\Runtime\Http\Requests;
 
 /**
  * Documentation annotation service

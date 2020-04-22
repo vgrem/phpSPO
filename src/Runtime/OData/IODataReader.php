@@ -1,6 +1,6 @@
 <?php
 
-namespace Office365\PHP\Client\Runtime\OData;
+namespace Office365\Runtime\OData;
 
 
 interface IODataReader

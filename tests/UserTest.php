@@ -1,7 +1,7 @@
 <?php
 
-use Office365\PHP\Client\SharePoint\Group;
-use Office365\PHP\Client\SharePoint\GroupCreationInformation;
+use Office365\SharePoint\Group;
+use Office365\SharePoint\GroupCreationInformation;
 
 class UserTest extends SharePointTestCase
 {

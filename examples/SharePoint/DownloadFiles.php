@@ -1,7 +1,7 @@
 <?php
 
-use Office365\PHP\Client\SharePoint\ClientContext;
-use Office365\PHP\Client\SharePoint\File;
+use Office365\SharePoint\ClientContext;
+use Office365\SharePoint\File;
 
 $settings = include('../../Settings.php');
 require_once '../vendor/autoload.php';
@@ -20,7 +20,7 @@ $targetFilePath = "../data";
 foreach ($files->getData() as $file){
     try {
         $fileUrl = $file->getServerRelativeUrl();
-        $fileContent = Office365\PHP\Client\SharePoint\File::openBinary($ctx, $fileUrl);
+        $fileContent = Office365\SharePoint\File::openBinary($ctx, $fileUrl);
         file_put_contents($targetFilePath, $fileContent);
         print "File {$fileUrl} has been downloaded successfully\r\n";
     } catch (Exception $e) {

@@ -1,12 +1,13 @@
 <?php
 
 
-namespace Office365\PHP\Client\OutlookServices;
+namespace Office365\OutlookServices;
 
 
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
-use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\ResourcePath;
+use Office365\Runtime\UpdateEntityQuery;
+use Office365\Runtime\ClientObject;
 use ReflectionObject;
 use ReflectionProperty;
 
@@ -55,7 +56,7 @@ class OutlookEntity extends ClientObject
     {
         $normalizedName = ucfirst($name);
         if ($normalizedName == "Id" && is_null($this->getResourcePath())) {
-            $this->setResourceUrl($this->parentCollection->getResourcePath()->toUrl() . "/" . $value);
+            $this->resourcePath = new ResourcePath($value,$this->parentCollection->getResourcePath());
         }
         parent::setProperty($normalizedName, $value, $persistChanges);
     }

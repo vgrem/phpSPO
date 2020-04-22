@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime\OData;
+namespace Office365\Runtime\OData;
 
 
-use Office365\PHP\Client\Runtime\ClientRequest;
-use Office365\PHP\Client\Runtime\Http\RequestOptions;
+use Office365\Runtime\ClientRequest;
+use Office365\Runtime\Http\RequestOptions;
 
 class ODataBatchRequest extends ClientRequest
 {

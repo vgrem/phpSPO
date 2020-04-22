@@ -1,8 +1,8 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint;
-use Office365\PHP\Client\Runtime\ClientValueObject;
+namespace Office365\SharePoint;
+use Office365\Runtime\ClientValueObject;
 
 /**
  * Specifies the properties of the new list item.

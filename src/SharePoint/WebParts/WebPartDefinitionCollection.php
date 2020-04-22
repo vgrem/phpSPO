@@ -1,10 +1,11 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint\WebParts;
+namespace Office365\SharePoint\WebParts;
 
 
-use Office365\PHP\Client\Runtime\ClientObjectCollection;
+use Office365\Runtime\ClientObjectCollection;
+use Office365\Runtime\ResourcePath;
 
 class WebPartDefinitionCollection extends ClientObjectCollection
 {
@@ -15,8 +16,8 @@ class WebPartDefinitionCollection extends ClientObjectCollection
      */
     public function getById($id)
     {
-        $webPartDefinition = new WebPartDefinition($this->getContext(),$this->getResourcePath() . "/GetById('{$id}')");
-        return $webPartDefinition;
+        return new WebPartDefinition($this->getContext(),
+            new ResourcePath("GetById('{$id}')",$this->getResourcePath()));
     }
 
     /**
@@ -25,7 +26,7 @@ class WebPartDefinitionCollection extends ClientObjectCollection
      */
     public function getByControlId($controlId)
     {
-        $webPartDefinition = new WebPartDefinition($this->getContext(),$this->getResourcePath() . "/GetByControlId('{$controlId}')");
-        return $webPartDefinition;
+        return new WebPartDefinition($this->getContext(),
+            new ResourcePath("GetByControlId('{$controlId}')",$this->getResourcePath()));
     }
 }

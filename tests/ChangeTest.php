@@ -1,10 +1,10 @@
 <?php
 
-use Office365\PHP\Client\SharePoint\Change;
-use Office365\PHP\Client\SharePoint\ChangeQuery;
-use Office365\PHP\Client\SharePoint\ChangeType;
-use Office365\PHP\Client\SharePoint\ListTemplateType;
-use Office365\PHP\Client\SharePoint\SPList;
+use Office365\SharePoint\Change;
+use Office365\SharePoint\ChangeQuery;
+use Office365\SharePoint\ChangeType;
+use Office365\SharePoint\ListTemplateType;
+use Office365\SharePoint\SPList;
 
 
 class ChangeTest extends SharePointTestCase

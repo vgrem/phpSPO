@@ -1,11 +1,11 @@
 <?php
 
 
-use Office365\PHP\Client\SharePoint\Field;
-use Office365\PHP\Client\SharePoint\FieldCreationInformation;
-use Office365\PHP\Client\SharePoint\FieldType;
-use Office365\PHP\Client\SharePoint\ListTemplateType;
-use Office365\PHP\Client\SharePoint\SPList;
+use Office365\SharePoint\Field;
+use Office365\SharePoint\FieldCreationInformation;
+use Office365\SharePoint\FieldType;
+use Office365\SharePoint\ListTemplateType;
+use Office365\SharePoint\SPList;
 
 
 class FieldTest extends SharePointTestCase

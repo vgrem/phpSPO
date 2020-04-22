@@ -3,9 +3,9 @@
 /**
  * Updated By PHP Office365 Generator 2019-12-28T23:46:27+00:00 16.0.19520.12054
  */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
-use Office365\PHP\Client\Runtime\ClientObject;
+use Office365\Runtime\ClientObject;
 class Audit extends ClientObject
 {
     /**

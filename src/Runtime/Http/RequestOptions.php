@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime\Http;
+namespace Office365\Runtime\Http;
 
 
-use Office365\PHP\Client\Runtime\Auth\UserCredentials;
+use Office365\Runtime\Auth\UserCredentials;
 
 class RequestOptions
 {

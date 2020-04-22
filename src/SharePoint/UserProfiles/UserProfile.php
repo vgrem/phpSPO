@@ -3,12 +3,12 @@
 /**
  * Updated By PHP Office365 Generator 2019-11-16T20:10:00+00:00 16.0.19506.12022
  */
-namespace Office365\PHP\Client\SharePoint\UserProfiles;
+namespace Office365\SharePoint\UserProfiles;
 
-use Office365\PHP\Client\Runtime\InvokePostMethodQuery;
-use Office365\PHP\Client\Runtime\ClientRuntimeContext;
-use Office365\PHP\Client\Runtime\ClientObject;
-use Office365\PHP\Client\Runtime\ResourcePath;
+use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\ResourcePath;
 
 class UserProfile extends ClientObject
 {

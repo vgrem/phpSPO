@@ -3,12 +3,12 @@
 /**
  * Updated By PHP Office365 Generator 2019-11-17T16:07:15+00:00 16.0.19506.12022
  */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
 use Exception;
-use Office365\PHP\Client\Runtime\DeleteEntityQuery;
-use Office365\PHP\Client\Runtime\UpdateEntityQuery;
-use Office365\PHP\Client\Runtime\ResourcePath;
+use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\UpdateEntityQuery;
+use Office365\Runtime\ResourcePath;
 /**
  * Specifies 
  * a list 

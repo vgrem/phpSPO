@@ -1,13 +1,13 @@
 <?php
 
 
-use Office365\PHP\Client\Runtime\Types\Guid;
-use Office365\PHP\Client\SharePoint\File;
-use Office365\PHP\Client\SharePoint\FileCreationInformation;
-use Office365\PHP\Client\SharePoint\Folder;
-use Office365\PHP\Client\SharePoint\ListItem;
-use Office365\PHP\Client\SharePoint\ListTemplateType;
-use Office365\PHP\Client\SharePoint\SPList;
+use Office365\Runtime\Types\Guid;
+use Office365\SharePoint\File;
+use Office365\SharePoint\FileCreationInformation;
+use Office365\SharePoint\Folder;
+use Office365\SharePoint\ListItem;
+use Office365\SharePoint\ListTemplateType;
+use Office365\SharePoint\SPList;
 
 class FileTest extends SharePointTestCase
 {
@@ -124,7 +124,7 @@ class FileTest extends SharePointTestCase
      * @depends testUploadFiles
      * @param $uploadFile
      */
-    /*public function testUploadedFileCreateAnonymousLink(\Office365\PHP\Client\SharePoint\File $uploadFile)
+    /*public function testUploadedFileCreateAnonymousLink(\Office365\SharePoint\File $uploadFile)
     {
         $listItem = $uploadFile->getListItemAllFields();
         self::$context->load($listItem,array("EncodedAbsUrl"));

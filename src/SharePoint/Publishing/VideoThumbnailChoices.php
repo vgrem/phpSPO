@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Office365\PHP\Client\SharePoint\Publishing;
+namespace Office365\SharePoint\Publishing;
 
 
 class VideoThumbnailChoices

@@ -1,12 +1,12 @@
 <?php
-use Office365\PHP\Client\OutlookServices\BodyType;
-use Office365\PHP\Client\OutlookServices\EmailAddress;
-use Office365\PHP\Client\OutlookServices\FileAttachment;
-use Office365\PHP\Client\OutlookServices\ItemAttachment;
-use Office365\PHP\Client\OutlookServices\ItemBody;
-use Office365\PHP\Client\OutlookServices\Message;
-use Office365\PHP\Client\OutlookServices\OutlookEntity;
-use Office365\PHP\Client\OutlookServices\Recipient;
+use Office365\OutlookServices\BodyType;
+use Office365\OutlookServices\EmailAddress;
+use Office365\OutlookServices\FileAttachment;
+use Office365\OutlookServices\ItemAttachment;
+use Office365\OutlookServices\ItemBody;
+use Office365\OutlookServices\Message;
+use Office365\OutlookServices\OutlookEntity;
+use Office365\OutlookServices\Recipient;
 
 require_once('OutlookServicesTestCase.php');
 

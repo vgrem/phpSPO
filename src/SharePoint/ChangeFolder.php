@@ -3,7 +3,7 @@
 /**
  * Updated By PHP Office365 Generator 2019-11-16T19:41:02+00:00 16.0.19506.12022
  */
-namespace Office365\PHP\Client\SharePoint;
+namespace Office365\SharePoint;
 
 /**
  * Specifies 

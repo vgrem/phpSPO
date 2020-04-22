@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Office365\PHP\Client\Runtime;
+namespace Office365\Runtime;
 use Exception;
-use Office365\PHP\Client\Runtime\CSOM\ICSOMCallable;
+use Office365\Runtime\CSOM\ICSOMCallable;
 use SimpleXMLElement;
 
 /**

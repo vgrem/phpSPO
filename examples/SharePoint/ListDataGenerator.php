@@ -4,15 +4,17 @@
 require_once '../vendor/autoload.php';
 $Settings = include('../../Settings.php');
 
-use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
-use Office365\PHP\Client\SharePoint\ClientContext;
-use Office365\PHP\Client\SharePoint\ListTemplateType;
+
+use Office365\SharePoint\ClientContext;
+use Office365\SharePoint\ListCreationInformation;
+use Office365\SharePoint\ListTemplateType;
+use Office365\SharePoint\SPList;
+use Office365\SharePoint\Web;
 
 
 try {
-	$authCtx = new AuthenticationContext($Settings['Url']);
-	$authCtx->acquireTokenForUser($Settings['UserName'],$Settings['Password']);
-    $ctx = new ClientContext($Settings['Url'],$authCtx);
+
+    $ctx = ClientContext::connectWithClientCredentials($Settings['Url'],$Settings['ClientId'],$Settings['ClientSecret']);
 	generateContacts($ctx);
 }
 catch (Exception $e) {
@@ -22,14 +24,13 @@ catch (Exception $e) {
 function generateContacts(ClientContext $ctx){
 
     $listTitle = 'Contacts';
-    $list =  ListExtensions::ensureList($ctx->getWeb(),$listTitle, ListTemplateType::Contacts);
-	$contactsCount = 1;
+    $list =  ensureList($ctx->getWeb(),$listTitle, ListTemplateType::Contacts);
+	$contactsCount = 100;
 	for($i = 0; $i < $contactsCount; $i++){
-	     $contactEntry = createContactEntry();
-         $contactEntry['__metadata'] = array('type' => 'SP.Data.ContactsListItem'); //mandatory!
+	     $contactEntry = createContactCard();
 	     $item = $list->addItem($contactEntry);
          $ctx->executeQuery();
-	     print "$i: Contact '{$item->Title}' has been created.\r\n";
+	     print "$i: Contact '{$item->getProperty('Title')}' has been created.\r\n";
 	}
 }
 
@@ -37,7 +38,7 @@ function generateContacts(ClientContext $ctx){
 /**
  * @return array
  */
-function createContactEntry()
+function createContactCard()
 {
 	 $contactCard = Faker\Factory::create();
 	 return array('Title' => $contactCard->username, 
@@ -53,4 +54,30 @@ function createContactEntry()
 	         );  
 }
 
+/**
+ * @param Web $web
+ * @param string $listTitle
+ * @param int $type
+ * @return SPList
+ */
+function ensureList(Web $web, $listTitle, $type)
+{
+    $ctx = $web->getContext();
+    $lists = $web->getLists()->filter("Title eq '$listTitle'")->top(1);
+    $ctx->load($lists);
+    $ctx->executeQuery();
+    if ($lists->getCount() == 1) {
+        return $lists->getData()[0];
+    }
+    return createList($web, $listTitle, $type);
+}
 
+function createList(Web $web, $listTitle, $type)
+{
+    $ctx = $web->getContext();
+    $info = new ListCreationInformation($listTitle);
+    $info->BaseTemplate = $type;
+    $list = $web->getLists()->add($info);
+    $ctx->executeQuery();
+    return $list;
+}

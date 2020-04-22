@@ -1,9 +1,9 @@
 <?php
 
 
-use Office365\PHP\Client\OutlookServices\OutlookClient;
-use Office365\PHP\Client\Runtime\Auth\AuthenticationContext;
-use Office365\PHP\Client\Runtime\Auth\UserCredentials;
+use Office365\OutlookServices\OutlookClient;
+use Office365\Runtime\Auth\AuthenticationContext;
+use Office365\Runtime\Auth\UserCredentials;
 use PHPUnit\Framework\TestCase;
 
 

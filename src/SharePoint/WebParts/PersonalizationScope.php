@@ -1,9 +1,9 @@
 <?php
 
-namespace Office365\PHP\Client\SharePoint\WebParts;
+namespace Office365\SharePoint\WebParts;
 
 
-use Office365\PHP\Client\Runtime\Types\EnumType;
+use Office365\Runtime\Types\EnumType;
 
 class PersonalizationScope extends EnumType
 {

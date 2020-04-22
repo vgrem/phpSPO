@@ -1,7 +1,7 @@
 <?php
 
-use Office365\PHP\Client\OutlookServices\Contact;
-use Office365\PHP\Client\OutlookServices\EmailAddress;
+use Office365\OutlookServices\Contact;
+use Office365\OutlookServices\EmailAddress;
 
 class OutlookContactTest extends OutlookServicesTestCase
 {

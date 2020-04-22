@@ -1,18 +1,14 @@
 <?php
 
-
-
-use Office365\PHP\Client\Runtime\OData\ODataPathBuilder;
+use Office365\Runtime\ResourcePath;
 
 
 class ResourcePathTest extends SharePointTestCase
 {
-
     function testCreatePath(){
-        $url ="web/RoleAssignments";
-        $path = ODataPathBuilder::fromUrl($url);
+        $path = new ResourcePath("RoleAssignments",new ResourcePath("Web"));
         self::assertEquals("RoleAssignments",$path->getSegment());
-        self::assertEquals("web",$path->getParent()->getSegment());
+        self::assertEquals("Web",$path->getParent()->getSegment());
     }
 
 }

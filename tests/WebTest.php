@@ -1,8 +1,8 @@
 <?php
 
-use Office365\PHP\Client\SharePoint\PrincipalType;
-use Office365\PHP\Client\SharePoint\RoleAssignment;
-use Office365\PHP\Client\SharePoint\Web;
+use Office365\SharePoint\PrincipalType;
+use Office365\SharePoint\RoleAssignment;
+use Office365\SharePoint\Web;
 
 
 class WebTest extends SharePointTestCase
@@ -54,7 +54,7 @@ class WebTest extends SharePointTestCase
         $webs = self::$context->getWeb()->getWebs()->filter("Title eq '$webTitle'");
         self::$context->load($webs);
         self::$context->executeQuery();
-        $this->assertCount(1,$webs->getData());
+        $this->assertEquals(1, $webs->getCount());
         return $targetWeb;
     }
 
@@ -76,7 +76,7 @@ class WebTest extends SharePointTestCase
         $webs = self::$context->getWeb()->getWebs()->filter("Title eq '$webTitle'");
         $ctx->load($webs);
         $ctx->executeQuery();
-        $this->assertCount(1,$webs->getData());
+        $this->assertEquals(1,$webs->getCount());
 
         return $targetWeb;
     }
@@ -94,6 +94,7 @@ class WebTest extends SharePointTestCase
         $web = self::$context->getSite()->openWebById($targetWeb->getProperty("Id"));
         self::$context->executeQuery();
         self::assertTrue(true);
+        self::assertNotNull($web->getResourcePath());
     }
 
     /**
@@ -108,7 +109,7 @@ class WebTest extends SharePointTestCase
         $webs = self::$context->getWeb()->getWebs()->filter("Title eq '$title'");
         self::$context->load($webs);
         self::$context->executeQuery();
-        $this->assertCount(0,$webs->getData());
+        $this->assertEquals(0,$webs->getCount());
     }
 
 }
