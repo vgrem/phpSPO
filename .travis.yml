@@ -34,6 +34,7 @@ before_script:
   - phpunit --version
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
+  - composer update --lock
 
 # omitting "script:" will default to phpunit
 script:
