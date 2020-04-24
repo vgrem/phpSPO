@@ -1,13 +1,14 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-10-05T21:27:52+00:00 
-*/
+ * Updated By PHP Office365 Generator 2020-04-22T21:18:30+00:00 16.0.20008.12009
+ */
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValueObject;
 /**
- * Specifies the properties used to create a new list view.
+ * Specifies 
+ * the properties used to create a new list view.
  */
 class ViewCreationInformation extends ClientValueObject
 {
@@ -49,4 +50,8 @@ class ViewCreationInformation extends ClientValueObject
         parent::__construct("View");
     }
     public $baseViewId;
+    /**
+     * @var string
+     */
+    public $ViewData;
 }

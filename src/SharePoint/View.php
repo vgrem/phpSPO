@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T19:13:59+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-04-22T21:38:25+00:00 16.0.20008.12009
  */
 namespace Office365\SharePoint;
 
@@ -33,8 +33,7 @@ class View extends ClientObject
     public function getViewFields()
     {
         if (!$this->isPropertyAvailable('ViewFields')) {
-            $this->setProperty("ViewFields", new ViewFieldCollection($this->getContext(),
-                new ResourcePath("ViewFields", $this->getResourcePath())));
+            $this->setProperty("ViewFields", new ViewFieldCollection($this->getContext(), new ResourcePath("ViewFields", $this->getResourcePath())));
         }
         return $this->getProperty("ViewFields");
     }
@@ -1113,5 +1112,39 @@ class View extends ClientObject
     public function setVisualizationInfo($value)
     {
         $this->setProperty("VisualizationInfo", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getGridLayout()
+    {
+        if (!$this->isPropertyAvailable("GridLayout")) {
+            return null;
+        }
+        return $this->getProperty("GridLayout");
+    }
+    /**
+     * @var string
+     */
+    public function setGridLayout($value)
+    {
+        $this->setProperty("GridLayout", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getViewType2()
+    {
+        if (!$this->isPropertyAvailable("ViewType2")) {
+            return null;
+        }
+        return $this->getProperty("ViewType2");
+    }
+    /**
+     * @var string
+     */
+    public function setViewType2($value)
+    {
+        $this->setProperty("ViewType2", $value, true);
     }
 }

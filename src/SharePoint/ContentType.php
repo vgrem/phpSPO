@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T16:07:15+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-04-22T21:18:30+00:00 16.0.20008.12009
  */
 namespace Office365\SharePoint;
 
@@ -29,11 +29,11 @@ class ContentType extends ClientObject
     {
         if ($name == "Id") {
             $value = $value['StringValue'];
-        }
-        else if ($name == "StringId") {
-            $parentPath = $this->parentCollection->getResourcePath();
-            $this->resourcePath = new ResourcePath($parentPath->getSegment() . "('{$value}')",
-                    $parentPath->getParent());
+        } else {
+            if ($name == "StringId") {
+                $parentPath = $this->parentCollection->getResourcePath();
+                $this->resourcePath = new ResourcePath($parentPath->getSegment() . "('{$value}')", $parentPath->getParent());
+            }
         }
         parent::setProperty($name, $value, $persistChanges);
     }
@@ -634,9 +634,25 @@ class ContentType extends ClientObject
     public function getNameResource()
     {
         if (!$this->isPropertyAvailable("NameResource")) {
-            $this->setProperty("NameResource",
-                new UserResource($this->getContext(), new ResourcePath("NameResource", $this->getResourcePath())));
+            $this->setProperty("NameResource", new UserResource($this->getContext(), new ResourcePath("NameResource", $this->getResourcePath())));
         }
         return $this->getProperty("NameResource");
+    }
+    /**
+     * @return string
+     */
+    public function getClientFormCustomFormatter()
+    {
+        if (!$this->isPropertyAvailable("ClientFormCustomFormatter")) {
+            return null;
+        }
+        return $this->getProperty("ClientFormCustomFormatter");
+    }
+    /**
+     * @var string
+     */
+    public function setClientFormCustomFormatter($value)
+    {
+        $this->setProperty("ClientFormCustomFormatter", $value, true);
     }
 }

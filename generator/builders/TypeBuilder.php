@@ -1,6 +1,8 @@
 <?php
 
+namespace Office365\Generator\Builders;
 
+use Office365\Generator\AnnotationsResolver;
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;

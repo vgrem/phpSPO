@@ -1,5 +1,7 @@
 <?php
 
+namespace Office365\Generator\Builders;
+
 use PhpParser\Comment\Doc;
 
 class DocCommentBuilder

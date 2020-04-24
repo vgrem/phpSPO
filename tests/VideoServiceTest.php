@@ -58,7 +58,7 @@ class VideoServiceTest extends SharePointTestCase
             self::$targetChannel = $result[0];
         }
 
-        self::assertEquals(self::$targetChannel->getProperty("Title"),$channelName);
+        self::assertEquals(self::$targetChannel->getTitle(),$channelName);
         return self::$targetChannel;
     }
 
@@ -68,20 +68,22 @@ class VideoServiceTest extends SharePointTestCase
      * @param VideoChannel $channel
      * @return VideoItem
      */
-    public function testCreateVideo(VideoChannel $channel)
+    public function testCreateVideo($channel)
     {
         $videoTitle = self::createUniqueName("Video");
         $videoFileName = $videoTitle . ".mp4";
         $video = $channel->getVideos()->add($videoTitle,$videoTitle,$videoFileName);
         self::$context->executeQuery();
-        self::assertNotNull($video->getProperty("Url"));
-        self::assertEquals($video->getProperty("FileName"),$videoFileName);
+        self::assertNotNull($video->getUrl());
+        self::assertEquals($video->getFileName(),$videoFileName);
         return $video;
     }
+
 
     /**
      * @depends testCreateVideo
      * @param VideoItem $videoItem
+     * @throws Exception
      */
     public function testUploadVideo(VideoItem $videoItem)
     {
@@ -90,6 +92,7 @@ class VideoServiceTest extends SharePointTestCase
         $videoItem->saveBinaryStream($videoContent);
         self::assertTrue(true);
     }
+
 
     /**
      * @depends testCreateVideo

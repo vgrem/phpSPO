@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+
 
 use Office365\GraphClient\GraphServiceClient;
 use Office365\Runtime\Auth\AuthenticationContext;
@@ -30,7 +30,7 @@ abstract class GraphTestCase extends TestCase
     }
 
 
-    private static function acquireToken(AuthenticationContext $authCtx, $clientId, $userName, $password)
+    public static function acquireToken(AuthenticationContext $authCtx, $clientId, $userName, $password)
     {
         $resource = "https://graph.microsoft.com";
         try {

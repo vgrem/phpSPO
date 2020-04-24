@@ -164,7 +164,7 @@ class ListItemTest extends SharePointTestCase
         if($items->getCount() > 0){
             $item = $items->getItem(0);
             $predecessors = $item->getProperty("Predecessors");
-            self::assertIsArray($predecessors);
+            self::assertNotNull($predecessors);
             if(count($predecessors) > 0)
                 self::assertNotNull($predecessors[0]['Title']);
 

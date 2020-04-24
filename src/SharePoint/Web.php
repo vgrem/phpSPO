@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-01-12T20:58:24+00:00 16.0.19527.12070
+ * Updated By PHP Office365 Generator 2020-04-23T18:46:51+00:00 16.0.20008.12009
  */
 namespace Office365\SharePoint;
-
 
 use Office365\Runtime\ClientResult;
 use Office365\Runtime\DeleteEntityQuery;
@@ -40,12 +39,7 @@ class Web extends SecurableObject
     public static function createAnonymousLink($context, $url, $isEditLink)
     {
         $result = new ClientResult();
-        $qry = new InvokePostMethodQuery($context->getWeb(),
-            "CreateAnonymousLink",
-            null,
-            null,
-            array("url" => $url, "isEditLink" => $isEditLink)
-        );
+        $qry = new InvokePostMethodQuery($context->getWeb(), "CreateAnonymousLink", null, null, array("url" => $url, "isEditLink" => $isEditLink));
         $qry->IsStatic = true;
         $context->addQueryAndResultObject($qry, $result);
         return $result;
@@ -60,11 +54,7 @@ class Web extends SecurableObject
     public static function createAnonymousLinkWithExpiration($context, $url, $isEditLink, $expirationString)
     {
         $result = new ClientResult();
-        $qry = new InvokePostMethodQuery($context->getWeb(),
-            "CreateAnonymousLinkWithExpiration",
-            null,
-            null,
-            array("url" => $url, "isEditLink" => $isEditLink, "expirationString" => $expirationString));
+        $qry = new InvokePostMethodQuery($context->getWeb(), "CreateAnonymousLinkWithExpiration", null, null, array("url" => $url, "isEditLink" => $isEditLink, "expirationString" => $expirationString));
         $qry->IsStatic = true;
         $context->addQueryAndResultObject($qry, $result);
         return $result;
@@ -87,7 +77,7 @@ class Web extends SecurableObject
      */
     public function getChanges(ChangeQuery $query)
     {
-        $qry = new InvokePostMethodQuery($this, "GetChanges", null,"query", $query);
+        $qry = new InvokePostMethodQuery($this, "GetChanges", null, "query", $query);
         $changes = new ChangeCollection($this->getContext());
         $this->getContext()->addQueryAndResultObject($qry, $changes);
         return $changes;
@@ -112,8 +102,7 @@ class Web extends SecurableObject
     public function getWebs()
     {
         if (!$this->isPropertyAvailable('Webs')) {
-            $this->setProperty("Webs", new WebCollection($this->getContext(),
-                new ResourcePath("webs", $this->getResourcePath())));
+            $this->setProperty("Webs", new WebCollection($this->getContext(), new ResourcePath("webs", $this->getResourcePath())));
         }
         return $this->getProperty("Webs");
     }
@@ -124,8 +113,7 @@ class Web extends SecurableObject
     public function getFields()
     {
         if (!$this->isPropertyAvailable('Fields')) {
-            $this->setProperty("Fields", new FieldCollection($this->getContext(),
-                new ResourcePath("fields", $this->getResourcePath())));
+            $this->setProperty("Fields", new FieldCollection($this->getContext(), new ResourcePath("fields", $this->getResourcePath())));
         }
         return $this->getProperty("Fields");
     }
@@ -136,8 +124,7 @@ class Web extends SecurableObject
     public function getFolders()
     {
         if (!isset($this->Folders)) {
-            $this->Folders = new FolderCollection($this->getContext(),
-                new ResourcePath("folders", $this->getResourcePath()));
+            $this->Folders = new FolderCollection($this->getContext(), new ResourcePath("folders", $this->getResourcePath()));
         }
         return $this->Folders;
     }
@@ -148,8 +135,7 @@ class Web extends SecurableObject
     public function getSiteUsers()
     {
         if (!isset($this->SiteUsers)) {
-            $this->SiteUsers = new UserCollection($this->getContext(),
-                new ResourcePath("SiteUsers", $this->getResourcePath()));
+            $this->SiteUsers = new UserCollection($this->getContext(), new ResourcePath("SiteUsers", $this->getResourcePath()));
         }
         return $this->SiteUsers;
     }
@@ -160,8 +146,7 @@ class Web extends SecurableObject
     public function getSiteGroups()
     {
         if (!isset($this->SiteGroups)) {
-            $this->setProperty("SiteGroups", new GroupCollection($this->getContext(),
-                new ResourcePath("SiteGroups", $this->getResourcePath())));
+            $this->setProperty("SiteGroups", new GroupCollection($this->getContext(), new ResourcePath("SiteGroups", $this->getResourcePath())));
         }
         return $this->getProperty("SiteGroups");
     }
@@ -172,8 +157,7 @@ class Web extends SecurableObject
     public function getRoleDefinitions()
     {
         if (!$this->isPropertyAvailable('RoleDefinitions')) {
-            $this->setProperty("RoleDefinitions", new RoleDefinitionCollection($this->getContext(),
-                new ResourcePath("RoleDefinitions", $this->getResourcePath())));
+            $this->setProperty("RoleDefinitions", new RoleDefinitionCollection($this->getContext(), new ResourcePath("RoleDefinitions", $this->getResourcePath())));
         }
         return $this->getProperty("RoleDefinitions");
     }
@@ -184,8 +168,7 @@ class Web extends SecurableObject
     public function getUserCustomActions()
     {
         if (!$this->isPropertyAvailable('UserCustomActions')) {
-            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(),
-                new ResourcePath("UserCustomActions", $this->getResourcePath())));
+            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(), new ResourcePath("UserCustomActions", $this->getResourcePath())));
         }
         return $this->getProperty("UserCustomActions");
     }
@@ -195,12 +178,10 @@ class Web extends SecurableObject
     public function getCurrentUser()
     {
         if (!$this->isPropertyAvailable('CurrentUser')) {
-            $this->setProperty("CurrentUser", new User($this->getContext(),
-                new ResourcePath("CurrentUser", $this->getResourcePath())));
+            $this->setProperty("CurrentUser", new User($this->getContext(), new ResourcePath("CurrentUser", $this->getResourcePath())));
         }
         return $this->getProperty("CurrentUser");
     }
-
     /**
      * Returns the file object located at the specified server-relative URL.
      * @param string $serverRelativeUrl The server relative URL of the file.
@@ -208,7 +189,7 @@ class Web extends SecurableObject
      */
     public function getFileByServerRelativeUrl($serverRelativeUrl)
     {
-        $path = new ResourcePathServiceOperation( "getFileByServerRelativeUrl", array(rawurlencode($serverRelativeUrl)),$this->getResourcePath());
+        $path = new ResourcePathServiceOperation("getFileByServerRelativeUrl", array(rawurlencode($serverRelativeUrl)), $this->getResourcePath());
         return new File($this->getContext(), $path);
     }
     /**
@@ -218,8 +199,7 @@ class Web extends SecurableObject
      */
     public function getFolderByServerRelativeUrl($serverRelativeUrl)
     {
-        return new Folder($this->getContext(),
-            new ResourcePathServiceOperation("getFolderByServerRelativeUrl", array(rawurlencode($serverRelativeUrl)),$this->getResourcePath()));
+        return new Folder($this->getContext(), new ResourcePathServiceOperation("getFolderByServerRelativeUrl", array(rawurlencode($serverRelativeUrl)), $this->getResourcePath()));
     }
     /**
      * @return ContentTypeCollection
@@ -227,8 +207,7 @@ class Web extends SecurableObject
     public function getContentTypes()
     {
         if (!$this->isPropertyAvailable('ContentTypes')) {
-            $this->setProperty('ContentTypes', new ContentTypeCollection($this->getContext(),
-                new ResourcePath('ContentTypes', $this->getResourcePath())), false);
+            $this->setProperty('ContentTypes', new ContentTypeCollection($this->getContext(), new ResourcePath('ContentTypes', $this->getResourcePath())), false);
         }
         return $this->getProperty('ContentTypes');
     }
@@ -1989,8 +1968,7 @@ class Web extends SecurableObject
     public function getAssociatedMemberGroup()
     {
         if (!$this->isPropertyAvailable("AssociatedMemberGroup")) {
-            $this->setProperty("AssociatedMemberGroup", new Group($this->getContext(),
-                new ResourcePath("AssociatedMemberGroup", $this->getResourcePath())));
+            $this->setProperty("AssociatedMemberGroup", new Group($this->getContext(), new ResourcePath("AssociatedMemberGroup", $this->getResourcePath())));
         }
         return $this->getProperty("AssociatedMemberGroup");
     }
@@ -2004,8 +1982,7 @@ class Web extends SecurableObject
     public function getAssociatedOwnerGroup()
     {
         if (!$this->isPropertyAvailable("AssociatedOwnerGroup")) {
-            $this->setProperty("AssociatedOwnerGroup", new Group($this->getContext(),
-                new ResourcePath("AssociatedOwnerGroup", $this->getResourcePath())));
+            $this->setProperty("AssociatedOwnerGroup", new Group($this->getContext(), new ResourcePath("AssociatedOwnerGroup", $this->getResourcePath())));
         }
         return $this->getProperty("AssociatedOwnerGroup");
     }
@@ -2018,8 +1995,7 @@ class Web extends SecurableObject
     public function getAssociatedVisitorGroup()
     {
         if (!$this->isPropertyAvailable("AssociatedVisitorGroup")) {
-            $this->setProperty("AssociatedVisitorGroup", new Group($this->getContext(),
-                new ResourcePath("AssociatedVisitorGroup", $this->getResourcePath())));
+            $this->setProperty("AssociatedVisitorGroup", new Group($this->getContext(), new ResourcePath("AssociatedVisitorGroup", $this->getResourcePath())));
         }
         return $this->getProperty("AssociatedVisitorGroup");
     }
@@ -2031,8 +2007,7 @@ class Web extends SecurableObject
     public function getAuthor()
     {
         if (!$this->isPropertyAvailable("Author")) {
-            $this->setProperty("Author", new User($this->getContext(),
-                new ResourcePath("Author", $this->getResourcePath())));
+            $this->setProperty("Author", new User($this->getContext(), new ResourcePath("Author", $this->getResourcePath())));
         }
         return $this->getProperty("Author");
     }
@@ -2046,8 +2021,7 @@ class Web extends SecurableObject
     public function getAvailableContentTypes()
     {
         if (!$this->isPropertyAvailable("AvailableContentTypes")) {
-            $this->setProperty("AvailableContentTypes", new ContentTypeCollection($this->getContext(),
-                new ResourcePath("AvailableContentTypes", $this->getResourcePath())));
+            $this->setProperty("AvailableContentTypes", new ContentTypeCollection($this->getContext(), new ResourcePath("AvailableContentTypes", $this->getResourcePath())));
         }
         return $this->getProperty("AvailableContentTypes");
     }
@@ -2062,8 +2036,7 @@ class Web extends SecurableObject
     public function getAvailableFields()
     {
         if (!$this->isPropertyAvailable("AvailableFields")) {
-            $this->setProperty("AvailableFields", new FieldCollection($this->getContext(),
-                new ResourcePath("AvailableFields", $this->getResourcePath())));
+            $this->setProperty("AvailableFields", new FieldCollection($this->getContext(), new ResourcePath("AvailableFields", $this->getResourcePath())));
         }
         return $this->getProperty("AvailableFields");
     }
@@ -2076,8 +2049,7 @@ class Web extends SecurableObject
     public function getRecycleBin()
     {
         if (!$this->isPropertyAvailable("RecycleBin")) {
-            $this->setProperty("RecycleBin", new RecycleBinItemCollection($this->getContext(),
-                new ResourcePath("RecycleBin", $this->getResourcePath())));
+            $this->setProperty("RecycleBin", new RecycleBinItemCollection($this->getContext(), new ResourcePath("RecycleBin", $this->getResourcePath())));
         }
         return $this->getProperty("RecycleBin");
     }
@@ -2090,8 +2062,7 @@ class Web extends SecurableObject
     public function getRootFolder()
     {
         if (!$this->isPropertyAvailable("RootFolder")) {
-            $this->setProperty("RootFolder", new Folder($this->getContext(),
-                new ResourcePath("RootFolder", $this->getResourcePath())));
+            $this->setProperty("RootFolder", new Folder($this->getContext(), new ResourcePath("RootFolder", $this->getResourcePath())));
         }
         return $this->getProperty("RootFolder");
     }
@@ -2101,8 +2072,7 @@ class Web extends SecurableObject
     public function getDescriptionResource()
     {
         if (!$this->isPropertyAvailable("DescriptionResource")) {
-            $this->setProperty("DescriptionResource", new UserResource($this->getContext(),
-                new ResourcePath("DescriptionResource", $this->getResourcePath())));
+            $this->setProperty("DescriptionResource", new UserResource($this->getContext(), new ResourcePath("DescriptionResource", $this->getResourcePath())));
         }
         return $this->getProperty("DescriptionResource");
     }
@@ -2112,8 +2082,7 @@ class Web extends SecurableObject
     public function getTitleResource()
     {
         if (!$this->isPropertyAvailable("TitleResource")) {
-            $this->setProperty("TitleResource", new UserResource($this->getContext(),
-                new ResourcePath("TitleResource", $this->getResourcePath())));
+            $this->setProperty("TitleResource", new UserResource($this->getContext(), new ResourcePath("TitleResource", $this->getResourcePath())));
         }
         return $this->getProperty("TitleResource");
     }
@@ -2123,8 +2092,7 @@ class Web extends SecurableObject
     public function getDataLeakagePreventionStatusInfo()
     {
         if (!$this->isPropertyAvailable("DataLeakagePreventionStatusInfo")) {
-            $this->setProperty("DataLeakagePreventionStatusInfo", new SPDataLeakagePreventionStatusInfo($this->getContext(),
-                new ResourcePath("DataLeakagePreventionStatusInfo", $this->getResourcePath())));
+            $this->setProperty("DataLeakagePreventionStatusInfo", new SPDataLeakagePreventionStatusInfo($this->getContext(), new ResourcePath("DataLeakagePreventionStatusInfo", $this->getResourcePath())));
         }
         return $this->getProperty("DataLeakagePreventionStatusInfo");
     }
@@ -2134,8 +2102,7 @@ class Web extends SecurableObject
     public function getMultilingualSettings()
     {
         if (!$this->isPropertyAvailable("MultilingualSettings")) {
-            $this->setProperty("MultilingualSettings", new MultilingualSettings($this->getContext(),
-                new ResourcePath("MultilingualSettings", $this->getResourcePath())));
+            $this->setProperty("MultilingualSettings", new MultilingualSettings($this->getContext(), new ResourcePath("MultilingualSettings", $this->getResourcePath())));
         }
         return $this->getProperty("MultilingualSettings");
     }
@@ -2145,8 +2112,7 @@ class Web extends SecurableObject
     public function getNavigation()
     {
         if (!$this->isPropertyAvailable("Navigation")) {
-            $this->setProperty("Navigation", new Navigation($this->getContext(),
-                new ResourcePath("Navigation", $this->getResourcePath())));
+            $this->setProperty("Navigation", new Navigation($this->getContext(), new ResourcePath("Navigation", $this->getResourcePath())));
         }
         return $this->getProperty("Navigation");
     }
@@ -2156,8 +2122,7 @@ class Web extends SecurableObject
     public function getParentWeb()
     {
         if (!$this->isPropertyAvailable("ParentWeb")) {
-            $this->setProperty("ParentWeb", new WebInformation($this->getContext(),
-                new ResourcePath("ParentWeb", $this->getResourcePath())));
+            $this->setProperty("ParentWeb", new WebInformation($this->getContext(), new ResourcePath("ParentWeb", $this->getResourcePath())));
         }
         return $this->getProperty("ParentWeb");
     }
@@ -2167,8 +2132,7 @@ class Web extends SecurableObject
     public function getRegionalSettings()
     {
         if (!$this->isPropertyAvailable("RegionalSettings")) {
-            $this->setProperty("RegionalSettings", new RegionalSettings($this->getContext(),
-                new ResourcePath("RegionalSettings", $this->getResourcePath())));
+            $this->setProperty("RegionalSettings", new RegionalSettings($this->getContext(), new ResourcePath("RegionalSettings", $this->getResourcePath())));
         }
         return $this->getProperty("RegionalSettings");
     }
@@ -2178,8 +2142,7 @@ class Web extends SecurableObject
     public function getThemeInfo()
     {
         if (!$this->isPropertyAvailable("ThemeInfo")) {
-            $this->setProperty("ThemeInfo", new ThemeInfo($this->getContext(),
-                new ResourcePath("ThemeInfo", $this->getResourcePath())));
+            $this->setProperty("ThemeInfo", new ThemeInfo($this->getContext(), new ResourcePath("ThemeInfo", $this->getResourcePath())));
         }
         return $this->getProperty("ThemeInfo");
     }
@@ -2193,9 +2156,82 @@ class Web extends SecurableObject
     public function getSiteUserInfoList()
     {
         if (!$this->isPropertyAvailable("SiteUserInfoList")) {
-            $this->setProperty("SiteUserInfoList", new SPList($this->getContext(),
-                new ResourcePath("SiteUserInfoList", $this->getResourcePath())));
+            $this->setProperty("SiteUserInfoList", new SPList($this->getContext(), new ResourcePath("SiteUserInfoList", $this->getResourcePath())));
         }
         return $this->getProperty("SiteUserInfoList");
+    }
+    /**
+     * Accessibility: Read OnlySpecifies 
+     * the language 
+     * code identifiers (LCIDs) of the languages that are enabled for the site (2).
+     * @return array
+     */
+    public function getSupportedUILanguageIds()
+    {
+        if (!$this->isPropertyAvailable("SupportedUILanguageIds")) {
+            return null;
+        }
+        return $this->getProperty("SupportedUILanguageIds");
+    }
+    /**
+     * @return string
+     */
+    public function getDefaultNewPageTemplateId()
+    {
+        if (!$this->isPropertyAvailable("DefaultNewPageTemplateId")) {
+            return null;
+        }
+        return $this->getProperty("DefaultNewPageTemplateId");
+    }
+    /**
+     * @var string
+     */
+    public function setDefaultNewPageTemplateId($value)
+    {
+        $this->setProperty("DefaultNewPageTemplateId", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getHideTitleInHeader()
+    {
+        if (!$this->isPropertyAvailable("HideTitleInHeader")) {
+            return null;
+        }
+        return $this->getProperty("HideTitleInHeader");
+    }
+    /**
+     * @var bool
+     */
+    public function setHideTitleInHeader($value)
+    {
+        $this->setProperty("HideTitleInHeader", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getNextStepsFirstRunEnabled()
+    {
+        if (!$this->isPropertyAvailable("NextStepsFirstRunEnabled")) {
+            return null;
+        }
+        return $this->getProperty("NextStepsFirstRunEnabled");
+    }
+    /**
+     * @var bool
+     */
+    public function setNextStepsFirstRunEnabled($value)
+    {
+        $this->setProperty("NextStepsFirstRunEnabled", $value, true);
+    }
+    /**
+     * @return ModernizeHomepageResult
+     */
+    public function getCanModernizeHomepage()
+    {
+        if (!$this->isPropertyAvailable("CanModernizeHomepage")) {
+            $this->setProperty("CanModernizeHomepage", new ModernizeHomepageResult($this->getContext(), new ResourcePath("CanModernizeHomepage", $this->getResourcePath())));
+        }
+        return $this->getProperty("CanModernizeHomepage");
     }
 }

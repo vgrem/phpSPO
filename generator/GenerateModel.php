@@ -3,6 +3,9 @@
 require_once(__DIR__ . '/vendor/autoload.php');
 $Settings = include('../Settings.php');
 
+use Office365\Generator\Builders\TemplateContext;
+use Office365\Generator\Builders\TypeBuilder;
+use Office365\Runtime\OData\MetadataResolver;
 use Office365\Runtime\OData\ODataModel;
 use Office365\Runtime\OData\ODataV3Reader;
 use Office365\SharePoint\ClientContext;
@@ -17,6 +20,7 @@ function generateTypeFile($typeSchema,$options)
     $templatePath =  $options['templatePath'] . $typeSchema['baseType'] . 'Template.php';
     $template = new TemplateContext($templatePath);
     $builder = new TypeBuilder($options,$typeSchema);
+    echo "Processing " . $typeSchema['file'] . " file: "  . PHP_EOL;
     if($builder->build($template)){
         $outputFile = $typeSchema['file'];
         $outputFolder = dirname($outputFile);
@@ -30,6 +34,19 @@ function ensureFolder(&$path){
     if (!is_dir($path)) {
         mkdir($path,0777,true);
     }
+}
+
+
+function loadMetadataFile(ClientContext $ctx){
+    $version = $ctx->getContextWebInformation()->LibraryVersion;
+    $filePath = './metadata/SharePoint' . $ctx->getContextWebInformation()->LibraryVersion . ".xml";
+    if(!file_exists($filePath)){
+        echo "Loading metadata for version " . $version . " ..."  . PHP_EOL;
+        $contents = MetadataResolver::getMetadata($ctx);
+        file_put_contents($filePath,$contents);
+        return $contents;
+    }
+    return file_get_contents($filePath);
 }
 
 
@@ -49,22 +66,18 @@ function generateFiles(ODataModel $model){
 
 try {
     $ctx = ClientContext::connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
-    //$edmxContents = MetadataResolver::getMetadata($ctx);
-    $edmxContents = file_get_contents('./metadata/SharePoint_311019.xml');
-    $outputPath = dirname((new ReflectionClass($ctx))->getFileName());
-    $rootNamespace = (new ReflectionClass($ctx))->getNamespaceName();
     $ctx->requestFormDigest();
     $ctx->executeQuery();
-    $now = date('c');
-    $version = $ctx->getContextWebInformation()->LibraryVersion;
+    $edmxContents = loadMetadataFile($ctx);
+
     $generatorOptions = array(
-        'outputPath' => $outputPath,
+        'outputPath' => dirname((new ReflectionClass($ctx))->getFileName()),
         'templatePath' => './templates/',
         'includeDocAnnotations' => true,
         'docsRoot' => 'https://docs.microsoft.com/en-us/openspecs/sharepoint_protocols/ms-csomspt/',
-        'rootNamespace' => $rootNamespace,
-        'version' => $version,
-        'timestamp' => $now,
+        'rootNamespace' => (new ReflectionClass($ctx))->getNamespaceName(),
+        'version' => $ctx->getContextWebInformation()->LibraryVersion,
+        'timestamp' => date('c'),
         'placeholder' => "Updated By PHP Office365 Generator",
         'ignoredTypes' => array(
             "SP.SimpleDataRow",
@@ -93,9 +106,9 @@ try {
         )
     );
 
-    $reader = new ODataV3Reader($edmxContents,$generatorOptions);
+    $reader = new ODataV3Reader($edmxContents, $generatorOptions);
     $model = $reader->generateModel();
-    //generateFiles($model);
+    generateFiles($model);
 }
 catch (Exception $ex){
     $message = $ex->getMessage();

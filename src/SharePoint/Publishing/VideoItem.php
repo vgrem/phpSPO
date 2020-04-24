@@ -40,7 +40,7 @@ class VideoItem extends ClientObject
         if ($ctx instanceof ClientContext) {
             $ctx->ensureFormDigest($request);
         }
-        $request->TransferEncodingChunkedAllowed = true;
+        //$request->TransferEncodingChunkedAllowed = true;
         $ctx->executeQueryDirect($request);
     }
     function setProperty($name, $value, $persistChanges = true)

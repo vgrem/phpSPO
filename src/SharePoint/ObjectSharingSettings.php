@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T18:22:48+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-04-23T18:46:51+00:00 16.0.20008.12009
  */
 namespace Office365\SharePoint;
 
@@ -829,8 +829,7 @@ class ObjectSharingSettings extends ClientObject
     public function getObjectSharingInformation()
     {
         if (!$this->isPropertyAvailable("ObjectSharingInformation")) {
-            $this->setProperty("ObjectSharingInformation", new ObjectSharingInformation($this->getContext(),
-                new ResourcePath("ObjectSharingInformation", $this->getResourcePath())));
+            $this->setProperty("ObjectSharingInformation", new ObjectSharingInformation($this->getContext(), new ResourcePath("ObjectSharingInformation", $this->getResourcePath())));
         }
         return $this->getProperty("ObjectSharingInformation");
     }
@@ -840,9 +839,42 @@ class ObjectSharingSettings extends ClientObject
     public function getSharePointSettings()
     {
         if (!$this->isPropertyAvailable("SharePointSettings")) {
-            $this->setProperty("SharePointSettings", new SharePointSharingSettings($this->getContext(),
-                new ResourcePath("SharePointSettings", $this->getResourcePath())));
+            $this->setProperty("SharePointSettings", new SharePointSharingSettings($this->getContext(), new ResourcePath("SharePointSettings", $this->getResourcePath())));
         }
         return $this->getProperty("SharePointSettings");
+    }
+    /**
+     * @return bool
+     */
+    public function getEnforceIBSegmentFiltering()
+    {
+        if (!$this->isPropertyAvailable("EnforceIBSegmentFiltering")) {
+            return null;
+        }
+        return $this->getProperty("EnforceIBSegmentFiltering");
+    }
+    /**
+     * @var bool
+     */
+    public function setEnforceIBSegmentFiltering($value)
+    {
+        $this->setProperty("EnforceIBSegmentFiltering", $value, true);
+    }
+    /**
+     * @return array
+     */
+    public function getSiteIBSegmentIDs()
+    {
+        if (!$this->isPropertyAvailable("SiteIBSegmentIDs")) {
+            return null;
+        }
+        return $this->getProperty("SiteIBSegmentIDs");
+    }
+    /**
+     * @var array
+     */
+    public function setSiteIBSegmentIDs($value)
+    {
+        $this->setProperty("SiteIBSegmentIDs", $value, true);
     }
 }

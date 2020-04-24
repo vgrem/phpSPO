@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T14:19:29+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-04-22T21:38:25+00:00 16.0.20008.12009
  */
 namespace Office365\SharePoint;
 
@@ -38,8 +38,7 @@ class Site extends ClientObject
     public function getRootWeb()
     {
         if (!$this->isPropertyAvailable("RootWeb")) {
-            $this->setProperty("RootWeb", new Web($this->getContext(),
-                new ResourcePath("RootWeb", $this->getResourcePath())));
+            $this->setProperty("RootWeb", new Web($this->getContext(), new ResourcePath("RootWeb", $this->getResourcePath())));
         }
         return $this->getProperty("RootWeb");
     }
@@ -49,8 +48,7 @@ class Site extends ClientObject
     public function getUserCustomActions()
     {
         if (!$this->isPropertyAvailable("UserCustomActions")) {
-            $this->setProperty("UserCustomActions",
-                new UserCustomActionCollection($this->getContext(), new ResourcePath("UserCustomActions", $this->getResourcePath())));
+            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(), new ResourcePath("UserCustomActions", $this->getResourcePath())));
         }
         return $this->getProperty("UserCustomActions");
     }
@@ -1376,8 +1374,7 @@ class Site extends ClientObject
     public function getHubSiteSynchronizableVisitorGroup()
     {
         if (!$this->isPropertyAvailable("HubSiteSynchronizableVisitorGroup")) {
-            $this->setProperty("HubSiteSynchronizableVisitorGroup", new Group($this->getContext(),
-                new ResourcePath("HubSiteSynchronizableVisitorGroup", $this->getResourcePath())));
+            $this->setProperty("HubSiteSynchronizableVisitorGroup", new Group($this->getContext(), new ResourcePath("HubSiteSynchronizableVisitorGroup", $this->getResourcePath())));
         }
         return $this->getProperty("HubSiteSynchronizableVisitorGroup");
     }
@@ -1389,8 +1386,7 @@ class Site extends ClientObject
     public function getOwner()
     {
         if (!$this->isPropertyAvailable("Owner")) {
-            $this->setProperty("Owner", new User($this->getContext(),
-                new ResourcePath("Owner", $this->getResourcePath())));
+            $this->setProperty("Owner", new User($this->getContext(), new ResourcePath("Owner", $this->getResourcePath())));
         }
         return $this->getProperty("Owner");
     }
@@ -1405,8 +1401,7 @@ class Site extends ClientObject
     public function getSecondaryContact()
     {
         if (!$this->isPropertyAvailable("SecondaryContact")) {
-            $this->setProperty("SecondaryContact", new User($this->getContext(),
-                new ResourcePath("SecondaryContact", $this->getResourcePath())));
+            $this->setProperty("SecondaryContact", new User($this->getContext(), new ResourcePath("SecondaryContact", $this->getResourcePath())));
         }
         return $this->getProperty("SecondaryContact");
     }
@@ -1420,8 +1415,7 @@ class Site extends ClientObject
     public function getAudit()
     {
         if (!$this->isPropertyAvailable("Audit")) {
-            $this->setProperty("Audit", new Audit($this->getContext(),
-                new ResourcePath("Audit", $this->getResourcePath())));
+            $this->setProperty("Audit", new Audit($this->getContext(), new ResourcePath("Audit", $this->getResourcePath())));
         }
         return $this->getProperty("Audit");
     }
@@ -1434,9 +1428,25 @@ class Site extends ClientObject
     public function getRecycleBin()
     {
         if (!$this->isPropertyAvailable("RecycleBin")) {
-            $this->setProperty("RecycleBin", new RecycleBinItemCollection($this->getContext(),
-                new ResourcePath("RecycleBin", $this->getResourcePath())));
+            $this->setProperty("RecycleBin", new RecycleBinItemCollection($this->getContext(), new ResourcePath("RecycleBin", $this->getResourcePath())));
         }
         return $this->getProperty("RecycleBin");
+    }
+    /**
+     * @return SensitivityLabelInfo
+     */
+    public function getSensitivityLabelInfo()
+    {
+        if (!$this->isPropertyAvailable("SensitivityLabelInfo")) {
+            return null;
+        }
+        return $this->getProperty("SensitivityLabelInfo");
+    }
+    /**
+     * @var SensitivityLabelInfo
+     */
+    public function setSensitivityLabelInfo($value)
+    {
+        $this->setProperty("SensitivityLabelInfo", $value, true);
     }
 }

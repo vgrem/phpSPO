@@ -1,6 +1,11 @@
 <?php
 
+namespace Office365\Generator;
 
+use DOMDocument;
+use DOMNode;
+use DOMXPath;
+use Office365\Runtime\Http\RequestException;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\Http\Requests;
 
@@ -19,7 +24,7 @@ class AnnotationsResolver
 
     /**
      * Load Docs repository
-     * @throws Exception
+     * @throws RequestException
      */
     private function ensureDocSet()
     {
@@ -34,7 +39,7 @@ class AnnotationsResolver
     /**
      * @param $typeSchema array
      * @return bool
-     * @throws Exception
+     * @throws RequestException
      */
     public function resolveTypeComment(&$typeSchema)
     {

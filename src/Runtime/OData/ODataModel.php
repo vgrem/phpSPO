@@ -10,6 +10,8 @@ use ReflectionException;
 class ODataModel
 {
 
+    private $typeResolvedEvent;
+
     public function __construct($options)
     {
         $this->options = $options;
@@ -31,6 +33,12 @@ class ODataModel
         $this->primitiveTypeMappings = array_merge($this->primitiveTypeMappings, $collTypeMappings);
         $this->functions = array();
     }
+
+    public function onTypeResolved(callable $event)
+    {
+        $this->typeResolvedEvent = $event;
+    }
+
 
     public function getTypes()
     {
@@ -168,6 +176,9 @@ class ODataModel
             $typeSchema['namespace'] = $typeInfo['namespace'];
         }
         $this->types[$typeName] = $typeSchema;
+        if (is_callable($this->typeResolvedEvent)) {
+            call_user_func($this->typeResolvedEvent, $typeSchema);
+        }
         return true;
     }
 
@@ -233,6 +244,7 @@ class ODataModel
             $propSchema['alias'] = $propertyName;
             $this->addProperty($typeSchema,$propSchema);
         }
+
         return true;
     }
 

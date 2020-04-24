@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-10-26T18:29:48+00:00 16.0.19416.12016
+ * Updated By PHP Office365 Generator 2020-04-22T21:18:30+00:00 16.0.20008.12009
  */
 namespace Office365\SharePoint;
 
@@ -34,4 +34,16 @@ class CopyMigrationOptions extends ClientValueObject
     public $NameConflictBehavior;
     public $IncludeItemPermissions;
     public $MoveAndShareFileInfo;
+    /**
+     * @var bool
+     */
+    public $BypassSharedLock;
+    /**
+     * @var array
+     */
+    public $ClientEtags;
+    /**
+     * @var bool
+     */
+    public $MoveButKeepSource;
 }

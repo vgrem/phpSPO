@@ -1,5 +1,6 @@
 <?php
 
+namespace Office365\Generator\Builders;
 
 use PhpParser\Node;
 use PhpParser\NodeFinder;
@@ -105,7 +106,7 @@ class TemplateContext extends NodeVisitorAbstract
             /*if($node->parts[0] === "ClientObject" && count($node->parts) > 1) {
                 $node->parts[0] = $this->values['property'];
             }*/
-            if($node->parts[0] === "ClientObject") {
+            if($node->parts[0] === "ClientObject" && isset($this->values['type'])) {
                 $node->parts[0] = $this->values['type'];
             }
         }

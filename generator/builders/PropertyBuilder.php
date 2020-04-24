@@ -1,5 +1,5 @@
 <?php
-
+namespace Office365\Generator\Builders;
 
 use PhpParser\BuilderFactory;
 use PhpParser\NodeVisitorAbstract;

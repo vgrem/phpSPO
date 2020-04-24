@@ -11,7 +11,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Office365\\": "../src/"
+            "Office365\\": "../src/",
+            "Office365\\Generator\\": ""
         }
     }
 }

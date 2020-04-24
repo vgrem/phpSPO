@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-12-21T23:09:34+00:00 16.0.19520.12047
+ * Updated By PHP Office365 Generator 2020-04-23T18:46:51+00:00 16.0.20008.12009
  */
 namespace Office365\SharePoint\Sharing;
 
 use Office365\Runtime\ClientObject;
-
 /**
  * Represents 
  * a response for 
@@ -576,5 +575,22 @@ class SharingInformation extends ClientObject
     public function setfileExtension($value)
     {
         $this->setProperty("fileExtension", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getenforceIBSegmentFiltering()
+    {
+        if (!$this->isPropertyAvailable("enforceIBSegmentFiltering")) {
+            return null;
+        }
+        return $this->getProperty("enforceIBSegmentFiltering");
+    }
+    /**
+     * @var bool
+     */
+    public function setenforceIBSegmentFiltering($value)
+    {
+        $this->setProperty("enforceIBSegmentFiltering", $value, true);
     }
 }
