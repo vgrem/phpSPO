@@ -7,7 +7,7 @@ namespace Office365\OutlookServices;
 /**
  * A file or item (contact, event or message) attached to an event or message.
  */
-abstract class Attachment extends OutlookEntity
+class Attachment extends OutlookEntity
 {
     /**
      * The MIME type of the attachment.

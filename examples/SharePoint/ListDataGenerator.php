@@ -14,7 +14,8 @@ use Office365\SharePoint\Web;
 
 try {
 
-    $ctx = ClientContext::connectWithClientCredentials($Settings['Url'],$Settings['ClientId'],$Settings['ClientSecret']);
+    //$ctx = ClientContext::connectWithClientCredentials($Settings['Url'], $Settings['ClientId'], $Settings['ClientSecret']);
+    $ctx = ClientContext::connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
 	generateContacts($ctx);
 }
 catch (Exception $e) {
@@ -23,9 +24,9 @@ catch (Exception $e) {
 
 function generateContacts(ClientContext $ctx){
 
-    $listTitle = 'Contacts';
+    $listTitle = 'Contacts_Large';
     $list =  ensureList($ctx->getWeb(),$listTitle, ListTemplateType::Contacts);
-	$contactsCount = 100;
+	$contactsCount = 1000;
 	for($i = 0; $i < $contactsCount; $i++){
 	     $contactEntry = createContactCard();
 	     $item = $list->addItem($contactEntry);

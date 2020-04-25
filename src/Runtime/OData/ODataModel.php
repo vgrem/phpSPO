@@ -62,12 +62,6 @@ class ODataModel
      */
     public function validateType($typeName)
     {
-        $typeParts = explode('.', $typeName);
-        //validate against namespaces
-        if (count($typeParts) < 2 || ($typeParts[0] !== "SP")) {
-            return false;
-        }
-
         //verify if type is not marked as ignored
         if (in_array($typeName, $this->options['ignoredTypes'])) {
             return false;
@@ -148,6 +142,7 @@ class ODataModel
     public function resolveType(&$typeSchema)
     {
         $typeName = $typeSchema['name'];
+
         //validate type
         if (!$this->validateType($typeName)) {
             //echo "Unknown type: $typeName" . PHP_EOL;
@@ -211,13 +206,15 @@ class ODataModel
         $templateMapping = array();
         $propertyName = $propSchema['name'];
         if ($typeSchema['baseType'] === 'ClientObject' || $typeSchema['baseType'] === 'ClientObjectCollection') {
-            if (isset($propSchema['readOnly'])) {
+            if (isset($propSchema['readOnly']) && $propSchema['readOnly'] === true) {
                 $templateMapping['getObjectProperty'] = "get$propertyName";
-            } else {
+            } else if(!is_null($propSchema['baseType']))  {
                 $templateMapping['getValueProperty'] = "get$propertyName";
                 $templateMapping['setValueProperty'] = "set$propertyName";
             }
         }
+
+
 
         if(count($templateMapping) > 0){
             foreach ($templateMapping as $key=>$value) {

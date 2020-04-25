@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T14:12:03+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-04-25T17:43:34+00:00 16.0.20008.12009
  */
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValueObject;
-
 class KeyValue extends ClientValueObject
 {
     /**

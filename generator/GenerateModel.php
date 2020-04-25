@@ -1,13 +1,13 @@
 <?php
 
 require_once(__DIR__ . '/vendor/autoload.php');
-$Settings = include('../Settings.php');
 
 use Office365\Generator\Builders\TemplateContext;
 use Office365\Generator\Builders\TypeBuilder;
 use Office365\Runtime\OData\MetadataResolver;
 use Office365\Runtime\OData\ODataModel;
 use Office365\Runtime\OData\ODataV3Reader;
+use Office365\Runtime\OData\ODataV4Reader;
 use Office365\SharePoint\ClientContext;
 
 
@@ -17,7 +17,7 @@ use Office365\SharePoint\ClientContext;
  */
 function generateTypeFile($typeSchema,$options)
 {
-    $templatePath =  $options['templatePath'] . $typeSchema['baseType'] . 'Template.php';
+    $templatePath =  $options['templatePath'] . "\\" . $typeSchema['baseType'] . 'Template.php';
     $template = new TemplateContext($templatePath);
     $builder = new TypeBuilder($options,$typeSchema);
     echo "Processing " . $typeSchema['file'] . " file: "  . PHP_EOL;
@@ -64,51 +64,42 @@ function generateFiles(ODataModel $model){
     }
 }
 
-try {
+
+function generateSharePointModel()
+{
+    $Settings = include('../Settings.php');
     $ctx = ClientContext::connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
     $ctx->requestFormDigest();
     $ctx->executeQuery();
     $edmxContents = loadMetadataFile($ctx);
 
-    $generatorOptions = array(
-        'outputPath' => dirname((new ReflectionClass($ctx))->getFileName()),
-        'templatePath' => './templates/',
-        'includeDocAnnotations' => true,
-        'docsRoot' => 'https://docs.microsoft.com/en-us/openspecs/sharepoint_protocols/ms-csomspt/',
-        'rootNamespace' => (new ReflectionClass($ctx))->getNamespaceName(),
-        'version' => $ctx->getContextWebInformation()->LibraryVersion,
-        'timestamp' => date('c'),
-        'placeholder' => "Updated By PHP Office365 Generator",
-        'ignoredTypes' => array(
-            "SP.SimpleDataRow",
-            "SP.SimpleDataTable",
-            "SP.MethodInformation",
-            "SP.TypeInformation",
-            "SP.PropertyInformation",
-            "SP.ParameterInformation",
-            "SP.ResourcePath",
-            "SP.WebResponseInfo",
-            "SP.ApiMetadata",
-            "SP.ScriptSafeDomain",
-            "SP.PropertyValues",
-            "SP.WebProxy",
-            "SP.Data.*",
-            "SP.BusinessData.*",
-            "SP.Workflow.*",
-            "SP.WorkManagement.OM.*",
-            "SP.WorkflowServices.*",
-            "SP.OAuth.*",
-            "SP.Directory.*",
-            "SP.Internal.*",
-            "SP.CompliancePolicy.*"),
-        'ignoredProperties' => array(
-            'Id4a81de82eeb94d6080ea5bf63e27023a'
-        )
-    );
-
-    $reader = new ODataV3Reader($edmxContents, $generatorOptions);
-    $model = $reader->generateModel();
+    $generatorOptions = json_decode(file_get_contents('./Settings.SharePoint.json'), true);
+    $generatorOptions['version'] = $ctx->getContextWebInformation()->LibraryVersion;
+    $generatorOptions['timestamp'] = date('c');
+    $generatorOptions['templatePath'] = realpath($generatorOptions['templatePath']);
+    $generatorOptions['outputPath'] = realpath($generatorOptions['outputPath']);
+    $reader = new ODataV3Reader();
+    $model = $reader->generateModel($edmxContents, $generatorOptions);
     generateFiles($model);
+}
+
+
+function generateOutlookServicesModel(){
+    $generatorOptions = json_decode(file_get_contents('./Settings.OutlookServices.json'), true);
+    $generatorOptions['timestamp'] = date('c');
+    $generatorOptions['templatePath'] = realpath($generatorOptions['templatePath']);
+    $generatorOptions['outputPath'] = realpath($generatorOptions['outputPath']);
+    $edmxContents = file_get_contents("./metadata/OutlookServices.xml");
+    $reader = new ODataV4Reader();
+    $model = $reader->generateModel($edmxContents, $generatorOptions);
+    generateFiles($model);
+}
+
+
+
+try {
+    //generateSharePointModel();
+    generateOutlookServicesModel();
 }
 catch (Exception $ex){
     $message = $ex->getMessage();
