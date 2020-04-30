@@ -20,17 +20,23 @@ class InvokeMethodQuery extends ClientAction
     }
 
 
-
-
-
     /**
      * @return ResourcePathServiceOperation
      */
-    public function getResourcePath()
+    public function getMethodPath()
     {
-        return new ResourcePathServiceOperation($this->MethodName, $this->MethodParameters);
+        if ($this->MethodName) {
+            if($this->IsStatic){
+                $staticMethodName = implode(".", array("SP", $this->BindingType->getTypeName(), $this->MethodName));
+                return new ResourcePathServiceOperation($staticMethodName,
+                    $this->MethodParameters);
+            }
+            return new ResourcePathServiceOperation($this->MethodName,
+                $this->MethodParameters,
+                $this->BindingType->getResourcePath());
+        }
+        return null;
     }
-
 
     /**
      * @var string

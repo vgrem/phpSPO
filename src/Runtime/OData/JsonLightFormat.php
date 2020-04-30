@@ -12,6 +12,7 @@ class JsonLightFormat extends ODataFormat
         $this->DeferredTag = "__deferred";
         $this->MetadataTag = "__metadata";
         $this->CollectionTag = "results";
+        $this->NextCollectionTag = "__next";
         $this->SecurityTag ="d";
     }
 

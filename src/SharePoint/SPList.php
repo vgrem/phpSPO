@@ -116,7 +116,7 @@ class SPList extends SecurableObject
     public function getChanges(ChangeQuery $query)
     {
         $qry = new InvokePostMethodQuery($this, "GetChanges", null, "query", $query);
-        $changes = new ChangeCollection($this->getContext(), $qry->getResourcePath());
+        $changes = new ChangeCollection($this->getContext(), $qry->getMethodPath());
         $this->getContext()->addQueryAndResultObject($qry, $changes);
         return $changes;
     }

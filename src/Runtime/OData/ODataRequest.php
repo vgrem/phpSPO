@@ -4,6 +4,7 @@
 namespace Office365\Runtime\OData;
 
 use Exception;
+use Office365\Runtime\ClientAction;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientRequest;
 use Office365\Runtime\ClientResult;
@@ -36,39 +37,48 @@ class ODataRequest extends ClientRequest
     /**
      * @return RequestOptions
      */
-    protected function buildRequest()
-    {
+    protected function buildRequest(){
+        return $this->buildSingleRequest($this->currentQuery);
+    }
 
-        $resourceUrl = $this->currentQuery->BindingType->getResourceUrl();
-        if($this->currentQuery instanceof InvokeMethodQuery){
-            $methodUrl = $this->currentQuery->getResourcePath()->toUrl();
-            if ($methodUrl) $resourceUrl .= "/" . $methodUrl;
-        }
+    /**
+     * @param ClientAction $qry
+     * @return RequestOptions
+     */
+    protected function buildSingleRequest($qry)
+    {
+        $resourceUrl = $qry->BindingType->getResourceUrl();
         $request = new RequestOptions($resourceUrl);
 
-        if($this->currentQuery->ReturnType instanceof ClientResult){
-            if($this->format instanceof JsonLightFormat) {
-                $this->format->FunctionTag = $this->currentQuery->MethodName;
-            }
-        }
 
+        if($qry instanceof InvokeMethodQuery){
 
-        if ($this->currentQuery instanceof InvokePostMethodQuery) {
-            if($this->format instanceof JsonLightFormat) {
-                $this->format->FunctionTag = $this->currentQuery->ParameterName;
+            if(!is_null($qry->getMethodPath())) {
+                $request->Url = $this->context->getServiceRootUrl() . $qry->getMethodPath()->toUrl();
             }
 
-            $request->Method = HttpMethod::Post;
-            $payload = $this->currentQuery->ParameterType;
-            if ($payload) {
-                if (is_string($payload))
-                    $request->Data = $payload;
-                else {
-                    $payload = $this->normalizePayload($payload,$this->getFormat());
-                    $request->Data = json_encode($payload);
+            if($this->format instanceof JsonLightFormat){
+                $this->format->FunctionTag = $qry->ReturnType instanceof ClientResult ? $qry->MethodName : null;
+            }
+
+            if ($qry instanceof InvokePostMethodQuery) {
+                if($this->format instanceof JsonLightFormat && !is_null($qry->ParameterName)) {
+                    $this->format->FunctionTag = $qry->ParameterName;
+                }
+
+                $request->Method = HttpMethod::Post;
+                $payload = $qry->ParameterType;
+                if ($payload) {
+                    if (is_string($payload))
+                        $request->Data = $payload;
+                    else {
+                        $payload = $this->normalizePayload($payload,$this->getFormat());
+                        $request->Data = json_encode($payload);
+                    }
                 }
             }
         }
+
         return $request;
     }
 

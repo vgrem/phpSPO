@@ -17,7 +17,6 @@ class ClientAction
     }
 
 
-
     /**
      * @return string
      */

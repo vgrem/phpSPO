@@ -8,6 +8,7 @@ use Office365\SharePoint\Folder;
 use Office365\SharePoint\ListItem;
 use Office365\SharePoint\ListTemplateType;
 use Office365\SharePoint\SPList;
+use Office365\SharePoint\Web;
 
 class FileTest extends SharePointTestCase
 {
@@ -73,13 +74,15 @@ class FileTest extends SharePointTestCase
      * @depends testUploadFiles
      * @param File $file
      */
-    /*public function testFileProperties($file)
+    public function testAssignFilePermissions($file)
     {
-        $versions =$file->getVersions();
-        self::$context->load($versions);
+        $fileItem = $file->getListItemAllFields();
+        $fileItem->breakRoleInheritance(true);
         self::$context->executeQuery();
-        self::assertIsArray($versions);
-    }*/
+        self::$context->load($fileItem,array("HasUniqueRoleAssignments"));
+        self::$context->executeQuery();
+        self::assertTrue($fileItem->getHasUniqueRoleAssignments());
+    }
 
 
 
@@ -124,7 +127,7 @@ class FileTest extends SharePointTestCase
      * @depends testUploadFiles
      * @param $uploadFile
      */
-    /*public function testUploadedFileCreateAnonymousLink(\Office365\SharePoint\File $uploadFile)
+    public function testUploadedFileCreateAnonymousLink(File $uploadFile)
     {
         $listItem = $uploadFile->getListItemAllFields();
         self::$context->load($listItem,array("EncodedAbsUrl"));
@@ -133,20 +136,12 @@ class FileTest extends SharePointTestCase
         $fileUrl = $listItem->getProperty("EncodedAbsUrl");
         $result = Web::createAnonymousLink(self::$context,$fileUrl,false);
         self::$context->executeQuery();
-        self::assertNotEmpty($result->Value);
+        self::assertNotEmpty($result->getValue());
 
-        $expireDate = new \DateTime('now +1 day');
+        $expireDate = new DateTime('now +1 day');
         $result = Web::createAnonymousLinkWithExpiration(self::$context,$fileUrl,false,$expireDate->format(DateTime::ATOM));
         self::$context->executeQuery();
-        self::assertNotEmpty($result->Value);
-    }*/
-
-    public function testGetFileVersions()
-    {
-        $files = self::$targetList->getRootFolder()->getFiles()->select("Name,Version");
-        self::$context->load($files);
-        self::$context->executeQuery();
-        $this->assertNotNull($files->getServerObjectIsNull());
+        self::assertNotEmpty($result->getValue());
     }
 
 
