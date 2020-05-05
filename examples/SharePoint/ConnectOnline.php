@@ -5,7 +5,7 @@ $settings = include( __DIR__ . '/../../Settings.php');
 
 
 use Office365\SharePoint\ClientContext;
-
+use Office365\SharePoint\MoveOperations;
 
 
 try {
@@ -15,6 +15,12 @@ try {
     $ctx->load($site); //load site settings
     $ctx->executeQuery();
     print $site->getUrl();
+
+
+    $sourceFile = $ctx->getWeb()->getFileByServerRelativeUrl("/sites/team/Shared Documents/sample1234.docx");
+    $ctx->load($sourceFile);
+    $targetFile = $sourceFile->moveTo("/sites/team/Shared Documents/sample.docx", MoveOperations::Overwrite);
+    $ctx->executeQuery();
 
 }
 catch (Exception $e) {

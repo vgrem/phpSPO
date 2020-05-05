@@ -105,7 +105,7 @@ class File extends SecurableObject
      */
     public function copyTo($strNewUrl, $bOverWrite)
     {
-        $qry = new InvokePostMethodQuery($this, "copyto", array("strnewurl" => $strNewUrl, "boverwrite" => $bOverWrite));
+        $qry = new InvokePostMethodQuery($this, "copyto", array("strnewurl" => rawurlencode($strNewUrl), "boverwrite" => $bOverWrite));
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -115,7 +115,7 @@ class File extends SecurableObject
      */
     public function moveTo($newUrl, $flags)
     {
-        $qry = new InvokePostMethodQuery($this, "moveto", array("newurl" => $newUrl, "flags" => $flags));
+        $qry = new InvokePostMethodQuery($this, "moveto", array("newurl" => rawurlencode($newUrl), "flags" => $flags));
         $this->getContext()->addQuery($qry);
     }
     /**
@@ -269,9 +269,14 @@ class File extends SecurableObject
     function setProperty($name, $value, $persistChanges = true)
     {
         parent::setProperty($name, $value, $persistChanges);
-        if ($name == "UniqueId") {
-            $this->resourcePath = new ResourcePath("GetFileById(guid'{$value}')", new ResourcePath("Web"));
-        }
+        //if(is_null($this->resourcePath)){
+            if ($name == "UniqueId") {
+                $this->resourcePath = new ResourcePath("GetFileById(guid'{$value}')", new ResourcePath("Web"));
+            }
+            else if ($name == "ServerRelativeUrl") {
+                $this->resourcePath = new ResourcePath("GetFileByServerRelativeUrl('$value')", new ResourcePath("Web"));
+            }
+        //}
     }
     /**
      * Specifies 
@@ -909,4 +914,5 @@ class File extends SecurableObject
         }
         return $this->getProperty("EffectiveInformationRightsManagementSettings");
     }
+
 }
