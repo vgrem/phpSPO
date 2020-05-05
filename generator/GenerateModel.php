@@ -98,8 +98,8 @@ function generateOutlookServicesModel(){
 
 
 try {
-    //generateSharePointModel();
-    generateOutlookServicesModel();
+    generateSharePointModel();
+    //generateOutlookServicesModel();
 }
 catch (Exception $ex){
     $message = $ex->getMessage();

@@ -15,6 +15,7 @@ try {
     $ctx->load($site); //load site settings
     $ctx->executeQuery();
     print $site->getUrl();
+
 }
 catch (Exception $e) {
 	echo 'Authentication failed: ',  $e->getMessage(), "\n";

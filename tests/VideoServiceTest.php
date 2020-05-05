@@ -36,7 +36,7 @@ class VideoServiceTest extends SharePointTestCase
      * @param VideoServiceDiscoverer $discoverer
      * @return VideoChannel
      */
-    public function testEnsureChannel(VideoServiceDiscoverer $discoverer)
+    /*public function testEnsureChannel(VideoServiceDiscoverer $discoverer)
     {
         self::$manager = new VideoServiceManager(self::$context,$discoverer->getVideoPortalUrl());
         $channels = self::$manager->getChannels();
@@ -44,7 +44,7 @@ class VideoServiceTest extends SharePointTestCase
         self::$context->executeQuery();
 
 
-        $channelName = "Community"; //TestUtilities::createUniqueName("Channel");
+        $channelName = "TeamChannel"; //self::createUniqueName("TestChannel");
         $result = $channels->findItems(
             function (VideoChannel $item) use ($channelName) {
                 return  $item->getProperty("Title") === $channelName;
@@ -60,7 +60,7 @@ class VideoServiceTest extends SharePointTestCase
 
         self::assertEquals(self::$targetChannel->getTitle(),$channelName);
         return self::$targetChannel;
-    }
+    }*/
 
 
     /**
@@ -68,7 +68,7 @@ class VideoServiceTest extends SharePointTestCase
      * @param VideoChannel $channel
      * @return VideoItem
      */
-    public function testCreateVideo($channel)
+    /*public function testCreateVideo($channel)
     {
         $videoTitle = self::createUniqueName("Video");
         $videoFileName = $videoTitle . ".mp4";
@@ -77,7 +77,7 @@ class VideoServiceTest extends SharePointTestCase
         self::assertNotNull($video->getUrl());
         self::assertEquals($video->getFileName(),$videoFileName);
         return $video;
-    }
+    }*/
 
 
     /**
@@ -85,20 +85,20 @@ class VideoServiceTest extends SharePointTestCase
      * @param VideoItem $videoItem
      * @throws Exception
      */
-    public function testUploadVideo(VideoItem $videoItem)
+    /*public function testUploadVideo(VideoItem $videoItem)
     {
         $localPath = __DIR__ . "/../examples/data/big_buck_bunny.mp4";
         $videoContent = file_get_contents($localPath);
         $videoItem->saveBinaryStream($videoContent);
         self::assertTrue(true);
-    }
+    }*/
 
 
     /**
      * @depends testCreateVideo
      * @param VideoItem $videoItem
      */
-    public function testUpdateVideo(VideoItem $videoItem)
+    /*public function testUpdateVideo(VideoItem $videoItem)
     {
         $desc = self::createUniqueName("Video sample");
         $videoItem->setProperty("Description",$desc);
@@ -109,14 +109,14 @@ class VideoServiceTest extends SharePointTestCase
         self::$context->load($result);
         self::$context->executeQuery();
         self::assertNotEmpty($result->getCount());
-    }
+    }*/
 
 
     /**
      * @depends testCreateVideo
      * @param VideoItem $videoItem
      */
-    public function testDeleteVideo(VideoItem $videoItem)
+    /*public function testDeleteVideo(VideoItem $videoItem)
     {
         $videoId = $videoItem->getProperty("ID");
         $videoItem->deleteObject();
@@ -130,7 +130,7 @@ class VideoServiceTest extends SharePointTestCase
                 return  $item->getProperty("ID") === $videoId;
             });
         self::assertNull($result);
-    }
+    }*/
 
 
 }

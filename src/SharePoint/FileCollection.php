@@ -67,4 +67,18 @@ class FileCollection extends ClientObjectCollection
         return new File($this->getContext(),$path);
     }
 
+
+    /**
+     * @param string $sourcePath
+     * @param string $targetFileName
+     * @param callable|null $chunkUploaded
+     * @return UploadSession
+     */
+    public function createUploadSession($sourcePath, $targetFileName,callable $chunkUploaded=null){
+
+        $session = new UploadSession();
+        $session->buildQuery($this,$sourcePath,$targetFileName,$chunkUploaded);
+        return $session;
+    }
+
 }

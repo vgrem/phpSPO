@@ -3,7 +3,7 @@
 $secure_vars = explode(";",getenv("phpSPO_secure_vars"));
 return array(
     'TenantName' => "mediadev8.onmicrosoft.com",
-	'Url' => "https://mediadev8.sharepoint.com",
+	'Url' => "https://mediadev8.sharepoint.com/sites/team",
     'OneDriveUrl' => "https://mediadev8-my.sharepoint.com",
     'Password' => $secure_vars[1],
     'UserName' => $secure_vars[0],

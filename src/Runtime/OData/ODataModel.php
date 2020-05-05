@@ -208,7 +208,7 @@ class ODataModel
         if ($typeSchema['baseType'] === 'ClientObject' || $typeSchema['baseType'] === 'ClientObjectCollection') {
             if (isset($propSchema['readOnly']) && $propSchema['readOnly'] === true) {
                 $templateMapping['getObjectProperty'] = "get$propertyName";
-            } else if(!is_null($propSchema['baseType']))  {
+            } else {
                 $templateMapping['getValueProperty'] = "get$propertyName";
                 $templateMapping['setValueProperty'] = "set$propertyName";
             }
