@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-04-25T17:43:34+00:00 16.0.20008.12009
+ * Updated By PHP Office365 Generator 2020-05-13T12:20:55+00:00 16.0.20029.12010
  */
 namespace Office365\SharePoint\Publishing;
 
@@ -36,4 +36,8 @@ class RuleResult extends ClientValueObject
      * @var RuleErrorDetails
      */
     public $Details;
+    /**
+     * @var string
+     */
+    public $RuleType;
 }

@@ -27,6 +27,11 @@
     "require-dev": {
         "phpunit/phpunit": "^5"
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Office365\\": ["tests/", "tests/sharepoint/", "tests/outlookservices/", "tests/graph/"]
+        }
+    },
     "autoload": {
         "psr-4": {
             "Office365\\": "src/"

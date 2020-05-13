@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-04-22T21:18:30+00:00 16.0.20008.12009
+ * Updated By PHP Office365 Generator 2020-05-13T12:17:52+00:00 16.0.20029.12010
  */
 namespace Office365\SharePoint;
 
@@ -46,4 +46,8 @@ class CopyMigrationOptions extends ClientValueObject
      * @var bool
      */
     public $MoveButKeepSource;
+    /**
+     * @var bool
+     */
+    public $ExcludeChildren;
 }
