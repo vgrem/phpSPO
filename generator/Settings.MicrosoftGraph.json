@@ -1,14 +1,12 @@
 {
-    "metadataPath" : "./metadata/OutlookServices.xml",
+    "metadataPath" : "./metadata/MicrosoftGraph.xml",
     "outputPath": "..\\src",
-    "templatePath": "./templates/outlookservices",
+    "templatePath": "./templates/microsoftgraph",
     "includeDocAnnotations": false,
     "rootNamespace": "Office365",
     "version": "16.0.20008.12009",
     "timestamp": "2020-04-25T16:19:36+00:00",
     "placeholder": "Updated By PHP Office365 Generator",
-    "ignoredTypes": [
-        "Microsoft.OutlookServices.Entity"
-    ],
+    "ignoredTypes": [],
     "ignoredProperties": []
 }

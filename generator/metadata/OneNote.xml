@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="Microsoft.OneNote.Api" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityType Name="Entity" Abstract="true">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.String" Nullable="false" />
+      </EntityType>
+      <EntityType Name="User" BaseType="Microsoft.OneNote.Api.Entity">
+        <NavigationProperty Name="notes" Type="Microsoft.OneNote.Api.Notes" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="MyOrganization" BaseType="Microsoft.OneNote.Api.Entity">
+        <NavigationProperty Name="siteCollections" Type="Collection(Microsoft.OneNote.Api.SiteCollection)" ContainsTarget="true" />
+        <NavigationProperty Name="groups" Type="Collection(Microsoft.OneNote.Api.Group)" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="OneNoteEntityBaseModel" BaseType="Microsoft.OneNote.Api.Entity" Abstract="true">
+        <Property Name="self" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="OneNoteEntitySchemaObjectModel" BaseType="Microsoft.OneNote.Api.OneNoteEntityBaseModel" Abstract="true">
+        <Property Name="createdTime" Type="Edm.DateTimeOffset" />
+      </EntityType>
+      <EntityType Name="OneNoteEntityHierarchyModel" BaseType="Microsoft.OneNote.Api.OneNoteEntitySchemaObjectModel" Abstract="true">
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="createdBy" Type="Edm.String" />
+        <Property Name="createdByIdentity" Type="Microsoft.OneNote.Api.IdentitySet" />
+        <Property Name="lastModifiedBy" Type="Edm.String" />
+        <Property Name="lastModifiedByIdentity" Type="Microsoft.OneNote.Api.IdentitySet" />
+        <Property Name="lastModifiedTime" Type="Edm.DateTimeOffset" />
+      </EntityType>
+      <EntityType Name="Notes" BaseType="Microsoft.OneNote.Api.Entity">
+        <NavigationProperty Name="notebooks" Type="Collection(Microsoft.OneNote.Api.Notebook)" ContainsTarget="true" />
+        <NavigationProperty Name="sections" Type="Collection(Microsoft.OneNote.Api.Section)" ContainsTarget="true" />
+        <NavigationProperty Name="sectionGroups" Type="Collection(Microsoft.OneNote.Api.SectionGroup)" ContainsTarget="true" />
+        <NavigationProperty Name="pages" Type="Collection(Microsoft.OneNote.Api.Page)" ContainsTarget="true" />
+        <NavigationProperty Name="resources" Type="Collection(Microsoft.OneNote.Api.Resource)" ContainsTarget="true" />
+        <NavigationProperty Name="operations" Type="Collection(Microsoft.OneNote.Api.OneNoteOperation)" ContainsTarget="true" />
+        <NavigationProperty Name="classwhiteboards" Type="Collection(Microsoft.OneNote.Api.ClassWhiteboard)" ContainsTarget="true" />
+        <NavigationProperty Name="classnotebooks" Type="Collection(Microsoft.OneNote.Api.ClassNotebook)" ContainsTarget="true" />
+        <NavigationProperty Name="staffnotebooks" Type="Collection(Microsoft.OneNote.Api.StaffNotebook)" ContainsTarget="true" />
+        <NavigationProperty Name="skypenotebooks" Type="Collection(Microsoft.OneNote.Api.SkypeNotebook)" ContainsTarget="true" />
+        <NavigationProperty Name="plcnotebooks" Type="Collection(Microsoft.OneNote.Api.PlcNotebook)" ContainsTarget="true" />
+        <NavigationProperty Name="familynotebooks" Type="Collection(Microsoft.OneNote.Api.FamilyNotebook)" ContainsTarget="true" />
+        <NavigationProperty Name="eduOperations" Type="Collection(Microsoft.OneNote.Api.EduOperation)" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="Notebook" BaseType="Microsoft.OneNote.Api.OneNoteEntityHierarchyModel">
+        <Property Name="isDefault" Type="Edm.Boolean" />
+        <Property Name="userRole" Type="Microsoft.OneNote.Api.UserRole" />
+        <Property Name="isShared" Type="Edm.Boolean" />
+        <Property Name="sectionsUrl" Type="Edm.String" />
+        <Property Name="sectionGroupsUrl" Type="Edm.String" />
+        <Property Name="links" Type="Microsoft.OneNote.Api.NotebookLinks" />
+        <NavigationProperty Name="sections" Type="Collection(Microsoft.OneNote.Api.Section)" ContainsTarget="true" />
+        <NavigationProperty Name="sectionGroups" Type="Collection(Microsoft.OneNote.Api.SectionGroup)" ContainsTarget="true" />
+        <NavigationProperty Name="permissions" Type="Collection(Microsoft.OneNote.Api.Permission)" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="SectionGroup" BaseType="Microsoft.OneNote.Api.OneNoteEntityHierarchyModel">
+        <Property Name="sectionsUrl" Type="Edm.String" />
+        <Property Name="sectionGroupsUrl" Type="Edm.String" />
+        <NavigationProperty Name="parentNotebook" Type="Microsoft.OneNote.Api.Notebook" ContainsTarget="true" />
+        <NavigationProperty Name="parentSectionGroup" Type="Microsoft.OneNote.Api.SectionGroup" ContainsTarget="true" />
+        <NavigationProperty Name="sections" Type="Collection(Microsoft.OneNote.Api.Section)" ContainsTarget="true" />
+        <NavigationProperty Name="sectionGroups" Type="Collection(Microsoft.OneNote.Api.SectionGroup)" ContainsTarget="true" />
+        <NavigationProperty Name="permissions" Type="Collection(Microsoft.OneNote.Api.Permission)" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="Section" BaseType="Microsoft.OneNote.Api.OneNoteEntityHierarchyModel">
+        <Property Name="isDefault" Type="Edm.Boolean" />
+        <Property Name="links" Type="Microsoft.OneNote.Api.SectionLinks" />
+        <Property Name="pagesUrl" Type="Edm.String" />
+        <Property Name="size" Type="Edm.Int64" />
+        <NavigationProperty Name="parentNotebook" Type="Microsoft.OneNote.Api.Notebook" ContainsTarget="true" />
+        <NavigationProperty Name="parentSectionGroup" Type="Microsoft.OneNote.Api.SectionGroup" ContainsTarget="true" />
+        <NavigationProperty Name="pages" Type="Collection(Microsoft.OneNote.Api.Page)" ContainsTarget="true" />
+        <NavigationProperty Name="permissions" Type="Collection(Microsoft.OneNote.Api.Permission)" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="Page" BaseType="Microsoft.OneNote.Api.OneNoteEntitySchemaObjectModel" HasStream="true">
+        <Property Name="title" Type="Edm.String" />
+        <Property Name="createdByAppId" Type="Edm.String" />
+        <Property Name="links" Type="Microsoft.OneNote.Api.PageLinks" />
+        <Property Name="contentUrl" Type="Edm.String" />
+        <Property Name="content" Type="Edm.Stream" />
+        <Property Name="graphContent" Type="Edm.Stream" />
+        <Property Name="lastModifiedTime" Type="Edm.DateTimeOffset" />
+        <Property Name="level" Type="Edm.Int32" />
+        <Property Name="blockEditsInClientStartDate" Type="Edm.DateTimeOffset" />
+        <Property Name="order" Type="Edm.Int32" />
+        <Property Name="usertags" Type="Collection(Edm.String)" />
+        <Property Name="path" Type="Edm.String" />
+        <Property Name="hithighlightedsummary" Type="Edm.String" />
+        <Property Name="notebookId" Type="Edm.String" />
+        <Property Name="hierarchy" Type="Edm.String" />
+        <Property Name="rank" Type="Edm.Double" />
+        <NavigationProperty Name="parentSection" Type="Microsoft.OneNote.Api.Section" ContainsTarget="true" />
+        <NavigationProperty Name="parentNotebook" Type="Microsoft.OneNote.Api.Notebook" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="Resource" BaseType="Microsoft.OneNote.Api.OneNoteEntityBaseModel" HasStream="true">
+        <Property Name="content" Type="Edm.Stream" />
+        <Property Name="contentUrl" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="Operation" BaseType="Microsoft.OneNote.Api.Entity" Abstract="true">
+        <Property Name="status" Type="Microsoft.OneNote.Api.OperationStatus" />
+        <Property Name="createdDateTime" Type="Edm.DateTimeOffset" />
+        <Property Name="lastActionDateTime" Type="Edm.DateTimeOffset" />
+      </EntityType>
+      <EntityType Name="OneNoteOperation" BaseType="Microsoft.OneNote.Api.Operation">
+        <Property Name="resourceLocation" Type="Edm.String" />
+        <Property Name="resourceId" Type="Edm.String" />
+        <Property Name="error" Type="Microsoft.OneNote.Api.OperationError" />
+        <Property Name="percentComplete" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="CopyToContentLibraryOperation" BaseType="Microsoft.OneNote.Api.OneNoteOperation">
+        <Property Name="targetNotebookName" Type="Edm.String" />
+        <Property Name="targetNotebookId" Type="Edm.String" />
+        <Property Name="totalSectionsCount" Type="Edm.Int32" />
+        <Property Name="copiedSectionSuccessCount" Type="Edm.Int32" />
+        <Property Name="copiedSectionFailedCount" Type="Edm.Int32" />
+        <Property Name="copiedSectionFailedIds" Type="Collection(Edm.String)" />
+      </EntityType>
+      <EntityType Name="DistributeToReadersOperation" BaseType="Microsoft.OneNote.Api.OneNoteOperation">
+        <Property Name="sectionName" Type="Edm.String" />
+        <Property Name="targetNotebookName" Type="Edm.String" />
+        <Property Name="pageName" Type="Edm.String" />
+        <Property Name="targetNotebookId" Type="Edm.String" />
+        <Property Name="readersCount" Type="Edm.Int32" />
+        <Property Name="readersSuccessCount" Type="Edm.Int32" />
+        <Property Name="readersFailedCount" Type="Edm.Int32" />
+        <Property Name="pageId" Type="Edm.String" />
+        <Property Name="readersFailed" Type="Collection(Microsoft.OneNote.Api.DistributeToReadersProcessorUserDetails)" />
+      </EntityType>
+      <EntityType Name="ImportNotebookOperation" BaseType="Microsoft.OneNote.Api.OneNoteOperation">
+        <Property Name="oneNoteClientUrl" Type="Edm.String" />
+        <Property Name="oneNoteWebUrl" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="Whiteboard" BaseType="Microsoft.OneNote.Api.OneNoteEntitySchemaObjectModel">
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="lastModifiedTime" Type="Edm.DateTimeOffset" />
+        <Property Name="sectionId" Type="Edm.String" />
+        <Property Name="cellId" Type="Edm.String" />
+        <Property Name="webAppLink" Type="Microsoft.OneNote.Api.ExternalLink" />
+      </EntityType>
+      <EntityType Name="ClassWhiteboard" BaseType="Microsoft.OneNote.Api.Whiteboard">
+        <Property Name="notebookPath" Type="Edm.String" />
+        <Property Name="isProvisioned" Type="Edm.Boolean" />
+        <Property Name="webUrl" Type="Microsoft.OneNote.Api.ExternalLink" />
+        <Property Name="fullPath" Type="Microsoft.OneNote.Api.ExternalLink" />
+      </EntityType>
+      <EntityType Name="Permission" BaseType="Microsoft.OneNote.Api.OneNoteEntityBaseModel">
+        <Property Name="userRole" Type="Microsoft.OneNote.Api.UserRole" />
+        <Property Name="userId" Type="Edm.String" />
+        <Property Name="name" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="FamilyNotebook" BaseType="Microsoft.OneNote.Api.Notebook" />
+      <ComplexType Name="ComplexNotebookModel">
+        <Property Name="id" Type="Edm.String" />
+        <Property Name="self" Type="Edm.String" />
+        <Property Name="createdTime" Type="Edm.DateTimeOffset" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="createdBy" Type="Edm.String" />
+        <Property Name="createdByIdentity" Type="Microsoft.OneNote.Api.IdentitySet" />
+        <Property Name="lastModifiedBy" Type="Edm.String" />
+        <Property Name="lastModifiedByIdentity" Type="Microsoft.OneNote.Api.IdentitySet" />
+        <Property Name="lastModifiedTime" Type="Edm.DateTimeOffset" />
+        <Property Name="isDefault" Type="Edm.Boolean" />
+        <Property Name="userRole" Type="Microsoft.OneNote.Api.UserRole" />
+        <Property Name="isShared" Type="Edm.Boolean" />
+        <Property Name="sectionsUrl" Type="Edm.String" />
+        <Property Name="sectionGroupsUrl" Type="Edm.String" />
+        <Property Name="links" Type="Microsoft.OneNote.Api.NotebookLinks" />
+        <Property Name="sections" Type="Collection(Microsoft.OneNote.Api.ComplexSectionModel)" />
+      </ComplexType>
+      <ComplexType Name="ComplexSectionModel">
+        <Property Name="id" Type="Edm.String" />
+        <Property Name="self" Type="Edm.String" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="isDefault" Type="Edm.Boolean" />
+        <Property Name="links" Type="Microsoft.OneNote.Api.SectionLinks" />
+        <Property Name="pagesUrl" Type="Edm.String" />
+        <Property Name="pages" Type="Collection(Microsoft.OneNote.Api.ComplexPageModel)" />
+        <Property Name="size" Type="Edm.Int64" />
+      </ComplexType>
+      <ComplexType Name="ComplexPageModel">
+        <Property Name="id" Type="Edm.String" />
+        <Property Name="self" Type="Edm.String" />
+        <Property Name="title" Type="Edm.String" />
+        <Property Name="createdByAppId" Type="Edm.String" />
+        <Property Name="links" Type="Microsoft.OneNote.Api.PageLinks" />
+        <Property Name="contentUrl" Type="Edm.String" />
+        <Property Name="content" Type="Edm.Stream" />
+        <Property Name="graphContent" Type="Edm.Stream" />
+        <Property Name="lastModifiedTime" Type="Edm.DateTimeOffset" />
+        <Property Name="level" Type="Edm.Int32" />
+        <Property Name="blockEditsInClientStartDate" Type="Edm.DateTimeOffset" />
+        <Property Name="order" Type="Edm.Int32" />
+        <Property Name="usertags" Type="Collection(Edm.String)" />
+        <Property Name="createdTime" Type="Edm.DateTimeOffset" />
+      </ComplexType>
+      <ComplexType Name="ProvisionedNotebookModel">
+        <Property Name="notebook" Type="Microsoft.OneNote.Api.ComplexNotebookModel" />
+        <Property Name="sharingUrl" Type="Edm.String" />
+      </ComplexType>
+      <ComplexType Name="NotebookLinks">
+        <Property Name="oneNoteClientUrl" Type="Microsoft.OneNote.Api.ExternalLink" />
+        <Property Name="oneNoteWebUrl" Type="Microsoft.OneNote.Api.ExternalLink" />
+      </ComplexType>
+      <ComplexType Name="DistributeToReadersProcessorUserDetails">
+        <Property Name="Id" Type="Edm.String" />
+        <Property Name="Name" Type="Edm.String" />
+        <Property Name="Email" Type="Edm.String" />
+        <Property Name="PrinipalType" Type="Edm.String" />
+      </ComplexType>
+      <ComplexType Name="NotebookFromWebUrlModel">
+        <Property Name="webUrl" Type="Edm.String" />
+        <Property Name="siteUrl" Type="Edm.String" />
+        <Property Name="Notebook" Type="Microsoft.OneNote.Api.CopyNotebookModel" />
+      </ComplexType>
+      <ComplexType Name="PageLinks">
+        <Property Name="oneNoteEmbedUrl" Type="Microsoft.OneNote.Api.ExternalLink" />
+        <Property Name="oneNoteClientUrl" Type="Microsoft.OneNote.Api.ExternalLink" />
+        <Property Name="oneNoteWebUrl" Type="Microsoft.OneNote.Api.ExternalLink" />
+      </ComplexType>
+      <ComplexType Name="ExternalLink">
+        <Property Name="href" Type="Edm.String" />
+      </ComplexType>
+      <ComplexType Name="Diagnostic">
+        <Property Name="message" Type="Edm.String" />
+        <Property Name="url" Type="Edm.String" />
+      </ComplexType>
+      <ComplexType Name="SiteMetadata">
+        <Property Name="siteCollectionId" Type="Edm.String" />
+        <Property Name="siteId" Type="Edm.String" />
+      </ComplexType>
+      <ComplexType Name="OperationError">
+        <Property Name="code" Type="Edm.String" />
+        <Property Name="message" Type="Edm.String" />
+      </ComplexType>
+      <ComplexType Name="IdentitySet">
+        <Property Name="user" Type="Microsoft.OneNote.Api.Identity" />
+        <Property Name="application" Type="Microsoft.OneNote.Api.Identity" />
+        <Property Name="device" Type="Microsoft.OneNote.Api.Identity" />
+      </ComplexType>
+      <ComplexType Name="Identity">
+        <Property Name="id" Type="Edm.String" />
+        <Property Name="displayName" Type="Edm.String" />
+      </ComplexType>
+      <ComplexType Name="WopiPropertiesModel">
+        <Property Name="id" Type="Edm.String" />
+        <Property Name="accessToken" Type="Edm.String" />
+        <Property Name="accessTokenTtl" Type="Edm.Int64" />
+        <Property Name="appIconUrl " Type="Edm.String" />
+        <Property Name="webApplicationUrl" Type="Edm.String" />
+        <Property Name="applicationUrl" Type="Edm.String" />
+        <Property Name="wopiSrc" Type="Edm.String" />
+        <Property Name="oneNoteWebUrl" Type="Edm.String" />
+      </ComplexType>
+      <ComplexType Name="PatchContentCommand">
+        <Property Name="action" Type="Microsoft.OneNote.Api.PatchActionType" Nullable="false" />
+        <Property Name="target" Type="Edm.String" Nullable="false" />
+        <Property Name="content" Type="Edm.String" />
+        <Property Name="position" Type="Microsoft.OneNote.Api.PatchInsertPosition" />
+      </ComplexType>
+      <EntityType Name="SiteCollection" BaseType="Microsoft.OneNote.Api.Entity">
+        <NavigationProperty Name="sites" Type="Collection(Microsoft.OneNote.Api.Site)" ContainsTarget="true" />
+      </EntityType>
+      <ComplexType Name="PagePreview">
+        <Property Name="previewText" Type="Edm.String" />
+        <Property Name="links" Type="Microsoft.OneNote.Api.PagePreviewLinks" />
+      </ComplexType>
+      <ComplexType Name="CopyNotebookModel">
+        <Property Name="isDefault" Type="Edm.Boolean" />
+        <Property Name="userRole" Type="Microsoft.OneNote.Api.UserRole" />
+        <Property Name="isShared" Type="Edm.Boolean" />
+        <Property Name="sectionsUrl" Type="Edm.String" />
+        <Property Name="sectionGroupsUrl" Type="Edm.String" />
+        <Property Name="links" Type="Microsoft.OneNote.Api.NotebookLinks" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="createdBy" Type="Edm.String" />
+        <Property Name="createdByIdentity" Type="Microsoft.OneNote.Api.IdentitySet" />
+        <Property Name="lastModifiedBy" Type="Edm.String" />
+        <Property Name="lastModifiedByIdentity" Type="Microsoft.OneNote.Api.IdentitySet" />
+        <Property Name="lastModifiedTime" Type="Edm.DateTimeOffset" />
+        <Property Name="id" Type="Edm.String" />
+        <Property Name="self" Type="Edm.String" />
+        <Property Name="createdTime" Type="Edm.DateTimeOffset" />
+      </ComplexType>
+      <ComplexType Name="RecentNotebook">
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="lastAccessedTime" Type="Edm.DateTimeOffset" />
+        <Property Name="links" Type="Microsoft.OneNote.Api.RecentNotebookLinks" />
+        <Property Name="sourceService" Type="Microsoft.OneNote.Api.SourceService" />
+      </ComplexType>
+      <ComplexType Name="WhiteboardClasses">
+        <Property Name="notebookClasses" Type="Collection(Microsoft.OneNote.Api.NotebookClass)" />
+        <Property Name="classroomClasses" Type="Collection(Microsoft.OneNote.Api.ClassroomClass)" />
+      </ComplexType>
+      <ComplexType Name="ProvisionClassWhiteboardModel">
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="lastModifiedTime" Type="Edm.DateTimeOffset" />
+        <Property Name="sectionId" Type="Edm.String" />
+        <Property Name="cellId" Type="Edm.String" />
+        <Property Name="webAppLink" Type="Microsoft.OneNote.Api.ExternalLink" />
+        <Property Name="isProvisioned" Type="Edm.Boolean" />
+        <Property Name="classSource" Type="Edm.String" />
+        <Property Name="webUrl" Type="Microsoft.OneNote.Api.ExternalLink" />
+        <Property Name="fullPath" Type="Microsoft.OneNote.Api.ExternalLink" />
+        <Property Name="id" Type="Edm.String" />
+        <Property Name="self" Type="Edm.String" />
+        <Property Name="createdTime" Type="Edm.DateTimeOffset" />
+      </ComplexType>
+      <ComplexType Name="WhiteboardDistributeModel">
+        <Property Name="PageIds" Type="Collection(Edm.String)" />
+      </ComplexType>
+      <ComplexType Name="CopyPermissionModel">
+        <Property Name="id" Type="Edm.String" />
+        <Property Name="self" Type="Edm.String" />
+        <Property Name="userRole" Type="Microsoft.OneNote.Api.UserRole" />
+        <Property Name="userId" Type="Edm.String" />
+        <Property Name="name" Type="Edm.String" />
+      </ComplexType>
+      <ComplexType Name="SectionLinks">
+        <Property Name="oneNoteClientUrl" Type="Microsoft.OneNote.Api.ExternalLink" />
+        <Property Name="oneNoteWebUrl" Type="Microsoft.OneNote.Api.ExternalLink" />
+      </ComplexType>
+      <EntityType Name="TemplatedNotebookSectionGroup" BaseType="Microsoft.OneNote.Api.SectionGroup">
+        <Property Name="folderType" Type="Edm.String" />
+        <NavigationProperty Name="owner" Type="Microsoft.OneNote.Api.Principal" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="Principal" BaseType="Microsoft.OneNote.Api.Entity">
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="email" Type="Edm.String" />
+        <Property Name="department" Type="Edm.String" />
+        <Property Name="principalType" Type="Edm.String" />
+        <NavigationProperty Name="members" Type="Collection(Microsoft.OneNote.Api.Principal)" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="TemplatedNotebookPage" BaseType="Microsoft.OneNote.Api.Page">
+        <Property Name="distributeSourceId" Type="Edm.String" />
+        <Property Name="assignmentId" Type="Edm.String" />
+        <Property Name="clientPageId" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="TemplatedNotebookSection" BaseType="Microsoft.OneNote.Api.Section">
+        <Property Name="teamsChannelId" Type="Edm.String" />
+        <Property Name="wopiProperties" Type="Microsoft.OneNote.Api.WopiPropertiesModel" />
+      </EntityType>
+      <EntityType Name="WhiteboardSection" BaseType="Microsoft.OneNote.Api.Section" />
+      <EntityType Name="ClassNotebook" BaseType="Microsoft.OneNote.Api.Notebook">
+        <Property Name="version" Type="Edm.String" />
+        <Property Name="studentSections" Type="Collection(Edm.String)" />
+        <Property Name="studentsUrl" Type="Edm.String" />
+        <Property Name="teachersUrl" Type="Edm.String" />
+        <Property Name="hasTeacherOnlySectionGroup" Type="Edm.Boolean" />
+        <Property Name="isCollaborationSpaceLocked" Type="Edm.Boolean" />
+        <Property Name="selfRegistrationEnabled" Type="Edm.Boolean" />
+        <Property Name="mathSettings" Type="Edm.String" />
+        <Property Name="invitedStudents" Type="Collection(Edm.String)" />
+        <Property Name="invitedTeachers" Type="Collection(Edm.String)" />
+        <Property Name="distributionGroupsUrl" Type="Edm.String" />
+        <Property Name="importContentFrom" Type="Collection(Microsoft.OneNote.Api.ContentToCopy)" />
+        <Property Name="teamsId" Type="Edm.String" />
+        <NavigationProperty Name="students" Type="Collection(Microsoft.OneNote.Api.Principal)" ContainsTarget="true" />
+        <NavigationProperty Name="teachers" Type="Collection(Microsoft.OneNote.Api.Principal)" ContainsTarget="true" />
+        <NavigationProperty Name="pages" Type="Collection(Microsoft.OneNote.Api.TemplatedNotebookPage)" ContainsTarget="true" />
+        <NavigationProperty Name="distributionGroups" Type="Collection(Microsoft.OneNote.Api.DistributionGroups)" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="DistributionGroups" BaseType="Microsoft.OneNote.Api.OneNoteEntityBaseModel">
+        <Property Name="name" Type="Edm.String" />
+        <NavigationProperty Name="students" Type="Collection(Microsoft.OneNote.Api.Principal)" ContainsTarget="true" />
+        <NavigationProperty Name="members" Type="Collection(Microsoft.OneNote.Api.Principal)" ContainsTarget="true" />
+      </EntityType>
+      <ComplexType Name="ContentToCopy">
+        <Property Name="targetFolderType" Type="Edm.String" />
+        <Property Name="groupId" Type="Edm.String" />
+        <Property Name="siteCollectionId" Type="Edm.String" />
+        <Property Name="siteId" Type="Edm.String" />
+        <Property Name="userId" Type="Edm.String" />
+        <Property Name="notebookId" Type="Edm.String" />
+        <Property Name="notebookName" Type="Edm.String" />
+        <Property Name="sectionsToCopy" Type="Collection(Microsoft.OneNote.Api.SectionToCopy)" />
+      </ComplexType>
+      <ComplexType Name="SectionToCopy">
+        <Property Name="targetRelativePathFromContentLibrary" Type="Edm.String" />
+        <Property Name="sectionIdToCopy" Type="Edm.String" />
+        <Property Name="sourceSectionName" Type="Edm.String" />
+        <Property Name="targetFolderRelativePath" Type="Edm.String" />
+      </ComplexType>
+      <EntityType Name="PlcNotebook" BaseType="Microsoft.OneNote.Api.Notebook" />
+      <EntityType Name="SkypeNotebook" BaseType="Microsoft.OneNote.Api.Notebook">
+        <Property Name="version" Type="Edm.String" />
+        <Property Name="studentSections" Type="Collection(Edm.String)" />
+        <Property Name="studentsUrl" Type="Edm.String" />
+        <Property Name="teachersUrl" Type="Edm.String" />
+        <Property Name="hasTeacherOnlySectionGroup" Type="Edm.Boolean" />
+        <Property Name="isCollaborationSpaceLocked" Type="Edm.Boolean" />
+        <Property Name="mathSettings" Type="Edm.String" />
+        <Property Name="invitedStudents" Type="Collection(Edm.String)" />
+        <Property Name="invitedTeachers" Type="Collection(Edm.String)" />
+        <NavigationProperty Name="students" Type="Collection(Microsoft.OneNote.Api.Principal)" ContainsTarget="true" />
+        <NavigationProperty Name="teachers" Type="Collection(Microsoft.OneNote.Api.Principal)" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="StaffNotebook" BaseType="Microsoft.OneNote.Api.Notebook">
+        <Property Name="version" Type="Edm.String" />
+        <Property Name="memberSections" Type="Collection(Edm.String)" />
+        <Property Name="membersUrl" Type="Edm.String" />
+        <Property Name="leadersUrl" Type="Edm.String" />
+        <Property Name="hasLeaderOnlySectionGroup" Type="Edm.Boolean" />
+        <Property Name="isCollaborationSpaceLocked" Type="Edm.Boolean" />
+        <Property Name="mathSettings" Type="Edm.String" />
+        <Property Name="invitedMembers" Type="Collection(Edm.String)" />
+        <Property Name="invitedLeaders" Type="Collection(Edm.String)" />
+        <Property Name="distributionGroupsUrl" Type="Edm.String" />
+        <Property Name="importContentFrom" Type="Collection(Microsoft.OneNote.Api.ContentToCopy)" />
+        <Property Name="teamsId" Type="Edm.String" />
+        <NavigationProperty Name="members" Type="Collection(Microsoft.OneNote.Api.Principal)" ContainsTarget="true" />
+        <NavigationProperty Name="leaders" Type="Collection(Microsoft.OneNote.Api.Principal)" ContainsTarget="true" />
+        <NavigationProperty Name="pages" Type="Collection(Microsoft.OneNote.Api.TemplatedNotebookPage)" ContainsTarget="true" />
+        <NavigationProperty Name="distributionGroups" Type="Collection(Microsoft.OneNote.Api.DistributionGroups)" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="DeletePagesOperation" BaseType="Microsoft.OneNote.Api.OneNoteOperation">
+        <Property Name="notebookId" Type="Edm.String" />
+        <Property Name="totalNumberOfPages" Type="Edm.Int32" />
+        <Property Name="pagesDeletionSuccessCount" Type="Edm.Int32" />
+        <Property Name="pagesDeletionFailedCount" Type="Edm.Int32" />
+        <Property Name="failedDeletionPageIds" Type="Collection(Edm.String)" />
+      </EntityType>
+      <EntityType Name="MasterOperation" BaseType="Microsoft.OneNote.Api.OneNoteOperation">
+        <Property Name="successfulOperationsList" Type="Collection(Edm.String)" />
+        <Property Name="successfulOperationsCount" Type="Edm.Int32" />
+        <Property Name="failedOperationsList" Type="Collection(Edm.String)" />
+        <Property Name="failedOperationsCount" Type="Edm.Int32" />
+        <Property Name="operationsList" Type="Collection(Edm.String)" />
+        <Property Name="totalOperationsCount" Type="Edm.Int32" />
+      </EntityType>
+      <EntityType Name="EduOperation" BaseType="Microsoft.OneNote.Api.Operation" />
+      <EntityType Name="Site" BaseType="Microsoft.OneNote.Api.Entity">
+        <NavigationProperty Name="notes" Type="Microsoft.OneNote.Api.Notes" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="Group" BaseType="Microsoft.OneNote.Api.Entity">
+        <NavigationProperty Name="notes" Type="Microsoft.OneNote.Api.Notes" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="StaffNotebookTransfer" BaseType="Microsoft.OneNote.Api.Entity">
+        <Property Name="destinationNotebookName" Type="Edm.String" />
+        <NavigationProperty Name="sourceLeader" Type="Microsoft.OneNote.Api.Principal" ContainsTarget="true" />
+        <NavigationProperty Name="destinationLeader" Type="Microsoft.OneNote.Api.Principal" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="SkypeNotebookTransfer" BaseType="Microsoft.OneNote.Api.Entity">
+        <Property Name="destinationNotebookName" Type="Edm.String" />
+        <NavigationProperty Name="sourceTeacher" Type="Microsoft.OneNote.Api.Principal" ContainsTarget="true" />
+        <NavigationProperty Name="destinationTeacher" Type="Microsoft.OneNote.Api.Principal" ContainsTarget="true" />
+      </EntityType>
+      <EntityType Name="ClassNotebookTransfer" BaseType="Microsoft.OneNote.Api.Entity">
+        <Property Name="destinationNotebookName" Type="Edm.String" />
+        <NavigationProperty Name="sourceTeacher" Type="Microsoft.OneNote.Api.Principal" ContainsTarget="true" />
+        <NavigationProperty Name="destinationTeacher" Type="Microsoft.OneNote.Api.Principal" ContainsTarget="true" />
+      </EntityType>
+      <ComplexType Name="PagePreviewLinks">
+        <Property Name="previewImageUrl" Type="Microsoft.OneNote.Api.ExternalLink" />
+      </ComplexType>
+      <ComplexType Name="RecentNotebookLinks">
+        <Property Name="oneNoteClientUrl" Type="Microsoft.OneNote.Api.ExternalLink" />
+        <Property Name="oneNoteWebUrl" Type="Microsoft.OneNote.Api.ExternalLink" />
+      </ComplexType>
+      <ComplexType Name="NotebookClass">
+        <Property Name="id" Type="Edm.String" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="path" Type="Edm.String" />
+      </ComplexType>
+      <ComplexType Name="ClassroomClass">
+        <Property Name="groupId" Type="Edm.String" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="path" Type="Edm.String" />
+      </ComplexType>
+      <EnumType Name="OperationStatus">
+        <Member Name="not started" Value="0" />
+        <Member Name="running" Value="1" />
+        <Member Name="completed" Value="2" />
+        <Member Name="failed" Value="3" />
+      </EnumType>
+      <EnumType Name="PatchInsertPosition">
+        <Member Name="After" Value="0" />
+        <Member Name="Before" Value="1" />
+      </EnumType>
+      <EnumType Name="PatchActionType">
+        <Member Name="Replace" Value="0" />
+        <Member Name="Append" Value="1" />
+        <Member Name="Delete" Value="2" />
+        <Member Name="Insert" Value="3" />
+        <Member Name="Prepend" Value="4" />
+      </EnumType>
+      <EnumType Name="SourceService">
+        <Member Name="Unknown" Value="0" />
+        <Member Name="OneDrive" Value="1" />
+        <Member Name="OneDriveForBusiness" Value="2" />
+        <Member Name="OnPremOneDriveForBusiness" Value="3" />
+      </EnumType>
+      <EnumType Name="SharingLinkAccessLevel">
+        <Member Name="View" Value="0" />
+        <Member Name="Edit" Value="1" />
+      </EnumType>
+      <EnumType Name="UserRole">
+        <Member Name="Owner" Value="0" />
+        <Member Name="Contributor" Value="1" />
+        <Member Name="Reader" Value="2" />
+        <Member Name="None" Value="-1" />
+      </EnumType>
+      <Action Name="PatchContent" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Page" />
+        <Parameter Name="commands" Type="Collection(Microsoft.OneNote.Api.PatchContentCommand)" />
+      </Action>
+      <Function Name="FromUrl" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.SiteCollection)" />
+        <Parameter Name="url" Type="Edm.String" />
+        <ReturnType Type="Microsoft.OneNote.Api.SiteMetadata" />
+      </Function>
+      <Function Name="Thumbnail" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Section" />
+        <ReturnType Type="Edm.Stream" />
+      </Function>
+      <Function Name="Thumbnail" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Page" />
+        <ReturnType Type="Edm.Stream" />
+      </Function>
+      <Function Name="Preview" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Page" />
+        <ReturnType Type="Microsoft.OneNote.Api.PagePreview" />
+      </Function>
+      <Function Name="FindMeetingPage" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.Page)" />
+        <Parameter Name="meetingAttendeeId" Type="Edm.String" />
+        <ReturnType Type="Microsoft.OneNote.Api.ComplexPageModel" />
+      </Function>
+      <Action Name="DeleteMeetingPageMapping" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.Page)" />
+        <Parameter Name="meetingAttendeeId" Type="Edm.String" />
+      </Action>
+      <Function Name="GetWopiProperties" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Notebook" />
+        <Parameter Name="frameAction" Type="Edm.String" />
+        <ReturnType Type="Microsoft.OneNote.Api.WopiPropertiesModel" />
+      </Function>
+      <Function Name="GetWopiProperties" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Section" />
+        <Parameter Name="frameAction" Type="Edm.String" />
+        <ReturnType Type="Microsoft.OneNote.Api.WopiPropertiesModel" />
+      </Function>
+      <Action Name="CopyNotebook" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Notebook" />
+        <Parameter Name="siteCollectionId" Type="Edm.String" />
+        <Parameter Name="siteId" Type="Edm.String" />
+        <Parameter Name="groupId" Type="Edm.String" />
+        <Parameter Name="renameAs" Type="Edm.String" />
+        <Parameter Name="notebookFolder" Type="Edm.String" />
+        <ReturnType Type="Microsoft.OneNote.Api.OneNoteOperation" />
+      </Action>
+      <Action Name="CopyToNotebook" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Section" />
+        <Parameter Name="id" Type="Edm.String" />
+        <Parameter Name="siteCollectionId" Type="Edm.String" />
+        <Parameter Name="siteId" Type="Edm.String" />
+        <Parameter Name="groupId" Type="Edm.String" />
+        <Parameter Name="renameAs" Type="Edm.String" />
+        <ReturnType Type="Microsoft.OneNote.Api.OneNoteOperation" />
+      </Action>
+      <Action Name="CopyToSectionGroup" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Section" />
+        <Parameter Name="id" Type="Edm.String" />
+        <Parameter Name="siteCollectionId" Type="Edm.String" />
+        <Parameter Name="siteId" Type="Edm.String" />
+        <Parameter Name="groupId" Type="Edm.String" />
+        <Parameter Name="renameAs" Type="Edm.String" />
+        <ReturnType Type="Microsoft.OneNote.Api.OneNoteOperation" />
+      </Action>
+      <Action Name="CopyToSection" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Page" />
+        <Parameter Name="id" Type="Edm.String" />
+        <Parameter Name="siteCollectionId" Type="Edm.String" />
+        <Parameter Name="siteId" Type="Edm.String" />
+        <Parameter Name="groupId" Type="Edm.String" />
+        <ReturnType Type="Microsoft.OneNote.Api.OneNoteOperation" />
+      </Action>
+      <Action Name="ExportNotebook" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Notebook" />
+      </Action>
+      <Action Name="ImportNotebook" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.Notebook)" />
+        <ReturnType Type="Microsoft.OneNote.Api.OneNoteOperation" />
+      </Action>
+      <Action Name="OptimizeNotebook" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Notebook" />
+        <ReturnType Type="Microsoft.OneNote.Api.OneNoteOperation" />
+      </Action>
+      <Action Name="GetNotebookFromWebUrl" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.Notebook)" />
+        <Parameter Name="webUrl" Type="Edm.String" />
+        <ReturnType Type="Microsoft.OneNote.Api.CopyNotebookModel" />
+      </Action>
+      <Function Name="GetRecentNotebooks" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.Notebook)" />
+        <Parameter Name="includePersonalNotebooks" Type="Edm.Boolean" Nullable="false" />
+        <ReturnType Type="Collection(Microsoft.OneNote.Api.RecentNotebook)" />
+      </Function>
+      <Action Name="RemoveRecentNotebook" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.Notebook)" />
+        <Parameter Name="notebookWebUrl" Type="Edm.String" />
+      </Action>
+      <Function Name="GetNotebookType" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Notebook" />
+        <ReturnType Type="Edm.String" />
+      </Function>
+      <Function Name="GetNotebookType" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.Notebook)" />
+        <ReturnType Type="Edm.String" />
+      </Function>
+      <Function Name="Classes" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.ClassWhiteboard)" />
+        <ReturnType Type="Microsoft.OneNote.Api.WhiteboardClasses" />
+      </Function>
+      <Action Name="Provision" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.ClassWhiteboard" />
+        <ReturnType Type="Microsoft.OneNote.Api.ProvisionClassWhiteboardModel" />
+      </Action>
+      <Action Name="ProvisionInClassroom" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.ClassWhiteboard)" />
+        <ReturnType Type="Microsoft.OneNote.Api.ProvisionClassWhiteboardModel" />
+      </Action>
+      <Action Name="Distribute" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.ClassWhiteboard" />
+        <ReturnType Type="Microsoft.OneNote.Api.WhiteboardDistributeModel" />
+      </Action>
+      <Action Name="GetOrCreateAnonymousSharingLink" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.SectionGroup" />
+        <Parameter Name="accessLevel" Type="Microsoft.OneNote.Api.SharingLinkAccessLevel" Nullable="false" />
+        <ReturnType Type="Edm.String" />
+      </Action>
+      <Function Name="GetAnonymousSharingLink" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.SectionGroup" />
+        <Parameter Name="accessLevel" Type="Microsoft.OneNote.Api.SharingLinkAccessLevel" Nullable="false" />
+        <ReturnType Type="Edm.String" />
+      </Function>
+      <Action Name="RevokeAnonymousSharingLink" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.SectionGroup" />
+        <Parameter Name="accessLevel" Type="Microsoft.OneNote.Api.SharingLinkAccessLevel" Nullable="false" />
+      </Action>
+      <Action Name="GetOrCreateOrganizationSharingLink" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Notebook" />
+        <Parameter Name="accessLevel" Type="Microsoft.OneNote.Api.SharingLinkAccessLevel" Nullable="false" />
+        <ReturnType Type="Edm.String" />
+      </Action>
+      <Action Name="RevokeOrganizationSharingLink" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Microsoft.OneNote.Api.Notebook" />
+        <Parameter Name="accessLevel" Type="Microsoft.OneNote.Api.SharingLinkAccessLevel" Nullable="false" />
+      </Action>
+      <Action Name="RedeemOrganizationSharingLink" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.Notebook)" />
+        <Parameter Name="organizationSharingLink" Type="Edm.String" />
+        <ReturnType Type="Edm.String" />
+      </Action>
+      <Action Name="UpdatePermissions" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.FamilyNotebook)" />
+        <ReturnType Type="Microsoft.OneNote.Api.CopyPermissionModel" />
+      </Action>
+      <Function Name="GetDefaultNotebook" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.Notebook)" />
+        <ReturnType Type="Microsoft.OneNote.Api.ComplexNotebookModel" />
+      </Function>
+      <Action Name="ExchangeToken" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.Notebook)" />
+        <ReturnType Type="Edm.String" />
+      </Action>
+      <Action Name="ProvisionNewNotebook" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Microsoft.OneNote.Api.Notebook)" />
+        <Parameter Name="NotebookName" Type="Edm.String" />
+        <Parameter Name="SectionName" Type="Edm.String" />
+        <Parameter Name="PageTitle" Type="Edm.String" />
+        <Parameter Name="NotebookFolderName" Type="Edm.String" />
+        <Parameter Name="CreateShareUrl" Type="Edm.Boolean" />
+        <ReturnType Type="Microsoft.OneNote.Api.ProvisionedNotebookModel" />
+      </Action>
+      <EntityContainer Name="OneNoteApi">
+        <EntitySet Name="users" EntityType="Microsoft.OneNote.Api.User" />
+        <EntitySet Name="me/notes/operations" EntityType="Microsoft.OneNote.Api.OneNoteOperation" />
+        <Singleton Name="me" Type="Microsoft.OneNote.Api.User" />
+        <Singleton Name="myOrganization" Type="Microsoft.OneNote.Api.MyOrganization" />
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

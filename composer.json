@@ -29,7 +29,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Office365\\": ["tests/", "tests/sharepoint/", "tests/outlookservices/", "tests/graph/"]
+            "Office365\\": ["tests/", "tests/sharepoint/", "tests/outlookservices/", "tests/microsoftgraph/"]
         }
     },
     "autoload": {

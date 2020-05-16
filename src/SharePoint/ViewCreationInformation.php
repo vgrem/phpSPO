@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-05-13T12:20:55+00:00 16.0.20029.12010
+ * Updated By PHP Office365 Generator 2020-05-16T19:55:04+00:00 16.0.20106.12008
  */
 namespace Office365\SharePoint;
 
@@ -58,4 +58,8 @@ class ViewCreationInformation extends ClientValueObject
      * @var string
      */
     public $ViewType2;
+    /**
+     * @var string
+     */
+    public $CalendarViewStyles;
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-04-22T21:38:25+00:00 16.0.20008.12009
+ * Updated By PHP Office365 Generator 2020-05-16T19:55:04+00:00 16.0.20106.12008
  */
 namespace Office365\SharePoint;
 
@@ -1448,5 +1448,22 @@ class Site extends ClientObject
     public function setSensitivityLabelInfo($value)
     {
         $this->setProperty("SensitivityLabelInfo", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getChannelGroupId()
+    {
+        if (!$this->isPropertyAvailable("ChannelGroupId")) {
+            return null;
+        }
+        return $this->getProperty("ChannelGroupId");
+    }
+    /**
+     * @var string
+     */
+    public function setChannelGroupId($value)
+    {
+        $this->setProperty("ChannelGroupId", $value, true);
     }
 }

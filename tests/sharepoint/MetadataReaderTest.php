@@ -10,7 +10,7 @@ class MetadataReaderTest extends SharePointTestCase
     public function testLoadMetadata()
     {
         //$edmxContents = MetadataResolver::getMetadata(self::$context);
-        $edmxContents = file_get_contents(__DIR__ . '/../../generator/metadata/SharePoint16.0.20029.12010.xml');
+        $edmxContents = file_get_contents(__DIR__ . '/../../generator/metadata/SharePoint.xml');
         $this->assertNotNull($edmxContents);
         return $edmxContents;
     }

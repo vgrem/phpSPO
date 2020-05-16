@@ -7,13 +7,13 @@ abstract class BaseODataReader
 {
 
     /**
-     * @param string $edmx
      * @param array $options
      * @return ODataModel
      */
-    function generateModel($edmx, $options)
+    function generateModel($options)
     {
         $model = new ODataModel($options);
+        $edmx = file_get_contents($options['metadataPath']);
         $this->parseEdmx($edmx, $model);
         return $model;
     }
