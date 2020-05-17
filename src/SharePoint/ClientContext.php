@@ -5,7 +5,6 @@ namespace Office365\SharePoint;
 use Exception;
 use Office365\Runtime\Auth\AuthenticationContext;
 use Office365\Runtime\Auth\IAuthenticationContext;
-use Office365\Runtime\ClientAction;
 use Office365\Runtime\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\OData\ODataRequest;
@@ -129,23 +128,22 @@ class ClientContext extends ClientRuntimeContext
      */
     public function executeQuery()
     {
-        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request,ClientAction $query) {
-            $this->buildSharePointSpecificRequest($request,$query);
+        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request) {
+            $this->buildSharePointSpecificRequest($request);
         });
         parent::executeQuery();
     }
 
     /**
      * @param RequestOptions $request
-     * @param ClientAction $query
      * @throws Exception
      */
-    private function buildSharePointSpecificRequest(RequestOptions $request,ClientAction $query){
+    private function buildSharePointSpecificRequest(RequestOptions $request){
 
+        $query = $this->pendingRequest->getCurrentQuery();
         if($request->Method === HttpMethod::Post) {
             $this->ensureFormDigest($request);
         }
-
 
         //set data modification headers
         if ($query instanceof UpdateEntityQuery) {

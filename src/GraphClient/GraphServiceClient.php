@@ -5,7 +5,6 @@ namespace Office365\GraphClient;
 use Office365\OneDrive\CurrentUserRequestContext;
 use Office365\Runtime\Auth\AuthenticationContext;
 use Office365\Runtime\Auth\OAuthTokenProvider;
-use Office365\Runtime\ClientAction;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;
@@ -50,14 +49,15 @@ class GraphServiceClient extends ClientRuntimeContext
     public function executeQuery()
     {
         $this->getPendingRequest()->beforeExecuteQuery(
-            function (RequestOptions $request,ClientAction $query){
-                $this->prepareRequest($request,$query);
+            function (RequestOptions $request){
+                $this->prepareRequest($request);
             });
         parent::executeQuery();
     }
 
-    private function prepareRequest(RequestOptions $request,ClientAction $query)
+    private function prepareRequest(RequestOptions $request)
     {
+        $query = $this->pendingRequest->getCurrentQuery();
         //set data modification headers
         if ($query instanceof UpdateEntityQuery) {
             $request->Method = HttpMethod::Patch;

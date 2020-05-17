@@ -108,11 +108,9 @@ class ListItemTest extends SharePointTestCase
     public function testAddAttachmentToListItem(ListItem $listItem)
     {
         $attCreationInformation = new AttachmentCreationInformation();
-        $parentPath = basename(getcwd()) === "tests" ? "../" : "./";
-        $path = "${parentPath}examples/data/attachment.txt";
-        $attCreationInformation->FileName = basename($path);
-        $attCreationInformation->ContentStream = file_get_contents($path);
-
+        $localPath = __DIR__ . "/../../examples/data/attachment.txt";
+        $attCreationInformation->FileName = basename($localPath);
+        $attCreationInformation->ContentStream = file_get_contents($localPath);
         $attachment = $listItem->getAttachmentFiles()->add($attCreationInformation);
         self::$context->executeQuery();
         self::assertNotNull($attachment->getServerRelativeUrl());

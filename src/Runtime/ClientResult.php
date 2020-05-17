@@ -3,6 +3,8 @@
 
 namespace Office365\Runtime;
 
+use Office365\Runtime\OData\ODataFormat;
+
 /**
  * Represents a Service Operation result value.
  */
@@ -15,13 +17,16 @@ class ClientResult
     }
 
     /**
-     * @param array $json
+     * @param string $key
+     * @param mixed $value
      */
-    public function mapJson($json){
-        if($this->value instanceof ClientObject || $this->value instanceof ClientValueObject)
-            $this->value->mapJson($json);
-        else
-            $this->value = $json;
+    public function setProperty($key, $value){
+        if($this->value instanceof ClientObject || $this->value instanceof ClientValueObject) {
+            $this->value->setProperty($key,$value,False);
+        }
+        else {
+            $this->value = $value;
+        }
     }
 
     public function getValue(){

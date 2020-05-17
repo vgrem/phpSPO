@@ -222,8 +222,6 @@ class ClientObject
     {
         if($persistChanges)
             $this->changes[$name] = $value;
-
-        //save property
         $this->{$name} = $value;
 
         //update resource path
@@ -238,7 +236,6 @@ class ClientObject
                 $this->resourcePath = new ResourcePath($segment,$this->parentCollection->getResourcePath()->getParent());
             }
         }
-
     }
 
     /**
@@ -247,7 +244,24 @@ class ClientObject
      */
     public function __set($name, $value)
     {
-        $this->properties[$name] = $value;
+        if(is_array($value)) {  /*Navigation property? */
+            $getterName = "get$name";
+            if(method_exists($this,$getterName))
+                $propType = $this->{$getterName}();
+            else
+                $propType = $this->getProperty($name);
+
+            if($propType instanceof ClientObject || $propType instanceof ClientValueObject) {
+                foreach ($value as $k=>$v){
+                    $propType->setProperty($k,$v,False);
+                }
+                $this->properties[$name] = $propType;
+            }
+            else
+                $this->properties[$name] = $value;
+        }
+        else
+            $this->properties[$name] = $value;
     }
 
     /**
@@ -269,25 +283,6 @@ class ClientObject
     public function __isset($name)
     {
         return isset($this->properties[$name]);
-    }
-
-
-    public function mapJson($json){
-        foreach ($json as $key => $value) {
-            if(is_array($value)){
-                $getterName = "get$key";
-                if(method_exists($this,$getterName))
-                    $propertyType = $this->{$getterName}();
-                else
-                    $propertyType = $this->getProperty($key);
-                if($propertyType instanceof ClientObject || $propertyType instanceof ClientValueObject)
-                    $propertyType->mapJson($value);
-                else
-                    $this->setProperty($key,$value,false);
-            }
-            else
-                $this->setProperty($key,$value,false);
-        }
     }
 
 }

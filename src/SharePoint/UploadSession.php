@@ -3,8 +3,6 @@
 
 namespace Office365\SharePoint;
 
-
-use Office365\Runtime\ClientAction;
 use Office365\Runtime\ClientResult;
 use Office365\Runtime\Http\Response;
 use Office365\Runtime\Types\Guid;
@@ -57,13 +55,16 @@ class UploadSession
 
 
         if($chunkUploaded) {
-            $ctx->getPendingRequest()->afterExecuteQuery(function (Response $response,ClientAction $query) use($chunkUploaded)
+            $ctx->getPendingRequest()->afterExecuteQuery(function (Response $response) use($chunkUploaded,$ctx)
             {
-                if($query->ReturnType instanceof ClientResult){
-                    call_user_func($chunkUploaded, $query->ReturnType->getValue());
+                $query = $ctx->getPendingRequest()->getCurrentQuery();
+                $returnType = $query->ReturnType;
+
+                if($returnType instanceof ClientResult){
+                    call_user_func($chunkUploaded, $returnType->getValue());
                 }
-                elseif ($query->ReturnType instanceof File){
-                    call_user_func($chunkUploaded, $query->ReturnType->getLength());
+                elseif ($returnType instanceof File){
+                    call_user_func($chunkUploaded, $returnType->getLength());
                 }
             });
         }

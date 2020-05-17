@@ -45,8 +45,7 @@ class FileTest extends SharePointTestCase
         self::$context->load($items);
         self::$context->executeQuery();
         $result = $items->findItems(function (ListItem $item) use ($folder) {
-                return $item->getFolder()->getName() === $folder->getName();
-
+            return $item->getFolder()->getName() === $folder->getName();
         });
         self::assertNotNull($result);
     }

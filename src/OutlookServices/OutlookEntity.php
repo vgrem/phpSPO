@@ -43,11 +43,10 @@ class OutlookEntity extends ClientObject
         $reflection = new ReflectionObject($this);
         foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $p) {
             $val = $p->getValue($this);
-            if (!is_null($val)) {
+            if (!is_null($val) && !empty($val)) {
                 $json[$p->name] = $val;
             }
         }
-
         return $json;
     }
 

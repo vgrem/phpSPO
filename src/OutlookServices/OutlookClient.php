@@ -5,7 +5,6 @@ namespace Office365\OutlookServices;
 
 use Office365\Runtime\Auth\AuthenticationContext;
 use Office365\Runtime\Auth\OAuthTokenProvider;
-use Office365\Runtime\ClientAction;
 use Office365\Runtime\DeleteEntityQuery;
 use Office365\Runtime\OData\ODataRequest;
 use Office365\Runtime\UpdateEntityQuery;
@@ -61,8 +60,8 @@ class OutlookClient extends ClientRuntimeContext
      */
     public function executeQuery()
     {
-        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request,ClientAction $query){
-            $this->prepareRequest($request,$query);
+        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request){
+            $this->prepareRequest($request);
         });
         parent::executeQuery();
     }
@@ -70,10 +69,10 @@ class OutlookClient extends ClientRuntimeContext
 
     /**
      * @param RequestOptions $request
-     * @param ClientAction $query
      */
-    private function prepareRequest(RequestOptions $request,ClientAction $query)
+    private function prepareRequest(RequestOptions $request)
     {
+        $query = $this->pendingRequest->getCurrentQuery();
         //set data modification headers
         if ($query instanceof UpdateEntityQuery) {
             $request->Method = HttpMethod::Patch;
@@ -118,7 +117,6 @@ class OutlookClient extends ClientRuntimeContext
      * @var string
      */
     private $serviceRootUrl = "https://outlook.office365.com/api/";
-    //private $serviceRootUrl = "https://graph.microsoft.com/";
 
     /**
      * @var string

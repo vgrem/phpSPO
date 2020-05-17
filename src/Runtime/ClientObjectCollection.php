@@ -224,6 +224,9 @@ class ClientObjectCollection extends ClientObject
     }
 
 
+    /**
+     * @return array
+     */
     function toJson()
     {
         return array_map(function (ClientObject $item) {
@@ -232,14 +235,24 @@ class ClientObjectCollection extends ClientObject
     }
 
 
-    public function mapJson($json)
+    /**
+     * @param string|integer $index
+     * @param mixed $value
+     * @param bool $persistChanges
+     */
+    function setProperty($index, $value, $persistChanges = true)
     {
-        $this->clearData();
-        foreach ($json as $item) {
+        if((is_int($index))){
             $itemType = $this->createType();
-            $itemType->mapJson($item);
+            foreach ($value as $k=>$v) {
+                $itemType->setProperty($k, $v, $persistChanges);
+            }
             $this->addChild($itemType);
         }
+        else{
+            parent::setProperty($index,$value,$persistChanges);
+        }
+
     }
 
 }

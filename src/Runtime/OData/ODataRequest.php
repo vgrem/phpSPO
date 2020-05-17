@@ -4,8 +4,10 @@
 namespace Office365\Runtime\OData;
 
 use Exception;
+use Generator;
 use Office365\Runtime\ClientAction;
 use Office365\Runtime\ClientObject;
+use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ClientRequest;
 use Office365\Runtime\ClientResult;
 use Office365\Runtime\ClientRuntimeContext;
@@ -18,7 +20,7 @@ use Office365\Runtime\InvokePostMethodQuery;
 
 
 /**
- * OData V3 provider
+ * OData request (for V3/v4)
  */
 class ODataRequest extends ClientRequest
 {
@@ -38,6 +40,7 @@ class ODataRequest extends ClientRequest
      * @return RequestOptions
      */
     protected function buildRequest(){
+        $this->currentQuery = array_shift($this->queries);
         return $this->buildSingleRequest($this->currentQuery);
     }
 
@@ -49,8 +52,6 @@ class ODataRequest extends ClientRequest
     {
         $resourceUrl = $qry->BindingType->getResourceUrl();
         $request = new RequestOptions($resourceUrl);
-
-
         if($qry instanceof InvokeMethodQuery){
 
             if(!is_null($qry->getMethodPath())) {
@@ -166,10 +167,13 @@ class ODataRequest extends ClientRequest
      */
     public function mapJson($payload, $resultType, $format)
     {
-        $json = $this->sanitizeJsonPayload($payload,$format);
-        $resultType->mapJson($json);
+        if($resultType instanceof ClientObjectCollection){
+            $resultType->clearData();
+        }
+        foreach ($this->extractProperty($payload, $format) as $key => $value) {
+            $resultType->setProperty($key, $value, false);
+        }
     }
-
 
 
 
@@ -199,9 +203,9 @@ class ODataRequest extends ClientRequest
     /**
      * @param array $json
      * @param ODataFormat $format
-     * @return array
+     * @return Generator
      */
-    private function sanitizeJsonPayload($json, $format)
+    private function extractProperty($json, $format)
     {
         if ($format instanceof JsonLightFormat) {
             if (isset($json[$format->SecurityTag]))
@@ -209,28 +213,30 @@ class ODataRequest extends ClientRequest
             if (isset($json[$format->FunctionTag]))
                 $json = $json[$format->FunctionTag];
         }
-
         if(!is_array($json))
-            return $json;
+            yield $json;
 
-        if (isset($json[$format->CollectionTag]))
+        if (isset($json[$format->CollectionTag])) {
             $json = $json[$format->CollectionTag];
-
-
-        foreach ($json as $key => $value) {
-            if (is_array($value)) {
-                $json[$key] = $this->sanitizeJsonPayload($value, $format);
-                if(empty($json[$key])){
-                    unset($json[$key]);
+            foreach ($json as $index => $item) {
+                if(is_array($item)){
+                    $item = array_map(function ($v){ return $v;},
+                        iterator_to_array($this->extractProperty($item,$format)));
+                }
+                yield $index => $item;
+            }
+        }
+        else if (is_array($json)){
+            foreach ($json as $key => $value) {
+                if($this->isValidProperty($key, $value, $format)){
+                    if(is_array($value)){
+                        $value = array_map(function ($v){ return $v;},
+                            iterator_to_array($this->extractProperty($value,$format)));
+                    }
+                    yield $key => $value;
                 }
             }
-
-            if(!$this->isValidProperty((string)$key, $value, $format)){
-                 unset($json[$key]);
-            }
-
         }
-        return $json;
     }
 
 
@@ -277,6 +283,14 @@ class ODataRequest extends ClientRequest
     }
 
 
+    /**
+     * @return ClientAction
+     */
+    public function getCurrentQuery()
+    {
+        return $this->currentQuery;
+    }
+
 
     /**
      * @return ODataFormat
@@ -290,5 +304,11 @@ class ODataRequest extends ClientRequest
      * @var ODataFormat
      */
     private $format;
+
+
+    /**
+     * @var ClientAction
+     */
+    protected $currentQuery = array();
 
 }

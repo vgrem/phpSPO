@@ -53,16 +53,6 @@ class ClientValueObject
     }
 
     /**
-     * @param array $json
-     */
-    function mapJson($json)
-    {
-        foreach ($json as $key => $val) {
-            $this->setProperty($key,$val);
-        }
-    }
-
-    /**
      * @return bool
      */
     function getServerObjectIsNull()

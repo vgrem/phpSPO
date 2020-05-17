@@ -45,12 +45,6 @@ abstract class ClientRequest
 
 
     /**
-     * @var ClientAction
-     */
-    protected $currentQuery = array();
-
-
-    /**
      * ClientRequest constructor.
      * @param ClientRuntimeContext $context
      */
@@ -110,13 +104,11 @@ abstract class ClientRequest
      */
     public function executeQuery()
     {
-        $this->currentQuery = array_shift($this->queries);
         try{
             $request = $this->buildRequest();
             if (is_callable($this->eventsList["BeforeExecuteQuery"])) {
                 call_user_func_array($this->eventsList["BeforeExecuteQuery"], array(
-                    $request,
-                    $this->currentQuery
+                    $request
                 ));
             }
 
@@ -124,8 +116,7 @@ abstract class ClientRequest
             $this->processResponse($response);
             if (is_callable($this->eventsList["AfterExecuteQuery"])) {
                 call_user_func_array($this->eventsList["AfterExecuteQuery"], array(
-                    $response,
-                    $this->currentQuery
+                    $response
                 ));
             }
             $this->requestStatus = ClientRequestStatus::CompletedSuccess;

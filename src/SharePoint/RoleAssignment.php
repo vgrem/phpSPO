@@ -44,19 +44,20 @@ class RoleAssignment extends ClientObject
         }
         return $this->getProperty("Member");
     }
-    function getProperty($name)
-    {
-        if ($name == "Member" && !$this->isPropertyAvailable("Member")) {
-            return $this->getMember();
-        }
-        return parent::getProperty($name);
-    }
+
+
+    /**
+     * Gets
+     * the identifier of the user or group corresponding
+     * to the role assignment.<79>
+     * @return integer
+     */
     public function getPrincipalId()
     {
         return $this->getProperty("PrincipalId");
     }
     /**
-     * Specifies 
+     * Sets
      * the identifier of the user or group corresponding 
      * to the role assignment.<79>
      * @var integer
