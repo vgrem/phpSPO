@@ -46,4 +46,16 @@ abstract class ODataFormat
      */
     public $MetadataLevel;
 
+
+    /**
+     * @var string
+     */
+    public $NextCollectionTag;
+
+
+    /**
+     * @var string
+     */
+    public $CollectionTag;
+
 }

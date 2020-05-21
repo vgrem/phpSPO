@@ -9,8 +9,6 @@ use Exception;
 class JsonFormat extends ODataFormat
 {
 
-
-
     public function __construct($metadataLevel)
     {
         parent::__construct($metadataLevel);
@@ -19,6 +17,7 @@ class JsonFormat extends ODataFormat
         $this->ControlFamilyTag = "@odata";
         $this->CollectionTag = "value";
         $this->TypeTag = "@odata.type";
+        $this->NextCollectionTag = "@odata.nextLink";
     }
 
 

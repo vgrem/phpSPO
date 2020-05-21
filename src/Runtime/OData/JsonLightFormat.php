@@ -34,13 +34,6 @@ class JsonLightFormat extends ODataFormat
      */
     public $MetadataTag;
 
-
-    /**
-     * @var string
-     */
-    public $CollectionTag;
-
-
     /**
      * @var string
      */
@@ -51,8 +44,4 @@ class JsonLightFormat extends ODataFormat
      */
     public $FunctionTag;
 
-    /**
-     * @var string
-     */
-    public $NextCollectionTag;
 }
