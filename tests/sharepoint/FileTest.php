@@ -56,14 +56,9 @@ class FileTest extends SharePointTestCase
         $searchPrefix = $localPath . '*.*';
         $results = [];
         foreach(glob($searchPrefix) as $filename) {
-            $fileCreationInformation = new FileCreationInformation();
-            $fileCreationInformation->Content = file_get_contents($filename);
-            $fileCreationInformation->Url = basename($filename);
-            $fileCreationInformation->Overwrite = true;
-
-            $uploadFile = self::$targetList->getRootFolder()->getFiles()->add($fileCreationInformation);
+            $uploadFile = self::$targetList->getRootFolder()->uploadFile(basename($filename),file_get_contents($filename));
             self::$context->executeQuery();
-            $this->assertEquals($uploadFile->getName(),$fileCreationInformation->Url);
+            $this->assertNotNull($uploadFile->getLinkingUrl());
             $results[] = $uploadFile;
         }
         $this->assertTrue(true);

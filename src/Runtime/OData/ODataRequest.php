@@ -144,8 +144,8 @@ class ODataRequest extends ClientRequest
      */
     public function processResponse($response)
     {
-        $payload = $response->getContent();
-        if (empty($payload)) {
+        $content = $response->getContent();
+        if (empty($content)) {
             return;
         }
 
@@ -154,27 +154,36 @@ class ODataRequest extends ClientRequest
             return;
         }
 
-        $payload = json_decode($response->getContent(), true);
-        $this->mapJson($payload, $resultObject, $this->getFormat());
+        $payloadJson = json_decode($content, true);
+        if(!is_null($payloadJson)) {
+            $this->mapJson($payloadJson, $resultObject, $this->getFormat());
+        }
+        elseif ($resultObject instanceof ClientResult){
+            $resultObject->setProperty(null,$content);
+        }
     }
 
 
     /**
      * Maps response payload to client object
-     * @param array $payload
+     * @param array $json
      * @param $resultType ClientObject|ClientValueObject|ClientResult
      * @param $format ODataFormat
      */
-    public function mapJson($payload, $resultType, $format)
+    public function mapJson($json, $resultType, $format)
     {
         if($resultType instanceof ClientObjectCollection){
             $resultType->clearData();
         }
-        foreach ($this->extractProperty($payload, $format) as $key => $value) {
-            $resultType->setProperty($key, $value, false);
+        foreach ($this->extractProperty($json, $format) as $key => $value) {
+            if($resultType instanceof ClientObjectCollection && $format instanceof JsonLightFormat && $key === $format->NextCollectionTag){
+                $resultType->NextRequestUrl = $value;
+            }
+            else{
+                $resultType->setProperty($key, $value, false);
+            }
         }
     }
-
 
 
     /**
@@ -213,25 +222,33 @@ class ODataRequest extends ClientRequest
             if (isset($json[$format->FunctionTag]))
                 $json = $json[$format->FunctionTag];
         }
-        if(!is_array($json))
-            yield $json;
+        if (!is_array($json))
+            yield "value" => $json;
+
 
         if (isset($json[$format->CollectionTag])) {
+            if (isset($json[$format->NextCollectionTag])) {
+                yield $format->NextCollectionTag => $json[$format->NextCollectionTag];
+            }
+
             $json = $json[$format->CollectionTag];
             foreach ($json as $index => $item) {
-                if(is_array($item)){
-                    $item = array_map(function ($v){ return $v;},
-                        iterator_to_array($this->extractProperty($item,$format)));
+                if (is_array($item)) {
+                    $item = array_map(function ($v) {
+                        return $v;
+                    },
+                        iterator_to_array($this->extractProperty($item, $format)));
                 }
                 yield $index => $item;
             }
-        }
-        else if (is_array($json)){
+        } else if (is_array($json)) {
             foreach ($json as $key => $value) {
-                if($this->isValidProperty($key, $value, $format)){
-                    if(is_array($value)){
-                        $value = array_map(function ($v){ return $v;},
-                            iterator_to_array($this->extractProperty($value,$format)));
+                if ($this->isValidProperty($key, $value, $format)) {
+                    if (is_array($value)) {
+                        $value = array_map(function ($v) {
+                            return $v;
+                        },
+                            iterator_to_array($this->extractProperty($value, $format)));
                     }
                     yield $key => $value;
                 }

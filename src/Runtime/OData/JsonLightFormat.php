@@ -50,4 +50,9 @@ class JsonLightFormat extends ODataFormat
      * @var string
      */
     public $FunctionTag;
+
+    /**
+     * @var string
+     */
+    public $NextCollectionTag;
 }

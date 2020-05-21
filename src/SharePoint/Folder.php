@@ -32,6 +32,26 @@ class Folder extends ClientObject
         $this->getContext()->addQuery($qry);
         //$this->removeFromParentCollection();
     }
+
+    /**
+     * Upload a file under Folder
+     * @param string $name
+     * @param string $content
+     * @return File
+     */
+    public function uploadFile($name,$content){
+        $info = new FileCreationInformation();
+        $info->Url = $name;
+        $info->Content = $content;
+        $info->Overwrite = true;
+        return $this->getFiles()->add($info);
+    }
+
+
+    /**
+     * Rename a file
+     * @param string $name
+     */
     public function rename($name)
     {
         $item = $this->getListItemAllFields();

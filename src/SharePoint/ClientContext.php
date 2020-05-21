@@ -122,7 +122,6 @@ class ClientContext extends ClientRuntimeContext
         $this->getPendingRequest()->mapJson($payload,$this->contextWebInformation, $format);
     }
 
-
     /**
      * Submits query to SharePoint REST/OData service
      */

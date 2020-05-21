@@ -7,7 +7,6 @@ namespace Office365\Runtime\OData;
 abstract class ODataFormat
 {
 
-
     public function __construct($metadataLevel)
     {
         $this->MetadataLevel = $metadataLevel;

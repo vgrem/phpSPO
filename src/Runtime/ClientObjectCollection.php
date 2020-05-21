@@ -1,20 +1,30 @@
 <?php
 
 namespace Office365\Runtime;
-
+use Exception;
+use Generator;
+use IteratorAggregate;
+use Office365\Runtime\Http\RequestOptions;
+use Office365\Runtime\OData\JsonLightFormat;
 use Office365\Runtime\OData\ODataQueryOptions;
+use Traversable;
 
 
 /**
  * Client objects collection (represents EntitySet in terms of OData)
  */
-class ClientObjectCollection extends ClientObject
+class ClientObjectCollection extends ClientObject implements IteratorAggregate
 {
 
     /**
      * @var array
      */
     private $data = null;
+
+    /**
+     * @var string|null
+     */
+    public $NextRequestUrl;
 
 
     /**
@@ -27,6 +37,7 @@ class ClientObjectCollection extends ClientObject
     {
         parent::__construct($ctx, $resourcePath, $queryOptions);
         $this->data = array();
+        $this->NextRequestUrl = null;
     }
 
 
@@ -136,6 +147,10 @@ class ClientObjectCollection extends ClientObject
      */
     public function getCount()
     {
+        $it = $this->getIterator();
+        while($it->valid() ){
+            $it->next();
+        }
         return count($this->data);
     }
 
@@ -252,7 +267,40 @@ class ClientObjectCollection extends ClientObject
         else{
             parent::setProperty($index,$value,$persistChanges);
         }
+    }
 
+
+    /**
+     * @return Generator|Traversable
+     * @throws Exception
+     */
+    public function getIterator()
+    {
+        /** @var ClientObject $item */
+        foreach ($this->data as $index => $item) {
+            yield $index => $item;
+        }
+
+        if(is_null($this->queryOptions->Top) && !is_null($this->NextRequestUrl)){
+            foreach ($this->getNextItems() as $item){
+                $this->addChild($item);
+                yield $item;
+            }
+        }
+    }
+
+    /**
+     * @return ClientObjectCollection
+     * @throws Exception
+     */
+    private function getNextItems(){
+        $items = new ClientObjectCollection($this->context,$this->resourcePath);
+        $request = new RequestOptions($this->NextRequestUrl);
+        $response = $this->getContext()->executeQueryDirect($request);
+        $payload = json_decode($response->getContent(), true);
+        $this->getContext()->getPendingRequest()->mapJson($payload,$items,new JsonLightFormat());
+        $this->NextRequestUrl = null;
+        return $items;
     }
 
 }

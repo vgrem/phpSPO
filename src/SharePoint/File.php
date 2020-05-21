@@ -6,9 +6,11 @@
 namespace Office365\SharePoint;
 
 
+use Exception;
 use Office365\Runtime\ClientResult;
 use Office365\Runtime\DeleteEntityQuery;
 use Office365\Runtime\Http\RequestException;
+use Office365\Runtime\InvokeMethodQuery;
 use Office365\Runtime\InvokePostMethodQuery;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\Http\HttpMethod;
@@ -17,6 +19,8 @@ use Office365\Runtime\ResourcePathServiceOperation;
 use Office365\Runtime\Types\Guid;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\SharePoint\WebParts\LimitedWebPartManager;
+
+
 /**
  * Represents 
  * a file in a site (2) that can be 
@@ -28,6 +32,35 @@ use Office365\SharePoint\WebParts\LimitedWebPartManager;
  */
 class File extends SecurableObject
 {
+
+    /**
+     * Downloads file content
+     * @return ClientResult
+     */
+    public function download()
+    {
+        $result = new ClientResult();
+        if ($this->isPropertyAvailable("ServerRelativeUrl")) {
+            $this->constructDownloadQuery($this->getServerRelativeUrl(), $result);
+        } else {
+            $this->getContext()->load($this, array("ServerRelativeUrl"));
+            $this->getContext()->getPendingRequest()->afterExecuteQuery(function () use ($result) {
+                $this->constructDownloadQuery($this->getServerRelativeUrl(), $result);
+            });
+        }
+        return $result;
+    }
+
+    /**
+     * @param string $url
+     * @param ClientResult $result
+     */
+    private function constructDownloadQuery($url,$result){
+        $url = rawurlencode($url);
+        $qry = new InvokeMethodQuery($this->getParentWeb(), "getFileByServerRelativeUrl('{$url}')/\$value");
+        $this->getContext()->addQueryAndResultObject($qry,$result);
+    }
+
     /**
      * Deletes the File object.
      */
@@ -131,7 +164,7 @@ class File extends SecurableObject
      * @param ClientRuntimeContext $ctx
      * @param $serverRelativeUrl
      * @return mixed|string
-     * @throws \Exception
+     * @throws Exception
      */
     public static function openBinary(ClientRuntimeContext $ctx, $serverRelativeUrl)
     {
@@ -151,7 +184,7 @@ class File extends SecurableObject
      * @param ClientRuntimeContext $ctx
      * @param string $serverRelativeUrl
      * @param string $content file content
-     * @throws \Exception
+     * @throws Exception
      */
     public static function saveBinary(ClientRuntimeContext $ctx, $serverRelativeUrl, $content)
     {
@@ -913,6 +946,17 @@ class File extends SecurableObject
                     new ResourcePath("EffectiveInformationRightsManagementSettings", $this->getResourcePath())));
         }
         return $this->getProperty("EffectiveInformationRightsManagementSettings");
+    }
+
+    /**
+     * @return Web|null
+     */
+    private function getParentWeb()
+    {
+        if($this->context instanceof ClientContext){
+            return $this->context->getWeb();
+        }
+        return null;
     }
 
 }
