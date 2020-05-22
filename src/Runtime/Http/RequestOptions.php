@@ -144,4 +144,9 @@ class RequestOptions
      * @var bool
      */
     public $TransferEncodingChunkedAllowed;
+    
+    /**
+     * @var File pointer
+     */
+    public $OutputFile;
 }

@@ -149,6 +149,8 @@ class Requests
             curl_setopt($ch,CURLOPT_USERPWD, $options->UserCredentials->toString());
         if(!is_null($options->ConnectTimeout))
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $options->ConnectTimeout);
+        if(!is_null($options->OutputFile))
+            curl_setopt($ch, CURLOPT_FILE, $options->OutputFile);
 
         return $ch;
     }

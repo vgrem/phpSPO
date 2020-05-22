@@ -166,12 +166,13 @@ class File extends SecurableObject
      * @return mixed|string
      * @throws Exception
      */
-    public static function openBinary(ClientRuntimeContext $ctx, $serverRelativeUrl)
+    public static function openBinary(ClientRuntimeContext $ctx, $serverRelativeUrl, $outFile = NULL)
     {
         $serverRelativeUrl = rawurlencode($serverRelativeUrl);
         $url = $ctx->getServiceRootUrl() . "web/getfilebyserverrelativeurl('{$serverRelativeUrl}')/\$value";
         $options = new RequestOptions($url);
         $options->TransferEncodingChunkedAllowed = true;
+        $options->OutputFile = $outFile;
         $response = $ctx->executeQueryDirect($options);
         if (400 <= ($statusCode = $response->getStatusCode())) {
             throw new RequestException(sprintf('Could not open file located at "%s". SharePoint has responded with status code %d, error was: %s', rawurldecode($serverRelativeUrl), $statusCode, $response->getContent()), $statusCode, $response->getContent());
