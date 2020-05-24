@@ -30,7 +30,7 @@ class Folder extends ClientObject
     {
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
-        //$this->removeFromParentCollection();
+        $this->removeFromParentCollection();
     }
 
     /**

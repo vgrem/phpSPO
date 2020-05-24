@@ -12,10 +12,24 @@ use PhpParser\PrettyPrinter;
 
 class TypeBuilder extends NodeVisitorAbstract {
 
+    /**
+     * @var array
+     */
     private $typeSchema;
+    /**
+     * @var array
+     */
     private $options;
+
+    /**
+     * @var array
+     */
     private $typeNode;
-    private $propertyNodes;
+    /**
+     * @var TemplateContext
+     */
+    private $template;
+
 
     public function __construct($options,$typeSchema)
     {
@@ -24,6 +38,10 @@ class TypeBuilder extends NodeVisitorAbstract {
     }
 
 
+    /**
+     * Save generated model into a file
+     * @param string $outputFile
+     */
     public function save($outputFile){
         $prettyPrinter = new PrettyPrinter\Standard();
         $code = $prettyPrinter->prettyPrintFile($this->typeNode);
@@ -52,14 +70,7 @@ class TypeBuilder extends NodeVisitorAbstract {
             $this->typeNode = $template->build($this->typeSchema);
         }
 
-        $this->propertyNodes = array();
-        foreach($this->typeSchema['properties'] as $propertySchema){  //build missing properties
-            if ($propertySchema['state'] === "detached"){
-                $propertyBuilder = new PropertyBuilder($this->options,$propertySchema);
-                $this->propertyNodes[] = $propertyBuilder->build($template);
-            }
-        }
-
+        $this->template = $template;
         $traverser = new NodeTraverser();
         $traverser->addVisitor($this);
         $traverser->traverse($this->typeNode);
@@ -74,8 +85,25 @@ class TypeBuilder extends NodeVisitorAbstract {
         elseif ($node instanceof Node\Stmt\Class_) {
             if(isset($this->typeSchema['comment']))
                 $node->setDocComment((new DocCommentBuilder($this->options))->createClassComment($this->typeSchema['comment']));
-            foreach($this->propertyNodes as $property){  //insert missing properties
-                $node->stmts[] = $property;
+
+
+            //build properties
+            $propertyBuilder = new PropertyBuilder($this->options);
+            foreach($this->typeSchema['properties'] as $propertySchema){  //build missing properties
+                if ($propertySchema['state'] === "detached"){
+                    $node->stmts[] = $propertyBuilder->build($this->template,$propertySchema);
+                }
+            }
+
+
+            //build function nodes
+            $funcBuilder = new FunctionBuilder();
+            if(isset($this->typeSchema['functions'])){
+                foreach($this->typeSchema['functions'] as $funcSchema){
+                    if ($funcSchema['state'] === "detached"){
+                        //$node->stmts[] = $funcBuilder->build($template);
+                    }
+                }
             }
         }
     }

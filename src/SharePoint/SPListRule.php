@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-04-22T21:18:30+00:00 16.0.20008.12009
+ * Updated By PHP Office365 Generator 2020-05-24T09:54:07+00:00 16.0.20113.12008
  */
 namespace Office365\SharePoint;
 
@@ -36,4 +36,8 @@ class SPListRule extends ClientValueObject
      * @var integer
      */
     public $TriggerType;
+    /**
+     * @var string
+     */
+    public $Owner;
 }

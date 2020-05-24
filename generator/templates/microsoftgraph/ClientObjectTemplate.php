@@ -1,12 +1,12 @@
 <?php
 
-namespace Office365\OutlookServices;
+namespace Office365;
 use Office365\OutlookServices\OutlookEntity;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 
 
-class ClientObjectTemplate extends OutlookEntity
+class ClientObjectTemplate extends ClientObject
 {
 
     public function getObjectProperty()
@@ -30,7 +30,5 @@ class ClientObjectTemplate extends OutlookEntity
     {
         $this->setProperty("{name}",$value,true);
     }
-
-
 
 }

@@ -178,6 +178,8 @@ class File extends SecurableObject
         }
         return $response->getContent();
     }
+
+
     /**
      * Saves the file
      * Note: it is supported to update the existing file only. For adding a new file see FileCollection.add method

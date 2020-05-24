@@ -17,16 +17,21 @@ use Office365\SharePoint\ClientContext;
  */
 function generateTypeFile($typeSchema, $options)
 {
-    $templatePath = $options['templatePath'] . "\\" . $typeSchema['baseType'] . 'Template.php';
-    $template = new TemplateContext($templatePath);
-    $builder = new TypeBuilder($options, $typeSchema);
-    echo "Processing " . $typeSchema['file'] . " file: " . PHP_EOL;
-    if ($builder->build($template)) {
-        $outputFile = $typeSchema['file'];
-        $outputFolder = dirname($outputFile);
-        ensureFolder($outputFolder);
-        $builder->save($outputFile);
-        echo "File: " . $typeSchema['file'] . ' has been generated' . PHP_EOL;
+    if(!isset($typeSchema['baseType'])){
+        //print ("[Warn] ${$typeSchema['alias']} type not determined.\n");
+    }
+    else{
+        $templatePath = $options['templatePath'] . "\\" . $typeSchema['baseType'] . 'Template.php';
+        $template = new TemplateContext($templatePath);
+        $builder = new TypeBuilder($options, $typeSchema);
+        echo "Processing " . $typeSchema['file'] . " file: " . PHP_EOL;
+        if ($builder->build($template)) {
+            $outputFile = $typeSchema['file'];
+            $outputFolder = dirname($outputFile);
+            ensureFolder($outputFolder);
+            $builder->save($outputFile);
+            echo "File: " . $typeSchema['file'] . ' has been generated' . PHP_EOL;
+        }
     }
 }
 
@@ -72,6 +77,7 @@ function generateSharePointModel()
 {
     syncSharePointMetadataFile('./Settings.SharePoint.json');
     $generatorOptions = loadSettingsFromFile('./Settings.SharePoint.json');
+    $generatorOptions['model'] = "SharePoint";
     $reader = new ODataV3Reader();
     $model = $reader->generateModel($generatorOptions);
     generateFiles($model);
@@ -80,6 +86,7 @@ function generateSharePointModel()
 function generateOutlookServicesModel()
 {
     $generatorOptions = loadSettingsFromFile('./Settings.OutlookServices.json');
+    $generatorOptions['model'] = "OutlookServices";
     $reader = new ODataV4Reader();
     $model = $reader->generateModel($generatorOptions);
     generateFiles($model);
@@ -88,6 +95,7 @@ function generateOutlookServicesModel()
 function generateMicrosoftGraphModel()
 {
     $generatorOptions = loadSettingsFromFile('./Settings.MicrosoftGraph.json');
+    $generatorOptions['model'] = "MicrosoftGraph";
     $reader = new ODataV4Reader();
     $model = $reader->generateModel($generatorOptions);
     generateFiles($model);

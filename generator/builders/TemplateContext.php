@@ -18,6 +18,10 @@ class TemplateContext extends NodeVisitorAbstract
         $this->templatePath = $templatePath;
     }
 
+    /**
+     * @param array $typeSchema
+     * @return Node[]
+     */
     public function build($typeSchema)
     {
         $template = $this->loadTemplate();

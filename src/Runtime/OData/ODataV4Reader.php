@@ -59,9 +59,16 @@ class ODataV4Reader extends BaseODataReader
 
     private function processTypeNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
     {
+        $names = explode(".",(string)$parentNode->attributes()["Namespace"]);
+        array_push($names,(string)$curNode->attributes()["Name"]);
+        $names = array_map(function ($n){
+            return ucfirst($n);
+        }, $names);
+        $fqn = implode("." ,$names);
+
         return array(
-            'name' => (string)$parentNode->attributes()["Namespace"] . "." . (string)$curNode->attributes()["Name"],
-            'alias' => (string)$curNode->attributes()["Name"],
+            'name' => $fqn,
+            'alias' => ucfirst ((string)$curNode->attributes()["Name"]),
             'baseType' => ($curNode->getName() === 'ComplexType' ? "ClientValueObject" : "ClientObject"),
             'properties' => array()
         );

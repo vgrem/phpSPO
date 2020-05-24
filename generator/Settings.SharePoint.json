@@ -5,8 +5,8 @@
     "includeDocAnnotations": true,
     "docsRoot": "https:\/\/docs.microsoft.com\/en-us\/openspecs\/sharepoint_protocols\/ms-csomspt\/",
     "rootNamespace": "Office365\\SharePoint",
-    "version": "16.0.20106.12010",
-    "timestamp": "2020-05-21T21:00:32+00:00",
+    "version": "16.0.20113.12008",
+    "timestamp": "2020-05-24T09:43:34+00:00",
     "placeholder": "Updated By PHP Office365 Generator",
     "ignoredTypes": [
         "SP.SimpleDataRow",
@@ -37,7 +37,8 @@
         "SPO.*",
         "MS.FileServices.*",
         "Collection(Microsoft.*)",
-        "Collection(PS.*)"
+        "Collection(PS.*)",
+        "SP.WorkManagement.*"
     ],
     "ignoredProperties": [
         "Id4a81de82eeb94d6080ea5bf63e27023a"

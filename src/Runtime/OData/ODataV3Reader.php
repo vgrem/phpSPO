@@ -46,10 +46,7 @@ class ODataV3Reader extends BaseODataReader
                         'type' => (string)$childNode->attributes()["Type"],
                         'name' => (string)$childNode->attributes()["Name"]
                     );
-                    /*if($parameterSchema['type'] == "Collection(SP.UserSolution)"){
-                        $baseType = $this->findBaseType($parentNode,$parameterSchema['type']);
-                    }
-                    $model->resolveParameter($prevValue, $parameterSchema);*/
+                    $model->resolveParameter($prevValue, $parameterSchema);
                     break;
                 case "Property":
                     if ($prevValue) {

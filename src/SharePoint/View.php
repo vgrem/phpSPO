@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-05-16T19:55:04+00:00 16.0.20106.12008
+ * Updated By PHP Office365 Generator 2020-05-24T10:00:39+00:00 16.0.20113.12008
  */
 namespace Office365\SharePoint;
 
@@ -1163,5 +1163,22 @@ class View extends ClientObject
     public function setCalendarViewStyles($value)
     {
         $this->setProperty("CalendarViewStyles", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getAssosciatedContentTypeId()
+    {
+        if (!$this->isPropertyAvailable("AssosciatedContentTypeId")) {
+            return null;
+        }
+        return $this->getProperty("AssosciatedContentTypeId");
+    }
+    /**
+     * @var string
+     */
+    public function setAssosciatedContentTypeId($value)
+    {
+        $this->setProperty("AssosciatedContentTypeId", $value, true);
     }
 }

@@ -9,7 +9,7 @@ use Office365\Runtime\ClientObject;
 /**
  * Contains 
  * operations used in SharePoint connector serving Flow, PowerApps and LogicApps 
- * services.
+ * documentation.
  */
 class APIHubConnector extends ClientObject
 {
