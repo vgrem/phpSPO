@@ -3,8 +3,8 @@
 require_once '../vendor/autoload.php';
 $settings = include('../../Settings.php');
 
-use Office365\GraphClient\GraphServiceClient;
-use Office365\OneNote\Page;
+use Office365\Graph\GraphServiceClient;
+use Office365\Graph\Page;
 use Office365\Runtime\Auth\AuthenticationContext;
 use Office365\Runtime\Auth\UserCredentials;
 

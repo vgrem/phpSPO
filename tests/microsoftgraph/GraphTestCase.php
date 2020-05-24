@@ -3,7 +3,7 @@
 namespace Office365;
 
 use Exception;
-use Office365\GraphClient\GraphServiceClient;
+use Office365\Graph\GraphServiceClient;
 use Office365\Runtime\Auth\AuthenticationContext;
 use Office365\Runtime\Auth\UserCredentials;
 use PHPUnit\Framework\TestCase;

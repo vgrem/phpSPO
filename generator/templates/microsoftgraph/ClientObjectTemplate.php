@@ -1,7 +1,6 @@
 <?php
 
 namespace Office365;
-use Office365\OutlookServices\OutlookEntity;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 

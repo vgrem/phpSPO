@@ -2,7 +2,6 @@
 
 namespace Office365\Generator\Builders;
 
-use Office365\Generator\AnnotationsResolver;
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
@@ -57,8 +56,7 @@ class TypeBuilder extends NodeVisitorAbstract {
 
 
         if ($saveChanges){
-            $annotations = new AnnotationsResolver($this->options);
-            $annotations->resolveTypeComment($this->typeSchema);
+            $this->ensureTypeAnnotations($this->typeSchema);
         }
 
         if ($this->typeSchema['state'] === "attached") {
@@ -83,8 +81,8 @@ class TypeBuilder extends NodeVisitorAbstract {
             $node->setDocComment((new DocCommentBuilder($this->options))->createHeaderComment());
         }
         elseif ($node instanceof Node\Stmt\Class_) {
-            if(isset($this->typeSchema['comment']))
-                $node->setDocComment((new DocCommentBuilder($this->options))->createClassComment($this->typeSchema['comment']));
+            if(isset($this->typeSchema['description']))
+                $node->setDocComment((new DocCommentBuilder($this->options))->createClassComment($this->typeSchema['description']));
 
 
             //build properties
@@ -94,7 +92,6 @@ class TypeBuilder extends NodeVisitorAbstract {
                     $node->stmts[] = $propertyBuilder->build($this->template,$propertySchema);
                 }
             }
-
 
             //build function nodes
             $funcBuilder = new FunctionBuilder();
@@ -106,6 +103,21 @@ class TypeBuilder extends NodeVisitorAbstract {
                 }
             }
         }
+    }
+
+
+    /**
+     * @param $typeSchema array
+     * @return bool
+     */
+    public function ensureTypeAnnotations(&$typeSchema)
+    {
+        if(!$this->options['includeDocAnnotations'])
+            return false;
+        if(!is_null($this->options['docs'])) {
+            return $this->options['docs']->resolveAnnotations($typeSchema);
+        }
+        return true;
     }
 
 }

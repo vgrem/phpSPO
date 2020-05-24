@@ -13,7 +13,7 @@ class Entity extends ClientObject
     /**
      * @return string
      */
-    public function getid()
+    public function getId()
     {
         if (!$this->isPropertyAvailable("id")) {
             return null;
@@ -23,7 +23,7 @@ class Entity extends ClientObject
     /**
      * @var string
      */
-    public function setid($value)
+    public function setId($value)
     {
         $this->setProperty("id", $value, true);
     }

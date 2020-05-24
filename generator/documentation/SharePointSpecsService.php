@@ -13,14 +13,24 @@ use Office365\Runtime\Http\Requests;
 class SharePointSpecsService
 {
     /**
+     * @var array $toc
+     */
+    private $toc;
+
+    /**
      * @var string $docsRootUrl
      */
     private $docsRootUrl;
 
+    /**
+     * SharePointSpecsService constructor.
+     * @param string $docsRootUrl
+     * @throws RequestException
+     */
     public function __construct($docsRootUrl)
     {
         $this->docsRootUrl = $docsRootUrl;
-        $this->ensureToC();
+        $this->ensureToc();
     }
 
 
@@ -28,17 +38,17 @@ class SharePointSpecsService
      * @param array $typeSchema
      * @return bool
      */
-    public function resolveType(array &$typeSchema)
+    public function resolveAnnotations(array &$typeSchema)
     {
         $typeKey = str_replace("SP", "Microsoft.SharePoint.Client",$typeSchema['name']);
-        $typeSchema['comment'] = null;
+
         $this->scanDocInToc(function ($key, $value) use ($typeKey) {
             return $key === 'toc_title' &&  strpos($value, $typeKey) !== false;
         }, $this->toc,$tocEntry);
 
         if($tocEntry){
             $pageUrl = $this->docsRootUrl . $tocEntry['href'];
-            $typeSchema['comment'] = $this->loadDocComments($pageUrl);
+            $type['description'] = $this->parseTypePage($pageUrl);
 
             foreach ($typeSchema['properties'] as &$prop){
                 $propName = $prop['name'];
@@ -48,7 +58,7 @@ class SharePointSpecsService
                 }, $tocEntry,$propEntry);
                 if($propEntry){
                     $pageUrl = $this->docsRootUrl . $propEntry['href'];
-                    $prop['comment'] = $this->loadDocComments($pageUrl);
+                    $prop['description'] = $this->parseTypePage($pageUrl);
                 }
             }
             return true;
@@ -60,7 +70,7 @@ class SharePointSpecsService
      * Load table of contents
      * @throws RequestException
      */
-    private function ensureToC()
+    private function ensureToc()
     {
         if(is_null($this->toc)){
             $options = new RequestOptions($this->docsRootUrl . 'toc.json');
@@ -74,7 +84,7 @@ class SharePointSpecsService
      * @param string $pageUrl
      * @return string|null
      */
-    private function loadDocComments($pageUrl)
+    private function parseTypePage($pageUrl)
     {
         $doc = new DOMDocument();
         libxml_use_internal_errors(true); //disable HTML error reporting
@@ -133,7 +143,5 @@ class SharePointSpecsService
             }
         }
     }
-
-    private $toc;
 
 }

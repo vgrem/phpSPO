@@ -4,6 +4,8 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 use Office365\Generator\Builders\TemplateContext;
 use Office365\Generator\Builders\TypeBuilder;
+use Office365\Generator\Documentation\MSGraphDocsService;
+use Office365\Generator\Documentation\SharePointSpecsService;
 use Office365\Runtime\OData\MetadataResolver;
 use Office365\Runtime\OData\ODataModel;
 use Office365\Runtime\OData\ODataV3Reader;
@@ -76,17 +78,16 @@ function loadSettingsFromFile($fileName)
 function generateSharePointModel()
 {
     syncSharePointMetadataFile('./Settings.SharePoint.json');
-    $generatorOptions = loadSettingsFromFile('./Settings.SharePoint.json');
-    $generatorOptions['model'] = "SharePoint";
+    $options = loadSettingsFromFile('./Settings.SharePoint.json');
+    $options['docs'] = new SharePointSpecsService($options['docsRoot']);
     $reader = new ODataV3Reader();
-    $model = $reader->generateModel($generatorOptions);
+    $model = $reader->generateModel($options);
     generateFiles($model);
 }
 
 function generateOutlookServicesModel()
 {
     $generatorOptions = loadSettingsFromFile('./Settings.OutlookServices.json');
-    $generatorOptions['model'] = "OutlookServices";
     $reader = new ODataV4Reader();
     $model = $reader->generateModel($generatorOptions);
     generateFiles($model);
@@ -94,10 +95,10 @@ function generateOutlookServicesModel()
 
 function generateMicrosoftGraphModel()
 {
-    $generatorOptions = loadSettingsFromFile('./Settings.MicrosoftGraph.json');
-    $generatorOptions['model'] = "MicrosoftGraph";
+    $options = loadSettingsFromFile('./Settings.MicrosoftGraph.json');
+    $options['docs'] = new MSGraphDocsService();
     $reader = new ODataV4Reader();
-    $model = $reader->generateModel($generatorOptions);
+    $model = $reader->generateModel($options);
     generateFiles($model);
 }
 
@@ -123,9 +124,10 @@ function syncSharePointMetadataFile($fileName){
 
 try {
 
-    $modelName = "SharePoint";
+    $modelName = "MicrosoftGraph";
     if (count($argv) > 1)
         $modelName = $argv[1];
+
 
     switch ($modelName) {
         case "SharePoint":

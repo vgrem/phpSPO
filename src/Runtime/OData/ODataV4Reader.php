@@ -57,19 +57,33 @@ class ODataV4Reader extends BaseODataReader
     }
 
 
-    private function processTypeNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
-    {
-        $names = explode(".",(string)$parentNode->attributes()["Namespace"]);
-        array_push($names,(string)$curNode->attributes()["Name"]);
+    /**
+     * @param string $name
+     * @return string
+     */
+    private function normalizeName($name){
+        $names = explode(".", $name);
         $names = array_map(function ($n){
             return ucfirst($n);
         }, $names);
-        $fqn = implode("." ,$names);
+        return implode("." ,$names);
+    }
+
+
+    /**
+     * @param SimpleXMLIterator $curNode
+     * @param SimpleXMLIterator $parentNode
+     * @return array
+     */
+    private function processTypeNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
+    {
+        //if($curNode->attributes()["BaseType"])
+        //    $baseType = $this->normalizeName((string)$curNode->attributes()["BaseType"]);
 
         return array(
-            'name' => $fqn,
+            'name' => $this->normalizeName((string)$parentNode->attributes()["Namespace"] . "." . (string)$curNode->attributes()["Name"]),
             'alias' => ucfirst ((string)$curNode->attributes()["Name"]),
-            'baseType' => ($curNode->getName() === 'ComplexType' ? "ClientValueObject" : "ClientObject"),
+            'baseType' => $curNode->getName() === 'ComplexType' ? "ClientValueObject" : "ClientObject",
             'properties' => array()
         );
     }
@@ -77,8 +91,8 @@ class ODataV4Reader extends BaseODataReader
     private function processPropertyNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode,$isNavigation)
     {
         return array(
-            'name' => (string)$curNode->attributes()["Name"],
-            'type' => (string)$curNode->attributes()["Type"],
+            'name' => ucfirst((string)$curNode->attributes()["Name"]),
+            'type' => $this->normalizeName((string)$curNode->attributes()["Type"]),
             'baseType' => $this->findBaseType($parentNode,(string)$curNode->attributes()["Type"]),
             'readOnly' => $isNavigation
         );

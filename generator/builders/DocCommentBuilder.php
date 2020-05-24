@@ -45,8 +45,8 @@ class DocCommentBuilder
     {
         if (!is_null($property['type'])) {
             $commentText = '';
-            if (isset($property['comment'])) {
-                $commentText .= $this->sanitizeComment($property['comment']);
+            if (isset($property['description'])) {
+                $commentText .= $this->sanitizeComment($property['description']);
 
             }
             $commentText .= $this->sanitizeComment("@$annotations[0] " . $this->getTypeAlias($property['type']));
