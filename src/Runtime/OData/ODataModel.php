@@ -141,22 +141,21 @@ class ODataModel
      */
     public function resolveType(&$typeSchema)
     {
-        $typeName = $typeSchema['name'];
-
+        $key = $typeSchema['name'];
         //validate type
-        if (!$this->validateType($typeName)) {
+        if (!$this->validateType($key)) {
             //echo "Unknown type: $typeName" . PHP_EOL;
             return false;
         }
 
         //ensure the existing type
-        if(isset($this->types[$typeName])) {
-            $this->types[$typeName] = array_merge($typeSchema, $this->types[$typeName]);
-            $typeSchema = $this->types[$typeName];
+        if(isset($this->types[$key])) {
+            $this->types[$key] = array_merge($typeSchema, $this->types[$key]);
+            $typeSchema = $this->types[$key];
             return true;
         }
 
-        $typeInfo = $this->getTypeInfo($typeName);
+        $typeInfo = $this->getTypeInfo($key);
         $typeSchema['alias'] = $typeInfo['alias'];
         try {
             $class = new ReflectionClass($typeInfo['name']);
@@ -170,7 +169,7 @@ class ODataModel
             $typeSchema['type'] = $typeInfo['name'];
             $typeSchema['namespace'] = $typeInfo['namespace'];
         }
-        $this->types[$typeName] = $typeSchema;
+        $this->types[$key] = $typeSchema;
         if (is_callable($this->typeResolvedEvent)) {
             call_user_func($this->typeResolvedEvent, $typeSchema);
         }
@@ -183,7 +182,7 @@ class ODataModel
      * @param array $propSchema
      * @return bool
      */
-    public function resolveProperty( &$typeSchema,&$propSchema)
+    public function resolveProperty(&$typeSchema,&$propSchema)
     {
         //verify if property is not marked as ignored
         if (in_array($propSchema['name'], $this->options['ignoredProperties'])) {
@@ -205,7 +204,7 @@ class ODataModel
 
         $templateMapping = array();
         $propertyName = $propSchema['name'];
-        if ($typeSchema['baseType'] === 'ClientObject' || $typeSchema['baseType'] === 'ClientObjectCollection') {
+        if ($typeSchema['baseType'] === 'EntityType') {
             if (isset($propSchema['readOnly']) && $propSchema['readOnly'] === true) {
                 $templateMapping['getObjectProperty'] = "get$propertyName";
             } else {
@@ -213,7 +212,6 @@ class ODataModel
                 $templateMapping['setValueProperty'] = "set$propertyName";
             }
         }
-
 
 
         if(count($templateMapping) > 0){
@@ -252,31 +250,37 @@ class ODataModel
      */
     public function getTypeInfo($typeName)
     {
-        if($typeName=== "SP.List"){
-            $typeName = "SP.SPList";
+        if (array_key_exists($typeName, $this->options['typeMappings'])) {
+            $typeName = $this->options['typeMappings'][$typeName];
         }
 
         if (array_key_exists($typeName, $this->primitiveTypeMappings)) {
             return array(
                 'name' => $this->primitiveTypeMappings[$typeName],
-                'primitive' => true
+                'primitive' => true,
             );
         }
 
+        $collection = false;
         if (substr($typeName, 0, strlen("Collection")) === "Collection") {
             $itemTypeName = str_replace("Collection(", "", $typeName);
             $itemTypeName = str_replace(")", "", $itemTypeName);
             $typeName = $itemTypeName . "Collection";
+            $collection = true;
         }
         $parts = explode('.', $typeName);
-        array_shift($parts);
-        $types = array_slice($parts, 0, -1);
+        $parts[0] = $this->options['rootNamespace'];
+        $typeAlias = array_pop($parts);
+        $namespace = implode(DIRECTORY_SEPARATOR,array_filter($parts));
+        $filePath = implode(DIRECTORY_SEPARATOR,array_filter([str_replace($this->options['rootNamespace'],"",$namespace),$typeAlias . ".php"]));
+
         return array(
-            'alias' => array_slice($parts, -1)[0],
-            'name' => $this->options['rootNamespace'] . '\\' . implode('\\', $parts),
-            'file' => $this->options['outputPath'] . "\\" . implode('\\', $parts) . ".php",
-            'namespace' => count($types) > 0 ? $this->options['rootNamespace'] .  '\\' . implode('\\', $types) : $this->options['rootNamespace'],
-            'primitive' => false
+            'alias' => $typeAlias,
+            'name' => implode(DIRECTORY_SEPARATOR,[$namespace,$typeAlias]),
+            'file' => implode(DIRECTORY_SEPARATOR,[$this->options['outputPath'],$filePath]),
+            'namespace' => $namespace,
+            'primitive' => false,
+            'collection' => $collection
         );
     }
 

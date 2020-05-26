@@ -7,7 +7,7 @@ namespace Office365\Runtime\OData;
 use SimpleXMLIterator;
 
 
-class ODataV3Reader extends BaseODataReader
+class ODataV3Reader extends ODataReader
 {
 
 
@@ -50,12 +50,12 @@ class ODataV3Reader extends BaseODataReader
                     break;
                 case "Property":
                     if ($prevValue) {
-                        $propertySchema = $this->processPropertyNode($childNode, $parentNode,false);
+                        $propertySchema = $this->processPropertyNode($childNode, $parentNode);
                         $model->resolveProperty($prevValue, $propertySchema);
                     }
                     break;
                 case "NavigationProperty":
-                    $propertySchema = $this->processPropertyNode($childNode, $parentNode,true);
+                    $propertySchema = $this->processPropertyNode($childNode, $parentNode);
                     if (!is_null($propertySchema['type'])) {
                         $model->resolveProperty($prevValue, $propertySchema);
                     }
@@ -73,7 +73,7 @@ class ODataV3Reader extends BaseODataReader
     {
         $schema = array(
             'alias' => (string)$curNode->attributes()["Name"],
-            'baseType' => ($curNode->getName() === 'ComplexType' ? "ClientValueObject" : "ClientObject"),
+            'baseType' => $curNode->getName(),
             'properties' => array()
         );
         $schema['name'] = (string)$parentNode->attributes()["Namespace"] . "." . $schema['alias'];
@@ -97,8 +97,9 @@ class ODataV3Reader extends BaseODataReader
     }
 
 
-    private function processPropertyNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode,$isNavigation)
+    private function processPropertyNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
     {
+        $isNavigation = $curNode->getName() === "NavigationProperty";
         if(!$isNavigation){
             return array(
                 'name' => (string)$curNode->attributes()["Name"],
@@ -106,8 +107,8 @@ class ODataV3Reader extends BaseODataReader
             );
         }
         $propAlias = (string)$curNode->attributes()["Name"];
-        $propType = $this->findPropertyType($curNode, $parentNode, $propAlias);
-        $baseType = $this->findBaseType($parentNode,$propType);
+        $propType = $this->getPropertyType($curNode, $parentNode, $propAlias);
+        $baseType = $this->getBaseType($parentNode,$propType);
         return array(
             'name' => $propAlias,
             'type' => $propType,
@@ -116,28 +117,22 @@ class ODataV3Reader extends BaseODataReader
         );
     }
 
-    private function findBaseType(SimpleXMLIterator $schemaNode, $typeName)
+    private function getBaseType(SimpleXMLIterator $schemaNode, $typeName)
     {
-        $isCollection = false;
-        $collTag = "Collection";
-        if (substr($typeName, 0, strlen($collTag)) === $collTag) {
-            $isCollection = true;
-            $typeName = str_replace(")", "", str_replace("Collection(", "", $typeName));
-        }
         $parts = explode('.', $typeName);
         $typeAlias = array_pop($parts);
-        $typeNs = implode(".",$parts);
+        $namespace = implode(".",$parts);
 
-        $result = $schemaNode->xpath("///xmlns:Schema[@Namespace='$typeNs']/xmlns:EntityType[@Name='$typeAlias']");
+        $result = $schemaNode->xpath("///xmlns:Schema[@Namespace='$namespace']/xmlns:EntityType[@Name='$typeAlias']");
         if ($result)
-            return $isCollection ? "ClientObjectCollection" : "ClientObject";
-        $result = $schemaNode->xpath("///xmlns:Schema[@Namespace='$typeNs']/xmlns:ComplexType[@Name='$typeAlias']");
+            return "EntityType";
+        $result = $schemaNode->xpath("///xmlns:Schema[@Namespace='$namespace']/xmlns:ComplexType[@Name='$typeAlias']");
         if ($result)
-            return $isCollection ? "ClientValueObjectCollection" : "ClientValueObject";
+            return "ComplexType";
         return null;
     }
 
-    private function findPropertyType(SimpleXMLIterator $propertyNode, SimpleXMLIterator $schemaNode, $name){
+    private function getPropertyType(SimpleXMLIterator $propertyNode, SimpleXMLIterator $schemaNode, $name){
         $schemaNode->registerXPathNamespace('xmlns', 'http://schemas.microsoft.com/ado/2009/11/edm');
         $relationship = explode('.',(string)$propertyNode->attributes()['Relationship']);
         $associations = $schemaNode->xpath("////xmlns:Association[@Name='$relationship[1]']/xmlns:End[@Role='$name']");

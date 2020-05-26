@@ -13,6 +13,7 @@
     },
     "name": "vgrem/php-office365-sdk-generator",
     "require": {
-        "nikic/php-parser": "*"
+        "nikic/php-parser": "*",
+        "ext-yaml": "*"
     }
 }

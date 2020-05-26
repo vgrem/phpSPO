@@ -5,12 +5,11 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 /**
  *  "Represents an Azure AD user account. Inherits from directoryObject."
  */
-class User extends ClientObject
+class User extends DirectoryObject
 {
     /**
      *  **true** if the account is enabled; otherwise, **false**. This property is required when a user is created. Supports $filter.    

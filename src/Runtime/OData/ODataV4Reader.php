@@ -6,7 +6,7 @@ namespace Office365\Runtime\OData;
 
 use SimpleXMLIterator;
 
-class ODataV4Reader extends BaseODataReader
+class ODataV4Reader extends ODataReader
 {
 
     function parseEdmx($edmx, $model, SimpleXMLIterator &$parentNode = null, SimpleXMLIterator &$prevNode = null, $prevValue=null)
@@ -37,12 +37,12 @@ class ODataV4Reader extends BaseODataReader
                     break;
                 case "Property":
                     if ($prevValue) {
-                        $propertySchema = $this->processPropertyNode($childNode, $parentNode,false);
+                        $propertySchema = $this->processPropertyNode($childNode, $parentNode);
                         $model->resolveProperty($prevValue, $propertySchema);
                     }
                     break;
                 case "NavigationProperty":
-                    $propertySchema = $this->processPropertyNode($childNode, $parentNode,true);
+                    $propertySchema = $this->processPropertyNode($childNode, $parentNode);
                     if (!is_null($propertySchema['type'])) {
                         $model->resolveProperty($prevValue, $propertySchema);
                     }
@@ -66,7 +66,13 @@ class ODataV4Reader extends BaseODataReader
         $names = array_map(function ($n){
             return ucfirst($n);
         }, $names);
-        return implode("." ,$names);
+        $name = implode("." ,$names);
+        if (substr($name, 0, strlen("Collection")) === "Collection") {
+            $names = explode("(", $name);
+            $names[1] = ucfirst($names[1]);
+            $name = implode("(" ,$names);
+        }
+        return $name;
     }
 
 
@@ -77,46 +83,23 @@ class ODataV4Reader extends BaseODataReader
      */
     private function processTypeNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
     {
-        //if($curNode->attributes()["BaseType"])
-        //    $baseType = $this->normalizeName((string)$curNode->attributes()["BaseType"]);
-
         return array(
             'name' => $this->normalizeName((string)$parentNode->attributes()["Namespace"] . "." . (string)$curNode->attributes()["Name"]),
             'alias' => ucfirst ((string)$curNode->attributes()["Name"]),
-            'baseType' => $curNode->getName() === 'ComplexType' ? "ClientValueObject" : "ClientObject",
+            'baseType' => $curNode->getName(),
+            'baseTypeAs' => $curNode->attributes()["BaseType"] ? $this->normalizeName((string)$curNode->attributes()["BaseType"]) : null,
             'properties' => array()
         );
     }
 
-    private function processPropertyNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode,$isNavigation)
+    private function processPropertyNode(SimpleXMLIterator $curNode, SimpleXMLIterator $parentNode)
     {
         return array(
             'name' => ucfirst((string)$curNode->attributes()["Name"]),
             'type' => $this->normalizeName((string)$curNode->attributes()["Type"]),
-            'baseType' => $this->findBaseType($parentNode,(string)$curNode->attributes()["Type"]),
-            'readOnly' => $isNavigation
+            'baseType' => $this->normalizeName((string)$curNode->attributes()["Type"]),
+            'readOnly' => $curNode->getName() === "NavigationProperty"
         );
     }
 
-    private function findBaseType(SimpleXMLIterator $schemaNode, $typeName)
-    {
-        $isCollection = false;
-        $collTag = "Collection";
-        if (substr($typeName, 0, strlen($collTag)) === $collTag) {
-            $isCollection = true;
-            $typeName = str_replace(")", "", str_replace("Collection(", "", $typeName));
-        }
-        $parts = explode('.', $typeName);
-        $typeAlias = array_pop($parts);
-        $typeNs = implode(".",$parts);
-
-        $schemaNode->registerXPathNamespace('xmlns', 'http://docs.oasis-open.org/odata/ns/edm');
-        $result = $schemaNode->xpath("///xmlns:Schema[@Namespace='$typeNs']/xmlns:EntityType[@Name='$typeAlias']");
-        if ($result)
-            return $isCollection ? "ClientObjectCollection" : "ClientObject";
-        $result = $schemaNode->xpath("///xmlns:Schema[@Namespace='$typeNs']/xmlns:ComplexType[@Name='$typeAlias']");
-        if ($result)
-            return $isCollection ? "ClientValueObjectCollection" : "ClientValueObject";
-        return null;
-    }
 }

@@ -23,7 +23,7 @@ function generateTypeFile($typeSchema, $options)
         //print ("[Warn] ${$typeSchema['alias']} type not determined.\n");
     }
     else{
-        $templatePath = $options['templatePath'] . "\\" . $typeSchema['baseType'] . 'Template.php';
+        $templatePath = join(DIRECTORY_SEPARATOR,[$options['templatePath'],$typeSchema['baseType'] . '.php']) ;
         $template = new TemplateContext($templatePath);
         $builder = new TypeBuilder($options, $typeSchema);
         echo "Processing " . $typeSchema['file'] . " file: " . PHP_EOL;

@@ -5,9 +5,9 @@
  */
 namespace Office365\Graph;
 
-use Office365\OutlookServices\OutlookEntity;
+
 use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+
 class Entity extends ClientObject
 {
     /**

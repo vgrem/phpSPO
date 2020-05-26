@@ -6,7 +6,7 @@
 namespace Office365\Graph;
 
 use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+
 /**
  * Represents a comment in workbook.
  */

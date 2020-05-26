@@ -1,13 +1,17 @@
 {
     "metadataPath": ".\/metadata\/SharePoint.xml",
-    "outputPath": "..\/src\/SharePoint\/",
+    "outputPath": "..\/src\/SharePoint",
     "templatePath": ".\/templates\/sharepoint\/",
     "includeDocAnnotations": true,
     "docsRoot": "https:\/\/docs.microsoft.com\/en-us\/openspecs\/sharepoint_protocols\/ms-csomspt\/",
     "rootNamespace": "Office365\\SharePoint",
+    "entityRootNamespace": "SP",
     "version": "16.0.20113.12008",
     "timestamp": "2020-05-24T09:43:34+00:00",
     "placeholder": "Updated By PHP Office365 Generator",
+    "typeMappings": {
+        "SP.List" : "SP.SPList"
+    },
     "ignoredTypes": [
         "SP.SimpleDataRow",
         "SP.SimpleDataTable",

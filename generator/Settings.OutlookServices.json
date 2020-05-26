@@ -4,6 +4,7 @@
     "templatePath": "./templates/outlookservices",
     "includeDocAnnotations": false,
     "rootNamespace": "Office365",
+    "entityRootNamespace": "Microsoft",
     "version": "16.0.20008.12009",
     "timestamp": "2020-04-25T16:19:36+00:00",
     "placeholder": "Updated By PHP Office365 Generator",

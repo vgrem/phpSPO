@@ -22,8 +22,7 @@
         "ext-json": "*",
         "ext-simplexml": "*",
         "ext-dom": "*",
-        "ext-libxml": "*",
-        "ext-yaml": "*"
+        "ext-libxml": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^5"
