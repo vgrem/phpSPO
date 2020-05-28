@@ -5,11 +5,10 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+
 /**
  * Represents an Azure Active Directory object. The **directoryObject** type is the base type for many other directory entity types.
  */
-class DirectoryObject extends ClientObject
+class DirectoryObject extends Entity
 {
 }

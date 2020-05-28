@@ -60,13 +60,12 @@ class SPList extends SecurableObject
      */
     public function getItems(CamlQuery $camlQuery = null)
     {
-        if (isset($camlQuery)) {
-            $targetItems = new ListItemCollection($this->getContext());
-            $qry = new InvokePostMethodQuery($this, "GetItems", $camlQuery, "query", $camlQuery);
-            $this->getContext()->addQueryAndResultObject($qry, $targetItems);
-            return $targetItems;
+        if (is_null($camlQuery)) {
+            $camlQuery = CamlQuery::createAllItemsQuery();
         }
         $targetItems = new ListItemCollection($this->getContext(), new ResourcePath("items", $this->getResourcePath()));
+        $qry = new InvokePostMethodQuery($this, "GetItems", $camlQuery, "query", $camlQuery);
+        $this->getContext()->addQueryAndResultObject($qry, $targetItems);
         return $targetItems;
     }
     /**
@@ -160,10 +159,16 @@ class SPList extends SecurableObject
         }
         return $this->getProperty("Views");
     }
+
+    /**
+     * @return InformationRightsManagementSettings
+     */
     public function getInformationRightsManagementSettings()
     {
         if (!$this->isPropertyAvailable('InformationRightsManagementSettings')) {
-            $this->setProperty("InformationRightsManagementSettings", new InformationRightsManagementSettings());
+            $this->setProperty("InformationRightsManagementSettings",
+                new InformationRightsManagementSettings($this->getContext(),
+                    new ResourcePath("InformationRightsManagementSettings", $this->getResourcePath())));
         }
         return $this->getProperty("InformationRightsManagementSettings");
     }
@@ -173,7 +178,8 @@ class SPList extends SecurableObject
     public function getParentWeb()
     {
         if (!$this->isPropertyAvailable('ParentWeb')) {
-            $this->setProperty("ParentWeb", new Web($this->getContext(), new ResourcePath("ParentWeb", $this->getResourcePath())));
+            $this->setProperty("ParentWeb", new Web($this->getContext(),
+                new ResourcePath("ParentWeb", $this->getResourcePath())));
         }
         return $this->getProperty("ParentWeb");
     }

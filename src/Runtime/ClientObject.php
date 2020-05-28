@@ -245,12 +245,7 @@ class ClientObject
     public function __set($name, $value)
     {
         if(is_array($value)) {  /*Navigation property? */
-            $getterName = "get$name";
-            if(method_exists($this,$getterName))
-                $propType = $this->{$getterName}();
-            else
-                $propType = $this->getProperty($name);
-
+            $propType = $this->getPropertyType($name);
             if($propType instanceof ClientObject || $propType instanceof ClientValueObject) {
                 foreach ($value as $k=>$v){
                     $propType->setProperty($k,$v,False);
@@ -262,6 +257,18 @@ class ClientObject
         }
         else
             $this->properties[$name] = $value;
+    }
+
+    /**
+     * @param string $name
+     * @return mixed|null
+     */
+    private function getPropertyType($name){
+        $getterName = "get$name";
+        if(method_exists($this,$getterName)) {
+            return $this->{$getterName}();
+        }
+        return $this->getProperty($name);
     }
 
     /**

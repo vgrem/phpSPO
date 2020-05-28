@@ -5,12 +5,11 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+
 /**
  * An aggregation of information about a person from across mail, contacts, and social networks. People can be local contacts, contacts from social networking or your organization's directory, and people from recent communications (such as email and Skype).
  */
-class Person extends ClientObject
+class Person extends Entity
 {
     /**
      * The person's display name.

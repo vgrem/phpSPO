@@ -5,6 +5,7 @@
  */
 namespace Office365\Graph;
 
+
 use Office365\Runtime\ClientValueObject;
 class IdentitySet extends ClientValueObject
 {
@@ -20,4 +21,10 @@ class IdentitySet extends ClientValueObject
      * @var Identity
      */
     public $User;
+
+    function setProperty($name, $value)
+    {
+        $name = ucfirst($name);
+        parent::setProperty($name, $value);
+    }
 }

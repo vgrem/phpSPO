@@ -5,12 +5,11 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+
 /**
  * A OneNote notebook.
  */
-class Notebook extends ClientObject
+class Notebook extends OnenoteEntityHierarchyModel
 {
     /**
      * Indicates whether this is the user's default notebook. Read-only.

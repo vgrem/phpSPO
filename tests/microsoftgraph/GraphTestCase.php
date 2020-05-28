@@ -9,7 +9,6 @@ use Office365\Runtime\Auth\UserCredentials;
 use PHPUnit\Framework\TestCase;
 
 
-
 abstract class GraphTestCase extends TestCase
 {
     /**
@@ -43,6 +42,5 @@ abstract class GraphTestCase extends TestCase
             print("Failed to acquire token");
         }
     }
-
 
 }

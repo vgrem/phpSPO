@@ -15,10 +15,10 @@ class Entity extends ClientObject
      */
     public function getId()
     {
-        if (!$this->isPropertyAvailable("id")) {
+        if (!$this->isPropertyAvailable("Id")) {
             return null;
         }
-        return $this->getProperty("id");
+        return $this->getProperty("Id");
     }
     /**
      * @var string
@@ -27,4 +27,11 @@ class Entity extends ClientObject
     {
         $this->setProperty("id", $value, true);
     }
+
+    function setProperty($name, $value, $persistChanges = true)
+    {
+        $name = ucfirst($name);
+        parent::setProperty($name, $value, $persistChanges);
+    }
+
 }

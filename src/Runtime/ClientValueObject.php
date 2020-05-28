@@ -25,11 +25,19 @@ class ClientValueObject
         $this->{$name} = $value;
     }
 
+    /**
+     * @param string $name
+     * @return mixed
+     */
     public function getProperty($name)
     {
         return $this->{$name};
     }
 
+
+    /**
+     * @return mixed|string
+     */
     public function getTypeName()
     {
         if(!isset($this->typeName)){

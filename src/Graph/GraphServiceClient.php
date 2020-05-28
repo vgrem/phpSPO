@@ -17,11 +17,12 @@ use Office365\Runtime\Http\RequestOptions;
 
 class GraphServiceClient extends ClientRuntimeContext
 {
-    /**
-     * @var ODataRequest $pendingRequest
-     */
-    private $pendingRequest;
 
+    /**
+     * GraphServiceClient constructor.
+     * @param string $tenant
+     * @param callable $acquireToken
+     */
     public function __construct($tenant, callable $acquireToken)
     {
         $serviceRootUrl = "https://graph.microsoft.com/" . Office365Version::V1 . "/";
@@ -69,11 +70,19 @@ class GraphServiceClient extends ClientRuntimeContext
      * @return User
      */
     public function getMe(){
-        if(!isset($this->me))
-            $this->me = new User($this,new ResourcePath("me"));
-        return $this->me;
+        return new User($this,new ResourcePath("me"));
     }
 
+    /**
+     * @return DriveCollection
+     */
+    public function getDrives(){
+        return new DriveCollection($this,new ResourcePath("drives"));
+    }
 
+    /**
+     * @var ODataRequest $pendingRequest
+     */
+    private $pendingRequest;
 
 }
