@@ -149,7 +149,8 @@ class Requests
             curl_setopt($ch,CURLOPT_USERPWD, $options->UserCredentials->toString());
         if(!is_null($options->ConnectTimeout))
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $options->ConnectTimeout);
-
+        if($options->FollowLocation)
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         return $ch;
     }
 

@@ -31,13 +31,22 @@ class RequestOptions
         $this->Data = $data;
         $this->ConnectTimeout = null;
         $this->TransferEncodingChunkedAllowed = false;
+        $this->FollowLocation = false;
     }
 
+    /**
+     * @return array
+     */
     public function toArray()
     {
         return get_object_vars($this);
     }
 
+
+    /**
+     * @param string $name
+     * @param string $value
+     */
     public function addCustomHeader($name, $value)
     {
         if (is_null($this->Headers)) {
@@ -48,16 +57,19 @@ class RequestOptions
         }
     }
 
+
+    /**
+     * @return string[]
+     */
     public function getRawHeaders()
     {
-        $headers = array_map(
+        return array_map(
             function ($k, $v) {
                 return "$k:$v";
             },
             array_keys($this->Headers),
             array_values($this->Headers)
         );
-        return $headers;
     }
 
 
@@ -117,6 +129,7 @@ class RequestOptions
 
 
     /**
+     * Control which version range of SSL/TLS versions to use
      * @var int
      */
     public $SSLVersion;
@@ -135,6 +148,7 @@ class RequestOptions
 
 
     /**
+     * It should contain the maximum time in seconds that you allow the connection phase to the server to take
      * @var ?int
      */
     public $ConnectTimeout;
@@ -144,4 +158,11 @@ class RequestOptions
      * @var bool
      */
     public $TransferEncodingChunkedAllowed;
+
+    /**
+     * tells the library to follow any Location: header that the server sends as part of an HTTP header
+     * in a 3xx response. The Location: header can specify a relative or an absolute URL to follow.
+     * @var bool
+     */
+    public $FollowLocation;
 }

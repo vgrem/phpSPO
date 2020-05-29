@@ -153,7 +153,7 @@ abstract class ClientRuntimeContext
 
 
     /**
-     * Gets the build version of Microsoft.SharePoint.Client.ServerRuntime.dll on the server.
+     * Gets the build version.
      * @return Version
      */
     public function getServerLibraryVersion(){

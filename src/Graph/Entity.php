@@ -7,6 +7,7 @@ namespace Office365\Graph;
 
 
 use Office365\Runtime\ClientObject;
+use Office365\Runtime\ResourcePath;
 
 class Entity extends ClientObject
 {
@@ -31,6 +32,11 @@ class Entity extends ClientObject
     function setProperty($name, $value, $persistChanges = true)
     {
         $name = ucfirst($name);
+        if($name == "Id"){
+            if (is_null($this->getResourcePath())) {
+                $this->resourcePath = new ResourcePath($value, $this->parentCollection->getResourcePath());
+            }
+        }
         parent::setProperty($name, $value, $persistChanges);
     }
 

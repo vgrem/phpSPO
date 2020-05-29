@@ -7,13 +7,81 @@ namespace Office365\Graph;
 
 
 
+use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\Http\HttpMethod;
+use Office365\Runtime\Http\RequestOptions;
+use Office365\Runtime\InvokeMethodQuery;
+use Office365\Runtime\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
+use Office365\Runtime\ResourcePathUrl;
 
 /**
  *  Item is the main data model in the OneDrive API. Everything is an item.
  */
 class DriveItem extends BaseItem
 {
+
+    /**
+     * The simple upload API allows you to provide the contents of a new file or update the contents of an
+     * existing file in a single API call. This method only supports files up to 4MB in size.
+     * @param string $name
+     * @param string $content
+     * @return DriveItem
+     */
+    public function upload($name, $content)
+    {
+        $driveItem = new DriveItem($this->getContext(), new ResourcePathUrl($name,$this->resourcePath));
+        $qry = new InvokePostMethodQuery($driveItem, null,null,null,$content);
+        $this->getContext()->addQueryAndResultObject($qry,$driveItem);
+        $this->getContext()->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request){
+            $request->Url .= "content";
+            $request->Method = HttpMethod::Put;
+        },true);
+        return $driveItem;
+    }
+
+
+    /**
+     * Download the contents of the primary stream (file) of a DriveItem. Only driveItems with the file property
+     * can be downloaded.
+     * @param resource $handle
+     */
+    public function download($handle){
+        $qry = new InvokeMethodQuery($this);
+        $this->getContext()->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request) use ($handle){
+            $request->Url .= "content";
+            $request->StreamHandle = $handle;
+            $request->FollowLocation = true;
+        },true);
+        $this->getContext()->addQuery($qry);
+    }
+
+
+    /**
+     * Converts the contents of an item in a specific format
+     * @param resource $handle
+     * @param string $format
+     */
+    public function convert($handle, $format)
+    {
+        $qry = new InvokeMethodQuery($this);
+        $this->getContext()->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request) use ($handle,$format){
+            $request->Url .= "content?\$format=$format";
+            $request->StreamHandle = $handle;
+            $request->FollowLocation = true;
+        },true);
+        $this->getContext()->addQuery($qry);
+    }
+
+    /**
+     * Delete a DriveItem by using its ID or path. Note that deleting items using this method will move the items to
+     * the recycle bin instead of permanently deleting the item.
+     */
+    public function delete()
+    {
+        $qry = new DeleteEntityQuery($this);
+        $this->getContext()->addQuery($qry);
+    }
 
 
     /**
@@ -406,4 +474,16 @@ class DriveItem extends BaseItem
         }
         return $this->getProperty("Permissions");
     }
+
+    public function setProperty($name, $value, $persistChanges = true)
+    {
+        parent::setProperty($name, $value, $persistChanges);
+        if($name == "id" && $this->resourcePath->getParent()->getSegment() == "Children"){
+            $this->resourcePath = new ResourcePath($value,
+                new ResourcePath("items", $this->parentCollection->getResourcePath()->getParent()->getParent()));
+        }
+    }
+
+
+
 }
