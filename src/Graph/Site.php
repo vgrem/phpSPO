@@ -5,12 +5,12 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
+
 use Office365\Runtime\ResourcePath;
 /**
  * The **site** resource provides metadata and relationships for a SharePoint site.
  */
-class Site extends ClientObject
+class Site extends BaseItem
 {
     /**
      * @return string

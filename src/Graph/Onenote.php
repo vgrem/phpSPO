@@ -5,12 +5,12 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
+
 use Office365\Runtime\ResourcePath;
 /**
  *  "The entry point for OneNote resources."
  */
-class Onenote extends ClientObject
+class Onenote extends Entity
 {
     /**
      * The pages in all OneNote notebooks that are owned by the user or group.  Read-only. Nullable.

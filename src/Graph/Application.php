@@ -5,12 +5,11 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 /**
  *  "Represents an application."
  */
-class Application extends ClientObject
+class Application extends DirectoryObject
 {
     /**
      * @return string
