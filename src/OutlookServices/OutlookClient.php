@@ -38,6 +38,9 @@ class OutlookClient extends ClientRuntimeContext
         $authorityUrl = OAuthTokenProvider::$AuthorityUrl . $tenant;
         $authContext = new AuthenticationContext($authorityUrl);
         call_user_func($acquireToken, $authContext);
+        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request){
+            $this->prepareRequest($request);
+        });
         parent::__construct($this->serviceRootUrl, $authContext, $version);
     }
 
@@ -53,17 +56,6 @@ class OutlookClient extends ClientRuntimeContext
             $this->pendingRequest = new ODataRequest($this,$format);
         }
         return $this->pendingRequest;
-    }
-
-    /**
-     * Submits query to Outlook REST/OData service
-     */
-    public function executeQuery()
-    {
-        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request){
-            $this->prepareRequest($request);
-        });
-        parent::executeQuery();
     }
 
 

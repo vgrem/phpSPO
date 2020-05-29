@@ -48,6 +48,9 @@ class ClientContext extends ClientRuntimeContext
     public function __construct($serviceUrl, IAuthenticationContext $authCtx)
     {
         $serviceRootUrl = $serviceUrl . '/_api/';
+        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request) {
+            $this->buildSharePointSpecificRequest($request);
+        });
         parent::__construct($serviceRootUrl,$authCtx);
     }
 
@@ -122,16 +125,6 @@ class ClientContext extends ClientRuntimeContext
         $this->getPendingRequest()->mapJson($payload,$this->contextWebInformation, $format);
     }
 
-    /**
-     * Submits query to SharePoint REST/OData service
-     */
-    public function executeQuery()
-    {
-        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request) {
-            $this->buildSharePointSpecificRequest($request);
-        });
-        parent::executeQuery();
-    }
 
     /**
      * @param RequestOptions $request

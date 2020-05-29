@@ -8,6 +8,7 @@ use Exception;
 use Office365\Runtime\Http\RequestException;
 use Office365\Runtime\Http\Requests;
 use Office365\Runtime\Http\Response;
+use Office365\Runtime\Types\EventHandler;
 use Office365\Runtime\Types\Guid;
 use Office365\Runtime\Http\RequestOptions;
 
@@ -19,9 +20,14 @@ use Office365\Runtime\Http\RequestOptions;
 abstract class ClientRequest
 {
     /**
-     * @var array
+     * @var EventHandler
      */
-    protected $eventsList;
+    protected $beforeExecute;
+
+    /**
+     * @var EventHandler
+     */
+    protected $afterExecute;
 
     /**
      * @var ClientRuntimeContext
@@ -51,10 +57,8 @@ abstract class ClientRequest
     public function __construct(ClientRuntimeContext $context)
     {
         $this->context = $context;
-        $this->eventsList = array(
-            "BeforeExecuteQuery" => null,
-            "AfterExecuteQuery" => null
-        );
+        $this->beforeExecute = new EventHandler();
+        $this->afterExecute = new EventHandler();
         $this->requestId = Guid::newGuid();
         $this->requestStatus = ClientRequestStatus::Active;
     }
@@ -81,10 +85,11 @@ abstract class ClientRequest
 
     /**
      * @param callable $event
+     * @param bool $once
      */
-    public function beforeExecuteQuery(callable $event)
+    public function beforeExecuteQuery(callable $event,$once=false)
     {
-        $this->eventsList["BeforeExecuteQuery"] = $event;
+        $this->beforeExecute->addEvent($event,$once);
     }
 
     /**
@@ -92,7 +97,7 @@ abstract class ClientRequest
      */
     public function afterExecuteQuery(callable $event)
     {
-        $this->eventsList["AfterExecuteQuery"] = $event;
+        $this->afterExecute->addEvent($event,true);
     }
 
     /**
@@ -106,19 +111,10 @@ abstract class ClientRequest
     {
         try{
             $request = $this->buildRequest();
-            if (is_callable($this->eventsList["BeforeExecuteQuery"])) {
-                call_user_func_array($this->eventsList["BeforeExecuteQuery"], array(
-                    $request
-                ));
-            }
-
+            $this->beforeExecute->triggerEvent(array($request));
             $response = $this->executeQueryDirect($request);
             $this->processResponse($response);
-            if (is_callable($this->eventsList["AfterExecuteQuery"])) {
-                call_user_func_array($this->eventsList["AfterExecuteQuery"], array(
-                    $response
-                ));
-            }
+            $this->afterExecute->triggerEvent(array($response));
             $this->requestStatus = ClientRequestStatus::CompletedSuccess;
         }
         catch(Exception $e){
@@ -126,7 +122,6 @@ abstract class ClientRequest
             throw $e;
         }
     }
-
 
 
     /**

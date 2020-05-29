@@ -6,12 +6,16 @@
 namespace Office365\Graph;
 
 
+
 use Office365\Runtime\ResourcePath;
+
 /**
  *  Item is the main data model in the OneDrive API. Everything is an item.
  */
 class DriveItem extends BaseItem
 {
+
+
     /**
      * @return string
      */

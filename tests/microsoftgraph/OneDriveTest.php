@@ -23,4 +23,13 @@ class OneDriveTest extends GraphTestCase
         self::assertTrue($owner instanceof IdentitySet);
     }
 
+
+    public function testCreateFolder(){
+        $myDrive = self::$graphClient->getMe()->getDrive();
+        $folderName = "Archive_" . rand(1, 100000);
+        $targetFolder = $myDrive->getRoot()->getChildren()->createFolder($folderName);
+        self::$graphClient->executeQuery();
+        self::assertNotNull($targetFolder->getName());
+    }
+
 }

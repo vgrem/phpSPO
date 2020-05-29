@@ -35,30 +35,31 @@ class File extends SecurableObject
 
     /**
      * Downloads file content
-     * @return ClientResult
+     * @param resource $handle
      */
-    public function download()
+    public function download($handle)
     {
-        $result = new ClientResult();
         if ($this->isPropertyAvailable("ServerRelativeUrl")) {
-            $this->constructDownloadQuery($this->getServerRelativeUrl(), $result);
+            $this->constructDownloadQuery($this->getServerRelativeUrl(),$handle);
         } else {
             $this->getContext()->load($this, array("ServerRelativeUrl"));
-            $this->getContext()->getPendingRequest()->afterExecuteQuery(function () use ($result) {
-                $this->constructDownloadQuery($this->getServerRelativeUrl(), $result);
+            $this->getContext()->getPendingRequest()->afterExecuteQuery(function () use ($handle) {
+                $this->constructDownloadQuery($this->getServerRelativeUrl(), $handle);
             });
         }
-        return $result;
     }
 
     /**
      * @param string $url
-     * @param ClientResult $result
+     * @param resource $handle
      */
-    private function constructDownloadQuery($url,$result){
+    private function constructDownloadQuery($url,$handle){
         $url = rawurlencode($url);
         $qry = new InvokeMethodQuery($this->getParentWeb(), "getFileByServerRelativeUrl('{$url}')/\$value");
-        $this->getContext()->addQueryAndResultObject($qry,$result);
+        $this->getContext()->addQuery($qry);
+        $this->getContext()->getPendingRequest()->beforeExecuteQuery(function ($request) use ($handle){
+            $request->StreamHandle = $handle;
+        },true);
     }
 
     /**
@@ -221,7 +222,8 @@ class File extends SecurableObject
     public function getInformationRightsManagementSettings()
     {
         if (!$this->isPropertyAvailable('InformationRightsManagementSettings')) {
-            $this->setProperty("InformationRightsManagementSettings", new InformationRightsManagementSettings());
+            $this->setProperty("InformationRightsManagementSettings",
+                new InformationRightsManagementSettings($this->getContext()));
         }
         return $this->getProperty("InformationRightsManagementSettings");
     }

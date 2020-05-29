@@ -4,9 +4,8 @@ require_once '../vendor/autoload.php';
 $settings = include('../../Settings.php');
 
 
-use Office365\GraphClient\GraphServiceClient;
+use Office365\Graph\GraphServiceClient;
 use Office365\Runtime\Auth\AuthenticationContext;
-use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\Auth\UserCredentials;
 
 
@@ -29,21 +28,11 @@ try {
     });
 
 
-    $targetFilePath = "./myprofile.jpg";
-
-
+    $targetFilePath = "./myprofile.png";
     $fp = fopen($targetFilePath, 'w+');
-    $url = $client->getServiceRootUrl() . "me/photo";
-    $options = new RequestOptions($url);
-    $options->StreamHandle = $fp;
-    try {
-        $client->executeQueryDirect($options);
-
-    } catch (Exception $e) {
-    }
+    $client->getMe()->getPhoto()->getContent($fp);
+    $client->executeQuery();
     fclose($fp);
-
-
 } catch (Exception $e) {
     echo 'Error: ', $e->getMessage(), "\n";
 }

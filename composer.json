@@ -4,6 +4,7 @@
     "type": "library",
     "keywords": [
         "office365",
+        "microsoftgraph",
         "rest",
         "curl",
         "api"

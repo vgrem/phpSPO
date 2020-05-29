@@ -11,6 +11,7 @@ use Office365\Runtime\ResourcePath;
  */
 class User extends DirectoryObject
 {
+
     /**
      *  **true** if the account is enabled; otherwise, **false**. This property is required when a user is created. Supports $filter.    
      * @return bool

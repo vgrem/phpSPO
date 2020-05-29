@@ -5,13 +5,31 @@
  */
 namespace Office365\Graph;
 
+use Exception;
 use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+use Office365\Runtime\InvokeMethodQuery;
+
 /**
  *  "A profile photo of a user, group or an Outlook contact accessed from Exchange Online. It's binary data not encoded in base-64."
  */
 class ProfilePhoto extends ClientObject
 {
+
+    /**
+     * Download a photo content
+     * @param resource $handle
+     * @throws Exception
+     */
+    public function getContent($handle)
+    {
+        $qry = new InvokeMethodQuery($this,"\$value");
+        $this->getContext()->addQuery($qry);
+        $this->getContext()->getPendingRequest()->beforeExecuteQuery(function ($request) use ($handle){
+            $request->StreamHandle = $handle;
+        },true);
+    }
+
+
     /**
      * The height of the photo. Read-only.
      * @return integer

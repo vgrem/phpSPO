@@ -29,7 +29,11 @@ class GraphServiceClient extends ClientRuntimeContext
         $authorityUrl = OAuthTokenProvider::$AuthorityUrl . $tenant;
         $authContext = new AuthenticationContext($authorityUrl);
         call_user_func($acquireToken, $authContext);
-        parent::__construct($serviceRootUrl, $authContext,new JsonFormat(ODataMetadataLevel::Verbose));
+        $this->getPendingRequest()->beforeExecuteQuery(
+            function (RequestOptions $request) {
+                $this->prepareRequest($request);
+            });
+        parent::__construct($serviceRootUrl, $authContext, new JsonFormat(ODataMetadataLevel::Verbose));
     }
 
 
@@ -46,15 +50,10 @@ class GraphServiceClient extends ClientRuntimeContext
     }
 
 
-    public function executeQuery()
-    {
-        $this->getPendingRequest()->beforeExecuteQuery(
-            function (RequestOptions $request){
-                $this->prepareRequest($request);
-            });
-        parent::executeQuery();
-    }
-
+    /**
+     * Prepare MicrosoftGraph request
+     * @param RequestOptions $request
+     */
     private function prepareRequest(RequestOptions $request)
     {
         $query = $this->pendingRequest->getCurrentQuery();
