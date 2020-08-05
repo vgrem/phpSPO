@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class PlannerExternalReference extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class PlannerExternalReference extends ClientValue
 {
     /**
      * @var string

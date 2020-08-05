@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class SettingTemplateValue extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class SettingTemplateValue extends ClientValue
 {
     /**
      * @var string

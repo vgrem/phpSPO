@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Information 
  * about a currency necessary for currency identification and display in the UI.
  */
-class CurrencyInformation extends ClientValueObject
+class CurrencyInformation extends ClientValue
 {
     /** 
      * The 

@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class PasswordProfile extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class PasswordProfile extends ClientValue
 {
     /**
      * @var string

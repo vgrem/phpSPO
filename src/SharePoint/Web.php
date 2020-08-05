@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-04-23T18:46:51+00:00 16.0.20008.12009
+ * Updated By PHP Office365 Generator 2020-08-05T10:16:13+00:00 16.0.20315.12009
  */
 namespace Office365\SharePoint;
 
@@ -2233,5 +2233,66 @@ class Web extends SecurableObject
             $this->setProperty("CanModernizeHomepage", new ModernizeHomepageResult($this->getContext(), new ResourcePath("CanModernizeHomepage", $this->getResourcePath())));
         }
         return $this->getProperty("CanModernizeHomepage");
+    }
+    /**
+     * @return integer
+     */
+    public function getLogoAlignment()
+    {
+        if (!$this->isPropertyAvailable("LogoAlignment")) {
+            return null;
+        }
+        return $this->getProperty("LogoAlignment");
+    }
+    /**
+     * @var integer
+     */
+    public function setLogoAlignment($value)
+    {
+        $this->setProperty("LogoAlignment", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getWebTemplateConfiguration()
+    {
+        if (!$this->isPropertyAvailable("WebTemplateConfiguration")) {
+            return null;
+        }
+        return $this->getProperty("WebTemplateConfiguration");
+    }
+    /**
+     * @var string
+     */
+    public function setWebTemplateConfiguration($value)
+    {
+        $this->setProperty("WebTemplateConfiguration", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getWebTemplatesGalleryFirstRunEnabled()
+    {
+        if (!$this->isPropertyAvailable("WebTemplatesGalleryFirstRunEnabled")) {
+            return null;
+        }
+        return $this->getProperty("WebTemplatesGalleryFirstRunEnabled");
+    }
+    /**
+     * @var bool
+     */
+    public function setWebTemplatesGalleryFirstRunEnabled($value)
+    {
+        $this->setProperty("WebTemplatesGalleryFirstRunEnabled", $value, true);
+    }
+    /**
+     * @return SPList
+     */
+    public function getAccessRequestsList()
+    {
+        if (!$this->isPropertyAvailable("AccessRequestsList")) {
+            $this->setProperty("AccessRequestsList", new SPList($this->getContext(), new ResourcePath("AccessRequestsList", $this->getResourcePath())));
+        }
+        return $this->getProperty("AccessRequestsList");
     }
 }

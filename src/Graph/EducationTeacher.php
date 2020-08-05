@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class EducationTeacher extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class EducationTeacher extends ClientValue
 {
     /**
      * @var string

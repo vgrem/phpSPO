@@ -5,11 +5,11 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  *  "Settings for the primary mailbox of the signed-in user."
  */
-class MailboxSettings extends ClientValueObject
+class MailboxSettings extends ClientValue
 {
     /**
      * Folder ID of an archive folder for the user.

@@ -5,7 +5,7 @@
  */
 namespace Office365\OutlookServices;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 use Office365\Runtime\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\UpdateEntityQuery;
@@ -20,7 +20,7 @@ class Message extends Item
      */
     public function reply($comment)
     {
-        $parameter = new ClientValueObject();
+        $parameter = new ClientValue();
         $parameter->setProperty("Comment", $comment);
         $qry = new InvokePostMethodQuery($this, "Reply", null, null, $parameter);
         $this->getContext()->addQuery($qry);
@@ -31,7 +31,7 @@ class Message extends Item
      */
     public function replyAll($comment)
     {
-        $parameter = new ClientValueObject();
+        $parameter = new ClientValue();
         $parameter->setProperty("Comment", $comment);
         $qry = new InvokePostMethodQuery($this, "ReplyAll", null, null, $parameter);
         $this->getContext()->addQuery($qry);
@@ -56,7 +56,7 @@ class Message extends Item
      */
     public function move($destinationId)
     {
-        $parameter = new ClientValueObject();
+        $parameter = new ClientValue();
         $parameter->setProperty("DestinationId", $destinationId);
         $qry = new InvokePostMethodQuery($this, "Move", null, null, $parameter);
         $this->getContext()->addQuery($qry);

@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * the set of capabilities for direct sharing for the current user.
  */
-class DirectSharingAbilities extends ClientValueObject
+class DirectSharingAbilities extends ClientValue
 {
     public $canAddExternalPrincipal;
     public $canAddInternalPrincipal;

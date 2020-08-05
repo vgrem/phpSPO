@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class TimeSlot extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class TimeSlot extends ClientValue
 {
     /**
      * @var DateTimeTimeZone

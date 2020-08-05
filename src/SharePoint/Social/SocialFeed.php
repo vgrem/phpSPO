@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Social;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class SocialFeed extends ClientValueObject
+class SocialFeed extends ClientValue
 {
     /**
      * @var integer

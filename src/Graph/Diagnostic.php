@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class Diagnostic extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class Diagnostic extends ClientValue
 {
     /**
      * @var string

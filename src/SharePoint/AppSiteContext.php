@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * An app 
  * site context
  */
-class AppSiteContext extends ClientValueObject
+class AppSiteContext extends ClientValue
 {
     /**
      * The URL of 

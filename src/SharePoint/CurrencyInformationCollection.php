@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * List of 
  * supported currencies: contains CurrencyInformation objects.
  */
-class CurrencyInformationCollection extends ClientValueObject
+class CurrencyInformationCollection extends ClientValue
 {
     /**  * @var array
      */

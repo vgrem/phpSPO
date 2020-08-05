@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class MeetingParticipantInfo extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class MeetingParticipantInfo extends ClientValue
 {
     /**
      * @var IdentitySet

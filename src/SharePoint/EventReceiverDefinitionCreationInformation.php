@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies event 
  * receiver creation information.<206>
  */
-class EventReceiverDefinitionCreationInformation extends ClientValueObject
+class EventReceiverDefinitionCreationInformation extends ClientValue
 {
     /**
      * Specifies 

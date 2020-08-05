@@ -5,8 +5,8 @@
 */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
-class IngestionTaskKey extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class IngestionTaskKey extends ClientValue
 {
     /** 
      * @var string  

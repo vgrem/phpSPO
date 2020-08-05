@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class OpenShiftItem extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class OpenShiftItem extends ClientValue
 {
     /**
      * @var integer

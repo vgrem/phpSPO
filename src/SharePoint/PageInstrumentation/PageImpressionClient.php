@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\PageInstrumentation;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class PageImpressionClient extends ClientValueObject
+class PageImpressionClient extends ClientValue
 {
     /**
      * @var string

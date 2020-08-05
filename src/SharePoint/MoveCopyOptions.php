@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.MoveCopyOptions 
  * is not applicable.<266>
  */
-class MoveCopyOptions extends ClientValueObject
+class MoveCopyOptions extends ClientValue
 {
     /**
      * @var bool

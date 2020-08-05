@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class CertificateAuthority extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class CertificateAuthority extends ClientValue
 {
     /**
      * @var bool

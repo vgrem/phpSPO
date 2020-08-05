@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class MessageRuleActions extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class MessageRuleActions extends ClientValue
 {
     /**
      * @var string

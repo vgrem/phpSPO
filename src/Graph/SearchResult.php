@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class SearchResult extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class SearchResult extends ClientValue
 {
     /**
      * @var string

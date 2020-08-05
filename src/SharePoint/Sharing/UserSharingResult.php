@@ -5,14 +5,14 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * a sharing result for an individual user that method UpdateDocumentSharingInfo 
  * (section 3.2.5.187.2.1.1) 
  * returns.<195>
  */
-class UserSharingResult extends ClientValueObject
+class UserSharingResult extends ClientValue
 {
     /**
      * Read OnlySpecifies a set of roles 

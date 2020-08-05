@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class IosDeviceType extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class IosDeviceType extends ClientValue
 {
     /**
      * @var bool

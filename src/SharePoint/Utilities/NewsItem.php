@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Utilities;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * an item in the News List.
  */
-class NewsItem extends ClientValueObject
+class NewsItem extends ClientValue
 {
     /**
      * The url of 

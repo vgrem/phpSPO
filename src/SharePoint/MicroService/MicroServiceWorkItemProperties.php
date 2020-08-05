@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\MicroService;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class MicroServiceWorkItemProperties extends ClientValueObject
+class MicroServiceWorkItemProperties extends ClientValue
 {
     /**
      * @var string

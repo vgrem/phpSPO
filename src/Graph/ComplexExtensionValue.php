@@ -5,7 +5,7 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class ComplexExtensionValue extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ComplexExtensionValue extends ClientValue
 {
 }

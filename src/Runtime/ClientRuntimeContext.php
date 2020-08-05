@@ -100,7 +100,7 @@ abstract class ClientRuntimeContext
 
     /**
      * @param ClientAction $query
-     * @param ClientObject|ClientValueObject|ClientResult $resultObject
+     * @param ClientObject|ClientValue|ClientResult $resultObject
      */
     public function addQueryAndResultObject(ClientAction $query, $resultObject)
     {

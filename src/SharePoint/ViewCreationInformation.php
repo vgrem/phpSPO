@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-05-24T09:55:32+00:00 16.0.20113.12008
+ * Updated By PHP Office365 Generator 2020-05-29T20:31:50+00:00 16.0.20120.12007
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * the properties used to create a new list view.
  */
-class ViewCreationInformation extends ClientValueObject
+class ViewCreationInformation extends ClientValue
 {
     /**
      * @var string
@@ -62,8 +62,9 @@ class ViewCreationInformation extends ClientValueObject
      * @var string
      */
     public $CalendarViewStyles;
+
     /**
      * @var string
      */
-    public $AssosciatedContentTypeId;
+    public $AssociatedContentTypeId;
 }

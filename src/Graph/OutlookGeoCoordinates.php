@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class OutlookGeoCoordinates extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class OutlookGeoCoordinates extends ClientValue
 {
     /**
      * @var double

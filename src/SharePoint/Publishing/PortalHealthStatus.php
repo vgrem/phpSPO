@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\ClientValueObject;
-class PortalHealthStatus extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class PortalHealthStatus extends ClientValue
 {
     /**
      * @var integer

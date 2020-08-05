@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class WindowsInformationProtectionProxiedDomainCollection extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class WindowsInformationProtectionProxiedDomainCollection extends ClientValue
 {
     /**
      * @var string

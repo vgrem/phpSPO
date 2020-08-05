@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-04-22T21:18:30+00:00 16.0.20008.12009
+ * Updated By PHP Office365 Generator 2020-08-05T10:11:52+00:00 16.0.20315.12009
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
-class ClassificationResult extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ClassificationResult extends ClientValue
 {
     /**
      * @var double
@@ -32,4 +32,12 @@ class ClassificationResult extends ClientValueObject
      * @var integer
      */
     public $RetryCount;
+    /**
+     * @var integer
+     */
+    public $RetentionLabelFlags;
+    /**
+     * @var string
+     */
+    public $RetentionLabelName;
 }

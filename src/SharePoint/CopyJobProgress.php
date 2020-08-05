@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.CopyJobProgress 
  * is not applicable.<251>
  */
-class CopyJobProgress extends ClientValueObject
+class CopyJobProgress extends ClientValue
 {
     /**
      * @var integer

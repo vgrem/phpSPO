@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Utilities;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.Utilities.ThemingOptions 
  * is not applicable.<277>
  */
-class ThemingOptions extends ClientValueObject
+class ThemingOptions extends ClientValue
 {
     /**
      * @var bool

@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class RgbColor extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class RgbColor extends ClientValue
 {
     /**
      * @var string

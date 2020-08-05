@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class TeamMemberSettings extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class TeamMemberSettings extends ClientValue
 {
     /**
      * @var bool

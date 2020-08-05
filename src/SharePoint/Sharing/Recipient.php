@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * This class 
  * represents an Entity for which Permission check is requested for a given list item.
  */
-class Recipient extends ClientValueObject
+class Recipient extends ClientValue
 {
     /**
      * The alias 

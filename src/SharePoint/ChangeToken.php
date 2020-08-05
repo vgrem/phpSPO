@@ -4,9 +4,9 @@
 namespace Office365\SharePoint;
 
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class ChangeToken extends ClientValueObject
+class ChangeToken extends ClientValue
 {
 
     public $StringValue;

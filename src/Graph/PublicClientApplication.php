@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class PublicClientApplication extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class PublicClientApplication extends ClientValue
 {
     /**
      * @var array

@@ -5,13 +5,13 @@
 */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 
 /**
  * Defines a query that is performed against the change log.
  */
-class ChangeQuery extends ClientValueObject
+class ChangeQuery extends ClientValue
 {
     function __construct()
     {

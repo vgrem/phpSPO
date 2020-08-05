@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class PersonMagazineUserProfileDirectsData extends ClientValueObject
+class PersonMagazineUserProfileDirectsData extends ClientValue
 {
     /**
      * @var array

@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class FreeBusyError extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class FreeBusyError extends ClientValue
 {
     /**
      * @var string

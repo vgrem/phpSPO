@@ -5,7 +5,7 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class AccessAction extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class AccessAction extends ClientValue
 {
 }

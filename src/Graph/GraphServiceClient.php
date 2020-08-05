@@ -79,6 +79,18 @@ class GraphServiceClient extends ClientRuntimeContext
         return new DriveCollection($this,new ResourcePath("drives"));
     }
 
+
+    /**
+     * Retrieve the properties and relationships of user object.
+     * @param string|null $userPrincipalNameOrId
+     * @return UserCollection
+     */
+    public function getUsers($userPrincipalNameOrId=null){
+        if(is_null($userPrincipalNameOrId))
+            return new UserCollection($this,new ResourcePath($userPrincipalNameOrId,new ResourcePath("users")));
+        return new UserCollection($this,new ResourcePath("users"));
+    }
+
     /**
      * @var ODataRequest $pendingRequest
      */

@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.ProvisionedMigrationContainersInfo 
  * is not applicable.<267>
  */
-class ProvisionedMigrationContainersInfo extends ClientValueObject
+class ProvisionedMigrationContainersInfo extends ClientValue
 {
     /**
      * @var string

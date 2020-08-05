@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * A menu 
  * tree which can be shown in the Quick Launch of a site (2).
  */
-class MenuState extends ClientValueObject
+class MenuState extends ClientValue
 {
     /**
      * @var array

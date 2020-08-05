@@ -6,10 +6,10 @@
 namespace Office365\SharePoint;
 
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 
-class BasePermissions extends ClientValueObject
+class BasePermissions extends ClientValue
 {
 
 

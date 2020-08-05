@@ -5,7 +5,7 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Information 
  * on a creatable item: what the item is and where to go to create it. 
@@ -13,7 +13,7 @@ use Office365\Runtime\ClientValueObject;
  * (section 3.2.5.79.2.2.9) or CreateDocumentAndGetEditLink 
  * (section 3.2.5.79.2.1.13).
  */
-class CreatableItemInfo extends ClientValueObject
+class CreatableItemInfo extends ClientValue
 {
     /** 
      * The 

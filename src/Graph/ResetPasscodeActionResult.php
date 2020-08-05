@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class ResetPasscodeActionResult extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ResetPasscodeActionResult extends ClientValue
 {
     /**
      * @var string

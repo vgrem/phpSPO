@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * a collection of CreatableItemInfo (section 3.2.5.283) objects. 
  * 
  */
-class CreatableItemInfoCollection extends ClientValueObject
+class CreatableItemInfoCollection extends ClientValue
 {
     /**
      * @var array

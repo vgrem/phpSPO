@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.VisualizationAppInfo 
  * is not applicable.<281>
  */
-class VisualizationAppInfo extends ClientValueObject
+class VisualizationAppInfo extends ClientValue
 {
     /**
      * @var string

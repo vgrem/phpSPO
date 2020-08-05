@@ -3,12 +3,12 @@
 
 namespace Office365\OutlookServices;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 /**
  * The physical address of a contact.
  */
-class PhysicalAddress extends ClientValueObject
+class PhysicalAddress extends ClientValue
 {
 
     /**

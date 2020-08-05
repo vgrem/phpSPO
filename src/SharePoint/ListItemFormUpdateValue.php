@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * the properties of a list itemfield (2) 
  * and its value.
  */
-class ListItemFormUpdateValue extends ClientValueObject
+class ListItemFormUpdateValue extends ClientValue
 {
     /**
      * Specifies 

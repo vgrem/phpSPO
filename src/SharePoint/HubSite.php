@@ -1,13 +1,11 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T17:00:44+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-08-05T10:16:13+00:00 16.0.20315.12009
  */
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientObject;
-
-
 class HubSite extends ClientObject
 {
     /**
@@ -247,5 +245,22 @@ class HubSite extends ClientObject
     public function setTitle($value)
     {
         $this->setProperty("Title", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getEnforcedECTs()
+    {
+        if (!$this->isPropertyAvailable("EnforcedECTs")) {
+            return null;
+        }
+        return $this->getProperty("EnforcedECTs");
+    }
+    /**
+     * @var string
+     */
+    public function setEnforcedECTs($value)
+    {
+        $this->setProperty("EnforcedECTs", $value, true);
     }
 }

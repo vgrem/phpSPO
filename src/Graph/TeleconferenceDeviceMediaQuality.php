@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class TeleconferenceDeviceMediaQuality extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class TeleconferenceDeviceMediaQuality extends ClientValue
 {
     /**
      * @var integer

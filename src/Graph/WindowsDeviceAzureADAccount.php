@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class WindowsDeviceAzureADAccount extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class WindowsDeviceAzureADAccount extends ClientValue
 {
     /**
      * @var string

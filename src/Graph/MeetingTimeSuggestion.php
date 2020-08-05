@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class MeetingTimeSuggestion extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class MeetingTimeSuggestion extends ClientValue
 {
     /**
      * @var double

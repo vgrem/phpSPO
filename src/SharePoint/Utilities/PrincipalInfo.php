@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Utilities;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Provides 
  * access to information about a principal.
  */
-class PrincipalInfo extends ClientValueObject
+class PrincipalInfo extends ClientValue
 {
     /**
      * Specifies 

@@ -246,7 +246,7 @@ class ClientObject
     {
         if(is_array($value)) {  /*Navigation property? */
             $propType = $this->getPropertyType($name);
-            if($propType instanceof ClientObject || $propType instanceof ClientValueObject) {
+            if($propType instanceof ClientObject || $propType instanceof ClientValue) {
                 foreach ($value as $k=>$v){
                     $propType->setProperty($k,$v,False);
                 }

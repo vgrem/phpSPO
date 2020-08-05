@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint\Publishing\PortalLaunch;
 
-use Office365\Runtime\ClientValueObject;
-class PortalLaunchWave extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class PortalLaunchWave extends ClientValue
 {
     /**
      * @var string

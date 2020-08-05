@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class PlannerChecklistItem extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class PlannerChecklistItem extends ClientValue
 {
     /**
      * @var bool

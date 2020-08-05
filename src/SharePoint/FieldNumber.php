@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T20:01:10+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-08-05T10:16:13+00:00 16.0.20315.12009
  */
 namespace Office365\SharePoint;
 
@@ -100,5 +100,22 @@ class FieldNumber extends Field
     public function setShowAsPercentage($value)
     {
         $this->setProperty("ShowAsPercentage", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getCommaSeparator()
+    {
+        if (!$this->isPropertyAvailable("CommaSeparator")) {
+            return null;
+        }
+        return $this->getProperty("CommaSeparator");
+    }
+    /**
+     * @var bool
+     */
+    public function setCommaSeparator($value)
+    {
+        $this->setProperty("CommaSeparator", $value, true);
     }
 }

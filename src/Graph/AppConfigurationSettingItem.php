@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class AppConfigurationSettingItem extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class AppConfigurationSettingItem extends ClientValue
 {
     /**
      * @var string

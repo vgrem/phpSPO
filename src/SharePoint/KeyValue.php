@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
-class KeyValue extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class KeyValue extends ClientValue
 {
     /**
      * @var string

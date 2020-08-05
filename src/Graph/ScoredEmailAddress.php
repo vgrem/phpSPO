@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class ScoredEmailAddress extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ScoredEmailAddress extends ClientValue
 {
     /**
      * @var string

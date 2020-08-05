@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class WorkingHours extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class WorkingHours extends ClientValue
 {
     /**
      * @var TimeZoneBase

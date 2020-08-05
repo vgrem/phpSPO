@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class AppListItem extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class AppListItem extends ClientValue
 {
     /**
      * @var string

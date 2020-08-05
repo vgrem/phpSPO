@@ -5,14 +5,14 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * This class 
  * provides details of users who have access to the default document 
  * library. It also indicates whether there are any unique role 
  * assignments for the default document library.
  */
-class OversharedWebInfo extends ClientValueObject
+class OversharedWebInfo extends ClientValue
 {
     /**
      * Boolean 

@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class DeviceCompliancePolicySettingState extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class DeviceCompliancePolicySettingState extends ClientValue
 {
     /**
      * @var string

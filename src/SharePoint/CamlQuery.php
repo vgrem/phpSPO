@@ -5,14 +5,14 @@
 */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 
 
 /**
  * Specifies a Collaborative Application Markup Language (CAML) query on a list or joined lists.
  */
-class CamlQuery extends ClientValueObject
+class CamlQuery extends ClientValue
 {
 
     public static function createAllItemsQuery()

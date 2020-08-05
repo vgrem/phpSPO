@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class ComplianceInformation extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ComplianceInformation extends ClientValue
 {
     /**
      * @var string

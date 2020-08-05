@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * This class 
  * describes a specific validation failure during a list item insert or update.
  */
-class ListDataValidationFailure extends ClientValueObject
+class ListDataValidationFailure extends ClientValue
 {
     /**
      * This 

@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class AverageComparativeScore extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class AverageComparativeScore extends ClientValue
 {
     /**
      * @var double

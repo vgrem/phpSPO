@@ -5,11 +5,11 @@
 */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents properties that can be set when creating a field.
  */
-class FieldCreationInformation extends ClientValueObject
+class FieldCreationInformation extends ClientValue
 {
     public function __construct()
     {

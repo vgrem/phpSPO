@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint\Publishing\Navigation;
 
-use Office365\Runtime\ClientValueObject;
-class StructuralNavigationCacheState extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class StructuralNavigationCacheState extends ClientValue
 {
     /**
      * @var bool

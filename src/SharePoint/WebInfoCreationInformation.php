@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * metadata about site (2) creation.<196>
  */
-class WebInfoCreationInformation extends ClientValueObject
+class WebInfoCreationInformation extends ClientValue
 {
     /**
      * Specifies 

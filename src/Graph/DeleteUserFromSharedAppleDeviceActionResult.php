@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class DeleteUserFromSharedAppleDeviceActionResult extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class DeleteUserFromSharedAppleDeviceActionResult extends ClientValue
 {
     /**
      * @var string

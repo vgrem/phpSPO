@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint\Utilities;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Contains 
  * metadata about the resource at a given url. The url might or might not be in 
  * SharePoint.
  */
-class NewsItemMetaData extends ClientValueObject
+class NewsItemMetaData extends ClientValue
 {
     /**
      * File 

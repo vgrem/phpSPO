@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-10-12T20:10:10+00:00 16.0.19402.12016
+ * Updated By PHP Office365 Generator 2020-08-05T10:16:13+00:00 16.0.20315.12009
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 use Office365\SharePoint\SharingLinkInfo;
-
-class SharingLinkDefaultTemplate extends ClientValueObject
+class SharingLinkDefaultTemplate extends ClientValue
 {
     /**
      * @var SharingLinkInfo
@@ -30,4 +29,8 @@ class SharingLinkDefaultTemplate extends ClientValueObject
      * @var integer
      */
     public $shareKind;
+    /**
+     * @var bool
+     */
+    public $trackLinkUsers;
 }

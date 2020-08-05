@@ -5,12 +5,12 @@
 */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 /**
  * Class ChangeLogItemQuery
  */
-class ChangeLogItemQuery extends ClientValueObject
+class ChangeLogItemQuery extends ClientValue
 {
     function __construct()
     {

@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * User 
  * information from directory service.
  */
-class UserDirectoryInfo extends ClientValueObject
+class UserDirectoryInfo extends ClientValue
 {
     /**
      * Name of the 

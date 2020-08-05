@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\UI\ApplicationPages;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class ClientPeoplePickerQueryParameters extends ClientValueObject
+class ClientPeoplePickerQueryParameters extends ClientValue
 {
     /**
      * @var bool

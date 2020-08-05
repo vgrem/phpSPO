@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class CalculatedColumn extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class CalculatedColumn extends ClientValue
 {
     /**
      * @var string

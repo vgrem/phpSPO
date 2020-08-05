@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class WindowsInformationProtectionDesktopApp extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class WindowsInformationProtectionDesktopApp extends ClientValue
 {
     /**
      * @var string

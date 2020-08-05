@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class ModifiedProperty extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ModifiedProperty extends ClientValue
 {
     /**
      * @var string

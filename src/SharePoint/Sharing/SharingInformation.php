@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-04-23T18:46:51+00:00 16.0.20008.12009
+ * Updated By PHP Office365 Generator 2020-08-05T10:16:13+00:00 16.0.20315.12009
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -592,5 +592,22 @@ class SharingInformation extends ClientObject
     public function setenforceIBSegmentFiltering($value)
     {
         $this->setProperty("enforceIBSegmentFiltering", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getanyoneLinkTrackUsers()
+    {
+        if (!$this->isPropertyAvailable("anyoneLinkTrackUsers")) {
+            return null;
+        }
+        return $this->getProperty("anyoneLinkTrackUsers");
+    }
+    /**
+     * @var bool
+     */
+    public function setanyoneLinkTrackUsers($value)
+    {
+        $this->setProperty("anyoneLinkTrackUsers", $value, true);
     }
 }

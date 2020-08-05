@@ -5,14 +5,14 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * extended values to include in a request for access to an object exposed through 
  * a tokenized 
  * sharing link.
  */
-class SharingLinkAccessRequest extends ClientValueObject
+class SharingLinkAccessRequest extends ClientValue
 {
     /**
      * Indicates 

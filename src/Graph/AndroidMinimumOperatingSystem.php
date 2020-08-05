@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class AndroidMinimumOperatingSystem extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class AndroidMinimumOperatingSystem extends ClientValue
 {
     /**
      * @var bool

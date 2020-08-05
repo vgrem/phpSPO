@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\ClientValueObject;
-class RuleErrorDetails extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class RuleErrorDetails extends ClientValue
 {
     /**
      * @var array

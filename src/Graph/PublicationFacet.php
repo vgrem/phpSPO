@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class PublicationFacet extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class PublicationFacet extends ClientValue
 {
     /**
      * @var string

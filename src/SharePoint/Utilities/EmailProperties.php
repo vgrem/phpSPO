@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint\Utilities;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * the definition of the email to send which includes both the message fields and 
  * body.<215>
  */
-class EmailProperties extends ClientValueObject
+class EmailProperties extends ClientValue
 {
     /**
      * Specifies 

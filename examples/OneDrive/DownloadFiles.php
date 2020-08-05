@@ -31,9 +31,17 @@ try
     $items = $client->getMe()->getDrive()->getRoot()->getChildren();
     $client->load($items);
     $client->executeQuery();
-    /** @var DriveItem $file */
+    /** @var DriveItem $item */
     foreach ($items as $item){
-        print "Url:" . $item->getWebUrl() . PHP_EOL;
+        if(!is_null($item->getFile())){
+            print "Downloading file from url:" . $item->getWebUrl() . PHP_EOL;
+            $fileName = join(DIRECTORY_SEPARATOR, [sys_get_temp_dir(), $item->getName()]);
+            $fh = fopen($fileName, 'w+');
+            $item->download($fh);
+            $client->executeQuery();
+            fclose($fh);
+            print "[Ok] file downloaded: $fileName" . PHP_EOL;
+        }
     }
 }
 catch (Exception $e) {

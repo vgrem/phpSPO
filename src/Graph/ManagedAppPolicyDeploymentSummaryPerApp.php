@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class ManagedAppPolicyDeploymentSummaryPerApp extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ManagedAppPolicyDeploymentSummaryPerApp extends ClientValue
 {
     /**
      * @var integer

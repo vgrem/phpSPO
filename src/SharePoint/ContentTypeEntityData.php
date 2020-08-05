@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
-class ContentTypeEntityData extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ContentTypeEntityData extends ClientValue
 {
     /**
      * @var string

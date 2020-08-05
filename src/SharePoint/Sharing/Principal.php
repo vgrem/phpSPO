@@ -5,14 +5,14 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 use Office365\SharePoint\UserIdInfo;
 
 /**
  * Microsoft.SharePoint.Client.Sharing.Principal 
  * class is a representation of an identity (user/group).
  */
-class Principal extends ClientValueObject
+class Principal extends ClientValue
 {
     /**
      * Email 

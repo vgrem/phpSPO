@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\UserProfiles;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class CrossGeoSyncUserProperty extends ClientValueObject
+class CrossGeoSyncUserProperty extends ClientValue
 {
     /**
      * @var string

@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class SecureScoreControlStateUpdate extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class SecureScoreControlStateUpdate extends ClientValue
 {
     /**
      * @var string

@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\WebParts;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * a Tile that describes a graphical link the user can click. 
  */
-class TileData extends ClientValueObject
+class TileData extends ClientValue
 {
     /**
      * Accessibility: Read/WriteSpecifies 

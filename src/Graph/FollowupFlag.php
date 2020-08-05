@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class FollowupFlag extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class FollowupFlag extends ClientValue
 {
     /**
      * @var DateTimeTimeZone

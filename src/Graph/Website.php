@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class Website extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class Website extends ClientValue
 {
     /**
      * @var string

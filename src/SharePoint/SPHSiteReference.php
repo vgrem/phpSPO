@@ -5,8 +5,8 @@
 */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
-class SPHSiteReference extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class SPHSiteReference extends ClientValue
 {
     /** 
      * @var string  

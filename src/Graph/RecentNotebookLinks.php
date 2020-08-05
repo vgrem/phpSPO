@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class RecentNotebookLinks extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class RecentNotebookLinks extends ClientValue
 {
     /**
      * @var ExternalLink

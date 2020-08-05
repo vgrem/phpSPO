@@ -4,13 +4,13 @@
 namespace Office365\OutlookServices;
 
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 
 /**
  * Represents information about a user in the sending or receiving end of an event or message.
  */
-class Recipient extends ClientValueObject
+class Recipient extends ClientValue
 {
 
     function __construct(EmailAddress $emailAddress)

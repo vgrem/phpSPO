@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class PermissionScope extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class PermissionScope extends ClientValue
 {
     /**
      * @var string

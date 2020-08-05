@@ -2,12 +2,12 @@
 
 
 namespace Office365\SharePoint;
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 /**
  * Contains properties that are used as parameters to initialize a role definition.
  */
-class RoleDefinitionCreationInformation extends ClientValueObject
+class RoleDefinitionCreationInformation extends ClientValue
 {
 
     /**

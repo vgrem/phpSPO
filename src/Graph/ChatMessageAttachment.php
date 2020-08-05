@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class ChatMessageAttachment extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ChatMessageAttachment extends ClientValue
 {
     /**
      * @var string

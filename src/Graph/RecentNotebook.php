@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class RecentNotebook extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class RecentNotebook extends ClientValue
 {
     /**
      * @var string

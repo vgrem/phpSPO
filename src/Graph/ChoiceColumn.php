@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class ChoiceColumn extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ChoiceColumn extends ClientValue
 {
     /**
      * @var bool

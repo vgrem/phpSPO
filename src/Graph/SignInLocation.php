@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class SignInLocation extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class SignInLocation extends ClientValue
 {
     /**
      * @var string

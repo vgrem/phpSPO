@@ -5,14 +5,14 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * This class 
  * stores basic overview information about the link URL, including limited data about 
  * the object the link URL refers to and any additional sharing link data if the 
  * link URL is a tokenized sharing link.
  */
-class SharingLinkData extends ClientValueObject
+class SharingLinkData extends ClientValue
 {
     /**
      * @var bool

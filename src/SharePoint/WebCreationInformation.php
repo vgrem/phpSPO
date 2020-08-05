@@ -1,14 +1,14 @@
 <?php
 
 namespace Office365\SharePoint;
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 
 
 /**
  * Represents metadata about site creation.
  */
-class WebCreationInformation extends ClientValueObject
+class WebCreationInformation extends ClientValue
 {
 
 

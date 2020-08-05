@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class MediaPrompt extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class MediaPrompt extends ClientValue
 {
     /**
      * @var MediaInfo

@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T17:00:44+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-08-05T10:16:13+00:00 16.0.20315.12009
  */
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientObject;
 use Office365\SharePoint\UI\ApplicationPages\PeoplePickerQuerySettings;
-
 /**
  * This class 
  * contains configuration settings for the client people picker control hosted by 
@@ -116,5 +115,22 @@ class PickerSettings extends ClientObject
     public function setVisibleSuggestions($value)
     {
         $this->setProperty("VisibleSuggestions", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getUseSubstrateSearch()
+    {
+        if (!$this->isPropertyAvailable("UseSubstrateSearch")) {
+            return null;
+        }
+        return $this->getProperty("UseSubstrateSearch");
+    }
+    /**
+     * @var bool
+     */
+    public function setUseSubstrateSearch($value)
+    {
+        $this->setProperty("UseSubstrateSearch", $value, true);
     }
 }

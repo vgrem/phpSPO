@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * the parameters that are used to retrieve filter data.
  */
-class RenderListFilterDataParameters extends ClientValueObject
+class RenderListFilterDataParameters extends ClientValue
 {
     /**
      * This 

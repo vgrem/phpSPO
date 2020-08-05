@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * This class 
  * is used to identify the specific invitees for a tokenized sharing link, 
  * along with who invited them and when.
  */
-class LinkInvitation extends ClientValueObject
+class LinkInvitation extends ClientValue
 {
     /**
      * Indicates 

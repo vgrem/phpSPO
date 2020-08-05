@@ -16,7 +16,7 @@ class ClientResult
     }
 
     public function setProperty($key, $value){
-        if($this->value instanceof ClientObject || $this->value instanceof ClientValueObject) {
+        if($this->value instanceof ClientObject || $this->value instanceof ClientValue) {
             $this->value->setProperty($key,$value,False);
         }
         else {

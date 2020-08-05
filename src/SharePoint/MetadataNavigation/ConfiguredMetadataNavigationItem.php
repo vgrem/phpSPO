@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\MetadataNavigation;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class ConfiguredMetadataNavigationItem extends ClientValueObject
+class ConfiguredMetadataNavigationItem extends ClientValue
 {
     /**
      * @var string

@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * a navigation node in the navigation hierarchy. A navigation hierarchy is a tree 
  * structure of navigation nodes. 
  */
-class MenuNode extends ClientValueObject
+class MenuNode extends ClientValue
 {
     /**
      * @var array

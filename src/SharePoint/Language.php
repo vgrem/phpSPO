@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * a natural language.
  */
-class Language extends ClientValueObject
+class Language extends ClientValue
 {
     /**
      * Specifies 

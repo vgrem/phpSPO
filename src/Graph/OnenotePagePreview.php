@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class OnenotePagePreview extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class OnenotePagePreview extends ClientValue
 {
     /**
      * @var string

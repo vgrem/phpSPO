@@ -5,7 +5,7 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class AllLicensedUsersAssignmentTarget extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class AllLicensedUsersAssignmentTarget extends ClientValue
 {
 }

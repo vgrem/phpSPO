@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class RemoteItem extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class RemoteItem extends ClientValue
 {
     /**
      * @var string

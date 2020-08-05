@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class SiteSharingEmailContext extends ClientValueObject
+class SiteSharingEmailContext extends ClientValue
 {
     /**
      * @var string

@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class SharingLinkTemplate extends ClientValueObject
+class SharingLinkTemplate extends ClientValue
 {
     /**
      * @var bool

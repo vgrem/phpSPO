@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Microfeed;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class MicrofeedPostDefinitionNameCollection extends ClientValueObject
+class MicrofeedPostDefinitionNameCollection extends ClientValue
 {
     /**
      * @var array

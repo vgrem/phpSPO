@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Migration 
  * options.<259>
  */
-class EncryptionOption extends ClientValueObject
+class EncryptionOption extends ClientValue
 {
     /**
      * @var string

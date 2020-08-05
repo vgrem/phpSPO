@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class Video extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class Video extends ClientValue
 {
     /**
      * @var integer

@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Translation;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class TranslationJobInfo extends ClientValueObject
+class TranslationJobInfo extends ClientValue
 {
     /**
      * @var bool

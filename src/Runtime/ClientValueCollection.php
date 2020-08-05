@@ -3,12 +3,12 @@
 namespace Office365\Runtime;
 
 
-class ClientValueObjectCollection extends ClientValueObject
+class ClientValueCollection extends ClientValue
 {
 
     /**
      * Adds property to collection
-     * @param ClientValueObject $value
+     * @param ClientValue $value
      */
     public function addChild($value)
     {
@@ -45,12 +45,12 @@ class ClientValueObjectCollection extends ClientValueObject
 
     /**
      * Creates entity for a collection
-     * @return ClientValueObject
+     * @return ClientValue
      */
     public function createType()
     {
-        $clientValueObjectType = $this->getItemTypeName();
-        return new $clientValueObjectType();
+        $clientValueType = $this->getItemTypeName();
+        return new $clientValueType();
     }
 
 
@@ -64,7 +64,7 @@ class ClientValueObjectCollection extends ClientValueObject
 
     function toJson()
     {
-        return array_map(function (ClientValueObject $item) {
+        return array_map(function (ClientValue $item) {
             return $item->toJson();
         }, $this->getData());
     }

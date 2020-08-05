@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Utilities;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.Utilities.WopiWebAppProperties 
  * is not applicable.<279>
  */
-class WopiWebAppProperties extends ClientValueObject
+class WopiWebAppProperties extends ClientValue
 {
     /**
      * Microsoft.SharePoint.Client.Utilities.WopiWebAppProperties 

@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class AndroidMobileAppIdentifier extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class AndroidMobileAppIdentifier extends ClientValue
 {
     /**
      * @var string

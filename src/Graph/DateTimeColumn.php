@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class DateTimeColumn extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class DateTimeColumn extends ClientValue
 {
     /**
      * @var string

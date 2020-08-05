@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObjectCollection;
+use Office365\Runtime\ClientValueCollection;
 
-class VisualizationFieldCollection extends ClientValueObjectCollection
+class VisualizationFieldCollection extends ClientValueCollection
 {
 }

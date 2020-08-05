@@ -1,9 +1,9 @@
 <?php
 
 namespace Office365\OutlookServices;
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class ComplexType extends ClientValueObject
+class ComplexType extends ClientValue
 {
 
 }

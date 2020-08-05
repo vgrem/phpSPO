@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class MimeContent extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class MimeContent extends ClientValue
 {
     /**
      * @var string

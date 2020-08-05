@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.CopyMigrationInfo 
  * is not applicable.<252>
  */
-class CopyMigrationInfo extends ClientValueObject
+class CopyMigrationInfo extends ClientValue
 {
     /**
      * @var string

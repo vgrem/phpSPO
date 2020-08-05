@@ -49,7 +49,7 @@ class DriveItem extends BaseItem
     public function download($handle){
         $qry = new InvokeMethodQuery($this);
         $this->getContext()->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request) use ($handle){
-            $request->Url .= "content";
+            $request->Url .= "/content";
             $request->StreamHandle = $handle;
             $request->FollowLocation = true;
         },true);
@@ -470,7 +470,8 @@ class DriveItem extends BaseItem
     public function getPermissions()
     {
         if (!$this->isPropertyAvailable("Permissions")) {
-            $this->setProperty("Permissions", new PermissionCollection($this->getContext(), new ResourcePath("Permissions", $this->getResourcePath())));
+            $this->setProperty("Permissions", new PermissionCollection($this->getContext(),
+                new ResourcePath("Permissions", $this->getResourcePath())));
         }
         return $this->getProperty("Permissions");
     }

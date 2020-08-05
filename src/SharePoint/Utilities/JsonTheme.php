@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Utilities;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.Utilities.JsonTheme 
  * is not applicable.<276>
  */
-class JsonTheme extends ClientValueObject
+class JsonTheme extends ClientValue
 {
     /**
      * @var string

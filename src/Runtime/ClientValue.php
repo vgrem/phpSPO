@@ -6,7 +6,7 @@ namespace Office365\Runtime;
 /**
  * Represents OData complex type of a server-side property value.
  */
-class ClientValueObject
+class ClientValue
 {
 
     /**

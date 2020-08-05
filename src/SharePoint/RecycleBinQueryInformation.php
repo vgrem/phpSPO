@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * information for the recycle bin query.
  */
-class RecycleBinQueryInformation extends ClientValueObject
+class RecycleBinQueryInformation extends ClientValue
 {
     /**
      * Gets or 

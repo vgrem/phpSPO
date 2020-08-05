@@ -4,13 +4,13 @@
 namespace Office365\OutlookServices;
 
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 /**
  * Class Reminder
  * @package Office365\Outlook
  */
-class Reminder extends ClientValueObject
+class Reminder extends ClientValue
 {
 
     /**

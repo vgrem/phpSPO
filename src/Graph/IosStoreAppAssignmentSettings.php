@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class IosStoreAppAssignmentSettings extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class IosStoreAppAssignmentSettings extends ClientValue
 {
     /**
      * @var string

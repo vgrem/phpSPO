@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T20:28:28+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-08-05T10:16:13+00:00 16.0.20315.12009
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * the set of capabilities for specific configurations of tokenized 
  * sharing link for the current user and whether they are enabled or 
  * not.
  */
-class SharingLinkAbilities extends ClientValueObject
+class SharingLinkAbilities extends ClientValue
 {
     /**
      * @var SharingAbilityStatus
@@ -67,4 +67,8 @@ class SharingLinkAbilities extends ClientValueObject
      * @var SharingAbilityStatus
      */
     public $canManageReviewLink;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $trackLinkUsers;
 }

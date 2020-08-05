@@ -4,9 +4,9 @@
 namespace Office365\SharePoint;
 
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class ListItemCollectionPosition extends ClientValueObject
+class ListItemCollectionPosition extends ClientValue
 {
     /**
      * Gets or sets a value that specifies information, as name-value pairs, 

@@ -5,14 +5,14 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * the information for a document library on 
  * a site 
  * (2).
  */
-class DocumentLibraryInformation extends ClientValueObject
+class DocumentLibraryInformation extends ClientValue
 {
     /**
      * Absolute 

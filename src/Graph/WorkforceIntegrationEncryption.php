@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class WorkforceIntegrationEncryption extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class WorkforceIntegrationEncryption extends ClientValue
 {
     /**
      * @var string

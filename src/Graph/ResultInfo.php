@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class ResultInfo extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ResultInfo extends ClientValue
 {
     /**
      * @var integer

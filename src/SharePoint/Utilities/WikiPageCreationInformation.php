@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Utilities;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * wiki page creation information.<212>
  */
-class WikiPageCreationInformation extends ClientValueObject
+class WikiPageCreationInformation extends ClientValue
 {
     /**
      * The server-relative 

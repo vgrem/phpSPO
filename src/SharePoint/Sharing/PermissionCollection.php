@@ -5,7 +5,7 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * This class 
  * is returned when 
@@ -15,7 +15,7 @@ use Office365\Runtime\ClientValueObject;
  * that have access to the list item and also 
  * the site administrators who have implicit access.
  */
-class PermissionCollection extends ClientValueObject
+class PermissionCollection extends ClientValue
 {
     /**
      * @var bool

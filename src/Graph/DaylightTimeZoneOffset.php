@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class DaylightTimeZoneOffset extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class DaylightTimeZoneOffset extends ClientValue
 {
     /**
      * @var integer

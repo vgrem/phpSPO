@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * metadata about a field (2).<199>
  */
-class XmlSchemaFieldCreationInformation extends ClientValueObject
+class XmlSchemaFieldCreationInformation extends ClientValue
 {
     /**
      * Specifies 

@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class ExternalLink extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ExternalLink extends ClientValue
 {
     /**
      * @var string

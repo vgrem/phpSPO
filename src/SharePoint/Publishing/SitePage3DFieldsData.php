@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class SitePage3DFieldsData extends ClientValueObject
+class SitePage3DFieldsData extends ClientValue
 {
     /**
      * @var string

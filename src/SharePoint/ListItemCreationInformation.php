@@ -2,12 +2,12 @@
 
 
 namespace Office365\SharePoint;
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 /**
  * Specifies the properties of the new list item.
  */
-class ListItemCreationInformation extends ClientValueObject
+class ListItemCreationInformation extends ClientValue
 {
     /**
      * Gets or sets a value that specifies the folder for the new list item.

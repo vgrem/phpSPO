@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class RepostPageFieldsData extends ClientValueObject
+class RepostPageFieldsData extends ClientValue
 {
 }

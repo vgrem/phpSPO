@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * altitude, latitude, longitude and measure values for FieldGeolocation 
  * (section 3.2.5.185).<191>
  */
-class FieldGeolocationValue extends ClientValueObject
+class FieldGeolocationValue extends ClientValue
 {
     /**
      * Specifies 

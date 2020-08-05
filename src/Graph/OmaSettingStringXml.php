@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class OmaSettingStringXml extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class OmaSettingStringXml extends ClientValue
 {
     /**
      * @var string

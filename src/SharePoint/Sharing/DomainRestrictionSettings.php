@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * the settings of the restricted domain names 
  * sharing.
  */
-class DomainRestrictionSettings extends ClientValueObject
+class DomainRestrictionSettings extends ClientValue
 {
     /**
      * Indicates 

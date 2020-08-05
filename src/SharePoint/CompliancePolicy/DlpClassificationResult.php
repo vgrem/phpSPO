@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\CompliancePolicy;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class DlpClassificationResult extends ClientValueObject
+class DlpClassificationResult extends ClientValue
 {
     /**
      * @var string

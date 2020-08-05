@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * a user and a role that is 
  * associated with the user.<194>
  */
-class UserRoleAssignment extends ClientValueObject
+class UserRoleAssignment extends ClientValue
 {
     /**
      * Specifies 

@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Describes 
  * a new navigation node to be created.
  */
-class NavigationNodeCreationInformation extends ClientValueObject
+class NavigationNodeCreationInformation extends ClientValue
 {
     /**
      * Gets or 

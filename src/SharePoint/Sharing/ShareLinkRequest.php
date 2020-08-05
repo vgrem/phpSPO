@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * a request for the retrieval or creation of a tokenized sharing link. 
  * 
  */
-class ShareLinkRequest extends ClientValueObject
+class ShareLinkRequest extends ClientValue
 {
     /**
      * Indicates 

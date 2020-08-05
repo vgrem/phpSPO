@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * failure information for a failed field (2) or list itemdata 
  * validation. 
  */
-class ListDataValidationExceptionValue extends ClientValueObject
+class ListDataValidationExceptionValue extends ClientValue
 {
     /**
      * Read OnlySpecifies 

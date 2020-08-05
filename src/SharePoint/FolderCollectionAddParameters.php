@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * the settings used for creating a folder.
  */
-class FolderCollectionAddParameters extends ClientValueObject
+class FolderCollectionAddParameters extends ClientValue
 {
     /**
      * Specifies 

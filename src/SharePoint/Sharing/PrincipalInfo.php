@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * SP.Sharing.PrincipalInfo 
  * class represents Principal and its Role on the list item.
  */
-class PrincipalInfo extends ClientValueObject
+class PrincipalInfo extends ClientValue
 {
     /**
      * The 

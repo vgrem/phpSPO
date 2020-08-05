@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * This is the 
  * class that represents a collection of CustomActionElement.
  */
-class CustomActionElementCollection extends ClientValueObject
+class CustomActionElementCollection extends ClientValue
 {
     /**
      * @var array

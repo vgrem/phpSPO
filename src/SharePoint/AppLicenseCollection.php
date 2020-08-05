@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * a collection of marketplace licenses.<234>
  */
-class AppLicenseCollection extends ClientValueObject
+class AppLicenseCollection extends ClientValue
 {
     /**
      * @var array

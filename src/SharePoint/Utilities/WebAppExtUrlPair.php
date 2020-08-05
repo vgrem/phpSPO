@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Utilities;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Extension/Prog 
  * Id and its Web application url Pair.
  */
-class WebAppExtUrlPair extends ClientValueObject
+class WebAppExtUrlPair extends ClientValue
 {
     /**
      * Extension/Prog 

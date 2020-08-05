@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * A class 
  * containing site collection 
  * upgrade information.
  */
-class UpgradeInfo extends ClientValueObject
+class UpgradeInfo extends ClientValue
 {
     /**
      * Specifies 

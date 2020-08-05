@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Directory;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class GroupNameValidationResultErrorParams extends ClientValueObject
+class GroupNameValidationResultErrorParams extends ClientValue
 {
     /**
      * @var string

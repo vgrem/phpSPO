@@ -5,11 +5,11 @@
  */
 namespace Office365\OutlookServices;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * The frequency of an event.
  */
-class RecurrencePattern extends ClientValueObject
+class RecurrencePattern extends ClientValue
 {
     /**
      * The recurrence pattern type: Daily = 0, Weekly = 1, AbsoluteMonthly = 2, RelativeMonthly = 3, AbsoluteYearly = 4, RelativeYearly = 5.

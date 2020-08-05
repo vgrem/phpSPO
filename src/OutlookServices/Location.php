@@ -5,11 +5,11 @@
  */
 namespace Office365\OutlookServices;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * The location of an event.
  */
-class Location extends ClientValueObject
+class Location extends ClientValue
 {
     /**
      * The name associated with the location.

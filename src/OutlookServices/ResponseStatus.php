@@ -4,12 +4,12 @@
 namespace Office365\OutlookServices;
 
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 /**
  * The response status of a meeting request.
  */
-class ResponseStatus extends ClientValueObject
+class ResponseStatus extends ClientValue
 {
 
     /**

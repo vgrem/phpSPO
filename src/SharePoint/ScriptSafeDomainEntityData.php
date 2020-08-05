@@ -5,8 +5,8 @@
 */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
-class ScriptSafeDomainEntityData extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ScriptSafeDomainEntityData extends ClientValue
 {
     /** 
      * @var string  

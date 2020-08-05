@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class TranslationNotificationRecipientSetRequest extends ClientValueObject
+class TranslationNotificationRecipientSetRequest extends ClientValue
 {
 }

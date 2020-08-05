@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Social;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class SocialExceptionDetails extends ClientValueObject
+class SocialExceptionDetails extends ClientValue
 {
     /**
      * @var integer

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-16T20:01:10+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-08-05T10:16:13+00:00 16.0.20315.12009
  */
 namespace Office365\SharePoint;
 
@@ -81,5 +81,39 @@ class FieldDateTime extends Field
     public function setFriendlyDisplayFormat($value)
     {
         $this->setProperty("FriendlyDisplayFormat", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getDateFormat()
+    {
+        if (!$this->isPropertyAvailable("DateFormat")) {
+            return null;
+        }
+        return $this->getProperty("DateFormat");
+    }
+    /**
+     * @var string
+     */
+    public function setDateFormat($value)
+    {
+        $this->setProperty("DateFormat", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getTimeFormat()
+    {
+        if (!$this->isPropertyAvailable("TimeFormat")) {
+            return null;
+        }
+        return $this->getProperty("TimeFormat");
+    }
+    /**
+     * @var string
+     */
+    public function setTimeFormat($value)
+    {
+        $this->setProperty("TimeFormat", $value, true);
     }
 }

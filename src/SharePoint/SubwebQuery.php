@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Defines a 
  * query to specify which child Web sites to return 
  * from a Web site.
  */
-class SubwebQuery extends ClientValueObject
+class SubwebQuery extends ClientValue
 {
     /**
      * An integer 

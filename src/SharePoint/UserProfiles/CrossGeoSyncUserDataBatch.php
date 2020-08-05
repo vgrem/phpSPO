@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\UserProfiles;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class CrossGeoSyncUserDataBatch extends ClientValueObject
+class CrossGeoSyncUserDataBatch extends ClientValue
 {
     /**
      * @var integer

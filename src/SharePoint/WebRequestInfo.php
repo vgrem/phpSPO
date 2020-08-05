@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * metadata about a Hypertext Transfer Protocol 
  * (HTTP) request.<179>
  */
-class WebRequestInfo extends ClientValueObject
+class WebRequestInfo extends ClientValue
 {
     /**
      * The 

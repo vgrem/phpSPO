@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class FileSecurityState extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class FileSecurityState extends ClientValue
 {
     /**
      * @var string

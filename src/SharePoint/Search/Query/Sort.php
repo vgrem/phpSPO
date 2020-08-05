@@ -4,12 +4,12 @@
 namespace Office365\SharePoint\Search\Query;
 
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 /**
  * Defines how search results are sorted.
  */
-class Sort extends ClientValueObject
+class Sort extends ClientValue
 {
     /**
      * @var SortDirection

@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class MailTips extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class MailTips extends ClientValue
 {
     /**
      * @var EmailAddress

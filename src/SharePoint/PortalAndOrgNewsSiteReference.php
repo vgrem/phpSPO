@@ -5,8 +5,8 @@
 */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
-class PortalAndOrgNewsSiteReference extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class PortalAndOrgNewsSiteReference extends ClientValue
 {
     /** 
      * @var string  

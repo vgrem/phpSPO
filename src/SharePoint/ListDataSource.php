@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Stores the 
  * parameters required for a list to communicate 
  * with its external data source.
  */
-class ListDataSource extends ClientValueObject
+class ListDataSource extends ClientValue
 {
     /**
      * @var array

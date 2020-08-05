@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObjectCollection;
+use Office365\Runtime\ClientValueCollection;
 
-class LinkInvitationCollection extends ClientValueObjectCollection
+class LinkInvitationCollection extends ClientValueCollection
 {
 }

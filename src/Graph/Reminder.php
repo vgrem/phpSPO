@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class Reminder extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class Reminder extends ClientValue
 {
     /**
      * @var string

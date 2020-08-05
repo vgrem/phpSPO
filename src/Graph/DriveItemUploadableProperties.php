@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class DriveItemUploadableProperties extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class DriveItemUploadableProperties extends ClientValue
 {
     /**
      * @var string

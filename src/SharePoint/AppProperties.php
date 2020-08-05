@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Contains 
  * properties relevant to a given app.
  */
-class AppProperties extends ClientValueObject
+class AppProperties extends ClientValue
 {
     /**
      * Returns 

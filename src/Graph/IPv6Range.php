@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class IPv6Range extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class IPv6Range extends ClientValue
 {
     /**
      * @var string

@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * email data to be used to initiate sending notification e-mail when sharing 
  * using a tokenized sharing link.
  */
-class EmailData extends ClientValueObject
+class EmailData extends ClientValue
 {
     /**
      * The value 

@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObjectCollection;
+use Office365\Runtime\ClientValueCollection;
 
-class ListDataValidationFailureCollection extends ClientValueObjectCollection
+class ListDataValidationFailureCollection extends ClientValueCollection
 {
 }

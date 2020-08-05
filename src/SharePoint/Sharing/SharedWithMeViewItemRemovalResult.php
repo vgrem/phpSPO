@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * An object 
  * that contains the result of calling the API to remove an item from a user's 
  * 'Shared With Me' view.
  */
-class SharedWithMeViewItemRemovalResult extends ClientValueObject
+class SharedWithMeViewItemRemovalResult extends ClientValue
 {
     /**
      * Error code 

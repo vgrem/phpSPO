@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class VppLicensingType extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class VppLicensingType extends ClientValue
 {
     /**
      * @var bool

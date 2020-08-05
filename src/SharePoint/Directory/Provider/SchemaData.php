@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Directory\Provider;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class SchemaData extends ClientValueObject
+class SchemaData extends ClientValue
 {
     /**
      * @var integer

@@ -3,12 +3,12 @@
 
 namespace Office365\OutlookServices;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 /**
  * The duration of an event.
  */
-class RecurrenceRange extends ClientValueObject
+class RecurrenceRange extends ClientValue
 {
 
     /**

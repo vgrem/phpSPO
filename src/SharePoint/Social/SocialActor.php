@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint\Social;
 
-use Office365\Runtime\ClientValueObject;
-class SocialActor extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class SocialActor extends ClientValue
 {
     public $Status;
     public $StatusText;

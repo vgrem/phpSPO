@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.CustomerKeyStatusInfo 
  * is not applicable.<256>
  */
-class CustomerKeyStatusInfo extends ClientValueObject
+class CustomerKeyStatusInfo extends ClientValue
 {
     /**
      * @var string

@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class IosNotificationSettings extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class IosNotificationSettings extends ClientValue
 {
     /**
      * @var string

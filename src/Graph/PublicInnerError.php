@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class PublicInnerError extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class PublicInnerError extends ClientValue
 {
     /**
      * @var string

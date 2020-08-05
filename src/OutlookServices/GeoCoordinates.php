@@ -3,12 +3,12 @@
 namespace Office365\OutlookServices;
 
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 /**
  * The geographic coordinates and elevation of the location.
  */
-class GeoCoordinates extends ClientValueObject
+class GeoCoordinates extends ClientValue
 {
     /**
      * The altitude of the location.

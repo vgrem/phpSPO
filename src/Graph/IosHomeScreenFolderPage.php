@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class IosHomeScreenFolderPage extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class IosHomeScreenFolderPage extends ClientValue
 {
     /**
      * @var string

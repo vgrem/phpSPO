@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * a response for 
  * Microsoft.SharePoint.Client.Sharing.SecurableObjectExtensions.CheckPermissions
  */
-class EntityPermission extends ClientValueObject
+class EntityPermission extends ClientValue
 {
     /**
      * @var bool

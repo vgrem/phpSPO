@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * The value 
  * of a calculated field when the field value is actually a calculation error, 
  * such as division by zero, or overflow.
  */
-class FieldCalculatedErrorValue extends ClientValueObject
+class FieldCalculatedErrorValue extends ClientValue
 {
     /**
      * Error 

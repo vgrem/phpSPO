@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class WorkbookFilterCriteria extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class WorkbookFilterCriteria extends ClientValue
 {
     /**
      * @var string

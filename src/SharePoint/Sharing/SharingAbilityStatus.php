@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * the status for a specific sharing capability for the current user.
  */
-class SharingAbilityStatus extends ClientValueObject
+class SharingAbilityStatus extends ClientValue
 {
     /**
      * Indicates 

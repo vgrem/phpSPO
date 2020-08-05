@@ -11,7 +11,7 @@ use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ClientRequest;
 use Office365\Runtime\ClientResult;
 use Office365\Runtime\ClientRuntimeContext;
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\Http\Response;
 use Office365\Runtime\Http\HttpMethod;
@@ -85,13 +85,13 @@ class ODataRequest extends ClientRequest
 
 
     /**
-     * @param ClientObject|ClientValueObject|array $value
+     * @param ClientObject|ClientValue|array $value
      * @param ODataFormat $format
      * @return array
      */
     protected function normalizePayload($value,ODataFormat $format)
     {
-        if ($value instanceof ClientObject || $value instanceof ClientValueObject) {
+        if ($value instanceof ClientObject || $value instanceof ClientValue) {
             $json = array_map(function ($property) use($format){
                 return $this->normalizePayload($property,$format);
             }, $value->toJson($format));
@@ -107,7 +107,7 @@ class ODataRequest extends ClientRequest
     }
 
     /**
-     * @param ClientObject|ClientValueObject $type
+     * @param ClientObject|ClientValue $type
      * @param array $json
      * @param ODataFormat $format
      */
@@ -167,7 +167,7 @@ class ODataRequest extends ClientRequest
     /**
      * Maps response payload to client object
      * @param array $json
-     * @param $resultType ClientObject|ClientValueObject|ClientResult
+     * @param $resultType ClientObject|ClientValue|ClientResult
      * @param $format ODataFormat
      */
     public function mapJson($json, $resultType, $format)

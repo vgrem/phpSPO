@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class Shared extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class Shared extends ClientValue
 {
     /**
      * @var string

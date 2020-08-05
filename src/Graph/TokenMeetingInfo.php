@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class TokenMeetingInfo extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class TokenMeetingInfo extends ClientValue
 {
     /**
      * @var string

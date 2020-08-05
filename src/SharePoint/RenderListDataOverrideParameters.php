@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * The 
  * parameters that are used to override and extend the regular 
  * SPRenderListDataParameters.
  */
-class RenderListDataOverrideParameters extends ClientValueObject
+class RenderListDataOverrideParameters extends ClientValue
 {
     /**
      * The 

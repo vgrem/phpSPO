@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Workflow;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * properties for a new workflow association.
  */
-class WorkflowAssociationCreationInformation extends ClientValueObject
+class WorkflowAssociationCreationInformation extends ClientValue
 {
     /**
      * Specifies 

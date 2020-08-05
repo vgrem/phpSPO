@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Parameters 
  * to invite a user.
  */
-class UserCreationInformation extends ClientValueObject
+class UserCreationInformation extends ClientValue
 {
     /**
      * Specifies 

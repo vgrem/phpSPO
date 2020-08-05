@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.ListItemComplianceInfo 
  * is not applicable.<264>
  */
-class ListItemComplianceInfo extends ClientValueObject
+class ListItemComplianceInfo extends ClientValue
 {
     /**
      * @var string

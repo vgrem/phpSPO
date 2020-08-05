@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class SiteSharingReportCapabilities extends ClientValueObject
+class SiteSharingReportCapabilities extends ClientValue
 {
     /**
      * @var bool

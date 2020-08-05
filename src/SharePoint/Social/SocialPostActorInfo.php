@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Social;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class SocialPostActorInfo extends ClientValueObject
+class SocialPostActorInfo extends ClientValue
 {
     /**
      * @var bool

@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.VisualizationStyleSet 
  * is not applicable.<286>
  */
-class VisualizationStyleSet extends ClientValueObject
+class VisualizationStyleSet extends ClientValue
 {
     /**
      * @var string

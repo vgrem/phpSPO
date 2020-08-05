@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * a specific question and answer within a rating scale field (2) of a list item.
  */
-class FieldRatingScaleQuestionAnswer extends ClientValueObject
+class FieldRatingScaleQuestionAnswer extends ClientValue
 {
     /**
      * Represents 

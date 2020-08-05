@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * the optional Request Object for 
  * Microsoft.SharePoint.Client.Sharing.SecurableObjectExtensions.GetSharingInformation.
  */
-class SharingInformationRequest extends ClientValueObject
+class SharingInformationRequest extends ClientValue
 {
     /**
      * Supported 

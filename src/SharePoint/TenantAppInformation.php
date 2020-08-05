@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class TenantAppInformation extends ClientValueObject
+class TenantAppInformation extends ClientValue
 {
     /**
      * The OAuth Id of an app.

@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-04-22T21:18:30+00:00 16.0.20008.12009
+ * Updated By PHP Office365 Generator 2020-08-05T10:11:52+00:00 16.0.20315.12009
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * the parameters to be used to render list data as a JSON string.
  */
-class RenderListDataParameters extends ClientValueObject
+class RenderListDataParameters extends ClientValue
 {
     /**
      * This 
@@ -108,4 +108,16 @@ class RenderListDataParameters extends ClientValueObject
      * @var bool
      */
     public $RenderURLFieldInJSON;
+    /**
+     * @var bool
+     */
+    public $AddAllViewFields;
+    /**
+     * @var bool
+     */
+    public $AddRegionalSettings;
+    /**
+     * @var bool
+     */
+    public $ExpandUserField;
 }

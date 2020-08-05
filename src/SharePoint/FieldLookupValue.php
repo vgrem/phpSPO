@@ -6,9 +6,9 @@
 namespace Office365\SharePoint;
 
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class FieldLookupValue extends ClientValueObject
+class FieldLookupValue extends ClientValue
 {
     /**
      * Gets or sets the identifier (ID) of the list item that this instance of the lookup field is referring to.

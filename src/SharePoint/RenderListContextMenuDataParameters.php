@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * the parameters that are used for a list menu item.
  */
-class RenderListContextMenuDataParameters extends ClientValueObject
+class RenderListContextMenuDataParameters extends ClientValue
 {
     /**
      * The 

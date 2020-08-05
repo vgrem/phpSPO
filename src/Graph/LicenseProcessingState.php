@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class LicenseProcessingState extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class LicenseProcessingState extends ClientValue
 {
     /**
      * @var string

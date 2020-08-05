@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Directory\Provider;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class LinkChange extends ClientValueObject
+class LinkChange extends ClientValue
 {
     /**
      * @var array

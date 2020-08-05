@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class Quota extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class Quota extends ClientValue
 {
     /**
      * @var integer

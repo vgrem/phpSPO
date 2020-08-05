@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class CopyNotebookModel extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class CopyNotebookModel extends ClientValue
 {
     /**
      * @var bool

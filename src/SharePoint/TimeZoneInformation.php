@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * metadata about a time zone.<224>
  */
-class TimeZoneInformation extends ClientValueObject
+class TimeZoneInformation extends ClientValue
 {
     /**
      * Specifies 

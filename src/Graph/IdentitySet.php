@@ -6,8 +6,8 @@
 namespace Office365\Graph;
 
 
-use Office365\Runtime\ClientValueObject;
-class IdentitySet extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class IdentitySet extends ClientValue
 {
     /**
      * @var Identity

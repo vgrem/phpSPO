@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * expiration capabilities status for tokenized sharing links 
  * for the current user.
  */
-class SharingLinkExpirationAbilityStatus extends ClientValueObject
+class SharingLinkExpirationAbilityStatus extends ClientValue
 {
     /**
      * Indicates 

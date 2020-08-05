@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class WorkbookSortField extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class WorkbookSortField extends ClientValue
 {
     /**
      * @var bool

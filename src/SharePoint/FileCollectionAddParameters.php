@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * This 
  * indicates an object encapsulating various options to use while saving a file.
  */
-class FileCollectionAddParameters extends ClientValueObject
+class FileCollectionAddParameters extends ClientValue
 {
     /**
      * @var bool

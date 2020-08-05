@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-04-23T18:46:51+00:00 16.0.20008.12009
+ * Updated By PHP Office365 Generator 2020-08-05T10:16:13+00:00 16.0.20315.12009
  */
 namespace Office365\SharePoint;
 
@@ -279,5 +279,39 @@ class RecentList extends ClientObject
     public function setsiteUrl($value)
     {
         $this->setProperty("siteUrl", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getwebId()
+    {
+        if (!$this->isPropertyAvailable("webId")) {
+            return null;
+        }
+        return $this->getProperty("webId");
+    }
+    /**
+     * @var string
+     */
+    public function setwebId($value)
+    {
+        $this->setProperty("webId", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getwebTemplateConfiguration()
+    {
+        if (!$this->isPropertyAvailable("webTemplateConfiguration")) {
+            return null;
+        }
+        return $this->getProperty("webTemplateConfiguration");
+    }
+    /**
+     * @var string
+     */
+    public function setwebTemplateConfiguration($value)
+    {
+        $this->setProperty("webTemplateConfiguration", $value, true);
     }
 }

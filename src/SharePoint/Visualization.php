@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.Visualization 
  * is not applicable.<280>
  */
-class Visualization extends ClientValueObject
+class Visualization extends ClientValue
 {
     
     public $DefaultScreen;

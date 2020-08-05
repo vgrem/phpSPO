@@ -4,13 +4,13 @@
 namespace Office365\OutlookServices;
 
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 
 /**
  * The body content of a message or event.
  */
-class ItemBody extends ClientValueObject
+class ItemBody extends ClientValue
 {
 
     function __construct($contentType,$content)

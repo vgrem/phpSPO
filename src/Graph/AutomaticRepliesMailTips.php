@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class AutomaticRepliesMailTips extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class AutomaticRepliesMailTips extends ClientValue
 {
     /**
      * @var string

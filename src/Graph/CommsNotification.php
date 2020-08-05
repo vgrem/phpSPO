@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class CommsNotification extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class CommsNotification extends ClientValue
 {
     /**
      * @var string

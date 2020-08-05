@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class MediaInfo extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class MediaInfo extends ClientValue
 {
     /**
      * @var string

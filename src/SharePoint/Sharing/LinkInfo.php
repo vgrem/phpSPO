@@ -5,7 +5,7 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 use Office365\SharePoint\SharingLinkInfo;
 
 /**
@@ -14,7 +14,7 @@ use Office365\SharePoint\SharingLinkInfo;
  * including settings details, inheritance status, and an optional array of 
  * members.
  */
-class LinkInfo extends ClientValueObject
+class LinkInfo extends ClientValue
 {
     /**
      * Boolean that 

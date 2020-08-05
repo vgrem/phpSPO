@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint\SiteHealth;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * the result of running a site collection 
  * health rule.<219>
  */
-class SiteHealthResult extends ClientValueObject
+class SiteHealthResult extends ClientValue
 {
     /**
      * Specifies 

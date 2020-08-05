@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class Hashes extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class Hashes extends ClientValue
 {
     /**
      * @var string

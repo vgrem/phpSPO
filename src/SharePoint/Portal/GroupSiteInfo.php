@@ -4,9 +4,9 @@
 namespace Office365\SharePoint\Portal;
 
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class GroupSiteInfo extends ClientValueObject
+class GroupSiteInfo extends ClientValue
 {
 
     /**

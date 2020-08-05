@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\CompliancePolicy;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class PendingReviewItemsStatistics extends ClientValueObject
+class PendingReviewItemsStatistics extends ClientValue
 {
     /**
      * @var string

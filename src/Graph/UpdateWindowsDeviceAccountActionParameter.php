@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class UpdateWindowsDeviceAccountActionParameter extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class UpdateWindowsDeviceAccountActionParameter extends ClientValue
 {
     /**
      * @var bool

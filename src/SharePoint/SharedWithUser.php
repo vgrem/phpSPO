@@ -5,8 +5,8 @@
 */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
-class SharedWithUser extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class SharedWithUser extends ClientValue
 {
     /** 
      * @var string  

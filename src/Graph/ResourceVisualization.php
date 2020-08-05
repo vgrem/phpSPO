@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class ResourceVisualization extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ResourceVisualization extends ClientValue
 {
     /**
      * @var string

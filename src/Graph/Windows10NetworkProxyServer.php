@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class Windows10NetworkProxyServer extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class Windows10NetworkProxyServer extends ClientValue
 {
     /**
      * @var string

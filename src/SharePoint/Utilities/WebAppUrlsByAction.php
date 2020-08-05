@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Utilities;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.Utilities.WebAppUrlsByAction 
  * is not applicable.<278>
  */
-class WebAppUrlsByAction extends ClientValueObject
+class WebAppUrlsByAction extends ClientValue
 {
     /**
      * Microsoft.SharePoint.Client.Utilities.WebAppUrlsByAction 

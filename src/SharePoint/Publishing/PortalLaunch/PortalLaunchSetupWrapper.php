@@ -5,7 +5,7 @@
  */
 namespace Office365\SharePoint\Publishing\PortalLaunch;
 
-use Office365\Runtime\ClientValueObject;
-class PortalLaunchSetupWrapper extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class PortalLaunchSetupWrapper extends ClientValue
 {
 }

@@ -14,7 +14,7 @@ class ResourcePathServiceOperation extends ResourcePath implements ICSOMCallable
     /**
      * ResourcePathMethod constructor.
      * @param string $methodName
-     * @param array|ClientObject|ClientValueObject $methodParameters
+     * @param array|ClientObject|ClientValue $methodParameters
      * @param ResourcePath|null $parent
      */
     public function __construct($methodName=null, $methodParameters = null,ResourcePath $parent=null)
@@ -77,14 +77,14 @@ class ResourcePathServiceOperation extends ResourcePath implements ICSOMCallable
     }
 
     /**
-     * @return array|ClientObject|ClientValueObject|null
+     * @return array|ClientObject|ClientValue|null
      */
     function getMethodParameters(){
         return $this->methodParameters;
     }
 
     /**
-     * @var array|ClientObject|ClientValueObject
+     * @var array|ClientObject|ClientValue
      */
     protected $methodParameters;
 

@@ -1,12 +1,12 @@
 <?php
 
 namespace Office365\OutlookServices;
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 /**
  * The name and email address of a contact or message recipient.
  */
-class EmailAddress extends ClientValueObject
+class EmailAddress extends ClientValue
 {
 
     /**

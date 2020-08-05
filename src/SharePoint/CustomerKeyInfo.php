@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.CustomerKeyInfo 
  * is not applicable.<254>
  */
-class CustomerKeyInfo extends ClientValueObject
+class CustomerKeyInfo extends ClientValue
 {
     
     public $PrimaryKeyVault;

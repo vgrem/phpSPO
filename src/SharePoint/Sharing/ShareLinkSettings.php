@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-10-12T20:10:10+00:00 16.0.19402.12016
+ * Updated By PHP Office365 Generator 2020-08-05T10:16:13+00:00 16.0.20315.12009
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Represents 
  * the settings the retrieval or creation/update of a tokenized sharing link
  */
-class ShareLinkSettings extends ClientValueObject
+class ShareLinkSettings extends ClientValue
 {
     /**
      * Indicates 
@@ -123,4 +123,12 @@ class ShareLinkSettings extends ClientValueObject
      * @var bool
      */
     public $updatePassword;
+    /**
+     * @var integer
+     */
+    public $scope;
+    /**
+     * @var bool
+     */
+    public $trackLinkUsers;
 }

@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Specifies 
  * the properties of the new list item.
  */
-class ListItemCreationInformationUsingPath extends ClientValueObject
+class ListItemCreationInformationUsingPath extends ClientValue
 {
     
     public $FolderPath;

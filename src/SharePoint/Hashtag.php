@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.Hashtag 
  * is not applicable.<262>
  */
-class Hashtag extends ClientValueObject
+class Hashtag extends ClientValue
 {
     /**
      * @var string

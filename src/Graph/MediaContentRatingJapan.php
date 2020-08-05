@@ -5,7 +5,7 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class MediaContentRatingJapan extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class MediaContentRatingJapan extends ClientValue
 {
 }

@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class WorkbookFilterDatetime extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class WorkbookFilterDatetime extends ClientValue
 {
     /**
      * @var string

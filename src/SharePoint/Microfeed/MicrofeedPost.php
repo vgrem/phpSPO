@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Microfeed;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class MicrofeedPost extends ClientValueObject
+class MicrofeedPost extends ClientValue
 {
     /**
      * @var integer

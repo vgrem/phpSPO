@@ -5,7 +5,7 @@
 */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
-class OrganizationNewsSiteReference extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class OrganizationNewsSiteReference extends ClientValue
 {
 }

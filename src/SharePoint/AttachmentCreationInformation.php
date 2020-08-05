@@ -4,9 +4,9 @@
 namespace Office365\SharePoint;
 
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class AttachmentCreationInformation extends ClientValueObject
+class AttachmentCreationInformation extends ClientValue
 {
 
     /**

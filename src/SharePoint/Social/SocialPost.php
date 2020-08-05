@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Social;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class SocialPost extends ClientValueObject
+class SocialPost extends ClientValue
 {
     /**
      * @var SocialAttachment

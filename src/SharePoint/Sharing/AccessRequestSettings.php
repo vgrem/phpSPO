@@ -5,7 +5,7 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * This class 
  * returns the access request settings. It’s an optional property that can be 
@@ -13,7 +13,7 @@ use Office365\Runtime\ClientValueObject;
  * Microsoft.SharePoint.Client.Sharing.SecurableObjectExtensions.GetSharingInformation() 
  * call on a list item.
  */
-class AccessRequestSettings extends ClientValueObject
+class AccessRequestSettings extends ClientValue
 {
     /**
      * Boolean 

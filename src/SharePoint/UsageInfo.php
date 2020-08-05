@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class UsageInfo extends ClientValueObject
+class UsageInfo extends ClientValue
 {
     /**
      * Specifies 

@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Microsoft.SharePoint.Client.AppViewCreationInfo 
  * is not applicable.<250>
  */
-class AppViewCreationInfo extends ClientValueObject
+class AppViewCreationInfo extends ClientValue
 {
     /**
      * @var string

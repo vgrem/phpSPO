@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Taxonomy;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class TaxonomyFieldValue extends ClientValueObject
+class TaxonomyFieldValue extends ClientValue
 {
     /**
      * @var string

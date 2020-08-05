@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-05-24T10:00:39+00:00 16.0.20113.12008
+ * Updated By PHP Office365 Generator 2020-05-29T20:31:50+00:00 16.0.20120.12007
  */
 namespace Office365\SharePoint;
 
@@ -1180,5 +1180,22 @@ class View extends ClientObject
     public function setAssosciatedContentTypeId($value)
     {
         $this->setProperty("AssosciatedContentTypeId", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getAssociatedContentTypeId()
+    {
+        if (!$this->isPropertyAvailable("AssociatedContentTypeId")) {
+            return null;
+        }
+        return $this->getProperty("AssociatedContentTypeId");
+    }
+    /**
+     * @var string
+     */
+    public function setAssociatedContentTypeId($value)
+    {
+        $this->setProperty("AssociatedContentTypeId", $value, true);
     }
 }

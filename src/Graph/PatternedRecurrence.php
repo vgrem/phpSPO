@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class PatternedRecurrence extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class PatternedRecurrence extends ClientValue
 {
     /**
      * @var RecurrencePattern

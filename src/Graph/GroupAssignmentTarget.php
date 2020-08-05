@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class GroupAssignmentTarget extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class GroupAssignmentTarget extends ClientValue
 {
     /**
      * @var string

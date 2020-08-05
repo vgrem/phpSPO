@@ -5,13 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 /**
  * Contains 
  * CSS properties relating to how an individual field is layed out relative to 
  * it's container.
  */
-class VisualizationField extends ClientValueObject
+class VisualizationField extends ClientValue
 {
     /**
      * A Property 

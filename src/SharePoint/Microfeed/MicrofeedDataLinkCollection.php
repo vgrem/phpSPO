@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Microfeed;
 
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
-class MicrofeedDataLinkCollection extends ClientValueObject
+class MicrofeedDataLinkCollection extends ClientValue
 {
     /**
      * @var array

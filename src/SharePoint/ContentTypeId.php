@@ -2,12 +2,12 @@
 
 
 namespace Office365\SharePoint;
-use Office365\Runtime\ClientValueObject;
+use Office365\Runtime\ClientValue;
 
 /**
  * Represents the content type identifier (ID) of a content type.
  */
-class ContentTypeId extends ClientValueObject
+class ContentTypeId extends ClientValue
 {
 
     /**

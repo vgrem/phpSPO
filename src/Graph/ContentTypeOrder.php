@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class ContentTypeOrder extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class ContentTypeOrder extends ClientValue
 {
     /**
      * @var bool

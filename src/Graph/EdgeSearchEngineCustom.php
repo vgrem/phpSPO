@@ -5,8 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientValueObject;
-class EdgeSearchEngineCustom extends ClientValueObject
+use Office365\Runtime\ClientValue;
+class EdgeSearchEngineCustom extends ClientValue
 {
     /**
      * @var string
