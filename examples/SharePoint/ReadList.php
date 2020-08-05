@@ -9,7 +9,7 @@ use Office365\SharePoint\ListItem;
 
 $ctx = ClientContext::connectWithClientCredentials($Settings['Url'], $Settings['ClientId'], $Settings['ClientSecret']);
 
-$list = $ctx->getWeb()->getLists()->getByTitle("Tasks");
+$list = $ctx->getWeb()->getLists()->getByTitle("Documents");
 $items = $list->getItems();
 $ctx->load($items);
 $ctx->executeQuery();

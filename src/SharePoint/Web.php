@@ -2291,8 +2291,21 @@ class Web extends SecurableObject
     public function getAccessRequestsList()
     {
         if (!$this->isPropertyAvailable("AccessRequestsList")) {
-            $this->setProperty("AccessRequestsList", new SPList($this->getContext(), new ResourcePath("AccessRequestsList", $this->getResourcePath())));
+            $this->setProperty("AccessRequestsList", new SPList($this->getContext(),
+                new ResourcePath("AccessRequestsList", $this->getResourcePath())));
         }
         return $this->getProperty("AccessRequestsList");
+    }
+    /**
+     * @param string $url
+     * @return SPList
+     */
+    public function getList($url)
+    {
+        $qry = new InvokePostMethodQuery($this, "GetList",
+            array(rawurlencode($url)), null, null);
+        $list = new SPList($this->getContext(), $qry->getMethodPath());
+        $this->getContext()->addQueryAndResultObject($qry, $list);
+        return $list;
     }
 }

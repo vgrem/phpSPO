@@ -7,13 +7,36 @@ use Office365\SharePoint\SPList;
 
 class ListTest extends SharePointTestCase
 {
+    private static $listTitle;
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::$listTitle = "Orders_" . rand(1,100000);
+    }
+
 
     public function testIfListCreated()
     {
-        $listTitle = "Orders_" . rand(1,100000);
-        $list = self::ensureList(self::$context->getWeb(),$listTitle, ListTemplateType::Tasks);
-        $this->assertEquals($list->getTitle(),$listTitle);
+        $list = self::ensureList(self::$context->getWeb(),self::$listTitle, ListTemplateType::Tasks);
+        $this->assertEquals($list->getTitle(),self::$listTitle);
         return $list;
+    }
+
+    /**
+     * @depends testIfListCreated
+     * @param SPList $targetList
+     */
+    public function testGetListByUrl(SPList $targetList)
+    {
+        $listFolder = $targetList->getRootFolder();
+        self::$context->load($listFolder);
+        self::$context->executeQuery();
+
+        $list =  self::$context->getWeb()->getList($listFolder->getServerRelativeUrl());
+        self::$context->load($list);
+        self::$context->executeQuery();
+        $this->assertNotNull($list->getId());
     }
 
 
