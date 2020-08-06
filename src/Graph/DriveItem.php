@@ -33,10 +33,10 @@ class DriveItem extends BaseItem
         $driveItem = new DriveItem($this->getContext(), new ResourcePathUrl($name,$this->resourcePath));
         $qry = new InvokePostMethodQuery($driveItem, null,null,null,$content);
         $this->getContext()->addQueryAndResultObject($qry,$driveItem);
-        $this->getContext()->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request){
+        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function (RequestOptions $request){
             $request->Url .= "content";
             $request->Method = HttpMethod::Put;
-        },true);
+        });
         return $driveItem;
     }
 
@@ -48,11 +48,11 @@ class DriveItem extends BaseItem
      */
     public function download($handle){
         $qry = new InvokeMethodQuery($this);
-        $this->getContext()->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request) use ($handle){
+        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function (RequestOptions $request) use ($handle){
             $request->Url .= "/content";
             $request->StreamHandle = $handle;
             $request->FollowLocation = true;
-        },true);
+        });
         $this->getContext()->addQuery($qry);
     }
 
@@ -65,11 +65,11 @@ class DriveItem extends BaseItem
     public function convert($handle, $format)
     {
         $qry = new InvokeMethodQuery($this);
-        $this->getContext()->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request) use ($handle,$format){
+        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function (RequestOptions $request) use ($handle,$format){
             $request->Url .= "content?\$format=$format";
             $request->StreamHandle = $handle;
             $request->FollowLocation = true;
-        },true);
+        });
         $this->getContext()->addQuery($qry);
     }
 

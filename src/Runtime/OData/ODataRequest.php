@@ -40,8 +40,8 @@ class ODataRequest extends ClientRequest
      * @return RequestOptions
      */
     protected function buildRequest(){
-        $this->currentQuery = array_shift($this->queries);
-        return $this->buildSingleRequest($this->currentQuery);
+        $qry = $this->context->getCurrentQuery();
+        return $this->buildSingleRequest($qry);
     }
 
     /**
@@ -144,12 +144,14 @@ class ODataRequest extends ClientRequest
      */
     public function processResponse($response)
     {
+        $current_qry = $this->context->getCurrentQuery();
+
         $content = $response->getContent();
         if (empty($content)) {
             return;
         }
 
-        $resultObject = $this->currentQuery->ReturnType;
+        $resultObject = $current_qry->ReturnType;
         if (is_null($resultObject)) {
             return;
         }
@@ -283,33 +285,6 @@ class ODataRequest extends ClientRequest
 
 
     /**
-     * Extract error from JSON payload response
-     * @param $payload array
-     * @return string|null
-     */
-    private function parseError($payload)
-    {
-        foreach ($payload as $key=> $value){
-            if(is_array($value)){
-                return $this->parseError($value);
-            }
-            if($key === "message" || $key === "value")
-                return $value;
-        }
-        return null;
-    }
-
-
-    /**
-     * @return ClientAction
-     */
-    public function getCurrentQuery()
-    {
-        return $this->currentQuery;
-    }
-
-
-    /**
      * @return ODataFormat
      */
     public function getFormat()
@@ -321,11 +296,4 @@ class ODataRequest extends ClientRequest
      * @var ODataFormat
      */
     private $format;
-
-
-    /**
-     * @var ClientAction
-     */
-    protected $currentQuery = array();
-
 }

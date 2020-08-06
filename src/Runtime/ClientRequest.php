@@ -63,6 +63,14 @@ abstract class ClientRequest
         $this->requestStatus = ClientRequestStatus::Active;
     }
 
+
+    /**
+     * @return ClientAction
+     */
+    public function getNextQuery(){
+        return array_shift($this->queries);
+    }
+
     /**
      * Add query into request queue
      * @param ClientAction $query
@@ -85,17 +93,26 @@ abstract class ClientRequest
 
     /**
      * @param callable $event
-     * @param bool $once
+     * @param bool $toBegin
      */
-    public function beforeExecuteQuery(callable $event,$once=false)
+    public function beforeExecuteRequest(callable $event, $toBegin=false)
     {
-        $this->beforeExecute->addEvent($event,$once);
+        $this->beforeExecute->addEvent($event,false,$toBegin);
+    }
+
+    /**
+     * @param callable $event
+     * @param false $toBegin
+     */
+    public function beforeExecuteRequestOnce(callable $event, $toBegin=false)
+    {
+        $this->beforeExecute->addEvent($event,true,$toBegin);
     }
 
     /**
      * @param callable $event
      */
-    public function afterExecuteQuery(callable $event)
+    public function afterExecuteRequest(callable $event)
     {
         $this->afterExecute->addEvent($event,true);
     }

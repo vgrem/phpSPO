@@ -24,9 +24,9 @@ class ProfilePhoto extends ClientObject
     {
         $qry = new InvokeMethodQuery($this,"\$value");
         $this->getContext()->addQuery($qry);
-        $this->getContext()->getPendingRequest()->beforeExecuteQuery(function ($request) use ($handle){
+        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function ($request) use ($handle){
             $request->StreamHandle = $handle;
-        },true);
+        });
     }
 
 

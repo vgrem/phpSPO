@@ -9,31 +9,30 @@ class EventHandler
     /**
      * @var array
      */
-    protected $eventsList = array();
-    protected $event;
+    protected $events = array();
 
     /**
-     * @param callable $event
+     * @param callable $callback
      * @param bool $once
+     * @param bool $toBegin
      */
-    public function addEvent(callable $event, $once=false)
+    public function addEvent(callable $callback, $once=false, $toBegin=false)
     {
-        if($once)
-            $this->event = $event;
+        if($toBegin)
+            array_unshift($this->events , array("target" => $callback, "once" => $once));
         else
-            $this->eventsList[] = $event;
+            $this->events[] = array("target" => $callback, "once" => $once);
     }
 
     /**
      * @param array $params
      */
     public function triggerEvent($params){
-        foreach ($this->eventsList as $e){
-            call_user_func_array($e, $params);
-        }
-        if (is_callable($this->event)) {
-            call_user_func_array($this->event, $params);
-            $this->event = null;
+        foreach ($this->events as $i => $e){
+            call_user_func_array($e["target"], $params);
+            if($e["once"]){
+                unset($this->events[$i]);
+            }
         }
     }
 

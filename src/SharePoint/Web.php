@@ -59,6 +59,26 @@ class Web extends SecurableObject
         $context->addQueryAndResultObject($qry, $result);
         return $result;
     }
+
+    /**
+     * Resolves site by absolute url
+     * @param ClientContext $ctx
+     * @param string $absUrl
+     * @return ClientResult
+     */
+    public static function getWebUrlFromPageUrl(ClientContext $ctx, $absUrl)
+    {
+        $result = new ClientResult();
+        $qry = new InvokePostMethodQuery($ctx->getWeb(),
+            "GetWebUrlFromPageUrl",
+            null,
+            null,
+            array("pageFullUrl" => $absUrl));
+        $qry->IsStatic = true;
+        $ctx->addQueryAndResultObject($qry, $result);
+        return $result;
+    }
+
     public function update()
     {
         $qry = new UpdateEntityQuery($this);

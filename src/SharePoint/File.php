@@ -43,7 +43,7 @@ class File extends SecurableObject
             $this->constructDownloadQuery($this->getServerRelativeUrl(),$handle);
         } else {
             $this->getContext()->load($this, array("ServerRelativeUrl"));
-            $this->getContext()->getPendingRequest()->afterExecuteQuery(function () use ($handle) {
+            $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use ($handle) {
                 $this->constructDownloadQuery($this->getServerRelativeUrl(), $handle);
             });
         }
@@ -57,9 +57,9 @@ class File extends SecurableObject
         $url = rawurlencode($url);
         $qry = new InvokeMethodQuery($this->getParentWeb(), "getFileByServerRelativeUrl('{$url}')/\$value");
         $this->getContext()->addQuery($qry);
-        $this->getContext()->getPendingRequest()->beforeExecuteQuery(function ($request) use ($handle){
+        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function ($request) use ($handle){
             $request->StreamHandle = $handle;
-        },true);
+        });
     }
 
     /**

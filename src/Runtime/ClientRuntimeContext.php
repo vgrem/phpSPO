@@ -8,7 +8,6 @@ use Office365\Runtime\Http\Response;
 use Office365\Runtime\Http\RequestOptions;
 
 
-
 /**
  * Generic runtime context
  */
@@ -29,7 +28,7 @@ abstract class ClientRuntimeContext
     /**
      * @var IAuthenticationContext
      */
-    private $authContext;
+    protected $authContext;
 
 
 
@@ -38,12 +37,18 @@ abstract class ClientRuntimeContext
      */
     public $RequestSchemaVersion;
 
+
+    /**
+     * @var ClientAction
+     */
+    protected $currentQuery = array();
+
     /**
      * @param string $serviceUrl
      * @param IAuthenticationContext $authContext
      * @param string $version
      */
-    public function __construct($serviceUrl, IAuthenticationContext $authContext, $version = Office365Version::V1)
+    public function __construct($serviceUrl, IAuthenticationContext $authContext=null, $version = Office365Version::V1)
     {
         $this->version = $version;
         $this->serviceRootUrl = $serviceUrl;
@@ -65,6 +70,14 @@ abstract class ClientRuntimeContext
     public function getServiceRootUrl()
     {
         return $this->serviceRootUrl;
+    }
+
+
+    /**
+     * @return ClientAction
+     */
+    public function getCurrentQuery(){
+        return $this->currentQuery;
     }
 
 
@@ -123,6 +136,7 @@ abstract class ClientRuntimeContext
     public function executeQuery()
     {
         while ($this->hasPendingRequest()) {
+            $this->currentQuery = $this->getPendingRequest()->getNextQuery();
             $this->getPendingRequest()->executeQuery();
         }
     }

@@ -4,7 +4,9 @@ namespace Office365\SharePoint;
 
 use Exception;
 use Office365\Runtime\Auth\AuthenticationContext;
+use Office365\Runtime\Auth\ClientCredential;
 use Office365\Runtime\Auth\IAuthenticationContext;
+use Office365\Runtime\Auth\UserCredentials;
 use Office365\Runtime\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\OData\ODataRequest;
@@ -41,18 +43,40 @@ class ClientContext extends ClientRuntimeContext
     private $pendingRequest;
 
     /**
+     * @var string
+     */
+    private $baseUrl;
+
+    /**
      * ClientContext constructor.
-     * @param string $serviceUrl
+     * @param string $url Site or Web url
      * @param IAuthenticationContext $authCtx
      */
-    public function __construct($serviceUrl, IAuthenticationContext $authCtx)
+    public function __construct($url, IAuthenticationContext $authCtx=null)
     {
-        $serviceRootUrl = $serviceUrl . '/_api/';
-        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request) {
+        $this->baseUrl = $url;
+        $this->getPendingRequest()->beforeExecuteRequest(function (RequestOptions $request) {
             $this->buildSharePointSpecificRequest($request);
         });
-        parent::__construct($serviceRootUrl,$authCtx);
+        parent::__construct($url . '/_api/',$authCtx);
     }
+
+    /**
+     * Initializes SharePoint context from absolute Url
+     * @param string $absUrl
+     * @return ClientContext
+     */
+    public static function fromUrl($absUrl){
+        $urlInfo = parse_url($absUrl);
+        $rootSiteUrl =  $urlInfo['scheme'] . '://' . $urlInfo['host'];
+        $ctx = new ClientContext($rootSiteUrl);
+        $result = Web::getWebUrlFromPageUrl($ctx, $absUrl);
+        $ctx->getPendingRequest()->afterExecuteRequest(function () use($ctx, $result){
+            $ctx->baseUrl = $result->getValue();
+        });
+        return $ctx;
+    }
+
 
     /**
      * @return ODataRequest
@@ -65,6 +89,23 @@ class ClientContext extends ClientRuntimeContext
         return $this->pendingRequest;
     }
 
+    /**
+     * Creates authenticated SharePoint context via user or client credentials
+     * @param ClientCredential|UserCredentials $credential
+     * @return ClientContext
+     */
+    public function withCredentials($credential)
+    {
+        $this->authContext = new AuthenticationContext($this->baseUrl);
+        $this->getPendingRequest()->beforeExecuteRequestOnce(function () use($credential) {
+            if ($credential instanceof UserCredentials)
+                $this->authContext->acquireTokenForUser($credential->Username, $credential->Password);
+            elseif ($credential instanceof ClientCredential)
+                $this->authContext->acquireAppOnlyAccessToken($credential->ClientId, $credential->ClientSecret);
+        },true);
+        return $this;
+    }
+
 
     /**
      * @param string $url
@@ -75,9 +116,9 @@ class ClientContext extends ClientRuntimeContext
      */
     public static function connectWithUserCredentials($url,$username,$password)
     {
-        $authCtx = new AuthenticationContext($url);
-        $authCtx->acquireTokenForUser($username,$password);
-        return new ClientContext($url,$authCtx);
+        $ctx = new ClientContext($url);
+        $ctx->withCredentials(new UserCredentials($username, $password))->executeQuery();
+        return $ctx;
     }
 
 
@@ -132,7 +173,7 @@ class ClientContext extends ClientRuntimeContext
      */
     private function buildSharePointSpecificRequest(RequestOptions $request){
 
-        $query = $this->pendingRequest->getCurrentQuery();
+        $query = $this->getCurrentQuery();
         if($request->Method === HttpMethod::Post) {
             $this->ensureFormDigest($request);
         }

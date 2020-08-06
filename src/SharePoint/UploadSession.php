@@ -55,9 +55,9 @@ class UploadSession
 
 
         if($chunkUploaded) {
-            $ctx->getPendingRequest()->afterExecuteQuery(function (Response $response) use($chunkUploaded,$ctx)
+            $ctx->getPendingRequest()->afterExecuteRequest(function (Response $response) use($chunkUploaded,$ctx)
             {
-                $query = $ctx->getPendingRequest()->getCurrentQuery();
+                $query = $ctx->getCurrentQuery();
                 $returnType = $query->ReturnType;
 
                 if($returnType instanceof ClientResult){

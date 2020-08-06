@@ -38,7 +38,7 @@ class OutlookClient extends ClientRuntimeContext
         $authorityUrl = OAuthTokenProvider::$AuthorityUrl . $tenant;
         $authContext = new AuthenticationContext($authorityUrl);
         call_user_func($acquireToken, $authContext);
-        $this->getPendingRequest()->beforeExecuteQuery(function (RequestOptions $request){
+        $this->getPendingRequest()->beforeExecuteRequest(function (RequestOptions $request){
             $this->prepareRequest($request);
         });
         parent::__construct($this->serviceRootUrl, $authContext, $version);
@@ -64,7 +64,7 @@ class OutlookClient extends ClientRuntimeContext
      */
     private function prepareRequest(RequestOptions $request)
     {
-        $query = $this->pendingRequest->getCurrentQuery();
+        $query = $this->getCurrentQuery();
         //set data modification headers
         if ($query instanceof UpdateEntityQuery) {
             $request->Method = HttpMethod::Patch;

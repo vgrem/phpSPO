@@ -10,6 +10,15 @@ use Office365\SharePoint\Web;
 class WebTest extends SharePointTestCase
 {
 
+    public function testGetWebByAbsUrl()
+    {
+        $settings = include(__DIR__ . '/../../Settings.php');
+        $pageAbsUrl = $settings["Url"] . "/sites/team/SitePages/Home.aspx";
+        $result = Web::getWebUrlFromPageUrl(self::$context,$pageAbsUrl);
+        self::$context->executeQuery();
+        self::assertNotEmpty($result->getValue());
+    }
+
     public function testGetWebGroups()
     {
         $groups = self::$context->getWeb()->getRoleAssignments()->getGroups();
