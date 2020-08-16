@@ -17,7 +17,7 @@ class SamlTokenProvider extends BaseTokenProvider
 {
 
     /**
-     * External Security Token Service for O365
+     * External Security Token Service
      * @var string
      */
     private static $StsUrl = 'https://login.microsoftonline.com/extSTS.srf';
@@ -46,7 +46,7 @@ class SamlTokenProvider extends BaseTokenProvider
      * Boolean to determine whether the system is using Federated STS or not.
      * @var
      */
-    protected $usingFederatedSTS;
+    protected $useFederatedSTS;
 
     /**
      * Form Url to submit SAML token if Federated STS is set.
@@ -55,70 +55,41 @@ class SamlTokenProvider extends BaseTokenProvider
     private static $IDCRLSVCPageUrl = '/_vti_bin/idcrl.svc/';
 
 
-
-  /**
+    /**
      * @var string
      */
     protected $authorityUrl;
 
 
-    /**
-     * Office365 Auth cookie
-     * @var mixed
-     */
-    private $FedAuth;
-
-    /**
-     * Office365 Auth cookie
-     * @var mixed
-     */
-    private $rtFa;
-
-    /**
-     * Federated STS Auth Cookie
-     * @var
-     */
-    private $SPOIDCRL;
-
-
     public function __construct($authorityUrl)
     {
         $this->authorityUrl = $authorityUrl;
-        $this->usingFederatedSTS = FALSE;
-    }
-
-
-    public function getAuthenticationCookie()
-    {
-        if ($this->usingFederatedSTS) {
-            return 'SPOIDCRL=' . $this->SPOIDCRL;
-        }
-
-        return 'FedAuth=' . $this->FedAuth . '; rtFa=' . $this->rtFa;
+        $this->useFederatedSTS = false;
     }
 
 
     /**
-     * @param $parameters
+     * @param array $parameters
+     * @return string
      * @throws Exception
      */
     public function acquireToken($parameters)
     {
-        $token = $this->acquireSecurityToken($parameters['username'], $parameters['password']);
-        $this->acquireAuthenticationCookies($token);
+        return $this->acquireSecurityToken($parameters['username'], $parameters['password']);
     }
 
 
     /**
-     * Acquire SharePoint Online authentication (FedAuth and rtFa) cookies
+     * Acquire SharePoint Online authentication cookies
      * @param mixed $token
+     * @return array
      * @throws Exception
      */
-    protected function acquireAuthenticationCookies($token)
+    public function acquireAuthenticationCookies($token)
     {
         $hostInfo = parse_url($this->authorityUrl);
         $url =  $hostInfo['scheme'] . '://' . $hostInfo['host'] . self::$SignInPageUrl;
-        if ($this->usingFederatedSTS) {
+        if ($this->useFederatedSTS) {
             $url =  $hostInfo['scheme'] . '://' . $hostInfo['host'] . self::$IDCRLSVCPageUrl;
 
             $headers = array();
@@ -128,14 +99,11 @@ class SamlTokenProvider extends BaseTokenProvider
             $headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
             $response = Requests::head($url,$headers,true);
-            $cookies = Requests::parseCookies($response->getContent());
-            $this->SPOIDCRL = $cookies['SPOIDCRL'];
+            return Requests::parseCookies($response->getContent());
         }
         else {
             $response = Requests::post($url,null,$token,true);
-            $cookies = Requests::parseCookies($response->getContent());
-            $this->FedAuth = $cookies['FedAuth'];
-            $this->rtFa = $cookies['rtFa'];
+            return Requests::parseCookies($response->getContent());
         }
     }
 
@@ -189,7 +157,7 @@ class SamlTokenProvider extends BaseTokenProvider
             $samlAssertion_node = $samlAssertion->item(0);
             $data = $this->prepareRST2Request($samlAssertion_node);
             $response = Requests::post(self::$RST2Url, $headers, $data);
-            $this->usingFederatedSTS = TRUE;
+            $this->useFederatedSTS = TRUE;
             return $response;
           }
         }
@@ -283,10 +251,10 @@ class SamlTokenProvider extends BaseTokenProvider
     /**
      * Construct the request body to acquire security token from Federated STS endpoint (sts.yourcompany.com)
      *
-     * @param $username
-     * @param $password
-     * @param $message_uuid
-     * @param $federated_sts_url
+     * @param string $username
+     * @param string $password
+     * @param string $message_uuid
+     * @param string $federated_sts_url
      * @return string
      * @throws Exception
      */

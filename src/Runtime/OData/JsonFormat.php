@@ -41,7 +41,6 @@ class JsonFormat extends ODataFormat
                 break;
             default:
                 throw  new Exception("Unsupported metadata");
-                break;
         }
         return "application/json;OData.metadata={$metadataValue};OData.streaming={$streamingValue};IEEE754Compatible={$IEEE754CompatibleValue}";
     }
@@ -75,10 +74,5 @@ class JsonFormat extends ODataFormat
      */
     public $CollectionTag;
 
-
-    /**
-     * @var string
-     */
-    public $NamespaceTag;
 
 }

@@ -27,7 +27,7 @@ class InvokeMethodQuery extends ClientAction
     {
         if ($this->MethodName) {
             if($this->IsStatic){
-                $staticMethodName = implode(".", array("SP", $this->BindingType->getTypeName(), $this->MethodName));
+                $staticMethodName = implode(".", array("SP", $this->BindingType->getServerTypeName(), $this->MethodName));
                 return new ResourcePathServiceOperation($staticMethodName,
                     $this->MethodParameters);
             }

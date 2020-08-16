@@ -34,6 +34,18 @@ class File extends SecurableObject
 {
 
     /**
+     * Resolves File from absolute Url
+     * @param string $absUrl
+     * @return File
+     */
+    public static function fromUrl($absUrl){
+        $ctx = ClientContext::fromUrl($absUrl);
+        $fileRelUrl = str_replace($ctx->getBaseUrl(), "",  $absUrl);
+        return $ctx->getWeb()->getFileByServerRelativeUrl($fileRelUrl);
+    }
+
+
+    /**
      * Downloads file content
      * @param resource $handle
      */
@@ -957,10 +969,7 @@ class File extends SecurableObject
      */
     private function getParentWeb()
     {
-        if($this->context instanceof ClientContext){
-            return $this->context->getWeb();
-        }
-        return null;
+        return $this->getContext()->getWeb();
     }
 
 }

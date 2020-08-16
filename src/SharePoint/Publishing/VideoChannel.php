@@ -51,9 +51,9 @@ class VideoChannel extends ClientObject
     {
         return new VideoCollection($this->getContext(), new ResourcePath("Videos", $this->getResourcePath()));
     }
-    public function getTypeName()
+    public function getServerTypeName()
     {
-        return implode(".", array("SP", "Publishing", parent::getTypeName()));
+        return implode(".", array("SP", "Publishing", parent::getServerTypeName()));
     }
     /**
      * @return bool

@@ -25,16 +25,15 @@ class GraphServiceClient extends ClientRuntimeContext
      */
     public function __construct($tenant, callable $acquireToken)
     {
-        $serviceRootUrl = "https://graph.microsoft.com/" . Office365Version::V1 . "/";
         $authorityUrl = OAuthTokenProvider::$AuthorityUrl . $tenant;
-        $authContext = new AuthenticationContext($authorityUrl);
-        call_user_func($acquireToken, $authContext);
-        $this->getPendingRequest()->beforeExecuteRequest(
-            function (RequestOptions $request) {
-                $this->prepareRequest($request);
-            });
-        parent::__construct($serviceRootUrl, $authContext, new JsonFormat(ODataMetadataLevel::Verbose));
+        $authContext = new AuthenticationContext($authorityUrl, $acquireToken);
+        $this->getPendingRequest()->beforeExecuteRequest(function (RequestOptions $request) {
+            $this->prepareRequest($request);
+        });
+        parent::__construct($authContext);
     }
+
+
 
 
     /**
@@ -90,6 +89,16 @@ class GraphServiceClient extends ClientRuntimeContext
             return new UserCollection($this,new ResourcePath($userPrincipalNameOrId,new ResourcePath("users")));
         return new UserCollection($this,new ResourcePath("users"));
     }
+
+
+    /**
+     * @return string
+     */
+    public function getServiceRootUrl()
+    {
+        return "https://graph.microsoft.com/" . Office365Version::V1 . "/";
+    }
+
 
     /**
      * @var ODataRequest $pendingRequest

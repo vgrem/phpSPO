@@ -53,9 +53,9 @@ class VideoItem extends ClientObject
         }
         parent::setProperty($name, $value, $persistChanges);
     }
-    public function getTypeName()
+    public function getServerTypeName()
     {
-        return implode(".", array("SP", "Publishing", parent::getTypeName()));
+        return implode(".", array("SP", "Publishing", parent::getServerTypeName()));
     }
     /**
      * @return string

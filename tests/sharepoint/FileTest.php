@@ -3,6 +3,7 @@
 namespace Office365;
 
 use DateTime;
+use Office365\Runtime\Auth\UserCredentials;
 use Office365\SharePoint\File;
 use Office365\SharePoint\ListTemplateType;
 use Office365\SharePoint\SPList;
@@ -14,7 +15,6 @@ class FileTest extends SharePointTestCase
      * @var SPList
      */
     private static $targetList;
-
 
 
     public static function setUpBeforeClass()
@@ -30,6 +30,16 @@ class FileTest extends SharePointTestCase
         self::$context->executeQuery();
         parent::tearDownAfterClass();
     }
+
+
+    public function testGetFileFromAbsUrl(){
+        $settings = include(__DIR__ . '/../../Settings.php');
+        $pageAbsUrl = $settings["Url"] . "/sites/team/SitePages/Home.aspx";
+        $credentials = new UserCredentials($settings['UserName'],$settings['Password']);
+        $file = File::fromUrl($pageAbsUrl)->withCredentials($credentials)->get()->executeQuery();
+        self::assertNotEmpty($file->getName());
+    }
+
 
     public function testUploadFiles(){
         $localPath = __DIR__ . "/../../examples/data/";

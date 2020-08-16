@@ -38,7 +38,7 @@ class ClientValue
     /**
      * @return mixed|string
      */
-    public function getTypeName()
+    public function getServerTypeName()
     {
         if(!isset($this->typeName)){
             $typeInfo = explode("\\",get_class($this));

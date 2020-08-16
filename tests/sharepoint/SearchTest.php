@@ -2,21 +2,20 @@
 
 namespace Office365;
 
-use Office365\SharePoint\Search\Query\KeywordQuery;
-use Office365\SharePoint\Search\Query\SearchExecutor;
+use Office365\SharePoint\Search\SearchRequest;
+use Office365\SharePoint\Search\SearchService;
 
 class SearchTest extends SharePointTestCase
 {
 
     public function testIfSiteLoaded()
     {
-        //Experimental!
-        $keywordQuery = new KeywordQuery(self::$context);
-        $keywordQuery->QueryText = "sharepoint";
-        $searchExecutor = new SearchExecutor(self::$context);
-        //$results = $searchExecutor->executeQuery($keywordQuery);
+        $request = new SearchRequest();
+        $request->Querytext = "guide.docx";
+        $searchService = new SearchService(self::$context);
+        $result = $searchService->postQuery($request);
         self::$context->executeQuery();
-        $this->assertNotNull($keywordQuery);
+        $this->assertNotNull($result->{"PrimaryQueryResult"});
     }
 
 }

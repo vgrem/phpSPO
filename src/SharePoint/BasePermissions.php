@@ -58,5 +58,4 @@ class BasePermissions extends ClientValue
         $this->High = 0;
     }
 
-
 }

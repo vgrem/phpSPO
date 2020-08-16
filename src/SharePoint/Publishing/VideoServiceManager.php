@@ -6,14 +6,14 @@
 namespace Office365\SharePoint\Publishing;
 
 use Office365\Runtime\ClientObject;
-use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\ResourcePath;
+use Office365\SharePoint\ClientContext;
 
 class VideoServiceManager extends ClientObject
 {
-    public function __construct(ClientRuntimeContext $ctx, $videoPortalUrl)
+    public function __construct(ClientContext $ctx, $videoPortalUrl)
     {
-        $ctx->setServiceRootUrl($videoPortalUrl . "/_api/");
+        $ctx->setBaseUrl($videoPortalUrl);
         parent::__construct($ctx, new ResourcePath("VideoService"));
     }
     /**

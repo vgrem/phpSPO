@@ -6,7 +6,6 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\InvokePostMethodQuery;
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 /**
  * An object 
@@ -14,7 +13,7 @@ use Office365\Runtime\ResourcePath;
  * default 
  * scalar property set for this type.
  */
-class SecurableObject extends ClientObject
+class SecurableObject extends BaseEntity
 {
     /**
      * Creates unique role assignments for the securable object.

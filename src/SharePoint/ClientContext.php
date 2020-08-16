@@ -58,8 +58,9 @@ class ClientContext extends ClientRuntimeContext
         $this->getPendingRequest()->beforeExecuteRequest(function (RequestOptions $request) {
             $this->buildSharePointSpecificRequest($request);
         });
-        parent::__construct($url . '/_api/',$authCtx);
+        parent::__construct($authCtx);
     }
+
 
     /**
      * Initializes SharePoint context from absolute Url
@@ -96,13 +97,14 @@ class ClientContext extends ClientRuntimeContext
      */
     public function withCredentials($credential)
     {
-        $this->authContext = new AuthenticationContext($this->baseUrl);
-        $this->getPendingRequest()->beforeExecuteRequestOnce(function () use($credential) {
+        $this->authContext = new AuthenticationContext($this->baseUrl,function (AuthenticationContext  $authCtx) use($credential) {
             if ($credential instanceof UserCredentials)
-                $this->authContext->acquireTokenForUser($credential->Username, $credential->Password);
+                $authCtx->acquireTokenForUser($credential->Username, $credential->Password);
             elseif ($credential instanceof ClientCredential)
-                $this->authContext->acquireAppOnlyAccessToken($credential->ClientId, $credential->ClientSecret);
-        },true);
+                $authCtx->acquireAppOnlyAccessToken($credential->ClientId, $credential->ClientSecret);
+            else
+                throw new Exception("Unknown credentials");
+        });
         return $this;
     }
 
@@ -116,9 +118,9 @@ class ClientContext extends ClientRuntimeContext
      */
     public static function connectWithUserCredentials($url,$username,$password)
     {
-        $ctx = new ClientContext($url);
-        $ctx->withCredentials(new UserCredentials($username, $password))->executeQuery();
-        return $ctx;
+        $authContext = new AuthenticationContext($url);
+        $authContext->acquireTokenForUser($username, $password);
+        return new ClientContext($url,$authContext);
     }
 
 
@@ -216,5 +218,26 @@ class ClientContext extends ClientRuntimeContext
     public function getContextWebInformation()
     {
         return $this->contextWebInformation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseUrl()
+    {
+        return $this->baseUrl;
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setBaseUrl($value)
+    {
+        $this->baseUrl = $value;
+    }
+
+    public function getServiceRootUrl()
+    {
+        return  "$this->baseUrl/_api/";
     }
 }

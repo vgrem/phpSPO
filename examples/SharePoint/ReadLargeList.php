@@ -3,9 +3,11 @@
 require_once '../vendor/autoload.php';
 $Settings = include('../../Settings.php');
 
+use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ClientContext;
 
-$ctx = ClientContext::connectWithClientCredentials($Settings['Url'], $Settings['ClientId'], $Settings['ClientSecret']);
+$credentials = new ClientCredential($Settings['ClientId'], $Settings['ClientSecret']);
+$ctx = (new ClientContext($Settings['Url']))->withCredentials($credentials);
 
 $list = $ctx->getWeb()->getLists()->getByTitle("Contacts_Large");
 $items = $list->getItems();

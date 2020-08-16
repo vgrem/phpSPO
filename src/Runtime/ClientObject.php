@@ -66,6 +66,24 @@ class ClientObject
 
 
     /**
+     * @param ClientObject $clientObject
+     * @param array|null $selectProperties
+     * @return $this
+     */
+    public function load(ClientObject $clientObject, array $selectProperties = null){
+        $this->context->load($clientObject,$selectProperties);
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function executeQuery(){
+        $this->context->executeQuery();
+        return $this;
+    }
+
+    /**
      * @return ODataQueryOptions
      */
     public function getQueryOptions()
@@ -109,7 +127,6 @@ class ClientObject
         }
         $this->parentCollection->removeChild($this);
     }
-
 
 
     /**
@@ -161,10 +178,10 @@ class ClientObject
 
 
     /**
-     * Gets entity type name for a resource
+     * Gets entity type name
      * @return string
      */
-    public function getTypeName()
+    public function getServerTypeName()
     {
         if (isset($this->typeName)) {
             return $this->typeName;

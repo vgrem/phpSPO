@@ -6,6 +6,10 @@ namespace Office365\Runtime\Auth;
 
 abstract class BaseTokenProvider
 {
-     public abstract function acquireToken($parameters);
+    /**
+     * @param array $tokenParameters
+     * @return mixed
+     */
+     public abstract function acquireToken($tokenParameters);
      
 }

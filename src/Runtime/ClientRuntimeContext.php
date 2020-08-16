@@ -13,17 +13,6 @@ use Office365\Runtime\Http\RequestOptions;
  */
 abstract class ClientRuntimeContext
 {
-    /**
-     * Service Root url
-     * @var string
-     */
-    private $serviceRootUrl;
-
-    /**
-     * Service version
-     * @var string
-     */
-    private $version;
 
     /**
      * @var IAuthenticationContext
@@ -43,15 +32,12 @@ abstract class ClientRuntimeContext
      */
     protected $currentQuery = array();
 
+
     /**
-     * @param string $serviceUrl
      * @param IAuthenticationContext $authContext
-     * @param string $version
      */
-    public function __construct($serviceUrl, IAuthenticationContext $authContext=null, $version = Office365Version::V1)
+    public function __construct(IAuthenticationContext $authContext=null)
     {
-        $this->version = $version;
-        $this->serviceRootUrl = $serviceUrl;
         $this->authContext = $authContext;
     }
 
@@ -67,10 +53,7 @@ abstract class ClientRuntimeContext
      * Gets the service root URL that identifies the root of an OData service
      * @return string
      */
-    public function getServiceRootUrl()
-    {
-        return $this->serviceRootUrl;
-    }
+    public abstract function getServiceRootUrl();
 
 
     /**
@@ -78,24 +61,6 @@ abstract class ClientRuntimeContext
      */
     public function getCurrentQuery(){
         return $this->currentQuery;
-    }
-
-
-    /**
-     * @param $url string
-     */
-    public function setServiceRootUrl($url)
-    {
-        $this->serviceRootUrl = $url;
-    }
-
-    /**
-     * Gets the api version being used
-     * @return string
-     */
-    public function getApiVersion()
-    {
-        return $this->version;
     }
 
     /**

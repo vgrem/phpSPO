@@ -21,8 +21,7 @@ abstract class GraphTestCase extends TestCase
     {
         $settings = include(__DIR__ . '/../../Settings.php');
         self::$graphClient = new GraphServiceClient($settings['TenantName'], function (AuthenticationContext $authCtx) use ($settings) {
-            self::acquireToken($authCtx, $settings['ClientId'], $settings['UserName'], $settings['Password']);
-        });
+            self::acquireToken($authCtx, $settings['ClientId'], $settings['UserName'], $settings['Password']);        });
     }
 
     public static function tearDownAfterClass()

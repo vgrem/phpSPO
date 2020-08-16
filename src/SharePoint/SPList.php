@@ -183,7 +183,7 @@ class SPList extends SecurableObject
         }
         return $this->getProperty("ParentWeb");
     }
-    public function getTypeName()
+    public function getServerTypeName()
     {
         return "SP.List";
     }

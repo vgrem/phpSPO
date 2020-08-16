@@ -41,7 +41,7 @@ class ClientContextTest extends SharePointTestCase
     }
 
 
-    public function testInitFromAbsUrl(){
+    public function testInitClientFromAbsUrl(){
         $settings = include(__DIR__ . '/../../Settings.php');
         $pageAbsUrl = $settings["Url"] . "/sites/team/SitePages/Home.aspx";
         $credentials = new UserCredentials($settings['UserName'],$settings['Password']);

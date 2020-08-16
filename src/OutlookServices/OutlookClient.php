@@ -21,10 +21,6 @@ use Office365\Runtime\Http\RequestOptions;
  */
 class OutlookClient extends ClientRuntimeContext
 {
-    /**
-     * @var ODataRequest
-     */
-    private $pendingRequest;
 
     /**
      * @param string $tenant
@@ -34,14 +30,12 @@ class OutlookClient extends ClientRuntimeContext
     public function __construct($tenant, callable $acquireToken, $version = Office365Version::V1)
     {
         $this->version = $version;
-        $this->serviceRootUrl = $this->serviceRootUrl . $version . "/";
         $authorityUrl = OAuthTokenProvider::$AuthorityUrl . $tenant;
-        $authContext = new AuthenticationContext($authorityUrl);
-        call_user_func($acquireToken, $authContext);
+        $authContext = new AuthenticationContext($authorityUrl, $acquireToken);
         $this->getPendingRequest()->beforeExecuteRequest(function (RequestOptions $request){
             $this->prepareRequest($request);
         });
-        parent::__construct($this->serviceRootUrl, $authContext, $version);
+        parent::__construct($authContext);
     }
 
 
@@ -52,7 +46,6 @@ class OutlookClient extends ClientRuntimeContext
     {
         if(!$this->pendingRequest){
             $format = new JsonFormat(ODataMetadataLevel::Verbose);
-            $format->NamespaceTag = "#Microsoft.OutlookServices";
             $this->pendingRequest = new ODataRequest($this,$format);
         }
         return $this->pendingRequest;
@@ -104,16 +97,32 @@ class OutlookClient extends ClientRuntimeContext
     }
 
 
+    public function getServiceRootUrl()
+    {
+        return "https://outlook.office365.com/api/$this->version/";
+    }
+
 
     /**
+     * Service version
      * @var string
      */
-    private $serviceRootUrl = "https://outlook.office365.com/api/";
+    private $version;
 
     /**
-     * @var string
+     * @var ODataRequest
      */
-    public $version;
+    private $pendingRequest;
+
+
+    /**
+     * Gets the api version being used
+     * @return string
+     */
+    public function getApiVersion()
+    {
+        return $this->version;
+    }
 
     /**
      * @var User

@@ -7,7 +7,6 @@ use Exception;
 use Office365\Runtime\Http\RequestOptions;
 
 
-
 /**
  * Authentication context for Azure AD STS
  *
@@ -25,34 +24,38 @@ class AuthenticationContext implements IAuthenticationContext
     private $authorityUrl;
 
     /**
+     * @var callable|null
+     */
+    private $acquireToken;
+
+    /**
+     * @var array
+     */
+    private $accessToken;
+
+    /**
+     * @var array
+     */
+    private $authCookies;
+
+
+    /**
      * AuthenticationContext constructor.
      * @param string $authorityUrl
+     * @param callable|null $acquireToken
      */
-    public function __construct($authorityUrl)
+    public function __construct($authorityUrl, callable $acquireToken=null)
     {
         $this->authorityUrl = $authorityUrl;
+        $this->acquireToken = $acquireToken;
     }
 
     /**
-     * Gets URL of the authorize endpoint including the query parameters.
-     * @param string $authorizeUrl
-     * @param string $clientId
-     * @param string $redirectUrl
-     * @param array $parameters
-     * @return string
+     * @var string
      */
-    public function getAuthorizationRequestUrl($authorizeUrl, $clientId, $redirectUrl, $parameters = [])
+    public function setAccessToken($value)
     {
-        $parameters = array_merge($parameters, array(
-            'response_type' => 'code',
-            'client_id' => $clientId,
-            //'nonce' => $stateGuid->toString(),
-            'redirect_uri' => $redirectUrl,
-            //'post_logout_redirect_uri' => $redirectUrl,
-            //'response_mode' => 'form_post',
-            //'scope' => 'openid+profile'
-        ));
-        return $authorizeUrl . "?" . http_build_query($parameters);
+        $this->accessToken = array("token_type" => "Bearer", "access_token" => $value);
     }
 
 
@@ -69,7 +72,7 @@ class AuthenticationContext implements IAuthenticationContext
             'username' => $username,
             'password' => $password
         );
-        $this->provider->acquireToken($parameters);
+        $this->accessToken = $this->provider->acquireToken($parameters);
     }
 
 
@@ -80,8 +83,12 @@ class AuthenticationContext implements IAuthenticationContext
      * @throws Exception
      */
     public function acquireAppOnlyAccessToken($clientId, $clientSecret){
-        $this->provider = new ACSTokenProvider($this->authorityUrl,$clientId,$clientSecret,"");
-        $this->provider->acquireToken(null);
+        $this->provider = new ACSTokenProvider($this->authorityUrl);
+        $this->accessToken = $this->provider->acquireToken(array(
+            "clientId" => $clientId,
+            "clientSecret" => $clientSecret,
+            "redirectUrl" => ""
+        ));
     }
 
 
@@ -101,7 +108,7 @@ class AuthenticationContext implements IAuthenticationContext
             'scope' => "https://outlook.office365.com/mail.read https://outlook.office365.com/mail.send",
             'resource' => $resource
         );
-        $this->provider->acquireToken($parameters);
+        $this->accessToken = $this->provider->acquireToken($parameters);
     }
 
     /**
@@ -112,7 +119,7 @@ class AuthenticationContext implements IAuthenticationContext
      * @param string $redirectUri
      * @throws Exception
      */
-    public function exchangeRefreshToken($resource, $clientId, $clientSecret, $refreshToken, $redirectUri)
+    public function acquireRefreshToken($resource, $clientId, $clientSecret, $refreshToken, $redirectUri)
     {
         $this->provider = new OAuthTokenProvider($this->authorityUrl);
         $parameters = array(
@@ -123,7 +130,7 @@ class AuthenticationContext implements IAuthenticationContext
             'redirect_uri' => $redirectUri,
             'refresh_token' => $refreshToken
         );
-        $this->provider->acquireToken($parameters);
+        $this->accessToken = $this->provider->acquireToken($parameters);
     }
 
     /**
@@ -143,7 +150,7 @@ class AuthenticationContext implements IAuthenticationContext
             'scope' => 'user.read openid',
             'resource' => $resource
         );
-        $this->provider->acquireToken($parameters);
+        $this->accessToken = $this->provider->acquireToken($parameters);
     }
 
     /**
@@ -166,7 +173,7 @@ class AuthenticationContext implements IAuthenticationContext
             'resource' => $resource,
             "redirect_uri" => $redirectUrl
         );
-        $this->provider->acquireToken($parameters);
+        $this->accessToken = $this->provider->acquireToken($parameters);
     }
 
     /**
@@ -175,32 +182,45 @@ class AuthenticationContext implements IAuthenticationContext
      */
     public function authenticateRequest(RequestOptions $options)
     {
+        if(is_callable($this->acquireToken) && is_null($this->accessToken)){
+            call_user_func($this->acquireToken, $this);
+            //ensure provider is initialized, otherwise set OAuthTokenProvider as default
+            if(is_null($this->provider)){
+                $this->provider = new OAuthTokenProvider($this->authorityUrl);
+            }
+        }
+
         if ($this->provider instanceof SamlTokenProvider) {
-            $options->addCustomHeader('Cookie', $this->provider->getAuthenticationCookie());
+            if(is_null($this->authCookies)){
+                $this->authCookies = $this->provider->acquireAuthenticationCookies($this->accessToken);
+            }
+            $this->ensureAuthenticationCookie($options);
         } elseif ($this->provider instanceof ACSTokenProvider || $this->provider instanceof OAuthTokenProvider) {
-            $options->addCustomHeader('Authorization', $this->provider->getAuthorizationHeader());
+            $this->ensureAuthorizationHeader($options);
         } else {
-            throw new Exception("Unknown authentication provider");
+            throw new Exception("Unknown token provider");
         }
     }
 
     /**
-     * @return string
+     * Ensures Authorization header is set
+     * @param RequestOptions $options
      */
-    public function getAccessToken()
+    protected function ensureAuthorizationHeader(RequestOptions $options)
     {
-        if ($this->provider instanceof OAuthTokenProvider) {
-            return $this->provider->getAccessToken();
-        }
-        return null;
+        $value = $this->accessToken['token_type'] . ' ' . $this->accessToken['access_token'];
+        $options->addCustomHeader('Authorization', $value);
     }
 
+
     /**
-     * @param $accessToken
+     * @param RequestOptions $options
+     * @throws Exception
      */
-    public function setAccessToken($accessToken)
+    protected function ensureAuthenticationCookie(RequestOptions $options)
     {
-        $this->provider = new OAuthTokenProvider($this->authorityUrl);
-        $this->provider->setAccessToken($accessToken);
+        $headerVal = http_build_query($this->authCookies,null, "; ");
+        $options->addCustomHeader('Cookie', urldecode($headerVal));
     }
+
 }

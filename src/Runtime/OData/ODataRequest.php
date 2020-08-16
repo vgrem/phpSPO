@@ -5,6 +5,7 @@ namespace Office365\Runtime\OData;
 
 use Exception;
 use Generator;
+use Office365\OutlookServices\OutlookClient;
 use Office365\Runtime\ClientAction;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientObjectCollection;
@@ -17,6 +18,7 @@ use Office365\Runtime\Http\Response;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\InvokeMethodQuery;
 use Office365\Runtime\InvokePostMethodQuery;
+use Office365\SharePoint\ClientContext;
 
 
 /**
@@ -59,14 +61,11 @@ class ODataRequest extends ClientRequest
             }
 
             if($this->format instanceof JsonLightFormat){
-                $this->format->FunctionTag = $qry->ReturnType instanceof ClientResult ? $qry->MethodName : null;
+                #$this->format->FunctionTag = $qry->ReturnType instanceof ClientResult ? $qry->MethodName : null;
+                $this->format->FunctionTag = $qry->MethodName;
             }
 
             if ($qry instanceof InvokePostMethodQuery) {
-                if($this->format instanceof JsonLightFormat && !is_null($qry->ParameterName)) {
-                    $this->format->FunctionTag = $qry->ParameterName;
-                }
-
                 $request->Method = HttpMethod::Post;
                 $payload = $qry->ParameterType;
                 if ($payload) {
@@ -79,7 +78,6 @@ class ODataRequest extends ClientRequest
                 }
             }
         }
-
         return $request;
     }
 
@@ -113,24 +111,44 @@ class ODataRequest extends ClientRequest
      */
     protected function ensureAnnotation($type, &$json,$format)
     {
-        $typeName = $type->getTypeName();
+        $qry = $this->context->getCurrentQuery();
+        $typeName = $this->normalizeTypeName($type->getServerTypeName());
         if ($format instanceof JsonLightFormat && $format->MetadataLevel == ODataMetadataLevel::Verbose) {
 
-            if (substr($typeName, 0, 3) !== "SP.")
-                $typeName = "SP." . $typeName;
             $json[$format->MetadataTag] = array("type" => $typeName);
-
-            if($format->FunctionTag){
-                $json = array($format->FunctionTag => $json);
+            if($qry instanceof InvokePostMethodQuery && !is_null($qry->ParameterName)) {
+                 $json = array($qry->ParameterName => $json);
             }
         }
         elseif ($format instanceof JsonFormat){
-            $json[$format->TypeTag] = "$format->NamespaceTag.$typeName";
+            $json[$format->TypeTag] = "#$typeName";
         }
     }
 
+    /**
+     * @param string $value
+     * @return string
+     */
+    private function normalizeTypeName($value){
+        $defaultNs = null;
+        if($this->context instanceof OutlookClient)
+            $defaultNs = "Microsoft.OutlookServices";
+        else if($this->context instanceof ClientContext)
+            $defaultNs = "SP";
+
+        $names = explode(".",$value);
+        if(count($names) == 1){
+            $value = "$defaultNs.$value";
+        }
+        return $value;
+    }
 
 
+    /**
+     * @param RequestOptions $request
+     * @return Response
+     * @throws Exception
+     */
     function executeQueryDirect(RequestOptions $request)
     {
         $request->addCustomHeader("Accept", $this->getFormat()->getMediaType());
@@ -178,7 +196,8 @@ class ODataRequest extends ClientRequest
             $resultType->clearData();
         }
         foreach ($this->extractProperty($json, $format) as $key => $value) {
-            if($resultType instanceof ClientObjectCollection && $format instanceof JsonLightFormat && $key === $format->NextCollectionTag){
+            if($resultType instanceof ClientObjectCollection
+                && $format instanceof JsonLightFormat && $key === $format->NextCollectionTag){
                 $resultType->NextRequestUrl = $value;
             }
             else{

@@ -21,60 +21,37 @@ class ACSTokenProvider extends BaseTokenProvider
      */
     private $url;
 
-    /**
-     * @var string
-     */
-    private $clientId;
 
     /**
-     * @var string
+     * ACSTokenProvider constructor.
+     * @param string $url
      */
-    private $clientSecret;
-
-    /**
-     * @var string
-     */
-    private $redirectUrl;
-
-    /**
-     * @var array
-     */
-    private $accessToken;
-
-
-    public function __construct($url,$clientId, $clientSecret,$redirectUrl)
+    public function __construct($url)
     {
         $this->url = $url;
-        $this->clientId = $clientId;
-        $this->clientSecret = $clientSecret;
-        $this->redirectUrl = $redirectUrl;
-    }
-
-    /**
-     * Generate Authorization header
-     * @return string
-     */
-    public function getAuthorizationHeader()
-    {
-        return 'Bearer ' . $this->accessToken['access_token'];
     }
 
 
     /**
-     * Acquires the access token from a Microsoft Azure Access Control Service (ACS)
+     * Acquires the access token from a Microsoft ACS
      * @param array $parameters
+     * @return mixed
      * @throws RequestException
      */
     public function acquireToken($parameters)
     {
         $realm = $this->getRealmFromTargetUrl();
         $urlInfo = parse_url($this->url);
-        $this->accessToken = $this->getAppOnlyAccessToken($urlInfo["host"],$realm);
+        return $this->getAppOnlyAccessToken(
+            $parameters["clientId"],
+            $parameters["clientSecret"],
+            $urlInfo["host"],
+            $realm);
     }
 
-
     /**
-     * @return mixed
+     * @return string
+     * @throws RequestException
      */
     private function getRealmFromTargetUrl()
     {
@@ -85,6 +62,10 @@ class ACSTokenProvider extends BaseTokenProvider
     }
 
 
+    /**
+     * @param string $payload
+     * @return string
+     */
     private function processRealmResponse($payload){
         $headerKey = "WWW-Authenticate";
         $result = array_filter(
@@ -106,17 +87,19 @@ class ACSTokenProvider extends BaseTokenProvider
 
     /**
      * Obtain access token from Azure ACS
+     * @param string $clientId
+     * @param string $clientSecret
      * @param string $targetHost
      * @param string $targetRealm
      * @return mixed
      * @throws RequestException
      */
-    private function getAppOnlyAccessToken($targetHost,$targetRealm)
+    private function getAppOnlyAccessToken($clientId, $clientSecret, $targetHost,$targetRealm)
     {
         $resource = $this->getFormattedPrincipal(self::$SharePointPrincipal,$targetHost,$targetRealm);
-        $clientId = $this->getFormattedPrincipal($this->clientId,null, $targetRealm);
+        $principalId = $this->getFormattedPrincipal($clientId,null, $targetRealm);
         $stsUrl = $this->getSecurityTokenServiceUrl($targetRealm);
-        $oauth2Request = $this->createAccessTokenRequestWithClientCredentials($clientId,$this->clientSecret,$resource);
+        $oauth2Request = $this->createAccessTokenRequestWithClientCredentials($principalId,$clientSecret,$resource);
 
         $headers = array();
         $headers[] = 'content-Type: application/x-www-form-urlencoded';
