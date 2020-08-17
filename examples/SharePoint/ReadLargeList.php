@@ -7,7 +7,8 @@ use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ClientContext;
 
 $credentials = new ClientCredential($Settings['ClientId'], $Settings['ClientSecret']);
-$ctx = (new ClientContext($Settings['Url']))->withCredentials($credentials);
+$siteUrl = $Settings['Url'] . "/sites/team";
+$ctx = (new ClientContext($siteUrl))->withCredentials($credentials);
 
 $list = $ctx->getWeb()->getLists()->getByTitle("Contacts_Large");
 $items = $list->getItems();

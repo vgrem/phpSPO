@@ -61,7 +61,6 @@ class ODataRequest extends ClientRequest
             }
 
             if($this->format instanceof JsonLightFormat){
-                #$this->format->FunctionTag = $qry->ReturnType instanceof ClientResult ? $qry->MethodName : null;
                 $this->format->FunctionTag = $qry->MethodName;
             }
 

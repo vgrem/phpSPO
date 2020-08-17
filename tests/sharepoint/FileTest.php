@@ -6,6 +6,7 @@ use DateTime;
 use Office365\Runtime\Auth\UserCredentials;
 use Office365\SharePoint\File;
 use Office365\SharePoint\ListTemplateType;
+use Office365\SharePoint\ResourcePath;
 use Office365\SharePoint\SPList;
 use Office365\SharePoint\Web;
 
@@ -53,6 +54,19 @@ class FileTest extends SharePointTestCase
         }
         $this->assertTrue(true);
         return $results[0];
+    }
+
+    /**
+     * @depends testUploadFiles
+     * @param File $file
+     */
+    public function testGetFileByResourcePath($file)
+    {
+        $fileUrl = $file->getServerRelativeUrl();
+        $targetFile = self::$context->getWeb()->getFileByServerRelativePath(new ResourcePath($fileUrl));
+        self::$context->load($targetFile);
+        self::$context->executeQuery();
+        self::assertNotNull($targetFile->getName());
     }
 
     /**

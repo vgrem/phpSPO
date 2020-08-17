@@ -198,7 +198,8 @@ class Web extends SecurableObject
     public function getCurrentUser()
     {
         if (!$this->isPropertyAvailable('CurrentUser')) {
-            $this->setProperty("CurrentUser", new User($this->getContext(), new ResourcePath("CurrentUser", $this->getResourcePath())));
+            $this->setProperty("CurrentUser", new User($this->getContext(),
+                new ResourcePath("CurrentUser", $this->getResourcePath())));
         }
         return $this->getProperty("CurrentUser");
     }
@@ -209,7 +210,20 @@ class Web extends SecurableObject
      */
     public function getFileByServerRelativeUrl($serverRelativeUrl)
     {
-        $path = new ResourcePathServiceOperation("getFileByServerRelativeUrl", array(rawurlencode($serverRelativeUrl)), $this->getResourcePath());
+        $path = new ResourcePathServiceOperation("getFileByServerRelativeUrl",
+            array(rawurlencode($serverRelativeUrl)), $this->getResourcePath());
+        return new File($this->getContext(), $path);
+    }
+
+    /**
+     * Returns the file object located at the specified server-relative Path.
+     * @param \Office365\SharePoint\ResourcePath $serverRelativePath The server relative Path of the file.
+     * @return File
+     */
+    public function getFileByServerRelativePath($serverRelativePath)
+    {
+        $path = new ResourcePathServiceOperation("getFileByServerRelativePath",array("decodedUrl" => rawurlencode($serverRelativePath->DecodedUrl))
+            , $this->getResourcePath());
         return new File($this->getContext(), $path);
     }
     /**
@@ -220,6 +234,19 @@ class Web extends SecurableObject
     public function getFolderByServerRelativeUrl($serverRelativeUrl)
     {
         return new Folder($this->getContext(), new ResourcePathServiceOperation("getFolderByServerRelativeUrl", array(rawurlencode($serverRelativeUrl)), $this->getResourcePath()));
+    }
+
+    /**
+     * Returns the folder object located at the specified server-relative Path.
+     * @param \Office365\SharePoint\ResourcePath $serverRelativePath
+     * @return Folder
+     */
+    public function getFolderByServerRelativePath($serverRelativePath)
+    {
+        return new Folder($this->getContext(),
+            new ResourcePathServiceOperation("getFolderByServerRelativePath",
+                array("decodedUrl" => rawurlencode($serverRelativePath->DecodedUrl)),
+                $this->getResourcePath()));
     }
     /**
      * @return ContentTypeCollection
