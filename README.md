@@ -40,7 +40,7 @@ or via `composer.json` file:
 ```json
 {
     "require": {
-        "vgrem/php-spo": "^2.3"
+        "vgrem/php-spo": "^2.4"
     }
 }
 ```
@@ -69,19 +69,15 @@ The following auth flows supported:
 
 - app principals (client credentials) auth (refer [Granting access using SharePoint App-Only](https://docs.microsoft.com/en-us/sharepoint/dev/solution-guidance/security-apponly-azureacs) for a details): 
   ```
-   $authCtx = new AuthenticationContext($url);
-   $authCtx->acquireAppOnlyAccessToken($clientId,$clientSecret);
-   $ctx = new ClientContext($url,$authCtx);
+  $credentials = new ClientCredential($clientId, $clientSecret);
+  $ctx = (new ClientContext($url))->withCredentials($credentials);
   ```
 
 
 - user credentials auth: 
   ```
-  
-  $authCtx = new AuthenticationContext($url);
-  $authCtx->acquireTokenForUser($username,$password);
-  $ctx = new ClientContext($url,$authCtx);
-
+  $credentials = new UserCredentials($userName, $password);
+  $ctx = (new ClientContext($url))->withCredentials($credentials);
   ```
   
   
@@ -99,11 +95,8 @@ The following examples demonstrates how to perform basic CRUD operations against
 Example 1. How to read SharePoint list items
 
 ```
-
-$authCtx = new AuthenticationContext($Url);
-$authCtx->acquireTokenForUser($UserName,$Password); //authenticate
-
-$ctx = new ClientContext($Url,$authCtx);     
+$credentials = new ClientCredential($clientId, $clientSecret);
+$ctx = (new ClientContext($url))->withCredentials($credentials);     
 $web = $ctx->getWeb();
 $list = $web->getLists()->getByTitle($listTitle); //init List resource
 $items = $list->getItems();  //prepare a query to retrieve from the 
@@ -168,7 +161,7 @@ The following example demonstrates how to send a message via Outlook Mail API:
  $message->Subject = "Meet for lunch?";
  $message->Body = new ItemBody(BodyType::Text,"The new cafeteria is open.");
  $message->ToRecipients = array(
-     new Recipient(new EmailAddress(null,"vgrem@mediadev8.onmicrosoft.com"))
+     new Recipient(new EmailAddress(null,"jdoe@contoso.onmicrosoft.com"))
  );
  $client->getMe()->sendEmail($message,true);
  $client->executeQuery();
