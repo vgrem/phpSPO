@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T16:30:08+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-08-17T19:25:17+00:00 16.0.20405.12007
  */
 namespace Office365\SharePoint;
 
@@ -32,22 +32,20 @@ class Folder extends ClientObject
         $this->getContext()->addQuery($qry);
         $this->removeFromParentCollection();
     }
-
     /**
      * Upload a file under Folder
      * @param string $name
      * @param string $content
      * @return File
      */
-    public function uploadFile($name,$content){
+    public function uploadFile($name, $content)
+    {
         $info = new FileCreationInformation();
         $info->Url = $name;
         $info->Content = $content;
         $info->Overwrite = true;
         return $this->getFiles()->add($info);
     }
-
-
     /**
      * Rename a file
      * @param string $name
@@ -76,8 +74,7 @@ class Folder extends ClientObject
     public function getFiles()
     {
         if (!$this->isPropertyAvailable('Files')) {
-            $this->setProperty("Files", new FileCollection($this->getContext(),
-                new ResourcePath("Files", $this->getResourcePath())));
+            $this->setProperty("Files", new FileCollection($this->getContext(), new ResourcePath("Files", $this->getResourcePath())));
         }
         return $this->getProperty("Files");
     }
@@ -88,8 +85,7 @@ class Folder extends ClientObject
     public function getFolders()
     {
         if (!$this->isPropertyAvailable("Folders")) {
-            $this->setProperty("Folders", new FolderCollection($this->getContext(),
-                new ResourcePath("folders", $this->getResourcePath())));
+            $this->setProperty("Folders", new FolderCollection($this->getContext(), new ResourcePath("folders", $this->getResourcePath())));
         }
         return $this->getProperty("Folders");
     }
@@ -100,8 +96,7 @@ class Folder extends ClientObject
     public function getListItemAllFields()
     {
         if (!$this->isPropertyAvailable("ListItemAllFields")) {
-            $this->setProperty("ListItemAllFields", new ListItem($this->getContext(),
-                new ResourcePath("ListItemAllFields", $this->getResourcePath())));
+            $this->setProperty("ListItemAllFields", new ListItem($this->getContext(), new ResourcePath("ListItemAllFields", $this->getResourcePath())));
         }
         return $this->getProperty("ListItemAllFields");
     }
@@ -109,7 +104,7 @@ class Folder extends ClientObject
     {
         parent::setProperty($name, $value, $persistChanges);
         if ($name == "UniqueId") {
-            $this->resourcePath = new ResourcePath("GetFolderById(guid'{$value}')",new ResourcePath("Web"));
+            $this->resourcePath = new ResourcePath("GetFolderById(guid'{$value}')", new ResourcePath("Web"));
         }
     }
     /**
@@ -345,8 +340,7 @@ class Folder extends ClientObject
     public function getParentFolder()
     {
         if (!$this->isPropertyAvailable("ParentFolder")) {
-            $this->setProperty("ParentFolder", new Folder($this->getContext(),
-                new ResourcePath("ParentFolder", $this->getResourcePath())));
+            $this->setProperty("ParentFolder", new Folder($this->getContext(), new ResourcePath("ParentFolder", $this->getResourcePath())));
         }
         return $this->getProperty("ParentFolder");
     }
@@ -360,5 +354,26 @@ class Folder extends ClientObject
                 new ResourcePath("StorageMetrics", $this->getResourcePath())));
         }
         return $this->getProperty("StorageMetrics");
+    }
+    /**
+     * Returns 
+     * the server-relative path of the folder.
+     * @return SPResourcePath
+     */
+    public function getServerRelativePath()
+    {
+        if (!$this->isPropertyAvailable("ServerRelativePath")) {
+            return null;
+        }
+        return $this->getProperty("ServerRelativePath");
+    }
+    /**
+     * Returns 
+     * the server-relative path of the folder.
+     * @var SPResourcePath
+     */
+    public function setServerRelativePath($value)
+    {
+        $this->setProperty("ServerRelativePath", $value, true);
     }
 }

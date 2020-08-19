@@ -11,6 +11,7 @@ use Office365\Runtime\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\UpdateEntityQuery;
 use Office365\Runtime\ResourcePathServiceOperation;
+
 /**
  * Specifies 
  * a site 
@@ -217,7 +218,7 @@ class Web extends SecurableObject
 
     /**
      * Returns the file object located at the specified server-relative Path.
-     * @param \Office365\SharePoint\ResourcePath $serverRelativePath The server relative Path of the file.
+     * @param SPResourcePath $serverRelativePath The server relative Path of the file.
      * @return File
      */
     public function getFileByServerRelativePath($serverRelativePath)
@@ -238,7 +239,7 @@ class Web extends SecurableObject
 
     /**
      * Returns the folder object located at the specified server-relative Path.
-     * @param \Office365\SharePoint\ResourcePath $serverRelativePath
+     * @param SPResourcePath $serverRelativePath
      * @return Folder
      */
     public function getFolderByServerRelativePath($serverRelativePath)

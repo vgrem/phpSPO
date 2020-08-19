@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-10-12T18:54:53+00:00 16.0.19402.12016
+ * Updated By PHP Office365 Generator 2020-08-17T19:25:17+00:00 16.0.20405.12007
  */
 namespace Office365\SharePoint;
 
@@ -49,4 +49,8 @@ class DocumentLibraryInformation extends ClientValue
      * @var string
      */
     public $Title;
+    /**
+     * @var string
+     */
+    public $Id;
 }

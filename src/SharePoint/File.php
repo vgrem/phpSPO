@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2019-11-17T16:30:08+00:00 16.0.19506.12022
+ * Updated By PHP Office365 Generator 2020-08-17T19:25:17+00:00 16.0.20405.12007
  */
 namespace Office365\SharePoint;
-
 
 use Exception;
 use Office365\Runtime\ClientResult;
@@ -19,8 +18,6 @@ use Office365\Runtime\ResourcePathServiceOperation;
 use Office365\Runtime\Types\Guid;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\SharePoint\WebParts\LimitedWebPartManager;
-
-
 /**
  * Represents 
  * a file in a site (2) that can be 
@@ -32,48 +29,43 @@ use Office365\SharePoint\WebParts\LimitedWebPartManager;
  */
 class File extends SecurableObject
 {
-
     /**
      * Resolves File from absolute Url
      * @param string $absUrl
      * @return File
      */
-    public static function fromUrl($absUrl){
+    public static function fromUrl($absUrl)
+    {
         $ctx = ClientContext::fromUrl($absUrl);
-        $fileRelUrl = str_replace($ctx->getBaseUrl(), "",  $absUrl);
+        $fileRelUrl = str_replace($ctx->getBaseUrl(), "", $absUrl);
         return $ctx->getWeb()->getFileByServerRelativeUrl($fileRelUrl);
     }
-
 
     /**
      * Downloads file content
      * @param resource $handle
+     * @return File
      */
     public function download($handle)
     {
-        if ($this->isPropertyAvailable("ServerRelativeUrl")) {
-            $this->constructDownloadQuery($this->getServerRelativeUrl(),$handle);
-        } else {
-            $this->getContext()->load($this, array("ServerRelativeUrl"));
-            $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use ($handle) {
-                $this->constructDownloadQuery($this->getServerRelativeUrl(), $handle);
-            });
-        }
+        $this->ensureProperty("ServerRelativeUrl",function () use($handle) {
+            $this->constructDownloadQuery($this->getServerRelativeUrl(), $handle);
+        });
+        return $this;
     }
-
     /**
      * @param string $url
      * @param resource $handle
      */
-    private function constructDownloadQuery($url,$handle){
+    private function constructDownloadQuery($url, $handle)
+    {
         $url = rawurlencode($url);
         $qry = new InvokeMethodQuery($this->getParentWeb(), "getFileByServerRelativeUrl('{$url}')/\$value");
         $this->getContext()->addQuery($qry);
-        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function ($request) use ($handle){
+        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function ($request) use($handle) {
             $request->StreamHandle = $handle;
         });
     }
-
     /**
      * Deletes the File object.
      */
@@ -191,8 +183,6 @@ class File extends SecurableObject
         }
         return $response->getContent();
     }
-
-
     /**
      * Saves the file
      * Note: it is supported to update the existing file only. For adding a new file see FileCollection.add method
@@ -223,8 +213,7 @@ class File extends SecurableObject
      */
     public function getLimitedWebPartManager($scope)
     {
-        return new LimitedWebPartManager($this->getContext(),
-            new ResourcePathServiceOperation("getLimitedWebPartManager",array($scope), $this->getResourcePath()));
+        return new LimitedWebPartManager($this->getContext(), new ResourcePathServiceOperation("getLimitedWebPartManager", array($scope), $this->getResourcePath()));
     }
     /**
      * Returns IRM settings for given file.
@@ -234,8 +223,7 @@ class File extends SecurableObject
     public function getInformationRightsManagementSettings()
     {
         if (!$this->isPropertyAvailable('InformationRightsManagementSettings')) {
-            $this->setProperty("InformationRightsManagementSettings",
-                new InformationRightsManagementSettings($this->getContext()));
+            $this->setProperty("InformationRightsManagementSettings", new InformationRightsManagementSettings($this->getContext()));
         }
         return $this->getProperty("InformationRightsManagementSettings");
     }
@@ -246,8 +234,7 @@ class File extends SecurableObject
     public function getVersions()
     {
         if (!$this->isPropertyAvailable('Versions')) {
-            $this->setProperty("Versions", new FileVersionCollection($this->getContext(),
-                new ResourcePath("Versions", $this->getResourcePath())));
+            $this->setProperty("Versions", new FileVersionCollection($this->getContext(), new ResourcePath("Versions", $this->getResourcePath())));
         }
         return $this->getProperty("Versions");
     }
@@ -269,8 +256,7 @@ class File extends SecurableObject
     public function getListItemAllFields()
     {
         if (!$this->isPropertyAvailable("ListItemAllFields")) {
-            $this->setProperty("ListItemAllFields", new ListItem($this->getContext(),
-                new ResourcePath("ListItemAllFields", $this->getResourcePath())));
+            $this->setProperty("ListItemAllFields", new ListItem($this->getContext(), new ResourcePath("ListItemAllFields", $this->getResourcePath())));
         }
         return $this->getProperty("ListItemAllFields");
     }
@@ -282,7 +268,7 @@ class File extends SecurableObject
      */
     public function startUpload($uploadId, $content)
     {
-        $qry = new InvokePostMethodQuery($this, "StartUpload", array('uploadId' => $uploadId->toString()),null, $content);
+        $qry = new InvokePostMethodQuery($this, "StartUpload", array('uploadId' => $uploadId->toString()), null, $content);
         $returnValue = new ClientResult();
         $this->getContext()->addQueryAndResultObject($qry, $returnValue);
         return $returnValue;
@@ -297,7 +283,7 @@ class File extends SecurableObject
     public function continueUpload($uploadId, $fileOffset, $content)
     {
         $returnValue = new ClientResult();
-        $qry = new InvokePostMethodQuery($this, "ContinueUpload", array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset),null, $content);
+        $qry = new InvokePostMethodQuery($this, "ContinueUpload", array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset), null, $content);
         $this->getContext()->addQueryAndResultObject($qry, $returnValue);
         return $returnValue;
     }
@@ -311,21 +297,20 @@ class File extends SecurableObject
      */
     public function finishUpload($uploadId, $fileOffset, $content)
     {
-        $qry = new InvokePostMethodQuery($this, "finishupload", array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset),null, $content);
+        $qry = new InvokePostMethodQuery($this, "finishupload", array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset), null, $content);
         $this->getContext()->addQueryAndResultObject($qry, $this);
         return $this;
     }
     function setProperty($name, $value, $persistChanges = true)
     {
         parent::setProperty($name, $value, $persistChanges);
-        //if(is_null($this->resourcePath)){
-            if ($name == "UniqueId") {
-                $this->resourcePath = new ResourcePath("GetFileById(guid'{$value}')", new ResourcePath("Web"));
+        if ($name == "UniqueId") {
+            $this->resourcePath = new ResourcePath("GetFileById(guid'{$value}')", new ResourcePath("Web"));
+        } else {
+            if ($name == "ServerRelativeUrl") {
+                $this->resourcePath = new ResourcePath("GetFileByServerRelativeUrl('{$value}')", new ResourcePath("Web"));
             }
-            else if ($name == "ServerRelativeUrl") {
-                $this->resourcePath = new ResourcePath("GetFileByServerRelativeUrl('$value')", new ResourcePath("Web"));
-            }
-        //}
+        }
     }
     /**
      * Specifies 
@@ -907,8 +892,7 @@ class File extends SecurableObject
     public function getAuthor()
     {
         if (!$this->isPropertyAvailable("Author")) {
-            $this->setProperty("Author", new User($this->getContext(),
-                new ResourcePath("Author", $this->getResourcePath())));
+            $this->setProperty("Author", new User($this->getContext(), new ResourcePath("Author", $this->getResourcePath())));
         }
         return $this->getProperty("Author");
     }
@@ -946,8 +930,7 @@ class File extends SecurableObject
     public function getModifiedBy()
     {
         if (!$this->isPropertyAvailable("ModifiedBy")) {
-            $this->setProperty("ModifiedBy", new User($this->getContext(),
-                new ResourcePath("ModifiedBy", $this->getResourcePath())));
+            $this->setProperty("ModifiedBy", new User($this->getContext(), new ResourcePath("ModifiedBy", $this->getResourcePath())));
         }
         return $this->getProperty("ModifiedBy");
     }
@@ -957,19 +940,54 @@ class File extends SecurableObject
     public function getEffectiveInformationRightsManagementSettings()
     {
         if (!$this->isPropertyAvailable("EffectiveInformationRightsManagementSettings")) {
-            $this->setProperty("EffectiveInformationRightsManagementSettings",
-                new EffectiveInformationRightsManagementSettings($this->getContext(),
-                    new ResourcePath("EffectiveInformationRightsManagementSettings", $this->getResourcePath())));
+            $this->setProperty("EffectiveInformationRightsManagementSettings", new EffectiveInformationRightsManagementSettings($this->getContext(), new ResourcePath("EffectiveInformationRightsManagementSettings", $this->getResourcePath())));
         }
         return $this->getProperty("EffectiveInformationRightsManagementSettings");
     }
-
     /**
      * @return Web|null
      */
     private function getParentWeb()
     {
         return $this->getContext()->getWeb();
+    }
+    /**
+     * Specifies 
+     * the relative path of the file based on the URL for the server.
+     * @return SPResourcePath
+     */
+    public function getServerRelativePath()
+    {
+        if (!$this->isPropertyAvailable("ServerRelativePath")) {
+            return null;
+        }
+        return $this->getProperty("ServerRelativePath");
+    }
+    /**
+     * Specifies 
+     * the relative path of the file based on the URL for the server.
+     * @var SPResourcePath
+     */
+    public function setServerRelativePath($value)
+    {
+        $this->setProperty("ServerRelativePath", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getVroomItemID()
+    {
+        if (!$this->isPropertyAvailable("VroomItemID")) {
+            return null;
+        }
+        return $this->getProperty("VroomItemID");
+    }
+    /**
+     * @var string
+     */
+    public function setVroomItemID($value)
+    {
+        $this->setProperty("VroomItemID", $value, true);
     }
 
 }

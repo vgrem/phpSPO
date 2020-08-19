@@ -6,11 +6,12 @@
     "docsRoot": "https:\/\/docs.microsoft.com\/en-us\/openspecs\/sharepoint_protocols\/ms-csomspt\/",
     "rootNamespace": "Office365\\SharePoint",
     "entityRootNamespace": "SP",
-    "version": "16.0.20315.12009",
-    "timestamp": "2020-08-05T10:11:47+00:00",
+    "version": "16.0.20405.12007",
+    "timestamp": "2020-08-17T19:25:15+00:00",
     "placeholder": "Updated By PHP Office365 Generator",
     "typeMappings": {
-        "SP.List": "SP.SPList"
+        "SP.List": "SP.SPList",
+        "SP.ResourcePath": "SP.SPResourcePath"
     },
     "ignoredTypes": [
         "SP.SimpleDataRow",
@@ -19,7 +20,6 @@
         "SP.TypeInformation",
         "SP.PropertyInformation",
         "SP.ParameterInformation",
-        "SP.ResourcePath",
         "SP.WebResponseInfo",
         "SP.ApiMetadata",
         "SP.ScriptSafeDomain",

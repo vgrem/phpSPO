@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Updated By PHP Office365 Generator 2020-04-22T21:18:30+00:00 16.0.20008.12009
+ * Updated By PHP Office365 Generator 2020-08-17T19:25:17+00:00 16.0.20405.12007
  */
 namespace Office365\SharePoint;
 
@@ -60,10 +60,10 @@ class SPList extends SecurableObject
      */
     public function getItems(CamlQuery $camlQuery = null)
     {
-        if (is_null($camlQuery)) {
-            $camlQuery = CamlQuery::createAllItemsQuery();
-        }
         $targetItems = new ListItemCollection($this->getContext(), new ResourcePath("items", $this->getResourcePath()));
+        if (is_null($camlQuery)) {
+            return $targetItems;
+        }
         $qry = new InvokePostMethodQuery($this, "GetItems", $camlQuery, "query", $camlQuery);
         $this->getContext()->addQueryAndResultObject($qry, $targetItems);
         return $targetItems;
@@ -159,16 +159,13 @@ class SPList extends SecurableObject
         }
         return $this->getProperty("Views");
     }
-
     /**
      * @return InformationRightsManagementSettings
      */
     public function getInformationRightsManagementSettings()
     {
         if (!$this->isPropertyAvailable('InformationRightsManagementSettings')) {
-            $this->setProperty("InformationRightsManagementSettings",
-                new InformationRightsManagementSettings($this->getContext(),
-                    new ResourcePath("InformationRightsManagementSettings", $this->getResourcePath())));
+            $this->setProperty("InformationRightsManagementSettings", new InformationRightsManagementSettings($this->getContext(), new ResourcePath("InformationRightsManagementSettings", $this->getResourcePath())));
         }
         return $this->getProperty("InformationRightsManagementSettings");
     }
@@ -178,8 +175,7 @@ class SPList extends SecurableObject
     public function getParentWeb()
     {
         if (!$this->isPropertyAvailable('ParentWeb')) {
-            $this->setProperty("ParentWeb", new Web($this->getContext(),
-                new ResourcePath("ParentWeb", $this->getResourcePath())));
+            $this->setProperty("ParentWeb", new Web($this->getContext(), new ResourcePath("ParentWeb", $this->getResourcePath())));
         }
         return $this->getProperty("ParentWeb");
     }
@@ -1504,5 +1500,72 @@ class SPList extends SecurableObject
     public function setIcon($value)
     {
         $this->setProperty("Icon", $value, true);
+    }
+    /**
+     * Specifies 
+     * the path of the default view for the list.It MUST 
+     * NOT be NULL. It MUST NOT be empty. 
+     * @return SPResourcePath
+     */
+    public function getDefaultViewPath()
+    {
+        if (!$this->isPropertyAvailable("DefaultViewPath")) {
+            return null;
+        }
+        return $this->getProperty("DefaultViewPath");
+    }
+    /**
+     * Specifies 
+     * the path of the default view for the list.It MUST 
+     * NOT be NULL. It MUST NOT be empty. 
+     * @var SPResourcePath
+     */
+    public function setDefaultViewPath($value)
+    {
+        $this->setProperty("DefaultViewPath", $value, true);
+    }
+    /**
+     * The Path 
+     * for the icon that represents the list.It MUST 
+     * NOT be NULL. Its length MUST be equal to or less than 255. 
+     * @return SPResourcePath
+     */
+    public function getImagePath()
+    {
+        if (!$this->isPropertyAvailable("ImagePath")) {
+            return null;
+        }
+        return $this->getProperty("ImagePath");
+    }
+    /**
+     * The Path 
+     * for the icon that represents the list.It MUST 
+     * NOT be NULL. Its length MUST be equal to or less than 255. 
+     * @var SPResourcePath
+     */
+    public function setImagePath($value)
+    {
+        $this->setProperty("ImagePath", $value, true);
+    }
+    /**
+     * Returns 
+     * the path of the parent web for the list.
+     * @return SPResourcePath
+     */
+    public function getParentWebPath()
+    {
+        if (!$this->isPropertyAvailable("ParentWebPath")) {
+            return null;
+        }
+        return $this->getProperty("ParentWebPath");
+    }
+    /**
+     * Returns 
+     * the path of the parent web for the list.
+     * @var SPResourcePath
+     */
+    public function setParentWebPath($value)
+    {
+        $this->setProperty("ParentWebPath", $value, true);
     }
 }

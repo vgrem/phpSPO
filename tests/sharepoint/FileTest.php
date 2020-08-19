@@ -6,8 +6,8 @@ use DateTime;
 use Office365\Runtime\Auth\UserCredentials;
 use Office365\SharePoint\File;
 use Office365\SharePoint\ListTemplateType;
-use Office365\SharePoint\ResourcePath;
 use Office365\SharePoint\SPList;
+use Office365\SharePoint\SPResourcePath;
 use Office365\SharePoint\Web;
 
 class FileTest extends SharePointTestCase
@@ -42,6 +42,19 @@ class FileTest extends SharePointTestCase
     }
 
 
+    public function testDownloadFileFromAbsUrl(){
+        $settings = include(__DIR__ . '/../../Settings.php');
+        $pageAbsUrl = $settings["Url"] . "/sites/team/SitePages/Home.aspx";
+        $credentials = new UserCredentials($settings['UserName'],$settings['Password']);
+
+        $fileName = join(DIRECTORY_SEPARATOR, [sys_get_temp_dir(), "Home.aspx"]);
+        $fh = fopen($fileName, 'w+');
+        File::fromUrl($pageAbsUrl)->withCredentials($credentials)->download($fh)->executeQuery();
+        fclose($fh);
+        self::assertGreaterThan(0, filesize($fileName));
+    }
+
+
     public function testUploadFiles(){
         $localPath = __DIR__ . "/../../examples/data/";
         $searchPrefix = $localPath . '*.*';
@@ -63,7 +76,7 @@ class FileTest extends SharePointTestCase
     public function testGetFileByResourcePath($file)
     {
         $fileUrl = $file->getServerRelativeUrl();
-        $targetFile = self::$context->getWeb()->getFileByServerRelativePath(new ResourcePath($fileUrl));
+        $targetFile = self::$context->getWeb()->getFileByServerRelativePath(new SPResourcePath($fileUrl));
         self::$context->load($targetFile);
         self::$context->executeQuery();
         self::assertNotNull($targetFile->getName());

@@ -309,4 +309,24 @@ class ClientObject
         return isset($this->properties[$name]);
     }
 
+
+    /**
+     * Ensures property is loaded
+     * @param string $propName
+     * @param callable $loaded
+     */
+    public function ensureProperty($propName, $loaded)
+    {
+        if ($this->isPropertyAvailable($propName)) {
+            call_user_func($loaded, $this);
+        } else {
+            $this->getContext()->load($this, array($propName));
+            $qry = $this->getContext()->getPendingRequest()->getLastQuery();
+            $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use ($loaded, $qry) {
+                if($this->getContext()->getCurrentQuery()->getId() == $qry->getId())
+                    call_user_func($loaded, $this);
+            },false);
+        }
+    }
+
 }

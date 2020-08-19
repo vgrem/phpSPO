@@ -72,6 +72,14 @@ abstract class ClientRequest
     }
 
     /**
+     * @return ClientAction
+     */
+    public function getLastQuery(){
+        return array_values(array_slice($this->queries, -1))[0];
+    }
+
+
+    /**
      * Add query into request queue
      * @param ClientAction $query
      */
@@ -111,10 +119,11 @@ abstract class ClientRequest
 
     /**
      * @param callable $event
+     * @param bool $once
      */
-    public function afterExecuteRequest(callable $event)
+    public function afterExecuteRequest(callable $event,$once=true)
     {
-        $this->afterExecute->addEvent($event,true);
+        $this->afterExecute->addEvent($event,$once);
     }
 
     /**

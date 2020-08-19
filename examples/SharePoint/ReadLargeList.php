@@ -15,7 +15,7 @@ $items = $list->getItems();
 $ctx->load($items);
 $ctx->executeQuery();
 
-print $items->getCount() . PHP_EOL;
+//print $items->getCount() . PHP_EOL;
 foreach ($items as $index => $item){
     print($index . ":" . $item->getProperty('Title') . PHP_EOL);
 }

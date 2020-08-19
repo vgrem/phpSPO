@@ -29,7 +29,7 @@ The preferred method is via [composer](https://getcomposer.org). Follow the
 [installation instructions](https://getcomposer.org/doc/00-intro.md) if you do not already have
 composer installed.
 
-Once composer is installed, execute the following command in your project root to install this library:
+Once composer installed, execute the following command in your project root to install this library:
 
 ```sh
 composer require vgrem/php-spo
@@ -53,7 +53,7 @@ require_once '/path/to/your-project/vendor/autoload.php';
 
 #### Requirements 
 
-PHP version: [PHP 5.4 or later](https://secure.php.net/)
+PHP version: [PHP 5.5 or later](https://secure.php.net/)
 
 
 #### Working with SharePoint API
@@ -65,7 +65,7 @@ The list of supported SharePoint versions:
 
 #### Authentication
 
-The following auth flows are supported:
+The following auth flows supported:
 
 - app principals (client credentials) auth (refer [Granting access using SharePoint App-Only](https://docs.microsoft.com/en-us/sharepoint/dev/solution-guidance/security-apponly-azureacs) for a details): 
   ```

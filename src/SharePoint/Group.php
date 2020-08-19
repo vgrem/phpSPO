@@ -6,6 +6,7 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ResourcePath;
+
 /**
  * Represents 
  * a collection of users. The CanCurrentUserEditMembership, CanCurrentUserManageGroup 

@@ -5,7 +5,7 @@ namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
 
-class ResourcePath extends ClientValue
+class SPResourcePath extends ClientValue
 {
 
     /**

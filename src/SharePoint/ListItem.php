@@ -92,16 +92,9 @@ class ListItem extends SecurableObject
     public function ensureTypeName(SPList $list)
     {
         if (!isset($this->typeName)) {
-            if (!$list->isPropertyAvailable("ListItemEntityTypeFullName")) {
-                $this->getContext()->load($list,array("ListItemEntityTypeFullName"));
-                $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use($list)
-                {
-                    $this->typeName = $list->getListItemEntityTypeFullName();
-                });
-            }
-            else{
+            $list->ensureProperty("ListItemEntityTypeFullName", function () use ($list){
                 $this->typeName = $list->getListItemEntityTypeFullName();
-            }
+            });
         }
     }
     /**
