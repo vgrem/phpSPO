@@ -66,13 +66,17 @@ abstract class ClientRuntimeContext
     /**
      * Prepare to load resource
      * @param ClientObject $clientObject
-     * @param array $selectProperties
-     *
+     * @param array $includeProperties
+     * @param callable|null $loaded
      */
-    public function load(ClientObject $clientObject, array $selectProperties = null)
+    public function load(ClientObject $clientObject, array $includeProperties = null, callable $loaded=null)
     {
-        $qry = new ReadEntityQuery($clientObject,$selectProperties);
+        $qry = new ReadEntityQuery($clientObject,$includeProperties);
         $this->getPendingRequest()->addQueryAndResultObject($qry, $clientObject);
+        $this->getPendingRequest()->afterExecuteRequest(function () use ($loaded, $qry) {
+            if($this->getCurrentQuery()->getId() == $qry->getId())
+                if(is_callable($loaded)) call_user_func($loaded, $this);
+        },false);
     }
 
 

@@ -8,7 +8,6 @@ namespace Office365\SharePoint;
 use Office365\Runtime\DeleteEntityQuery;
 use Office365\Runtime\InvokePostMethodQuery;
 use Office365\Runtime\UpdateEntityQuery;
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 /**
  * Represents 
@@ -20,7 +19,7 @@ use Office365\Runtime\ResourcePath;
  * UniqueContentTypeOrder properties are not included in the default 
  * scalar property set for this type.
  */
-class Folder extends ClientObject
+class Folder extends BaseEntity
 {
     /**
      * The recommended way to delete a folder is to send a DELETE request to the Folder resource endpoint,
@@ -46,21 +45,53 @@ class Folder extends ClientObject
         $info->Overwrite = true;
         return $this->getFiles()->add($info);
     }
+
     /**
      * Copies the folder along with files to the destination URL.
      * @param string $strNewUrl The absolute URL or server relative URL of the destination file path to copy to.
      * @param bool $bOverWrite true to overwrite a file(s) with the same name in the same location; otherwise false.
+     * @return Folder
      */
     public function copyTo($strNewUrl, $bOverWrite)
     {
-        $this->ensureProperty("Files", function () use ($strNewUrl,$bOverWrite){
-            /** @var File $file */
-            foreach($this->getFiles() as $file){
-                $newFileUrl = join("/", array($strNewUrl,$file->getName())) ;
-                $file->copyTo($newFileUrl, $bOverWrite);
-            }
+        $targetFolder =  $this->getContext()->getWeb()->getRootFolder()->getFolders()->add($strNewUrl);
+        $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use($strNewUrl,$bOverWrite, $targetFolder) {
+            $this->ensureProperty("Files", function ()  use ($strNewUrl,$bOverWrite){
+                /** @var File $file */
+                foreach($this->getFiles() as $file){
+                    $newFileUrl = join("/", array($strNewUrl,$file->getName())) ;
+                    $file->copyTo($newFileUrl, $bOverWrite);
+                }
+            });
+            $this->getContext()->load($targetFolder);
         });
+        return $targetFolder;
     }
+
+
+
+    /**
+     * Moves the file to the specified destination URL.
+     * @param string $newUrl The absolute URL or server relative URL of the destination file path to move to.
+     * @param int $flags The bitwise SP.MoveOperations value for how to move the file. Overwrite = 1; AllowBrokenThickets (move even if supporting files are separated from the file) = 8.
+     * @return Folder
+     */
+    public function moveTo($newUrl, $flags)
+    {
+        $targetFolder =  $this->getContext()->getWeb()->getRootFolder()->getFolders()->add($newUrl);
+        $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use($newUrl, $flags, $targetFolder) {
+            $this->ensureProperty("Files", function () use ($newUrl, $flags){
+                /** @var File $file */
+                foreach($this->getFiles() as $file){
+                    $newFileUrl = join("/", array($newUrl,$file->getName())) ;
+                    $file->moveTo($newFileUrl, $flags);
+                }
+            });
+            $this->getContext()->load($targetFolder);
+        });
+        return $targetFolder;
+    }
+
     /**
      * Rename a file
      * @param string $name

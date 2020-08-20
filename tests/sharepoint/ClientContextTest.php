@@ -37,7 +37,25 @@ class ClientContextTest extends SharePointTestCase
             self::assertFalse(self::$context->hasPendingRequest());
         } catch (Exception $e) {
             self::assertTrue(self::$context->hasPendingRequest());
+            self::$context->getPendingRequest()->clearActions();
         }
+    }
+
+
+    public function testEnsureScalarProperty(){
+        $web = self::$context->getWeb();
+        $web->ensureProperty("Title", function () use ($web){
+            self::assertEquals("Title",$web->getQueryOptions()->Select);
+        });
+        self::$context->executeQuery();
+    }
+
+
+    public function testEnsureNavigationProperty(){
+        $web = self::$context->getWeb();
+        $web->ensureProperty("CurrentUser");
+        self::$context->executeQuery();
+        self::assertTrue($web->isPropertyAvailable("CurrentUser"));
     }
 
 

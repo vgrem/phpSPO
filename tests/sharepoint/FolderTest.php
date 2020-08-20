@@ -85,7 +85,7 @@ class FolderTest extends SharePointTestCase
 
 
     /**
-     * @depends testCreateFolder
+     * @depends testRenameFolder
      * @param Folder $folder
      */
     public function testAssignFolderPermissions($folder)
@@ -111,8 +111,9 @@ class FolderTest extends SharePointTestCase
     }
 
     /**
-     * @depends testCreateFolder
+     * @depends testRenameFolder
      * @param Folder $sourceFolder
+     * @return Folder
      */
     public function testCopyFolder($sourceFolder)
     {
@@ -120,21 +121,31 @@ class FolderTest extends SharePointTestCase
         $sourceFolder->uploadFile("Sample.txt","--some content goes here--");
         self::$context->executeQuery();
 
-        #create target folder
         $folderName = "Archive_copy_" . rand(1, 100000);
-        $targetFolder = self::$targetList->getRootFolder()->getFolders()->add($folderName);
-        self::$context->load(self::$targetList->getRootFolder());
-        self::$context->executeQuery();
-
-        $sourceFolder->copyTo($targetFolder->getServerRelativeUrl(),true);
-        self::$context->load($targetFolder);
+        $targetFolderUrl = join("/",array($sourceFolder->getServerRelativeUrl(), $folderName)) ;
+        $targetFolder = $sourceFolder->copyTo($targetFolderUrl,true);
         self::$context->executeQuery();
         self::assertGreaterThan(0,$targetFolder->getItemCount());
+        return $targetFolder;
+    }
+
+    /**
+     * @depends testRenameFolder
+     * @param Folder $sourceFolder
+     * @return Folder
+     */
+    public function testMoveFolder($sourceFolder)
+    {
+        $targetFolderUrl = join("/",array($sourceFolder->getServerRelativeUrl(), "2006")) ;
+        $targetFolder = $sourceFolder->moveTo($targetFolderUrl,1);
+        self::$context->executeQuery();
+        self::assertGreaterThan(0,$targetFolder->getItemCount());
+        return $targetFolder;
     }
 
 
     /**
-     * @depends testRenameFolder
+     * @depends testMoveFolder
      * @param Folder $folderToDelete
      */
     public function testDeleteFolder(Folder $folderToDelete)

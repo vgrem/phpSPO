@@ -280,7 +280,7 @@ class ClientObject
      * @param string $name
      * @return mixed|null
      */
-    private function getPropertyType($name){
+    public function getPropertyType($name){
         $getterName = "get$name";
         if(method_exists($this,$getterName)) {
             return $this->{$getterName}();
@@ -313,19 +313,14 @@ class ClientObject
     /**
      * Ensures property is loaded
      * @param string $propName
-     * @param callable $loaded
+     * @param callable $loadedCallback
      */
-    public function ensureProperty($propName, $loaded)
+    public function ensureProperty($propName, $loadedCallback=null)
     {
         if ($this->isPropertyAvailable($propName)) {
-            call_user_func($loaded, $this);
+            if(is_callable($loadedCallback)) call_user_func($loadedCallback, $this);
         } else {
-            $this->getContext()->load($this, array($propName));
-            $qry = $this->getContext()->getPendingRequest()->getLastQuery();
-            $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use ($loaded, $qry) {
-                if($this->getContext()->getCurrentQuery()->getId() == $qry->getId())
-                    call_user_func($loaded, $this);
-            },false);
+            $this->getContext()->load($this, array($propName), $loadedCallback);
         }
     }
 

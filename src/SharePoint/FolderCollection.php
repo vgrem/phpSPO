@@ -12,11 +12,15 @@ use Office365\Runtime\ResourcePathServiceOperation;
 
 class FolderCollection extends ClientObjectCollection
 {
-    public function add($url)
+    /**
+     * @param string $serverRelativeUrl Folder server relative url
+     * @return Folder
+     */
+    public function add($serverRelativeUrl)
     {
         $folder = new Folder($this->getContext());
         $this->addChild($folder);
-        $folder->setProperty("ServerRelativeUrl", rawurlencode($url));
+        $folder->setProperty("ServerRelativeUrl", rawurlencode($serverRelativeUrl));
         $qry = new CreateEntityQuery($folder);
         $this->getContext()->addQueryAndResultObject($qry, $folder);
         return $folder;

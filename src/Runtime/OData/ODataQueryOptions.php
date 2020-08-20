@@ -10,10 +10,16 @@ namespace Office365\Runtime\OData;
 class ODataQueryOptions
 {
 
+    /**
+     * @return bool
+     */
     public function isEmpty(){
         return (count($this->getProperties()) == 0);
     }
 
+    /**
+     * @return string
+     */
     public function toUrl()
     {
         return implode('&',array_map(
@@ -25,23 +31,50 @@ class ODataQueryOptions
     }
 
 
+    /**
+     * @return array
+     */
     private function getProperties(){
         return array_filter((array) $this);
     }
 
+    /**
+     * @var string
+     */
     public $Select;
 
+    /**
+     * @var string
+     */
     public $Filter;
 
+    /**
+     * @var string
+     */
     public $Expand;
 
+    /**
+     * @var string
+     */
     public $OrderBy;
 
+    /**
+     * @var int
+     */
     public $Top;
 
+    /**
+     * @var int
+     */
     public $Skip;
 
+    /**
+     * @var string
+     */
     public $SkipToken;
 
+    /**
+     * @var string
+     */
     public $Search;
 }

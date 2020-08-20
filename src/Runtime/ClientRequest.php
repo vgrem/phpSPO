@@ -71,13 +71,6 @@ abstract class ClientRequest
         return array_shift($this->queries);
     }
 
-    /**
-     * @return ClientAction
-     */
-    public function getLastQuery(){
-        return array_values(array_slice($this->queries, -1))[0];
-    }
-
 
     /**
      * Add query into request queue
@@ -186,6 +179,10 @@ abstract class ClientRequest
      */
     public function getActions(){
         return $this->queries;
+    }
+
+    public function clearActions(){
+        $this->queries = array();
     }
 
     /**
