@@ -1,0 +1,954 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:DataServices>
+        <Schema Namespace="Microsoft.OutlookServices" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityType Name="Entity" Abstract="true">
+                <Key>
+                    <PropertyRef Name="Id"/>
+                </Key>
+                <Property Name="Id" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="DirectoryObject" BaseType="Microsoft.OutlookServices.Entity" Abstract="true"/>
+            <EntityType Name="User" BaseType="Microsoft.OutlookServices.DirectoryObject">
+                <Property Name="DisplayName" Type="Edm.String"/>
+                <Property Name="Alias" Type="Edm.String"/>
+                <Property Name="MailboxGuid" Type="Edm.Guid"/>
+                <NavigationProperty Name="Messages" Type="Collection(Microsoft.OutlookServices.Message)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="Folders" Type="Collection(Microsoft.OutlookServices.Folder)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="Calendar" Type="Microsoft.OutlookServices.Calendar" ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Property="Insertable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Property="Deletable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="Calendars" Type="Collection(Microsoft.OutlookServices.Calendar)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="CalendarGroups" Type="Collection(Microsoft.OutlookServices.CalendarGroup)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="CalendarView" Type="Collection(Microsoft.OutlookServices.Event)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.NavigationRestrictions">
+                        <Record>
+                            <PropertyValue Property="Navigability">
+                                <EnumMember>Org.OData.Capabilities.V1.NavigationType/Single</EnumMember>
+                            </PropertyValue>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Property="Insertable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Property="Updatable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Property="Deletable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="Events" Type="Collection(Microsoft.OutlookServices.Event)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="Contacts" Type="Collection(Microsoft.OutlookServices.Contact)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="ContactFolders" Type="Collection(Microsoft.OutlookServices.ContactFolder)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="RootFolder" Type="Microsoft.OutlookServices.Folder" ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.NavigationRestrictions">
+                        <Record>
+                            <PropertyValue Property="Navigability">
+                                <EnumMember>Org.OData.Capabilities.V1.NavigationType/Single</EnumMember>
+                            </PropertyValue>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Property="Insertable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Property="Updatable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Property="Deletable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+            </EntityType>
+            <Action Name="SendMail" IsBound="true">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.User"/>
+                <Parameter Name="Message" Type="Microsoft.OutlookServices.Message" Nullable="false"/>
+                <Parameter Name="SaveToSentItems" Type="Edm.Boolean"/>
+            </Action>
+            <EntityType Name="Item" BaseType="Microsoft.OutlookServices.Entity" Abstract="true">
+                <Property Name="DateTimeCreated" Type="Edm.DateTimeOffset"/>
+                <Property Name="DateTimeLastModified" Type="Edm.DateTimeOffset"/>
+                <Property Name="ChangeKey" Type="Edm.String"/>
+                <Property Name="Categories" Type="Collection(Edm.String)"/>
+            </EntityType>
+            <EntityType Name="Message" BaseType="Microsoft.OutlookServices.Item">
+                <Property Name="DateTimeReceived" Type="Edm.DateTimeOffset"/>
+                <Property Name="DateTimeSent" Type="Edm.DateTimeOffset"/>
+                <Property Name="HasAttachments" Type="Edm.Boolean"/>
+                <Property Name="Subject" Type="Edm.String"/>
+                <Property Name="Body" Type="Microsoft.OutlookServices.ItemBody"/>
+                <Property Name="BodyPreview" Type="Edm.String"/>
+                <Property Name="Importance" Type="Microsoft.OutlookServices.Importance"/>
+                <Property Name="ParentFolderId" Type="Edm.String"/>
+                <Property Name="Sender" Type="Microsoft.OutlookServices.Recipient"/>
+                <Property Name="From" Type="Microsoft.OutlookServices.Recipient"/>
+                <Property Name="ToRecipients" Type="Collection(Microsoft.OutlookServices.Recipient)"/>
+                <Property Name="CcRecipients" Type="Collection(Microsoft.OutlookServices.Recipient)"/>
+                <Property Name="BccRecipients" Type="Collection(Microsoft.OutlookServices.Recipient)"/>
+                <Property Name="ReplyTo" Type="Collection(Microsoft.OutlookServices.Recipient)"/>
+                <Property Name="ConversationId" Type="Edm.String"/>
+                <Property Name="UniqueBody" Type="Microsoft.OutlookServices.ItemBody"/>
+                <Property Name="IsDeliveryReceiptRequested" Type="Edm.Boolean"/>
+                <Property Name="IsReadReceiptRequested" Type="Edm.Boolean"/>
+                <Property Name="IsRead" Type="Edm.Boolean"/>
+                <Property Name="IsDraft" Type="Edm.Boolean"/>
+                <Property Name="WebLink" Type="Edm.String"/>
+                <NavigationProperty Name="Attachments" Type="Collection(Microsoft.OutlookServices.Attachment)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Property="Updatable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+            </EntityType>
+            <ComplexType Name="ItemBody">
+                <Property Name="ContentType" Type="Microsoft.OutlookServices.BodyType"/>
+                <Property Name="Content" Type="Edm.String"/>
+            </ComplexType>
+            <EnumType Name="BodyType">
+                <Member Name="Text" Value="0"/>
+                <Member Name="HTML" Value="1"/>
+            </EnumType>
+            <EnumType Name="Importance">
+                <Member Name="Low" Value="0"/>
+                <Member Name="Normal" Value="1"/>
+                <Member Name="High" Value="2"/>
+            </EnumType>
+            <ComplexType Name="Recipient">
+                <Property Name="EmailAddress" Type="Microsoft.OutlookServices.EmailAddress"/>
+            </ComplexType>
+            <ComplexType Name="EmailAddress">
+                <Property Name="Name" Type="Edm.String"/>
+                <Property Name="Address" Type="Edm.String"/>
+            </ComplexType>
+            <Action Name="CreateReply" IsBound="true" EntitySetPath="bindingParameter">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Message"/>
+                <ReturnType Type="Microsoft.OutlookServices.Message"/>
+            </Action>
+            <Action Name="CreateReplyAll" IsBound="true" EntitySetPath="bindingParameter">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Message"/>
+                <ReturnType Type="Microsoft.OutlookServices.Message"/>
+            </Action>
+            <Action Name="CreateForward" IsBound="true" EntitySetPath="bindingParameter">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Message"/>
+                <ReturnType Type="Microsoft.OutlookServices.Message"/>
+            </Action>
+            <Action Name="Send" IsBound="true">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Message"/>
+            </Action>
+            <Action Name="Copy" IsBound="true" EntitySetPath="bindingParameter">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Message"/>
+                <Parameter Name="DestinationId" Type="Edm.String" Nullable="false"/>
+                <ReturnType Type="Microsoft.OutlookServices.Message"/>
+            </Action>
+            <Action Name="Move" IsBound="true" EntitySetPath="bindingParameter">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Message"/>
+                <Parameter Name="DestinationId" Type="Edm.String" Nullable="false"/>
+                <ReturnType Type="Microsoft.OutlookServices.Message"/>
+            </Action>
+            <Action Name="Reply" IsBound="true">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Message"/>
+                <Parameter Name="Comment" Type="Edm.String"/>
+            </Action>
+            <Action Name="ReplyAll" IsBound="true">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Message"/>
+                <Parameter Name="Comment" Type="Edm.String"/>
+            </Action>
+            <Action Name="Forward" IsBound="true">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Message"/>
+                <Parameter Name="ToRecipients" Type="Collection(Microsoft.OutlookServices.Recipient)"/>
+                <Parameter Name="Comment" Type="Edm.String"/>
+            </Action>
+            <EntityType Name="EventMessage" BaseType="Microsoft.OutlookServices.Message">
+                <Property Name="MeetingMessageType" Type="Microsoft.OutlookServices.MeetingMessageType"/>
+                <NavigationProperty Name="Event" Type="Microsoft.OutlookServices.Event" ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Property="Insertable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Property="Updatable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Property="Deletable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+            </EntityType>
+            <EnumType Name="MeetingMessageType">
+                <Member Name="None" Value="0"/>
+                <Member Name="MeetingRequest" Value="1"/>
+                <Member Name="MeetingCancelled" Value="2"/>
+                <Member Name="MeetingAccepted" Value="3"/>
+                <Member Name="MeetingTenativelyAccepted" Value="4"/>
+                <Member Name="MeetingDeclined" Value="5"/>
+            </EnumType>
+            <EntityType Name="Folder" BaseType="Microsoft.OutlookServices.Entity">
+                <Property Name="DisplayName" Type="Edm.String"/>
+                <Property Name="ParentFolderId" Type="Edm.String"/>
+                <Property Name="ChildFolderCount" Type="Edm.Int32"/>
+                <Property Name="UnreadItemCount" Type="Edm.Int32"/>
+                <Property Name="TotalItemCount" Type="Edm.Int32"/>
+                <Property Name="SizeInBytes" Type="Edm.Int64"/>
+                <NavigationProperty Name="Messages" Type="Collection(Microsoft.OutlookServices.Message)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="ChildFolders" Type="Collection(Microsoft.OutlookServices.Folder)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.NavigationRestrictions">
+                        <Record>
+                            <PropertyValue Property="Navigability">
+                                <EnumMember>Org.OData.Capabilities.V1.NavigationType/Single</EnumMember>
+                            </PropertyValue>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+            </EntityType>
+            <Action Name="Copy" IsBound="true" EntitySetPath="bindingParameter">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Folder"/>
+                <Parameter Name="DestinationId" Type="Edm.String" Nullable="false"/>
+                <ReturnType Type="Microsoft.OutlookServices.Folder"/>
+            </Action>
+            <Action Name="Move" IsBound="true" EntitySetPath="bindingParameter">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Folder"/>
+                <Parameter Name="DestinationId" Type="Edm.String" Nullable="false"/>
+                <ReturnType Type="Microsoft.OutlookServices.Folder"/>
+            </Action>
+            <EntityType Name="Calendar" BaseType="Microsoft.OutlookServices.Entity">
+                <Property Name="Name" Type="Edm.String"/>
+                <Property Name="Color" Type="Microsoft.OutlookServices.CalendarColor"/>
+                <Property Name="ChangeKey" Type="Edm.String"/>
+                <NavigationProperty Name="Events" Type="Collection(Microsoft.OutlookServices.Event)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.NavigationRestrictions">
+                        <Record>
+                            <PropertyValue Property="Navigability">
+                                <EnumMember>Org.OData.Capabilities.V1.NavigationType/Single</EnumMember>
+                            </PropertyValue>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="CalendarView" Type="Collection(Microsoft.OutlookServices.Event)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.NavigationRestrictions">
+                        <Record>
+                            <PropertyValue Property="Navigability">
+                                <EnumMember>Org.OData.Capabilities.V1.NavigationType/Single</EnumMember>
+                            </PropertyValue>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Property="Insertable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Property="Updatable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Property="Deletable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+            </EntityType>
+            <EnumType Name="CalendarColor">
+                <Member Name="LightBlue" Value="0"/>
+                <Member Name="LightGreen" Value="1"/>
+                <Member Name="LightOrange" Value="2"/>
+                <Member Name="LightGray" Value="3"/>
+                <Member Name="LightYellow" Value="4"/>
+                <Member Name="LightTeal" Value="5"/>
+                <Member Name="LightPink" Value="6"/>
+                <Member Name="LightBrown" Value="7"/>
+                <Member Name="LightRed" Value="8"/>
+                <Member Name="MaxColor" Value="9"/>
+                <Member Name="Auto" Value="-1"/>
+            </EnumType>
+            <EntityType Name="CalendarGroup" BaseType="Microsoft.OutlookServices.Entity">
+                <Property Name="Name" Type="Edm.String"/>
+                <Property Name="ClassId" Type="Edm.Guid"/>
+                <Property Name="ChangeKey" Type="Edm.String"/>
+                <NavigationProperty Name="Calendars" Type="Collection(Microsoft.OutlookServices.Calendar)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.NavigationRestrictions">
+                        <Record>
+                            <PropertyValue Property="Navigability">
+                                <EnumMember>Org.OData.Capabilities.V1.NavigationType/Single</EnumMember>
+                            </PropertyValue>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Event" BaseType="Microsoft.OutlookServices.Item">
+                <Property Name="StartTimeZone" Type="Edm.String"/>
+                <Property Name="EndTimeZone" Type="Edm.String"/>
+                <Property Name="ResponseStatus" Type="Microsoft.OutlookServices.ResponseStatus"/>
+                <Property Name="iCalUId" Type="Edm.String"/>
+                <Property Name="Reminder" Type="Edm.Int32"/>
+                <Property Name="HasAttachments" Type="Edm.Boolean"/>
+                <Property Name="Subject" Type="Edm.String"/>
+                <Property Name="Body" Type="Microsoft.OutlookServices.ItemBody"/>
+                <Property Name="BodyPreview" Type="Edm.String"/>
+                <Property Name="Importance" Type="Microsoft.OutlookServices.Importance"/>
+                <Property Name="Sensitivity" Type="Microsoft.OutlookServices.Sensitivity"/>
+                <Property Name="Start" Type="Edm.DateTimeOffset"/>
+                <Property Name="OriginalStart" Type="Edm.DateTimeOffset"/>
+                <Property Name="End" Type="Edm.DateTimeOffset"/>
+                <Property Name="Location" Type="Microsoft.OutlookServices.Location"/>
+                <Property Name="IsAllDay" Type="Edm.Boolean"/>
+                <Property Name="IsCancelled" Type="Edm.Boolean"/>
+                <Property Name="IsOrganizer" Type="Edm.Boolean"/>
+                <Property Name="Recurrence" Type="Microsoft.OutlookServices.PatternedRecurrence"/>
+                <Property Name="ResponseRequested" Type="Edm.Boolean"/>
+                <Property Name="SeriesMasterId" Type="Edm.String"/>
+                <Property Name="ShowAs" Type="Microsoft.OutlookServices.FreeBusyStatus"/>
+                <Property Name="Type" Type="Microsoft.OutlookServices.EventType"/>
+                <Property Name="Attendees" Type="Collection(Microsoft.OutlookServices.Attendee)"/>
+                <Property Name="Organizer" Type="Microsoft.OutlookServices.Recipient"/>
+                <Property Name="WebLink" Type="Edm.String"/>
+                <NavigationProperty Name="Attachments" Type="Collection(Microsoft.OutlookServices.Attachment)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Property="Updatable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="Calendar" Type="Microsoft.OutlookServices.Calendar" ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.NavigationRestrictions">
+                        <Record>
+                            <PropertyValue Property="Navigability">
+                                <EnumMember>Org.OData.Capabilities.V1.NavigationType/Single</EnumMember>
+                            </PropertyValue>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Property="Insertable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Property="Updatable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Property="Deletable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="Instances" Type="Collection(Microsoft.OutlookServices.Event)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.NavigationRestrictions">
+                        <Record>
+                            <PropertyValue Property="Navigability">
+                                <EnumMember>Org.OData.Capabilities.V1.NavigationType/Single</EnumMember>
+                            </PropertyValue>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Property="Insertable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Property="Updatable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Property="Deletable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+            </EntityType>
+            <ComplexType Name="ResponseStatus">
+                <Property Name="Response" Type="Microsoft.OutlookServices.ResponseType"/>
+                <Property Name="Time" Type="Edm.DateTimeOffset"/>
+            </ComplexType>
+            <EnumType Name="ResponseType">
+                <Member Name="None" Value="0"/>
+                <Member Name="Organizer" Value="1"/>
+                <Member Name="TentativelyAccepted" Value="2"/>
+                <Member Name="Accepted" Value="3"/>
+                <Member Name="Declined" Value="4"/>
+                <Member Name="NotResponded" Value="5"/>
+            </EnumType>
+            <EnumType Name="Sensitivity">
+                <Member Name="Normal" Value="0"/>
+                <Member Name="Personal" Value="1"/>
+                <Member Name="Private" Value="2"/>
+                <Member Name="Confidential" Value="3"/>
+            </EnumType>
+            <ComplexType Name="Location">
+                <Property Name="DisplayName" Type="Edm.String"/>
+                <Property Name="LocationEmailAddress" Type="Edm.String"/>
+                <Property Name="Address" Type="Microsoft.OutlookServices.PhysicalAddress"/>
+                <Property Name="Coordinates" Type="Microsoft.OutlookServices.GeoCoordinates"/>
+            </ComplexType>
+            <ComplexType Name="PhysicalAddress">
+                <Property Name="Street" Type="Edm.String"/>
+                <Property Name="City" Type="Edm.String"/>
+                <Property Name="State" Type="Edm.String"/>
+                <Property Name="CountryOrRegion" Type="Edm.String"/>
+                <Property Name="PostalCode" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="GeoCoordinates">
+                <Property Name="Altitude" Type="Edm.Double"/>
+                <Property Name="Latitude" Type="Edm.Double"/>
+                <Property Name="Longitude" Type="Edm.Double"/>
+                <Property Name="Accuracy" Type="Edm.Double"/>
+                <Property Name="AltitudeAccuracy" Type="Edm.Double"/>
+            </ComplexType>
+            <ComplexType Name="PatternedRecurrence">
+                <Property Name="Pattern" Type="Microsoft.OutlookServices.RecurrencePattern"/>
+                <Property Name="Range" Type="Microsoft.OutlookServices.RecurrenceRange"/>
+            </ComplexType>
+            <ComplexType Name="RecurrencePattern">
+                <Property Name="Type" Type="Microsoft.OutlookServices.RecurrencePatternType"/>
+                <Property Name="Interval" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Month" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="DayOfMonth" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="DaysOfWeek" Type="Collection(Microsoft.OutlookServices.DayOfWeek)"/>
+                <Property Name="FirstDayOfWeek" Type="Microsoft.OutlookServices.DayOfWeek"/>
+                <Property Name="Index" Type="Microsoft.OutlookServices.WeekIndex"/>
+            </ComplexType>
+            <EnumType Name="RecurrencePatternType">
+                <Member Name="Daily" Value="0"/>
+                <Member Name="Weekly" Value="1"/>
+                <Member Name="AbsoluteMonthly" Value="2"/>
+                <Member Name="RelativeMonthly" Value="3"/>
+                <Member Name="AbsoluteYearly" Value="4"/>
+                <Member Name="RelativeYearly" Value="5"/>
+            </EnumType>
+            <EnumType Name="DayOfWeek">
+                <Member Name="Sunday" Value="0"/>
+                <Member Name="Monday" Value="1"/>
+                <Member Name="Tuesday" Value="2"/>
+                <Member Name="Wednesday" Value="3"/>
+                <Member Name="Thursday" Value="4"/>
+                <Member Name="Friday" Value="5"/>
+                <Member Name="Saturday" Value="6"/>
+            </EnumType>
+            <EnumType Name="WeekIndex">
+                <Member Name="First" Value="0"/>
+                <Member Name="Second" Value="1"/>
+                <Member Name="Third" Value="2"/>
+                <Member Name="Fourth" Value="3"/>
+                <Member Name="Last" Value="4"/>
+            </EnumType>
+            <ComplexType Name="RecurrenceRange">
+                <Property Name="Type" Type="Microsoft.OutlookServices.RecurrenceRangeType"/>
+                <Property Name="StartDate" Type="Edm.DateTimeOffset"/>
+                <Property Name="EndDate" Type="Edm.DateTimeOffset"/>
+                <Property Name="NumberOfOccurrences" Type="Edm.Int32" Nullable="false"/>
+            </ComplexType>
+            <EnumType Name="RecurrenceRangeType">
+                <Member Name="EndDate" Value="0"/>
+                <Member Name="NoEnd" Value="1"/>
+                <Member Name="Numbered" Value="2"/>
+            </EnumType>
+            <EnumType Name="FreeBusyStatus">
+                <Member Name="Free" Value="0"/>
+                <Member Name="Tentative" Value="1"/>
+                <Member Name="Busy" Value="2"/>
+                <Member Name="Oof" Value="3"/>
+                <Member Name="WorkingElsewhere" Value="4"/>
+                <Member Name="Unknown" Value="-1"/>
+            </EnumType>
+            <EnumType Name="EventType">
+                <Member Name="SingleInstance" Value="0"/>
+                <Member Name="Occurrence" Value="1"/>
+                <Member Name="Exception" Value="2"/>
+                <Member Name="SeriesMaster" Value="3"/>
+            </EnumType>
+            <ComplexType Name="AttendeeBase" BaseType="Microsoft.OutlookServices.Recipient">
+                <Property Name="Type" Type="Microsoft.OutlookServices.AttendeeType"/>
+            </ComplexType>
+            <EnumType Name="AttendeeType">
+                <Member Name="Required" Value="0"/>
+                <Member Name="Optional" Value="1"/>
+                <Member Name="Resource" Value="2"/>
+            </EnumType>
+            <ComplexType Name="Attendee" BaseType="Microsoft.OutlookServices.AttendeeBase">
+                <Property Name="Status" Type="Microsoft.OutlookServices.ResponseStatus"/>
+            </ComplexType>
+            <Action Name="Accept" IsBound="true">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Event"/>
+                <Parameter Name="SendResponse" Type="Edm.Boolean"/>
+                <Parameter Name="Comment" Type="Edm.String"/>
+            </Action>
+            <Action Name="Decline" IsBound="true">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Event"/>
+                <Parameter Name="SendResponse" Type="Edm.Boolean"/>
+                <Parameter Name="Comment" Type="Edm.String"/>
+            </Action>
+            <Action Name="TentativelyAccept" IsBound="true">
+                <Parameter Name="bindingParameter" Type="Microsoft.OutlookServices.Event"/>
+                <Parameter Name="SendResponse" Type="Edm.Boolean"/>
+                <Parameter Name="Comment" Type="Edm.String"/>
+            </Action>
+            <EntityType Name="Contact" BaseType="Microsoft.OutlookServices.Item">
+                <Property Name="ParentFolderId" Type="Edm.String"/>
+                <Property Name="Birthday" Type="Edm.DateTimeOffset"/>
+                <Property Name="FileAs" Type="Edm.String"/>
+                <Property Name="DisplayName" Type="Edm.String"/>
+                <Property Name="GivenName" Type="Edm.String"/>
+                <Property Name="Initials" Type="Edm.String"/>
+                <Property Name="MiddleName" Type="Edm.String"/>
+                <Property Name="NickName" Type="Edm.String"/>
+                <Property Name="Surname" Type="Edm.String"/>
+                <Property Name="Title" Type="Edm.String"/>
+                <Property Name="YomiGivenName" Type="Edm.String"/>
+                <Property Name="YomiSurname" Type="Edm.String"/>
+                <Property Name="YomiCompanyName" Type="Edm.String"/>
+                <Property Name="Generation" Type="Edm.String"/>
+                <Property Name="EmailAddresses" Type="Collection(Microsoft.OutlookServices.EmailAddress)"/>
+                <Property Name="ImAddresses" Type="Collection(Edm.String)"/>
+                <Property Name="JobTitle" Type="Edm.String"/>
+                <Property Name="CompanyName" Type="Edm.String"/>
+                <Property Name="Department" Type="Edm.String"/>
+                <Property Name="OfficeLocation" Type="Edm.String"/>
+                <Property Name="Profession" Type="Edm.String"/>
+                <Property Name="BusinessHomePage" Type="Edm.String"/>
+                <Property Name="AssistantName" Type="Edm.String"/>
+                <Property Name="Manager" Type="Edm.String"/>
+                <Property Name="HomePhones" Type="Collection(Edm.String)"/>
+                <Property Name="MobilePhone1" Type="Edm.String"/>
+                <Property Name="BusinessPhones" Type="Collection(Edm.String)"/>
+                <Property Name="HomeAddress" Type="Microsoft.OutlookServices.PhysicalAddress"/>
+                <Property Name="BusinessAddress" Type="Microsoft.OutlookServices.PhysicalAddress"/>
+                <Property Name="OtherAddress" Type="Microsoft.OutlookServices.PhysicalAddress"/>
+                <Property Name="SpouseName" Type="Edm.String"/>
+                <Property Name="PersonalNotes" Type="Edm.String"/>
+                <Property Name="Children" Type="Collection(Edm.String)"/>
+            </EntityType>
+            <EntityType Name="ContactFolder" BaseType="Microsoft.OutlookServices.Entity">
+                <Property Name="ParentFolderId" Type="Edm.String"/>
+                <Property Name="DisplayName" Type="Edm.String"/>
+                <NavigationProperty Name="Contacts" Type="Collection(Microsoft.OutlookServices.Contact)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+                <NavigationProperty Name="ChildFolders" Type="Collection(Microsoft.OutlookServices.ContactFolder)"
+                                    ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.NavigationRestrictions">
+                        <Record>
+                            <PropertyValue Property="Navigability">
+                                <EnumMember>Org.OData.Capabilities.V1.NavigationType/Single</EnumMember>
+                            </PropertyValue>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Attachment" BaseType="Microsoft.OutlookServices.Entity" Abstract="true">
+                <Property Name="DateTimeLastModified" Type="Edm.DateTimeOffset"/>
+                <Property Name="Name" Type="Edm.String"/>
+                <Property Name="ContentType" Type="Edm.String"/>
+                <Property Name="Size" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="IsInline" Type="Edm.Boolean" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="FileAttachment" BaseType="Microsoft.OutlookServices.Attachment">
+                <Property Name="ContentId" Type="Edm.String"/>
+                <Property Name="ContentLocation" Type="Edm.String"/>
+                <Property Name="ContentBytes" Type="Edm.Binary"/>
+                <Property Name="IsContactPhoto" Type="Edm.Boolean" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="ItemAttachment" BaseType="Microsoft.OutlookServices.Attachment">
+                <NavigationProperty Name="Item" Type="Microsoft.OutlookServices.Item" ContainsTarget="true">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Property="Insertable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Property="Updatable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Property="Deletable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </NavigationProperty>
+            </EntityType>
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Users" EntityType="Microsoft.OutlookServices.User">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Property="Insertable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Property="Deletable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </EntitySet>
+                <Singleton Name="Me" Type="Microsoft.OutlookServices.User">
+                    <Annotation Term="Org.OData.Capabilities.V1.ChangeTracking">
+                        <Record>
+                            <PropertyValue Property="Supported" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.ExpandRestrictions">
+                        <Record>
+                            <PropertyValue Property="Expandable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Property="Searchable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Property="Insertable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Property="Deletable" Bool="false"/>
+                        </Record>
+                    </Annotation>
+                </Singleton>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

@@ -110,6 +110,28 @@ class FolderTest extends SharePointTestCase
         self::$context->executeQuery();
     }
 
+    /**
+     * @depends testCreateFolder
+     * @param Folder $sourceFolder
+     */
+    public function testCopyFolder($sourceFolder)
+    {
+        #ensure source folder contains at least one file
+        $sourceFolder->uploadFile("Sample.txt","--some content goes here--");
+        self::$context->executeQuery();
+
+        #create target folder
+        $folderName = "Archive_copy_" . rand(1, 100000);
+        $targetFolder = self::$targetList->getRootFolder()->getFolders()->add($folderName);
+        self::$context->load(self::$targetList->getRootFolder());
+        self::$context->executeQuery();
+
+        $sourceFolder->copyTo($targetFolder->getServerRelativeUrl(),true);
+        self::$context->load($targetFolder);
+        self::$context->executeQuery();
+        self::assertGreaterThan(0,$targetFolder->getItemCount());
+    }
+
 
     /**
      * @depends testRenameFolder

@@ -47,6 +47,21 @@ class Folder extends ClientObject
         return $this->getFiles()->add($info);
     }
     /**
+     * Copies the folder along with files to the destination URL.
+     * @param string $strNewUrl The absolute URL or server relative URL of the destination file path to copy to.
+     * @param bool $bOverWrite true to overwrite a file(s) with the same name in the same location; otherwise false.
+     */
+    public function copyTo($strNewUrl, $bOverWrite)
+    {
+        $this->ensureProperty("Files", function () use ($strNewUrl,$bOverWrite){
+            /** @var File $file */
+            foreach($this->getFiles() as $file){
+                $newFileUrl = join("/", array($strNewUrl,$file->getName())) ;
+                $file->copyTo($newFileUrl, $bOverWrite);
+            }
+        });
+    }
+    /**
      * Rename a file
      * @param string $name
      */
