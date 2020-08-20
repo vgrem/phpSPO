@@ -4,3 +4,5 @@
 *.lock
 *.phar
 /vendor/*
+/generator/vendor/
+/examples/vendor/
