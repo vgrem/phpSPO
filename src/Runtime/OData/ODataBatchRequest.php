@@ -18,7 +18,7 @@ class ODataBatchRequest extends ClientRequest
     }
 
 
-    function buildRequest()
+    public function buildRequest()
     {
         // TODO: Implement buildRequest() method.
     }

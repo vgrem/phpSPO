@@ -7,7 +7,7 @@ use InvalidArgumentException;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\CSOM\ICSOMCallable;
-use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use SimpleXMLElement;
 
 class TaxonomySession extends ClientObject implements ICSOMCallable

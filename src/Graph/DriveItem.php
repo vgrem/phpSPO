@@ -7,11 +7,11 @@ namespace Office365\Graph;
 
 
 
-use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\Http\RequestOptions;
-use Office365\Runtime\InvokeMethodQuery;
-use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\Actions\InvokeMethodQuery;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ResourcePathUrl;
 
@@ -476,6 +476,11 @@ class DriveItem extends BaseItem
         return $this->getProperty("Permissions");
     }
 
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @param bool $persistChanges
+     */
     public function setProperty($name, $value, $persistChanges = true)
     {
         parent::setProperty($name, $value, $persistChanges);
@@ -484,7 +489,5 @@ class DriveItem extends BaseItem
                 new ResourcePath("items", $this->parentCollection->getResourcePath()->getParent()->getParent()));
         }
     }
-
-
 
 }

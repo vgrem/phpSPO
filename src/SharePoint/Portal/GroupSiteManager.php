@@ -4,7 +4,7 @@
 namespace Office365\SharePoint\Portal;
 
 
-use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 use Office365\SharePoint\ClientContext;

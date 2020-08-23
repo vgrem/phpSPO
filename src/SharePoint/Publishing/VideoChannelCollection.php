@@ -4,7 +4,7 @@
 namespace Office365\SharePoint\Publishing;
 
 
-use Office365\Runtime\CreateEntityQuery;
+use Office365\Runtime\Actions\CreateEntityQuery;
 use Office365\Runtime\ClientObjectCollection;
 
 class VideoChannelCollection extends ClientObjectCollection

@@ -64,7 +64,7 @@ class CSOMRequest extends ClientRequest
      * Build Client Request
      * @return void
      */
-    protected function buildRequest()
+    public function buildRequest()
     {
         // TODO: Implement buildRequest() method.
     }

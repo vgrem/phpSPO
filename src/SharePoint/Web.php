@@ -6,10 +6,10 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientResult;
-use Office365\Runtime\DeleteEntityQuery;
-use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\Actions\DeleteEntityQuery;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\UpdateEntityQuery;
+use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ResourcePathServiceOperation;
 /**
  * Specifies 
@@ -73,19 +73,30 @@ class Web extends SecurableObject
         $ctx->addQueryAndResultObject($qry, $result);
         return $result;
     }
+
+    /**
+     * @return $this
+     */
     public function update()
     {
         $qry = new UpdateEntityQuery($this);
         $this->getContext()->addQueryAndResultObject($qry, $this);
+        return $this;
     }
+
+    /**
+     * @return $this
+     */
     public function deleteObject()
     {
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
         $this->removeFromParentCollection();
+        return $this;
     }
     /**
-     * Returns the collection of all changes from the change log that have occurred within the scope of the site, based on the specified query.
+     * Returns the collection of all changes from the change log that have occurred within the scope of the site,
+     * based on the specified query.
      * @param ChangeQuery $query
      * @return ChangeCollection
      */

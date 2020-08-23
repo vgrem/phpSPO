@@ -2,7 +2,7 @@
 
 namespace Office365\Runtime\CSOM;
 
-use Office365\Runtime\ClientAction;
+use Office365\Runtime\Actions\ClientAction;
 use SimpleXMLElement;
 
 class ObjectIdentityQuery extends ClientAction  implements ICSOMCallable
@@ -14,4 +14,5 @@ class ObjectIdentityQuery extends ClientAction  implements ICSOMCallable
         $query->addAttribute("Id", $this->getId());
         //$query->addAttribute("ObjectPathId", $this->getBindingType()->Id);
     }
+
 }

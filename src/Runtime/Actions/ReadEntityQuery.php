@@ -1,8 +1,10 @@
 <?php
 
 
-namespace Office365\Runtime;
+namespace Office365\Runtime\Actions;
 
+
+use Office365\Runtime\ClientObject;
 
 class ReadEntityQuery extends ClientAction
 {
@@ -17,9 +19,7 @@ class ReadEntityQuery extends ClientAction
             $includeProperties = array();
         $expandProperties = array_filter($includeProperties, function ($name) use ($entityToRead) {
             $propType = $entityToRead->getPropertyType($name);
-            if ($propType instanceof ClientObject) {
-                return $name;
-            }
+            return $propType instanceof ClientObject;
         });
         if (!empty($includeProperties))
             $bindingType->getQueryOptions()->Select = implode(",", $includeProperties);

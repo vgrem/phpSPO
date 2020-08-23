@@ -116,7 +116,7 @@ class Requests
            curl_setopt($ch, CURLOPT_POST, 1);
            //if true, add the "Transfer-Encoding: chunked" HTTP header if the "Content-Length" header is absent.
            if ($options->TransferEncodingChunkedAllowed && !array_key_exists('Content-Length', $options->Headers)) {
-              $options->addCustomHeader("Transfer-Encoding", "chunked");
+              $options->ensureHeader("Transfer-Encoding", "chunked");
            }
         } else if($options->Method == HttpMethod::Patch) {
            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $options->Method);
@@ -132,7 +132,7 @@ class Requests
             $opt = $options->Method === HttpMethod::Get ? CURLOPT_FILE : CURLOPT_INFILE;
             curl_setopt($ch, $opt, $options->StreamHandle);
         }
-        $options->addCustomHeader("Content-Length",strlen($options->Data));
+        $options->ensureHeader("Content-Length",strlen($options->Data));
         //custom HTTP headers
         if($options->Headers)
             curl_setopt($ch, CURLOPT_HTTPHEADER, $options->getRawHeaders());

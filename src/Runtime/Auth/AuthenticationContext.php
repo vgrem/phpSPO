@@ -209,7 +209,7 @@ class AuthenticationContext implements IAuthenticationContext
     protected function ensureAuthorizationHeader(RequestOptions $options)
     {
         $value = $this->accessToken['token_type'] . ' ' . $this->accessToken['access_token'];
-        $options->addCustomHeader('Authorization', $value);
+        $options->ensureHeader('Authorization', $value);
     }
 
 
@@ -220,7 +220,7 @@ class AuthenticationContext implements IAuthenticationContext
     protected function ensureAuthenticationCookie(RequestOptions $options)
     {
         $headerVal = http_build_query($this->authCookies,null, "; ");
-        $options->addCustomHeader('Cookie', urldecode($headerVal));
+        $options->ensureHeader('Cookie', urldecode($headerVal));
     }
 
 }

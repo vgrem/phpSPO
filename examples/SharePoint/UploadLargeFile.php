@@ -3,12 +3,14 @@
 $settings = include('../../Settings.php');
 require_once '../vendor/autoload.php';
 
+use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ClientContext;
 
 
 
 try {
-    $ctx = ClientContext::connectWithClientCredentials($settings['Url'], $settings['ClientId'], $settings['ClientSecret']);
+    $creds = new ClientCredential($settings['ClientId'], $settings['ClientSecret']);
+    $ctx = (new ClientContext($settings['Url']))->withCredentials($creds);
     $localPath = "../data/big_buck_bunny.mp4";
     $targetLibraryTitle = "Documents";
     $targetList = $ctx->getWeb()->getLists()->getByTitle($targetLibraryTitle);
@@ -19,8 +21,8 @@ try {
     });
 
     $ctx->executeQuery();
-    $targetFileName = $session->getFile()->getName();
-    echo "File $targetFileName has been uploaded.";
+    $targetFileUrl = $session->getFile()->getServerRelativeUrl();
+    echo "File $targetFileUrl has been uploaded.";
 
 }
 catch (Exception $e) {

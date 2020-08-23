@@ -3,7 +3,7 @@
 
 namespace Office365\SharePoint\Search;
 use Office365\Runtime\ClientRuntimeContext;
-use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
 use Office365\SharePoint\BaseEntity;
 

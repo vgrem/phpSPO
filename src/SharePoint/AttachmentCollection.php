@@ -2,7 +2,7 @@
 
 namespace Office365\SharePoint;
 
-use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ResourcePathServiceOperation;
 

@@ -47,7 +47,7 @@ class RequestOptions
      * @param string $name
      * @param string $value
      */
-    public function addCustomHeader($name, $value)
+    public function ensureHeader($name, $value)
     {
         if (is_null($this->Headers)) {
             $this->Headers = array();

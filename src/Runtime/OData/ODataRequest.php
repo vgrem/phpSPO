@@ -6,7 +6,6 @@ namespace Office365\Runtime\OData;
 use Exception;
 use Generator;
 use Office365\OutlookServices\OutlookClient;
-use Office365\Runtime\ClientAction;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ClientRequest;
@@ -16,8 +15,8 @@ use Office365\Runtime\ClientValue;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\Http\Response;
 use Office365\Runtime\Http\HttpMethod;
-use Office365\Runtime\InvokeMethodQuery;
-use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\Actions\InvokeMethodQuery;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\SharePoint\ClientContext;
 
 
@@ -41,17 +40,9 @@ class ODataRequest extends ClientRequest
     /**
      * @return RequestOptions
      */
-    protected function buildRequest(){
-        $qry = $this->context->getCurrentQuery();
-        return $this->buildSingleRequest($qry);
-    }
+    public function buildRequest(){
+        $qry = $this->currentQuery;
 
-    /**
-     * @param ClientAction $qry
-     * @return RequestOptions
-     */
-    protected function buildSingleRequest($qry)
-    {
         $resourceUrl = $qry->BindingType->getResourceUrl();
         $request = new RequestOptions($resourceUrl);
         if($qry instanceof InvokeMethodQuery){
@@ -150,9 +141,14 @@ class ODataRequest extends ClientRequest
      */
     function executeQueryDirect(RequestOptions $request)
     {
-        $request->addCustomHeader("Accept", $this->getFormat()->getMediaType());
-        $request->addCustomHeader("Content-Type", $this->getFormat()->getMediaType());
+        $this->ensureMediaType($request);
         return parent::executeQueryDirect($request);
+    }
+
+
+    private function ensureMediaType(RequestOptions $request){
+        $request->ensureHeader("Accept", $this->getFormat()->getMediaType());
+        $request->ensureHeader("Content-Type", $this->getFormat()->getMediaType());
     }
 
     /**

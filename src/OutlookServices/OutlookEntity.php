@@ -5,10 +5,10 @@ namespace Office365\OutlookServices;
 
 
 use Office365\Runtime\ClientRuntimeContext;
-use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\OData\ODataQueryOptions;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\UpdateEntityQuery;
+use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ClientObject;
 use ReflectionObject;
 use ReflectionProperty;
