@@ -23,7 +23,7 @@ class SearchService extends BaseEntity
      * @param SearchRequest $request
      * @return SearchResult
      */
-    public function postQuery (SearchRequest $request){
+    public function postQuery(SearchRequest $request){
         $result = new SearchResult();
         $qry = new InvokePostMethodQuery($this, "postquery",null,"request", $request);
         $this->getContext()->addQueryAndResultObject($qry,$result);

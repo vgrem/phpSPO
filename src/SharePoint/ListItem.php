@@ -5,7 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Exception;
 use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ResourcePath;
@@ -87,7 +86,6 @@ class ListItem extends SecurableObject
     /**
      * Ensure ListItem entity type name (mandatory property)
      * @param SPList $list
-     * @throws Exception
      */
     public function ensureTypeName(SPList $list)
     {

@@ -20,7 +20,7 @@ class ContentTypeCollection extends ClientObjectCollection
             $this->getContext(),
             new ResourcePathServiceOperation("GetById",array($id),$this->getResourcePath())
         );
-        $contentType->parentCollection = $this;
+        $this->addChild($contentType);
         return $contentType;
     }
 

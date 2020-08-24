@@ -11,6 +11,8 @@ use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ResourcePathServiceOperation;
+use phpDocumentor\Reflection\Types\This;
+
 /**
  * Specifies 
  * a site 
@@ -30,6 +32,11 @@ use Office365\Runtime\ResourcePathServiceOperation;
  */
 class Web extends SecurableObject
 {
+    /**
+     * @var string|null
+     */
+    private $webUrl;
+
     /**
      * @param ClientContext $context
      * @param string $url
@@ -127,7 +134,9 @@ class Web extends SecurableObject
     public function getWebs()
     {
         if (!$this->isPropertyAvailable('Webs')) {
-            $this->setProperty("Webs", new WebCollection($this->getContext(), new ResourcePath("webs", $this->getResourcePath())));
+            $this->setProperty("Webs", new WebCollection($this->getContext(),
+                new ResourcePath("webs",$this->getResourcePath())),$this->webUrl
+            );
         }
         return $this->getProperty("Webs");
     }
@@ -255,17 +264,22 @@ class Web extends SecurableObject
         }
         return $this->getProperty('ContentTypes');
     }
+
     /**
      * @param string $name
      * @param mixed $value
      * @param bool $persistChanges
+     * @return Web
      */
     public function setProperty($name, $value, $persistChanges = true)
     {
-        parent::setProperty($name, $value, $persistChanges);
-        if ($name === 'Id') {
-            $this->resourcePath = new ResourcePath("openWebById(guid'{$value}')", new ResourcePath("Site"));
+        if ($name === 'ServerRelativeUrl') {
+            $this->webUrl = $value;
         }
+        return parent::setProperty($name, $value, $persistChanges);
+        /*if ($name === 'Id') {
+            $this->resourcePath = new ResourcePath("openWebById(guid'{$value}')", new ResourcePath("Site"));
+        }*/
     }
     /**
      * @return string
@@ -1815,15 +1829,18 @@ class Web extends SecurableObject
         }
         return $this->getProperty("Title");
     }
+
     /**
-     * Specifies 
-     * the title for the site (2).Its length 
-     * MUST be equal to or less than 255. 
+     * Specifies
+     * the title for the site (2).Its length
+     * MUST be equal to or less than 255.
+     * @return Web
      * @var string
      */
     public function setTitle($value)
     {
         $this->setProperty("Title", $value, true);
+        return $this;
     }
     /**
      * Specifies 
@@ -2274,7 +2291,8 @@ class Web extends SecurableObject
     public function getCanModernizeHomepage()
     {
         if (!$this->isPropertyAvailable("CanModernizeHomepage")) {
-            $this->setProperty("CanModernizeHomepage", new ModernizeHomepageResult($this->getContext(), new ResourcePath("CanModernizeHomepage", $this->getResourcePath())));
+            $this->setProperty("CanModernizeHomepage", new ModernizeHomepageResult($this->getContext(),
+                new ResourcePath("CanModernizeHomepage", $this->getResourcePath())));
         }
         return $this->getProperty("CanModernizeHomepage");
     }
@@ -2346,21 +2364,24 @@ class Web extends SecurableObject
     public function getList($url)
     {
         $qry = new InvokePostMethodQuery($this, "GetList", array(rawurlencode($url)), null, null);
-        $list = new SPList($this->getContext(), $qry->getMethodPath());
+        $list = new SPList($this->getContext());
+        $this->getLists()->addChild($list);
         $this->getContext()->addQueryAndResultObject($qry, $list);
         return $list;
     }
+
     /**
-     * The full 
-     * path pointing to the web. It can be 
-     * "http://www.office.net:8080/foo/bar" or 
-     * "http://www.office.net/foo/bar" It will not be 
+     * The full
+     * path pointing to the web. It can be
+     * "http://www.office.net:8080/foo/bar" or
+     * "http://www.office.net/foo/bar" It will not be
      * "http://www.office.net:8080/site/web/dir1/dir2/a.aspx"
+     * @return Web
      * @var SPResourcePath
      */
     public function setResourcePath($value)
     {
-        $this->setProperty("ResourcePath", $value, true);
+        return $this->setProperty("ResourcePath", $value, true);
     }
     /**
      * Gets the 
@@ -2374,13 +2395,28 @@ class Web extends SecurableObject
         }
         return $this->getProperty("ServerRelativePath");
     }
+
     /**
-     * Gets the 
+     * Gets the
      * server-relative path of the web site.
+     * @return Web
      * @var SPResourcePath
      */
     public function setServerRelativePath($value)
     {
-        $this->setProperty("ServerRelativePath", $value, true);
+        return $this->setProperty("ServerRelativePath", $value, true);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getResourceUrl()
+    {
+        $url = parent::getResourceUrl();
+        if(!is_null($this->webUrl)){
+            return str_replace("/_api/","{$this->webUrl}/_api/",$url);
+        }
+        return $url;
     }
 }

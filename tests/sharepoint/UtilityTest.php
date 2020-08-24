@@ -24,8 +24,7 @@ class UtilityTest extends SharePointTestCase
 
     public static function tearDownAfterClass()
     {
-        self::$discussionsList->deleteObject();
-        self::$context->executeQuery();
+        self::$discussionsList->deleteObject()->executeQuery();
         parent::tearDownAfterClass();
     }
 

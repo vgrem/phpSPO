@@ -141,7 +141,6 @@ abstract class ClientRequest
      */
     public function executeQuery()
     {
-        $lastReturnType = null;
         while ($this->getNextQuery() !== null) {
             try{
                 $request = $this->buildRequest();
@@ -165,7 +164,7 @@ abstract class ClientRequest
      */
     public function executeQueryDirect(RequestOptions $request)
     {
-        $this->context->authenticateRequest($request); //Auth mandatory headers
+        $this->context->authenticateRequest($request);
         $response = Requests::execute($request);
         $this->validate($response);
         return $response;

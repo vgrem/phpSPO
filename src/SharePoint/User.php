@@ -68,19 +68,21 @@ class User extends Principal
         }
         return $this->getProperty("Email");
     }
+
     /**
-     * Specifies 
-     * the e-mail 
-     * address of the user.It MUST 
-     * NOT be NULL. Its length MUST be equal to or less than 255. Exceptions: Error CodeError Type NameCondition-1Microsoft.SharePoint.SPExceptionThe property is read when either the user object 
-     *   (1) was not successfully initialized or the user could not be 
-     *   found.-1Microsoft.SharePoint.SPExceptionThe property is set when either the user object (1) 
+     * Specifies
+     * the e-mail
+     * address of the user.It MUST
+     * NOT be NULL. Its length MUST be equal to or less than 255. Exceptions: Error CodeError Type NameCondition-1Microsoft.SharePoint.SPExceptionThe property is read when either the user object
+     *   (1) was not successfully initialized or the user could not be
+     *   found.-1Microsoft.SharePoint.SPExceptionThe property is set when either the user object (1)
      *   was not successfully initialized or the user could not be found.
+     * @return User
      * @var string
      */
     public function setEmail($value)
     {
-        $this->setProperty("Email", $value, true);
+        return $this->setProperty("Email", $value, true);
     }
     /**
      * @return string

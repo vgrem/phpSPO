@@ -18,9 +18,7 @@ class OneDriveTest extends GraphTestCase
 
     public function testMyDrive()
     {
-        $myDrive = self::$graphClient->getMe()->getDrive();
-        self::$graphClient->load($myDrive);
-        self::$graphClient->executeQuery();
+        $myDrive = self::$graphClient->getMe()->getDrive()->get()->executeQuery();
         self::assertNotNull($myDrive->getWebUrl());
     }
 
@@ -35,12 +33,19 @@ class OneDriveTest extends GraphTestCase
     }
 
 
+    public function testMyDrivePropertiesFluentApi()
+    {
+        $myDrive = self::$graphClient->getMe()->getDrive()->select("Owner")->get()->executeQuery();
+        $owner = $myDrive->getOwner();
+        self::assertTrue($owner instanceof IdentitySet);
+    }
+
+
     public function testCreateFolder()
     {
         $myDrive = self::$graphClient->getMe()->getDrive();
         $folderName = "Archive_" . rand(1, 100000);
-        $targetFolder = $myDrive->getRoot()->getChildren()->createFolder($folderName);
-        self::$graphClient->executeQuery();
+        $targetFolder = $myDrive->getRoot()->getChildren()->createFolder($folderName)->executeQuery();
         self::assertNotNull($targetFolder->getName());
         return $targetFolder;
     }
@@ -55,8 +60,7 @@ class OneDriveTest extends GraphTestCase
     {
         $fileContent = file_get_contents(self::$localFile);
         $fileName = basename(self::$localFile);
-        $uploadFileItem = $folderItem->upload($fileName, $fileContent);
-        self::$graphClient->executeQuery();
+        $uploadFileItem = $folderItem->upload($fileName, $fileContent)->executeQuery();
         self::assertNotNull($uploadFileItem->getWebUrl());
         return $uploadFileItem;
     }
@@ -70,9 +74,9 @@ class OneDriveTest extends GraphTestCase
     {
         $fileName = join(DIRECTORY_SEPARATOR, [sys_get_temp_dir(),"SampleFile.pdf" ]);
         $fh = fopen($fileName, 'w+');
-        $fileItem->convert($fh,"pdf");
-        self::$graphClient->executeQuery();
+        $fileItem->convert($fh,"pdf")->executeQuery();
         fclose($fh);
+        self::assertGreaterThan(0, filesize($fileName));
     }
 
 
@@ -84,9 +88,9 @@ class OneDriveTest extends GraphTestCase
     {
         $fileName = join(DIRECTORY_SEPARATOR, [sys_get_temp_dir(), basename(self::$localFile)]);
         $fh = fopen($fileName, 'w+');
-        $fileItem->download($fh);
-        self::$graphClient->executeQuery();
+        $fileItem->download($fh)->executeQuery();
         fclose($fh);
+        self::assertGreaterThan(0, filesize($fileName));
     }
 
 
@@ -96,8 +100,10 @@ class OneDriveTest extends GraphTestCase
      */
     public function testDeleteDriveItem(DriveItem $folderItem)
     {
-        $folderItem->delete();
-        self::$graphClient->executeQuery();
+        $resultBefore = self::$graphClient->getMe()->getDrive()->getRoot()->getChildren()->get()->executeQuery();
+        $folderItem->delete()->executeQuery();
+        $resultAfter = self::$graphClient->getMe()->getDrive()->getRoot()->getChildren()->get()->executeQuery();
+        self::assertEquals($resultBefore->getCount() - 1, $resultAfter->getCount());
     }
 
 }

@@ -141,7 +141,6 @@ class ClientContext extends ClientRuntimeContext
     /**
      * Ensure form digest value for POST request
      * @param RequestOptions $request
-     * @throws Exception
      */
     public function ensureFormDigest(RequestOptions $request)
     {
@@ -171,7 +170,6 @@ class ClientContext extends ClientRuntimeContext
 
     /**
      * @param RequestOptions $request
-     * @throws Exception
      */
     private function buildSharePointSpecificRequest(RequestOptions $request){
 
@@ -241,8 +239,9 @@ class ClientContext extends ClientRuntimeContext
      */
     public function getServiceRootUrl()
     {
-        return  "$this->baseUrl/_api/";
+        return  "{$this->getBaseUrl()}/_api/";
     }
+
 
     /**
      * @return RequestOptions

@@ -10,21 +10,18 @@ class UserTest extends SharePointTestCase
 {
     public function testLoadCurrentUser()
     {
-        $curUser = self::$context->getWeb()->getCurrentUser();
-        self::$context->load($curUser);
-        self::$context->executeQuery();
+        $curUser = self::$context->getWeb()->getCurrentUser()->get()->executeQuery();
         $this->assertNotNull($curUser->getServerObjectIsNull());
     }
-
 
     public function testUpdateCurrentUser()
     {
         $userPrefId = "123"; //rand(1,10000);
         $emailAddress = "tester$userPrefId@contoso.microsoft.com";
-        $curUser = self::$context->getWeb()->getCurrentUser();
-        $curUser->setEmail($emailAddress);
-        $curUser->update();
-        self::$context->executeQuery();
+        $curUser = self::$context->getWeb()->getCurrentUser()
+            ->setEmail($emailAddress)
+            ->update()
+            ->executeQuery();
 
         self::$context->load($curUser);
         self::$context->executeQuery();
@@ -36,8 +33,7 @@ class UserTest extends SharePointTestCase
     {
         $groupName = "TestGroup_"  . rand(1,10000);
         $info = new GroupCreationInformation($groupName);
-        $group = self::$context->getWeb()->getSiteGroups()->add($info);
-        self::$context->executeQuery();
+        $group = self::$context->getWeb()->getSiteGroups()->add($info)->executeQuery();
         $this->assertNotNull($group->getLoginName());
         return $group;
     }
@@ -74,10 +70,8 @@ class UserTest extends SharePointTestCase
         self::$context->executeQuery();
         $this->assertNotNull($user->getId());
 
-        $groupUsers = $group->getUsers();
-        self::$context->load($groupUsers);
-        self::$context->executeQuery();
-        $result = $group->getUsers()->findFirst("LoginName",self::$testLoginName);
+        $groupUsers = $group->getUsers()->get()->executeQuery();
+        $result = $groupUsers->findFirst("LoginName",self::$testLoginName);
         $this->assertNotNull($result);
     }
 
@@ -89,13 +83,15 @@ class UserTest extends SharePointTestCase
      */
     public function testDeleteGroup(Group $group)
     {
-        self::$context->getWeb()->getSiteGroups()->removeByLoginName($group->getLoginName());
-        self::$context->executeQuery();
+        self::$context->getWeb()->getSiteGroups()
+            ->removeByLoginName($group->getLoginName())
+            ->executeQuery();
 
         $key = $group->getLoginName();
-        $result = self::$context->getWeb()->getSiteGroups()->filter("LoginName eq '$key'");
-        self::$context->load($result);
-        self::$context->executeQuery();
-        $this->assertEquals($result->getCount(),0);
+        $result = self::$context->getWeb()->getSiteGroups()
+            ->filter("LoginName eq '$key'")
+            ->get()
+            ->executeQuery();
+        self::assertEquals(0, $result->getCount());
     }
 }

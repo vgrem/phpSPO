@@ -5,7 +5,7 @@ namespace Office365\Runtime;
 
 
 /**
- * Represents a Service Operation result value.
+ * Represents a Service Operation result.
  */
 class ClientResult
 {

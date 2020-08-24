@@ -7,19 +7,14 @@ class OutlookCommonTest extends OutlookServicesTestCase
 
 
     public function testMyDetails(){
-        $me = self::$context->getMe();
-        self::$context->load($me);
-        self::$context->executeQuery();
+        $me = self::$context->getMe()->get()->executeQuery();
         self::assertNotNull($me->MailboxGuid);
     }
 
     public function testGetCalendars(){
-        $calendars = self::$context->getMe()->getCalendars();
-        self::$context->load($calendars);
-        self::$context->executeQuery();
+        $calendars = self::$context->getMe()->getCalendars()->get()->executeQuery();
         self::assertNotNull($calendars->getServerObjectIsNull());
     }
-
 
 
     /*public function testGetSubscriptions(){

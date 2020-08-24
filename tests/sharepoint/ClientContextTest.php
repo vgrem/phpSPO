@@ -46,23 +46,20 @@ class ClientContextTest extends SharePointTestCase
     public function testBuildGetRequest(){
         $request = self::$context->getWeb()->getCurrentUser()->get()->buildRequest();
         self::assertInstanceOf(RequestOptions::class, $request);
+        self::$context->getPendingRequest()->clearActions();
     }
 
 
     public function testBuildUpdateRequest(){
         $request = self::$context->getWeb()->getCurrentUser()->update()->buildRequest();
         self::assertInstanceOf(RequestOptions::class, $request);
+        self::$context->getPendingRequest()->clearActions();
     }
 
     public function testBuildDeleteRequest(){
         $request = self::$context->getWeb()->deleteObject()->buildRequest();
         self::assertInstanceOf(RequestOptions::class, $request);
-    }
-
-
-    public function testClearAllRequests(){
         self::$context->getPendingRequest()->clearActions();
-        self::assertFalse(self::$context->hasPendingRequest());
     }
 
 

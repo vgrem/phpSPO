@@ -14,7 +14,7 @@ class SearchTest extends SharePointTestCase
         $request->Querytext = "guide.docx";
         $searchService = new SearchService(self::$context);
         $result = $searchService->postQuery($request);
-        self::$context->executeQuery();
+        $searchService->executeQuery();
         $this->assertNotNull($result->{"PrimaryQueryResult"});
     }
 

@@ -26,8 +26,7 @@ class ListItemTest extends SharePointTestCase
 
     public static function tearDownAfterClass()
     {
-        self::$targetList->deleteObject();
-        self::$context->executeQuery();
+        self::$targetList->deleteObject()->executeQuery();
         parent::tearDownAfterClass();
     }
 
@@ -35,8 +34,7 @@ class ListItemTest extends SharePointTestCase
     public function testItemsCount()
     {
         $itemsCount = self::$targetList->getItemCount();
-        $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery());
-        self::$context->executeQuery();
+        $items = self::$targetList->getItems(CamlQuery::createAllItemsQuery())->executeQuery();
         $this->assertEquals($itemsCount, $items->getCount());
     }
 
@@ -45,9 +43,7 @@ class ListItemTest extends SharePointTestCase
         //ensure Folder creation is enabled for a List
         $enableFolderCreation =  self::$targetList->getEnableFolderCreation();
         if($enableFolderCreation === false){
-            self::$targetList->setEnableFolderCreation(true);
-            self::$targetList->update();
-            self::$context->executeQuery();
+            self::$targetList->setEnableFolderCreation(true)->update()->executeQuery();
         }
 
         $folderName = "Archive_" . rand(1, 100000);
@@ -57,8 +53,7 @@ class ListItemTest extends SharePointTestCase
             "FileSystemObjectType" => 1,
             "ContentTypeId" => "0x0120"
         );
-        $item = self::$targetList->addItem($folderItem);
-        self::$context->executeQuery();
+        $item = self::$targetList->addItem($folderItem)->executeQuery();
         self::assertNotNull($item->getServerObjectIsNull());
         return $item->getFolder();
     }

@@ -11,6 +11,8 @@ use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ResourcePath;
+use Office365\Runtime\ResourcePathServiceOperation;
+
 /**
  * Specifies 
  * a list 
@@ -70,20 +72,25 @@ class SPList extends SecurableObject
     }
     /**
      * Updates a list resource
+     * @return SPList
      */
     public function update()
     {
         $qry = new UpdateEntityQuery($this);
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     /**
-     * The recommended way to delete a list is to send a DELETE request to the List resource endpoint, as shown in List request examples.
+     * The recommended way to delete a list is to send a DELETE request to the List resource endpoint,
+     * as shown in List request examples.
+     * @return $this
      */
     public function deleteObject()
     {
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
         $this->removeFromParentCollection();
+        return $this;
     }
     /**
      * Gets the set of permissions for the specified user
@@ -93,7 +100,7 @@ class SPList extends SecurableObject
     public function getUserEffectivePermissions($loginName)
     {
         $permissions = new BasePermissions();
-        $qry = new InvokeMethodQuery($this, "getUserEffectivePermissions", array(rawurlencode($loginName)));
+        $qry = new InvokeMethodQuery($this, "GetUserEffectivePermissions", array(rawurlencode($loginName)));
         $this->getContext()->addQueryAndResultObject($qry, $permissions);
         return $permissions;
     }
@@ -115,7 +122,7 @@ class SPList extends SecurableObject
     public function getChanges(ChangeQuery $query)
     {
         $qry = new InvokePostMethodQuery($this, "GetChanges", null, "query", $query);
-        $changes = new ChangeCollection($this->getContext(), $qry->getMethodPath());
+        $changes = new ChangeCollection($this->getContext());
         $this->getContext()->addQueryAndResultObject($qry, $changes);
         return $changes;
     }
@@ -125,7 +132,8 @@ class SPList extends SecurableObject
     public function getContentTypes()
     {
         if (!$this->isPropertyAvailable('ContentTypes')) {
-            $this->setProperty("ContentTypes", new ContentTypeCollection($this->getContext(), new ResourcePath("ContentTypes", $this->getResourcePath())), false);
+            $this->setProperty("ContentTypes", new ContentTypeCollection($this->getContext(),
+                new ResourcePath("ContentTypes", $this->getResourcePath())), false);
         }
         return $this->getProperty("ContentTypes");
     }
@@ -193,12 +201,14 @@ class SPList extends SecurableObject
         }
         return $this->getProperty("AllowContentTypes");
     }
+
     /**
+     * @return SPList
      * @var bool
      */
     public function setAllowContentTypes($value)
     {
-        $this->setProperty("AllowContentTypes", $value, true);
+        return $this->setProperty("AllowContentTypes", $value, true);
     }
     /**
      * @return bool
@@ -210,12 +220,14 @@ class SPList extends SecurableObject
         }
         return $this->getProperty("AllowDeletion");
     }
+
     /**
+     * @return SPList
      * @var bool
      */
     public function setAllowDeletion($value)
     {
-        $this->setProperty("AllowDeletion", $value, true);
+        return $this->setProperty("AllowDeletion", $value, true);
     }
     /**
      * @return integer
@@ -227,12 +239,14 @@ class SPList extends SecurableObject
         }
         return $this->getProperty("BaseTemplate");
     }
+
     /**
+     * @return SPList
      * @var integer
      */
     public function setBaseTemplate($value)
     {
-        $this->setProperty("BaseTemplate", $value, true);
+        return $this->setProperty("BaseTemplate", $value, true);
     }
     /**
      * @return integer
@@ -244,12 +258,14 @@ class SPList extends SecurableObject
         }
         return $this->getProperty("BaseType");
     }
+
     /**
+     * @return SPList
      * @var integer
      */
     public function setBaseType($value)
     {
-        $this->setProperty("BaseType", $value, true);
+        return $this->setProperty("BaseType", $value, true);
     }
     /**
      * @return integer
@@ -261,12 +277,14 @@ class SPList extends SecurableObject
         }
         return $this->getProperty("BrowserFileHandling");
     }
+
     /**
+     * @return SPList
      * @var integer
      */
     public function setBrowserFileHandling($value)
     {
-        $this->setProperty("BrowserFileHandling", $value, true);
+        return $this->setProperty("BrowserFileHandling", $value, true);
     }
     /**
      * @return bool
@@ -278,12 +296,14 @@ class SPList extends SecurableObject
         }
         return $this->getProperty("ContentTypesEnabled");
     }
+
     /**
+     * @return SPList
      * @var bool
      */
     public function setContentTypesEnabled($value)
     {
-        $this->setProperty("ContentTypesEnabled", $value, true);
+        return $this->setProperty("ContentTypesEnabled", $value, true);
     }
     /**
      * @return bool
@@ -584,12 +604,14 @@ class SPList extends SecurableObject
         }
         return $this->getProperty("EffectiveBasePermissionsForUI");
     }
+
     /**
+     * @return SPList
      * @var BasePermissions
      */
     public function setEffectiveBasePermissionsForUI($value)
     {
-        $this->setProperty("EffectiveBasePermissionsForUI", $value, true);
+        return $this->setProperty("EffectiveBasePermissionsForUI", $value, true);
     }
     /**
      * @return bool
@@ -601,12 +623,14 @@ class SPList extends SecurableObject
         }
         return $this->getProperty("EnableAssignToEmail");
     }
+
     /**
+     * @return SPList
      * @var bool
      */
     public function setEnableAssignToEmail($value)
     {
-        $this->setProperty("EnableAssignToEmail", $value, true);
+        return $this->setProperty("EnableAssignToEmail", $value, true);
     }
     /**
      * @return bool
@@ -635,12 +659,15 @@ class SPList extends SecurableObject
         }
         return $this->getProperty("EnableFolderCreation");
     }
+
     /**
+     * @return SPList
      * @var bool
      */
     public function setEnableFolderCreation($value)
     {
         $this->setProperty("EnableFolderCreation", $value, true);
+        return $this;
     }
     /**
      * @return bool
@@ -1567,5 +1594,18 @@ class SPList extends SecurableObject
     public function setParentWebPath($value)
     {
         $this->setProperty("ParentWebPath", $value, true);
+    }
+
+
+    function setProperty($name, $value, $persistChanges = true)
+    {
+        if(is_null($this->resourcePath)){
+           if($name === "Id")
+               $this->resourcePath =
+                   new ResourcePathServiceOperation("GetById",
+                       array($value),
+                       $this->parentCollection->resourcePath);
+        }
+        return parent::setProperty($name, $value, $persistChanges);
     }
 }

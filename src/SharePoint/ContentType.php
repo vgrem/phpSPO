@@ -19,11 +19,13 @@ class ContentType extends ClientObject
 {
     /**
      * Deletes content Type resource
+     * @return ContentType
      */
     public function deleteObject()
     {
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     function setProperty($name, $value, $persistChanges = true)
     {
@@ -35,7 +37,7 @@ class ContentType extends ClientObject
                 $this->resourcePath = new ResourcePath($parentPath->getSegment() . "('{$value}')", $parentPath->getParent());
             }
         }
-        parent::setProperty($name, $value, $persistChanges);
+        return parent::setProperty($name, $value, $persistChanges);
     }
     /**
      * Specifies 
@@ -50,15 +52,17 @@ class ContentType extends ClientObject
         }
         return $this->getProperty("Description");
     }
+
     /**
-     * Specifies 
-     * the description of the content type.It MUST 
-     * NOT be NULL. 
+     * Specifies
+     * the description of the content type.It MUST
+     * NOT be NULL.
+     * @return ContentType|void
      * @var string
      */
     public function setDescription($value)
     {
-        $this->setProperty("Description", $value, true);
+        return $this->setProperty("Description", $value, true);
     }
     /**
      * Specifies 

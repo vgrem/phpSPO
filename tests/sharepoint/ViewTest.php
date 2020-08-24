@@ -23,17 +23,14 @@ class ViewTest extends SharePointTestCase
 
     public static function tearDownAfterClass()
     {
-        self::$targetList->deleteObject();
-        self::$context->executeQuery();
+        self::$targetList->deleteObject()->executeQuery();
         parent::tearDownAfterClass();
     }
 
 
     public function testLoadListViews()
     {
-        $views = self::$targetList->getViews();
-        self::$context->load($views);
-        self::$context->executeQuery();
+        $views = self::$targetList->getViews()->get()->executeQuery();
         self::assertGreaterThan(0, $views->getCount());
     }
 
@@ -43,13 +40,12 @@ class ViewTest extends SharePointTestCase
         $viewCreateInfo = new ViewCreationInformation();
         $viewTitle = self::createUniqueName("My Orders");
         $viewCreateInfo->Title = $viewTitle;
-        self::$targetList->getViews()->add($viewCreateInfo);
-        self::$context->executeQuery();
+        self::$targetList->getViews()->add($viewCreateInfo)->executeQuery();
 
-
-        $result = self::$targetList->getViews()->filter("Title eq '$viewTitle'");
-        self::$context->load($result);
-        self::$context->executeQuery();
+        $result = self::$targetList->getViews()
+            ->filter("Title eq '$viewTitle'")
+            ->get()
+            ->executeQuery();
         $this->assertEquals(1, $result->getCount());
     }
 

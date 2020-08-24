@@ -30,12 +30,14 @@ class ListTemplate extends ClientObject
         }
         return $this->getProperty("AllowsFolderCreation");
     }
+
     /**
+     * @return ListTemplate
      * @var bool
      */
     public function setAllowsFolderCreation($value)
     {
-        $this->setProperty("AllowsFolderCreation", $value, true);
+        return $this->setProperty("AllowsFolderCreation", $value, true);
     }
     /**
      * @return integer
@@ -47,12 +49,14 @@ class ListTemplate extends ClientObject
         }
         return $this->getProperty("BaseType");
     }
+
     /**
+     * @return ListTemplate
      * @var integer
      */
     public function setBaseType($value)
     {
-        $this->setProperty("BaseType", $value, true);
+        return $this->setProperty("BaseType", $value, true);
     }
     /**
      * @return string
@@ -217,11 +221,13 @@ class ListTemplate extends ClientObject
         }
         return $this->getProperty("Unique");
     }
+
     /**
+     * @return ListTemplate
      * @var bool
      */
     public function setUnique($value)
     {
-        $this->setProperty("Unique", $value, true);
+        return $this->setProperty("Unique", $value, true);
     }
 }

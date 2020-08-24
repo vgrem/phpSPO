@@ -92,51 +92,67 @@ The following auth flows supported:
 
 The following examples demonstrates how to perform basic CRUD operations against **SharePoint** list item resources:
 
-Example 1. How to read SharePoint list items
+Example 1. How to read SharePoint list items:
 
-```
-$credentials = new ClientCredential($clientId, $clientSecret);
-$ctx = (new ClientContext($url))->withCredentials($credentials);     
-$web = $ctx->getWeb();
-$list = $web->getLists()->getByTitle($listTitle); //init List resource
+```php
+use Office365\SharePoint\ClientContext;
+use Office365\Runtime\Auth\ClientCredential;
+
+$credentials = new ClientCredential("{client-id}", "{client-secret}");
+$client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->withCredentials($credentials);     
+$web = $client->getWeb();
+$list = $web->getLists()->getByTitle("{list-title}"); //init List resource
 $items = $list->getItems();  //prepare a query to retrieve from the 
-$ctx->load($items);  //save a query to retrieve list items from the server 
-$ctx->executeQuery(); //submit query to SharePoint Online REST service
+$client->load($items);  //save a query to retrieve list items from the server 
+$client->executeQuery(); //submit query to SharePoint Online REST service
 foreach( $items->getData() as $item ) {
-    print "Task: '{$item->Title}'\r\n";
+    print "Task: {$item->getProperty('Title')}\r\n";
 }
 ```
 
 
 Example 2. How to create SharePoint list item:
-```
-$listTitle = 'Tasks';
-$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
+```php
+use Office365\SharePoint\ClientContext;
+use Office365\Runtime\Auth\ClientCredential;
+
+$credentials = new ClientCredential("{client-id}", "{client-secret}");
+$client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->withCredentials($credentials);
+
+$list = $client->getWeb()->getLists()->getByTitle("Tasks");
 $itemProperties = array('Title' => 'Order Approval', 'Body' => 'Order approval task','__metadata' => array('type' => 'SP.Data.TasksListItem'));
 $item = $list->addItem($itemProperties);
-$ctx->executeQuery();
-print "Task '{$item->Title}' has been created.\r\n";
+$client->executeQuery();
+print "Task {$item->getProperty('Title')} has been created.\r\n";
 ```
 
 Example 3. How to delete a SharePoint list item:
-```
-$listTitle = 'Tasks';
-$itemToDeleteId = 1;
-$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
-$listItem = $list->getItemById($itemToDeleteId);
+```php
+use Office365\SharePoint\ClientContext;
+use Office365\Runtime\Auth\ClientCredential;
+
+$credentials = new ClientCredential("{client-id}", "{client-secret}");
+$client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->withCredentials($credentials);
+
+$list = $client->getWeb()->getLists()->getByTitle("Tasks");
+$listItem = $list->getItemById("{item-id-to-delete}");
 $listItem->deleteObject();
-$ctx->executeQuery();
+$client->executeQuery();
 ```
 
 Example 4. How to update SharePoint list item:
-```
-$listTitle = 'Tasks';
-$itemToUpdateId = 1;
-$list = $ctx->getWeb()->getLists()->getByTitle($listTitle);
-$listItem = $list->getItemById($itemId);
+```php
+use Office365\SharePoint\ClientContext;
+use Office365\Runtime\Auth\ClientCredential;
+
+$credentials = new ClientCredential("{client-id}", "{client-secret}");
+$client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->withCredentials($credentials);
+
+$list = $client->getWeb()->getLists()->getByTitle("Tasks");
+$listItem = $list->getItemById("{item-id-to-update}");
 $listItem->setProperty('PercentComplete',1);
 $listItem->update();
-$ctx->executeQuery();
+$client->executeQuery();
 ```
 
 
@@ -152,11 +168,19 @@ Supported list of APIs:
 
 The following example demonstrates how to send a message via Outlook Mail API:
 
-```
+```php
+ use Office365\Runtime\Auth\AuthenticationContext;
+ use Office365\OutlookServices\OutlookClient;
+ use Office365\OutlookServices\ItemBody;
+ use Office365\OutlookServices\BodyType;
+ use Office365\OutlookServices\EmailAddress;
+ use Office365\OutlookServices\Recipient;
 
- $client = new OutlookClient($settings['TenantName'],function (AuthenticationContext $authCtx) {        
+ $tenantNameOrId = "{tenant}.onmicrosoft.com";
+ $client = new OutlookClient($tenantNameOrId,function (AuthenticationContext $authCtx) {        
         $authCtx->setAccessToken("--access token goes here--");
  });
+
  $message = $client->getMe()->getMessages()->createMessage();
  $message->Subject = "Meet for lunch?";
  $message->Body = new ItemBody(BodyType::Text,"The new cafeteria is open.");
@@ -171,12 +195,15 @@ The following example demonstrates how to send a message via Outlook Mail API:
 
 ### Working with OneDrive API
 
-The following example demonstrates how retrieve my drive Url via OneDrive API:
+The following example demonstrates how retrieve My drive Url via OneDrive API:
 
-```
+```php
+use Office365\Runtime\Auth\AuthenticationContext;
+use Office365\Graph\GraphServiceClient;
 
-$client = new GraphServiceClient($settings['TenantName'],function (AuthenticationContext $authCtx) use($settings) {
-      $authCtx->setAccessToken("--access token goes here--");
+$tenantNameOrId = "{tenant}.onmicrosoft.com";
+$client = new GraphServiceClient($tenantNameOrId,function (AuthenticationContext $authCtx) {
+      $authCtx->setAccessToken("{access-token}");
 });
 
 $drive = $client->getMe()->getDrive();
@@ -185,3 +212,5 @@ $client->executeQuery();
 print $drive->getProperty("webUrl");
 
 ```
+
+

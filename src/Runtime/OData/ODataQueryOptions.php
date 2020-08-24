@@ -10,6 +10,12 @@ namespace Office365\Runtime\OData;
 class ODataQueryOptions
 {
 
+    public function clear(){
+        foreach ($this->getProperties() as $k => $v) {
+            $this->$k = null;
+        }
+    }
+
     /**
      * @return bool
      */

@@ -18,6 +18,8 @@ use Office365\Runtime\ResourcePathServiceOperation;
 use Office365\Runtime\Types\Guid;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\SharePoint\WebParts\LimitedWebPartManager;
+use spec\Prophecy\Doubler\ClassPatch\ThrowablePatchSpec;
+
 /**
  * Represents 
  * a file in a site (2) that can be 
@@ -44,7 +46,7 @@ class File extends SecurableObject
     /**
      * Downloads file content
      * @param resource $handle
-     * @return File
+     * @return $this
      */
     public function download($handle)
     {
@@ -83,74 +85,96 @@ class File extends SecurableObject
     }
     /**
      * Checks out the file from a document library based on the check-out type.
+     * @return $this
      */
     public function checkOut()
     {
         $qry = new InvokePostMethodQuery($this, "checkout");
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     /**
      * Reverts an existing checkout for the file.
+     * @return $this
      */
     public function undoCheckout()
     {
         $qry = new InvokePostMethodQuery($this, "undocheckout");
         $this->getContext()->addQuery($qry);
+        return $this;
     }
+
     /**
      * Checks the file in to a document library based on the check-in type.
      * @param string $comment A comment for the check-in. Its length must be <= 1023.
+     * @return File
      */
     public function checkIn($comment)
     {
         $qry = new InvokePostMethodQuery($this, "checkIn", array("comment" => $comment, "checkintype" => 0));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
+
     /**
      * Approves the file submitted for content approval with the specified comment.
      * @param string $comment The comment for the approval.
+     * @return File
      */
     public function approve($comment)
     {
         $qry = new InvokePostMethodQuery($this, "approve", array("comment" => $comment));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
+
     /**
      * Denies approval for a file that was submitted for content approval.
      * @param string $comment The comment for the denial.
+     * @return File
      */
     public function deny($comment)
     {
         $qry = new InvokePostMethodQuery($this, "deny", array("comment" => $comment));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
+
     /**
      * Submits the file for content approval with the specified comment.
      * @param string $comment The comment for the published file. Its length must be <= 1023.
+     * @return File
      */
     public function publish($comment)
     {
         $qry = new InvokePostMethodQuery($this, "publish", array("comment" => $comment));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
+
     /**
      * Removes the file from content approval or unpublish a major version.
      * @param string $comment The comment for the unpublish operation. Its length must be <= 1023.
+     * @return File
      */
     public function unpublish($comment)
     {
         $qry = new InvokePostMethodQuery($this, "unpublish", array("comment" => $comment));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
+
     /**
      * Copies the file to the destination URL.
      * @param string $strNewUrl The absolute URL or server relative URL of the destination file path to copy to.
      * @param bool $bOverWrite true to overwrite a file with the same name in the same location; otherwise false.
+     * @return File
      */
     public function copyTo($strNewUrl, $bOverWrite)
     {
         $qry = new InvokePostMethodQuery($this, "copyto", array("strnewurl" => rawurlencode($strNewUrl), "boverwrite" => $bOverWrite));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     /**
      * Moves the file to the specified destination URL.

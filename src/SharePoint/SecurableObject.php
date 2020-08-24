@@ -18,11 +18,13 @@ class SecurableObject extends BaseEntity
     /**
      * Creates unique role assignments for the securable object.
      * @param bool $copyRoleAssignments
+     * @return SecurableObject
      */
     public function breakRoleInheritance($copyRoleAssignments)
     {
         $qry = new InvokePostMethodQuery($this, "breakroleinheritance", array($copyRoleAssignments));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     /**
      * @return RoleAssignmentCollection
@@ -58,16 +60,18 @@ class SecurableObject extends BaseEntity
         }
         return $this->getProperty("FirstUniqueAncestorSecurableObject");
     }
+
     /**
-     * Specifies 
-     * whether the role assignments are 
-     * uniquely defined for this securable object or 
-     * inherited from a parent securable object. If the value is "false", role 
+     * Specifies
+     * whether the role assignments are
+     * uniquely defined for this securable object or
+     * inherited from a parent securable object. If the value is "false", role
      * assignments are inherited from a parent securable object.
+     * @return SecurableObject
      * @var bool
      */
     public function setHasUniqueRoleAssignments($value)
     {
-        $this->setProperty("HasUniqueRoleAssignments", $value, true);
+        return $this->setProperty("HasUniqueRoleAssignments", $value, true);
     }
 }

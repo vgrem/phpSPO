@@ -54,7 +54,7 @@ class RoleDefinitionCollection extends ClientObjectCollection
     public function getByType($type)
     {
         $qry = new InvokeMethodQuery($this, "getByType", array($type));
-        $roleDef = new RoleDefinition($this->getContext(),$qry->getMethodPath());
+        $roleDef = new RoleDefinition($this->getContext());
         $this->getContext()->addQueryAndResultObject($qry,$roleDef);
         $this->addChild($roleDef);
         return $roleDef;

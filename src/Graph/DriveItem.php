@@ -45,6 +45,7 @@ class DriveItem extends BaseItem
      * Download the contents of the primary stream (file) of a DriveItem. Only driveItems with the file property
      * can be downloaded.
      * @param resource $handle
+     * @return DriveItem
      */
     public function download($handle){
         $qry = new InvokeMethodQuery($this);
@@ -54,6 +55,7 @@ class DriveItem extends BaseItem
             $request->FollowLocation = true;
         });
         $this->getContext()->addQuery($qry);
+        return $this;
     }
 
 
@@ -61,6 +63,7 @@ class DriveItem extends BaseItem
      * Converts the contents of an item in a specific format
      * @param resource $handle
      * @param string $format
+     * @return DriveItem
      */
     public function convert($handle, $format)
     {
@@ -71,16 +74,19 @@ class DriveItem extends BaseItem
             $request->FollowLocation = true;
         });
         $this->getContext()->addQuery($qry);
+        return $this;
     }
 
     /**
      * Delete a DriveItem by using its ID or path. Note that deleting items using this method will move the items to
      * the recycle bin instead of permanently deleting the item.
+     * @return DriveItem
      */
     public function delete()
     {
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
+        return $this;
     }
 
 

@@ -128,12 +128,14 @@ class Site extends ClientObject
         }
         return $this->getProperty("AllowExternalEmbeddingWrapper");
     }
+
     /**
+     * @return Site
      * @var integer
      */
     public function setAllowExternalEmbeddingWrapper($value)
     {
-        $this->setProperty("AllowExternalEmbeddingWrapper", $value, true);
+        return $this->setProperty("AllowExternalEmbeddingWrapper", $value, true);
     }
     /**
      * Specifies 
@@ -1459,11 +1461,13 @@ class Site extends ClientObject
         }
         return $this->getProperty("ChannelGroupId");
     }
+
     /**
+     * @return Site
      * @var string
      */
     public function setChannelGroupId($value)
     {
-        $this->setProperty("ChannelGroupId", $value, true);
+        return $this->setProperty("ChannelGroupId", $value, true);
     }
 }

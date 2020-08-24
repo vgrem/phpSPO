@@ -30,19 +30,21 @@ class ChangeUser extends Change
         }
         return $this->getProperty("Activate");
     }
+
     /**
-     * Specifies 
-     * whether a user has changed from an inactive state to an active state.When a user is added to a site (2) and only 
-     * has browse permissions, the 
-     * user is in an inactive state. However, once the user can author list 
-     * items, add documents, be 
-     * assigned tasks, or make any 
+     * Specifies
+     * whether a user has changed from an inactive state to an active state.When a user is added to a site (2) and only
+     * has browse permissions, the
+     * user is in an inactive state. However, once the user can author list
+     * items, add documents, be
+     * assigned tasks, or make any
      * contribution to the site (2), the user is in an active state.
+     * @return ChangeUser
      * @var bool
      */
     public function setActivate($value)
     {
-        $this->setProperty("Activate", $value, true);
+        return $this->setProperty("Activate", $value, true);
     }
     /**
      * Uniquely 

@@ -148,13 +148,12 @@ class ClientObject
 
     /**
      * Resolve the resource path
-     * @param bool $includeQueryOptions
      * @return string
      */
-    public function getResourceUrl($includeQueryOptions=true)
+    public function getResourceUrl()
     {
         $url = $this->getContext()->getServiceRootUrl() . $this->getResourcePath()->toUrl();
-        if ($includeQueryOptions && !$this->getQueryOptions()->isEmpty()) {
+        if (!$this->getQueryOptions()->isEmpty()) {
             $url .= '?' . $this->getQueryOptions()->toUrl();
         }
         return $url;
@@ -242,6 +241,7 @@ class ClientObject
      * @param string $name
      * @param mixed $value
      * @param bool $persistChanges
+     * @return $this
      */
     public function setProperty($name, $value, $persistChanges = true)
     {
@@ -261,6 +261,7 @@ class ClientObject
                 $this->resourcePath = new ResourcePath($segment,$this->parentCollection->getResourcePath()->getParent());
             }
         }
+        return $this;
     }
 
     /**
