@@ -5,6 +5,8 @@ namespace Office365\Runtime\Actions;
 
 
 use Office365\Runtime\ClientObject;
+use Office365\Runtime\ResourcePath;
+use Office365\Runtime\ResourcePathServiceOperation;
 
 
 class InvokeMethodQuery extends ClientAction
@@ -20,6 +22,13 @@ class InvokeMethodQuery extends ClientAction
         parent::__construct($bindingType,null);
         $this->MethodName = $methodName;
         $this->MethodParameters = $methodParameters;
+    }
+
+    /**
+     * @return ResourcePath
+     */
+    public function toResourcePath(){
+        return new ResourcePathServiceOperation($this->MethodName,$this->MethodParameters);
     }
 
     /**

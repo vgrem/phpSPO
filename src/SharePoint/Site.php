@@ -5,9 +5,12 @@
  */
 namespace Office365\SharePoint;
 
+
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
+
+
 /**
  * Represents 
  * a collection of sites (2) in a Web 
@@ -27,11 +30,28 @@ class Site extends ClientObject
      */
     public function openWebById($webId)
     {
-        $web = new Web($this->getContext(), $this->getResourcePath());
         $qry = new InvokePostMethodQuery($this, "openWebById", array($webId));
+        $web = new Web($this->getContext(), $this->getResourcePath());
         $this->getContext()->addQueryAndResultObject($qry, $web);
         return $web;
     }
+
+    /**
+     * Returns the collection of site definitions that are available for creating websites within the site collection.
+     * @param int $lcid A 32-bit unsigned integer that specifies the language of the site definitions that are returned
+     * from the site collection.
+     * @param int $overrideCompatLevel Specifies the compatibility level of the site to return from the site
+     * collection. If this value is 0, the compatibility level of the site is used.
+     * @return WebTemplateCollection
+     */
+    public function getWebTemplates($lcid,$overrideCompatLevel){
+        $qry = new InvokePostMethodQuery($this, "GetWebTemplates",
+            array("LCID" => $lcid, "overrideCompatLevel" => $overrideCompatLevel));
+        $result = new WebTemplateCollection($this->getContext(), $qry->toResourcePath());
+        $this->getContext()->addQueryAndResultObject($qry, $result);
+        return $result;
+    }
+
     /**
      * @return Web
      */

@@ -5,7 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 
 /**
  * Specifies 
@@ -13,7 +12,7 @@ use Office365\Runtime\ClientObject;
  * definition or a site template that 
  * is used to instantiate a site (2). 
  */
-class WebTemplate extends ClientObject
+class WebTemplate extends BaseEntity
 {
     /**
      * @return string
@@ -184,5 +183,13 @@ class WebTemplate extends ClientObject
     public function setTitle($value)
     {
         $this->setProperty("Title", $value, true);
+    }
+
+
+    public function setProperty($name, $value, $persistChanges = true)
+    {
+        if(is_null($this->resourcePath) && $name == "Name"){
+        }
+        return parent::setProperty($name, $value, $persistChanges);
     }
 }

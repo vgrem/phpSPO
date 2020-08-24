@@ -11,7 +11,7 @@ use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ResourcePathServiceOperation;
-use phpDocumentor\Reflection\Types\This;
+
 
 /**
  * Specifies 
@@ -80,6 +80,7 @@ class Web extends SecurableObject
         $ctx->addQueryAndResultObject($qry, $result);
         return $result;
     }
+
 
     /**
      * @return $this

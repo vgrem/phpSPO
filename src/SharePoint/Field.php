@@ -20,24 +20,36 @@ use Office365\Runtime\ClientObject;
  */
 class Field extends ClientObject
 {
+    /**
+     * @return $this
+     */
     public function update()
     {
         $qry = new UpdateEntityQuery($this);
         $this->getContext()->addQueryAndResultObject($qry, $this);
+        return $this;
     }
+
+    /**
+     * @return $this
+     */
     public function deleteObject()
     {
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
+        return $this;
     }
+
     /**
      * Sets the value of the ShowInDisplayForm property for this field.
      * @param $value true to show the field in the form; otherwise false.
+     * @return Field
      */
     public function setShowInDisplayForm($value)
     {
         $qry = new InvokePostMethodQuery($this, "setShowInDisplayForm", array($value));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     /**
      * Gets a 

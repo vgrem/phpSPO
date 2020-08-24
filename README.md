@@ -97,15 +97,41 @@ Example 1. How to read SharePoint list items:
 ```php
 use Office365\SharePoint\ClientContext;
 use Office365\Runtime\Auth\ClientCredential;
+use Office365\SharePoint\ListItem;
 
 $credentials = new ClientCredential("{client-id}", "{client-secret}");
 $client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->withCredentials($credentials);     
+
 $web = $client->getWeb();
 $list = $web->getLists()->getByTitle("{list-title}"); //init List resource
 $items = $list->getItems();  //prepare a query to retrieve from the 
 $client->load($items);  //save a query to retrieve list items from the server 
 $client->executeQuery(); //submit query to SharePoint Online REST service
-foreach( $items->getData() as $item ) {
+/** @var ListItem $item */
+foreach($items as $item) {
+    print "Task: {$item->getProperty('Title')}\r\n";
+}
+```
+
+
+or via Fluent API syntax:
+
+```php
+use Office365\SharePoint\ClientContext;
+use Office365\Runtime\Auth\ClientCredential;
+use Office365\SharePoint\ListItem;
+
+$credentials = new ClientCredential("{client-id}", "{client-secret}");
+$client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->withCredentials($credentials);     
+
+$items = $client->getWeb()
+                ->getLists()
+                ->getByTitle("{list-title}") 
+                ->getItems()
+                ->get()
+                ->executeQuery();      
+/** @var ListItem $item */
+foreach($items as $item) {
     print "Task: {$item->getProperty('Title')}\r\n";
 }
 ```
@@ -120,7 +146,7 @@ $credentials = new ClientCredential("{client-id}", "{client-secret}");
 $client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->withCredentials($credentials);
 
 $list = $client->getWeb()->getLists()->getByTitle("Tasks");
-$itemProperties = array('Title' => 'Order Approval', 'Body' => 'Order approval task','__metadata' => array('type' => 'SP.Data.TasksListItem'));
+$itemProperties = array('Title' => 'Order Approval', 'Body' => 'Order approval task');
 $item = $list->addItem($itemProperties);
 $client->executeQuery();
 print "Task {$item->getProperty('Title')} has been created.\r\n";

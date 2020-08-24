@@ -42,9 +42,7 @@ class FieldTest extends SharePointTestCase
 
     public function testReadListColumns()
     {
-        $fields = self::$targetList->getFields();
-        self::$context->load($fields);
-        self::$context->executeQuery();
+        $fields = self::$targetList->getFields()->get()->executeQuery();
         $this->assertNotEmpty($fields->getCount());
     }
 
@@ -58,7 +56,6 @@ class FieldTest extends SharePointTestCase
         $fields = self::$context->getSite()->getRootWeb()->getFields();
         $field = $fields->add($fieldProperties);
         self::$context->executeQuery();
-
         $this->assertEquals($field->getProperty('Title'), $fieldProperties->Title);
         return $field;
     }
@@ -72,8 +69,7 @@ class FieldTest extends SharePointTestCase
     {
         
         $fieldId = $fieldToDelete->getId();
-        $fieldToDelete->deleteObject();
-        self::$context->executeQuery();
+        $fieldToDelete->deleteObject()->executeQuery();
         
         $result =  self::$context->getSite()->getRootWeb()->getFields()->filter("Id eq '$fieldId'");
         self::$context->load($result);
