@@ -20,15 +20,13 @@ class RoleTest extends SharePointTestCase
 
     public static function tearDownAfterClass()
     {
-        self::$securedTargetObject->deleteObject();
-        self::$context->executeQuery();
+        self::$securedTargetObject->deleteObject()->executeQuery();
         parent::tearDownAfterClass();
     }
 
     public function testSetUniquePerms()
     {
-        self::$securedTargetObject->breakRoleInheritance(false);
-        self::$context->executeQuery();
+        self::$securedTargetObject->breakRoleInheritance(false)->executeQuery();
 
         self::$context->load(self::$securedTargetObject,["HasUniqueRoleAssignments"]);
         self::$context->executeQuery();

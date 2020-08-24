@@ -23,14 +23,12 @@ class ChangeTest extends SharePointTestCase
         self::$targetList = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::TasksWithTimelineAndHierarchy);
 
         $contactEntry = array('Title' => "New contact");
-        self::$targetList->addItem($contactEntry);
-        self::$context->executeQuery();
+        self::$targetList->addItem($contactEntry)->executeQuery();
     }
 
     public static function tearDownAfterClass()
     {
-        self::$targetList->deleteObject();
-        self::$context->executeQuery();
+        self::$targetList->deleteObject()->executeQuery();
         parent::tearDownAfterClass();
     }
 
@@ -45,8 +43,7 @@ class ChangeTest extends SharePointTestCase
         $query->Item = true;
         $query->File = true;
 
-        $changes = self::$targetList->getChanges($query);
-        $ctx->executeQuery();
+        $changes = self::$targetList->getChanges($query)->executeQuery();
         $this->assertFalse($changes->getServerObjectIsNull());
 
         /** @var Change  $change */
@@ -60,8 +57,6 @@ class ChangeTest extends SharePointTestCase
 
 
     function testLoadWebChanges(){
-
-        $ctx = self::$targetList->getContext();
         $targetWeb = self::$targetList->getParentWeb();
         $query = new ChangeQuery();
         $query->Add = true;
@@ -69,8 +64,7 @@ class ChangeTest extends SharePointTestCase
         $query->DeleteObject = true;
         $query->Web = true;
         $query->List = true;
-        $changes = $targetWeb->getChanges($query);
-        $ctx->executeQuery();
+        $changes = $targetWeb->getChanges($query)->executeQuery();
         $this->assertFalse($changes->getServerObjectIsNull());
 
         /** @var Change  $change */

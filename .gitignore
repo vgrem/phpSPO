@@ -4,4 +4,3 @@
 *.lock
 *.phar
 /vendor/*
-/examples/vendor/

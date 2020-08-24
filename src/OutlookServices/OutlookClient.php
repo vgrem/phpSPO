@@ -5,9 +5,9 @@ namespace Office365\OutlookServices;
 
 use Office365\Runtime\Auth\AuthenticationContext;
 use Office365\Runtime\Auth\OAuthTokenProvider;
-use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\OData\ODataRequest;
-use Office365\Runtime\UpdateEntityQuery;
+use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\Office365Version;

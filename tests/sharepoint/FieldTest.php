@@ -25,16 +25,17 @@ class FieldTest extends SharePointTestCase
 
     public static function tearDownAfterClass()
     {
-        self::$targetList->deleteObject();
-        self::$context->executeQuery();
+        self::$targetList->deleteObject()->executeQuery();
         parent::tearDownAfterClass();
     }
 
     public function testReadSiteColumns()
     {
-        $fields = self::$context->getSite()->getRootWeb()->getFields();
-        self::$context->load($fields);
-        self::$context->executeQuery();
+        $fields = self::$context->getSite()
+            ->getRootWeb()
+            ->getFields()
+            ->get()
+            ->executeQuery();
         $this->assertNotEmpty($fields->getCount());
     }
 

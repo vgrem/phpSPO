@@ -2,6 +2,7 @@
 
 namespace Office365\Runtime;
 
+use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\OData\ODataQueryOptions;
 
 /**
@@ -27,7 +28,7 @@ class ClientObject
     /**
      * @var array
      */
-    private $properties = null;
+    private $properties;
 
 
     /**
@@ -66,20 +67,27 @@ class ClientObject
 
 
     /**
-     * @param ClientObject $clientObject
-     * @param array|null $selectProperties
      * @return $this
      */
-    public function load(ClientObject $clientObject, array $selectProperties = null){
-        $this->context->load($clientObject,$selectProperties);
+    public function get(){
+        $this->getContext()->load($this);
         return $this;
     }
+
+
+    /**
+     * @return RequestOptions
+     */
+    public function buildRequest(){
+        return $this->getContext()->buildRequest();
+    }
+
 
     /**
      * @return $this
      */
     public function executeQuery(){
-        $this->context->executeQuery();
+        $this->getContext()->executeQuery();
         return $this;
     }
 
@@ -140,13 +148,12 @@ class ClientObject
 
     /**
      * Resolve the resource path
-     * @param bool $includeQueryOptions
      * @return string
      */
-    public function getResourceUrl($includeQueryOptions=true)
+    public function getResourceUrl()
     {
         $url = $this->getContext()->getServiceRootUrl() . $this->getResourcePath()->toUrl();
-        if ($includeQueryOptions && !$this->getQueryOptions()->isEmpty()) {
+        if (!$this->getQueryOptions()->isEmpty()) {
             $url .= '?' . $this->getQueryOptions()->toUrl();
         }
         return $url;
@@ -234,6 +241,7 @@ class ClientObject
      * @param string $name
      * @param mixed $value
      * @param bool $persistChanges
+     * @return $this
      */
     public function setProperty($name, $value, $persistChanges = true)
     {
@@ -253,6 +261,7 @@ class ClientObject
                 $this->resourcePath = new ResourcePath($segment,$this->parentCollection->getResourcePath()->getParent());
             }
         }
+        return $this;
     }
 
     /**
@@ -317,11 +326,29 @@ class ClientObject
      */
     public function ensureProperty($propName, $loadedCallback=null)
     {
-        if ($this->isPropertyAvailable($propName)) {
-            if(is_callable($loadedCallback)) call_user_func($loadedCallback, $this);
-        } else {
-            $this->getContext()->load($this, array($propName), $loadedCallback);
-        }
+        $this->ensureProperties(array($propName), $loadedCallback);
     }
 
+    /**
+     * Ensure properties are loaded
+     * @param array $propNames
+     * @param callable $loadedCallback
+     */
+    public function ensureProperties($propNames, $loadedCallback=null){
+
+        $result = array_filter($propNames,function ($name){
+            return $this->isPropertyAvailable($name) === false;
+        });
+
+        if(count($result) === 0) {
+            if(is_callable($loadedCallback)) call_user_func($loadedCallback, $this);
+        } else {
+            $this->getContext()->load($this, $propNames);
+            $query = $this->getContext()->getCurrentQuery();
+            $this->getContext()->afterExecuteQuery(function ($curQuery) use ($query, $loadedCallback){
+                if($curQuery->getId() == $query->getId())
+                    if(is_callable($loadedCallback)) call_user_func($loadedCallback, $this);
+            });
+        }
+    }
 }

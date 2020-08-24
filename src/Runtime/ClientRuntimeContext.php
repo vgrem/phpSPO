@@ -3,6 +3,8 @@
 namespace Office365\Runtime;
 
 use Exception;
+use Office365\Runtime\Actions\ClientAction;
+use Office365\Runtime\Actions\ReadEntityQuery;
 use Office365\Runtime\Auth\IAuthenticationContext;
 use Office365\Runtime\Http\Response;
 use Office365\Runtime\Http\RequestOptions;
@@ -27,11 +29,6 @@ abstract class ClientRuntimeContext
     public $RequestSchemaVersion;
 
 
-    /**
-     * @var ClientAction
-     */
-    protected $currentQuery = array();
-
 
     /**
      * @param IAuthenticationContext $authContext
@@ -49,6 +46,14 @@ abstract class ClientRuntimeContext
         $this->authContext->authenticateRequest($options);
     }
 
+
+    /**
+     * @return RequestOptions
+     */
+    public function buildRequest(){
+       return $this->getPendingRequest()->buildRequest();
+    }
+
     /**
      * Gets the service root URL that identifies the root of an OData service
      * @return string
@@ -60,23 +65,18 @@ abstract class ClientRuntimeContext
      * @return ClientAction
      */
     public function getCurrentQuery(){
-        return $this->currentQuery;
+        return $this->getPendingRequest()->getCurrentQuery();
     }
 
     /**
      * Prepare to load resource
      * @param ClientObject $clientObject
      * @param array $includeProperties
-     * @param callable|null $loaded
      */
-    public function load(ClientObject $clientObject, array $includeProperties = null, callable $loaded=null)
+    public function load(ClientObject $clientObject, array $includeProperties = null)
     {
         $qry = new ReadEntityQuery($clientObject,$includeProperties);
-        $this->getPendingRequest()->addQueryAndResultObject($qry, $clientObject);
-        $this->getPendingRequest()->afterExecuteRequest(function () use ($loaded, $qry) {
-            if($this->getCurrentQuery()->getId() == $qry->getId())
-                if(is_callable($loaded)) call_user_func($loaded, $this);
-        },false);
+        $this->addQueryAndResultObject($qry, $clientObject);
     }
 
 
@@ -99,13 +99,12 @@ abstract class ClientRuntimeContext
     }
 
     /**
-     * Submit client request to OData or SOAP based service
+     * Submit a client request
      *
      */
     public function executeQuery()
     {
-        while ($this->hasPendingRequest()) {
-            $this->currentQuery = $this->getPendingRequest()->getNextQuery();
+        if ($this->hasPendingRequest()) {
             $this->getPendingRequest()->executeQuery();
         }
     }
@@ -132,6 +131,17 @@ abstract class ClientRuntimeContext
     public function hasPendingRequest()
     {
         return count($this->getPendingRequest()->getActions()) > 0;
+    }
+
+
+    /**
+     * @param callable $callback
+     */
+    public function afterExecuteQuery($callback){
+        $this->getPendingRequest()->afterExecuteRequest(function () use ($callback) {
+            $qry = $this->getCurrentQuery();
+            if(is_callable($callback)) call_user_func($callback, $qry);
+        },false);
     }
 
 

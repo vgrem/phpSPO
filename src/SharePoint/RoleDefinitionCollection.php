@@ -5,7 +5,7 @@ namespace Office365\SharePoint;
 
 
 use Office365\Runtime\ClientObjectCollection;
-use Office365\Runtime\InvokeMethodQuery;
+use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\ResourcePathServiceOperation;
 
 
@@ -54,7 +54,7 @@ class RoleDefinitionCollection extends ClientObjectCollection
     public function getByType($type)
     {
         $qry = new InvokeMethodQuery($this, "getByType", array($type));
-        $roleDef = new RoleDefinition($this->getContext(),$qry->getMethodPath());
+        $roleDef = new RoleDefinition($this->getContext());
         $this->getContext()->addQueryAndResultObject($qry,$roleDef);
         $this->addChild($roleDef);
         return $roleDef;

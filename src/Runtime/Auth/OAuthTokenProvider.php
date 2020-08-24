@@ -72,7 +72,7 @@ class OAuthTokenProvider extends BaseTokenProvider
     {
         $tokenUrl = $this->authorityUrl . self::$TokenEndpoint;
         $request = new RequestOptions($tokenUrl);
-        $request->addCustomHeader('content-Type', 'application/x-www-form-urlencoded');
+        $request->ensureHeader('content-Type', 'application/x-www-form-urlencoded');
         $request->Method = HttpMethod::Post;
         $request->Data = http_build_query($parameters);
         return $request;

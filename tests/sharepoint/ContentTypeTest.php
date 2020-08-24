@@ -15,10 +15,9 @@ class ContentTypeTest extends SharePointTestCase
         $contentTypes = $list->getContentTypes();
         self::$context->load($contentTypes);
         self::$context->executeQuery();
-
         $this->assertGreaterThan(0,$contentTypes->getCount());
 
-        self::deleteList($list);
+        $list->deleteObject()->executeQuery();
     }
 
 

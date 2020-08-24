@@ -6,7 +6,7 @@
 namespace Office365\SharePoint\WebParts;
 
 use Office365\Runtime\ClientValue;
-use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 /**

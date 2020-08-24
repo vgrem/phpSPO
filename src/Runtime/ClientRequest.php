@@ -5,6 +5,7 @@ namespace Office365\Runtime;
 
 
 use Exception;
+use Office365\Runtime\Actions\ClientAction;
 use Office365\Runtime\Http\RequestException;
 use Office365\Runtime\Http\Requests;
 use Office365\Runtime\Http\Response;
@@ -41,10 +42,13 @@ abstract class ClientRequest
     protected $queries = array();
 
 
+    /**
+     * @var ClientAction
+     */
+    protected $currentQuery = null;
 
     /** @var Guid  */
     protected $requestId;
-
 
     /** @var integer */
     protected $requestStatus;
@@ -65,10 +69,21 @@ abstract class ClientRequest
 
 
     /**
+     * @return ClientAction|null
+     */
+    protected function getNextQuery()
+    {
+        $qry = array_shift($this->queries);
+        $this->currentQuery = $qry;
+        return $qry;
+    }
+
+
+    /**
      * @return ClientAction
      */
-    public function getNextQuery(){
-        return array_shift($this->queries);
+    public function getCurrentQuery(){
+        return $this->currentQuery;
     }
 
 
@@ -79,6 +94,7 @@ abstract class ClientRequest
     public function addQuery(ClientAction $query)
     {
         $this->queries[] = $query;
+        $this->currentQuery = $query;
     }
 
     /**
@@ -120,34 +136,27 @@ abstract class ClientRequest
     }
 
     /**
-     * Submit client request(s)
-     */
-    /**
-     * Submit query to OData service
+     * Submit a query
      * @throws Exception
      */
     public function executeQuery()
     {
-        try{
-            $request = $this->buildRequest();
-            $this->beforeExecute->triggerEvent(array($request));
-            $response = $this->executeQueryDirect($request);
-            $this->processResponse($response);
-            $this->afterExecute->triggerEvent(array($response));
-            $this->requestStatus = ClientRequestStatus::CompletedSuccess;
-        }
-        catch(Exception $e){
-            $this->requestStatus = ClientRequestStatus::CompletedException;
-            throw $e;
+        while ($this->getNextQuery() !== null) {
+            try{
+                $request = $this->buildRequest();
+                $this->beforeExecute->triggerEvent(array($request));
+                $response = $this->executeQueryDirect($request);
+                $this->processResponse($response);
+                $this->afterExecute->triggerEvent(array($response));
+                $this->requestStatus = ClientRequestStatus::CompletedSuccess;
+            }
+            catch(Exception $e){
+                $this->requestStatus = ClientRequestStatus::CompletedException;
+                throw $e;
+            }
         }
     }
 
-
-    /**
-     * @param RequestOptions $request
-     * @return Response
-     * @throws Exception
-     */
     /**
      * @param RequestOptions $request
      * @return Response
@@ -155,7 +164,7 @@ abstract class ClientRequest
      */
     public function executeQueryDirect(RequestOptions $request)
     {
-        $this->context->authenticateRequest($request); //Auth mandatory headers
+        $this->context->authenticateRequest($request);
         $response = Requests::execute($request);
         $this->validate($response);
         return $response;
@@ -171,7 +180,7 @@ abstract class ClientRequest
      * Build Request
      * @return RequestOptions
      */
-    protected abstract function buildRequest();
+    abstract public function buildRequest();
 
 
     /**

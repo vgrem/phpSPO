@@ -6,18 +6,13 @@ class SiteTest extends SharePointTestCase
 {
     public function testIfSiteLoaded()
     {
-        $site = self::$context->getSite();
-        self::$context->load($site);
-        self::$context->executeQuery();
+        $site = self::$context->getSite()->get()->executeQuery();
         $this->assertNotNull($site->getUrl(),"Site resource could not be loaded");
     }
 
-
     public function testIfCustomActionsLoaded()
     {
-        $actions = self::$context->getSite()->getUserCustomActions();
-        self::$context->load($actions);
-        self::$context->executeQuery();
+        $actions = self::$context->getSite()->getUserCustomActions()->get()->executeQuery();
         self::assertGreaterThanOrEqual(0,$actions->getCount());
     }
 

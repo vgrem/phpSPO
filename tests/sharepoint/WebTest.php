@@ -5,6 +5,7 @@ namespace Office365;
 use Office365\SharePoint\PrincipalType;
 use Office365\SharePoint\RoleAssignment;
 use Office365\SharePoint\Web;
+use Office365\SharePoint\WebCreationInformation;
 
 
 class WebTest extends SharePointTestCase
@@ -21,19 +22,16 @@ class WebTest extends SharePointTestCase
 
     public function testGetWebGroups()
     {
-        $groups = self::$context->getWeb()->getRoleAssignments()->getGroups();
-        self::$context->load($groups);
-        self::$context->executeQuery();
-
+        $groups = self::$context->getWeb()->getRoleAssignments()->getGroups()->get()->executeQuery();
         self::assertNotEmpty($groups->getData());
     }
 
     public function testGetWebUsers()
     {
-        $assignments = self::$context->getWeb()->getRoleAssignments()->expand("Member");
-        self::$context->load($assignments);
-        self::$context->executeQuery();
-
+        $assignments = self::$context->getWeb()->getRoleAssignments()
+            ->expand("Member")
+            ->get()
+            ->executeQuery();
 
         $result = array_filter(
             $assignments->getData(),
@@ -49,7 +47,8 @@ class WebTest extends SharePointTestCase
     public function testCreateWeb()
     {
         $targetWebUrl = "Workspace_" . date("Y-m-d") . rand(1,10000);
-        $targetWeb = self::createWeb(self::$context,$targetWebUrl);
+        $info = new WebCreationInformation($targetWebUrl,$targetWebUrl);
+        $targetWeb = self::$context->getWeb()->getWebs()->add($info)->executeQuery();
         $this->assertEquals($targetWebUrl,$targetWeb->getTitle());
         return $targetWeb;
     }
@@ -62,9 +61,10 @@ class WebTest extends SharePointTestCase
     public function testIfWebExist(Web $targetWeb)
     {
         $webTitle = $targetWeb->getTitle();
-        $webs = self::$context->getWeb()->getWebs()->filter("Title eq '$webTitle'");
-        self::$context->load($webs);
-        self::$context->executeQuery();
+        $webs = self::$context->getWeb()->getWebs()
+            ->filter("Title eq '$webTitle'")
+            ->get()
+            ->executeQuery();
         $this->assertEquals(1, $webs->getCount());
         return $targetWeb;
     }
@@ -77,16 +77,13 @@ class WebTest extends SharePointTestCase
      */
     public function testUpdateWeb(Web $targetWeb)
     {
-        $ctx = $targetWeb->getContext();
         $webTitle = self::createUniqueName("WS_Updated");
-        $targetWeb->setTitle($webTitle);
-        $targetWeb->update();
-        $ctx->executeQuery();
+        $targetWeb->setTitle($webTitle)->update()->executeQuery();
 
-
-        $webs = self::$context->getWeb()->getWebs()->filter("Title eq '$webTitle'");
-        $ctx->load($webs);
-        $ctx->executeQuery();
+        $webs = self::$context->getWeb()->getWebs()
+            ->filter("Title eq '$webTitle'")
+            ->get()
+            ->executeQuery();
         $this->assertEquals(1,$webs->getCount());
 
         return $targetWeb;
@@ -97,15 +94,14 @@ class WebTest extends SharePointTestCase
      * @depends testCreateWeb
      * @param Web $targetWeb
      */
-    public function testAssignUniquePermissions(Web $targetWeb){
-        $targetWeb->breakRoleInheritance(true);
-        self::$context->executeQuery();
+    public function testAssignUniquePermissions(Web $targetWeb)
+    {
+        $targetWeb
+            ->breakRoleInheritance(true)
+            ->executeQuery();
 
-
-        $web = self::$context->getSite()->openWebById($targetWeb->getId());
-        self::$context->executeQuery();
-        self::assertTrue(true);
-        self::assertNotNull($web->getResourcePath());
+        $targetWeb->select("HasUniqueRoleAssignments")->get()->executeQuery();
+        self::assertTrue($targetWeb->getHasUniqueRoleAssignments());
     }
 
     /**
@@ -114,12 +110,12 @@ class WebTest extends SharePointTestCase
      */
     public function testTryDeleteWeb(Web $targetWeb){
         $title = $targetWeb->getTitle();
-        $targetWeb->deleteObject();
-        self::$context->executeQuery();
+        $targetWeb->deleteObject()->executeQuery();
 
-        $webs = self::$context->getWeb()->getWebs()->filter("Title eq '$title'");
-        self::$context->load($webs);
-        self::$context->executeQuery();
+        $webs = self::$context->getWeb()->getWebs()
+            ->filter("Title eq '$title'")
+            ->get()
+            ->executeQuery();
         $this->assertEquals(0,$webs->getCount());
     }
 

@@ -7,7 +7,7 @@ namespace Office365\Graph;
 
 use Exception;
 use Office365\Runtime\ClientObject;
-use Office365\Runtime\InvokeMethodQuery;
+use Office365\Runtime\Actions\InvokeMethodQuery;
 
 /**
  *  "A profile photo of a user, group or an Outlook contact accessed from Exchange Online. It's binary data not encoded in base-64."

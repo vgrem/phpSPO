@@ -1,7 +1,10 @@
 <?php
 
 
-namespace Office365\Runtime;
+namespace Office365\Runtime\Actions;
+
+
+use Office365\Runtime\ClientObject;
 
 
 class InvokeMethodQuery extends ClientAction
@@ -19,36 +22,15 @@ class InvokeMethodQuery extends ClientAction
         $this->MethodParameters = $methodParameters;
     }
 
-
-    /**
-     * @return ResourcePathServiceOperation
-     */
-    public function getMethodPath()
-    {
-        if ($this->MethodName) {
-            if($this->IsStatic){
-                $staticMethodName = implode(".", array("SP", $this->BindingType->getServerTypeName(), $this->MethodName));
-                return new ResourcePathServiceOperation($staticMethodName,
-                    $this->MethodParameters);
-            }
-            return new ResourcePathServiceOperation($this->MethodName,
-                $this->MethodParameters,
-                $this->BindingType->getResourcePath());
-        }
-        return null;
-    }
-
     /**
      * @var string
      */
     public $TypeId;
 
-
     /**
      * @var $IsStatic boolean
      */
     public $IsStatic;
-
 
     /**
      * @var string|null

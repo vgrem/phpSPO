@@ -3,6 +3,7 @@
 namespace Office365;
 
 use Exception;
+use Office365\Runtime\Auth\UserCredentials;
 use Office365\SharePoint\ClientContext;
 use Office365\SharePoint\File;
 use Office365\SharePoint\ListCreationInformation;
@@ -10,7 +11,6 @@ use Office365\SharePoint\ListItem;
 use Office365\SharePoint\SPList;
 use Office365\SharePoint\TemplateFileType;
 use Office365\SharePoint\Web;
-use Office365\SharePoint\WebCreationInformation;
 use PHPUnit\Framework\TestCase;
 
 
@@ -26,8 +26,8 @@ abstract class SharePointTestCase extends TestCase
     public static function setUpBeforeClass()
     {
         $settings = include(__DIR__ . '/../../Settings.php');
-        //self::$context = ClientContext::connectWithClientCredentials($settings['Url'],$settings['ClientId'],$settings['ClientSecret']);
-        self::$context = ClientContext::connectWithUserCredentials($settings['Url'],$settings['UserName'],$settings['Password']);
+        self::$context = (new ClientContext($settings['Url']))
+            ->withCredentials(new UserCredentials($settings['UserName'],$settings['Password']));
     }
 
     public static function tearDownAfterClass()
@@ -37,32 +37,19 @@ abstract class SharePointTestCase extends TestCase
 
 
     /**
-     * @param ClientContext $ctx
-     * @param string $webUrl
-     * @return Web
+     * @param Web $web
+     * @param string $listTitle
+     * @param int $type
+     * @return SPList
      */
-    public static function createWeb(ClientContext $ctx, $webUrl)
+    public static function ensureList(Web $web, $listTitle, $type)
     {
-        $web = $ctx->getWeb();
-        $info = new WebCreationInformation($webUrl,$webUrl);
-        $web = $web->getWebs()->add($info);
-        $ctx->executeQuery();
-        return $web;
-    }
-
-
-    public static function ensureList(Web $web, $listTitle, $type, $clearItems = true)
-    {
-        $ctx = $web->getContext();
-        $lists = $web->getLists()->filter("Title eq '$listTitle'")->top(1);
-        $ctx->load($lists);
-        $ctx->executeQuery();
+        $lists = $web->getLists()->filter("Title eq '$listTitle'")
+            ->top(1)
+            ->get()
+            ->executeQuery();
         if ($lists->getCount() == 1) {
-            $existingList = $lists->getData()[0];
-            if ($clearItems) {
-                //self::deleteListItems($existingList);
-            }
-            return $existingList;
+            return $lists->getData()[0];
         }
         return self::createList($web, $listTitle, $type);
     }
@@ -84,17 +71,6 @@ abstract class SharePointTestCase extends TestCase
         $ctx->executeQuery();
         return $list;
     }
-
-
-    /**
-     * @param SPList $list
-     */
-    public static function deleteList(SPList $list){
-        $ctx = $list->getContext();
-        $list->deleteObject();
-        $ctx->executeQuery();
-    }
-
 
     public static function createUniqueName($prefix){
         return  $prefix . "_" . rand(1, 100000);

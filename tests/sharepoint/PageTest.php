@@ -28,48 +28,39 @@ class PageTest extends SharePointTestCase
         $pageName = self::createUniqueName("Wiki") . ".aspx";
         self::$targetPage = self::createWikiPage(self::$targetList,$pageName);
         if(!self::$targetPage->isPropertyAvailable("CheckOutType")){
-            self::$context->load(self::$targetPage);
-            self::$context->executeQuery();
+            self::$targetPage->get()->executeQuery();
         }
 
         //ensure whether the file is checked out to start tests
         if(self::$targetPage->getCheckOutType() == CheckOutType::None)
         {
-            self::$targetPage->checkOut();
-            self::$context->executeQuery();
+            self::$targetPage->checkOut()->executeQuery();
         }
 
     }
 
     public static function tearDownAfterClass()
     {
-        self::$targetList->deleteObject();
-        self::$context->executeQuery();
+        self::$targetList->deleteObject()->executeQuery();
         parent::tearDownAfterClass();
     }
 
 
     public function testUndoCheckoutPage(){
 
-        self::$targetPage->undoCheckout();
-        self::$context->load(self::$targetPage);
-        self::$context->executeQuery();
+        self::$targetPage->undoCheckout()->executeQuery();
         $this->assertEquals(CheckOutType::None,self::$targetPage->getCheckOutType());
     }
 
 
     public function testCheckOutPage(){
-        self::$targetPage->checkOut();
-        self::$context->load(self::$targetPage);
-        self::$context->executeQuery();
+        self::$targetPage->checkOut()->get()->executeQuery();
         $this->assertEquals(CheckOutType::Online,self::$targetPage->getCheckOutType());
     }
 
 
     public function testCheckInPage(){
-        self::$targetPage->checkIn("Modified.");
-        self::$context->load(self::$targetPage);
-        self::$context->executeQuery();
+        self::$targetPage->checkIn("Modified.")->get()->executeQuery();
         $this->assertEquals(CheckOutType::None,self::$targetPage->getCheckOutType());
     }
 
@@ -77,9 +68,7 @@ class PageTest extends SharePointTestCase
     public function testListWebParts()
     {
         $manager = self::$targetPage->getLimitedWebPartManager(PersonalizationScope::Shared);
-        $webParts = $manager->getWebParts();
-        self::$context->load($webParts);
-        self::$context->executeQuery();
+        $webParts = $manager->getWebParts()->get()->executeQuery();
         $this->assertNotNull($webParts->getServerObjectIsNull());
     }
 

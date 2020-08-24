@@ -4,6 +4,7 @@ namespace Office365;
 
 use Exception;
 use Office365\Runtime\Auth\UserCredentials;
+use Office365\Runtime\Http\RequestOptions;
 use Office365\SharePoint\ClientContext;
 
 class ClientContextTest extends SharePointTestCase
@@ -39,6 +40,26 @@ class ClientContextTest extends SharePointTestCase
             self::assertTrue(self::$context->hasPendingRequest());
             self::$context->getPendingRequest()->clearActions();
         }
+    }
+
+
+    public function testBuildGetRequest(){
+        $request = self::$context->getWeb()->getCurrentUser()->get()->buildRequest();
+        self::assertInstanceOf(RequestOptions::class, $request);
+        self::$context->getPendingRequest()->clearActions();
+    }
+
+
+    public function testBuildUpdateRequest(){
+        $request = self::$context->getWeb()->getCurrentUser()->update()->buildRequest();
+        self::assertInstanceOf(RequestOptions::class, $request);
+        self::$context->getPendingRequest()->clearActions();
+    }
+
+    public function testBuildDeleteRequest(){
+        $request = self::$context->getWeb()->deleteObject()->buildRequest();
+        self::assertInstanceOf(RequestOptions::class, $request);
+        self::$context->getPendingRequest()->clearActions();
     }
 
 

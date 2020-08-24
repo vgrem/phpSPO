@@ -41,19 +41,16 @@ class VideoServiceTest extends SharePointTestCase
     /*public function testEnsureChannel(VideoServiceDiscoverer $discoverer)
     {
         self::$manager = new VideoServiceManager(self::$context,$discoverer->getVideoPortalUrl());
-        $channels = self::$manager->getChannels();
-        self::$context->load($channels);
-        self::$context->executeQuery();
+        $channels = self::$manager->getChannels()->get()->executeQuery();
 
-
-        $channelName = "TeamChannel"; //self::createUniqueName("TestChannel");
+        $channelName = self::createUniqueName("TestChannel");
         $result = $channels->findItems(
             function (VideoChannel $item) use ($channelName) {
                 return  $item->getProperty("Title") === $channelName;
             });
 
         if(is_null($result)){
-            self::$targetChannel = $channels->add($channelName); #oh crap.. not supported by REST service yet
+            self::$targetChannel = $channels->add($channelName);
             self::$context->executeQuery();
         }
         else{

@@ -7,18 +7,18 @@ use Office365\Runtime\Auth\AuthenticationContext;
 use Office365\Runtime\Auth\ClientCredential;
 use Office365\Runtime\Auth\IAuthenticationContext;
 use Office365\Runtime\Auth\UserCredentials;
-use Office365\Runtime\DeleteEntityQuery;
+use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\OData\ODataRequest;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\UpdateEntityQuery;
+use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\OData\JsonLightFormat;
 use Office365\Runtime\OData\ODataMetadataLevel;
 use Office365\Runtime\Http\RequestOptions;
 
 /**
- * Client context for SharePoint REST/OData service
+ * Client context for SharePoint API service
  */
 class ClientContext extends ClientRuntimeContext
 {
@@ -78,7 +78,6 @@ class ClientContext extends ClientRuntimeContext
         return $ctx;
     }
 
-
     /**
      * @return ODataRequest
      */
@@ -110,6 +109,7 @@ class ClientContext extends ClientRuntimeContext
 
 
     /**
+     * Status: deprecated, prefer nowadays WithCredentials method
      * @param string $url
      * @param string $username
      * @param string $password
@@ -141,14 +141,13 @@ class ClientContext extends ClientRuntimeContext
     /**
      * Ensure form digest value for POST request
      * @param RequestOptions $request
-     * @throws Exception
      */
     public function ensureFormDigest(RequestOptions $request)
     {
         if (!isset($this->contextWebInformation)) {
             $this->requestFormDigest();
         }
-        $request->addCustomHeader("X-RequestDigest",$this->getContextWebInformation()->FormDigestValue);
+        $request->ensureHeader("X-RequestDigest",$this->getContextWebInformation()->FormDigestValue);
     }
 
     /**
@@ -171,7 +170,6 @@ class ClientContext extends ClientRuntimeContext
 
     /**
      * @param RequestOptions $request
-     * @throws Exception
      */
     private function buildSharePointSpecificRequest(RequestOptions $request){
 
@@ -182,11 +180,11 @@ class ClientContext extends ClientRuntimeContext
 
         //set data modification headers
         if ($query instanceof UpdateEntityQuery) {
-            $request->addCustomHeader("IF-MATCH", "*");
-            $request->addCustomHeader("X-HTTP-Method", "MERGE");
+            $request->ensureHeader("IF-MATCH", "*");
+            $request->ensureHeader("X-HTTP-Method", "MERGE");
         } else if ($query instanceof DeleteEntityQuery) {
-            $request->addCustomHeader("IF-MATCH", "*");
-            $request->addCustomHeader("X-HTTP-Method", "DELETE");
+            $request->ensureHeader("IF-MATCH", "*");
+            $request->ensureHeader("X-HTTP-Method", "DELETE");
         }
     }
 
@@ -236,8 +234,22 @@ class ClientContext extends ClientRuntimeContext
         $this->baseUrl = $value;
     }
 
+    /**
+     * @return string
+     */
     public function getServiceRootUrl()
     {
-        return  "$this->baseUrl/_api/";
+        return  "{$this->getBaseUrl()}/_api/";
+    }
+
+
+    /**
+     * @return RequestOptions
+     */
+    public function buildRequest()
+    {
+        $request = parent::buildRequest();
+        $this->buildSharePointSpecificRequest($request);
+        return $request;
     }
 }

@@ -1,21 +1,27 @@
 <?php
 
-namespace Office365\Runtime;
+namespace Office365\Runtime\Actions;
 
 
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\ClientResult;
+use Office365\Runtime\ClientValue;
 
 /**
  * OData query class
  */
-class ClientAction
+abstract class ClientAction
 {
 
+    /**
+     * @param ClientObject $bindingType
+     * @param ClientObject|ClientValue|ClientResult $returnType
+     */
     public function __construct($bindingType,$returnType)
     {
         $this->BindingType = $bindingType;
         $this->ReturnType = $returnType;
     }
-
 
     /**
      * @return string

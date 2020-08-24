@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\DeleteEntityQuery;
-use Office365\Runtime\InvokeMethodQuery;
-use Office365\Runtime\UpdateEntityQuery;
+use Office365\Runtime\Actions\DeleteEntityQuery;
+use Office365\Runtime\Actions\InvokeMethodQuery;
+use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 /**
@@ -40,19 +40,23 @@ class View extends ClientObject
     /**
      * The recommended way to delete a view is to send a DELETE request to the View resource endpoint,
      * as shown in View request examples.
+     * @return View
      */
     public function deleteObject()
     {
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     /**
      * Returns the list view as HTML.
+     * @return View
      */
     public function renderAsHtml()
     {
         $qry = new InvokeMethodQuery($this, "renderashtml");
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     /**
      * Specifies fields 

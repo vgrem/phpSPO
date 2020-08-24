@@ -28,8 +28,7 @@ class FolderTest extends SharePointTestCase
 
     public static function tearDownAfterClass()
     {
-        self::$targetList->deleteObject();
-        self::$context->executeQuery();
+        self::$targetList->deleteObject()->executeQuery();
         parent::tearDownAfterClass();
     }
 
@@ -37,8 +36,7 @@ class FolderTest extends SharePointTestCase
     public function testCamlFolderQuery()
     {
         $folderName = "Archive_" . rand(1, 100000);
-        $folder = self::$targetList->getRootFolder()->getFolders()->add($folderName);
-        self::$context->executeQuery();
+        $folder = self::$targetList->getRootFolder()->getFolders()->add($folderName)->executeQuery();
 
         $items = self::$targetList->getItems()->expand("Folder");
         self::$context->load($items);
@@ -70,17 +68,13 @@ class FolderTest extends SharePointTestCase
     public function testRenameFolder(Folder $folderToRename)
     {
         $folderName = "2015";
-        $folderToRename->rename($folderName);
-        self::$context->executeQuery();
+        $folderToRename->rename($folderName)->executeQuery();
 
-        self::$context->load(self::$targetList->getRootFolder());
-        self::$context->executeQuery();
-        $folderUrl = self::$targetList->getRootFolder()->getServerRelativeUrl() . "/" . $folderName;
-        $folder = self::$context->getWeb()->getFolderByServerRelativeUrl($folderUrl);
-        self::$context->load($folder);
-        self::$context->executeQuery();
-        self::assertFalse($folder->getServerObjectIsNull());
-        return $folder;
+        $rootFolder = self::$targetList->getRootFolder()->get()->executeQuery();
+        $folderUrl = $rootFolder->getServerRelativeUrl() . "/" . $folderName;
+        $targetFolder = self::$context->getWeb()->getFolderByServerRelativeUrl($folderUrl)->get()->executeQuery();
+        self::assertFalse($targetFolder->getServerObjectIsNull());
+        return $targetFolder;
     }
 
 
@@ -101,10 +95,8 @@ class FolderTest extends SharePointTestCase
         self::$context->executeQuery();
         self::assertTrue($folderItem->getHasUniqueRoleAssignments());
         //2. grant read permissions for a group
-        $visitorGroup = self::$context->getWeb()->getAssociatedVisitorGroup();
+        $visitorGroup = self::$context->getWeb()->getAssociatedVisitorGroup()->get();
         $roleDef = self::$context->getWeb()->getRoleDefinitions()->getByType(RoleType::Reader);
-        self::$context->load($roleDef);
-        self::$context->load($visitorGroup);
         self::$context->executeQuery();
         $folderItem->getRoleAssignments()->addRoleAssignment($visitorGroup->getId(),$roleDef->getId());
         self::$context->executeQuery();
@@ -118,13 +110,13 @@ class FolderTest extends SharePointTestCase
     public function testCopyFolder($sourceFolder)
     {
         #ensure source folder contains at least one file
-        $sourceFolder->uploadFile("Sample.txt","--some content goes here--");
-        self::$context->executeQuery();
+        $sourceFolder
+            ->uploadFile("Sample.txt","--some content goes here--")
+            ->executeQuery();
 
         $folderName = "Archive_copy_" . rand(1, 100000);
         $targetFolderUrl = join("/",array($sourceFolder->getServerRelativeUrl(), $folderName)) ;
-        $targetFolder = $sourceFolder->copyTo($targetFolderUrl,true);
-        self::$context->executeQuery();
+        $targetFolder = $sourceFolder->copyTo($targetFolderUrl,true)->executeQuery();
         self::assertGreaterThan(0,$targetFolder->getItemCount());
         return $targetFolder;
     }
@@ -137,8 +129,7 @@ class FolderTest extends SharePointTestCase
     public function testMoveFolder($sourceFolder)
     {
         $targetFolderUrl = join("/",array($sourceFolder->getServerRelativeUrl(), "2006")) ;
-        $targetFolder = $sourceFolder->moveTo($targetFolderUrl,1);
-        self::$context->executeQuery();
+        $targetFolder = $sourceFolder->moveTo($targetFolderUrl,1)->executeQuery();
         self::assertGreaterThan(0,$targetFolder->getItemCount());
         return $targetFolder;
     }
@@ -151,16 +142,11 @@ class FolderTest extends SharePointTestCase
     public function testDeleteFolder(Folder $folderToDelete)
     {
         $folderName = $folderToDelete->getName();
-        $folderToDelete->deleteObject();
-        self::$context->executeQuery();
-
+        $folderToDelete->deleteObject()->executeQuery();
 
         $filterExpr = "FileLeafRef eq '$folderName'";
-        $result = self::$targetList->getItems()->filter($filterExpr);
-        self::$context->load($result);
-        self::$context->executeQuery();
+        $result = self::$targetList->getItems()->filter($filterExpr)->get()->executeQuery();
         self::assertEmpty($result->getCount());
     }
-
 
 }

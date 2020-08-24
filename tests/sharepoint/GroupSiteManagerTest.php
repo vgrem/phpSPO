@@ -21,7 +21,6 @@ class GroupSiteManagerTest extends SharePointTestCase
         catch (Exception $ex){
             //ignore errors
         }
-
     }
 
 }

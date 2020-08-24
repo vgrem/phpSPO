@@ -5,7 +5,7 @@
 
 namespace Office365\SharePoint;
 
-use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ResourcePathServiceOperation;
 
@@ -60,22 +60,25 @@ class GroupCollection extends ClientObjectCollection
     /**
      * Removes the group with the specified member ID from the collection.
      * @param int $id The ID of the group to remove.
-     * @throws \Exception
+     *
+     * @return GroupCollection
      */
     public function removeById($id)
     {
         $qry = new InvokePostMethodQuery($this, "removeById", array($id));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
 
     /**
      * Removes the cross-site group with the specified name from the collection.
      * @param string $groupName The name of the group to remove. The group name is specified in its LoginName property.
-     * @throws \Exception
+     * @return GroupCollection
      */
     public function removeByLoginName($groupName)
     {
         $qry = new InvokePostMethodQuery($this, "removeByLoginName", array($groupName));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
 }

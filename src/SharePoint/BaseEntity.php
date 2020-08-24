@@ -32,14 +32,6 @@ class BaseEntity extends ClientObject
     }
 
     /**
-     * @return $this
-     */
-    public function get(){
-        $this->context->load($this);
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getServerTypeName()

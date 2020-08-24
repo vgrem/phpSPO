@@ -4,7 +4,7 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientObjectCollection;
-use Office365\Runtime\InvokePostMethodQuery;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePathServiceOperation;
 
 class ContentTypeCollection extends ClientObjectCollection
@@ -20,7 +20,7 @@ class ContentTypeCollection extends ClientObjectCollection
             $this->getContext(),
             new ResourcePathServiceOperation("GetById",array($id),$this->getResourcePath())
         );
-        $contentType->parentCollection = $this;
+        $this->addChild($contentType);
         return $contentType;
     }
 
