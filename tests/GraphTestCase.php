@@ -19,7 +19,7 @@ abstract class GraphTestCase extends TestCase
 
     public static function setUpBeforeClass()
     {
-        $settings = include(__DIR__ . '/../../Settings.php');
+        $settings = include(__DIR__ . '/../Settings.php');
         self::$graphClient = new GraphServiceClient($settings['TenantName'], function (AuthenticationContext $authCtx) use ($settings) {
             self::acquireToken($authCtx, $settings['ClientId'], $settings['UserName'], $settings['Password']);        });
     }

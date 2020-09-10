@@ -47,7 +47,7 @@ class Site extends ClientObject
     public function getWebTemplates($lcid,$overrideCompatLevel){
         $qry = new InvokePostMethodQuery($this, "GetWebTemplates",
             array("LCID" => $lcid, "overrideCompatLevel" => $overrideCompatLevel));
-        $result = new WebTemplateCollection($this->getContext(), $qry->toResourcePath());
+        $result = new WebTemplateCollection($this->getContext(), $qry->getMethodPath());
         $this->getContext()->addQueryAndResultObject($qry, $result);
         return $result;
     }

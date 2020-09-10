@@ -25,6 +25,6 @@ class ReadEntityQuery extends ClientAction
             $bindingType->getQueryOptions()->Select = implode(",", $includeProperties);
         if (!empty($expandProperties) > 0)
             $bindingType->getQueryOptions()->Expand = implode(",", $expandProperties);
-        parent::__construct($bindingType, $entityToRead);
+        parent::__construct($entityToRead->getContext(), $bindingType, $entityToRead);
     }
 }

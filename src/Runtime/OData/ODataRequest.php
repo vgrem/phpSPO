@@ -17,7 +17,6 @@ use Office365\Runtime\Http\Response;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
-use Office365\Runtime\ResourcePathServiceOperation;
 use Office365\SharePoint\ClientContext;
 
 
@@ -43,25 +42,9 @@ class ODataRequest extends ClientRequest
      */
     public function buildRequest(){
         $qry = $this->currentQuery;
-
-        $resourceUrl = $qry->BindingType->getResourceUrl();
-        $request = new RequestOptions($resourceUrl);
+        $url = $qry->getActionUrl();
+        $request = new RequestOptions($url);
         if($qry instanceof InvokeMethodQuery){
-            if(!is_null($qry->MethodName)) {
-                if($qry->IsStatic){
-                    $methodName = implode(".",
-                    array($this->normalizeTypeName($qry->BindingType->getServerTypeName()) , $qry->MethodName));
-                    $methodPath = new ResourcePathServiceOperation($methodName,$qry->MethodParameters);
-                    $request->Url = implode("", array($this->context->getServiceRootUrl(), $methodPath->toUrl()));
-                }
-                else{
-                    $methodPath = new ResourcePathServiceOperation($qry->MethodName,$qry->MethodParameters);
-                    $qry->BindingType->getQueryOptions()->clear();
-                    $request->Url = implode("/",
-                        array($qry->BindingType->getResourceUrl(), $methodPath->toUrl())) ;
-                }
-            }
-
             if($this->format instanceof JsonLightFormat){
                 $this->format->FunctionTag = $qry->MethodName;
             }
@@ -80,6 +63,25 @@ class ODataRequest extends ClientRequest
             }
         }
         return $request;
+    }
+
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    public function normalizeTypeName($value){
+        $defaultNs = null;
+        if($this->context instanceof OutlookClient)
+            $defaultNs = "Microsoft.OutlookServices";
+        else if($this->context instanceof ClientContext)
+            $defaultNs = "SP";
+
+        $names = explode(".",$value);
+        if(count($names) == 1){
+            $value = "$defaultNs.$value";
+        }
+        return $value;
     }
 
 
@@ -124,24 +126,6 @@ class ODataRequest extends ClientRequest
         elseif ($format instanceof JsonFormat){
             $json[$format->TypeTag] = "#$typeName";
         }
-    }
-
-    /**
-     * @param string $value
-     * @return string
-     */
-    private function normalizeTypeName($value){
-        $defaultNs = null;
-        if($this->context instanceof OutlookClient)
-            $defaultNs = "Microsoft.OutlookServices";
-        else if($this->context instanceof ClientContext)
-            $defaultNs = "SP";
-
-        $names = explode(".",$value);
-        if(count($names) == 1){
-            $value = "$defaultNs.$value";
-        }
-        return $value;
     }
 
 

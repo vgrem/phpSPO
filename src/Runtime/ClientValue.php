@@ -70,6 +70,11 @@ class ClientValue
 
 
     /**
+     * @var ClientRuntimeContext
+     */
+    private $context;
+
+    /**
      * @var $typeName string
      */
     private $typeName;

@@ -12,7 +12,12 @@ class CreateEntityQuery extends InvokePostMethodQuery
      */
     public function __construct(ClientObject $entityToCreate)
     {
-        parent::__construct($entityToCreate->getParentCollection(),null,null,null,$entityToCreate);
+        parent::__construct(
+            $entityToCreate->getParentCollection(),
+            null,
+            null,
+            null,
+            $entityToCreate);
     }
 
 }
