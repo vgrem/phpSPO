@@ -20,7 +20,7 @@ use Office365\SharePoint\ClientContext;
 function generateTypeFile($typeSchema, $options)
 {
     if(!isset($typeSchema['baseType'])){
-        //print ("[Warn] ${$typeSchema['alias']} type not determined.\n");
+        #print ("[Warn] ${$typeSchema['alias']} type not determined.\n");
     }
     else{
         $templatePath = join(DIRECTORY_SEPARATOR,[$options['templatePath'],$typeSchema['baseType'] . '.php']) ;
