@@ -126,6 +126,8 @@ class SamlTokenProvider extends BaseTokenProvider
         } catch (Exception $e) {
             // Try to get the token with a federated authentication.
             $response = $this->acquireSecurityTokenFromFederatedSTS($username, $password);
+            if(is_null($response))
+                throw $e;
             return $this->processSecurityTokenResponse($response->getContent());
         }
     }
