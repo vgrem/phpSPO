@@ -20,8 +20,10 @@ abstract class GraphTestCase extends TestCase
     public static function setUpBeforeClass()
     {
         $settings = include(__DIR__ . '/../Settings.php');
-        self::$graphClient = new GraphServiceClient($settings['TenantName'], function (AuthenticationContext $authCtx) use ($settings) {
-            self::acquireToken($authCtx, $settings['ClientId'], $settings['UserName'], $settings['Password']);        });
+        self::$graphClient = new GraphServiceClient($settings['TenantName'], function (AuthenticationContext $authCtx)
+        use ($settings) {
+            self::acquireToken($authCtx, $settings['ClientId'], $settings['UserName'], $settings['Password']);
+        });
     }
 
     public static function tearDownAfterClass()
@@ -30,16 +32,17 @@ abstract class GraphTestCase extends TestCase
     }
 
 
+    /**
+     * @param AuthenticationContext $authCtx
+     * @param $clientId
+     * @param $userName
+     * @param $password
+     * @throws Exception
+     */
     public static function acquireToken(AuthenticationContext $authCtx, $clientId, $userName, $password)
     {
         $resource = "https://graph.microsoft.com";
-        try {
-            $authCtx->acquireTokenForPassword($resource,
-                $clientId,
-                new UserCredentials($userName, $password));
-        } catch (Exception $e) {
-            print("Failed to acquire token");
-        }
+        $authCtx->acquireTokenForPassword($resource,$clientId,new UserCredentials($userName, $password));
     }
 
 }

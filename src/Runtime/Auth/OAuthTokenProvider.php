@@ -61,6 +61,7 @@ class OAuthTokenProvider extends BaseTokenProvider
     {
         $request = $this->prepareTokenRequest($parameters);
         $response = Requests::execute($request);
+        $response->validate();
         return $this->normalizeToken($response->getContent());
     }
 

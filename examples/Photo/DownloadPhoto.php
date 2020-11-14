@@ -12,13 +12,7 @@ use Office365\Runtime\Auth\UserCredentials;
 function acquireToken(AuthenticationContext $authCtx, $clientId, $userName, $password)
 {
     $resource = "https://graph.microsoft.com";
-    try {
-        $authCtx->acquireTokenForPassword($resource,
-            $clientId,
-            new UserCredentials($userName, $password));
-    } catch (Exception $e) {
-        print("Failed to acquire token");
-    }
+    $authCtx->acquireTokenForPassword($resource,$clientId,new UserCredentials($userName, $password));
 }
 
 try {

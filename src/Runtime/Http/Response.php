@@ -12,6 +12,16 @@ class Response
         $this->StatusCode = $headers['HttpCode'];
     }
 
+    /**
+     *
+     * @throws RequestException
+     */
+    public function validate(){
+        if ($this->StatusCode >= 400) {
+            throw new RequestException($this->Content,$this->StatusCode);
+        }
+    }
+
     public function getStatusCode()
     {
         return $this->StatusCode;

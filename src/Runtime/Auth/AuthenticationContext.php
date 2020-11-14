@@ -147,7 +147,6 @@ class AuthenticationContext implements IAuthenticationContext
             'client_id' => $clientId,
             'username' => $userCredentials->Username,
             'password' => $userCredentials->Password,
-            'scope' => 'user.read openid',
             'resource' => $resource
         );
         $this->accessToken = $this->provider->acquireToken($parameters);
