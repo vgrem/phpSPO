@@ -53,7 +53,7 @@ class GroupCollection extends ClientObjectCollection
     {
         return new Group(
             $this->getContext(),
-            new ResourcePathServiceOperation( "getByName", array($name),$this->getResourcePath())
+            new ResourcePathServiceOperation( "getByName", array(rawurlencode($name)), $this->getResourcePath())
         );
     }
 
