@@ -22,16 +22,17 @@ class Utility
      */
     public static function createNewDiscussion(SPList $list, $title)
     {
+        $ctx = $list->getContext();
         $discussionPayload = array(
             "Title" => $title,
             "FileSystemObjectType" => 1
         );
         $item = $list->addItem($discussionPayload);
-        $item->getContext()->executeQuery();
-        //fix discussion folder name
-        $item->setProperty("FileLeafRef",$title);
-        $item->update();
-        $item->getContext()->executeQuery();
+        $ctx->getPendingRequest()->afterExecuteRequest(function () use ($item,$title, $ctx){
+            //fix discussion folder name
+            $item->setProperty("FileLeafRef",$title);
+            $item->update();
+        },true);
         return $item;
     }
 

@@ -54,16 +54,13 @@ class RoleTest extends SharePointTestCase
      * @return RoleAssignment
      */
     public function  testAddRoleAssignment(RoleDefinition $targetRole){
-        //get site user
-        $usersResult = self::$context->getWeb()->getSiteUsers()->filter("Title eq 'Marta Doe'");
-        self::$context->load($usersResult);
-        self::$context->executeQuery();
-        self::assertEquals(1,$usersResult->getCount());
+        $users = self::$context->getWeb()->getSiteUsers()->filter("Title eq 'Jon Doe'")->get()->executeQuery();
+        self::assertGreaterThanOrEqual(1,$users->getCount());
 
-        self::$securedTargetObject->getRoleAssignments()->addRoleAssignment($usersResult->getItem(0)->getProperty("Id"),$targetRole->getProperty("Id"));
+        self::$securedTargetObject->getRoleAssignments()->addRoleAssignment($users->getItem(0)->getProperty("Id"),$targetRole->getProperty("Id"));
         self::$context->executeQuery();
 
-        $roleAssignment = self::$securedTargetObject->getRoleAssignments()->getByPrincipalId($usersResult->getItem(0)->getProperty("Id"));
+        $roleAssignment = self::$securedTargetObject->getRoleAssignments()->getByPrincipalId($users->getItem(0)->getProperty("Id"));
         self::$context->load($roleAssignment);
         self::$context->executeQuery();
         self::assertNotNull($roleAssignment);
@@ -78,20 +75,15 @@ class RoleTest extends SharePointTestCase
     {
         $roleDef = self::$context->getWeb()->getRoleDefinitions()->getByName("Edit"); //get role definition by name
         self::$context->load($roleDef);
-        $roleAssignmentsBefore = self::$securedTargetObject->getRoleAssignments();
-        self::$context->load($roleAssignmentsBefore);
-        self::$context->executeQuery();
+        $roleAssignmentsBefore = self::$securedTargetObject->getRoleAssignments()->get()->executeQuery();
         self::assertNotNull($roleDef);
 
         $rolesCount = $roleAssignmentsBefore->getCount();
         self::$securedTargetObject->getRoleAssignments()->removeRoleAssignment($roleAssignment->getPrincipalId(),$roleDef->getProperty("Id"));
         self::$context->executeQuery();
 
-        $roleAssignmentsAfter = self::$securedTargetObject->getRoleAssignments();
-        self::$context->load($roleAssignmentsAfter);
-        self::$context->executeQuery();
+        $roleAssignmentsAfter = self::$securedTargetObject->getRoleAssignments()->get()->executeQuery();
         self::assertEquals($roleAssignmentsAfter->getCount(),$rolesCount -1);
     }
-
 
 }

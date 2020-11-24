@@ -25,7 +25,7 @@ try {
             "Description" => "Description",
             "WebTemplate" => "SITEPAGEPUBLISHING#0",
             "SiteDesignId" => "6142d2a0-63a5-4ba0-aede-d9fefca2c767",
-            "Owner" => "jdoe@mediadev8.onmicrosoft.com"
+            "Owner" => $settings['TestAccounts'][0]
         )
     );
     $request->Data = json_encode($payload);

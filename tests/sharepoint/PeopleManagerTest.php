@@ -8,62 +8,76 @@ use Office365\SharePoint\UserProfiles\PeopleManager;
 class PeopleManagerTest extends SharePointTestCase
 {
 
-    private static $accountName = "i:0#.f|membership|mdoe@mediadev8.onmicrosoft.com";
+    /**
+     * @var SharePoint\User
+     */
+    private static $testUser;
 
-    public function testGetMyProperties(){
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        self::$testUser = self::$context->getWeb()->ensureUser(self::$testAccountName)->executeQuery();
+    }
+
+    public function testGetMyProperties()
+    {
         $peopleManager = new PeopleManager(self::$context);
         $properties = $peopleManager->getMyProperties()->get()->executeQuery();
         $this->assertNotNull($properties->getAccountName());
     }
 
 
-    public function testGetUserProfilePropertyFor(){
+    public function testGetUserProfilePropertyFor()
+    {
         $peopleManager = new PeopleManager(self::$context);
-        $result = $peopleManager->getUserProfilePropertyFor(self::$accountName,"AccountName");
+        $result = $peopleManager->getUserProfilePropertyFor(self::$testUser->getLoginName(), "AccountName");
         self::$context->executeQuery();
         $this->assertNotNull($result->getValue());
     }
 
 
-    public function testFollow(){
+    public function testFollow()
+    {
         $peopleManager = new PeopleManager(self::$context);
 
-        $result = $peopleManager->amIFollowing(self::$accountName);
+        $result = $peopleManager->amIFollowing(self::$testUser->getLoginName());
         self::$context->executeQuery();
 
-        if($result->getValue() == false){
-            $peopleManager->follow(self::$accountName);
+        if ($result->getValue() == false) {
+            $peopleManager->follow(self::$testUser->getLoginName());
             self::$context->executeQuery();
         }
 
-        $propertiesList = $peopleManager->getFollowersFor(self::$accountName);
+        $propertiesList = $peopleManager->getFollowersFor(self::$testUser->getLoginName());
         self::$context->load($propertiesList);
         self::$context->executeQuery();
 
-        self::assertGreaterThanOrEqual(1,$propertiesList->getCount());
+        self::assertGreaterThanOrEqual(1, $propertiesList->getCount());
     }
 
-    public function testStopFollowing(){
+    public function testStopFollowing()
+    {
         $peopleManager = new PeopleManager(self::$context);
 
-        $result = $peopleManager->amIFollowing(self::$accountName);
+        $result = $peopleManager->amIFollowing(self::$testUser->getLoginName());
         self::$context->executeQuery();
 
-        if($result->getValue() == true){
-            $peopleManager->stopFollowing(self::$accountName);
+        if ($result->getValue() == true) {
+            $peopleManager->stopFollowing(self::$testUser->getLoginName());
             self::$context->executeQuery();
         }
 
 
-        $result2 = $peopleManager->amIFollowing(self::$accountName);
+        $result2 = $peopleManager->amIFollowing(self::$testUser->getLoginName());
         self::$context->executeQuery();
         self::assertFalse($result2->getValue());
     }
 
 
-    public function testAmIFollowedBy(){
+    public function testAmIFollowedBy()
+    {
         $peopleManager = new PeopleManager(self::$context);
-        $result = $peopleManager->amIFollowedBy(self::$accountName);
+        $result = $peopleManager->amIFollowedBy(self::$testUser->getLoginName());
         self::$context->executeQuery();
         self::assertNotNull($result->getValue());
     }

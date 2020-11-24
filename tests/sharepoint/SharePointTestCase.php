@@ -21,11 +21,12 @@ abstract class SharePointTestCase extends TestCase
      */
     protected static $context;
 
-    protected static $testLoginName = "i:0#.f|membership|mdoe@mediadev8.onmicrosoft.com";
+    protected static $testAccountName;
 
     public static function setUpBeforeClass()
     {
         $settings = include(__DIR__ . '/../../Settings.php');
+        self::$testAccountName = $settings['TestAccountName'];
         self::$context = (new ClientContext($settings['Url']))
             ->withCredentials(new UserCredentials($settings['UserName'],$settings['Password']));
     }
@@ -131,5 +132,4 @@ abstract class SharePointTestCase extends TestCase
         $ctx->executeQuery();
         return $item;
     }
-
 }

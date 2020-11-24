@@ -75,11 +75,13 @@ class ListItem extends SecurableObject
         $this->ensureTypeName($this->getParentList());
         $qry = new UpdateEntityQuery($this);
         $this->getContext()->addQueryAndResultObject($qry, $this);
+        return $this;
     }
     public function deleteObject()
     {
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
+        return $this;
     }
 
 

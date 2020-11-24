@@ -211,7 +211,7 @@ The following example demonstrates how to send a message via Outlook Mail API:
  $message->Subject = "Meet for lunch?";
  $message->Body = new ItemBody(BodyType::Text,"The new cafeteria is open.");
  $message->ToRecipients = array(
-     new Recipient(new EmailAddress(null,"jdoe@contoso.onmicrosoft.com"))
+     new Recipient(new EmailAddress(null,"{username}@{tenant_prefix}.onmicrosoft.com"))
  );
  $client->getMe()->sendEmail($message,true);
  $client->executeQuery();

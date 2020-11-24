@@ -32,8 +32,9 @@ class UtilityTest extends SharePointTestCase
     public function testCreateNewDiscussion()
     {
         $topicTitle = self::createUniqueName("Topic");
-        $discussion = Utility::createNewDiscussion(self::$discussionsList,$topicTitle);
-        self::assertEquals($discussion->getProperty("FileLeafRef"),$topicTitle);
+        $discussion = Utility::createNewDiscussion(self::$discussionsList,$topicTitle)->executeQuery();
+        $targetItem = $discussion->select("FileLeafRef")->get()->executeQuery();
+        self::assertEquals($targetItem->getProperty("FileLeafRef"),$topicTitle);
         return $discussion;
     }
 

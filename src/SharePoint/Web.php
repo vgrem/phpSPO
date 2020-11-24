@@ -102,6 +102,19 @@ class Web extends SecurableObject
         $this->removeFromParentCollection();
         return $this;
     }
+
+    /**
+     * @param string $logonName
+     * @return User
+     */
+    public function ensureUser($logonName){
+        $returnType = new User($this->context);
+        $this->getSiteUsers()->addChild($returnType);
+        $qry = new InvokePostMethodQuery($this, "EnsureUser", [$logonName], null, null);
+        $this->getContext()->addQueryAndResultObject($qry, $returnType);
+        return $returnType;
+    }
+
     /**
      * Returns the collection of all changes from the change log that have occurred within the scope of the site,
      * based on the specified query.

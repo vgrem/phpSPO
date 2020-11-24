@@ -66,12 +66,21 @@ class UserTest extends SharePointTestCase
      */
     public function testAddUserIntoGroup(Group $group)
     {
-        $user = $group->getUsers()->addUser(self::$testLoginName);
+        $siteUser = self::$context->getWeb()->ensureUser(self::$testAccountName)->executeQuery();
+        $user = $group->getUsers()->addUser($siteUser->getLoginName());
         self::$context->executeQuery();
         $this->assertNotNull($user->getId());
+    }
 
+    /**
+     * @depends testCreateGroup
+     * @param Group $group
+     * @throws Exception
+     */
+    public function testFindUserInGroup(Group $group)
+    {
         $groupUsers = $group->getUsers()->get()->executeQuery();
-        $result = $groupUsers->findFirst("LoginName",self::$testLoginName);
+        $result = $groupUsers->findFirst("UserPrincipalName",self::$testAccountName);
         $this->assertNotNull($result);
     }
 

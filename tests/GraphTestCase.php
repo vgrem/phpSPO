@@ -34,9 +34,9 @@ abstract class GraphTestCase extends TestCase
 
     /**
      * @param AuthenticationContext $authCtx
-     * @param $clientId
-     * @param $userName
-     * @param $password
+     * @param string $clientId
+     * @param string $userName
+     * @param string $password
      * @throws Exception
      */
     public static function acquireToken(AuthenticationContext $authCtx, $clientId, $userName, $password)

@@ -18,7 +18,7 @@ abstract class OutlookServicesTestCase extends TestCase
     /**
      * @var string
      */
-    protected static $testUserAccount;
+    protected static $testAccountName;
 
     public static function setUpBeforeClass()
     {
@@ -33,7 +33,7 @@ abstract class OutlookServicesTestCase extends TestCase
                 print("Failed to acquire token");
             }
         });
-        self::$testUserAccount = "mdoe@mediadev8.onmicrosoft.com";
+        self::$testAccountName = $settings['TestAccountName'];
     }
 
     public static function tearDownAfterClass()

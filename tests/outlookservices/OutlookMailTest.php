@@ -11,9 +11,6 @@ use Office365\OutlookServices\Message;
 use Office365\OutlookServices\OutlookEntity;
 use Office365\OutlookServices\Recipient;
 
-//require_once('OutlookServicesTestCase.php');
-
-
 class OutlookMailTest extends OutlookServicesTestCase
 {
 
@@ -128,7 +125,7 @@ class OutlookMailTest extends OutlookServicesTestCase
     public function testForwardMessage(Message $message)
     {
         $recipients = array(
-            new Recipient(new EmailAddress("",self::$testUserAccount))
+            new Recipient(new EmailAddress("",self::$testAccountName))
         );
         $message->forward("For your consideration",$recipients);
         self::$context->executeQuery();
