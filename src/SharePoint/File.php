@@ -324,10 +324,10 @@ class File extends SecurableObject
     function setProperty($name, $value, $persistChanges = true)
     {
         parent::setProperty($name, $value, $persistChanges);
-        if ($name == "UniqueId") {
+        if ($name === "UniqueId") {
             $this->resourcePath = new ResourcePath("GetFileById(guid'{$value}')", new ResourcePath("Web"));
         } else {
-            if ($name == "ServerRelativeUrl") {
+            if ($name === "ServerRelativeUrl") {
                 $this->resourcePath = new ResourcePath("GetFileByServerRelativeUrl('{$value}')", new ResourcePath("Web"));
             }
         }
