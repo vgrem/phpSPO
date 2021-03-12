@@ -145,7 +145,7 @@ class ODataRequest extends ClientRequest
      * @param RequestOptions $request
      */
     protected function ensureMediaType(RequestOptions $request){
-        $request->ensureHeader("Accept", $this->getFormat()->getMediaType());
+        $request->ensureHeader("Accept", strtolower($this->getFormat()->getMediaType()));
         $request->ensureHeader("Content-Type", $this->getFormat()->getMediaType());
     }
 
