@@ -141,6 +141,15 @@ class FileTest extends SharePointTestCase
         self::assertNotEmpty($result->getValue());
     }
 
+    /**
+     * @depends testUploadFiles
+     * @param $fileToMove
+     */
+    public  function testMoveFile(File $fileToMove){
+        //$targetUrl = self::$targetList->getRootFolder()->getServerRelativeUrl() . "big_buck_bunny.mp4";
+        //$fileToMove->moveToEx("",true);
+    }
+
 
     /**
      * @depends testUploadFiles

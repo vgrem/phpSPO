@@ -29,6 +29,17 @@ use Office365\SharePoint\WebParts\LimitedWebPartManager;
  */
 class File extends SecurableObject
 {
+
+    public function moveToEx($destUrl, $overwrite){
+        $this->ensureProperty("ServerRelativeUrl", function () use($destUrl,$overwrite){
+            MoveCopyUtil::moveFile($this->getContext(),
+                $this->getServerRelativeUrl(),
+                $destUrl,
+                $overwrite,
+                new MoveCopyOptions());
+        });
+    }
+
     /**
      * Resolves File from absolute Url
      * @param string $absUrl
