@@ -111,6 +111,8 @@ class Requests
         curl_setopt($ch, CURLOPT_HEADER, $options->IncludeHeaders);
         //include body in response
         curl_setopt($ch, CURLOPT_NOBODY, !$options->IncludeBody);
+        //set re-use policy
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, $options->ForbidReuse);
         //Set method
         if($options->Method === HttpMethod::Post) {
            curl_setopt($ch, CURLOPT_POST, 1);
@@ -151,6 +153,8 @@ class Requests
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $options->ConnectTimeout);
         if($options->FollowLocation)
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        if(!is_null($options->IPResolve))
+            curl_setopt($ch, CURLOPT_IPRESOLVE, $options->IPResolve);
         return $ch;
     }
 
