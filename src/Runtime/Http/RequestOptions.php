@@ -32,6 +32,8 @@ class RequestOptions
         $this->ConnectTimeout = null;
         $this->TransferEncodingChunkedAllowed = false;
         $this->FollowLocation = false;
+        $this->IPResolve = null;
+        $this->ForbidReuse = false;
     }
 
     /**
@@ -165,4 +167,16 @@ class RequestOptions
      * @var bool
      */
     public $FollowLocation;
+
+    /**
+     * Whether to use prefer IPV4 of IPV6 addresses
+     * @var bool
+     */
+    public $IPResolve;
+
+    /**
+     * Do we want connections to be re-used or not
+     * @var bool
+     */
+    public $ForbidReuse;
 }
