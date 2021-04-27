@@ -6,13 +6,12 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\Actions\DeleteEntityQuery;
-use Office365\Runtime\ClientObject;
 /**
  * Specifies 
  * a list 
  * item attachment.<174>
  */
-class Attachment extends ClientObject
+class Attachment extends BaseEntity
 {
     public function deleteObject()
     {

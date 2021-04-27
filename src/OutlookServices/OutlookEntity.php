@@ -4,8 +4,8 @@
 namespace Office365\OutlookServices;
 
 
-use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\Actions\DeleteEntityQuery;
+use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\OData\ODataQueryOptions;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Actions\UpdateEntityQuery;
@@ -16,15 +16,9 @@ use ReflectionProperty;
 class OutlookEntity extends ClientObject
 {
 
-    /**
-     * @var string
-     */
-    private $namespaceName;
-
     public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, ODataQueryOptions $queryOptions = null)
     {
-        $this->namespaceName = "Microsoft.OutlookServices";
-        parent::__construct($ctx, $resourcePath, $queryOptions);
+        parent::__construct($ctx, $resourcePath, $queryOptions, "Microsoft.OutlookServices");
     }
 
     /**
@@ -36,7 +30,6 @@ class OutlookEntity extends ClientObject
             return $this->context;
         return null;
     }
-
 
     /**
      * Updates a resource
@@ -90,7 +83,7 @@ class OutlookEntity extends ClientObject
      */
     function getServerTypeName()
     {
-        return $this->namespaceName . "." . parent::getServerTypeName();
+        return $this->namespace . "." . parent::getServerTypeName();
     }
 
 

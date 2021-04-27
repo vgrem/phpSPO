@@ -6,12 +6,22 @@ namespace Office365\SharePoint;
 use Office365\Runtime\Auth\ClientCredential;
 use Office365\Runtime\Auth\UserCredentials;
 use Office365\Runtime\ClientObject;
+use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\OData\ODataQueryOptions;
+use Office365\Runtime\ResourcePath;
 
 /**
  * SharePoint specific entity
  */
 class BaseEntity extends ClientObject
 {
+
+    public function __construct(ClientRuntimeContext $ctx,
+                                ResourcePath $resourcePath = null,
+                                ODataQueryOptions $queryOptions = null
+                                ){
+        parent::__construct($ctx,$resourcePath,$queryOptions,"SP");
+    }
 
     /**
      * @return ClientContext

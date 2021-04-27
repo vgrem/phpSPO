@@ -6,7 +6,6 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\Actions\InvokePostMethodQuery;
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 /**
  * Represents 
@@ -18,7 +17,7 @@ use Office365\Runtime\ResourcePath;
  * included in the default scalar property set 
  * for this type.
  */
-class Site extends ClientObject
+class Site extends BaseEntity
 {
     /**
      * Returns the site with the specified GUID

@@ -5,9 +5,7 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 
-
-class UserSolution extends ClientObject
+class UserSolution extends BaseEntity
 {
 }

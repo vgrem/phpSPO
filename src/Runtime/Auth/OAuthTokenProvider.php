@@ -23,7 +23,6 @@ class OAuthTokenProvider extends BaseTokenProvider
     /**
      * @var string
      */
-    //private static $AuthorityUrl  = 'https://login.microsoftonline.com/common';
     public static $AuthorityUrl = "https://login.microsoftonline.com/";
 
 

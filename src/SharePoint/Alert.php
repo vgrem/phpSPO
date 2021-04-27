@@ -5,7 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 /**
  * Represents 
@@ -16,7 +15,7 @@ use Office365\Runtime\ResourcePath;
  * included in the default scalar property set 
  * for this type.
  */
-class Alert extends ClientObject
+class Alert extends BaseEntity
 {
     /**
      * Gets or 

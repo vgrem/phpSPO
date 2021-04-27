@@ -5,13 +5,11 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * Represents 
  * information about an app tile.
  */
-class AppTile extends ClientObject
+class AppTile extends BaseEntity
 {
     /**
      * @return string

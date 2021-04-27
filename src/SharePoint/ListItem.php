@@ -5,8 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\Actions\DeleteEntityQuery;
-use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ResourcePath;
 /**
  * Specifies 
@@ -67,23 +65,6 @@ use Office365\Runtime\ResourcePath;
  */
 class ListItem extends SecurableObject
 {
-    /**
-     * Updates list item resource
-     */
-    public function update()
-    {
-        $this->ensureTypeName($this->getParentList());
-        $qry = new UpdateEntityQuery($this);
-        $this->getContext()->addQueryAndResultObject($qry, $this);
-        return $this;
-    }
-    public function deleteObject()
-    {
-        $qry = new DeleteEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-        return $this;
-    }
-
 
     /**
      * Ensure ListItem entity type name (mandatory property)

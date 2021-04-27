@@ -7,7 +7,6 @@ namespace Office365\SharePoint;
 
 use Exception;
 use Office365\Runtime\ClientResult;
-use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Http\RequestException;
 use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
@@ -78,17 +77,7 @@ class File extends SecurableObject
         });
         return $qry;
     }
-    /**
-     * Deletes the File object.
-     * @return $this
-     */
-    public function deleteObject()
-    {
-        $qry = new DeleteEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-        $this->removeFromParentCollection();
-        return $this;
-    }
+
     /**
      * Checks out the file from a document library based on the check-out type.
      * @return $this

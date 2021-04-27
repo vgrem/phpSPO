@@ -5,9 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\Actions\DeleteEntityQuery;
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ResourcePathServiceOperation;
 
 /**
@@ -15,17 +12,9 @@ use Office365\Runtime\ResourcePathServiceOperation;
  * single role definition, 
  * including a name, description, management properties, and a set of rights.
  */
-class RoleDefinition extends ClientObject
+class RoleDefinition extends Entity
 {
-    /**
-     * @return $this
-     */
-    public function deleteObject()
-    {
-        $qry = new DeleteEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-        return $this;
-    }
+
     /**
      * Specifies 
      * the base permissions for the role definition.When 

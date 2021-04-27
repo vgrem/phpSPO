@@ -5,9 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\Actions\DeleteEntityQuery;
-use Office365\Runtime\Actions\UpdateEntityQuery;
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 /**
  * Specifies 
@@ -15,24 +12,9 @@ use Office365\Runtime\ResourcePath;
  * assignments for a user or group on a securable 
  * object. 
  */
-class RoleAssignment extends ClientObject
+class RoleAssignment extends Entity
 {
-    /**
-     * Updates Role Assignment
-     */
-    public function update()
-    {
-        $qry = new UpdateEntityQuery($this);
-        $this->getContext()->addQueryAndResultObject($qry, $this);
-    }
-    /**
-     * Deletes Role Assignment
-     */
-    public function deleteObject()
-    {
-        $qry = new DeleteEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-    }
+
     /**
      * @return Principal
      */

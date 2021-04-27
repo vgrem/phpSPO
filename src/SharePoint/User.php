@@ -5,7 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ResourcePath;
 
 /**
@@ -14,15 +13,7 @@ use Office365\Runtime\ResourcePath;
  */
 class User extends Principal
 {
-    /**
-     * @return User
-     */
-    public function update()
-    {
-        $qry = new UpdateEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-        return $this;
-    }
+
     /**
      * Gets the collection of groups of which the user is a member.
      * @return GroupCollection

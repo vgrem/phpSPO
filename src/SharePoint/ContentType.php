@@ -5,8 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\Actions\DeleteEntityQuery;
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 /**
  * Specifies 
@@ -15,18 +13,9 @@ use Office365\Runtime\ResourcePath;
  * the default 
  * scalar property set for this type.
  */
-class ContentType extends ClientObject
+class ContentType extends Entity
 {
-    /**
-     * Deletes content Type resource
-     * @return ContentType
-     */
-    public function deleteObject()
-    {
-        $qry = new DeleteEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-        return $this;
-    }
+
     function setProperty($name, $value, $persistChanges = true)
     {
         if ($name == "Id") {

@@ -6,7 +6,7 @@ use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\OData\ODataQueryOptions;
 
 /**
- * Represents OData base entity
+ * Represents OData Entity
  */
 class ClientObject
 {
@@ -46,17 +46,27 @@ class ClientObject
      */
     protected $queryOptions;
 
+    /**
+     * @var string
+     */
+    protected $namespace;
+
 
     /**
      * ClientObject constructor.
      * @param ClientRuntimeContext $ctx
      * @param ResourcePath|null $resourcePath
      * @param ODataQueryOptions|null $queryOptions
+     * @param string|null $namespace
      */
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null,ODataQueryOptions $queryOptions = null)
+    public function __construct(ClientRuntimeContext $ctx,
+                                ResourcePath $resourcePath = null,
+                                ODataQueryOptions $queryOptions = null,
+                                $namespace=null)
     {
         $this->context = $ctx;
         $this->resourcePath = $resourcePath;
+        $this->namespace = $namespace;
         $this->properties = array();
         $this->queryOptions = $queryOptions;
         if (!isset($this->queryOptions))

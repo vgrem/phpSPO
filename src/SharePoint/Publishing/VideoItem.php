@@ -5,26 +5,15 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\Actions\UpdateEntityQuery;
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\SharePoint\ClientContext;
+use Office365\SharePoint\Entity;
 
-class VideoItem extends ClientObject
+class VideoItem extends Entity
 {
-    public function update()
-    {
-        $qry = new UpdateEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-    }
-    public function deleteObject()
-    {
-        $qry = new DeleteEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-    }
+
     /**
      * @param $content
      * @throws \Exception
