@@ -299,9 +299,9 @@ class File extends SecurableObject
     public function startUpload($uploadId, $content)
     {
         $qry = new InvokePostMethodQuery($this, "StartUpload", array('uploadId' => $uploadId->toString()), null, $content);
-        $returnValue = new ClientResult();
-        $this->getContext()->addQueryAndResultObject($qry, $returnValue);
-        return $returnValue;
+        $result = new ClientResult($this->context);
+        $this->getContext()->addQueryAndResultObject($qry, $result);
+        return $result;
     }
     /**
      * Continues the chunk upload session with an additional fragment
@@ -312,10 +312,10 @@ class File extends SecurableObject
      */
     public function continueUpload($uploadId, $fileOffset, $content)
     {
-        $returnValue = new ClientResult();
+        $result = new ClientResult($this->context);
         $qry = new InvokePostMethodQuery($this, "ContinueUpload", array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset), null, $content);
-        $this->getContext()->addQueryAndResultObject($qry, $returnValue);
-        return $returnValue;
+        $this->getContext()->addQueryAndResultObject($qry, $result);
+        return $result;
     }
     /**
      * Uploads the last file fragment and commits the file.

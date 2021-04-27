@@ -13,7 +13,7 @@ use Office365\Runtime\ResourcePath;
  * default 
  * scalar property set for this type.
  */
-class SecurableObject extends BaseEntity
+class SecurableObject extends Entity
 {
     /**
      * Creates unique role assignments for the securable object.

@@ -12,7 +12,7 @@ use Office365\Runtime\ResourcePathServiceOperation;
  * a base type that represents a user or group that can be 
  * assigned permissions to control security.
  */
-class Principal extends BaseEntity
+class Principal extends Entity
 {
     /**
      * @return PrincipalType

@@ -42,7 +42,7 @@ class Web extends SecurableObject
      */
     public static function createAnonymousLink($context, $url, $isEditLink)
     {
-        $result = new ClientResult();
+        $result = new ClientResult($context);
         $qry = new InvokePostMethodQuery($context->getWeb(), "CreateAnonymousLink", null, null, array("url" => $url, "isEditLink" => $isEditLink));
         $qry->IsStatic = true;
         $context->addQueryAndResultObject($qry, $result);
@@ -57,7 +57,7 @@ class Web extends SecurableObject
      */
     public static function createAnonymousLinkWithExpiration($context, $url, $isEditLink, $expirationString)
     {
-        $result = new ClientResult();
+        $result = new ClientResult($context);
         $qry = new InvokePostMethodQuery($context->getWeb(), "CreateAnonymousLinkWithExpiration", null, null, array("url" => $url, "isEditLink" => $isEditLink, "expirationString" => $expirationString));
         $qry->IsStatic = true;
         $context->addQueryAndResultObject($qry, $result);
@@ -71,7 +71,7 @@ class Web extends SecurableObject
      */
     public static function getWebUrlFromPageUrl(ClientContext $ctx, $absUrl)
     {
-        $result = new ClientResult();
+        $result = new ClientResult($ctx);
         $qry = new InvokePostMethodQuery($ctx->getWeb(), "GetWebUrlFromPageUrl", null, null, array("pageFullUrl" => $absUrl));
         $qry->IsStatic = true;
         $ctx->addQueryAndResultObject($qry, $result);

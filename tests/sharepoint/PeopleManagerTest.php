@@ -39,37 +39,24 @@ class PeopleManagerTest extends SharePointTestCase
     public function testFollow()
     {
         $peopleManager = new PeopleManager(self::$context);
-
-        $result = $peopleManager->amIFollowing(self::$testUser->getLoginName());
-        self::$context->executeQuery();
-
+        $result = $peopleManager->amIFollowing(self::$testUser->getLoginName())->executeQuery();
         if ($result->getValue() == false) {
-            $peopleManager->follow(self::$testUser->getLoginName());
-            self::$context->executeQuery();
+            $peopleManager->follow(self::$testUser->getLoginName())->executeQuery();
         }
 
-        $propertiesList = $peopleManager->getFollowersFor(self::$testUser->getLoginName());
-        self::$context->load($propertiesList);
-        self::$context->executeQuery();
-
+        $propertiesList = $peopleManager->getFollowersFor(self::$testUser->getLoginName())->get()->executeQuery();
         self::assertGreaterThanOrEqual(1, $propertiesList->getCount());
     }
 
     public function testStopFollowing()
     {
         $peopleManager = new PeopleManager(self::$context);
-
-        $result = $peopleManager->amIFollowing(self::$testUser->getLoginName());
-        self::$context->executeQuery();
-
+        $result = $peopleManager->amIFollowing(self::$testUser->getLoginName())->executeQuery();
         if ($result->getValue() == true) {
-            $peopleManager->stopFollowing(self::$testUser->getLoginName());
-            self::$context->executeQuery();
+            $peopleManager->stopFollowing(self::$testUser->getLoginName())->executeQuery();
         }
 
-
-        $result2 = $peopleManager->amIFollowing(self::$testUser->getLoginName());
-        self::$context->executeQuery();
+        $result2 = $peopleManager->amIFollowing(self::$testUser->getLoginName())->executeQuery();
         self::assertFalse($result2->getValue());
     }
 
@@ -77,8 +64,7 @@ class PeopleManagerTest extends SharePointTestCase
     public function testAmIFollowedBy()
     {
         $peopleManager = new PeopleManager(self::$context);
-        $result = $peopleManager->amIFollowedBy(self::$testUser->getLoginName());
-        self::$context->executeQuery();
+        $result = $peopleManager->amIFollowedBy(self::$testUser->getLoginName())->executeQuery();
         self::assertNotNull($result->getValue());
     }
 

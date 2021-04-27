@@ -3,11 +3,13 @@
 
 namespace Office365\SharePoint;
 
-
 use Office365\Runtime\Auth\ClientCredential;
 use Office365\Runtime\Auth\UserCredentials;
 use Office365\Runtime\ClientObject;
 
+/**
+ * SharePoint specific entity
+ */
 class BaseEntity extends ClientObject
 {
 
@@ -29,14 +31,6 @@ class BaseEntity extends ClientObject
     {
         $this->getContext()->withCredentials($credentials);
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getServerTypeName()
-    {
-        return parent::getServerTypeName();
     }
 
 }

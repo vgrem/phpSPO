@@ -5,7 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ResourcePath;
@@ -19,20 +18,9 @@ use Office365\Runtime\ResourcePath;
  * UniqueContentTypeOrder properties are not included in the default 
  * scalar property set for this type.
  */
-class Folder extends BaseEntity
+class Folder extends Entity
 {
-    /**
-     * The recommended way to delete a folder is to send a DELETE request to the Folder resource endpoint,
-     * as shown in Folder request examples.
-     * @return Folder
-     */
-    public function deleteObject()
-    {
-        $qry = new DeleteEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-        $this->removeFromParentCollection();
-        return $this;
-    }
+
     /**
      * Upload a file under Folder
      * @param string $name

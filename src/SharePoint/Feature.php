@@ -5,7 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 
 /**
  * The top 
@@ -22,7 +21,7 @@ use Office365\Runtime\ClientObject;
  * get the collection of features for the current site collection or site.The DisplayName property is not included in the default 
  * scalar property set for this type.
  */
-class Feature extends ClientObject
+class Feature extends Entity
 {
     /**
      * Gets the 

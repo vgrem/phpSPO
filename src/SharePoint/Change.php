@@ -5,13 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 /**
  * Base class 
  * for a change. installation.The RelativeTime property is not included in the default 
  * scalar property set for this type.
  */
-class Change extends ClientObject
+class Change extends BaseEntity
 {
 
     /**

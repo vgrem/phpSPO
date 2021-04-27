@@ -5,11 +5,9 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\Actions\UpdateEntityQuery;
-use Office365\Runtime\ClientObject;
+
 /**
  * Represent 
  * a field 
@@ -18,26 +16,9 @@ use Office365\Runtime\ClientObject;
  * not included in the default scalar property set 
  * for this type.
  */
-class Field extends ClientObject
+class Field extends Entity
 {
-    /**
-     * @return $this
-     */
-    public function update()
-    {
-        $qry = new UpdateEntityQuery($this);
-        $this->getContext()->addQueryAndResultObject($qry, $this);
-        return $this;
-    }
-    /**
-     * @return $this
-     */
-    public function deleteObject()
-    {
-        $qry = new DeleteEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-        return $this;
-    }
+
     /**
      * Sets the value of the ShowInDisplayForm property for this field.
      * @param $value true to show the field in the form; otherwise false.

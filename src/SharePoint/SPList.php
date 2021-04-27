@@ -6,10 +6,8 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\Actions\CreateEntityQuery;
-use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
-use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ResourcePathServiceOperation;
 /**
@@ -69,28 +67,7 @@ class SPList extends SecurableObject
         $this->getContext()->addQueryAndResultObject($qry, $targetItems);
         return $targetItems;
     }
-    /**
-     * Updates a list resource
-     * @return SPList
-     */
-    public function update()
-    {
-        $qry = new UpdateEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-        return $this;
-    }
-    /**
-     * The recommended way to delete a list is to send a DELETE request to the List resource endpoint,
-     * as shown in List request examples.
-     * @return $this
-     */
-    public function deleteObject()
-    {
-        $qry = new DeleteEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-        $this->removeFromParentCollection();
-        return $this;
-    }
+
     /**
      * Gets the set of permissions for the specified user
      * @param string $loginName
@@ -161,7 +138,8 @@ class SPList extends SecurableObject
     public function getViews()
     {
         if (!$this->isPropertyAvailable('Views')) {
-            $this->setProperty("Views", new ViewCollection($this->getContext(), new ResourcePath("views", $this->getResourcePath())));
+            $this->setProperty("Views", new ViewCollection($this->getContext(),
+                new ResourcePath("views", $this->getResourcePath())));
         }
         return $this->getProperty("Views");
     }
@@ -171,7 +149,9 @@ class SPList extends SecurableObject
     public function getInformationRightsManagementSettings()
     {
         if (!$this->isPropertyAvailable('InformationRightsManagementSettings')) {
-            $this->setProperty("InformationRightsManagementSettings", new InformationRightsManagementSettings($this->getContext(), new ResourcePath("InformationRightsManagementSettings", $this->getResourcePath())));
+            $this->setProperty("InformationRightsManagementSettings",
+                new InformationRightsManagementSettings($this->getContext(),
+                    new ResourcePath("InformationRightsManagementSettings", $this->getResourcePath())));
         }
         return $this->getProperty("InformationRightsManagementSettings");
     }
@@ -181,7 +161,8 @@ class SPList extends SecurableObject
     public function getParentWeb()
     {
         if (!$this->isPropertyAvailable('ParentWeb')) {
-            $this->setProperty("ParentWeb", new Web($this->getContext(), new ResourcePath("ParentWeb", $this->getResourcePath())));
+            $this->setProperty("ParentWeb", new Web($this->getContext(),
+                new ResourcePath("ParentWeb", $this->getResourcePath())));
         }
         return $this->getProperty("ParentWeb");
     }

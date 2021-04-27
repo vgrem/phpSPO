@@ -5,10 +5,7 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Actions\InvokeMethodQuery;
-use Office365\Runtime\Actions\UpdateEntityQuery;
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 /**
  * Specifies 
@@ -16,16 +13,9 @@ use Office365\Runtime\ResourcePath;
  * view.The PageRenderType property is not included in the default 
  * scalar property set for this type.
  */
-class View extends ClientObject
+class View extends Entity
 {
-    /**
-     * Updates view resource
-     */
-    public function update()
-    {
-        $qry = new UpdateEntityQuery($this);
-        $this->getContext()->addQueryAndResultObject($qry, $this);
-    }
+
     /**
      * Gets a value that specifies the collection of fields in the list view.
      * @return ViewFieldCollection
@@ -37,17 +27,7 @@ class View extends ClientObject
         }
         return $this->getProperty("ViewFields");
     }
-    /**
-     * The recommended way to delete a view is to send a DELETE request to the View resource endpoint,
-     * as shown in View request examples.
-     * @return View
-     */
-    public function deleteObject()
-    {
-        $qry = new DeleteEntityQuery($this);
-        $this->getContext()->addQuery($qry);
-        return $this;
-    }
+
     /**
      * Returns the list view as HTML.
      * @return View

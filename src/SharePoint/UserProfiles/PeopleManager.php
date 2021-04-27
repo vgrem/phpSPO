@@ -26,7 +26,7 @@ class PeopleManager extends ClientObject
      */
     public function amIFollowedBy($accountName)
     {
-        $result = new ClientResult();
+        $result = new ClientResult($this->context);
         $qry = new InvokeMethodQuery($this, "AmIFollowedBy", array(rawurlencode($accountName)));
         $this->getContext()->addQueryAndResultObject($qry, $result);
         return $result;
@@ -57,6 +57,7 @@ class PeopleManager extends ClientObject
     {
         $qry = new InvokePostMethodQuery($this, "follow", array(rawurlencode($accountName)));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     /**
      * Remove the specified user from the current user's list of followed users.
@@ -65,7 +66,7 @@ class PeopleManager extends ClientObject
      */
     public function stopFollowing($accountName)
     {
-        $result = new ClientResult();
+        $result = new ClientResult($this->context);
         $qry = new InvokePostMethodQuery($this, "StopFollowing", array(rawurlencode($accountName)));
         $this->getContext()->addQueryAndResultObject($qry, $result);
         return $result;
@@ -77,7 +78,7 @@ class PeopleManager extends ClientObject
      */
     public function amIFollowing($accountName)
     {
-        $result = new ClientResult();
+        $result = new ClientResult($this->context);
         $qry = new InvokeMethodQuery($this, "AmIFollowing", array(rawurlencode($accountName)));
         $this->getContext()->addQueryAndResultObject($qry, $result);
         return $result;
@@ -100,7 +101,7 @@ class PeopleManager extends ClientObject
      */
     public function getUserProfilePropertyFor($accountName, $propertyName)
     {
-        $clientResult = new ClientResult();
+        $clientResult = new ClientResult($this->context);
         $qry = new InvokeMethodQuery($this, "GetUserProfilePropertyFor", array("accountname" => rawurlencode($accountName), "propertyname" => $propertyName));
         $this->getContext()->addQueryAndResultObject($qry, $clientResult);
         return $clientResult;
