@@ -1,34 +1,25 @@
 <?php
 
 require_once '../vendor/autoload.php';
-$settings = include('../../Settings.php');
 
 use Office365\Graph\GraphServiceClient;
 use Office365\Graph\OnenotePage;
-use Office365\Runtime\Auth\AuthenticationContext;
+use Office365\Runtime\Auth\OAuthTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 
-function acquireToken(AuthenticationContext $authCtx, $clientId, $userName, $password)
+function acquireToken()
 {
+    $settings = include('../../Settings.php');
     $resource = "https://graph.microsoft.com";
-    try {
-        $authCtx->acquireTokenForPassword($resource,
-            $clientId,
-            new UserCredentials($userName, $password));
-    } catch (Exception $e) {
-        print("Failed to acquire token");
-    }
+    $provider = new OAuthTokenProvider($settings['TenantName']);
+    return $provider->acquireTokenForPassword($resource, $settings['ClientId'],
+        new UserCredentials($settings['UserName'], $settings['Password']));
 }
 
 
-$client = new GraphServiceClient($settings['TenantName'],function (AuthenticationContext $authCtx) use($settings) {
-    acquireToken($authCtx,$settings['ClientId'],$settings['UserName'], $settings['Password']);
-    //or alternatively set access token: $authCtx->setAccessToken("--access token goes here--");
-});
+$client = new GraphServiceClient("acquireToken");
 
-$pages = $client->getMe()->getOneNote()->getPages();
-$client->load($pages);
-$client->executeQuery();
+$pages = $client->getMe()->getOneNote()->getPages()->get()->executeQuery();
 /** @var OnenotePage $page */
 foreach ($pages as $page){
     echo "Number of pages: " . $page->getTitle();

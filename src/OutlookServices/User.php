@@ -59,6 +59,7 @@ class User extends OutlookEntity
         $payload["SaveToSentItems"] = $saveToSentItems;
         $action = new InvokePostMethodQuery($this, "SendMail", null, null, $payload);
         $this->getContext()->addQuery($action);
+        return $this;
     }
     /**
      * @return ContactCollection

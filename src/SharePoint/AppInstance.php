@@ -5,13 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 /**
  * Specifies 
  * an app 
  * instance.<187>
  */
-class AppInstance extends ClientObject
+class AppInstance extends BaseEntity
 {
     /**
      * Specifies 

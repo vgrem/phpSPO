@@ -19,7 +19,8 @@ class Onenote extends Entity
     public function getPages()
     {
         if (!$this->isPropertyAvailable("Pages")) {
-            $this->setProperty("Pages", new OnenotePageCollection($this->getContext(), new ResourcePath("Pages", $this->getResourcePath())));
+            $this->setProperty("Pages", new OnenotePageCollection($this->getContext(),
+                new ResourcePath("Pages", $this->getResourcePath())));
         }
         return $this->getProperty("Pages");
     }

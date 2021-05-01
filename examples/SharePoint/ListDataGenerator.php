@@ -5,6 +5,7 @@ require_once '../vendor/autoload.php';
 $Settings = include('../../Settings.php');
 
 
+use Office365\Runtime\Auth\UserCredentials;
 use Office365\SharePoint\ClientContext;
 use Office365\SharePoint\ListCreationInformation;
 use Office365\SharePoint\ListTemplateType;
@@ -13,9 +14,8 @@ use Office365\SharePoint\Web;
 
 
 try {
-
-    //$ctx = ClientContext::connectWithClientCredentials($Settings['Url'], $Settings['ClientId'], $Settings['ClientSecret']);
-    $ctx = ClientContext::connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
+    $userCreds = new UserCredentials($Settings['UserName'], $Settings['Password']);
+    $ctx = (new ClientContext($Settings['Url']))->withCredentials($userCreds);
 	generateContacts($ctx);
 }
 catch (Exception $e) {
@@ -29,8 +29,7 @@ function generateContacts(ClientContext $ctx){
 	$contactsCount = 1000;
 	for($i = 0; $i < $contactsCount; $i++){
 	     $contactEntry = createContactCard();
-	     $item = $list->addItem($contactEntry);
-         $ctx->executeQuery();
+	     $item = $list->addItem($contactEntry)->executeQuery();
 	     print "$i: Contact '{$item->getProperty('Title')}' has been created.\r\n";
 	}
 }
@@ -63,10 +62,7 @@ function createContactCard()
  */
 function ensureList(Web $web, $listTitle, $type)
 {
-    $ctx = $web->getContext();
-    $lists = $web->getLists()->filter("Title eq '$listTitle'")->top(1);
-    $ctx->load($lists);
-    $ctx->executeQuery();
+    $lists = $web->getLists()->filter("Title eq '$listTitle'")->top(1)->get()->executeQuery();
     if ($lists->getCount() == 1) {
         return $lists->getData()[0];
     }
@@ -75,10 +71,7 @@ function ensureList(Web $web, $listTitle, $type)
 
 function createList(Web $web, $listTitle, $type)
 {
-    $ctx = $web->getContext();
     $info = new ListCreationInformation($listTitle);
     $info->BaseTemplate = $type;
-    $list = $web->getLists()->add($info);
-    $ctx->executeQuery();
-    return $list;
+    return $web->getLists()->add($info)->executeQuery();
 }

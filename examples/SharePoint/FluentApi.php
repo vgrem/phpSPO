@@ -2,19 +2,18 @@
 
 use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ClientContext;
-use Office365\SharePoint\SPResourcePath;
 
 
 $settings = include('../../Settings.php');
 require_once '../vendor/autoload.php';
 
-$fileUrl = "/Shared Documents/Sample - #2009.rtf";
-
-
 $credentials = new ClientCredential($settings['ClientId'], $settings['ClientSecret']);
-$file = (new ClientContext($settings['Url']))->withCredentials($credentials)
-    ->getWeb()->getFileByServerRelativePath(new SPResourcePath($fileUrl))->get()->executeQuery();
+$client = (new ClientContext($settings['Url']))->withCredentials($credentials);
 
-print "File name: {$file->getName()}\r\n";
+$web = $client->getWeb()->get()->executeQuery();
+$me = $client->getWeb()->getCurrentUser()->get()->executeQuery();
+
+print "Web title: {$web->getTitle()}\r\n";
+print "Current user name: {$me->getLoginName()}\r\n";
 
 

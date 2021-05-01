@@ -3,8 +3,6 @@
 namespace Office365\OutlookServices;
 
 
-use Office365\Runtime\Auth\AuthenticationContext;
-use Office365\Runtime\Auth\OAuthTokenProvider;
 use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\OData\ODataRequest;
 use Office365\Runtime\Actions\UpdateEntityQuery;
@@ -23,21 +21,18 @@ class OutlookClient extends ClientRuntimeContext
 {
 
     /**
-     * @param string $tenant
      * @param callable $acquireToken
      * @param string $version
      */
-    public function __construct($tenant, callable $acquireToken, $version = Office365Version::V1)
+    public function __construct(callable $acquireToken, $version = Office365Version::V1)
     {
         $this->version = $version;
-        $authorityUrl = OAuthTokenProvider::$AuthorityUrl . $tenant;
-        $authContext = new AuthenticationContext($authorityUrl, $acquireToken);
+        $this->acquireTokenFunc = $acquireToken;
         $this->getPendingRequest()->beforeExecuteRequest(function (RequestOptions $request){
             $this->prepareRequest($request);
         });
-        parent::__construct($authContext);
+        parent::__construct();
     }
-
 
     /**
      * @return ODataRequest
@@ -102,6 +97,13 @@ class OutlookClient extends ClientRuntimeContext
         return "https://outlook.office365.com/api/$this->version/";
     }
 
+    public function authenticateRequest(RequestOptions $options)
+    {
+        $token = call_user_func($this->acquireTokenFunc, $this);
+        $headerVal = $token['token_type'] . ' ' . $token['access_token'];
+        $options->ensureHeader('Authorization', $headerVal);
+    }
+
 
     /**
      * Service version
@@ -140,6 +142,12 @@ class OutlookClient extends ClientRuntimeContext
      * @var GroupCollection
      */
     private $groups;
+
+
+    /**
+     * @var callable
+     */
+    private $acquireTokenFunc;
 
 }
 

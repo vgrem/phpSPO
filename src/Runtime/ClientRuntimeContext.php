@@ -5,7 +5,6 @@ namespace Office365\Runtime;
 use Exception;
 use Office365\Runtime\Actions\ClientAction;
 use Office365\Runtime\Actions\ReadEntityQuery;
-use Office365\Runtime\Auth\IAuthenticationContext;
 use Office365\Runtime\Http\Response;
 use Office365\Runtime\Http\RequestOptions;
 
@@ -17,33 +16,13 @@ abstract class ClientRuntimeContext
 {
 
     /**
-     * @var IAuthenticationContext
-     */
-    protected $authContext;
-
-
-
-    /**
      * @var Version $RequestSchemaVersion
      */
     public $RequestSchemaVersion;
 
 
-
-    /**
-     * @param IAuthenticationContext $authContext
-     */
-    public function __construct(IAuthenticationContext $authContext=null)
+    public function __construct()
     {
-        $this->authContext = $authContext;
-    }
-
-    /**
-     * @param RequestOptions $options
-     */
-    public function authenticateRequest(RequestOptions $options)
-    {
-        $this->authContext->authenticateRequest($options);
     }
 
 
@@ -53,6 +32,12 @@ abstract class ClientRuntimeContext
     public function buildRequest(){
        return $this->getPendingRequest()->buildRequest();
     }
+
+    /**
+     * @param RequestOptions $options
+     */
+    public abstract function authenticateRequest(RequestOptions $options);
+
 
     /**
      * Gets the service root URL that identifies the root of an OData service

@@ -127,9 +127,6 @@ abstract class SharePointTestCase extends TestCase
      * @throws Exception
      */
     public static function createListItem(SPList $list, array $itemProperties){
-        $ctx = $list->getContext();
-        $item = $list->addItem($itemProperties);
-        $ctx->executeQuery();
-        return $item;
+        return $list->addItem($itemProperties)->executeQuery();
     }
 }

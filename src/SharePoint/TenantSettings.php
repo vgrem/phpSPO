@@ -5,14 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 
 /**
  * Specifies 
  * the tenant properties.
  */
-class TenantSettings extends ClientObject
+class TenantSettings extends BaseEntity
 {
     /**
      * @return string
@@ -34,11 +33,13 @@ class TenantSettings extends ClientObject
     /**
      * @return TenantSettings
      */
-    public function getCurrent()
+    public static function getCurrent(ClientContext $context)
     {
-        if (!$this->isPropertyAvailable("Current")) {
-            $this->setProperty("Current", new TenantSettings($this->getContext(), new ResourcePath("Current", $this->getResourcePath())));
-        }
-        return $this->getProperty("Current");
+        $returnType = new TenantSettings($context);
+        $qry = new InvokePostMethodQuery($returnType, "Current", null, null,
+            null);
+        $qry->IsStatic = true;
+        $context->addQueryAndResultObject($qry, $returnType);
+        return $returnType;
     }
 }

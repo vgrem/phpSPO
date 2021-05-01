@@ -5,10 +5,10 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 use Office365\SharePoint\SPResourcePath;
 
-class SitePageMetadata extends ClientObject
+class SitePageMetadata extends BaseEntity
 {
     /**
      * @return string

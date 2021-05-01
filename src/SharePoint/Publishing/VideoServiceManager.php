@@ -16,33 +16,39 @@ class VideoServiceManager extends ClientObject
         $ctx->setBaseUrl($videoPortalUrl);
         parent::__construct($ctx, new ResourcePath("VideoService"));
     }
+
+
     /**
      * @return VideoChannelCollection
      */
     public function getChannels()
     {
-        return new VideoChannelCollection($this->getContext(), new ResourcePath("Channels", $this->getResourcePath()));
+        return new VideoChannelCollection($this->getContext(),
+            new ResourcePath("Channels", $this->getResourcePath()));
     }
     /**
      * @return VideoChannelCollection
      */
     public function getCanEditChannels()
     {
-        return new VideoChannelCollection($this->getContext(), new ResourcePath("CanEditChannels", $this->getResourcePath()));
+        return new VideoChannelCollection($this->getContext(),
+            new ResourcePath("CanEditChannels", $this->getResourcePath()));
     }
     /**
      * @return SpotlightChannelCollection
      */
     public function getSpotlightChannels()
     {
-        return new SpotlightChannelCollection($this->getContext(), new ResourcePath("SpotlightChannels", $this->getResourcePath()));
+        return new SpotlightChannelCollection($this->getContext(),
+            new ResourcePath("SpotlightChannels", $this->getResourcePath()));
     }
     /**
      * @return SpotlightVideoCollection
      */
     public function getSpotlightVideos()
     {
-        return new SpotlightVideoCollection($this->getContext(), new ResourcePath("SpotlightVideos", $this->getResourcePath()));
+        return new SpotlightVideoCollection($this->getContext(),
+            new ResourcePath("SpotlightVideos", $this->getResourcePath()));
     }
     /**
      * @return string

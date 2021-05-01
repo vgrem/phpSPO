@@ -3,6 +3,7 @@
 $settings = include('../../Settings.php');
 require_once '../vendor/autoload.php';
 
+use Office365\Runtime\Auth\UserCredentials;
 use Office365\SharePoint\ClientContext;
 
 
@@ -19,7 +20,8 @@ function uploadFileAlt(ClientContext $ctx, $sourceFilePath, $targetFileUrl)
 
 
 try {
-    $ctx = ClientContext::connectWithUserCredentials($settings['Url'],$settings['UserName'],$settings['Password']);
+    $userCreds = new UserCredentials($settings['UserName'], $settings['Password']);
+    $ctx = (new ClientContext($settings['Url']))->withCredentials($userCreds);
     $localPath = "../data/";
     $targetLibraryTitle = "Documents";
     $targetList = $ctx->getWeb()->getLists()->getByTitle($targetLibraryTitle);

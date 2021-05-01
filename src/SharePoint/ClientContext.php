@@ -16,6 +16,7 @@ use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\OData\JsonLightFormat;
 use Office365\Runtime\OData\ODataMetadataLevel;
 use Office365\Runtime\Http\RequestOptions;
+use Office365\Runtime\Types\EventHandler;
 
 /**
  * Client context for SharePoint API service
@@ -48,6 +49,18 @@ class ClientContext extends ClientRuntimeContext
     private $baseUrl;
 
     /**
+     * @var IAuthenticationContext
+     */
+    protected $authContext;
+
+    /**
+     * @var EventHandler
+     */
+    private $onAuthenticate;
+
+
+
+    /**
      * ClientContext constructor.
      * @param string $url Site or Web url
      * @param IAuthenticationContext $authCtx
@@ -58,7 +71,8 @@ class ClientContext extends ClientRuntimeContext
         $this->getPendingRequest()->beforeExecuteRequest(function (RequestOptions $request) {
             $this->buildSharePointSpecificRequest($request);
         });
-        parent::__construct($authCtx);
+        $this->authContext = $authCtx;
+        parent::__construct();
     }
 
 
@@ -96,51 +110,23 @@ class ClientContext extends ClientRuntimeContext
      */
     public function withCredentials($credential)
     {
-        $this->authContext = new AuthenticationContext($this->baseUrl,function (AuthenticationContext  $authCtx) use($credential) {
+        $this->onAuthenticate = new EventHandler();
+        $this->onAuthenticate->addEvent(function ()  use ($credential) {
+            $this->authContext = new AuthenticationContext($this->baseUrl);
             if ($credential instanceof UserCredentials)
-                $authCtx->acquireTokenForUser($credential->Username, $credential->Password);
+                $this->authContext->acquireTokenForUser($credential->Username, $credential->Password);
             elseif ($credential instanceof ClientCredential)
-                $authCtx->acquireAppOnlyAccessToken($credential->ClientId, $credential->ClientSecret);
+                $this->authContext->acquireAppOnlyAccessToken($credential->ClientId, $credential->ClientSecret);
             else
                 throw new Exception("Unknown credentials");
-        });
+        },true);
         return $this;
-    }
-
-
-    /**
-     * Status: deprecated, prefer nowadays WithCredentials method
-     * @param string $url
-     * @param string $username
-     * @param string $password
-     * @return ClientContext
-     * @throws Exception
-     */
-    public static function connectWithUserCredentials($url,$username,$password)
-    {
-        $authContext = new AuthenticationContext($url);
-        $authContext->acquireTokenForUser($username, $password);
-        return new ClientContext($url,$authContext);
-    }
-
-
-    /**
-     * @param string $url
-     * @param string $clientId
-     * @param string $clientSecret
-     * @return ClientContext
-     * @throws Exception
-     */
-    public static function connectWithClientCredentials($url, $clientId, $clientSecret)
-    {
-        $authCtx = new AuthenticationContext($url);
-        $authCtx->acquireAppOnlyAccessToken($clientId,$clientSecret);
-        return new ClientContext($url,$authCtx);
     }
 
     /**
      * Ensure form digest value for POST request
      * @param RequestOptions $request
+     * @throws Exception
      */
     public function ensureFormDigest(RequestOptions $request)
     {
@@ -170,6 +156,7 @@ class ClientContext extends ClientRuntimeContext
 
     /**
      * @param RequestOptions $request
+     * @throws Exception
      */
     private function buildSharePointSpecificRequest(RequestOptions $request){
 
@@ -245,11 +232,22 @@ class ClientContext extends ClientRuntimeContext
 
     /**
      * @return RequestOptions
+     * @throws Exception
      */
     public function buildRequest()
     {
         $request = parent::buildRequest();
         $this->buildSharePointSpecificRequest($request);
         return $request;
+    }
+
+    /**
+     * @param RequestOptions $options
+     */
+    public function authenticateRequest(RequestOptions $options)
+    {
+        if(!is_null($this->onAuthenticate))
+            $this->onAuthenticate->triggerEvent([]);
+        $this->authContext->authenticateRequest($options);
     }
 }

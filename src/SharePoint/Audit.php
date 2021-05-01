@@ -5,8 +5,7 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-class Audit extends ClientObject
+class Audit extends BaseEntity
 {
     /**
      * Gets or 

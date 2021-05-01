@@ -2,9 +2,8 @@
 
 namespace Office365;
 
-use Exception;
 use Office365\OutlookServices\OutlookClient;
-use Office365\Runtime\Auth\AuthenticationContext;
+use Office365\Runtime\Auth\OAuthTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 use PHPUnit\Framework\TestCase;
 
@@ -22,23 +21,25 @@ abstract class OutlookServicesTestCase extends TestCase
 
     public static function setUpBeforeClass()
     {
-        $settings = include(__DIR__ . '/../../Settings.php');
-        self::$context = new OutlookClient($settings['TenantName'],function (AuthenticationContext $ctx) use($settings) {
-            $resource = "https://outlook.office365.com";
-            try {
-                $ctx->acquireTokenForPassword($resource,
-                    $settings['ClientId'],
-                    new UserCredentials($settings['UserName'],$settings['Password']));
-            } catch (Exception $e) {
-                print("Failed to acquire token");
-            }
+        self::$context = new OutlookClient(function () {
+            return self::acquireToken();
         });
+        $settings = include(__DIR__ . '/../../Settings.php');
         self::$testAccountName = $settings['TestAccountName'];
     }
 
     public static function tearDownAfterClass()
     {
         self::$context = NULL;
+    }
+
+
+    private static  function acquireToken(){
+        $settings = include(__DIR__ . '/../../Settings.php');
+        $resource = "https://outlook.office365.com";
+        $provider = new OAuthTokenProvider($settings['TenantName']);
+        return $provider->acquireTokenForPassword($resource, $settings['ClientId'],
+            new UserCredentials($settings['UserName'], $settings['Password']));
     }
 
 }

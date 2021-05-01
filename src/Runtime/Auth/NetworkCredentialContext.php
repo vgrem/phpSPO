@@ -38,10 +38,10 @@ class NetworkCredentialContext implements IAuthenticationContext
         $this->AuthType = CURLAUTH_BASIC; //default Auth schema
     }
 
-    public function authenticateRequest(RequestOptions $options)
+    public function authenticateRequest(RequestOptions $request)
     {
-        $options->AuthType = $this->AuthType;
-        $options->UserCredentials = $this->userCredentials;
+        $request->AuthType = $this->AuthType;
+        $request->UserCredentials = $this->userCredentials;
     }
 
 }

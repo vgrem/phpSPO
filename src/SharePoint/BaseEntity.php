@@ -18,8 +18,8 @@ class BaseEntity extends ClientObject
 
     public function __construct(ClientRuntimeContext $ctx,
                                 ResourcePath $resourcePath = null,
-                                ODataQueryOptions $queryOptions = null
-                                ){
+                                ODataQueryOptions $queryOptions = null)
+    {
         parent::__construct($ctx,$resourcePath,$queryOptions,"SP");
     }
 
@@ -41,6 +41,24 @@ class BaseEntity extends ClientObject
     {
         $this->getContext()->withCredentials($credentials);
         return $this;
+    }
+
+
+    public function setProperty($name, $value, $persistChanges = true)
+    {
+        //fallback: determine entity by
+        if ($name === "Id") {
+            if (is_null($this->getResourcePath())) {
+                if (is_int($value)) {
+                    $entityKey = "({$value})";
+                } else {
+                    $entityKey = "(guid'{$value}')";
+                }
+                $segment = $this->parentCollection->getResourcePath()->getSegment() . $entityKey;
+                $this->resourcePath = new ResourcePath($segment,$this->parentCollection->getResourcePath()->getParent());
+            }
+        }
+        return parent::setProperty($name, $value, $persistChanges);
     }
 
 }

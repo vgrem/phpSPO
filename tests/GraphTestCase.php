@@ -2,9 +2,8 @@
 
 namespace Office365;
 
-use Exception;
 use Office365\Graph\GraphServiceClient;
-use Office365\Runtime\Auth\AuthenticationContext;
+use Office365\Runtime\Auth\OAuthTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 use PHPUnit\Framework\TestCase;
 
@@ -19,10 +18,8 @@ abstract class GraphTestCase extends TestCase
 
     public static function setUpBeforeClass()
     {
-        $settings = include(__DIR__ . '/../Settings.php');
-        self::$graphClient = new GraphServiceClient($settings['TenantName'], function (AuthenticationContext $authCtx)
-        use ($settings) {
-            self::acquireToken($authCtx, $settings['ClientId'], $settings['UserName'], $settings['Password']);
+        self::$graphClient = new GraphServiceClient(function () {
+            return self::acquireToken();
         });
     }
 
@@ -32,17 +29,13 @@ abstract class GraphTestCase extends TestCase
     }
 
 
-    /**
-     * @param AuthenticationContext $authCtx
-     * @param string $clientId
-     * @param string $userName
-     * @param string $password
-     * @throws Exception
-     */
-    public static function acquireToken(AuthenticationContext $authCtx, $clientId, $userName, $password)
+    private static function acquireToken()
     {
+        $settings = include(__DIR__ . '/../Settings.php');
         $resource = "https://graph.microsoft.com";
-        $authCtx->acquireTokenForPassword($resource,$clientId,new UserCredentials($userName, $password));
+        $provider = new OAuthTokenProvider($settings['TenantName']);
+        return $provider->acquireTokenForPassword($resource, $settings['ClientId'],
+            new UserCredentials($settings['UserName'], $settings['Password']));
     }
 
 }

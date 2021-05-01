@@ -24,11 +24,9 @@ function forEachFile(Folder $rootFolder, callable  $fn){
     }
 }
 
-$rootFolder = $ctx->getWeb()->getFolderByServerRelativeUrl("Shared Documents")->expand("Files")->get();
-$ctx->executeQuery();
-
-
-forEachFile($rootFolder,function ($file){
+$rootFolder = $ctx->getWeb()->getFolderByServerRelativeUrl("Shared Documents");
+$files = $rootFolder->expand("Files")->get()->executeQuery();
+forEachFile($files,function ($file){
   print($file->getName() . PHP_EOL);
 });
 

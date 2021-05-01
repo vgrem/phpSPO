@@ -2,8 +2,6 @@
 
 namespace Office365\Graph;
 
-use Office365\Runtime\Auth\AuthenticationContext;
-use Office365\Runtime\Auth\OAuthTokenProvider;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;
@@ -19,22 +17,17 @@ class GraphServiceClient extends ClientRuntimeContext
 {
 
     /**
-     * GraphServiceClient constructor.
-     * @param string $tenant
+     * Graph Client.
      * @param callable $acquireToken
      */
-    public function __construct($tenant, callable $acquireToken)
+    public function __construct(callable $acquireToken)
     {
-        $authorityUrl = OAuthTokenProvider::$AuthorityUrl . $tenant;
-        $authContext = new AuthenticationContext($authorityUrl, $acquireToken);
+        $this->acquireTokenFunc = $acquireToken;
         $this->getPendingRequest()->beforeExecuteRequest(function (RequestOptions $request) {
             $this->prepareRequest($request);
         });
-        parent::__construct($authContext);
+        parent::__construct();
     }
-
-
-
 
     /**
      * @return ODataRequest
@@ -99,10 +92,23 @@ class GraphServiceClient extends ClientRuntimeContext
         return "https://graph.microsoft.com/" . Office365Version::V1 . "/";
     }
 
+    public function authenticateRequest(RequestOptions $options)
+    {
+        $token = call_user_func($this->acquireTokenFunc, $this);
+        $headerVal = $token['token_type'] . ' ' . $token['access_token'];
+        $options->ensureHeader('Authorization', $headerVal);
+    }
+
 
     /**
      * @var ODataRequest $pendingRequest
      */
     private $pendingRequest;
+
+
+    /**
+     * @var callable
+     */
+    private $acquireTokenFunc;
 
 }

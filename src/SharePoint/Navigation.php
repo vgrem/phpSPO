@@ -5,14 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * Represents 
  * navigation operations at the site collection 
  * level. 
  */
-class Navigation extends ClientObject
+class Navigation extends BaseEntity
 {
     /**
      * @return bool

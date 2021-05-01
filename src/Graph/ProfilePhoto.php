@@ -27,6 +27,7 @@ class ProfilePhoto extends ClientObject
         $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function ($request) use ($handle){
             $request->StreamHandle = $handle;
         });
+        return $this;
     }
 
 

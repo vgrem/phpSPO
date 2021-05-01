@@ -5,14 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * Representation 
  * of a ClientWebPart. It provides with ClientWebPart metadata and methods to 
  * render it.
  */
-class ClientWebPart extends ClientObject
+class ClientWebPart extends BaseEntity
 {
     /**
      * @return string

@@ -258,19 +258,6 @@ class ClientObject
         if($persistChanges)
             $this->changes[$name] = $value;
         $this->{$name} = $value;
-
-        //update resource path
-        if ($name === "Id") {
-            if (is_null($this->getResourcePath())) {
-                if (is_int($value)) {
-                    $entityKey = "({$value})";
-                } else {
-                    $entityKey = "(guid'{$value}')";
-                }
-                $segment = $this->parentCollection->getResourcePath()->getSegment() . $entityKey;
-                $this->resourcePath = new ResourcePath($segment,$this->parentCollection->getResourcePath()->getParent());
-            }
-        }
         return $this;
     }
 

@@ -29,13 +29,8 @@ class OAuthTokenProvider extends BaseTokenProvider
     /**
      * @var string
      */
-    //private static  $AuthorizeEndpoint = '/oauth2/authorize';
+    private static  $AuthorizeEndpoint = '/oauth2/authorize';
 
-    /**
-     * @var string
-     */
-    //public static $ResourceId = 'https://outlook.office365.com/';
-    //private static $ResourceId = 'https://graph.windows.com/';
 
     /**
      * @var string
@@ -43,11 +38,94 @@ class OAuthTokenProvider extends BaseTokenProvider
     private $authorityUrl;
 
     /**
-     * @param string $authorityUrl
+     * @param string $tenant
      */
-    public function __construct($authorityUrl)
+    public function __construct($tenant)
     {
-        $this->authorityUrl = $authorityUrl;
+        $this->authorityUrl = self::$AuthorityUrl . $tenant;
+    }
+
+
+    /**
+     * @param string $resource
+     * @param string $clientId
+     * @param string $clientSecret
+     * @param string $refreshToken
+     * @param string $redirectUri
+     * @throws Exception
+     */
+    public function acquireRefreshToken($resource, $clientId, $clientSecret, $refreshToken, $redirectUri)
+    {
+
+        $parameters = array(
+            'grant_type' => 'refresh_token',
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+            'resource' => $resource,
+            'redirect_uri' => $redirectUri,
+            'refresh_token' => $refreshToken
+        );
+        return  $this->acquireToken($parameters);
+    }
+
+
+    /**
+     * @param string $resource
+     * @param ClientCredential $clientCredentials
+     * @throws Exception
+     */
+    public function acquireTokenForClientCredential($resource, $clientCredentials, $scopes)
+    {
+        $parameters = array(
+            'grant_type' => 'client_credentials',
+            'client_id' => $clientCredentials->ClientId,
+            'client_secret' => $clientCredentials->ClientSecret,
+            'scope' => implode(" ", $scopes),
+            'resource' => $resource
+        );
+        return $this->acquireToken($parameters);
+    }
+
+
+    /**
+     * @param string $resource
+     * @param string $clientId
+     * @param UserCredentials $userCredentials
+     * @throws Exception Resource owner password credential (ROPC) grant
+     * (https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc)
+     */
+    public function acquireTokenForPassword($resource, $clientId, $userCredentials)
+    {
+        $parameters = array(
+            'grant_type' => 'password',
+            'client_id' => $clientId,
+            'username' => $userCredentials->Username,
+            'password' => $userCredentials->Password,
+            'resource' => $resource
+        );
+        return $this->acquireToken($parameters);
+    }
+
+
+    /**
+     * @param string $resource
+     * @param string $clientId
+     * @param string $clientSecret
+     * @param string $code
+     * @param string $redirectUrl
+     * @throws Exception
+     */
+    public function acquireTokenByAuthorizationCode($resource, $clientId, $clientSecret, $code, $redirectUrl)
+    {
+        $parameters = array(
+            'grant_type' => 'authorization_code',
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+            'code' => $code,
+            'resource' => $resource,
+            "redirect_uri" => $redirectUrl
+        );
+        return $this->acquireToken($parameters);
     }
 
     /**

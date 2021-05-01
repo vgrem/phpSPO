@@ -1,12 +1,14 @@
 <?php
 
+use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ClientContext;
 use Office365\SharePoint\File;
 
 $settings = include('../../Settings.php');
 require_once '../vendor/autoload.php';
 
-$ctx = ClientContext::connectWithClientCredentials($settings['Url'], $settings['ClientId'], $settings['ClientSecret']);
+$appCreds = new ClientCredential($settings['ClientId'], $settings['ClientSecret']);
+$ctx = (new ClientContext($settings['Url']))->withCredentials($appCreds);
 $sourceLibraryTitle = "Documents";
 $sourceList = $ctx->getWeb()->getLists()->getByTitle($sourceLibraryTitle);
 $files = $sourceList->getRootFolder()->getFiles();
