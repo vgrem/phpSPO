@@ -34,7 +34,7 @@ abstract class OutlookServicesTestCase extends TestCase
     }
 
 
-    private static  function acquireToken(){
+    public static function acquireToken(){
         $settings = include(__DIR__ . '/../../Settings.php');
         $resource = "https://outlook.office365.com";
         $provider = new OAuthTokenProvider($settings['TenantName']);

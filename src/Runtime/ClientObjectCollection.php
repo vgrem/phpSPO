@@ -28,16 +28,26 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate
 
 
     /**
+     * @var string
+     */
+    private $itemTypeName;
+
+
+    /**
      * ClientObjectCollection constructor.
      * @param ClientRuntimeContext $ctx
      * @param ResourcePath $resourcePath
      * @param ODataQueryOptions $queryOptions
      */
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, ODataQueryOptions $queryOptions = null)
+    public function __construct(ClientRuntimeContext $ctx,
+                                ResourcePath $resourcePath = null,
+                                ODataQueryOptions $queryOptions = null,
+                                $itemTypeName=null)
     {
         parent::__construct($ctx, $resourcePath, $queryOptions);
         $this->data = array();
         $this->NextRequestUrl = null;
+        $this->itemTypeName = $itemTypeName;
     }
 
 
@@ -144,6 +154,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate
 
     /**
      * @return int
+     * @throws Exception
      */
     public function getCount()
     {
@@ -235,6 +246,8 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate
      */
     public function getItemTypeName()
     {
+        if(!is_null($this->itemTypeName))
+            return $this->itemTypeName;
         return str_replace("Collection", "", get_class($this));
     }
 

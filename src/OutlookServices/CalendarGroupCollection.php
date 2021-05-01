@@ -3,9 +3,7 @@
 namespace Office365\OutlookServices;
 
 
-use Office365\Runtime\ClientObjectCollection;
-
-class CalendarGroupCollection extends ClientObjectCollection
+class CalendarGroupCollection extends OutlookEntityCollection
 {
 
 }

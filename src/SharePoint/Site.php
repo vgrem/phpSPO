@@ -142,9 +142,10 @@ class Site extends BaseEntity
         }
         return $this->getProperty("AllowExternalEmbeddingWrapper");
     }
+
     /**
-     * @return Site
-     * @var integer
+     * @param $value
+     * @return BaseEntity
      */
     public function setAllowExternalEmbeddingWrapper($value)
     {
@@ -1480,7 +1481,8 @@ class Site extends BaseEntity
      */
     public function setChannelGroupId($value)
     {
-        return $this->setProperty("ChannelGroupId", $value, true);
+        $this->setProperty("ChannelGroupId", $value, true);
+        return $this;
     }
     /**
      * @return CustomizedFormsPageCollection

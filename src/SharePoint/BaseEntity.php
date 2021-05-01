@@ -44,6 +44,12 @@ class BaseEntity extends ClientObject
     }
 
 
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @param bool $persistChanges
+     * @return self
+     */
     public function setProperty($name, $value, $persistChanges = true)
     {
         //fallback: determine entity by

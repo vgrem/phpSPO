@@ -19,6 +19,16 @@ class TaxonomyService extends ClientRuntimeContext
      */
     private $context;
 
+    /**
+     * @var ODataRequest
+     */
+    private $pendingRequest;
+
+    /**
+     * @var TermStore
+     */
+    private $termStore;
+
 
     public function __construct(ClientContext  $ctx)
     {
@@ -54,14 +64,4 @@ class TaxonomyService extends ClientRuntimeContext
         return $this->termStore;
     }
 
-
-    /**
-     * @var ODataRequest
-     */
-    private $pendingRequest;
-
-    /**
-     * @var TermStore
-     */
-    private $termStore;
 }

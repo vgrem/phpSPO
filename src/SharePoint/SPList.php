@@ -108,7 +108,8 @@ class SPList extends SecurableObject
     public function getContentTypes()
     {
         if (!$this->isPropertyAvailable('ContentTypes')) {
-            $this->setProperty("ContentTypes", new ContentTypeCollection($this->getContext(), new ResourcePath("ContentTypes", $this->getResourcePath())), false);
+            $this->setProperty("ContentTypes", new ContentTypeCollection($this->getContext(),
+                new ResourcePath("ContentTypes", $this->getResourcePath())), false);
         }
         return $this->getProperty("ContentTypes");
     }
@@ -118,7 +119,8 @@ class SPList extends SecurableObject
     public function getFields()
     {
         if (!$this->isPropertyAvailable('Fields')) {
-            $this->setProperty("Fields", new FieldCollection($this->getContext(), new ResourcePath("fields", $this->getResourcePath())));
+            $this->setProperty("Fields", new FieldCollection($this->getContext(),
+                new ResourcePath("fields", $this->getResourcePath())));
         }
         return $this->getProperty("Fields");
     }
@@ -128,7 +130,8 @@ class SPList extends SecurableObject
     public function getRootFolder()
     {
         if (!$this->isPropertyAvailable('RootFolder')) {
-            $this->setProperty("RootFolder", new Folder($this->getContext(), new ResourcePath("rootFolder", $this->getResourcePath())));
+            $this->setProperty("RootFolder", new Folder($this->getContext(),
+                new ResourcePath("rootFolder", $this->getResourcePath())));
         }
         return $this->getProperty("RootFolder");
     }
@@ -186,7 +189,8 @@ class SPList extends SecurableObject
      */
     public function setAllowContentTypes($value)
     {
-        return $this->setProperty("AllowContentTypes", $value, true);
+        $this->setProperty("AllowContentTypes", $value, true);
+        return $this;
     }
     /**
      * @return bool
@@ -204,7 +208,8 @@ class SPList extends SecurableObject
      */
     public function setAllowDeletion($value)
     {
-        return $this->setProperty("AllowDeletion", $value, true);
+        $this->setProperty("AllowDeletion", $value, true);
+        return $this;
     }
     /**
      * @return integer
@@ -222,7 +227,8 @@ class SPList extends SecurableObject
      */
     public function setBaseTemplate($value)
     {
-        return $this->setProperty("BaseTemplate", $value, true);
+        $this->setProperty("BaseTemplate", $value, true);
+        return $this;
     }
     /**
      * @return integer
@@ -240,7 +246,8 @@ class SPList extends SecurableObject
      */
     public function setBaseType($value)
     {
-        return $this->setProperty("BaseType", $value, true);
+        $this->setProperty("BaseType", $value, true);
+        return $this;
     }
     /**
      * @return integer
@@ -258,7 +265,8 @@ class SPList extends SecurableObject
      */
     public function setBrowserFileHandling($value)
     {
-        return $this->setProperty("BrowserFileHandling", $value, true);
+        $this->setProperty("BrowserFileHandling", $value, true);
+        return $this;
     }
     /**
      * @return bool
@@ -276,7 +284,8 @@ class SPList extends SecurableObject
      */
     public function setContentTypesEnabled($value)
     {
-        return $this->setProperty("ContentTypesEnabled", $value, true);
+        $this->setProperty("ContentTypesEnabled", $value, true);
+        return $this;
     }
     /**
      * @return bool
@@ -583,7 +592,8 @@ class SPList extends SecurableObject
      */
     public function setEffectiveBasePermissionsForUI($value)
     {
-        return $this->setProperty("EffectiveBasePermissionsForUI", $value, true);
+        $this->setProperty("EffectiveBasePermissionsForUI", $value, true);
+        return $this;
     }
     /**
      * @return bool
@@ -601,7 +611,8 @@ class SPList extends SecurableObject
      */
     public function setEnableAssignToEmail($value)
     {
-        return $this->setProperty("EnableAssignToEmail", $value, true);
+        $this->setProperty("EnableAssignToEmail", $value, true);
+        return $this;
     }
     /**
      * @return bool

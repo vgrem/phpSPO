@@ -37,7 +37,7 @@ class ClientObject
     private $changes = array();
 
     /**
-     * @var ClientObjectCollection
+     * @var self
      */
     protected $parentCollection;
 
@@ -111,7 +111,7 @@ class ClientObject
 
 
     /**
-     * @return ClientObjectCollection
+     * @return self
      */
     public function getParentCollection()
     {

@@ -29,7 +29,7 @@ abstract class GraphTestCase extends TestCase
     }
 
 
-    private static function acquireToken()
+    public static function acquireToken()
     {
         $settings = include(__DIR__ . '/../Settings.php');
         $resource = "https://graph.microsoft.com";

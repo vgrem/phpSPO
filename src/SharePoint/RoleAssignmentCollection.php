@@ -6,7 +6,6 @@
 namespace Office365\SharePoint;
 
 
-use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ResourcePathServiceOperation;
@@ -14,7 +13,7 @@ use Office365\Runtime\ResourcePathServiceOperation;
 /**
  * Represents a collection of RoleAssignment objects that defines all the role assignments for each securable object.
  */
-class RoleAssignmentCollection extends ClientObjectCollection
+class RoleAssignmentCollection extends BaseEntityCollection
 {
     /**
      * @return GroupCollection
