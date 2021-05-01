@@ -195,28 +195,34 @@ Supported list of APIs:
 The following example demonstrates how to send a message via Outlook Mail API:
 
 ```php
- use Office365\Runtime\Auth\AuthenticationContext;
  use Office365\OutlookServices\OutlookClient;
  use Office365\OutlookServices\ItemBody;
  use Office365\OutlookServices\BodyType;
  use Office365\OutlookServices\EmailAddress;
  use Office365\OutlookServices\Recipient;
+ use Office365\Runtime\Auth\OAuthTokenProvider;
+ use Office365\Runtime\Auth\UserCredentials;
 
- $tenantNameOrId = "{tenant}.onmicrosoft.com";
- $client = new OutlookClient($tenantNameOrId,function (AuthenticationContext $authCtx) {        
-        $authCtx->setAccessToken("--access token goes here--");
- });
+function acquireToken()
+{
+    $tenant = "{tenant}.onmicrosoft.com";
+    $resource = "https://outlook.office365.com";
+  
+    $provider = new OAuthTokenProvider($tenant);
+    return $provider->acquireTokenForPassword($resource, "{clientId}",
+        new UserCredentials("{UserName}", "{Password}"));
+}
 
- $message = $client->getMe()->getMessages()->createMessage();
- $message->Subject = "Meet for lunch?";
- $message->Body = new ItemBody(BodyType::Text,"The new cafeteria is open.");
- $message->ToRecipients = array(
+
+$client = new OutlookClient("acquireToken");
+
+$message = $client->getMe()->getMessages()->createMessage();
+$message->Subject = "Meet for lunch?";
+$message->Body = new ItemBody(BodyType::Text,"The new cafeteria is open.");
+$message->ToRecipients = array(
      new Recipient(new EmailAddress(null,"{username}@{tenant_prefix}.onmicrosoft.com"))
- );
- $client->getMe()->sendEmail($message,true);
- $client->executeQuery();
-
-
+);
+$client->getMe()->sendEmail($message,true)->executeQuery();
 ```
 
 ### Working with OneDrive API
@@ -224,18 +230,26 @@ The following example demonstrates how to send a message via Outlook Mail API:
 The following example demonstrates how retrieve My drive Url via OneDrive API:
 
 ```php
-use Office365\Runtime\Auth\AuthenticationContext;
 use Office365\Graph\GraphServiceClient;
+use Office365\Runtime\Auth\OAuthTokenProvider;
+use Office365\Runtime\Auth\UserCredentials;
 
-$tenantNameOrId = "{tenant}.onmicrosoft.com";
-$client = new GraphServiceClient($tenantNameOrId,function (AuthenticationContext $authCtx) {
-      $authCtx->setAccessToken("{access-token}");
-});
 
+function acquireToken()
+{
+    $tenant = "{tenant}.onmicrosoft.com";
+    $resource = "https://graph.microsoft.com";
+  
+    $provider = new OAuthTokenProvider($tenant);
+    return $provider->acquireTokenForPassword($resource, "{clientId}",
+        new UserCredentials("{UserName}", "{Password}"));
+}
+
+$client = new GraphServiceClient("acquireToken");
 $drive = $client->getMe()->getDrive();
 $client->load($drive);
 $client->executeQuery();
-print $drive->getProperty("webUrl");
+print $drive->getWebUrl();
 
 ```
 

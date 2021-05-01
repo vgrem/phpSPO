@@ -1431,7 +1431,8 @@ class Site extends BaseEntity
     public function getAudit()
     {
         if (!$this->isPropertyAvailable("Audit")) {
-            $this->setProperty("Audit", new Audit($this->getContext(), new ResourcePath("Audit", $this->getResourcePath())));
+            $this->setProperty("Audit", new Audit($this->getContext(),
+                new ResourcePath("Audit", $this->getResourcePath())));
         }
         return $this->getProperty("Audit");
     }
@@ -1444,7 +1445,9 @@ class Site extends BaseEntity
     public function getRecycleBin()
     {
         if (!$this->isPropertyAvailable("RecycleBin")) {
-            $this->setProperty("RecycleBin", new RecycleBinItemCollection($this->getContext(), new ResourcePath("RecycleBin", $this->getResourcePath())));
+            $this->setProperty("RecycleBin",
+                new RecycleBinItemCollection($this->getContext(),
+                    new ResourcePath("RecycleBin", $this->getResourcePath()), $this));
         }
         return $this->getProperty("RecycleBin");
     }

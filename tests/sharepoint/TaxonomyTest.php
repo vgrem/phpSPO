@@ -6,6 +6,7 @@ use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ClientContext;
 use Office365\SharePoint\Taxonomy\TaxonomyService;
 use Office365\SharePoint\Taxonomy\TermGroup;
+use Office365\SharePoint\Taxonomy\TermSet;
 
 
 class TaxonomyTest extends SharePointTestCase
@@ -54,5 +55,18 @@ class TaxonomyTest extends SharePointTestCase
     {
         $termSets = $targetGroup->getTermSets()->get()->executeQuery();
         $this->assertNotNull($termSets->getResourcePath());
+        $this->assertGreaterThan(0,$termSets->getCount());
+        return $termSets->getItem(0);
+    }
+
+
+    /**
+     * @depends testListTermSets
+     * @param TermSet $targetSet
+     */
+    public function testListTerms($targetSet)
+    {
+        $terms = $targetSet->getTerms()->get()->executeQuery();
+        $this->assertNotNull($terms->getResourcePath());
     }
 }

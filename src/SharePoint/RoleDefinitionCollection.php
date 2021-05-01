@@ -4,7 +4,6 @@
 namespace Office365\SharePoint;
 
 
-use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\ResourcePathServiceOperation;
 
@@ -12,7 +11,7 @@ use Office365\Runtime\ResourcePathServiceOperation;
 /**
  * Represents the collection of RoleDefinition objects that define the role definitions that are available for use within the Web site.
  */
-class RoleDefinitionCollection extends ClientObjectCollection
+class RoleDefinitionCollection extends BaseEntityCollection
 {
 
     /**

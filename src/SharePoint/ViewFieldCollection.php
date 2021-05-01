@@ -5,12 +5,11 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObjectCollection;
 /**
  * Specifies 
  * the collection of fields (2) in a list view.
  */
-class ViewFieldCollection extends ClientObjectCollection
+class ViewFieldCollection extends BaseEntityCollection
 {
     /**
      * Specifies 
