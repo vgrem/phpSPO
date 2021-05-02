@@ -245,4 +245,11 @@ class ClientContext extends ClientRuntimeContext
     {
         $this->authContext->authenticateRequest($options);
     }
+
+    /**
+     * @return IAuthenticationContext
+     */
+    public function getAuthenticationContext(){
+        return $this->authContext;
+    }
 }

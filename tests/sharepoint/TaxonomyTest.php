@@ -24,7 +24,7 @@ class TaxonomyTest extends TestCase
         $appCtx = (new ClientContext($settings['Url']))
             ->withCredentials(new ClientCredential($settings['ClientId'],$settings['ClientSecret']));
         self::$taxSvc = new TaxonomyService($appCtx);
-        //parent::setUpBeforeClass();
+        parent::setUpBeforeClass();
     }
 
     public static function tearDownAfterClass()

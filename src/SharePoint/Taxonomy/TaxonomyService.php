@@ -4,6 +4,7 @@
 namespace Office365\SharePoint\Taxonomy;
 
 
+use Office365\Runtime\Auth\AuthenticationContext;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\OData\JsonFormat;
@@ -15,9 +16,14 @@ use Office365\SharePoint\ClientContext;
 class TaxonomyService extends ClientRuntimeContext
 {
     /**
-     * @var ClientContext
+     * @var AuthenticationContext
      */
-    private $context;
+    private $authContext;
+
+    /**
+     * @var string
+     */
+    private $baseUrl;
 
     /**
      * @var ODataRequest
@@ -32,13 +38,14 @@ class TaxonomyService extends ClientRuntimeContext
 
     public function __construct(ClientContext  $ctx)
     {
-        $this->context = $ctx;
+        $this->authContext = $ctx->getAuthenticationContext();
+        $this->baseUrl = $ctx->getBaseUrl();
         parent::__construct();
     }
 
     public function getServiceRootUrl()
     {
-        return  "{$this->context->getBaseUrl()}/_api/v2.1/";
+        return  "{$this->baseUrl}/_api/v2.1/";
     }
 
     public function getPendingRequest()
@@ -50,9 +57,12 @@ class TaxonomyService extends ClientRuntimeContext
         return $this->pendingRequest;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function authenticateRequest(RequestOptions $options)
     {
-        $this->context->authenticateRequest($options);
+        $this->authContext->authenticateRequest($options);
     }
 
     /**
