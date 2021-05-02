@@ -2,11 +2,10 @@
 
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePathServiceOperation;
 
-class ViewCollection extends ClientObjectCollection
+class ViewCollection extends BaseEntityCollection
 {
     /**
      * Get View by title
@@ -34,8 +33,6 @@ class ViewCollection extends ClientObjectCollection
             new ResourcePathServiceOperation("getById",array($id),$this->getResourcePath())
         );
     }
-
-
 
 
     /**

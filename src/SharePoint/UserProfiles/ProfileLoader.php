@@ -5,15 +5,35 @@
  */
 namespace Office365\SharePoint\UserProfiles;
 
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientRuntimeContext;
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
+use Office365\SharePoint\BaseEntity;
 
-class ProfileLoader extends ClientObject
+class ProfileLoader extends BaseEntity
 {
-    public function __construct(ClientRuntimeContext $ctx)
+    public function __construct(ClientRuntimeContext $context)
     {
-        parent::__construct($ctx, new ResourcePath("SP.UserProfiles.ProfileLoader"));
+        parent::__construct($context, new ResourcePath("SP.UserProfiles.ProfileLoader"));
+    }
+
+
+    /**
+     * @param ClientRuntimeContext $context
+     * @return ProfileLoader
+     */
+    public static function getProfileLoader(ClientRuntimeContext $context)
+    {
+        $loader = new ProfileLoader($context);
+        $qry = new InvokePostMethodQuery($loader, "GetProfileLoader");
+        $qry->IsStatic = true;
+        $context->addQueryAndResultObject($qry, $loader);
+        return $loader;
+    }
+
+    function getServerTypeName()
+    {
+        return "SP.UserProfiles.ProfileLoader";
     }
 
 }

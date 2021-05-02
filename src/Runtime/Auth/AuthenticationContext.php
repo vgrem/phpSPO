@@ -112,7 +112,8 @@ class AuthenticationContext implements IAuthenticationContext
      */
     protected function ensureAuthorizationHeader(RequestOptions $options)
     {
-        $value = $this->accessToken['token_type'] . ' ' . $this->accessToken['access_token'];
+        //$value = $this->accessToken['token_type'] . ' ' . $this->accessToken['access_token'];
+        $value = "Bearer " . $this->accessToken["access_token"];
         $options->ensureHeader('Authorization', $value);
     }
 

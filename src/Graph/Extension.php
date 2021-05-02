@@ -5,8 +5,7 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
-class Extension extends ClientObject
+
+class Extension extends Entity
 {
 }

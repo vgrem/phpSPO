@@ -1,11 +1,12 @@
 <?php
 
 namespace Office365;
+use Office365\Graph\Entity;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 
 
-class EntityType extends ClientObject
+class EntityType extends Entity
 {
 
     public function getObjectProperty()
@@ -28,6 +29,7 @@ class EntityType extends ClientObject
     public function setValueProperty($value)
     {
         $this->setProperty("{name}",$value,true);
+        return $this;
     }
 
 }

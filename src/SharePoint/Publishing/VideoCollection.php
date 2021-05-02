@@ -5,10 +5,17 @@ namespace Office365\SharePoint\Publishing;
 
 
 use Office365\Runtime\Actions\CreateEntityQuery;
-use Office365\Runtime\ClientObjectCollection;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\ResourcePath;
+use Office365\SharePoint\BaseEntityCollection;
 
-class VideoCollection extends ClientObjectCollection
+class VideoCollection extends BaseEntityCollection
 {
+    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, ClientObject $parent = null)
+    {
+        parent::__construct($ctx, $resourcePath, VideoItem::class, $parent);
+    }
 
     public function add($title,$description=null,$fileName=null)
     {

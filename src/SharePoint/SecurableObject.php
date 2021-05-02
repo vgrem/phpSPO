@@ -72,6 +72,7 @@ class SecurableObject extends Entity
      */
     public function setHasUniqueRoleAssignments($value)
     {
-        return $this->setProperty("HasUniqueRoleAssignments", $value, true);
+        $this->setProperty("HasUniqueRoleAssignments", $value, true);
+        return $this;
     }
 }

@@ -4,10 +4,9 @@
 namespace Office365\OutlookServices;
 
 use Office365\Runtime\Actions\CreateEntityQuery;
-use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ResourcePath;
 
-class ContactCollection extends ClientObjectCollection
+class ContactCollection extends OutlookEntityCollection
 {
 
     /**

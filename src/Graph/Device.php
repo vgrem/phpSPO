@@ -5,12 +5,10 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
 /**
  *  "Represents a device registered in the organization."
  */
-class Device extends ClientObject
+class Device extends Entity
 {
     /**
      *  **true** if the account is enabled; otherwise, **false**. Required.

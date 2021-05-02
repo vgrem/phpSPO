@@ -5,12 +5,10 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
-
 /**
  *  "You can add related content to an event,"
  */
-class Attachment extends ClientObject
+class Attachment extends Entity
 {
     /**
      * The attachment's file name.

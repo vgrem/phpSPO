@@ -5,9 +5,8 @@
  */
 namespace Office365\SharePoint\PageInstrumentation;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
-
-class ClickManager extends ClientObject
+class ClickManager extends BaseEntity
 {
 }

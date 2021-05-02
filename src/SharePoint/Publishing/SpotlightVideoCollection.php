@@ -4,9 +4,9 @@
 namespace Office365\SharePoint\Publishing;
 
 
-use Office365\Runtime\ClientObjectCollection;
+use Office365\SharePoint\BaseEntityCollection;
 
-class SpotlightVideoCollection extends ClientObjectCollection
+class SpotlightVideoCollection extends BaseEntityCollection
 {
 
 }

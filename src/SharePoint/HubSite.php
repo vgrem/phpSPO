@@ -5,8 +5,7 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-class HubSite extends ClientObject
+class HubSite extends BaseEntity
 {
     /**
      * @return string

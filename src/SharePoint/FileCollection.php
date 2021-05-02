@@ -2,7 +2,6 @@
 
 namespace Office365\SharePoint;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
-use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ResourcePathServiceOperation;
 
 
@@ -10,7 +9,7 @@ use Office365\Runtime\ResourcePathServiceOperation;
  * File collections
  *
  */
-class FileCollection extends ClientObjectCollection
+class FileCollection extends BaseEntityCollection
 {
 
     /**

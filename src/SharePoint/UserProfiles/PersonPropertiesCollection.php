@@ -4,8 +4,8 @@
 namespace Office365\SharePoint\UserProfiles;
 
 
-use Office365\Runtime\ClientObjectCollection;
+use Office365\SharePoint\BaseEntityCollection;
 
-class PersonPropertiesCollection extends ClientObjectCollection
+class PersonPropertiesCollection extends BaseEntityCollection
 {
 }

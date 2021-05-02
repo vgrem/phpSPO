@@ -109,7 +109,8 @@ class Web extends SecurableObject
     public function getLists()
     {
         if (!$this->isPropertyAvailable('Lists')) {
-            $this->setProperty("Lists", new ListCollection($this->getContext(), new ResourcePath("Lists", $this->getResourcePath())));
+            $this->setProperty("Lists",
+                new ListCollection($this->getContext(), new ResourcePath("Lists", $this->getResourcePath())));
         }
         return $this->getProperty("Lists");
     }
@@ -121,7 +122,8 @@ class Web extends SecurableObject
     public function getWebs()
     {
         if (!$this->isPropertyAvailable('Webs')) {
-            $this->setProperty("Webs", new WebCollection($this->getContext(), new ResourcePath("webs", $this->getResourcePath())), $this->webUrl);
+            $this->setProperty("Webs", new WebCollection($this->getContext(),
+                new ResourcePath("webs", $this->getResourcePath())), $this->webUrl);
         }
         return $this->getProperty("Webs");
     }
@@ -132,7 +134,8 @@ class Web extends SecurableObject
     public function getFields()
     {
         if (!$this->isPropertyAvailable('Fields')) {
-            $this->setProperty("Fields", new FieldCollection($this->getContext(), new ResourcePath("fields", $this->getResourcePath())));
+            $this->setProperty("Fields", new FieldCollection($this->getContext(),
+                new ResourcePath("fields", $this->getResourcePath()),$this));
         }
         return $this->getProperty("Fields");
     }

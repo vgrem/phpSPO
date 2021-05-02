@@ -5,10 +5,10 @@
  */
 namespace Office365\SharePoint\Social;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
 
-class SocialRestFeed extends ClientObject
+class SocialRestFeed extends BaseEntity
 {
     /**
      * @return SocialFeed
@@ -20,11 +20,15 @@ class SocialRestFeed extends ClientObject
         }
         return $this->getProperty("SocialFeed");
     }
+
     /**
+     *
+     * @return SocialRestFeed
      * @var SocialFeed
      */
     public function setSocialFeed($value)
     {
         $this->setProperty("SocialFeed", $value, true);
+        return $this;
     }
 }

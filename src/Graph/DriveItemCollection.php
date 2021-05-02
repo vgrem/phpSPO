@@ -4,12 +4,11 @@
 namespace Office365\Graph;
 
 
-use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use stdClass;
 
 
-class DriveItemCollection extends ClientObjectCollection
+class DriveItemCollection extends EntityCollection
 {
 
     /**

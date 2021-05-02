@@ -7,10 +7,9 @@ namespace Office365\SharePoint;
 
 
 use Office365\Runtime\Actions\CreateEntityQuery;
-use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ResourcePathServiceOperation;
 
-class FolderCollection extends ClientObjectCollection
+class FolderCollection extends BaseEntityCollection
 {
     /**
      * @param string $serverRelativeUrl Folder server relative url

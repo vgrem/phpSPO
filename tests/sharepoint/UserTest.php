@@ -52,10 +52,10 @@ class UserTest extends SharePointTestCase
         }
         
         
-        $result = self::$context->getWeb()->getSiteGroups()->getByName($group->getLoginName());
-        self::$context->load($result);
+        $group = self::$context->getWeb()->getSiteGroups()->getByName($group->getLoginName());
+        self::$context->load($group);
         self::$context->executeQuery();
-        $this->assertEquals($group->getLoginName(),$result->getLoginName());
+        $this->assertEquals($group->getLoginName(),$group->getLoginName());
     }
 
 

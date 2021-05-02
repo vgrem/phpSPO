@@ -4,9 +4,8 @@
 namespace Office365\OutlookServices;
 
 use Office365\Runtime\Actions\CreateEntityQuery;
-use Office365\Runtime\ClientObjectCollection;
 
-class FolderCollection extends ClientObjectCollection
+class FolderCollection extends OutlookEntityCollection
 {
 
     /**

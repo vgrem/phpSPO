@@ -5,13 +5,11 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * Represents 
  * an event object happened on a Microsoft.SharePoint.SPFile.
  */
-class FileVersionEvent extends ClientObject
+class FileVersionEvent extends BaseEntity
 {
     /**
      * @return string

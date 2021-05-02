@@ -6,7 +6,7 @@ use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 
-class EntityType extends ClientObject
+class EntityType extends BaseEntity
 {
 
     public function getObjectProperty()
@@ -29,6 +29,7 @@ class EntityType extends ClientObject
     public function setValueProperty($value)
     {
         $this->setProperty("{name}",$value,true);
+        return $this;
     }
 
 

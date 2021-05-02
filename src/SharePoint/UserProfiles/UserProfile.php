@@ -6,16 +6,14 @@
 namespace Office365\SharePoint\UserProfiles;
 
 use Office365\Runtime\Actions\InvokePostMethodQuery;
-use Office365\Runtime\ClientRuntimeContext;
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+use Office365\SharePoint\BaseEntity;
 
-class UserProfile extends ClientObject
+class UserProfile extends BaseEntity
 {
-    public function __construct(ClientRuntimeContext $ctx)
+    /*public function __construct(ClientRuntimeContext $ctx)
     {
         parent::__construct($ctx, new ResourcePath("SP.UserProfiles.ProfileLoader.getProfileLoader/getUserProfile"));
-    }
+    }*/
     /**
      * Enqueues creating a personal site for this user, which can be used to share documents, web pages, and other files.
      */
@@ -374,12 +372,16 @@ class UserProfile extends ClientObject
         }
         return $this->getProperty("SipAddress");
     }
+
     /**
+     *
+     * @return UserProfile
      * @var string
      */
     public function setSipAddress($value)
     {
         $this->setProperty("SipAddress", $value, true);
+        return $this;
     }
     /**
      * @return string
@@ -391,11 +393,14 @@ class UserProfile extends ClientObject
         }
         return $this->getProperty("UrlToCreatePersonalSite");
     }
+
     /**
-     * @var string
+     * @param $value
+     * @return $this
      */
     public function setUrlToCreatePersonalSite($value)
     {
         $this->setProperty("UrlToCreatePersonalSite", $value, true);
+        return $this;
     }
 }

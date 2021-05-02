@@ -6,13 +6,12 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\Actions\InvokePostMethodQuery;
-use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ResourcePathServiceOperation;
 
 /**
  * Represents a collection of Group resources.
  */
-class GroupCollection extends ClientObjectCollection
+class GroupCollection extends BaseEntityCollection
 {
 
     /**

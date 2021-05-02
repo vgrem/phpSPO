@@ -5,13 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 /**
  * Specified 
  * in [MS-WSSTS] 
  * section 2.1.2.15.4.
  */
-class Form extends ClientObject
+class Form extends BaseEntity
 {
     /**
      * @return string

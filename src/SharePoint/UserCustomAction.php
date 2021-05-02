@@ -5,7 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 
 /**
@@ -13,7 +12,7 @@ use Office365\Runtime\ResourcePath;
  * a custom 
  * action.
  */
-class UserCustomAction extends ClientObject
+class UserCustomAction extends BaseEntity
 {
     /**
      * The unique 

@@ -28,6 +28,7 @@ class EntityType extends OutlookEntity
     public function setValueProperty($value)
     {
         $this->setProperty("{name}",$value,true);
+        return $this;
     }
 
 }

@@ -5,8 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * Specifies 
  * a reference 
@@ -17,7 +15,7 @@ use Office365\Runtime\ClientObject;
  * are not included in the default scalar property set 
  * for this type.
  */
-class FieldLink extends ClientObject
+class FieldLink extends BaseEntity
 {
     /**
      * @return string
