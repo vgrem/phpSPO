@@ -5,13 +5,11 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * Provides 
  * methods for retrieving installed app instances.<186> All methods in SP.AppCatalog 
  * are static.
  */
-class AppCatalog extends ClientObject
+class AppCatalog extends BaseEntity
 {
 }

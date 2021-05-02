@@ -5,12 +5,12 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
 /**
  * Specifies 
  * a placeholder for all web sharing methods.
  */
-class WebSharingManager extends ClientObject
+class WebSharingManager extends BaseEntity
 {
 }

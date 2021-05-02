@@ -5,11 +5,10 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
 /**
  *  "A calendar which is a container for events. It can be a calendar for a user, or the default calendar of an Office 365 group."
  */
-class Calendar extends ClientObject
+class Calendar extends Entity
 {
     /**
      * The calendar name.

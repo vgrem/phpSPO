@@ -5,10 +5,10 @@
  */
 namespace Office365\SharePoint\UserProfiles;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
 
-class UserProfilePropertiesForUser extends ClientObject
+class UserProfilePropertiesForUser extends BaseEntity
 {
     /**
      * @return string

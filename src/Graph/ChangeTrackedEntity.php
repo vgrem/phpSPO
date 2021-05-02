@@ -5,7 +5,6 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
-class ChangeTrackedEntity extends ClientObject
+class ChangeTrackedEntity extends Entity
 {
 }

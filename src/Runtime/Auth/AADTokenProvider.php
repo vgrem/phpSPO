@@ -12,7 +12,7 @@ use Office365\Runtime\Http\Requests;
 /**
  * OAuth2 provider to acquire the access token from AAD
  */
-class OAuthTokenProvider extends BaseTokenProvider
+class AADTokenProvider extends BaseTokenProvider
 {
 
     /**

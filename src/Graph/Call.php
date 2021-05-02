@@ -5,12 +5,10 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
-
 /**
  *  "The **call** resource is created when there is an incoming call for the application or the application creates a new outgoing call via a `POST` on `app/calls`."
  */
-class Call extends ClientObject
+class Call extends Entity
 {
     /**
      * @return string

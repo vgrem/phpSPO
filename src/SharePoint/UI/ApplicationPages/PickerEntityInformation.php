@@ -5,11 +5,10 @@
  */
 namespace Office365\SharePoint\UI\ApplicationPages;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
 
-
-class PickerEntityInformation extends ClientObject
+class PickerEntityInformation extends BaseEntity
 {
     /**
      * @return PickerEntityInformationRequest

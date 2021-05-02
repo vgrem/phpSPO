@@ -3,7 +3,7 @@
 namespace Office365;
 
 use Office365\OutlookServices\OutlookClient;
-use Office365\Runtime\Auth\OAuthTokenProvider;
+use Office365\Runtime\Auth\AADTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 use PHPUnit\Framework\TestCase;
 
@@ -37,7 +37,7 @@ abstract class OutlookServicesTestCase extends TestCase
     public static function acquireToken(){
         $settings = include(__DIR__ . '/../../Settings.php');
         $resource = "https://outlook.office365.com";
-        $provider = new OAuthTokenProvider($settings['TenantName']);
+        $provider = new AADTokenProvider($settings['TenantName']);
         return $provider->acquireTokenForPassword($resource, $settings['ClientId'],
             new UserCredentials($settings['UserName'], $settings['Password']));
     }

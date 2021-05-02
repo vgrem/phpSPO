@@ -6,7 +6,7 @@ use Office365\OutlookServices\EmailAddress;
 use Office365\OutlookServices\ItemBody;
 use Office365\OutlookServices\OutlookClient;
 use Office365\OutlookServices\Recipient;
-use Office365\Runtime\Auth\OAuthTokenProvider;
+use Office365\Runtime\Auth\AADTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 
 require_once '../vendor/autoload.php';
@@ -15,7 +15,7 @@ function acquireToken()
 {
     $resource = "https://outlook.office365.com";
     $settings = include('../../Settings.php');
-    $provider = new OAuthTokenProvider($settings['TenantName']);
+    $provider = new AADTokenProvider($settings['TenantName']);
     return $provider->acquireTokenForPassword($resource, $settings['ClientId'],
         new UserCredentials($settings['UserName'], $settings['Password']));
 }

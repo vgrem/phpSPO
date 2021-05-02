@@ -7,9 +7,10 @@ use Office365\SharePoint\ClientContext;
 use Office365\SharePoint\Taxonomy\TaxonomyService;
 use Office365\SharePoint\Taxonomy\TermGroup;
 use Office365\SharePoint\Taxonomy\TermSet;
+use PHPUnit\Framework\TestCase;
 
 
-class TaxonomyTest extends SharePointTestCase
+class TaxonomyTest extends TestCase
 {
 
     /**
@@ -28,7 +29,7 @@ class TaxonomyTest extends SharePointTestCase
 
     public static function tearDownAfterClass()
     {
-        //parent::tearDownAfterClass();
+        parent::tearDownAfterClass();
     }
 
     public function testGetTermStore()
@@ -50,6 +51,8 @@ class TaxonomyTest extends SharePointTestCase
     /**
      * @depends testListTermGroups
      * @param TermGroup $targetGroup
+     * @return Runtime\ClientObject
+     * @throws \Exception
      */
     public function testListTermSets($targetGroup)
     {

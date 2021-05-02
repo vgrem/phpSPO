@@ -5,9 +5,7 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
-
-class ColumnLink extends ClientObject
+class ColumnLink extends Entity
 {
     /**
      * @return string

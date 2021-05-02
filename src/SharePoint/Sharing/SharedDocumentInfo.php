@@ -5,10 +5,10 @@
  */
 namespace Office365\SharePoint\Sharing;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 use Office365\SharePoint\ContentTypeId;
 
-class SharedDocumentInfo extends ClientObject
+class SharedDocumentInfo extends BaseEntity
 {
     /**
      * @return Principal

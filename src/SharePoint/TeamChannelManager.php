@@ -5,12 +5,10 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * This class 
  * is a placeholder for all TeamChannel related methods.
  */
-class TeamChannelManager extends ClientObject
+class TeamChannelManager extends BaseEntity
 {
 }

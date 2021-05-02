@@ -200,7 +200,7 @@ The following example demonstrates how to send a message via Outlook Mail API:
  use Office365\OutlookServices\BodyType;
  use Office365\OutlookServices\EmailAddress;
  use Office365\OutlookServices\Recipient;
- use Office365\Runtime\Auth\OAuthTokenProvider;
+ use Office365\Runtime\Auth\AADTokenProvider;
  use Office365\Runtime\Auth\UserCredentials;
 
 function acquireToken()
@@ -208,7 +208,7 @@ function acquireToken()
     $tenant = "{tenant}.onmicrosoft.com";
     $resource = "https://outlook.office365.com";
   
-    $provider = new OAuthTokenProvider($tenant);
+    $provider = new AADTokenProvider($tenant);
     return $provider->acquireTokenForPassword($resource, "{clientId}",
         new UserCredentials("{UserName}", "{Password}"));
 }
@@ -231,7 +231,7 @@ The following example demonstrates how retrieve My drive Url via OneDrive API:
 
 ```php
 use Office365\Graph\GraphServiceClient;
-use Office365\Runtime\Auth\OAuthTokenProvider;
+use Office365\Runtime\Auth\AADTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 
 
@@ -240,7 +240,7 @@ function acquireToken()
     $tenant = "{tenant}.onmicrosoft.com";
     $resource = "https://graph.microsoft.com";
   
-    $provider = new OAuthTokenProvider($tenant);
+    $provider = new AADTokenProvider($tenant);
     return $provider->acquireTokenForPassword($resource, "{clientId}",
         new UserCredentials("{UserName}", "{Password}"));
 }

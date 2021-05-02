@@ -6,6 +6,7 @@ use Exception;
 use Office365\Runtime\Auth\AuthenticationContext;
 use Office365\Runtime\Auth\ClientCredential;
 use Office365\Runtime\Auth\IAuthenticationContext;
+use Office365\Runtime\Auth\NetworkCredentialContext;
 use Office365\Runtime\Auth\UserCredentials;
 use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;
@@ -16,7 +17,6 @@ use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\OData\JsonLightFormat;
 use Office365\Runtime\OData\ODataMetadataLevel;
 use Office365\Runtime\Http\RequestOptions;
-use Office365\Runtime\Types\EventHandler;
 
 /**
  * Client context for SharePoint API service
@@ -52,12 +52,6 @@ class ClientContext extends ClientRuntimeContext
      * @var IAuthenticationContext
      */
     protected $authContext;
-
-    /**
-     * @var EventHandler
-     */
-    private $onAuthenticate;
-
 
 
     /**
@@ -107,19 +101,22 @@ class ClientContext extends ClientRuntimeContext
      * Creates authenticated SharePoint context via user or client credentials
      * @param ClientCredential|UserCredentials $credential
      * @return ClientContext
+     * @throws Exception
      */
     public function withCredentials($credential)
     {
-        $this->onAuthenticate = new EventHandler();
-        $this->onAuthenticate->addEvent(function ()  use ($credential) {
-            $this->authContext = new AuthenticationContext($this->baseUrl);
-            if ($credential instanceof UserCredentials)
-                $this->authContext->acquireTokenForUser($credential->Username, $credential->Password);
-            elseif ($credential instanceof ClientCredential)
-                $this->authContext->acquireAppOnlyAccessToken($credential->ClientId, $credential->ClientSecret);
-            else
-                throw new Exception("Unknown credentials");
-        },true);
+        $this->authContext = new AuthenticationContext($this->baseUrl);
+        $this->authContext->registerProvider($credential);
+        return $this;
+    }
+
+
+    /**
+     * @param UserCredentials $credential
+     */
+    public function withNtlm($credential){
+        $this->authContext = new NetworkCredentialContext($credential->Username, $credential->Password);
+        $this->authContext->AuthType = CURLAUTH_NTLM;
         return $this;
     }
 
@@ -246,8 +243,6 @@ class ClientContext extends ClientRuntimeContext
      */
     public function authenticateRequest(RequestOptions $options)
     {
-        if(!is_null($this->onAuthenticate))
-            $this->onAuthenticate->triggerEvent([]);
         $this->authContext->authenticateRequest($options);
     }
 }

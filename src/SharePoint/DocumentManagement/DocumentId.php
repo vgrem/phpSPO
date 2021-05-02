@@ -5,8 +5,8 @@
  */
 namespace Office365\SharePoint\DocumentManagement;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
-class DocumentId extends ClientObject
+class DocumentId extends BaseEntity
 {
 }

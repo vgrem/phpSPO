@@ -3,7 +3,7 @@
 namespace Office365;
 
 use Office365\Graph\GraphServiceClient;
-use Office365\Runtime\Auth\OAuthTokenProvider;
+use Office365\Runtime\Auth\AADTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 use PHPUnit\Framework\TestCase;
 
@@ -33,7 +33,7 @@ abstract class GraphTestCase extends TestCase
     {
         $settings = include(__DIR__ . '/../Settings.php');
         $resource = "https://graph.microsoft.com";
-        $provider = new OAuthTokenProvider($settings['TenantName']);
+        $provider = new AADTokenProvider($settings['TenantName']);
         return $provider->acquireTokenForPassword($resource, $settings['ClientId'],
             new UserCredentials($settings['UserName'], $settings['Password']));
     }

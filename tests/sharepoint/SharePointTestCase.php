@@ -90,7 +90,7 @@ abstract class SharePointTestCase extends TestCase
         $items = [];
         $idx = 0;
         while($idx < $itemsCount){
-            $items[] = self::createListItem($targetList, $itemProperties);
+            $items[] = $targetList->addItem($itemProperties)->executeQuery();
             $idx++;
         }
         return $items;
@@ -116,17 +116,5 @@ abstract class SharePointTestCase extends TestCase
         $file = $listFolder->getFiles()->addTemplateFile($fileUrl, TemplateFileType::WikiPage);
         $ctx->executeQuery();
         return $file;
-    }
-
-
-    /**
-     * Create list item operation
-     * @param SPList $list
-     * @param array $itemProperties
-     * @return ListItem
-     * @throws Exception
-     */
-    public static function createListItem(SPList $list, array $itemProperties){
-        return $list->addItem($itemProperties)->executeQuery();
     }
 }

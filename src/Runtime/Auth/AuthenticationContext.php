@@ -33,6 +33,10 @@ class AuthenticationContext implements IAuthenticationContext
      */
     private $authCookies;
 
+    /**
+     * @var callable
+     */
+    private $acquireToken;
 
 
     /**
@@ -42,6 +46,22 @@ class AuthenticationContext implements IAuthenticationContext
     public function __construct($authorityUrl)
     {
         $this->authorityUrl = $authorityUrl;
+    }
+
+    /**
+     * @param ClientCredential|UserCredentials $credential
+     * @throws Exception
+     */
+    public function registerProvider($credential)
+    {
+        $this->acquireToken = function () use ($credential){
+            if ($credential instanceof UserCredentials)
+                $this->acquireTokenForUser($credential->Username, $credential->Password);
+            elseif ($credential instanceof ClientCredential)
+                $this->acquireAppOnlyAccessToken($credential->ClientId, $credential->ClientSecret);
+            else
+                throw new Exception("Unknown credentials");
+        };
     }
 
 
@@ -55,7 +75,7 @@ class AuthenticationContext implements IAuthenticationContext
 
 
     /**
-     * Acquire security token from STS
+     * Acquire security token via STS
      * @param string $username
      * @param string $password
      * @throws Exception
@@ -94,12 +114,16 @@ class AuthenticationContext implements IAuthenticationContext
      */
     public function authenticateRequest(RequestOptions $request)
     {
+        if(is_null($this->accessToken) && !is_null($this->acquireToken)){
+            call_user_func($this->acquireToken, $this);
+        }
+
         if ($this->provider instanceof SamlTokenProvider) {
             if(is_null($this->authCookies)){
                 $this->authCookies = $this->provider->acquireAuthenticationCookies($this->accessToken);
             }
             $this->ensureAuthenticationCookie($request);
-        } elseif ($this->provider instanceof ACSTokenProvider || $this->provider instanceof OAuthTokenProvider) {
+        } elseif ($this->provider instanceof ACSTokenProvider || $this->provider instanceof AADTokenProvider) {
             $this->ensureAuthorizationHeader($request);
         } else {
             throw new Exception("Unknown token provider");
@@ -112,8 +136,7 @@ class AuthenticationContext implements IAuthenticationContext
      */
     protected function ensureAuthorizationHeader(RequestOptions $options)
     {
-        //$value = $this->accessToken['token_type'] . ' ' . $this->accessToken['access_token'];
-        $value = "Bearer " . $this->accessToken["access_token"];
+        $value = $this->accessToken['token_type'] . ' ' . $this->accessToken['access_token'];
         $options->ensureHeader('Authorization', $value);
     }
 
