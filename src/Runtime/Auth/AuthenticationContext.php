@@ -50,7 +50,6 @@ class AuthenticationContext implements IAuthenticationContext
 
     /**
      * @param ClientCredential|UserCredentials $credential
-     * @throws Exception
      */
     public function registerProvider($credential)
     {

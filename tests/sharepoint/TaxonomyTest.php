@@ -21,9 +21,9 @@ class TaxonomyTest extends TestCase
     public static function setUpBeforeClass()
     {
         $settings = include(__DIR__ . '/../../Settings.php');
-        $appCtx = (new ClientContext($settings['Url']))
-            ->withCredentials(new ClientCredential($settings['ClientId'],$settings['ClientSecret']));
-        self::$taxSvc = new TaxonomyService($appCtx);
+        $appPrincipal = new ClientCredential($settings['ClientId'],$settings['ClientSecret']);
+        $ctx = new ClientContext($settings['Url']);
+        self::$taxSvc = (new TaxonomyService($ctx))->withCredentials($appPrincipal);
         parent::setUpBeforeClass();
     }
 

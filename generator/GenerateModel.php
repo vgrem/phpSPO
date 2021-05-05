@@ -6,6 +6,7 @@ use Office365\Generator\Builders\TemplateContext;
 use Office365\Generator\Builders\TypeBuilder;
 use Office365\Generator\Documentation\MSGraphDocsService;
 use Office365\Generator\Documentation\SharePointSpecsService;
+use Office365\Runtime\Auth\UserCredentials;
 use Office365\Runtime\OData\MetadataResolver;
 use Office365\Runtime\OData\ODataModel;
 use Office365\Runtime\OData\ODataV3Reader;
@@ -105,7 +106,8 @@ function generateMicrosoftGraphModel()
 
 function syncSharePointMetadataFile($fileName){
     $Settings = include('../Settings.php');
-    $ctx = ClientContext::connectWithUserCredentials($Settings['Url'], $Settings['UserName'], $Settings['Password']);
+    $credentials = new UserCredentials($Settings['UserName'], $Settings['Password']);
+    $ctx = (new ClientContext($Settings['Url']))->withCredentials($credentials);
     $ctx->requestFormDigest();
     $ctx->executeQuery();
     $latestVersion = $ctx->getContextWebInformation()->LibraryVersion;

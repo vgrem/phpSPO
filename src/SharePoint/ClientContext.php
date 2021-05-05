@@ -101,7 +101,6 @@ class ClientContext extends ClientRuntimeContext
      * Creates authenticated SharePoint context via user or client credentials
      * @param ClientCredential|UserCredentials $credential
      * @return ClientContext
-     * @throws Exception
      */
     public function withCredentials($credential)
     {
@@ -109,7 +108,6 @@ class ClientContext extends ClientRuntimeContext
         $this->authContext->registerProvider($credential);
         return $this;
     }
-
 
     /**
      * @param UserCredentials $credential
