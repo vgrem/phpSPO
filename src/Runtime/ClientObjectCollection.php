@@ -255,10 +255,10 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate
     /**
      * @return array
      */
-    function toJson()
+    function toJson($onlyChanges=false)
     {
-        return array_map(function (ClientObject $item) {
-            return $item->toJson();
+        return array_map(function (ClientObject $item) use($onlyChanges) {
+            return $item->toJson($onlyChanges);
         }, $this->getData());
     }
 

@@ -52,9 +52,10 @@ class OutlookEntity extends ClientObject
 
 
     /**
+     * @param $onlyChanges
      * @return array
      */
-    function toJson()
+    function toJson($onlyChanges=false)
     {
         $json = array();
         $reflection = new ReflectionObject($this);

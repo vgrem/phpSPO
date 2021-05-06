@@ -172,24 +172,30 @@ class ClientObject
 
     /**
      * Directs that related records should be retrieved in the record or collection being retrieved.
-     * @param $value
+     * @param string|array $value
      * @return ClientObject $this
      */
     public function expand($value)
     {
-        $this->queryOptions->Expand = $value;
+        if(is_array($value))
+            $this->queryOptions->Expand = implode(',', $value);
+        else
+            $this->queryOptions->Expand = $value;
         return $this;
     }
 
 
     /**
      * Specifies a subset of properties to return.
-     * @param $value
+     * @param string|array $value
      * @return ClientObject $this
      */
     public function select($value)
     {
-        $this->queryOptions->Select = $value;
+        if(is_array($value))
+            $this->queryOptions->Select = implode(',', $value);
+        else
+            $this->queryOptions->Select = $value;
         return $this;
     }
 
@@ -210,9 +216,9 @@ class ClientObject
     /**
      * @return array
      */
-    function toJson()
+    function toJson($onlyChanges=false)
     {
-        return $this->changes;
+        return $onlyChanges ? $this->changes : $this->properties;
     }
 
 
@@ -262,27 +268,6 @@ class ClientObject
     }
 
     /**
-     * @param $name
-     * @param $value
-     */
-    public function __set($name, $value)
-    {
-        if(is_array($value)) {  /*Navigation property? */
-            $propType = $this->getPropertyType($name);
-            if($propType instanceof ClientObject || $propType instanceof ClientValue) {
-                foreach ($value as $k=>$v){
-                    $propType->setProperty($k,$v,False);
-                }
-                $this->properties[$name] = $propType;
-            }
-            else
-                $this->properties[$name] = $value;
-        }
-        else
-            $this->properties[$name] = $value;
-    }
-
-    /**
      * @param string $name
      * @return mixed|null
      */
@@ -292,6 +277,27 @@ class ClientObject
             return $this->{$getterName}();
         }
         return $this->getProperty($name);
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     */
+    public function __set($name, $value)
+    {
+        if(is_array($value)) {  /*Navigation property? */
+            $propVal = $this->getPropertyType($name);
+            if($propVal instanceof ClientObject || $propVal instanceof ClientValue) {
+                foreach ($value as $k=>$v){
+                    $propVal->setProperty($k,$v,False);
+                }
+                $this->properties[$name] = $propVal;
+            }
+            else
+                $this->properties[$name] = $value;
+        }
+        else
+            $this->properties[$name] = $value;
     }
 
     /**

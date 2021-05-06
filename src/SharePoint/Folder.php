@@ -114,7 +114,8 @@ class Folder extends Entity
     public function getFiles()
     {
         if (!$this->isPropertyAvailable('Files')) {
-            $this->setProperty("Files", new FileCollection($this->getContext(), new ResourcePath("Files", $this->getResourcePath())));
+            $this->setProperty("Files",
+                new FileCollection($this->getContext(), new ResourcePath("Files", $this->getResourcePath())));
         }
         return $this->getProperty("Files");
     }
@@ -125,7 +126,8 @@ class Folder extends Entity
     public function getFolders()
     {
         if (!$this->isPropertyAvailable("Folders")) {
-            $this->setProperty("Folders", new FolderCollection($this->getContext(), new ResourcePath("folders", $this->getResourcePath())));
+            $this->setProperty("Folders",
+                new FolderCollection($this->getContext(), new ResourcePath("folders", $this->getResourcePath())));
         }
         return $this->getProperty("Folders");
     }
@@ -152,7 +154,8 @@ class Folder extends Entity
         if ($name == "UniqueId") {
             $this->resourcePath = new ResourcePath("GetFolderById(guid'{$value}')", new ResourcePath("Web"));
         }
-        return parent::setProperty($name, $value, $persistChanges);
+        parent::setProperty($name, $value, $persistChanges);
+        return $this;
     }
     /**
      * Gets a 

@@ -32,7 +32,11 @@ class TaxonomyTest extends TestCase
         parent::tearDownAfterClass();
     }
 
-    public function testGetTermStore()
+    public function testLoadClient(){
+        self::$taxSvc->executeQuery();
+    }
+
+    /*public function testGetTermStore()
     {
         $ts = self::$taxSvc->getTermStore()->get()->executeQuery();
         $this->assertNotNull($ts->getResourcePath());
@@ -46,7 +50,7 @@ class TaxonomyTest extends TestCase
         $returnGroup = $groups->findFirst("name","Geography");
         $this->assertNotNull($returnGroup->getResourcePath());
         return $returnGroup;
-    }
+    }*/
 
     /**
      * @depends testListTermGroups
@@ -54,22 +58,22 @@ class TaxonomyTest extends TestCase
      * @return Runtime\ClientObject
      * @throws \Exception
      */
-    public function testListTermSets($targetGroup)
+    /*public function testListTermSets($targetGroup)
     {
         $termSets = $targetGroup->getTermSets()->get()->executeQuery();
         $this->assertNotNull($termSets->getResourcePath());
         $this->assertGreaterThan(0,$termSets->getCount());
         return $termSets->getItem(0);
-    }
+    }*/
 
 
     /**
      * @depends testListTermSets
      * @param TermSet $targetSet
      */
-    public function testListTerms($targetSet)
+    /*public function testListTerms($targetSet)
     {
         $terms = $targetSet->getTerms()->get()->executeQuery();
         $this->assertNotNull($terms->getResourcePath());
-    }
+    }*/
 }

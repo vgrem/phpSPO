@@ -95,7 +95,7 @@ class ODataRequest extends ClientRequest
         if ($value instanceof ClientObject || $value instanceof ClientValue) {
             $json = array_map(function ($property) use($format){
                 return $this->normalizePayload($property,$format);
-            }, $value->toJson());
+            }, $value->toJson(true));
 
             $this->ensureAnnotation($value,$json,$format);
             return $json;

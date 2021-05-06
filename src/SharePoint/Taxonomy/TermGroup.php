@@ -20,4 +20,11 @@ class TermGroup extends TaxonomyItem
         return $this->getProperty("termSets");
     }
 
+    /**
+     * @return string|null
+     */
+    public function getName(){
+        return $this->getProperty("name");
+    }
+
 }
