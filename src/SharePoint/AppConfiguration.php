@@ -5,7 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-class AppConfiguration extends ClientObject
+class AppConfiguration extends BaseEntity
 {
 }

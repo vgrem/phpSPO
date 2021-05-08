@@ -7,7 +7,6 @@ use Office365\Runtime\Auth\UserCredentials;
 use Office365\SharePoint\ClientContext;
 use Office365\SharePoint\File;
 use Office365\SharePoint\ListCreationInformation;
-use Office365\SharePoint\ListItem;
 use Office365\SharePoint\SPList;
 use Office365\SharePoint\TemplateFileType;
 use Office365\SharePoint\Web;
@@ -65,12 +64,9 @@ abstract class SharePointTestCase extends TestCase
      */
     public static function createList(Web $web, $listTitle, $type)
     {
-        $ctx = $web->getContext();
         $info = new ListCreationInformation($listTitle);
         $info->BaseTemplate = $type;
-        $list = $web->getLists()->add($info);
-        $ctx->executeQuery();
-        return $list;
+        return $web->getLists()->add($info)->executeQuery();
     }
 
     public static function createUniqueName($prefix){
@@ -113,8 +109,6 @@ abstract class SharePointTestCase extends TestCase
         }
 
         $fileUrl = $listFolder->getProperty("ServerRelativeUrl") . "/" . $pageName;
-        $file = $listFolder->getFiles()->addTemplateFile($fileUrl, TemplateFileType::WikiPage);
-        $ctx->executeQuery();
-        return $file;
+        return $listFolder->getFiles()->addTemplateFile($fileUrl, TemplateFileType::WikiPage)->executeQuery();
     }
 }

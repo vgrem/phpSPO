@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\MicroService;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
 
-class MicroServiceManager extends ClientObject
+class MicroServiceManager extends BaseEntity
 {
 }

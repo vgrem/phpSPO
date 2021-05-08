@@ -199,10 +199,8 @@ class Web extends SecurableObject
      */
     public function getCurrentUser()
     {
-        if (!$this->isPropertyAvailable('CurrentUser')) {
-            $this->setProperty("CurrentUser", new User($this->getContext(), new ResourcePath("CurrentUser", $this->getResourcePath())));
-        }
-        return $this->getProperty("CurrentUser");
+        return $this->getProperty("CurrentUser",
+            new User($this->getContext(), new ResourcePath("CurrentUser", $this->getResourcePath())));
     }
     /**
      * Returns the file object located at the specified server-relative URL.
@@ -256,17 +254,15 @@ class Web extends SecurableObject
      * @param string $name
      * @param mixed $value
      * @param bool $persistChanges
-     * @return Web
+     * @return self
      */
     public function setProperty($name, $value, $persistChanges = true)
     {
         if ($name === 'ServerRelativeUrl') {
             $this->webUrl = $value;
         }
-        return parent::setProperty($name, $value, $persistChanges);
-        /*if ($name === 'Id') {
-              $this->resourcePath = new ResourcePath("openWebById(guid'{$value}')", new ResourcePath("Site"));
-          }*/
+        parent::setProperty($name, $value, $persistChanges);
+        return $this;
     }
     /**
      * @return string

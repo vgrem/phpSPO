@@ -5,12 +5,32 @@
  */
 namespace Office365\Graph;
 
+
+use Office365\OutlookServices\Calendar;
+use Office365\OutlookServices\Event;
+use Office365\OutlookServices\Message;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
 /**
  *  "Represents an Azure AD user account. Inherits from directoryObject."
  */
 class User extends DirectoryObject
 {
+
+    /**
+     * @param Message $message
+     * @param bool $saveToSentItems
+     * @return self
+     */
+    public function sendEmail(Message $message, $saveToSentItems)
+    {
+        $payload = array();
+        $payload["Message"] = $message;
+        $payload["SaveToSentItems"] = $saveToSentItems;
+        $action = new InvokePostMethodQuery($this, "SendMail", null, null, $payload);
+        $this->getContext()->addQuery($action);
+        return $this;
+    }
 
     /**
      *  **true** if the account is enabled; otherwise, **false**. This property is required when a user is created. Supports $filter.    
@@ -1007,27 +1027,15 @@ class User extends DirectoryObject
     {
         $this->setProperty("MailboxSettings", $value, true);
     }
-    /**
-     *  Read-only.
-     * @return OutlookUser
-     */
-    public function getOutlook()
-    {
-        if (!$this->isPropertyAvailable("Outlook")) {
-            $this->setProperty("Outlook", new OutlookUser($this->getContext(), new ResourcePath("Outlook", $this->getResourcePath())));
-        }
-        return $this->getProperty("Outlook");
-    }
+
     /**
      * The user's primary calendar. Read-only.
      * @return Calendar
      */
     public function getCalendar()
     {
-        if (!$this->isPropertyAvailable("Calendar")) {
-            $this->setProperty("Calendar", new Calendar($this->getContext(), new ResourcePath("Calendar", $this->getResourcePath())));
-        }
-        return $this->getProperty("Calendar");
+        return $this->getProperty("Calendar",
+            new Calendar($this->getContext(), new ResourcePath("Calendar", $this->getResourcePath())));
     }
     /**
      * @return InferenceClassification
@@ -1099,10 +1107,8 @@ class User extends DirectoryObject
      */
     public function getOnenote()
     {
-        if (!$this->isPropertyAvailable("Onenote")) {
-            $this->setProperty("Onenote", new Onenote($this->getContext(), new ResourcePath("Onenote", $this->getResourcePath())));
-        }
-        return $this->getProperty("Onenote");
+        return $this->getProperty("Onenote",
+            new Onenote($this->getContext(), new ResourcePath("Onenote", $this->getResourcePath())));
     }
     /**
      *  A collection of drives available for this user. Read-only. 
@@ -1110,9 +1116,38 @@ class User extends DirectoryObject
      */
     public function getDrives()
     {
-        if (!$this->isPropertyAvailable("Drives")) {
-            $this->setProperty("Drives", new DriveCollection($this->getContext(), new ResourcePath("Drives", $this->getResourcePath())));
-        }
-        return $this->getProperty("Drives");
+        return $this->getProperty("Drives",
+            new DriveCollection($this->getContext(), new ResourcePath("Drives", $this->getResourcePath())));
+    }
+
+    /**
+     * @return EntityCollection
+     */
+    public function getEvents()
+    {
+        return $this->getProperty("Events",
+            new EntityCollection($this->getContext(),
+                new ResourcePath("Events", $this->getResourcePath()),Event::class));
+    }
+
+    /**
+     * @return EntityCollection
+     */
+    public function getContacts()
+    {
+        return $this->getProperty("Contacts",
+            new EntityCollection($this->getContext(),
+                new ResourcePath("Contacts", $this->getResourcePath()),Contact::class));
+    }
+
+
+    /**
+     * @return EntityCollection
+     */
+    public function getMessages()
+    {
+        return $this->getProperty("Messages",
+            new EntityCollection($this->getContext(),
+                new ResourcePath("Messages", $this->getResourcePath()),Message::class));
     }
 }

@@ -2,24 +2,23 @@
 
 namespace Office365;
 
-use Office365\OutlookServices\Contact;
+
+use Office365\Graph\Contact;
 use Office365\OutlookServices\EmailAddress;
 
-class OutlookContactTest extends OutlookServicesTestCase
+class OutlookContactTest extends GraphTestCase
 {
 
     public function testCreateMyContact()
     {
-        $contact = self::$context->getMe()->getContacts()->createContact();
-        $contact->GivenName = "Pavel";
-        $contact->Surname = "Bansky";
-        $contact->BusinessPhones = array("+1 732 555 0102");
-        $contact->EmailAddresses = array(
-                new EmailAddress("Pavel Bansky","pavelb@a830edad9050849NDA1.onmicrosoft.com"),
-                new EmailAddress("Jon Doe","jondb@0ewq12uy752t946ds4567NDF2.onmicrosoft.com")
-            );
-        self::$context->executeQuery();
-        self::assertNotNull($contact->Id);
+        /** @var Contact $contact */
+        $contact = self::$graphClient->getMe()->getContacts()->add();
+        $contact->setGivenName("Pavel");
+        $contact->setSurname("Bansky");
+        $contact->getBusinessPhones()[] = "+1 732 555 0102";
+        $contact->getEmailAddresses()->addChild(new EmailAddress("Pavel Bansky","pavelb@a830edad9050849NDA1.onmicrosoft.com"));
+        self::$graphClient->executeQuery();
+        self::assertNotNull($contact->getId());
         return $contact;
     }
 
@@ -30,10 +29,8 @@ class OutlookContactTest extends OutlookServicesTestCase
      */
     public function testFindMyContact(Contact $contact)
     {
-        $contacts = self::$context->getMe()->getContacts();
-        self::$context->load($contacts);
-        self::$context->executeQuery();
-        $foundContact = $contacts->findFirst("Id",$contact->Id);
+        $id = $contact->getId();
+        $foundContact = self::$graphClient->getMe()->getContacts()->getById($id)->get()->executeQuery();
         self::assertNotNull($foundContact);
     }
 
@@ -45,15 +42,11 @@ class OutlookContactTest extends OutlookServicesTestCase
     public function testUpdateMyContact(Contact $contact)
     {
         $surnameValue = "Jr.";
-        $contact->Surname = $surnameValue;
-        $contact->update();
-        self::$context->executeQuery();
-
+        $contact->setSurname($surnameValue)->update()->executeQuery();
         //load updated contact
-        $existingContact = self::$context->getMe()->getContacts()->getById($contact->Id);
-        self::$context->load($existingContact);
-        self::$context->executeQuery();
-        self::assertEquals($surnameValue,$existingContact->Surname);
+        /** @var Contact $existingContact */
+        $existingContact = self::$graphClient->getMe()->getContacts()->getById($contact->getId())->get()->executeQuery();
+        self::assertEquals($surnameValue,$existingContact->getSurname());
     }
 
 
@@ -63,20 +56,16 @@ class OutlookContactTest extends OutlookServicesTestCase
      */
     public function testDeleteMyContact(Contact $contact)
     {
-        $contactIdToDelete = $contact->Id;
-        $contact->deleteObject();
-        self::$context->executeQuery();
+        $contactIdToDelete = $contact->getId();
+        $contact->deleteObject()->executeQuery();
 
-        $contacts = self::$context->getMe()->getContacts();
-        self::$context->load($contacts);
-        self::$context->executeQuery();
+        $contacts = self::$graphClient->getMe()->getContacts()->get()->executeQuery();
         $result = array_filter(
             $contacts->getData(),
             function (Contact $curContact) use ($contactIdToDelete) {
                 return  $curContact->Id === $contactIdToDelete;
             }
         );
-
         self::assertEquals(0,count ($result));
     }
 

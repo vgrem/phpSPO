@@ -30,7 +30,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate
     /**
      * @var string
      */
-    private $itemTypeName;
+    protected $itemTypeName;
 
 
     /**
@@ -173,7 +173,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate
 
     /**
      * Specifies an expression or function that must evaluate to true for a record to be returned in the collection.
-     * @param $value
+     * @param string $value
      * @return ClientObjectCollection $this
      */
     public function filter($value)
@@ -185,7 +185,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate
 
     /**
      * Determines the maximum number of records to return.
-     * @param $value
+     * @param string $value
      * @return ClientObjectCollection $this
      */
     public function orderBy($value)
@@ -196,7 +196,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate
 
     /**
      * Determines the maximum number of records to return.
-     * @param $value
+     * @param int $value
      * @return ClientObjectCollection $this
      */
     public function top($value)
@@ -207,7 +207,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate
 
     /**
      * Sets the number of records to skip before it retrieves records in a collection.
-     * @param $value
+     * @param int $value
      * @return ClientObjectCollection $this
      */
     public function skip($value)
@@ -219,7 +219,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate
 
     /**
      * Sets the number of records to skip before it retrieves records in a collection.
-     * @param $value
+     * @param string $value
      * @return ClientObjectCollection $this
      */
     public function skiptoken($value)

@@ -24,7 +24,12 @@ class GroupCreationInformation extends ClientValue
     {
         $this->Title = $title;
         $this->Description = "";
-        parent::__construct("Group");
+        parent::__construct();
     }
-    
+
+    public function getServerTypeName()
+    {
+        return "SP.Group";
+    }
+
 }

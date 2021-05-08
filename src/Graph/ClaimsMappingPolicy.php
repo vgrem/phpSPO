@@ -5,8 +5,7 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
-class ClaimsMappingPolicy extends ClientObject
+
+class ClaimsMappingPolicy extends Entity
 {
 }

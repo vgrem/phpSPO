@@ -13,8 +13,14 @@ class FieldCreationInformation extends ClientValue
 {
     public function __construct()
     {
-        parent::__construct("Field");
+        parent::__construct();
     }
+
+    public function getServerTypeName()
+    {
+        return "SP.Field";
+    }
+
     /**
      * @var bool
      */

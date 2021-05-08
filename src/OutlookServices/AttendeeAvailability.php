@@ -5,10 +5,11 @@
  */
 namespace Office365\OutlookServices;
 
-class Attendee extends Recipient
+use Office365\Runtime\ClientValue;
+class AttendeeAvailability extends ClientValue
 {
     /**
-     * @var ResponseStatus
+     * @var AttendeeBase
      */
-    public $Status;
+    public $Attendee;
 }

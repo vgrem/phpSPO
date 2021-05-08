@@ -5,13 +5,11 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * Specifies 
  * metadata about a site (2).<197>
  */
-class WebInformation extends ClientObject
+class WebInformation extends BaseEntity
 {
     /**
      * @return string

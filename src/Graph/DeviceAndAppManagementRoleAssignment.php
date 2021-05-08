@@ -5,9 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
 
-class DeviceAndAppManagementRoleAssignment extends ClientObject
+class DeviceAndAppManagementRoleAssignment extends Entity
 {
     /**
      * @return array

@@ -49,9 +49,6 @@ class BasePermissions extends ClientValue
         return false;
     }
 
-    /**
-     *
-     */
     public function clearAll()
     {
         $this->Low = 0;

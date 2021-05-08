@@ -9,13 +9,10 @@ namespace Office365\Runtime;
 class ClientValue
 {
 
-    /**
-     * @param string $typeName
-     */
-    public function __construct($typeName = null)
+    public function __construct()
     {
-        $this->typeName = $typeName;
     }
+
     /**
      * @param string $name
      * @param mixed $value
@@ -36,15 +33,11 @@ class ClientValue
 
 
     /**
-     * @return mixed|string
+     * @return string
      */
     public function getServerTypeName()
     {
-        if(!isset($this->typeName)){
-            $typeInfo = explode("\\",get_class($this));
-            $this->typeName =  end($typeInfo);
-        }
-        return $this->typeName;
+        return null;
     }
 
     /**
@@ -54,29 +47,10 @@ class ClientValue
     {
         $payload = array();
         foreach (get_object_vars($this) as $key => $val) {
-            if ($key != 'typeName' && !is_null($val))
+            if (!is_null($val))
                 $payload[$key] = $val;
         }
         return $payload;
     }
-
-    /**
-     * @return bool
-     */
-    function getServerObjectIsNull()
-    {
-        return !is_null($this->typeName);
-    }
-
-
-    /**
-     * @var ClientRuntimeContext
-     */
-    private $context;
-
-    /**
-     * @var $typeName string
-     */
-    private $typeName;
 
 }

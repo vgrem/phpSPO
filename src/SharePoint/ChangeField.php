@@ -22,9 +22,6 @@ class ChangeField extends Change
      */
     public function getFieldId()
     {
-        if (!$this->isPropertyAvailable("FieldId")) {
-            return null;
-        }
         return $this->getProperty("FieldId");
     }
     /**
@@ -48,9 +45,6 @@ class ChangeField extends Change
      */
     public function getWebId()
     {
-        if (!$this->isPropertyAvailable("WebId")) {
-            return null;
-        }
         return $this->getProperty("WebId");
     }
     /**

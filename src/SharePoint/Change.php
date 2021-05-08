@@ -20,19 +20,19 @@ class Change extends BaseEntity
      */
     public function getChangeToken()
     {
-        if (!$this->isPropertyAvailable("ChangeToken")) {
-            return null;
-        }
         return $this->getProperty("ChangeToken");
     }
+
     /**
-     * Returns an 
+     * Returns an
      * SPChangeToken that represents the change.
+     * @return self
      * @var ChangeToken
      */
     public function setChangeToken($value)
     {
         $this->setProperty("ChangeToken", $value, true);
+        return $this;
     }
     /**
      * Returns an 
@@ -43,9 +43,6 @@ class Change extends BaseEntity
      */
     public function getChangeType()
     {
-        if (!$this->isPropertyAvailable("ChangeType")) {
-            return null;
-        }
         return $this->getProperty("ChangeType");
     }
     /**
@@ -53,11 +50,13 @@ class Change extends BaseEntity
      * SPChangeType that indicates the type of change, including adding, updating, 
      * deleting, or renaming changes, but also moving items away from or into lists 
      * and folders.
+     * @return self
      * @var integer
      */
     public function setChangeType($value)
     {
         $this->setProperty("ChangeType", $value, true);
+        return $this;
     }
     /**
      * A string 
@@ -70,9 +69,6 @@ class Change extends BaseEntity
      */
     public function getRelativeTime()
     {
-        if (!$this->isPropertyAvailable("RelativeTime")) {
-            return null;
-        }
         return $this->getProperty("RelativeTime");
     }
     /**
@@ -95,9 +91,6 @@ class Change extends BaseEntity
      */
     public function getSiteId()
     {
-        if (!$this->isPropertyAvailable("SiteId")) {
-            return null;
-        }
         return $this->getProperty("SiteId");
     }
     /**
@@ -120,9 +113,6 @@ class Change extends BaseEntity
      */
     public function getTime()
     {
-        if (!$this->isPropertyAvailable("Time")) {
-            return null;
-        }
         return $this->getProperty("Time");
     }
     /**
@@ -133,9 +123,11 @@ class Change extends BaseEntity
      * in the format “bFuture|bucket|args” using the following values:§bFuture refers to whether time is later than UtcNow§bucket indicates the type of string to output§args contains the values that will be inserted into the string 
      * referenced by the bucket
      * @var string
+     * @return self
      */
     public function setTime($value)
     {
         $this->setProperty("Time", $value, true);
+        return $this;
     }
 }

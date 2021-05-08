@@ -5,13 +5,14 @@ namespace Office365\Runtime\OData;
 
 use Exception;
 use Generator;
-use Office365\OutlookServices\OutlookClient;
+use Office365\Graph\GraphServiceClient;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ClientRequest;
 use Office365\Runtime\ClientResult;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\ClientValue;
+use Office365\Runtime\ClientValueCollection;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\Http\Response;
 use Office365\Runtime\Http\HttpMethod;
@@ -67,21 +68,35 @@ class ODataRequest extends ClientRequest
 
 
     /**
-     * @param string $value
+     * @param ClientObject|ClientValue $type
      * @return string
      */
-    public function normalizeTypeName($value){
-        $defaultNs = null;
-        if($this->context instanceof OutlookClient)
-            $defaultNs = "Microsoft.OutlookServices";
-        else if($this->context instanceof ClientContext)
-            $defaultNs = "SP";
+    public function normalizeTypeName($type)
+    {
+        $collection = false;
+        $typeName = $type->getServerTypeName();
+        if (is_null($typeName)) {
 
-        $names = explode(".",$value);
-        if(count($names) == 1){
-            $value = "$defaultNs.$value";
+            if ($type instanceof ClientValueCollection) {
+                $collection = true;
+                $typeInfo = explode("\\", $type->getItemTypeName());
+            }
+            else{
+                $typeInfo = explode("\\", get_class($type));
+            }
+            $typeName = end($typeInfo);
+
+            //if ($this->context instanceof OutlookClient)
+            //    $typeName = "#Microsoft.OutlookServices.$typeName";
+            if ($this->context instanceof ClientContext)
+                $typeName = "SP.$typeName";
+            else if ($this->context instanceof GraphServiceClient) {
+                $typeName = lcfirst($typeName);
+                $typeName = "microsoft.graph.$typeName";
+            }
+            return $collection ? "Collection($typeName)" : $typeName;
         }
-        return $value;
+        return $typeName;
     }
 
 
@@ -92,12 +107,18 @@ class ODataRequest extends ClientRequest
      */
     protected function normalizePayload($value,ODataFormat $format)
     {
-        if ($value instanceof ClientObject || $value instanceof ClientValue) {
+        if($value instanceof ClientObjectCollection){
+            return array_map(function ($item) use($format){
+                return $this->normalizePayload($item,$format);
+            }, $value->getData());
+        }
+        else if ($value instanceof ClientObject || $value instanceof ClientValue) {
             $json = array_map(function ($property) use($format){
                 return $this->normalizePayload($property,$format);
             }, $value->toJson(true));
 
-            $this->ensureAnnotation($value,$json,$format);
+            if(!($value instanceof ClientValueCollection || $value instanceof ClientObjectCollection))
+                $this->ensureAnnotation($value,$json,$format);
             return $json;
         } else if (is_array($value)) {
             return array_map(function ($item) use($format){
@@ -115,7 +136,7 @@ class ODataRequest extends ClientRequest
     protected function ensureAnnotation($type, &$json,$format)
     {
         $qry = $this->context->getCurrentQuery();
-        $typeName = $this->normalizeTypeName($type->getServerTypeName());
+        $typeName = $this->normalizeTypeName($type);
         if ($format instanceof JsonLightFormat && $format->MetadataLevel == ODataMetadataLevel::Verbose) {
 
             $json[$format->MetadataTag] = array("type" => $typeName);
@@ -124,7 +145,7 @@ class ODataRequest extends ClientRequest
             }
         }
         elseif ($format instanceof JsonFormat){
-            $json[$format->TypeTag] = "#$typeName";
+            $json[$format->TypeTag] = "$typeName";
         }
     }
 
@@ -155,14 +176,14 @@ class ODataRequest extends ClientRequest
      */
     public function processResponse($response)
     {
-        $current_qry = $this->context->getCurrentQuery();
+        $currentQry = $this->context->getCurrentQuery();
 
         $content = $response->getContent();
         if (empty($content)) {
             return;
         }
 
-        $resultObject = $current_qry->ReturnType;
+        $resultObject = $currentQry->ReturnType;
         if (is_null($resultObject)) {
             return;
         }
@@ -188,7 +209,7 @@ class ODataRequest extends ClientRequest
         if($resultType instanceof ClientObjectCollection){
             $resultType->clearData();
         }
-        foreach ($this->extractProperty($json, $format) as $key => $value) {
+        foreach ($this->nextProperty($json, $format) as $key => $value) {
             if($resultType instanceof ClientObjectCollection
                 && $format instanceof JsonLightFormat && $key === $format->NextCollectionTag){
                 $resultType->NextRequestUrl = $value;
@@ -228,7 +249,7 @@ class ODataRequest extends ClientRequest
      * @param ODataFormat $format
      * @return Generator
      */
-    private function extractProperty($json, $format)
+    private function nextProperty($json, $format)
     {
         if ($format instanceof JsonLightFormat) {
             if (isset($json[$format->SecurityTag]))
@@ -251,7 +272,7 @@ class ODataRequest extends ClientRequest
                     $item = array_map(function ($v) {
                         return $v;
                     },
-                        iterator_to_array($this->extractProperty($item, $format)));
+                        iterator_to_array($this->nextProperty($item, $format)));
                 }
                 yield $index => $item;
             }
@@ -262,7 +283,7 @@ class ODataRequest extends ClientRequest
                         $value = array_map(function ($v) {
                             return $v;
                         },
-                            iterator_to_array($this->extractProperty($value, $format)));
+                            iterator_to_array($this->nextProperty($value, $format)));
                     }
                     yield $key => $value;
                 }

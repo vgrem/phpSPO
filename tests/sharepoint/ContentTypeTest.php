@@ -12,11 +12,8 @@ class ContentTypeTest extends SharePointTestCase
     public function testGetListContentTypes(){
         $listTitle = self::createUniqueName("Orders");
         $list = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::TasksWithTimelineAndHierarchy);
-        $contentTypes = $list->getContentTypes();
-        self::$context->load($contentTypes);
-        self::$context->executeQuery();
+        $contentTypes = $list->getContentTypes()->get()->executeQuery();
         $this->assertGreaterThan(0,$contentTypes->getCount());
-
         $list->deleteObject()->executeQuery();
     }
 

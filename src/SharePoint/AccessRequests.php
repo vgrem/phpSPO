@@ -5,12 +5,10 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * Provides 
  * functionality to operate on access requests and external user invitations.
  */
-class AccessRequests extends ClientObject
+class AccessRequests extends BaseEntity
 {
 }

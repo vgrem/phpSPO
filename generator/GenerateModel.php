@@ -126,7 +126,7 @@ function syncSharePointMetadataFile($fileName){
 
 try {
 
-    $modelName = "SharePoint";
+    $modelName = "OutlookServices";
     if (count($argv) > 1)
         $modelName = $argv[1];
 

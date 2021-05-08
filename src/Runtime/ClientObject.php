@@ -10,10 +10,6 @@ use Office365\Runtime\OData\ODataQueryOptions;
  */
 class ClientObject
 {
-    /**
-     * @var string
-     */
-    protected $typeName;
 
     /**
      * @var ClientRuntimeContext
@@ -172,7 +168,7 @@ class ClientObject
 
     /**
      * Directs that related records should be retrieved in the record or collection being retrieved.
-     * @param string|array $value
+     * @param string|string[] $value
      * @return ClientObject $this
      */
     public function expand($value)
@@ -206,11 +202,7 @@ class ClientObject
      */
     public function getServerTypeName()
     {
-        if (isset($this->typeName)) {
-            return $this->typeName;
-        }
-        $classInfo = explode("\\", get_class($this));
-        return end($classInfo);
+        return null;
     }
 
     /**
@@ -224,12 +216,12 @@ class ClientObject
 
     /**
      * Determine whether client object property has been loaded
-     * @param $name
+     * @param string $name
      * @return bool
      */
     public function isPropertyAvailable($name)
     {
-        return isset($this->properties[$name]);
+        return isset($this->{$name});
     }
 
 
@@ -245,10 +237,14 @@ class ClientObject
     /**
      * A preferred way of getting the client object property
      * @param string $name
+     * @param mixed|null $defaultValue
      * @return mixed|null
      */
-    public function getProperty($name)
+    public function getProperty($name,$defaultValue=null)
     {
+        if (!$this->isPropertyAvailable($name) and isset($defaultValue)) {
+            $this->setProperty($name,$defaultValue);
+        }
         return $this->{$name};
     }
 
@@ -276,7 +272,7 @@ class ClientObject
         if(method_exists($this,$getterName)) {
             return $this->{$getterName}();
         }
-        return $this->getProperty($name);
+        return $this->{$name};
     }
 
     /**

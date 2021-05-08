@@ -9,4 +9,8 @@ use Office365\Runtime\ClientValueCollection;
 
 class LinkInvitationCollection extends ClientValueCollection
 {
+    public function __construct()
+    {
+        parent::__construct(LinkInvitation::class);
+    }
 }

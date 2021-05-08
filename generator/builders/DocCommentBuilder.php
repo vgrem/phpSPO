@@ -17,6 +17,10 @@ class DocCommentBuilder
     }
 
 
+    /**
+     * @param string $comment
+     * @return string
+     */
     private function sanitizeComment($comment){
         return " * " . str_replace("\n", " \r\n * ",$comment) . "\r\n";
     }

@@ -5,12 +5,11 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 /**
  * Contains 
  * operations used in SharePoint connector serving Flow, PowerApps and LogicApps 
  * documentation.
  */
-class APIHubConnector extends ClientObject
+class APIHubConnector extends BaseEntity
 {
 }

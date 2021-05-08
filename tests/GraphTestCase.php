@@ -14,10 +14,16 @@ abstract class GraphTestCase extends TestCase
      * @var GraphServiceClient
      */
     protected static $graphClient;
+    /**
+     * @var string
+     */
+    protected static $testAccountName;
 
 
     public static function setUpBeforeClass()
     {
+        $settings = include(__DIR__ . '../../settings.php');
+        self::$testAccountName = $settings['TestAccountName'];
         self::$graphClient = new GraphServiceClient(function () {
             return self::acquireToken();
         });

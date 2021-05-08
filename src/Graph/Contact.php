@@ -5,12 +5,13 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
+use Office365\OutlookServices\EmailAddress;
+use Office365\Runtime\ClientValueCollection;
 use Office365\Runtime\ResourcePath;
 /**
  *  "A contact is an item in Outlook where you can organize and save information about the people and organizations you communicate with. Contacts are contained in contact folders."
  */
-class Contact extends ClientObject
+class Contact extends Entity
 {
     /**
      * The ID of the contact's parent folder.
@@ -156,13 +157,17 @@ class Contact extends ClientObject
         }
         return $this->getProperty("Surname");
     }
+
     /**
      * The contact's surname.
+     *
+     * @return self
      * @var string
      */
     public function setSurname($value)
     {
         $this->setProperty("Surname", $value, true);
+        return $this;
     }
     /**
      * The contact's title.
@@ -470,13 +475,10 @@ class Contact extends ClientObject
     }
     /**
      * The contact's business phone numbers.
-     * @return array
+     * @return string[]
      */
     public function getBusinessPhones()
     {
-        if (!$this->isPropertyAvailable("BusinessPhones")) {
-            return null;
-        }
         return $this->getProperty("BusinessPhones");
     }
     /**
@@ -599,17 +601,25 @@ class Contact extends ClientObject
      */
     public function getOtherAddress()
     {
-        if (!$this->isPropertyAvailable("OtherAddress")) {
-            return null;
-        }
-        return $this->getProperty("OtherAddress");
+        return $this->getProperty("OtherAddress", new PhysicalAddress());
     }
+
     /**
      * Other addresses for the contact.
+     *
      * @var PhysicalAddress
+     * @return self
      */
     public function setOtherAddress($value)
     {
         $this->setProperty("OtherAddress", $value, true);
+        return $this;
+    }
+
+    /**
+     * @return ClientValueCollection
+     */
+    public function getEmailAddresses(){
+        return $this->getProperty("EmailAddresses",new ClientValueCollection(EmailAddress::class));
     }
 }

@@ -5,7 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 /**
  * Specifies 
@@ -13,28 +12,22 @@ use Office365\Runtime\ResourcePath;
  * a SharePoint 
  * Add-in accesses that site collection.
  */
-class AppContextSite extends ClientObject
+class AppContextSite extends BaseEntity
 {
     /**
      * @return Site
      */
     public function getSite()
     {
-        if (!$this->isPropertyAvailable("Site")) {
-            $this->setProperty("Site", new Site($this->getContext(),
-                new ResourcePath("Site", $this->getResourcePath())));
-        }
-        return $this->getProperty("Site");
+        return $this->getProperty("Site",
+            new Site($this->getContext(),new ResourcePath("Site", $this->getResourcePath())));
     }
     /**
      * @return Web
      */
     public function getWeb()
     {
-        if (!$this->isPropertyAvailable("Web")) {
-            $this->setProperty("Web", new Web($this->getContext(),
-                new ResourcePath("Web", $this->getResourcePath())));
-        }
-        return $this->getProperty("Web");
+        return $this->getProperty("Web",
+            new Web($this->getContext(), new ResourcePath("Web", $this->getResourcePath())));
     }
 }

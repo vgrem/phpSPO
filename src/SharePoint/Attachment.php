@@ -79,18 +79,19 @@ class Attachment extends BaseEntity
      */
     public function getServerRelativePath()
     {
-        if (!$this->isPropertyAvailable("ServerRelativePath")) {
-            return null;
-        }
         return $this->getProperty("ServerRelativePath");
     }
+
     /**
-     * The 
+     * The
      * server-relative-path of the attachment.
+     *
+     * @return self
      * @var SPResourcePath
      */
     public function setServerRelativePath($value)
     {
         $this->setProperty("ServerRelativePath", $value, true);
+        return $this;
     }
 }

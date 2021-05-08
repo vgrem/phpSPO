@@ -2,54 +2,51 @@
 
 namespace Office365;
 
+
 use Office365\OutlookServices\BodyType;
 use Office365\OutlookServices\EmailAddress;
 use Office365\OutlookServices\FileAttachment;
 use Office365\OutlookServices\ItemAttachment;
 use Office365\OutlookServices\ItemBody;
 use Office365\OutlookServices\Message;
-use Office365\OutlookServices\OutlookEntity;
 use Office365\OutlookServices\Recipient;
 
-class OutlookMailTest extends OutlookServicesTestCase
+class OutlookMailTest extends GraphTestCase
 {
 
     public function testCreateDraftMessage(){
 
-        $currentUser = self::$context->getMe();
-        self::$context->load($currentUser);
-        self::$context->executeQuery();
-
-        $message = self::$context->getMe()->getMessages()->createMessage();
-        $message->Subject = "--test--";
-        $message->Body = new ItemBody(BodyType::Text,"--content goes here--");
-        $message->ToRecipients = array(
-            new Recipient(new EmailAddress($currentUser->getProperty("DisplayName"),$currentUser->getProperty("Id")))
-        );
-        self::$context->executeQuery();
-        self::assertTrue($message->IsDraft);
+        $currentUser = self::$graphClient->getMe()->get()->executeQuery();
+        /** @var Message $message */
+        $message = self::$graphClient->getMe()->getMessages()->add();
+        $message->setSubject("--test--");
+        $message->setBody(new ItemBody(BodyType::Text,"--content goes here--"));
+        $message->getToRecipients()->addChild(new Recipient(new EmailAddress($currentUser->getDisplayName(),$currentUser->getUserPrincipalName())));
+        self::$graphClient->executeQuery();
+        self::assertTrue($message->getIsDraft());
         return $message;
     }
-
 
 
     /**
      * @depends testCreateDraftMessage
      * @param Message $existingMessage
      */
-    public function testCreteDraftMessageWithItemAttachment(Message $existingMessage)
+    public function testCreateDraftMessageWithItemAttachment(Message $existingMessage)
     {
-        $message = self::$context->getMe()->getMessages()->createMessage();
-        $message->Subject = $existingMessage->Subject . "(with message attachment)";
-        $message->Body = $existingMessage->Body;
-        $message->ToRecipients = $existingMessage->ToRecipients;
+        /** @var Message $message */
+        $message = self::$graphClient->getMe()->getMessages()->add();
+        $message->setSubject($existingMessage->getSubject() . "(with message attachment)");
+        $message->setBody($existingMessage->getBody());
+        $message->getToRecipients()->addChild($existingMessage->getToRecipients()->getData()[0]);
         //add existing message as an attachment
-        $attachment = $message->addAttachment(ItemAttachment::getType());
-        $attachment->ContentType = "message/rfc822";
-        $attachment->IsInline = false;
-        $attachment->Name = $existingMessage->Subject;
-        $attachment->Item = $this->getLink($existingMessage);
-        self::$context->executeQuery();
+        /** @var ItemAttachment $attachment */
+        $attachment = $message->addAttachment(ItemAttachment::class);
+        $attachment->setContentType("message/rfc822");
+        $attachment->setIsInline(false);
+        $attachment->setName($existingMessage->getSubject());
+        $attachment->setItem($existingMessage);
+        self::$graphClient->executeQuery();
         self::assertTrue(true);
     }
 
@@ -60,27 +57,18 @@ class OutlookMailTest extends OutlookServicesTestCase
      */
     public function testCreteDraftMessageWithFileAttachment(Message $existingMessage)
     {
-        $message = self::$context->getMe()->getMessages()->createMessage();
-        $message->Subject = $existingMessage->Subject . "(with file attachment)";
-        $message->Body = $existingMessage->Body;
-        $message->ToRecipients = $existingMessage->ToRecipients;
+        /** @var Message $message */
+        $message = self::$graphClient->getMe()->getMessages()->add();
+        $message->setSubject($existingMessage->getSubject() . "(with file attachment)");
+        $message->setBody($existingMessage->getBody());
+        $message->getToRecipients()->addChild($existingMessage->getToRecipients()->getData()[0]);
         //add a file attachment
         $attachmentPath = "../examples/data/attachment.txt";
-        $attachment = $message->addAttachment(FileAttachment::getType());
-        $attachment->ContentBytes = "bWFjIGFuZCBjaGVlc2UgdG9kYXk="; //file_get_contents($attachmentPath);
-        $attachment->Name = basename($attachmentPath);
-        self::$context->executeQuery();
+        $attachment = $message->addAttachment(FileAttachment::class);
+        $attachment->setContentBytes("bWFjIGFuZCBjaGVlc2UgdG9kYXk="); //file_get_contents($attachmentPath);
+        $attachment->setName(basename($attachmentPath));
+        self::$graphClient->executeQuery();
         self::assertTrue(true);
-    }
-
-
-    private function getLink(OutlookEntity $entity){
-        //$entity->Id = null;
-        $entity->ConversationId = null;
-        //$entity->addTypeAnnotation("type","#Microsoft.Outlook.Message");
-        //$type = $entity->getTypeName();
-        //$entity->ensureTypeAnnotation("Message");
-        return $entity;
     }
 
 
@@ -90,13 +78,10 @@ class OutlookMailTest extends OutlookServicesTestCase
      */
     public function testUpdateMessage(Message $message)
     {
-        $message->setProperty("IsRead",true);
-        $message->update();
-        self::$context->executeQuery();
-
-        self::$context->load($message);
-        self::$context->executeQuery();
-        self::assertTrue($message->getProperty("IsRead"));
+        $message->setIsRead(true)->update()->executeQuery();
+        self::$graphClient->load($message);
+        self::$graphClient->executeQuery();
+        self::assertTrue($message->getIsRead());
     }
 
 
@@ -104,16 +89,9 @@ class OutlookMailTest extends OutlookServicesTestCase
      * @depends testCreateDraftMessage
      * @param Message $message
      */
-    public function testGetMessages(Message $message){
+    public function testGetMessage(Message $message){
         //verify
-        $messages = self::$context->getMe()->getMessages();
-        self::$context->load($messages);
-        self::$context->executeQuery();
-
-        foreach ($messages->getData() as $curMessage){
-            self::assertNotNull($curMessage->Id);
-        }
-        $foundMessage = $messages->findFirst("Id", $message->Id);
+        $foundMessage = self::$graphClient->getMe()->getMessages()->getById($message->getId())->get()->executeQuery();
         self::assertNotNull($foundMessage);
     }
 
@@ -127,8 +105,7 @@ class OutlookMailTest extends OutlookServicesTestCase
         $recipients = array(
             new Recipient(new EmailAddress("",self::$testAccountName))
         );
-        $message->forward("For your consideration",$recipients);
-        self::$context->executeQuery();
+        $message->forward("For your consideration",$recipients)->executeQuery();
         self::assertTrue(true);
     }
 
@@ -138,8 +115,7 @@ class OutlookMailTest extends OutlookServicesTestCase
      * @param Message $message
      */
     public function testSendEmail(Message $message){
-        self::$context->getMe()->sendEmail($message,false);
-        self::$context->executeQuery();
+        self::$graphClient->getMe()->sendEmail($message,false)->executeQuery();
         self::assertTrue(true);
     }
 
@@ -161,13 +137,9 @@ class OutlookMailTest extends OutlookServicesTestCase
      */
     public function testDeleteMyMessage(Message $message)
     {
-        $message->deleteObject();
-        self::$context->executeQuery();
-
-        $messages = self::$context->getMe()->getMessages();
-        self::$context->load($messages);
-        self::$context->executeQuery();
-        $deletedMessage = $messages->findFirst("Id",$message->Id);
+        $message->deleteObject()->executeQuery();
+        $messages = self::$graphClient->getMe()->getMessages()->get()->executeQuery();
+        $deletedMessage = $messages->findFirst("Id",$message->getId());
         self::assertNull($deletedMessage);
     }
 

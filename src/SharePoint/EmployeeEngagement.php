@@ -5,9 +5,8 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
-class EmployeeEngagement extends ClientObject
+class EmployeeEngagement extends BaseEntity
 {
     /**
      * @return AppConfiguration

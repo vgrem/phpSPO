@@ -5,47 +5,46 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 
 /**
  * Specifies 
  * a change from an alert.The RelativeTime property is not included in the default 
  * scalar property set for this type.
  */
-class ChangeAlert extends ClientObject
+class ChangeAlert extends Change
 {
     /**
      * @return string
      */
     public function getAlertId()
     {
-        if (!$this->isPropertyAvailable("AlertId")) {
-            return null;
-        }
         return $this->getProperty("AlertId");
     }
+
     /**
+     *
+     * @return self
      * @var string
      */
     public function setAlertId($value)
     {
         $this->setProperty("AlertId", $value, true);
+        return $this;
     }
     /**
      * @return string
      */
     public function getWebId()
     {
-        if (!$this->isPropertyAvailable("WebId")) {
-            return null;
-        }
         return $this->getProperty("WebId");
     }
     /**
+     * @return self
      * @var string
      */
     public function setWebId($value)
     {
         $this->setProperty("WebId", $value, true);
+        return $this;
     }
 }

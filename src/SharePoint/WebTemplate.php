@@ -172,9 +172,6 @@ class WebTemplate extends BaseEntity
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -188,8 +185,6 @@ class WebTemplate extends BaseEntity
 
     public function setProperty($name, $value, $persistChanges = true)
     {
-        if(is_null($this->resourcePath) && $name == "Name"){
-        }
         return parent::setProperty($name, $value, $persistChanges);
     }
 }

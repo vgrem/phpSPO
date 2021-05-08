@@ -28,15 +28,7 @@ class ListCreationInformation extends ClientValue
      * @var bool
      */
     public $ContentTypesEnabled;
-    public function __construct($title)
-    {
-        $this->Title = $title;
-        $this->Description = $title;
-        $this->BaseTemplate = ListTemplateType::GenericList;
-        $this->AllowContentTypes = true;
-        $this->ContentTypesEnabled = true;
-        parent::__construct("List");
-    }
+
     public $CustomSchemaXml;
     public $DataSourceProperties;
     public $DocumentTemplateType;
@@ -44,4 +36,20 @@ class ListCreationInformation extends ClientValue
     public $TemplateFeatureId;
     public $TemplateType;
     public $Url;
+
+    public function __construct($title)
+    {
+        $this->Title = $title;
+        $this->Description = $title;
+        $this->BaseTemplate = ListTemplateType::GenericList;
+        $this->AllowContentTypes = true;
+        $this->ContentTypesEnabled = true;
+        parent::__construct();
+    }
+
+    public function getServerTypeName()
+    {
+        return "SP.List";
+    }
+
 }

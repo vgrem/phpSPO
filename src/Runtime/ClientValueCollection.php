@@ -7,6 +7,15 @@ class ClientValueCollection extends ClientValue
 {
 
     /**
+     * @param string $itemTypeName
+     */
+    public function __construct($itemTypeName)
+    {
+        $this->itemTypeName = $itemTypeName;
+        parent::__construct();
+    }
+
+    /**
      * Adds property to collection
      * @param ClientValue $value
      */
@@ -59,9 +68,22 @@ class ClientValueCollection extends ClientValue
      */
     function getItemTypeName()
     {
+        if(isset($this->itemTypeName))
+            return $this->itemTypeName;
         return str_replace("Collection","",get_class($this));
     }
 
+    /**
+     * @return string|null
+     */
+    public function getServerTypeName()
+    {
+        return null;
+    }
+
+    /**
+     * @return array
+     */
     function toJson()
     {
         return array_map(function (ClientValue $item) {
@@ -73,5 +95,10 @@ class ClientValueCollection extends ClientValue
      * @var array
      */
     private $data = null;
+
+    /**
+     * @var string
+     */
+    private $itemTypeName;
 
 }

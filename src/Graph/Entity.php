@@ -6,11 +6,36 @@
 namespace Office365\Graph;
 
 
+use Office365\Runtime\Actions\DeleteEntityQuery;
+use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 
 class Entity extends ClientObject
 {
+
+    /**
+     * The recommended way to update resource
+     * @return Entity
+     */
+    public function update()
+    {
+        $qry = new UpdateEntityQuery($this);
+        $this->getContext()->addQueryAndResultObject($qry, $this);
+        return $this;
+    }
+    /**
+     * The recommended way to delete resource
+     * @return $this
+     */
+    public function deleteObject()
+    {
+        $qry = new DeleteEntityQuery($this);
+        $this->getContext()->addQuery($qry);
+        $this->removeFromParentCollection();
+        return $this;
+    }
+
     /**
      * @return string
      */

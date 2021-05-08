@@ -24,9 +24,6 @@ class ChangeList extends Change
      */
     public function getBaseTemplate()
     {
-        if (!$this->isPropertyAvailable("BaseTemplate")) {
-            return null;
-        }
         return $this->getProperty("BaseTemplate");
     }
     /**
@@ -47,9 +44,6 @@ class ChangeList extends Change
      */
     public function getEditor()
     {
-        if (!$this->isPropertyAvailable("Editor")) {
-            return null;
-        }
         return $this->getProperty("Editor");
     }
     /**
@@ -70,9 +64,6 @@ class ChangeList extends Change
      */
     public function getHidden()
     {
-        if (!$this->isPropertyAvailable("Hidden")) {
-            return null;
-        }
         return $this->getProperty("Hidden");
     }
     /**
@@ -95,9 +86,6 @@ class ChangeList extends Change
      */
     public function getListId()
     {
-        if (!$this->isPropertyAvailable("ListId")) {
-            return null;
-        }
         return $this->getProperty("ListId");
     }
     /**
@@ -120,9 +108,6 @@ class ChangeList extends Change
      */
     public function getRootFolderUrl()
     {
-        if (!$this->isPropertyAvailable("RootFolderUrl")) {
-            return null;
-        }
         return $this->getProperty("RootFolderUrl");
     }
     /**
@@ -142,9 +127,6 @@ class ChangeList extends Change
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -167,23 +149,24 @@ class ChangeList extends Change
      */
     public function getWebId()
     {
-        if (!$this->isPropertyAvailable("WebId")) {
-            return null;
-        }
         return $this->getProperty("WebId");
     }
+
     /**
-     * Identifies 
-     * the site 
-     * (2) that contains the changed list.Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionThe site identifier in 
-     *   the change fields (2) item of 
+     * Identifies
+     * the site
+     * (2) that contains the changed list.Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionThe site identifier in
+     *   the change fields (2) item of
      *   the change collection is NULL.
+     *
+     * @return self
      * @var string
      */
     public function setWebId($value)
     {
         $this->setProperty("WebId", $value, true);
+        return $this;
     }
     /**
      * An SPUser object 
@@ -193,9 +176,7 @@ class ChangeList extends Change
      */
     public function getCreator()
     {
-        if (!$this->isPropertyAvailable("Creator")) {
-            $this->setProperty("Creator", new User($this->getContext(), new ResourcePath("Creator", $this->getResourcePath())));
-        }
-        return $this->getProperty("Creator");
+        return $this->getProperty("Creator",
+            new User($this->getContext(), new ResourcePath("Creator", $this->getResourcePath())));
     }
 }

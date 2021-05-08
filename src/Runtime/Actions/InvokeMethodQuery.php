@@ -5,7 +5,6 @@ namespace Office365\Runtime\Actions;
 
 
 use Office365\Runtime\ClientObject;
-use Office365\Runtime\OData\ODataRequest;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ResourcePathServiceOperation;
 
@@ -41,13 +40,8 @@ class InvokeMethodQuery extends ClientAction
         if (!is_null($this->MethodName)) {
             if ($this->IsStatic) {
                 $request = $this->getContext()->getPendingRequest();
-                $entityTypeName = $this->BindingType->getServerTypeName();
-                if($request instanceof ODataRequest){
-                    $entityTypeName = $request->normalizeTypeName($entityTypeName);
-                }
-
-                $methodUrl = implode(".",
-                    array($entityTypeName, $this->getMethodPath()->toUrl()));
+                $entityTypeName = $request->normalizeTypeName($this->BindingType);
+                $methodUrl = implode(".", array($entityTypeName, $this->getMethodPath()->toUrl()));
                 return implode("", array($this->getContext()->getServiceRootUrl(), $methodUrl));
             } else {
                 return implode("/", array($this->BindingType->getResourceUrl(), $this->getMethodPath()->toUrl()));

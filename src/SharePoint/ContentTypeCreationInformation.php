@@ -11,12 +11,13 @@ class ContentTypeCreationInformation extends ClientValue
 {
     public function __construct()
     {
-        parent::__construct("ContentType");
+        parent::__construct();
     }
 
 
-    public function setParentId($parentId){
-        $this->ParentId = $parentId;
+    public function getServerTypeName()
+    {
+        return "SP.ContentType";
     }
 
 
@@ -66,6 +67,6 @@ class ContentTypeCreationInformation extends ClientValue
     /**
      * @var string
      */
-    private $ParentId;
+    public $ParentId;
 
 }

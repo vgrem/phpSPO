@@ -47,8 +47,14 @@ class ViewCreationInformation extends ClientValue
     public function __construct()
     {
         $this->RowLimit = 30;
-        parent::__construct("View");
+        parent::__construct();
     }
+
+    public function getServerTypeName()
+    {
+        return "SP.View";
+    }
+
     public $baseViewId;
     /**
      * @var string

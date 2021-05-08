@@ -476,4 +476,15 @@ class ListItem extends SecurableObject
         }
         return $this->getProperty("FieldValuesForEdit");
     }
+
+
+    public function getServerTypeName()
+    {
+        return $this->typeName;
+    }
+
+    /**
+     * @var string
+     */
+    protected $typeName;
 }
