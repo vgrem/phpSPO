@@ -2,8 +2,8 @@
 
 namespace Office365;
 
-use Office365\Graph\DriveItem;
 use Office365\Graph\IdentitySet;
+use Office365\OneDrive\DriveItem;
 
 
 class OneDriveTest extends GraphTestCase

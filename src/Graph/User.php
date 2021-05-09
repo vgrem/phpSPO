@@ -6,9 +6,13 @@
 namespace Office365\Graph;
 
 
+use Office365\OneDrive\Drive;
+use Office365\OneDrive\DriveCollection;
 use Office365\OneNote\Onenote;
 use Office365\OutlookServices\Calendar;
+use Office365\OutlookServices\Contact;
 use Office365\OutlookServices\Event;
+use Office365\OutlookServices\MailboxSettings;
 use Office365\OutlookServices\Message;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;

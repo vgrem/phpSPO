@@ -3,7 +3,7 @@
 namespace Office365;
 
 
-use Office365\Graph\Contact;
+use Office365\OutlookServices\Contact;
 use Office365\OutlookServices\EmailAddress;
 
 class OutlookContactTest extends GraphTestCase

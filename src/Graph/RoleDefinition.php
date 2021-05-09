@@ -5,9 +5,7 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
-class RoleDefinition extends ClientObject
+class RoleDefinition extends Entity
 {
     /**
      * @return string
