@@ -12,6 +12,9 @@ use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\ResourcePath;
 
+/**
+ * @method GraphServiceClient getContext()
+ */
 class Entity extends ClientObject
 {
 

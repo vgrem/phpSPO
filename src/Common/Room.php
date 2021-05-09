@@ -5,12 +5,12 @@
  */
 namespace Office365\Common;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+use Office365\Entity;
+
 /**
  *  "Specifies the properties of a room in a tenant."
  */
-class Room extends ClientObject
+class Room extends Entity
 {
     /**
      * @return string

@@ -9,6 +9,10 @@ use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\ResourcePath;
 
+/**
+ * SharePoint specific entity
+ * @method ClientContext getContext()
+ */
 class BaseEntityCollection extends ClientObjectCollection
 {
     /**

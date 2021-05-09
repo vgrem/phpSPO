@@ -5,12 +5,12 @@
  */
 namespace Office365\Common;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+use Office365\Entity;
+
 /**
  * Represents the participant type.
  */
-class Participant extends ClientObject
+class Participant extends Entity
 {
     /**
      * @return bool

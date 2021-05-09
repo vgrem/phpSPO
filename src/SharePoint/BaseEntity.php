@@ -12,6 +12,7 @@ use Office365\Runtime\ResourcePath;
 
 /**
  * SharePoint specific entity
+ * @method ClientContext getContext()
  */
 class BaseEntity extends ClientObject
 {
@@ -23,15 +24,6 @@ class BaseEntity extends ClientObject
         parent::__construct($ctx,$resourcePath,$queryOptions,"SP");
     }
 
-    /**
-     * @return ClientContext
-     */
-    public function getContext()
-    {
-        if($this->context instanceof ClientContext)
-            return $this->context;
-        return null;
-    }
 
     /**
      * @param ClientCredential|UserCredentials $credentials

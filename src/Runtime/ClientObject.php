@@ -183,7 +183,7 @@ class ClientObject
 
     /**
      * Specifies a subset of properties to return.
-     * @param string|array $value
+     * @param string|string[] $value
      * @return ClientObject $this
      */
     public function select($value)

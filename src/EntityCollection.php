@@ -9,6 +9,9 @@ use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\ResourcePath;
 
+/**
+ * @method GraphServiceClient getContext()
+ */
 class EntityCollection extends ClientObjectCollection
 {
     public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, $itemTypeName = null)
@@ -22,10 +25,7 @@ class EntityCollection extends ClientObjectCollection
      */
     function getById($id)
     {
-        /** @var Entity $entity */
-        $entity = $this->createType();
-        $entity->resourcePath = new ResourcePath($id, $this->getResourcePath());
-        return $entity;
+        return new Entity($this->getContext(),new ResourcePath($id, $this->getResourcePath()));
     }
 
     /**

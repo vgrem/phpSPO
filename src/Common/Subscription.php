@@ -5,12 +5,12 @@
  */
 namespace Office365\Common;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+use Office365\Entity;
+
 /**
  *  "A subscription allows a client app to receive change notifications about changes to data in Microsoft Graph. Currently, subscriptions are enabled for the following resources
  */
-class Subscription extends ClientObject
+class Subscription extends Entity
 {
     /**
      * @return string

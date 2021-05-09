@@ -44,8 +44,7 @@ class OutlookContactTest extends GraphTestCase
         $surnameValue = "Jr.";
         $contact->setSurname($surnameValue)->update()->executeQuery();
         //load updated contact
-        /** @var Contact $existingContact */
-        $existingContact = self::$graphClient->getMe()->getContacts()->getById($contact->getId())->get()->executeQuery();
+        $existingContact = $contact->get()->executeQuery();
         self::assertEquals($surnameValue,$existingContact->getSurname());
     }
 

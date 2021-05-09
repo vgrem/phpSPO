@@ -17,7 +17,7 @@ use Office365\Runtime\Office365Version;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\Http\RequestOptions;
-use Office365\Teams\Team;
+use Office365\Teams\TeamCollection;
 
 
 /**
@@ -82,15 +82,6 @@ class GraphServiceClient extends ClientRuntimeContext
     }
 
 
-    /**
-     * @return EntityCollection
-     */
-    public function getTeams()
-    {
-        return new EntityCollection($this,
-                new ResourcePath("teams", new ResourcePath("drives")), Team::class);
-    }
-
 
     /**
      * Retrieve the properties and relationships of user object.
@@ -105,6 +96,13 @@ class GraphServiceClient extends ClientRuntimeContext
      */
     public function getGroups(){
         return new EntityCollection($this,new ResourcePath("groups"), Group::class);
+    }
+
+    /**
+     * @return TeamCollection
+     */
+    public function getTeams(){
+        return new TeamCollection($this,new ResourcePath("teams"));
     }
 
 

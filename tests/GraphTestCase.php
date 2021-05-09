@@ -43,4 +43,8 @@ abstract class GraphTestCase extends TestCase
         return $provider->acquireTokenForPassword($resource, self::$settings['ClientId'],
             new UserCredentials(self::$settings['UserName'], self::$settings['Password']));
     }
+
+    public static function createUniqueName($prefix){
+        return  $prefix . "_" . rand(1, 100000);
+    }
 }
