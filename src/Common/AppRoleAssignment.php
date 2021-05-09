@@ -6,6 +6,8 @@
 namespace Office365\Common;
 
 
+use Office365\Entity;
+
 /**
  *  "Used to record when a user, group, or service principal is assigned to an app role on an application's service principal. You can create, read and delete app role assignments."
  */

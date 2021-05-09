@@ -6,6 +6,8 @@
 namespace Office365\Common;
 
 
+use Office365\Entity;
+
 /**
  * An aggregation of information about a person from across mail, contacts, and social networks. People can be local contacts, contacts from social networking or your organization's directory, and people from recent communications (such as email and Skype).
  */

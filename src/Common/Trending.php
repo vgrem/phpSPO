@@ -5,9 +5,11 @@
  */
 namespace Office365\Common;
 
-use Office365\Runtime\ClientObject;
+use Office365\Entity;
+use Office365\OneDrive\ResourceReference;
+use Office365\OneDrive\ResourceVisualization;
 use Office365\Runtime\ResourcePath;
-class Trending extends ClientObject
+class Trending extends Entity
 {
     /**
      * @return double

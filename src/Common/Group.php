@@ -5,7 +5,15 @@
  */
 namespace Office365\Common;
 
+use Office365\OneDrive\Drive;
+use Office365\OneDrive\DriveCollection;
+use Office365\OneDrive\SiteCollection;
+use Office365\OneNote\Onenote;
+use Office365\OutlookServices\Calendar;
+use Office365\Planner\PlannerGroup;
 use Office365\Runtime\ResourcePath;
+use Office365\Teams\Team;
+
 /**
  *  "Represents an Azure Active Directory (Azure AD) group, which can be an Office 365 group, or a security group. "
  */
