@@ -5,9 +5,9 @@
  */
 namespace Office365\OutlookServices;
 
-use Office365\Graph\AutomaticRepliesSetting;
-use Office365\Graph\LocaleInfo;
-use Office365\Graph\WorkingHours;
+use Office365\Common\AutomaticRepliesSetting;
+use Office365\Common\LocaleInfo;
+use Office365\Common\WorkingHours;
 use Office365\Runtime\ClientValue;
 /**
  *  "Settings for the primary mailbox of the signed-in user."

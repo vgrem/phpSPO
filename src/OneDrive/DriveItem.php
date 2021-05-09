@@ -8,8 +8,8 @@ namespace Office365\OneDrive;
 
 
 use Office365\Excel\Workbook;
-use Office365\Graph\GeoCoordinates;
-use Office365\Graph\PermissionCollection;
+use Office365\Common\GeoCoordinates;
+use Office365\Common\PermissionCollection;
 use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\Http\RequestOptions;

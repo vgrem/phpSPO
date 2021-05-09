@@ -5,7 +5,7 @@
  */
 namespace Office365\OutlookServices;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 
 /**
  *  "A rule that applies to messages in the Inbox of a user."

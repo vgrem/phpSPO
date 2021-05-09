@@ -5,8 +5,8 @@
  */
 namespace Office365\Teams;
 
-use Office365\Graph\FreeBusyError;
-use Office365\Graph\WorkingHours;
+use Office365\Common\FreeBusyError;
+use Office365\Common\WorkingHours;
 use Office365\Runtime\ClientValue;
 class ScheduleInformation extends ClientValue
 {

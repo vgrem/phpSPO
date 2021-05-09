@@ -230,7 +230,7 @@ $client->getMe()->sendEmail($message,true)->executeQuery();
 The following example demonstrates how retrieve My drive Url via OneDrive API:
 
 ```php
-use Office365\Graph\GraphServiceClient;
+use Office365\GraphServiceClient;
 use Office365\Runtime\Auth\AADTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 

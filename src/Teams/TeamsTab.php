@@ -5,7 +5,7 @@
  */
 namespace Office365\Teams;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 use Office365\Runtime\ResourcePath;
 /**
  * A teamsTab is a [tab](../resources/teamstab.md) that's pinned (attached) to a [channel](channel.md) within a [team](team.md). 

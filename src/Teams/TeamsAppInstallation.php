@@ -5,7 +5,7 @@
  */
 namespace Office365\Teams;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 use Office365\Runtime\ResourcePath;
 /**
  * A [teamsApp](teamsapp.md) installed in a [team](team.md). Any bots that are part of the app will become part of any team the app is added to.

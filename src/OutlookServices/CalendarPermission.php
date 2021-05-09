@@ -5,7 +5,7 @@
  */
 namespace Office365\OutlookServices;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 
 /**
  *  "The permissions of a user with whom the calendar is shared."

@@ -5,7 +5,7 @@
  */
 namespace Office365\Planner;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 
 /**
  * The **plannerProgressTaskBoardTaskFormat** resource represents the information used to render a task correctly in the Progress view of the Task Board (a view organized by the state of the PercentComplete field on the task object, with columns for Not Started, In Progress and Complete). Each [task](plannertask.md) will have one **plannerProgressTaskBoardTaskFormat** object associated with it.

@@ -5,7 +5,7 @@
  */
 namespace Office365\OneDrive;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 
 class FieldValueSet extends Entity
 {

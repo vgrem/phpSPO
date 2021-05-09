@@ -5,7 +5,7 @@
  */
 namespace Office365\OutlookServices;
 
-use Office365\Graph\SizeRange;
+use Office365\Common\SizeRange;
 use Office365\Runtime\ClientValue;
 class MessageRulePredicates extends ClientValue
 {

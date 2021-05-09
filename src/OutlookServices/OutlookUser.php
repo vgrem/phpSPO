@@ -5,8 +5,8 @@
  */
 namespace Office365\OutlookServices;
 
-use Office365\Graph\Entity;
-use Office365\Runtime\ClientObject;
+use Office365\Entity;
+
 /**
  * Represents the Outlook services available to a user.
  */

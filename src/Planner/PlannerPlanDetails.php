@@ -5,7 +5,7 @@
  */
 namespace Office365\Planner;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 /**
  * The **plannerPlanDetails** resource represents the additional information about a plan. Each [plan](plannerplan.md) object has a details object.
  */

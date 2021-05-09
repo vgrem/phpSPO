@@ -2,8 +2,8 @@
 
 require_once '../vendor/autoload.php';
 
-use Office365\Graph\DriveItem;
-use Office365\Graph\GraphServiceClient;
+use Office365\GraphServiceClient;
+use Office365\OneDrive\DriveItem;
 use Office365\Runtime\Auth\AADTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 
@@ -11,7 +11,7 @@ use Office365\Runtime\Auth\UserCredentials;
 function acquireToken()
 {
     $resource = "https://graph.microsoft.com";
-    $settings = include('../../Settings.php');
+    $settings = include('../../tests/Settings.php');
     $provider = new AADTokenProvider($settings['TenantName']);
     return $provider->acquireTokenForPassword($resource, $settings['ClientId'],
         new UserCredentials($settings['UserName'], $settings['Password']));

@@ -6,7 +6,7 @@
 namespace Office365\OneNote;
 
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 use Office365\Runtime\ResourcePath;
 /**
  *  "The entry point for OneNote resources."

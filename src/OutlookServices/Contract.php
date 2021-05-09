@@ -5,7 +5,7 @@
  */
 namespace Office365\OutlookServices;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 
 /**
  *  "Represents an existing partnership that the partner tenant has with a customer tenant."

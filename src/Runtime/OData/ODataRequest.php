@@ -5,7 +5,7 @@ namespace Office365\Runtime\OData;
 
 use Exception;
 use Generator;
-use Office365\Graph\GraphServiceClient;
+use Office365\GraphServiceClient;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ClientRequest;

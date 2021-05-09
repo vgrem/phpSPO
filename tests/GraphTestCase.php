@@ -2,7 +2,6 @@
 
 namespace Office365;
 
-use Office365\Graph\GraphServiceClient;
 use Office365\Runtime\Auth\AADTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 use PHPUnit\Framework\TestCase;
@@ -44,5 +43,4 @@ abstract class GraphTestCase extends TestCase
         return $provider->acquireTokenForPassword($resource, self::$settings['ClientId'],
             new UserCredentials(self::$settings['UserName'], self::$settings['Password']));
     }
-
 }

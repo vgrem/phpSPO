@@ -5,7 +5,7 @@
  */
 namespace Office365\Teams;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 
 class TeamsAppDefinition extends Entity
 {

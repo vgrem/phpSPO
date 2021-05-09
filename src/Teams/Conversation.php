@@ -5,7 +5,7 @@
  */
 namespace Office365\Teams;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 
 /**
  *  "A conversation is a collection of threads, and a thread contains posts to that thread. All threads and posts in a conversation share the same subject."

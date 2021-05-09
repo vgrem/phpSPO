@@ -5,7 +5,7 @@
  */
 namespace Office365\Planner;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 
 /**
  * The **plannerTaskDetails** resource represents the additional information about a task. Each [task](plannertask.md) object has a details object.

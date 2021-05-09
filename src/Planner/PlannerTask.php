@@ -5,8 +5,8 @@
  */
 namespace Office365\Planner;
 
-use Office365\Graph\Entity;
-use Office365\Graph\IdentitySet;
+use Office365\Entity;
+use Office365\IdentitySet;
 use Office365\Runtime\ResourcePath;
 /**
  * The **plannerTask** resource represents a Planner task in Office 365. A Planner task is contained in a [plan](plannerplan.md) and can be assigned to a [bucket](plannerbucket.md) in a plan. Each task object has a [details](plannertaskdetails.md) object which can contain more information about the task. See [overview](planner-overview.md) for more information regarding relationships between group, plan and task.

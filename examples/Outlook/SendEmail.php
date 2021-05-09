@@ -2,7 +2,7 @@
 
 
 
-use Office365\Graph\GraphServiceClient;
+use Office365\GraphServiceClient;
 use Office365\OutlookServices\BodyType;
 use Office365\OutlookServices\EmailAddress;
 use Office365\OutlookServices\ItemBody;
@@ -16,7 +16,7 @@ require_once '../vendor/autoload.php';
 function acquireToken()
 {
     $resource = "https://graph.microsoft.com";
-    $settings = include('../../Settings.php');
+    $settings = include('../../tests/Settings.php');
     $provider = new AADTokenProvider($settings['TenantName']);
     return $provider->acquireTokenForPassword($resource, $settings['ClientId'],
         new UserCredentials($settings['UserName'], $settings['Password']));

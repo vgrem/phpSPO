@@ -6,7 +6,7 @@
 namespace Office365\OneDrive;
 
 
-use Office365\Graph\IdentitySet;
+use Office365\Common\IdentitySet;
 use Office365\Runtime\ResourcePath;
 /**
  *  "The drive resource is the top level object representing a user's OneDrive or a document library in SharePoint."

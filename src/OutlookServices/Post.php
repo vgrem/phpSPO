@@ -5,7 +5,7 @@
  */
 namespace Office365\OutlookServices;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 use Office365\Runtime\ResourcePath;
 /**
  *  "Represents an individual Post item within a conversationThread entity."

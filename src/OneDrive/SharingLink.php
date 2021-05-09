@@ -5,7 +5,7 @@
  */
 namespace Office365\OneDrive;
 
-use Office365\Graph\Identity;
+use Office365\Common\Identity;
 use Office365\Runtime\ClientValue;
 class SharingLink extends ClientValue
 {

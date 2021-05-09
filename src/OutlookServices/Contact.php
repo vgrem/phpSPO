@@ -5,9 +5,9 @@
  */
 namespace Office365\OutlookServices;
 
-use Office365\Graph\Entity;
-use Office365\Graph\PhysicalAddress;
-use Office365\Graph\ProfilePhoto;
+use Office365\Common\PhysicalAddress;
+use Office365\Common\ProfilePhoto;
+use Office365\Entity;
 use Office365\Runtime\ClientValueCollection;
 use Office365\Runtime\ResourcePath;
 /**

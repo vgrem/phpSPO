@@ -4,7 +4,7 @@
 namespace Office365\OneDrive;
 
 
-use Office365\Graph\EntityCollection;
+use Office365\EntityCollection;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\ResourcePath;

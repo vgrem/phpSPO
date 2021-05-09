@@ -5,7 +5,7 @@
  */
 namespace Office365\Excel;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 use Office365\Runtime\ResourcePath;
 class WorkbookChartLegend extends Entity
 {

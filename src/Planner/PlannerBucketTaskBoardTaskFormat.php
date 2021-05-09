@@ -5,7 +5,7 @@
  */
 namespace Office365\Planner;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 
 /**
  * The **plannerBucketTaskBoardTaskFormat** resource represents the information used to render a task correctly in the Buckets view of the Task Board (a view organized by tasks within the buckets they are assigned to). Each [task](plannertask.md) will have one **plannerBucketTaskBoardTaskFormat** object associated with it.

@@ -5,12 +5,12 @@
  */
 namespace Office365\Teams;
 
-use Office365\Graph\Entity;
-use Office365\Graph\MediaConfig;
-use Office365\Graph\MeetingInfo;
-use Office365\Graph\ParticipantInfo;
-use Office365\Graph\ResultInfo;
-use Office365\Graph\ToneInfo;
+use Office365\Entity;
+use Office365\Common\MediaConfig;
+use Office365\Common\MeetingInfo;
+use Office365\Common\ParticipantInfo;
+use Office365\Common\ResultInfo;
+
 
 /**
  *  "The **call** resource is created when there is an incoming call for the application or the application creates a new outgoing call via a `POST` on `app/calls`."

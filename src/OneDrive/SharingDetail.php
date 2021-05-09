@@ -5,7 +5,7 @@
  */
 namespace Office365\OneDrive;
 
-use Office365\Graph\InsightIdentity;
+use Office365\Common\InsightIdentity;
 use Office365\Runtime\ClientValue;
 class SharingDetail extends ClientValue
 {

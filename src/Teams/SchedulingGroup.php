@@ -5,7 +5,7 @@
  */
 namespace Office365\Teams;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 
 /**
  * A logical grouping of users in a [schedule](schedule.md) (usually by role). 

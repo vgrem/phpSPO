@@ -5,7 +5,7 @@
  */
 namespace Office365\Planner;
 
-use Office365\Graph\Entity;
+use Office365\Entity;
 
 /**
  * The **plannerAssignedToTaskBoardTaskFormat** resource represents the information used to render a task correctly in the AssignedTo view of the Task Board (a view organized by users to whom tasks are assigned to). Each [task](plannertask.md) will have one **plannerAssignedToTaskBoardTaskFormat** object associated with it.

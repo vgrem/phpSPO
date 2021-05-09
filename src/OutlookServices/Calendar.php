@@ -6,8 +6,8 @@
 namespace Office365\OutlookServices;
 
 use DateTime;
-use Office365\Graph\Entity;
-use Office365\Graph\EntityCollection;
+use Office365\Entity;
+use Office365\EntityCollection;
 use Office365\Runtime\Actions\ReadEntityQuery;
 use Office365\Runtime\ResourcePath;
 
