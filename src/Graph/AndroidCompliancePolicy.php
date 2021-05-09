@@ -5,9 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
 
-class AndroidCompliancePolicy extends ClientObject
+class AndroidCompliancePolicy extends Entity
 {
     /**
      * @return bool

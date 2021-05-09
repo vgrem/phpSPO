@@ -37,6 +37,7 @@ class EntityType extends BaseEntity
     {
         $qry = new UpdateEntityQuery($this);
         $this->getContext()->addQueryAndResultObject($qry,$this);
+        return $this;
     }
 
     public function deleteOperation()
@@ -44,6 +45,7 @@ class EntityType extends BaseEntity
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
         $this->removeFromParentCollection();
+        return $this;
     }
 
 }

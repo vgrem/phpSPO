@@ -5,9 +5,8 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
-class TeamsAsyncOperation extends ClientObject
+
+class TeamsAsyncOperation extends Entity
 {
     /**
      * @return integer

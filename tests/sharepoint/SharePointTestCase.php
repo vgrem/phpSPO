@@ -22,12 +22,14 @@ abstract class SharePointTestCase extends TestCase
 
     protected static $testAccountName;
 
+    protected  static $settings;
+
     public static function setUpBeforeClass()
     {
-        $settings = include(__DIR__ . '/../../Settings.php');
-        self::$testAccountName = $settings['TestAccountName'];
-        self::$context = (new ClientContext($settings['Url']))
-            ->withCredentials(new UserCredentials($settings['UserName'],$settings['Password']));
+        self::$settings = include(__DIR__ . '/../Settings.php');
+        self::$testAccountName = self::$settings['TestAccountName'];
+        self::$context = (new ClientContext(self::$settings['Url']))
+            ->withCredentials(new UserCredentials(self::$settings['UserName'],self::$settings['Password']));
     }
 
     public static function tearDownAfterClass()
@@ -60,7 +62,6 @@ abstract class SharePointTestCase extends TestCase
      * @param $listTitle
      * @param $type
      * @return SPList
-     * @internal param ClientRuntimeContext $ctx
      */
     public static function createList(Web $web, $listTitle, $type)
     {

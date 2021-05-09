@@ -9,7 +9,7 @@ use Office365\Runtime\Auth\UserCredentials;
 
 function acquireToken()
 {
-    $settings = include('../../Settings.php');
+    $settings = include(__DIR__ .'/tests/Settings.php');
     $resource = "https://graph.microsoft.com";
     $provider = new AADTokenProvider($settings['TenantName']);
     return $provider->acquireTokenForPassword($resource, $settings['ClientId'],

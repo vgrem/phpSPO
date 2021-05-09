@@ -19,11 +19,13 @@ abstract class GraphTestCase extends TestCase
      */
     protected static $testAccountName;
 
+    protected  static $settings;
+
 
     public static function setUpBeforeClass()
     {
-        $settings = include(__DIR__ . '../../settings.php');
-        self::$testAccountName = $settings['TestAccountName'];
+        self::$settings = include(__DIR__ . '/Settings.php');
+        self::$testAccountName = self::$settings['TestAccountName'];
         self::$graphClient = new GraphServiceClient(function () {
             return self::acquireToken();
         });
@@ -37,11 +39,10 @@ abstract class GraphTestCase extends TestCase
 
     public static function acquireToken()
     {
-        $settings = include(__DIR__ . '/../Settings.php');
         $resource = "https://graph.microsoft.com";
-        $provider = new AADTokenProvider($settings['TenantName']);
-        return $provider->acquireTokenForPassword($resource, $settings['ClientId'],
-            new UserCredentials($settings['UserName'], $settings['Password']));
+        $provider = new AADTokenProvider(self::$settings['TenantName']);
+        return $provider->acquireTokenForPassword($resource, self::$settings['ClientId'],
+            new UserCredentials(self::$settings['UserName'], self::$settings['Password']));
     }
 
 }

@@ -5,12 +5,11 @@
  */
 namespace Office365\Graph;
 
-use Office365\Runtime\ClientObject;
 
 /**
  *  "A channel is a collection of messages within a team. "
  */
-class Channel extends ClientObject
+class Channel extends Entity
 {
     /**
      * Channel name as it will appear to the user in Microsoft Teams.

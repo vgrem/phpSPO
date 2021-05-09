@@ -5,9 +5,7 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 
-
-class SPAppLicenseManager extends ClientObject
+class SPAppLicenseManager extends BaseEntity
 {
 }

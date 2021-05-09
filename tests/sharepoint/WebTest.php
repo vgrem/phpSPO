@@ -13,8 +13,7 @@ class WebTest extends SharePointTestCase
 
     public function testGetWebByAbsUrl()
     {
-        $settings = include(__DIR__ . '/../../Settings.php');
-        $pageAbsUrl = $settings["Url"] . "/sites/team/SitePages/Home.aspx";
+        $pageAbsUrl = self::$settings["Url"] . "/sites/team/SitePages/Home.aspx";
         $result = Web::getWebUrlFromPageUrl(self::$context,$pageAbsUrl)->executeQuery();
         self::assertNotEmpty($result->getValue());
     }

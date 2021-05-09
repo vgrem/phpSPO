@@ -5,7 +5,9 @@
  */
 namespace Office365\SharePoint\ComplianceFoundation;
 
-use Office365\Runtime\ClientObject;
-class PreserveDocumentSubmitter extends ClientObject
+
+use Office365\SharePoint\BaseEntity;
+
+class PreserveDocumentSubmitter extends BaseEntity
 {
 }

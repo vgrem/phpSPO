@@ -13,6 +13,7 @@ use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\Http\RequestOptions;
 
+
 class GraphServiceClient extends ClientRuntimeContext
 {
 
@@ -81,6 +82,13 @@ class GraphServiceClient extends ClientRuntimeContext
         if(is_null($userPrincipalNameOrId))
             return new UserCollection($this,new ResourcePath($userPrincipalNameOrId,new ResourcePath("users")));
         return new UserCollection($this,new ResourcePath("users"));
+    }
+
+    /**
+     * @return EntityCollection
+     */
+    public function getGroups(){
+        return new EntityCollection($this,new ResourcePath("groups"), Group::class);
     }
 
 

@@ -33,18 +33,16 @@ class FileTest extends SharePointTestCase
 
 
     public function testGetFileFromAbsUrl(){
-        $settings = include(__DIR__ . '/../../Settings.php');
-        $pageAbsUrl = $settings["Url"] . "/sites/team/SitePages/Home.aspx";
-        $credentials = new UserCredentials($settings['UserName'],$settings['Password']);
+        $pageAbsUrl = self::$settings["Url"] . "/sites/team/SitePages/Home.aspx";
+        $credentials = new UserCredentials(self::$settings['UserName'],self::$settings['Password']);
         $file = File::fromUrl($pageAbsUrl)->withCredentials($credentials)->get()->executeQuery();
         self::assertNotEmpty($file->getName());
     }
 
 
     public function testDownloadFileFromAbsUrl(){
-        $settings = include(__DIR__ . '/../../Settings.php');
-        $pageAbsUrl = $settings["Url"] . "/sites/team/SitePages/Home.aspx";
-        $credentials = new UserCredentials($settings['UserName'],$settings['Password']);
+        $pageAbsUrl = self::$settings["Url"] . "/sites/team/SitePages/Home.aspx";
+        $credentials = new UserCredentials(self::$settings['UserName'],self::$settings['Password']);
 
         $fileName = join(DIRECTORY_SEPARATOR, [sys_get_temp_dir(), "Home.aspx"]);
         $fh = fopen($fileName, 'w+');
@@ -122,7 +120,7 @@ class FileTest extends SharePointTestCase
 
     /**
      * @depends testUploadFiles
-     * @param $uploadFile
+     * @param File $uploadFile
      */
     public function testUploadedFileCreateAnonymousLink(File $uploadFile)
     {
@@ -153,13 +151,13 @@ class FileTest extends SharePointTestCase
 
     /**
      * @depends testUploadFiles
-     * @param $fileToDelete
+     * @param File $fileToDelete
+     * @throws \Exception
      */
     public function testDeleteFile(File $fileToDelete)
     {
         $fileName = $fileToDelete->getProperty("Name");
-        $fileToDelete->deleteObject();
-        self::$context->executeQuery();
+        $fileToDelete->deleteObject()->executeQuery();
 
 
         $filesResult = self::$targetList->getRootFolder()->getFiles()->filter("Name eq '$fileName'");

@@ -81,14 +81,13 @@ class ClientContextTest extends SharePointTestCase
 
 
     public function testInitClientFromAbsUrl(){
-        $settings = include(__DIR__ . '/../../Settings.php');
-        $pageAbsUrl = $settings["Url"] . "/sites/team/SitePages/Home.aspx";
-        $credentials = new UserCredentials($settings['UserName'],$settings['Password']);
+        $pageAbsUrl = self::$settings["Url"] . "/sites/team/SitePages/Home.aspx";
+        $credentials = new UserCredentials(self::$settings['UserName'],self::$settings['Password']);
         $ctx = ClientContext::fromUrl($pageAbsUrl)->withCredentials($credentials);
-        $whoami = $ctx->getWeb()->getCurrentUser();
-        $ctx->load($whoami);
+        $me = $ctx->getWeb()->getCurrentUser();
+        $ctx->load($me);
         $ctx->executeQuery();
-        self::assertNotEmpty($whoami->getEmail());
+        self::assertNotEmpty($me->getEmail());
     }
 
 }

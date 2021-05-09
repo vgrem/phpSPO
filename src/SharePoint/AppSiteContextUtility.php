@@ -5,12 +5,11 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 
 /**
  * A utility 
  * class to retrieve App site context objects.
  */
-class AppSiteContextUtility extends ClientObject
+class AppSiteContextUtility extends BaseEntity
 {
 }

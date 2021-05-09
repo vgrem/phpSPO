@@ -20,10 +20,10 @@ class TaxonomyTest extends TestCase
 
     public static function setUpBeforeClass()
     {
-        $settings = include(__DIR__ . '/../../Settings.php');
+        $settings = include(__DIR__ . '/../Settings.php');
         $appPrincipal = new ClientCredential($settings['ClientId'],$settings['ClientSecret']);
-        $ctx = new ClientContext($settings['Url']);
-        self::$taxSvc = (new TaxonomyService($ctx))->withCredentials($appPrincipal);
+        $ctx = (new ClientContext($settings['Url']))->withCredentials($appPrincipal);
+        self::$taxSvc = new TaxonomyService($ctx);
         parent::setUpBeforeClass();
     }
 
@@ -36,11 +36,11 @@ class TaxonomyTest extends TestCase
         self::$taxSvc->executeQuery();
     }
 
-    public function testGetTermStore()
+    /*public function testGetTermStore()
     {
         $ts = self::$taxSvc->getTermStore()->get()->executeQuery();
         $this->assertNotNull($ts->getResourcePath());
-    }
+    }*/
 
     public function testListTermGroups()
     {
