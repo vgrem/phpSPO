@@ -1,6 +1,7 @@
 <?php
 
 namespace Office365\Runtime;
+use ArrayAccess;
 use Exception;
 use Generator;
 use IteratorAggregate;
@@ -13,7 +14,7 @@ use Traversable;
 /**
  * Client objects collection (represents EntitySet in terms of OData)
  */
-class ClientObjectCollection extends ClientObject implements IteratorAggregate
+class ClientObjectCollection extends ClientObject implements IteratorAggregate, ArrayAccess
 {
 
     /**
@@ -316,4 +317,61 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate
         return $items;
     }
 
+    /**
+     * Whether or not an offset exists
+     *
+     * @param int An offset to check for
+     * @access public
+     * @return boolean
+     * @abstracting ArrayAccess
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->data[$offset]);
+    }
+
+    /**
+     * Returns the value at specified offset
+     *
+     * @param int The offset to retrieve
+     * @access public
+     * @return ClientObject
+     * @abstracting ArrayAccess
+     */
+    public function offsetGet($offset)
+    {
+        return $this->offsetExists($offset) ? $this->data[$offset] : null;
+    }
+
+
+    /**
+     * Assigns a value to the specified offset
+     *
+     * @param int The offset to assign the value to
+     * @param ClientObject  The value to set
+     * @access public
+     * @abstracting ArrayAccess
+     */
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->data[] = $value;
+        } else {
+            $this->data[$offset] = $value;
+        }
+    }
+
+    /**
+     * Unsets an offset
+     *
+     * @param int The offset to unset
+     * @access public
+     * @abstracting ArrayAccess
+     */
+    public function offsetUnset($offset)
+    {
+        if ($this->offsetExists($offset)) {
+            unset($this->data[$offset]);
+        }
+    }
 }

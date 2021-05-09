@@ -4,6 +4,7 @@
 namespace Office365;
 
 use Office365\Runtime\Actions\CreateEntityQuery;
+use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\ResourcePath;
@@ -28,6 +29,7 @@ class EntityCollection extends ClientObjectCollection
     }
 
     /**
+     * A generic way to create a new resource
      * @return Entity
      */
     public function add(){
@@ -37,6 +39,21 @@ class EntityCollection extends ClientObjectCollection
         $qry = new CreateEntityQuery($entity);
         $this->getContext()->addQueryAndResultObject($qry,$entity);
         return $entity;
+    }
+
+    /**
+     * Returns the value at specified offset
+     *
+     * @param int|string Entity could be addressed by id/userPrincipalName or by index offset
+     * @access public
+     * @return ClientObject
+     * @abstracting ArrayAccess
+     */
+    public function offsetGet($offset)
+    {
+        if(is_int($offset))
+            return parent::offsetGet($offset);
+        return new Entity($this->getContext(),new ResourcePath($offset, $this->getResourcePath()));
     }
 
 }

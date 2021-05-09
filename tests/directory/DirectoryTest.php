@@ -23,4 +23,10 @@ class DirectoryTest extends GraphTestCase
         self::assertNotNull($users->getResourcePath());
     }
 
+    public function testGetUser()
+    {
+        $user = self::$graphClient->getUsers()[self::$testAccountName]->get()->executeQuery();
+        self::assertNotNull($user->getResourcePath());
+    }
+
 }

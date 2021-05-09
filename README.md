@@ -75,17 +75,22 @@ The following auth flows supported:
 
 
 - user credentials auth: 
-  ```
+  ```php
+  
   $credentials = new UserCredentials($userName, $password);
   $ctx = (new ClientContext($url))->withCredentials($credentials);
+  
   ```
   
   
 - NTLM auth (for SharePoint On-Premises):
-  ```
-   $authCtx = new NetworkCredentialContext($username, $password);
-   $authCtx->AuthType = CURLAUTH_NTLM;
-   $ctx = new ClientContext($url,$authCtx);
+  ```php
+   use Office365\Runtime\Auth\UserCredentials;
+   use Office365\SharePoint\ClientContext;
+  
+   $credentials = new UserCredentials($username, $password);
+   $ctx = (new ClientContext($siteUrl))->withNtlm($credentials);
+  
   ```
 
 #### Examples  

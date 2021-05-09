@@ -94,12 +94,9 @@ class GraphServiceClient extends ClientRuntimeContext
 
     /**
      * Retrieve the properties and relationships of user object.
-     * @param string|null $userPrincipalNameOrId
      * @return UserCollection
      */
-    public function getUsers($userPrincipalNameOrId=null){
-        if(is_null($userPrincipalNameOrId))
-            return new UserCollection($this,new ResourcePath($userPrincipalNameOrId,new ResourcePath("users")));
+    public function getUsers(){
         return new UserCollection($this,new ResourcePath("users"));
     }
 

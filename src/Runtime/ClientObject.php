@@ -73,7 +73,7 @@ class ClientObject
 
 
     /**
-     * @return $this
+     * @return self
      */
     public function get(){
         $this->getContext()->load($this);

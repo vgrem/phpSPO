@@ -5,6 +5,7 @@
  */
 namespace Office365\SharePoint;
 
+use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
 /**
@@ -41,7 +42,8 @@ class Site extends BaseEntity
      */
     public function getWebTemplates($lcid, $overrideCompatLevel)
     {
-        $qry = new InvokePostMethodQuery($this, "GetWebTemplates", array("LCID" => $lcid, "overrideCompatLevel" => $overrideCompatLevel));
+        $params = array("LCID" => $lcid, "overrideCompatLevel" => $overrideCompatLevel);
+        $qry = new InvokeMethodQuery($this, "GetWebTemplates", $params);
         $result = new WebTemplateCollection($this->getContext(), $qry->getMethodPath());
         $this->getContext()->addQueryAndResultObject($qry, $result);
         return $result;
