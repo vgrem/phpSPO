@@ -9,10 +9,16 @@ namespace Office365\Graph;
 use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ClientObject;
+use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\ResourcePath;
 
 class Entity extends ClientObject
 {
+
+    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, $namespace = null)
+    {
+        parent::__construct($ctx, $resourcePath, null, $namespace);
+    }
 
     /**
      * The recommended way to update resource

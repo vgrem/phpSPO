@@ -20,9 +20,6 @@ class EntityType extends Entity
 
     public function getValueProperty()
     {
-        if(!$this->isPropertyAvailable("{name}")){
-            return null;
-        }
         return $this->getProperty("{name}");
     }
 

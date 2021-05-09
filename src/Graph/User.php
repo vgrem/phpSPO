@@ -12,6 +12,8 @@ use Office365\OutlookServices\Event;
 use Office365\OutlookServices\Message;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
+use Office365\Teams\Team;
+
 /**
  *  "Represents an Azure AD user account. Inherits from directoryObject."
  */
@@ -1150,5 +1152,15 @@ class User extends DirectoryObject
         return $this->getProperty("Messages",
             new EntityCollection($this->getContext(),
                 new ResourcePath("Messages", $this->getResourcePath()),Message::class));
+    }
+
+    /**
+     * @return EntityCollection
+     */
+    public function getJoinedTeams()
+    {
+        return $this->getProperty("JoinedTeams",
+            new EntityCollection($this->getContext(),
+                new ResourcePath("joinedTeams", $this->getResourcePath()),Team::class));
     }
 }

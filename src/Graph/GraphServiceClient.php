@@ -12,6 +12,7 @@ use Office365\Runtime\Office365Version;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\Http\RequestOptions;
+use Office365\Teams\Team;
 
 
 class GraphServiceClient extends ClientRuntimeContext
@@ -70,6 +71,16 @@ class GraphServiceClient extends ClientRuntimeContext
      */
     public function getDrives(){
         return new DriveCollection($this,new ResourcePath("drives"));
+    }
+
+
+    /**
+     * @return EntityCollection
+     */
+    public function getTeams()
+    {
+        return new EntityCollection($this,
+                new ResourcePath("teams", new ResourcePath("drives")), Team::class);
     }
 
 
