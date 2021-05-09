@@ -6,7 +6,7 @@
 namespace Office365\Common;
 
 use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+
 class WindowsPhone81CustomConfiguration extends ClientObject
 {
 }
