@@ -5,9 +5,7 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 
-
-class FieldThumbnail extends ClientObject
+class FieldThumbnail extends BaseEntity
 {
 }

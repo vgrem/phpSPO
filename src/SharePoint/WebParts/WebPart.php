@@ -5,13 +5,14 @@
  */
 namespace Office365\SharePoint\WebParts;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
+
 /**
  * Represents 
  * a Web Part on a Web Part 
  * Page. 
  */
-class WebPart extends ClientObject
+class WebPart extends BaseEntity
 {
     /**
      * Gets or 

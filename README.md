@@ -67,31 +67,39 @@ The list of supported SharePoint versions:
 
 The following auth flows supported:
 
-- app principals (client credentials) auth (refer [Granting access using SharePoint App-Only](https://docs.microsoft.com/en-us/sharepoint/dev/solution-guidance/security-apponly-azureacs) for a details): 
-  ```
-  $credentials = new ClientCredential($clientId, $clientSecret);
-  $ctx = (new ClientContext($url))->withCredentials($credentials);
-  ```
+- app principals (client credentials) auth (refer [Granting access using SharePoint App-Only](https://docs.microsoft.com/en-us/sharepoint/dev/solution-guidance/security-apponly-azureacs) for a details):
+
+```php
+
+  use Office365\Runtime\Auth\ClientCredential;
+  use Office365\SharePoint\ClientContext;
+  
+  $credentials = new ClientCredential("{clientId}", "{clientSecret}");
+  $ctx = (new ClientContext("{siteUrl}"))->withCredentials($credentials);
+```
 
 
-- user credentials auth: 
-  ```php
+- user credentials auth:
+
+```php
   
-  $credentials = new UserCredentials($userName, $password);
-  $ctx = (new ClientContext($url))->withCredentials($credentials);
+  use Office365\Runtime\Auth\UserCredentials;
+  use Office365\SharePoint\ClientContext;
   
-  ```
+  $credentials = new UserCredentials("{userName}", "{password}");
+  $ctx = (new ClientContext("{siteUrl}"))->withCredentials($credentials);
+```
   
   
 - NTLM auth (for SharePoint On-Premises):
-  ```php
+```php
    use Office365\Runtime\Auth\UserCredentials;
    use Office365\SharePoint\ClientContext;
   
-   $credentials = new UserCredentials($username, $password);
-   $ctx = (new ClientContext($siteUrl))->withNtlm($credentials);
+   $credentials = new UserCredentials("{userName}", "{password}");
+   $ctx = (new ClientContext("{siteUrl}"))->withNtlm($credentials);
   
-  ```
+```
 
 #### Examples  
 
@@ -118,10 +126,10 @@ foreach($items as $item) {
 }
 ```
 
-
-or via Fluent API syntax:
+or via fluent API syntax:
 
 ```php
+
 use Office365\SharePoint\ClientContext;
 use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ListItem;
@@ -200,7 +208,8 @@ Supported list of APIs:
 The following example demonstrates how to send a message via Outlook Mail API:
 
 ```php
- use Office365\OutlookServices\OutlookClient;
+ use Office365\GraphServiceClient;
+ use Office365\OutlookServices\Message;
  use Office365\OutlookServices\ItemBody;
  use Office365\OutlookServices\BodyType;
  use Office365\OutlookServices\EmailAddress;
@@ -211,22 +220,19 @@ The following example demonstrates how to send a message via Outlook Mail API:
 function acquireToken()
 {
     $tenant = "{tenant}.onmicrosoft.com";
-    $resource = "https://outlook.office365.com";
+    $resource = "https://graph.microsoft.com";
   
     $provider = new AADTokenProvider($tenant);
     return $provider->acquireTokenForPassword($resource, "{clientId}",
         new UserCredentials("{UserName}", "{Password}"));
 }
 
-
-$client = new OutlookClient("acquireToken");
-
-$message = $client->getMe()->getMessages()->createMessage();
-$message->Subject = "Meet for lunch?";
-$message->Body = new ItemBody(BodyType::Text,"The new cafeteria is open.");
-$message->ToRecipients = array(
-     new Recipient(new EmailAddress(null,"{username}@{tenant_prefix}.onmicrosoft.com"))
-);
+$client = new GraphServiceClient("acquireToken");
+/** @var Message $message */
+$message = $client->getMe()->getMessages()->createType();
+$message->setSubject("Meet for lunch?");
+$message->setBody(new ItemBody(BodyType::Text,"The new cafeteria is open."));
+$message->getToRecipients()->addChild(new Recipient(new EmailAddress(null,"fannyd@contoso.onmicrosoft.com")));
 $client->getMe()->sendEmail($message,true)->executeQuery();
 ```
 

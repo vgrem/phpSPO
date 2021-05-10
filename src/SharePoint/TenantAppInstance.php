@@ -5,13 +5,12 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 
 /**
  * Represents 
  * an instance of a tenant-scoped app for a given host web.
  */
-class TenantAppInstance extends ClientObject
+class TenantAppInstance extends BaseEntity
 {
     /**
      * @return string

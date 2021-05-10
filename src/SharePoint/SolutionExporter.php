@@ -5,9 +5,7 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 
-
-class SolutionExporter extends ClientObject
+class SolutionExporter extends BaseEntity
 {
 }

@@ -236,8 +236,8 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
      */
     public function createType()
     {
-        $clientObjectType = $this->getItemTypeName();
-        $clientObject = new $clientObjectType($this->getContext());
+        $itemTypeName = $this->getItemTypeName();
+        $clientObject = new $itemTypeName($this->getContext());
         $clientObject->parentCollection = $this;
         return $clientObject;
     }

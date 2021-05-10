@@ -5,57 +5,55 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 
 /**
  * This class 
  * contains the SharePoint UI-specific sharing settings.
  */
-class SharePointSharingSettings extends ClientObject
+class SharePointSharingSettings extends BaseEntity
 {
     /**
      * @return string
      */
     public function getAddToGroupModeName()
     {
-        if (!$this->isPropertyAvailable("AddToGroupModeName")) {
-            return null;
-        }
         return $this->getProperty("AddToGroupModeName");
     }
+
     /**
+     *
+     * @return self
      * @var string
      */
     public function setAddToGroupModeName($value)
     {
         $this->setProperty("AddToGroupModeName", $value, true);
+        return $this;
     }
     /**
      * @return array
      */
     public function getGroupNameLines()
     {
-        if (!$this->isPropertyAvailable("GroupNameLines")) {
-            return null;
-        }
         return $this->getProperty("GroupNameLines");
     }
+
     /**
+     *
+     * @return self
      * @var array
      */
     public function setGroupNameLines($value)
     {
         $this->setProperty("GroupNameLines", $value, true);
+        return $this;
     }
     /**
      * @return array
      */
     public function getGroupRoleDefinitionNamesLines()
     {
-        if (!$this->isPropertyAvailable("GroupRoleDefinitionNamesLines")) {
-            return null;
-        }
         return $this->getProperty("GroupRoleDefinitionNamesLines");
     }
     /**
@@ -70,9 +68,6 @@ class SharePointSharingSettings extends ClientObject
      */
     public function getIsMobileView()
     {
-        if (!$this->isPropertyAvailable("IsMobileView")) {
-            return null;
-        }
         return $this->getProperty("IsMobileView");
     }
     /**
@@ -87,9 +82,6 @@ class SharePointSharingSettings extends ClientObject
      */
     public function getPanelGivePermissionsVisible()
     {
-        if (!$this->isPropertyAvailable("PanelGivePermissionsVisible")) {
-            return null;
-        }
         return $this->getProperty("PanelGivePermissionsVisible");
     }
     /**
@@ -104,9 +96,6 @@ class SharePointSharingSettings extends ClientObject
      */
     public function getPanelShowHideMoreOptionsVisible()
     {
-        if (!$this->isPropertyAvailable("PanelShowHideMoreOptionsVisible")) {
-            return null;
-        }
         return $this->getProperty("PanelShowHideMoreOptionsVisible");
     }
     /**
@@ -121,9 +110,6 @@ class SharePointSharingSettings extends ClientObject
      */
     public function getPanelSimplifiedRoleSelectorVisible()
     {
-        if (!$this->isPropertyAvailable("PanelSimplifiedRoleSelectorVisible")) {
-            return null;
-        }
         return $this->getProperty("PanelSimplifiedRoleSelectorVisible");
     }
     /**
@@ -138,9 +124,6 @@ class SharePointSharingSettings extends ClientObject
      */
     public function getRequiredScriptFileLinks()
     {
-        if (!$this->isPropertyAvailable("RequiredScriptFileLinks")) {
-            return null;
-        }
         return $this->getProperty("RequiredScriptFileLinks");
     }
     /**
@@ -155,9 +138,6 @@ class SharePointSharingSettings extends ClientObject
      */
     public function getRoleDefinitionNameLines()
     {
-        if (!$this->isPropertyAvailable("RoleDefinitionNameLines")) {
-            return null;
-        }
         return $this->getProperty("RoleDefinitionNameLines");
     }
     /**
@@ -172,9 +152,6 @@ class SharePointSharingSettings extends ClientObject
      */
     public function getSelectedGroup()
     {
-        if (!$this->isPropertyAvailable("SelectedGroup")) {
-            return null;
-        }
         return $this->getProperty("SelectedGroup");
     }
     /**
@@ -189,9 +166,6 @@ class SharePointSharingSettings extends ClientObject
      */
     public function getSharedWithEnabled()
     {
-        if (!$this->isPropertyAvailable("SharedWithEnabled")) {
-            return null;
-        }
         return $this->getProperty("SharedWithEnabled");
     }
     /**
@@ -206,26 +180,24 @@ class SharePointSharingSettings extends ClientObject
      */
     public function getSharingCssLink()
     {
-        if (!$this->isPropertyAvailable("SharingCssLink")) {
-            return null;
-        }
         return $this->getProperty("SharingCssLink");
     }
+
     /**
+     *
+     * @return self
      * @var string
      */
     public function setSharingCssLink($value)
     {
         $this->setProperty("SharingCssLink", $value, true);
+        return $this;
     }
     /**
      * @return bool
      */
     public function getTabbedDialogEnabled()
     {
-        if (!$this->isPropertyAvailable("TabbedDialogEnabled")) {
-            return null;
-        }
         return $this->getProperty("TabbedDialogEnabled");
     }
     /**
@@ -245,21 +217,22 @@ class SharePointSharingSettings extends ClientObject
         }
         return $this->getProperty("TabToShow");
     }
+
     /**
+     *
+     * @return self
      * @var integer
      */
     public function setTabToShow($value)
     {
         $this->setProperty("TabToShow", $value, true);
+        return $this;
     }
     /**
      * @return string
      */
     public function gettxtEmailSubjectText()
     {
-        if (!$this->isPropertyAvailable("txtEmailSubjectText")) {
-            return null;
-        }
         return $this->getProperty("txtEmailSubjectText");
     }
     /**
@@ -274,27 +247,25 @@ class SharePointSharingSettings extends ClientObject
      */
     public function getUserDisplayUrl()
     {
-        if (!$this->isPropertyAvailable("UserDisplayUrl")) {
-            return null;
-        }
         return $this->getProperty("UserDisplayUrl");
     }
+
     /**
+     *
+     * @return self
      * @var string
      */
     public function setUserDisplayUrl($value)
     {
         $this->setProperty("UserDisplayUrl", $value, true);
+        return $this;
     }
     /**
      * @return PickerSettings
      */
     public function getPickerProperties()
     {
-        if (!$this->isPropertyAvailable("PickerProperties")) {
-            $this->setProperty("PickerProperties", new PickerSettings($this->getContext(),
-                new ResourcePath("PickerProperties", $this->getResourcePath())));
-        }
-        return $this->getProperty("PickerProperties");
+        return $this->getProperty("PickerProperties",
+            new PickerSettings($this->getContext(),new ResourcePath("PickerProperties", $this->getResourcePath())));
     }
 }

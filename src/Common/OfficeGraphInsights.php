@@ -5,11 +5,11 @@
  */
 namespace Office365\Common;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
+use Office365\Entity;
+
 /**
  *  "Insights are relationships calculated using advanced analytics and machine learning techniques. You can, for example, identify OneDrive for Business documents trending around users."
  */
-class OfficeGraphInsights extends ClientObject
+class OfficeGraphInsights extends Entity
 {
 }

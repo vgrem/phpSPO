@@ -7,6 +7,7 @@ use Office365\Common\Group;
 use Office365\Common\User;
 use Office365\Common\UserCollection;
 use Office365\OneDrive\DriveCollection;
+use Office365\OneDrive\Site;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;
@@ -72,6 +73,14 @@ class GraphServiceClient extends ClientRuntimeContext
      */
     public function getMe(){
         return new User($this,new ResourcePath("me"));
+    }
+
+
+    /**
+     * @return EntityCollection
+     */
+    public function getSites(){
+        return new EntityCollection($this,new ResourcePath("sites"),Site::class);
     }
 
     /**

@@ -4,9 +4,9 @@
 namespace Office365\SharePoint\TenantAdministration;
 
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
-class LogExport extends ClientObject
+class LogExport extends BaseEntity
 {
 
 }

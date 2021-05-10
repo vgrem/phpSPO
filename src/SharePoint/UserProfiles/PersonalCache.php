@@ -5,8 +5,10 @@
  */
 namespace Office365\SharePoint\UserProfiles;
 
-use Office365\Runtime\ClientObject;
-class PersonalCache extends ClientObject
+
+use Office365\SharePoint\BaseEntity;
+
+class PersonalCache extends BaseEntity
 {
     /**
      * @return string
