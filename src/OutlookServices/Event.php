@@ -474,9 +474,6 @@ class Event extends Entity
      */
     public function getAllowNewTimeProposals()
     {
-        if (!$this->isPropertyAvailable("AllowNewTimeProposals")) {
-            return null;
-        }
         return $this->getProperty("AllowNewTimeProposals");
     }
     /**

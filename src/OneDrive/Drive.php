@@ -18,34 +18,35 @@ class Drive extends BaseItem
      */
     public function getDriveType()
     {
-        if (!$this->isPropertyAvailable("DriveType")) {
-            return null;
-        }
         return $this->getProperty("DriveType");
     }
+
     /**
+     * @return self
      * @var string
      */
     public function setDriveType($value)
     {
         $this->setProperty("DriveType", $value, true);
+        return $this;
     }
     /**
      * @return IdentitySet
      */
     public function getOwner()
     {
-        if (!$this->isPropertyAvailable("Owner")) {
-            $this->setProperty("Owner", new IdentitySet());
-        }
-        return $this->getProperty("Owner");
+        return $this->getProperty("Owner", new IdentitySet());
     }
+
     /**
+     *
+     * @return self
      * @var IdentitySet
      */
     public function setOwner($value)
     {
         $this->setProperty("Owner", $value, true);
+        return $this;
     }
     /**
      * @return Quota
@@ -86,10 +87,7 @@ class Drive extends BaseItem
      */
     public function getSystem()
     {
-        if (!$this->isPropertyAvailable("System")) {
-            return null;
-        }
-        return $this->getProperty("System");
+        return $this->getProperty("System", new SystemFacet());
     }
     /**
      * @var SystemFacet

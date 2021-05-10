@@ -8,6 +8,7 @@ use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
 
 
+
 class TaxonomyItem extends ClientObject
 {
 
@@ -22,7 +23,8 @@ class TaxonomyItem extends ClientObject
         if ($name === "id" && is_null($this->getResourcePath())) {
             $this->resourcePath = new ResourcePath($value,$this->getParentCollection()->getResourcePath());
         }
-        return parent::setProperty($name, $value, $persistChanges);
+        parent::setProperty($name, $value, $persistChanges);
+        return $this;
     }
 
 }

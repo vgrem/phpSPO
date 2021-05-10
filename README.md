@@ -213,7 +213,6 @@ The following example demonstrates how to send a message via Outlook Mail API:
  use Office365\OutlookServices\ItemBody;
  use Office365\OutlookServices\BodyType;
  use Office365\OutlookServices\EmailAddress;
- use Office365\OutlookServices\Recipient;
  use Office365\Runtime\Auth\AADTokenProvider;
  use Office365\Runtime\Auth\UserCredentials;
 
@@ -232,7 +231,7 @@ $client = new GraphServiceClient("acquireToken");
 $message = $client->getMe()->getMessages()->createType();
 $message->setSubject("Meet for lunch?");
 $message->setBody(new ItemBody(BodyType::Text,"The new cafeteria is open."));
-$message->getToRecipients()->addChild(new Recipient(new EmailAddress(null,"fannyd@contoso.onmicrosoft.com")));
+$message->setToRecipients([new EmailAddress(null,"fannyd@contoso.onmicrosoft.com")]);
 $client->getMe()->sendEmail($message,true)->executeQuery();
 ```
 

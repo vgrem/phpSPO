@@ -34,7 +34,7 @@ class TeamsTest extends GraphTestCase
      */
     public function testDeleteTeam(Team $team)
     {
-        sleep(10);
+        sleep(20);
         $team->deleteObject()->executeQuery();
     }
 

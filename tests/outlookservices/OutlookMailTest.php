@@ -21,7 +21,7 @@ class OutlookMailTest extends GraphTestCase
         $message = self::$graphClient->getMe()->getMessages()->add();
         $message->setSubject("--test--");
         $message->setBody(new ItemBody(BodyType::Text,"--content goes here--"));
-        $message->getToRecipients()->addChild(new Recipient(new EmailAddress($currentUser->getDisplayName(),$currentUser->getUserPrincipalName())));
+        $message->setToRecipients([new EmailAddress($currentUser->getDisplayName(),$currentUser->getUserPrincipalName())]);
         self::$graphClient->executeQuery();
         self::assertTrue($message->getIsDraft());
         return $message;

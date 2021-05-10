@@ -5,10 +5,11 @@
  */
 namespace Office365\SharePoint\Social;
 
-use Office365\Runtime\ClientObject;
+
+use Office365\SharePoint\BaseEntity;
 
 
-class SocialFeedManager extends ClientObject
+class SocialFeedManager extends BaseEntity
 {
     /**
      * @return SocialActor

@@ -20,7 +20,7 @@ class Message extends OutlookItem
 
     /**
      * @param $attachmentType
-     * @return ItemAttachment|FileAttachment
+     * @return ItemAttachment|FileAttachment|ReferenceAttachment
      */
     public function addAttachment($attachmentType)
     {
@@ -392,6 +392,18 @@ class Message extends OutlookItem
      */
     public function getToRecipients(){
         return $this->getProperty("ToRecipients",new ClientValueCollection(Recipient::class));
+    }
+
+    /**
+     * @param EmailAddress[] $values
+     * @return $this
+     */
+    public function setToRecipients($values){
+        foreach ($values as $val){
+            if($val instanceof EmailAddress)
+                $this->getToRecipients()->addChild(new Recipient($val));
+        }
+        return $this;
     }
 
     /**

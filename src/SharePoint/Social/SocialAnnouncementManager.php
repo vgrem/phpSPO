@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Social;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
 
-class SocialAnnouncementManager extends ClientObject
+class SocialAnnouncementManager extends BaseEntity
 {
 }

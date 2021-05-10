@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Social;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
-class SocialFollowingManager extends ClientObject
+class SocialFollowingManager extends BaseEntity
 {
     /**
      * @return string

@@ -27,6 +27,7 @@ class User extends DirectoryObject
 {
 
     /**
+     * Send the message specified in the request body. The message is saved in the Sent Items folder by default.
      * @param Message $message
      * @param bool $saveToSentItems
      * @return self
