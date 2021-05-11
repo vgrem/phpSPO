@@ -17,7 +17,7 @@ class FileCollection extends BaseEntityCollection
 
     public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, ClientObject $parent = null)
     {
-        parent::__construct($ctx, $resourcePath, Field::class, $parent);
+        parent::__construct($ctx, $resourcePath, File::class, $parent);
     }
 
     /**
