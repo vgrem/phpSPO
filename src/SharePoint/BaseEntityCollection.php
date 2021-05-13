@@ -25,7 +25,7 @@ class BaseEntityCollection extends ClientObjectCollection
                                 $itemTypeName = null,
                                 ClientObject $parent=null)
     {
-        parent::__construct($ctx, $resourcePath, null, $itemTypeName);
+        parent::__construct($ctx, $resourcePath, $itemTypeName);
         $this->parent = $parent;
     }
 

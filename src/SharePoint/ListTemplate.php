@@ -5,8 +5,6 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * Represents 
  * a list definition or a list template, which defines the fields and views for a 
@@ -18,16 +16,13 @@ use Office365\Runtime\ClientObject;
  * site collection. Use an indexer to return a single list definition or list 
  * template from the collection.
  */
-class ListTemplate extends ClientObject
+class ListTemplate extends BaseEntity
 {
     /**
      * @return bool
      */
     public function getAllowsFolderCreation()
     {
-        if (!$this->isPropertyAvailable("AllowsFolderCreation")) {
-            return null;
-        }
         return $this->getProperty("AllowsFolderCreation");
     }
 
@@ -37,16 +32,14 @@ class ListTemplate extends ClientObject
      */
     public function setAllowsFolderCreation($value)
     {
-        return $this->setProperty("AllowsFolderCreation", $value, true);
+        $this->setProperty("AllowsFolderCreation", $value, true);
+        return $this;
     }
     /**
      * @return integer
      */
     public function getBaseType()
     {
-        if (!$this->isPropertyAvailable("BaseType")) {
-            return null;
-        }
         return $this->getProperty("BaseType");
     }
 
@@ -56,50 +49,50 @@ class ListTemplate extends ClientObject
      */
     public function setBaseType($value)
     {
-        return $this->setProperty("BaseType", $value, true);
+        $this->setProperty("BaseType", $value, true);
+        return $this;
     }
     /**
      * @return string
      */
     public function getDescription()
     {
-        if (!$this->isPropertyAvailable("Description")) {
-            return null;
-        }
         return $this->getProperty("Description");
     }
+
     /**
+     *
+     * @return self
      * @var string
      */
     public function setDescription($value)
     {
         $this->setProperty("Description", $value, true);
+        return $this;
     }
     /**
      * @return string
      */
     public function getFeatureId()
     {
-        if (!$this->isPropertyAvailable("FeatureId")) {
-            return null;
-        }
         return $this->getProperty("FeatureId");
     }
+
     /**
+     *
+     * @return self
      * @var string
      */
     public function setFeatureId($value)
     {
         $this->setProperty("FeatureId", $value, true);
+        return $this;
     }
     /**
      * @return bool
      */
     public function getHidden()
     {
-        if (!$this->isPropertyAvailable("Hidden")) {
-            return null;
-        }
         return $this->getProperty("Hidden");
     }
     /**
@@ -114,9 +107,6 @@ class ListTemplate extends ClientObject
      */
     public function getImageUrl()
     {
-        if (!$this->isPropertyAvailable("ImageUrl")) {
-            return null;
-        }
         return $this->getProperty("ImageUrl");
     }
     /**
@@ -131,9 +121,6 @@ class ListTemplate extends ClientObject
      */
     public function getInternalName()
     {
-        if (!$this->isPropertyAvailable("InternalName")) {
-            return null;
-        }
         return $this->getProperty("InternalName");
     }
     /**
@@ -148,77 +135,78 @@ class ListTemplate extends ClientObject
      */
     public function getIsCustomTemplate()
     {
-        if (!$this->isPropertyAvailable("IsCustomTemplate")) {
-            return null;
-        }
         return $this->getProperty("IsCustomTemplate");
     }
+
     /**
+     *
+     * @return ListTemplate
      * @var bool
      */
     public function setIsCustomTemplate($value)
     {
         $this->setProperty("IsCustomTemplate", $value, true);
+        return $this;
     }
     /**
      * @return string
      */
     public function getName()
     {
-        if (!$this->isPropertyAvailable("Name")) {
-            return null;
-        }
         return $this->getProperty("Name");
     }
+
     /**
+     *
+     * @return ListTemplate
      * @var string
      */
     public function setName($value)
     {
         $this->setProperty("Name", $value, true);
+        return $this;
     }
     /**
      * @return bool
      */
     public function getOnQuickLaunch()
     {
-        if (!$this->isPropertyAvailable("OnQuickLaunch")) {
-            return null;
-        }
         return $this->getProperty("OnQuickLaunch");
     }
+
     /**
+     *
+     * @return ListTemplate
      * @var bool
      */
     public function setOnQuickLaunch($value)
     {
         $this->setProperty("OnQuickLaunch", $value, true);
+        return $this;
     }
     /**
      * @return integer
      */
     public function getListTemplateTypeKind()
     {
-        if (!$this->isPropertyAvailable("ListTemplateTypeKind")) {
-            return null;
-        }
         return $this->getProperty("ListTemplateTypeKind");
     }
+
     /**
+     *
+     * @return ListTemplate
      * @var integer
      */
     public function setListTemplateTypeKind($value)
     {
         $this->setProperty("ListTemplateTypeKind", $value, true);
+        return $this;
     }
     /**
      * @return bool
      */
     public function getUnique()
     {
-        if (!$this->isPropertyAvailable("Unique")) {
-            return null;
-        }
         return $this->getProperty("Unique");
     }
 
@@ -228,6 +216,7 @@ class ListTemplate extends ClientObject
      */
     public function setUnique($value)
     {
-        return $this->setProperty("Unique", $value, true);
+        $this->setProperty("Unique", $value, true);
+        return $this;
     }
 }

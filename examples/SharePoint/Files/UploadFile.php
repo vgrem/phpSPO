@@ -1,7 +1,8 @@
 <?php
 
-$settings = include('../../Settings.php');
-require_once '../vendor/autoload.php';
+
+require_once '../../vendor/autoload.php';
+$settings = include('../../../tests/Settings.php');
 
 use Office365\Runtime\Auth\UserCredentials;
 use Office365\SharePoint\ClientContext;

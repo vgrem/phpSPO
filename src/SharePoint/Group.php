@@ -21,11 +21,8 @@ class Group extends Principal
      */
     public function getUsers()
     {
-        if (!$this->isPropertyAvailable('Users')) {
-            $this->setProperty("Users", new UserCollection($this->getContext(),
-                new ResourcePath("Users", $this->getResourcePath())));
-        }
-        return $this->getProperty("Users");
+        return $this->getProperty("Users",
+            new UserCollection($this->getContext(),new ResourcePath("Users", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -35,9 +32,6 @@ class Group extends Principal
      */
     public function getAllowMembersEditMembership()
     {
-        if (!$this->isPropertyAvailable("AllowMembersEditMembership")) {
-            return null;
-        }
         return $this->getProperty("AllowMembersEditMembership");
     }
     /**
@@ -58,9 +52,6 @@ class Group extends Principal
      */
     public function getAllowRequestToJoinLeave()
     {
-        if (!$this->isPropertyAvailable("AllowRequestToJoinLeave")) {
-            return null;
-        }
         return $this->getProperty("AllowRequestToJoinLeave");
     }
     /**
@@ -81,9 +72,6 @@ class Group extends Principal
      */
     public function getAutoAcceptRequestToJoinLeave()
     {
-        if (!$this->isPropertyAvailable("AutoAcceptRequestToJoinLeave")) {
-            return null;
-        }
         return $this->getProperty("AutoAcceptRequestToJoinLeave");
     }
     /**
@@ -104,9 +92,6 @@ class Group extends Principal
      */
     public function getCanCurrentUserEditMembership()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserEditMembership")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserEditMembership");
     }
     /**
@@ -127,9 +112,6 @@ class Group extends Principal
      */
     public function getCanCurrentUserManageGroup()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserManageGroup")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserManageGroup");
     }
     /**
@@ -150,9 +132,6 @@ class Group extends Principal
      */
     public function getCanCurrentUserViewMembership()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserViewMembership")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserViewMembership");
     }
     /**
@@ -172,9 +151,6 @@ class Group extends Principal
      */
     public function getDescription()
     {
-        if (!$this->isPropertyAvailable("Description")) {
-            return null;
-        }
         return $this->getProperty("Description");
     }
     /**
@@ -195,9 +171,6 @@ class Group extends Principal
      */
     public function getOnlyAllowMembersViewMembership()
     {
-        if (!$this->isPropertyAvailable("OnlyAllowMembersViewMembership")) {
-            return null;
-        }
         return $this->getProperty("OnlyAllowMembersViewMembership");
     }
     /**
@@ -218,9 +191,6 @@ class Group extends Principal
      */
     public function getOwnerTitle()
     {
-        if (!$this->isPropertyAvailable("OwnerTitle")) {
-            return null;
-        }
         return $this->getProperty("OwnerTitle");
     }
     /**
@@ -241,9 +211,6 @@ class Group extends Principal
      */
     public function getRequestToJoinLeaveEmailSetting()
     {
-        if (!$this->isPropertyAvailable("RequestToJoinLeaveEmailSetting")) {
-            return null;
-        }
         return $this->getProperty("RequestToJoinLeaveEmailSetting");
     }
     /**
@@ -264,10 +231,7 @@ class Group extends Principal
      */
     public function getOwner()
     {
-        if (!$this->isPropertyAvailable("Owner")) {
-            $this->setProperty("Owner", new Principal($this->getContext(),
-                new ResourcePath("Owner", $this->getResourcePath())));
-        }
-        return $this->getProperty("Owner");
+        return $this->getProperty("Owner",
+            new Principal($this->getContext(),new ResourcePath("Owner", $this->getResourcePath())));
     }
 }

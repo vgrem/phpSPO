@@ -5,12 +5,10 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * Provides 
  * sharing related utility methods.
  */
-class SharingUtility extends ClientObject
+class SharingUtility extends BaseEntity
 {
 }

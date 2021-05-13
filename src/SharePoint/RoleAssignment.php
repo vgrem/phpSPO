@@ -20,11 +20,8 @@ class RoleAssignment extends Entity
      */
     public function getMember()
     {
-        if (!$this->isPropertyAvailable("Member")) {
-            $this->setProperty("Member", new Principal($this->getContext(),
-                new ResourcePath("Member", $this->getResourcePath())));
-        }
-        return $this->getProperty("Member");
+        return $this->getProperty("Member",
+            new Principal($this->getContext(),new ResourcePath("Member", $this->getResourcePath())));
     }
 
 
@@ -58,10 +55,8 @@ class RoleAssignment extends Entity
      */
     public function getRoleDefinitionBindings()
     {
-        if (!$this->isPropertyAvailable("RoleDefinitionBindings")) {
-            $this->setProperty("RoleDefinitionBindings", new RoleDefinitionCollection($this->getContext(),
+        return $this->getProperty("RoleDefinitionBindings",
+            new RoleDefinitionCollection($this->getContext(),
                 new ResourcePath("RoleDefinitionBindings", $this->getResourcePath())));
-        }
-        return $this->getProperty("RoleDefinitionBindings");
     }
 }

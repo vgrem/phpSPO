@@ -5,10 +5,10 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
 
-class EmbedDataV1 extends ClientObject
+class EmbedDataV1 extends BaseEntity
 {
     /**
      * @return bool
@@ -32,9 +32,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getCreatorName()
     {
-        if (!$this->isPropertyAvailable("CreatorName")) {
-            return null;
-        }
         return $this->getProperty("CreatorName");
     }
     /**
@@ -49,9 +46,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getDatePublishedAt()
     {
-        if (!$this->isPropertyAvailable("DatePublishedAt")) {
-            return null;
-        }
         return $this->getProperty("DatePublishedAt");
     }
     /**
@@ -66,9 +60,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getDescription()
     {
-        if (!$this->isPropertyAvailable("Description")) {
-            return null;
-        }
         return $this->getProperty("Description");
     }
     /**
@@ -83,9 +74,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getEmbedServiceResponseCode()
     {
-        if (!$this->isPropertyAvailable("EmbedServiceResponseCode")) {
-            return null;
-        }
         return $this->getProperty("EmbedServiceResponseCode");
     }
     /**
@@ -100,9 +88,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getErrorMessage()
     {
-        if (!$this->isPropertyAvailable("ErrorMessage")) {
-            return null;
-        }
         return $this->getProperty("ErrorMessage");
     }
     /**
@@ -117,9 +102,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getHtml()
     {
-        if (!$this->isPropertyAvailable("Html")) {
-            return null;
-        }
         return $this->getProperty("Html");
     }
     /**
@@ -134,9 +116,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getListId()
     {
-        if (!$this->isPropertyAvailable("ListId")) {
-            return null;
-        }
         return $this->getProperty("ListId");
     }
     /**
@@ -151,9 +130,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getPublisherName()
     {
-        if (!$this->isPropertyAvailable("PublisherName")) {
-            return null;
-        }
         return $this->getProperty("PublisherName");
     }
     /**
@@ -168,9 +144,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getResponseCode()
     {
-        if (!$this->isPropertyAvailable("ResponseCode")) {
-            return null;
-        }
         return $this->getProperty("ResponseCode");
     }
     /**
@@ -185,9 +158,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getSiteId()
     {
-        if (!$this->isPropertyAvailable("SiteId")) {
-            return null;
-        }
         return $this->getProperty("SiteId");
     }
     /**
@@ -202,9 +172,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getThumbnailUrl()
     {
-        if (!$this->isPropertyAvailable("ThumbnailUrl")) {
-            return null;
-        }
         return $this->getProperty("ThumbnailUrl");
     }
     /**
@@ -219,9 +186,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -236,9 +200,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getType()
     {
-        if (!$this->isPropertyAvailable("Type")) {
-            return null;
-        }
         return $this->getProperty("Type");
     }
     /**
@@ -253,9 +214,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getUniqueId()
     {
-        if (!$this->isPropertyAvailable("UniqueId")) {
-            return null;
-        }
         return $this->getProperty("UniqueId");
     }
     /**
@@ -270,9 +228,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getUrl()
     {
-        if (!$this->isPropertyAvailable("Url")) {
-            return null;
-        }
         return $this->getProperty("Url");
     }
     /**
@@ -287,9 +242,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getVideoId()
     {
-        if (!$this->isPropertyAvailable("VideoId")) {
-            return null;
-        }
         return $this->getProperty("VideoId");
     }
     /**
@@ -304,9 +256,6 @@ class EmbedDataV1 extends ClientObject
      */
     public function getWebId()
     {
-        if (!$this->isPropertyAvailable("WebId")) {
-            return null;
-        }
         return $this->getProperty("WebId");
     }
     /**

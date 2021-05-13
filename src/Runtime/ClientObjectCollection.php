@@ -7,7 +7,6 @@ use Generator;
 use IteratorAggregate;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\OData\JsonLightFormat;
-use Office365\Runtime\OData\ODataQueryOptions;
 use Traversable;
 
 
@@ -35,17 +34,13 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
 
 
     /**
-     * ClientObjectCollection constructor.
      * @param ClientRuntimeContext $ctx
      * @param ResourcePath $resourcePath
-     * @param ODataQueryOptions $queryOptions
+     * @param string $itemTypeName
      */
-    public function __construct(ClientRuntimeContext $ctx,
-                                ResourcePath $resourcePath = null,
-                                ODataQueryOptions $queryOptions = null,
-                                $itemTypeName=null)
+    public function __construct(ClientRuntimeContext $ctx,ResourcePath $resourcePath = null,$itemTypeName=null)
     {
-        parent::__construct($ctx, $resourcePath, $queryOptions);
+        parent::__construct($ctx, $resourcePath);
         $this->data = array();
         $this->NextRequestUrl = null;
         $this->itemTypeName = $itemTypeName;

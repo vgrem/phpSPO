@@ -9,6 +9,19 @@ namespace Office365\Common;
 use Office365\Runtime\ClientValue;
 class IdentitySet extends ClientValue
 {
+
+    public function getProperty($name, $defaultValue = null)
+    {
+        if($name == "Application")
+            $defaultValue = new Identity();
+        elseif ($name == "Device")
+            $defaultValue = new Identity();
+        elseif ($name == "User")
+            $defaultValue = new Identity();
+        return parent::getProperty($name, $defaultValue);
+    }
+
+
     /**
      * @var Identity
      */
@@ -22,9 +35,4 @@ class IdentitySet extends ClientValue
      */
     public $User;
 
-    function setProperty($name, $value)
-    {
-        $name = ucfirst($name);
-        parent::setProperty($name, $value);
-    }
 }

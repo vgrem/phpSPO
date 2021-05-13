@@ -10,24 +10,28 @@ use Office365\SharePoint\File;
 use Office365\SharePoint\Folder;
 
 $credentials = new ClientCredential($settings['ClientId'], $settings['ClientSecret']);
-$siteUrl = $settings['Url']; //. "/sites/team";
+$siteUrl = $settings['Url'];
 $ctx = (new ClientContext($siteUrl))->withCredentials($credentials);
 
-function forEachFile(Folder $rootFolder, callable  $fn){
+function forEachFile(Folder $parentFolder, $recursive, callable  $action, $level=0)
+{
+    $files = $parentFolder->getFiles()->get()->executeQuery();
     /** @var File $file */
-    foreach ($rootFolder->getFiles() as $file){
-        $fn($file);
+    foreach ($files as $file) {
+        $action($file, $level);
     }
-    /** @var Folder $folder */
-    foreach ($rootFolder->getFolders() as $folder){
-        forEachFile($folder,$fn);
+
+    if ($recursive) {
+        /** @var Folder $folder */
+        foreach ($parentFolder->getFolders() as $folder) {
+            forEachFile($folder, $recursive, $action, $level++);
+        }
     }
 }
 
 $rootFolder = $ctx->getWeb()->getFolderByServerRelativeUrl("Shared Documents");
-$files = $rootFolder->expand("Files")->get()->executeQuery();
-forEachFile($files,function (File $file){
-  print($file->getServerRelativeUrl() . PHP_EOL);
+forEachFile($rootFolder, true, function (File $file,$level){
+  print($level . ":" . $file->getServerRelativeUrl() . PHP_EOL);
 });
 
 

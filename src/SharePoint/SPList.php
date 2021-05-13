@@ -107,67 +107,53 @@ class SPList extends SecurableObject
      */
     public function getContentTypes()
     {
-        if (!$this->isPropertyAvailable('ContentTypes')) {
-            $this->setProperty("ContentTypes", new ContentTypeCollection($this->getContext(),
-                new ResourcePath("ContentTypes", $this->getResourcePath())), false);
-        }
-        return $this->getProperty("ContentTypes");
+        return $this->getProperty("ContentTypes",
+            new ContentTypeCollection($this->getContext(),
+                new ResourcePath("ContentTypes", $this->getResourcePath())));
     }
     /**
      * @return FieldCollection
      */
     public function getFields()
     {
-        if (!$this->isPropertyAvailable('Fields')) {
-            $this->setProperty("Fields", new FieldCollection($this->getContext(),
+        return $this->getProperty("Fields",
+            new FieldCollection($this->getContext(),
                 new ResourcePath("fields", $this->getResourcePath())));
-        }
-        return $this->getProperty("Fields");
     }
     /**
      * @return Folder
      */
     public function getRootFolder()
     {
-        if (!$this->isPropertyAvailable('RootFolder')) {
-            $this->setProperty("RootFolder", new Folder($this->getContext(),
+        return $this->getProperty("RootFolder",
+            new Folder($this->getContext(),
                 new ResourcePath("rootFolder", $this->getResourcePath())));
-        }
-        return $this->getProperty("RootFolder");
     }
     /**
      * @return ViewCollection
      */
     public function getViews()
     {
-        if (!$this->isPropertyAvailable('Views')) {
-            $this->setProperty("Views", new ViewCollection($this->getContext(),
+        return $this->getProperty("Views",
+            new ViewCollection($this->getContext(),
                 new ResourcePath("views", $this->getResourcePath())));
-        }
-        return $this->getProperty("Views");
     }
     /**
      * @return InformationRightsManagementSettings
      */
     public function getInformationRightsManagementSettings()
     {
-        if (!$this->isPropertyAvailable('InformationRightsManagementSettings')) {
-            $this->setProperty("InformationRightsManagementSettings",
-                new InformationRightsManagementSettings($this->getContext(),
-                    new ResourcePath("InformationRightsManagementSettings", $this->getResourcePath())));
-        }
-        return $this->getProperty("InformationRightsManagementSettings");
+        return $this->getProperty("InformationRightsManagementSettings",
+            new InformationRightsManagementSettings($this->getContext(),
+                new ResourcePath("InformationRightsManagementSettings", $this->getResourcePath())));
     }
     /**
      * @return Web
      */
     public function getParentWeb()
     {
-        if (!$this->isPropertyAvailable('ParentWeb')) {
-            $this->setProperty("ParentWeb", new Web($this->getContext(),
-                new ResourcePath("ParentWeb", $this->getResourcePath())));
-        }
-        return $this->getProperty("ParentWeb");
+        return $this->getProperty("ParentWeb",
+            new Web($this->getContext(),new ResourcePath("ParentWeb", $this->getResourcePath())));
     }
     public function getServerTypeName()
     {
@@ -178,9 +164,6 @@ class SPList extends SecurableObject
      */
     public function getAllowContentTypes()
     {
-        if (!$this->isPropertyAvailable("AllowContentTypes")) {
-            return null;
-        }
         return $this->getProperty("AllowContentTypes");
     }
     /**
@@ -189,129 +172,105 @@ class SPList extends SecurableObject
      */
     public function setAllowContentTypes($value)
     {
-        $this->setProperty("AllowContentTypes", $value, true);
-        return $this;
+        return $this->setProperty("AllowContentTypes", $value, true);
     }
     /**
      * @return bool
      */
     public function getAllowDeletion()
     {
-        if (!$this->isPropertyAvailable("AllowDeletion")) {
-            return null;
-        }
         return $this->getProperty("AllowDeletion");
     }
     /**
-     * @return SPList
+     * @return self
      * @var bool
      */
     public function setAllowDeletion($value)
     {
-        $this->setProperty("AllowDeletion", $value, true);
-        return $this;
+        return $this->setProperty("AllowDeletion", $value, true);
     }
     /**
      * @return integer
      */
     public function getBaseTemplate()
     {
-        if (!$this->isPropertyAvailable("BaseTemplate")) {
-            return null;
-        }
         return $this->getProperty("BaseTemplate");
     }
     /**
-     * @return SPList
+     * @return self
      * @var integer
      */
     public function setBaseTemplate($value)
     {
-        $this->setProperty("BaseTemplate", $value, true);
-        return $this;
+        return $this->setProperty("BaseTemplate", $value, true);
     }
     /**
      * @return integer
      */
     public function getBaseType()
     {
-        if (!$this->isPropertyAvailable("BaseType")) {
-            return null;
-        }
         return $this->getProperty("BaseType");
     }
     /**
-     * @return SPList
+     * @return self
      * @var integer
      */
     public function setBaseType($value)
     {
-        $this->setProperty("BaseType", $value, true);
-        return $this;
+        return $this->setProperty("BaseType", $value, true);
     }
     /**
      * @return integer
      */
     public function getBrowserFileHandling()
     {
-        if (!$this->isPropertyAvailable("BrowserFileHandling")) {
-            return null;
-        }
         return $this->getProperty("BrowserFileHandling");
     }
     /**
-     * @return SPList
+     * @return self
      * @var integer
      */
     public function setBrowserFileHandling($value)
     {
-        $this->setProperty("BrowserFileHandling", $value, true);
-        return $this;
+        return $this->setProperty("BrowserFileHandling", $value, true);
     }
     /**
      * @return bool
      */
     public function getContentTypesEnabled()
     {
-        if (!$this->isPropertyAvailable("ContentTypesEnabled")) {
-            return null;
-        }
         return $this->getProperty("ContentTypesEnabled");
     }
     /**
-     * @return SPList
+     * @return self
      * @var bool
      */
     public function setContentTypesEnabled($value)
     {
-        $this->setProperty("ContentTypesEnabled", $value, true);
-        return $this;
+        return $this->setProperty("ContentTypesEnabled", $value, true);
     }
     /**
      * @return bool
      */
     public function getCrawlNonDefaultViews()
     {
-        if (!$this->isPropertyAvailable("CrawlNonDefaultViews")) {
-            return null;
-        }
         return $this->getProperty("CrawlNonDefaultViews");
     }
+
     /**
+     *
+     * @return self
      * @var bool
      */
     public function setCrawlNonDefaultViews($value)
     {
-        $this->setProperty("CrawlNonDefaultViews", $value, true);
+        return $this->setProperty("CrawlNonDefaultViews", $value, true);
     }
     /**
      * @return string
      */
     public function getCreated()
     {
-        if (!$this->isPropertyAvailable("Created")) {
-            return null;
-        }
         return $this->getProperty("Created");
     }
     /**
@@ -326,10 +285,7 @@ class SPList extends SecurableObject
      */
     public function getCurrentChangeToken()
     {
-        if (!$this->isPropertyAvailable("CurrentChangeToken")) {
-            return null;
-        }
-        return $this->getProperty("CurrentChangeToken");
+        return $this->getProperty("CurrentChangeToken", new ChangeToken());
     }
     /**
      * @var ChangeToken
@@ -343,10 +299,8 @@ class SPList extends SecurableObject
      */
     public function getCustomActionElements()
     {
-        if (!$this->isPropertyAvailable("CustomActionElements")) {
-            return null;
-        }
-        return $this->getProperty("CustomActionElements");
+        return $this->getProperty("CustomActionElements",
+            new CustomActionElementCollection());
     }
     /**
      * @var CustomActionElementCollection
@@ -360,10 +314,7 @@ class SPList extends SecurableObject
      */
     public function getDataSource()
     {
-        if (!$this->isPropertyAvailable("DataSource")) {
-            return null;
-        }
-        return $this->getProperty("DataSource");
+        return $this->getProperty("DataSource", new ListDataSource());
     }
     /**
      * @var ListDataSource
@@ -377,9 +328,6 @@ class SPList extends SecurableObject
      */
     public function getDefaultContentApprovalWorkflowId()
     {
-        if (!$this->isPropertyAvailable("DefaultContentApprovalWorkflowId")) {
-            return null;
-        }
         return $this->getProperty("DefaultContentApprovalWorkflowId");
     }
     /**
@@ -394,9 +342,6 @@ class SPList extends SecurableObject
      */
     public function getDefaultDisplayFormUrl()
     {
-        if (!$this->isPropertyAvailable("DefaultDisplayFormUrl")) {
-            return null;
-        }
         return $this->getProperty("DefaultDisplayFormUrl");
     }
     /**
@@ -411,9 +356,6 @@ class SPList extends SecurableObject
      */
     public function getDefaultEditFormUrl()
     {
-        if (!$this->isPropertyAvailable("DefaultEditFormUrl")) {
-            return null;
-        }
         return $this->getProperty("DefaultEditFormUrl");
     }
     /**
@@ -428,9 +370,6 @@ class SPList extends SecurableObject
      */
     public function getDefaultItemOpenUseListSetting()
     {
-        if (!$this->isPropertyAvailable("DefaultItemOpenUseListSetting")) {
-            return null;
-        }
         return $this->getProperty("DefaultItemOpenUseListSetting");
     }
     /**
@@ -445,9 +384,6 @@ class SPList extends SecurableObject
      */
     public function getDefaultNewFormUrl()
     {
-        if (!$this->isPropertyAvailable("DefaultNewFormUrl")) {
-            return null;
-        }
         return $this->getProperty("DefaultNewFormUrl");
     }
     /**
@@ -462,9 +398,6 @@ class SPList extends SecurableObject
      */
     public function getDefaultViewUrl()
     {
-        if (!$this->isPropertyAvailable("DefaultViewUrl")) {
-            return null;
-        }
         return $this->getProperty("DefaultViewUrl");
     }
     /**
@@ -479,9 +412,6 @@ class SPList extends SecurableObject
      */
     public function getDescription()
     {
-        if (!$this->isPropertyAvailable("Description")) {
-            return null;
-        }
         return $this->getProperty("Description");
     }
     /**
@@ -496,9 +426,6 @@ class SPList extends SecurableObject
      */
     public function getDirection()
     {
-        if (!$this->isPropertyAvailable("Direction")) {
-            return null;
-        }
         return $this->getProperty("Direction");
     }
     /**
@@ -513,9 +440,6 @@ class SPList extends SecurableObject
      */
     public function getDisableGridEditing()
     {
-        if (!$this->isPropertyAvailable("DisableGridEditing")) {
-            return null;
-        }
         return $this->getProperty("DisableGridEditing");
     }
     /**
@@ -530,9 +454,6 @@ class SPList extends SecurableObject
      */
     public function getDocumentTemplateUrl()
     {
-        if (!$this->isPropertyAvailable("DocumentTemplateUrl")) {
-            return null;
-        }
         return $this->getProperty("DocumentTemplateUrl");
     }
     /**
@@ -547,9 +468,6 @@ class SPList extends SecurableObject
      */
     public function getDraftVersionVisibility()
     {
-        if (!$this->isPropertyAvailable("DraftVersionVisibility")) {
-            return null;
-        }
         return $this->getProperty("DraftVersionVisibility");
     }
     /**
@@ -564,10 +482,7 @@ class SPList extends SecurableObject
      */
     public function getEffectiveBasePermissions()
     {
-        if (!$this->isPropertyAvailable("EffectiveBasePermissions")) {
-            return null;
-        }
-        return $this->getProperty("EffectiveBasePermissions");
+        return $this->getProperty("EffectiveBasePermissions", new BasePermissions());
     }
     /**
      * @var BasePermissions
@@ -581,28 +496,21 @@ class SPList extends SecurableObject
      */
     public function getEffectiveBasePermissionsForUI()
     {
-        if (!$this->isPropertyAvailable("EffectiveBasePermissionsForUI")) {
-            return null;
-        }
-        return $this->getProperty("EffectiveBasePermissionsForUI");
+        return $this->getProperty("EffectiveBasePermissionsForUI", new BasePermissions());
     }
     /**
-     * @return SPList
+     * @return self
      * @var BasePermissions
      */
     public function setEffectiveBasePermissionsForUI($value)
     {
-        $this->setProperty("EffectiveBasePermissionsForUI", $value, true);
-        return $this;
+        return $this->setProperty("EffectiveBasePermissionsForUI", $value, true);
     }
     /**
      * @return bool
      */
     public function getEnableAssignToEmail()
     {
-        if (!$this->isPropertyAvailable("EnableAssignToEmail")) {
-            return null;
-        }
         return $this->getProperty("EnableAssignToEmail");
     }
     /**
@@ -619,9 +527,6 @@ class SPList extends SecurableObject
      */
     public function getEnableAttachments()
     {
-        if (!$this->isPropertyAvailable("EnableAttachments")) {
-            return null;
-        }
         return $this->getProperty("EnableAttachments");
     }
     /**
@@ -636,9 +541,6 @@ class SPList extends SecurableObject
      */
     public function getEnableFolderCreation()
     {
-        if (!$this->isPropertyAvailable("EnableFolderCreation")) {
-            return null;
-        }
         return $this->getProperty("EnableFolderCreation");
     }
     /**
@@ -655,9 +557,6 @@ class SPList extends SecurableObject
      */
     public function getEnableMinorVersions()
     {
-        if (!$this->isPropertyAvailable("EnableMinorVersions")) {
-            return null;
-        }
         return $this->getProperty("EnableMinorVersions");
     }
     /**
@@ -672,9 +571,6 @@ class SPList extends SecurableObject
      */
     public function getEnableModeration()
     {
-        if (!$this->isPropertyAvailable("EnableModeration")) {
-            return null;
-        }
         return $this->getProperty("EnableModeration");
     }
     /**
@@ -689,9 +585,6 @@ class SPList extends SecurableObject
      */
     public function getEnableRequestSignOff()
     {
-        if (!$this->isPropertyAvailable("EnableRequestSignOff")) {
-            return null;
-        }
         return $this->getProperty("EnableRequestSignOff");
     }
     /**
@@ -706,9 +599,6 @@ class SPList extends SecurableObject
      */
     public function getEnableVersioning()
     {
-        if (!$this->isPropertyAvailable("EnableVersioning")) {
-            return null;
-        }
         return $this->getProperty("EnableVersioning");
     }
     /**
@@ -723,9 +613,6 @@ class SPList extends SecurableObject
      */
     public function getEntityTypeName()
     {
-        if (!$this->isPropertyAvailable("EntityTypeName")) {
-            return null;
-        }
         return $this->getProperty("EntityTypeName");
     }
     /**
@@ -740,9 +627,6 @@ class SPList extends SecurableObject
      */
     public function getExcludeFromOfflineClient()
     {
-        if (!$this->isPropertyAvailable("ExcludeFromOfflineClient")) {
-            return null;
-        }
         return $this->getProperty("ExcludeFromOfflineClient");
     }
     /**
@@ -757,9 +641,6 @@ class SPList extends SecurableObject
      */
     public function getExemptFromBlockDownloadOfNonViewableFiles()
     {
-        if (!$this->isPropertyAvailable("ExemptFromBlockDownloadOfNonViewableFiles")) {
-            return null;
-        }
         return $this->getProperty("ExemptFromBlockDownloadOfNonViewableFiles");
     }
     /**
@@ -774,9 +655,6 @@ class SPList extends SecurableObject
      */
     public function getFileSavePostProcessingEnabled()
     {
-        if (!$this->isPropertyAvailable("FileSavePostProcessingEnabled")) {
-            return null;
-        }
         return $this->getProperty("FileSavePostProcessingEnabled");
     }
     /**
@@ -791,9 +669,6 @@ class SPList extends SecurableObject
      */
     public function getForceCheckout()
     {
-        if (!$this->isPropertyAvailable("ForceCheckout")) {
-            return null;
-        }
         return $this->getProperty("ForceCheckout");
     }
     /**
@@ -808,9 +683,6 @@ class SPList extends SecurableObject
      */
     public function getHasExternalDataSource()
     {
-        if (!$this->isPropertyAvailable("HasExternalDataSource")) {
-            return null;
-        }
         return $this->getProperty("HasExternalDataSource");
     }
     /**
@@ -825,9 +697,6 @@ class SPList extends SecurableObject
      */
     public function getHidden()
     {
-        if (!$this->isPropertyAvailable("Hidden")) {
-            return null;
-        }
         return $this->getProperty("Hidden");
     }
     /**
@@ -842,9 +711,6 @@ class SPList extends SecurableObject
      */
     public function getId()
     {
-        if (!$this->isPropertyAvailable("Id")) {
-            return null;
-        }
         return $this->getProperty("Id");
     }
     /**
@@ -1658,9 +1524,6 @@ class SPList extends SecurableObject
      */
     public function getTemplateTypeId()
     {
-        if (!$this->isPropertyAvailable("TemplateTypeId")) {
-            return null;
-        }
         return $this->getProperty("TemplateTypeId");
     }
     /**
@@ -1675,9 +1538,6 @@ class SPList extends SecurableObject
      */
     public function getDisableCommenting()
     {
-        if (!$this->isPropertyAvailable("DisableCommenting")) {
-            return null;
-        }
         return $this->getProperty("DisableCommenting");
     }
     /**

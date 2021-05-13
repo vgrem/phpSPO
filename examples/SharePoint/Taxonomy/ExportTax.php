@@ -7,7 +7,7 @@ use Office365\SharePoint\ClientContext;
 use Office365\SharePoint\Taxonomy\TaxonomyService;
 use Office365\SharePoint\Taxonomy\TermGroup;
 
-$settings = include('../../../Settings.php');
+$settings = include('../../../tests/Settings.php');
 $appPrincipal = new ClientCredential($settings['ClientId'],$settings['ClientSecret']);
 $ctx = (new ClientContext($settings['Url']))->withCredentials($appPrincipal);
 $taxSvc = new TaxonomyService($ctx);

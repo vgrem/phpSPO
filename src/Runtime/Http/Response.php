@@ -12,6 +12,22 @@ class Response
         $this->StatusCode = $headers['HttpCode'];
     }
 
+    public function getHeaders()
+    {
+        $lines = array_map(function ($line) {
+            return $line;
+        }, explode("\r\n", $this->getContent()));
+        $result = array();
+        foreach ($lines as $line){
+            if($line != ""){
+                list($k, $v) = preg_split("/[ :]/", $line,2);
+                $result[$k] = $v;
+            }
+        }
+        return $result;
+    }
+
+
     /**
      *
      * @throws RequestException

@@ -68,9 +68,7 @@ class ListItemTest extends SharePointTestCase
         self::$context->load($targetFolder);
         self::$context->executeQuery();
 
-        $items = self::$targetList->getItems()->expand("Folder");
-        self::$context->load($items);
-        self::$context->executeQuery();
+        $items = self::$targetList->getItems()->expand("Folder")->get()->executeQuery();
         $result = $items->findItems(function (ListItem $item) use ($targetFolder) {
             return $item->getFolder()->getName() === $targetFolder->getName();
 
@@ -173,7 +171,6 @@ class ListItemTest extends SharePointTestCase
     public function testQueryOptionsSkipToken()
     {
         $minItemsCount = 10;
-        $maxItemId = null;
         $itemsCount = self::$targetList->getProperty("ItemCount");
         if ($itemsCount < $minItemsCount) {
             $itemProperties = array(

@@ -7,14 +7,15 @@ namespace Office365\SharePoint\WebParts;
 
 use Office365\Runtime\ClientValue;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
-use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
+use Office365\SharePoint\BaseEntity;
+
 /**
  * Provides 
  * operations to access and modify the existing Web Parts on a Web Part 
  * Page, and add new ones to the Web Part Page.
  */
-class LimitedWebPartManager extends ClientObject
+class LimitedWebPartManager extends BaseEntity
 {
     /**
      * Imports a Web Part from a string in the .dwp format
@@ -35,10 +36,9 @@ class LimitedWebPartManager extends ClientObject
      */
     public function getWebParts()
     {
-        if (!$this->isPropertyAvailable('WebParts')) {
-            $this->setProperty("WebParts", new WebPartDefinitionCollection($this->getContext(), new ResourcePath("WebParts", $this->getResourcePath())));
-        }
-        return $this->getProperty("WebParts");
+        return $this->getProperty("WebParts",
+            new WebPartDefinitionCollection($this->getContext(),
+                new ResourcePath("WebParts", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -52,9 +52,6 @@ class LimitedWebPartManager extends ClientObject
      */
     public function getHasPersonalizedParts()
     {
-        if (!$this->isPropertyAvailable("HasPersonalizedParts")) {
-            return null;
-        }
         return $this->getProperty("HasPersonalizedParts");
     }
     /**
@@ -82,9 +79,6 @@ class LimitedWebPartManager extends ClientObject
      */
     public function getScope()
     {
-        if (!$this->isPropertyAvailable("Scope")) {
-            return null;
-        }
         return $this->getProperty("Scope");
     }
     /**
@@ -105,9 +99,6 @@ class LimitedWebPartManager extends ClientObject
      */
     public function getHasWebPartConnections()
     {
-        if (!$this->isPropertyAvailable("HasWebPartConnections")) {
-            return null;
-        }
         return $this->getProperty("HasWebPartConnections");
     }
     /**

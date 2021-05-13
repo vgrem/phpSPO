@@ -19,16 +19,32 @@ class ClientValue
      */
     function setProperty($name, $value)
     {
-        $this->{$name} = $value;
+        $name = ucfirst($name);
+        if(property_exists($this,$name)) {
+            $childProperty = $this->getProperty($name);
+            if($childProperty instanceof ClientValue){
+                foreach ($value as $k=>$v){
+                    $childProperty->setProperty($k,$v);
+                }
+                $this->{$name} = $childProperty;
+            }
+            else
+                $this->{$name} = $value;
+        }
+        else
+            $this->{$name} = $value;
     }
 
     /**
      * @param string $name
+     * @param mixed|null $defaultValue
      * @return mixed
      */
-    public function getProperty($name)
+    public function getProperty($name, $defaultValue=null)
     {
-        return $this->{$name};
+        if(isset($this->{$name}))
+            return $this->{$name};
+        return $defaultValue;
     }
 
 

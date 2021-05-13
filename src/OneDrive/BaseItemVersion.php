@@ -16,33 +16,33 @@ class BaseItemVersion extends Entity
      */
     public function getLastModifiedBy()
     {
-        if (!$this->isPropertyAvailable("LastModifiedBy")) {
-            return null;
-        }
-        return $this->getProperty("LastModifiedBy");
+        return $this->getProperty("LastModifiedBy", new IdentitySet());
     }
+
     /**
+     *
+     * @return self
      * @var IdentitySet
      */
     public function setLastModifiedBy($value)
     {
-        $this->setProperty("LastModifiedBy", $value, true);
+        return $this->setProperty("LastModifiedBy", $value, true);
     }
     /**
      * @return PublicationFacet
      */
     public function getPublication()
     {
-        if (!$this->isPropertyAvailable("Publication")) {
-            return null;
-        }
-        return $this->getProperty("Publication");
+        return $this->getProperty("Publication", new PublicationFacet());
     }
+
     /**
+     *
+     * @return self
      * @var PublicationFacet
      */
     public function setPublication($value)
     {
-        $this->setProperty("Publication", $value, true);
+        return $this->setProperty("Publication", $value, true);
     }
 }

@@ -5,8 +5,8 @@
  */
 namespace Office365\OneDrive;
 
+use Office365\Common\IdentitySet;
 use Office365\Entity;
-use Office365\IdentitySet;
 use Office365\Runtime\ResourcePath;
 class SharedDriveItem extends Entity
 {
@@ -15,76 +15,64 @@ class SharedDriveItem extends Entity
      */
     public function getOwner()
     {
-        if (!$this->isPropertyAvailable("Owner")) {
-            return null;
-        }
-        return $this->getProperty("Owner");
+        return $this->getProperty("Owner", new IdentitySet());
     }
+
     /**
+     *
+     * @return SharedDriveItem
      * @var IdentitySet
      */
     public function setOwner($value)
     {
-        $this->setProperty("Owner", $value, true);
+        return $this->setProperty("Owner", $value, true);
     }
     /**
      * @return DriveItem
      */
     public function getDriveItem()
     {
-        if (!$this->isPropertyAvailable("DriveItem")) {
-            $this->setProperty("DriveItem", new DriveItem($this->getContext(), new ResourcePath("DriveItem", $this->getResourcePath())));
-        }
-        return $this->getProperty("DriveItem");
+        return $this->getProperty("DriveItem",
+            new DriveItem($this->getContext(), new ResourcePath("DriveItem", $this->getResourcePath())));
     }
     /**
      * @return SharePointList
      */
     public function getList()
     {
-        if (!$this->isPropertyAvailable("List")) {
-            $this->setProperty("List", new SharePointList($this->getContext(), new ResourcePath("List", $this->getResourcePath())));
-        }
-        return $this->getProperty("List");
+        return $this->getProperty("List",
+            new SharePointList($this->getContext(), new ResourcePath("List", $this->getResourcePath())));
     }
     /**
      * @return ListItem
      */
     public function getListItem()
     {
-        if (!$this->isPropertyAvailable("ListItem")) {
-            $this->setProperty("ListItem", new ListItem($this->getContext(), new ResourcePath("ListItem", $this->getResourcePath())));
-        }
-        return $this->getProperty("ListItem");
+        return $this->getProperty("ListItem",
+            new ListItem($this->getContext(), new ResourcePath("ListItem", $this->getResourcePath())));
     }
     /**
      * @return DriveItem
      */
     public function getRoot()
     {
-        if (!$this->isPropertyAvailable("Root")) {
-            $this->setProperty("Root", new DriveItem($this->getContext(), new ResourcePath("Root", $this->getResourcePath())));
-        }
-        return $this->getProperty("Root");
+        return $this->getProperty("Root",
+            new DriveItem($this->getContext(), new ResourcePath("Root", $this->getResourcePath())));
     }
     /**
      * @return Site
      */
     public function getSite()
     {
-        if (!$this->isPropertyAvailable("Site")) {
-            $this->setProperty("Site", new Site($this->getContext(), new ResourcePath("Site", $this->getResourcePath())));
-        }
-        return $this->getProperty("Site");
+        return $this->getProperty("Site",
+            new Site($this->getContext(), new ResourcePath("Site", $this->getResourcePath())));
     }
     /**
      * @return DriveItemCollection
      */
     public function getItems()
     {
-        if (!$this->isPropertyAvailable("Items")) {
-            $this->setProperty("Items", new DriveItemCollection($this->getContext(), new ResourcePath("Items", $this->getResourcePath())));
-        }
-        return $this->getProperty("Items");
+        return $this->getProperty("Items",
+            new DriveItemCollection($this->getContext(), new ResourcePath("Items", $this->getResourcePath())));
     }
 }

@@ -18,9 +18,6 @@ class Attachment extends Entity
      */
     public function getName()
     {
-        if (!$this->isPropertyAvailable("Name")) {
-            return null;
-        }
         return $this->getProperty("Name");
     }
     /**
@@ -37,9 +34,6 @@ class Attachment extends Entity
      */
     public function getContentType()
     {
-        if (!$this->isPropertyAvailable("ContentType")) {
-            return null;
-        }
         return $this->getProperty("ContentType");
     }
     /**
@@ -56,9 +50,6 @@ class Attachment extends Entity
      */
     public function getSize()
     {
-        if (!$this->isPropertyAvailable("Size")) {
-            return null;
-        }
         return $this->getProperty("Size");
     }
     /**
@@ -75,9 +66,6 @@ class Attachment extends Entity
      */
     public function getIsInline()
     {
-        if (!$this->isPropertyAvailable("IsInline")) {
-            return null;
-        }
         return $this->getProperty("IsInline");
     }
     /**

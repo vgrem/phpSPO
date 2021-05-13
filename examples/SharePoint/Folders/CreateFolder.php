@@ -6,7 +6,7 @@ use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ClientContext;
 
 $credentials = new ClientCredential($settings['ClientId'], $settings['ClientSecret']);
-$siteUrl = $settings['Url'] . "/sites/team";
+$siteUrl = $settings['TeamSiteUrl'];
 $client = (new ClientContext($siteUrl))->withCredentials($credentials);
 
 $folderName = "Archive_" . rand(1, 100000);

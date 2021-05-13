@@ -6,9 +6,9 @@
 namespace Office365\OneDrive;
 
 
+use Office365\Common\IdentitySet;
+use Office365\Common\User;
 use Office365\Entity;
-use Office365\IdentitySet;
-use Office365\User;
 use Office365\Runtime\ResourcePath;
 class BaseItem extends Entity
 {
@@ -17,138 +17,134 @@ class BaseItem extends Entity
      */
     public function getDescription()
     {
-        if (!$this->isPropertyAvailable("Description")) {
-            return null;
-        }
         return $this->getProperty("Description");
     }
+
     /**
+     *
+     * @return self
      * @var string
      */
     public function setDescription($value)
     {
-        $this->setProperty("Description", $value, true);
+        return $this->setProperty("Description", $value, true);
     }
     /**
      * @return string
      */
     public function getETag()
     {
-        if (!$this->isPropertyAvailable("ETag")) {
-            return null;
-        }
         return $this->getProperty("ETag");
     }
+
     /**
+     *
+     * @return self
      * @var string
      */
     public function setETag($value)
     {
-        $this->setProperty("ETag", $value, true);
+        return $this->setProperty("ETag", $value, true);
     }
     /**
      * @return string
      */
     public function getName()
     {
-        if (!$this->isPropertyAvailable("Name")) {
-            return null;
-        }
         return $this->getProperty("Name");
     }
+
     /**
+     * @return self
      * @var string
      */
     public function setName($value)
     {
-        $this->setProperty("Name", $value, true);
+        return $this->setProperty("Name", $value, true);
     }
     /**
      * @return string
      */
     public function getWebUrl()
     {
-        if (!$this->isPropertyAvailable("WebUrl")) {
-            return null;
-        }
         return $this->getProperty("WebUrl");
     }
+
     /**
+     *
+     * @return self
      * @var string
      */
     public function setWebUrl($value)
     {
-        $this->setProperty("WebUrl", $value, true);
+        return $this->setProperty("WebUrl", $value, true);
     }
     /**
      * @return User
      */
     public function getCreatedByUser()
     {
-        if (!$this->isPropertyAvailable("CreatedByUser")) {
-            $this->setProperty("CreatedByUser", new User($this->getContext(), new ResourcePath("CreatedByUser", $this->getResourcePath())));
-        }
-        return $this->getProperty("CreatedByUser");
+        return $this->getProperty("CreatedByUser",
+            new User($this->getContext(), new ResourcePath("CreatedByUser", $this->getResourcePath())));
     }
     /**
      * @return User
      */
     public function getLastModifiedByUser()
     {
-        if (!$this->isPropertyAvailable("LastModifiedByUser")) {
-            $this->setProperty("LastModifiedByUser", new User($this->getContext(), new ResourcePath("LastModifiedByUser", $this->getResourcePath())));
-        }
-        return $this->getProperty("LastModifiedByUser");
+        return $this->getProperty("LastModifiedByUser",
+            new User($this->getContext(), new ResourcePath("LastModifiedByUser", $this->getResourcePath())));
     }
     /**
      * @return IdentitySet
      */
     public function getCreatedBy()
     {
-        if (!$this->isPropertyAvailable("CreatedBy")) {
-            return null;
-        }
-        return $this->getProperty("CreatedBy");
+        return $this->getProperty("CreatedBy", new IdentitySet());
     }
+
     /**
+     *
+     * @return self
      * @var IdentitySet
      */
     public function setCreatedBy($value)
     {
-        $this->setProperty("CreatedBy", $value, true);
+        return $this->setProperty("CreatedBy", $value, true);
     }
     /**
      * @return IdentitySet
      */
     public function getLastModifiedBy()
     {
-        if (!$this->isPropertyAvailable("LastModifiedBy")) {
-            return null;
-        }
-        return $this->getProperty("LastModifiedBy");
+        return $this->getProperty("LastModifiedBy", new IdentitySet());
     }
+
     /**
+     *
+     * @return self
      * @var IdentitySet
      */
     public function setLastModifiedBy($value)
     {
-        $this->setProperty("LastModifiedBy", $value, true);
+        return $this->setProperty("LastModifiedBy", $value, true);
     }
     /**
      * @return ItemReference
      */
     public function getParentReference()
     {
-        if (!$this->isPropertyAvailable("ParentReference")) {
-            return null;
-        }
-        return $this->getProperty("ParentReference");
+        return $this->getProperty("ParentReference", new ItemReference());
     }
+
     /**
+     *
+     * @return self
      * @var ItemReference
      */
     public function setParentReference($value)
     {
-        $this->setProperty("ParentReference", $value, true);
+        return $this->setProperty("ParentReference", $value, true);
     }
+
 }

@@ -17,9 +17,6 @@ class SharePointList extends Entity
      */
     public function getDisplayName()
     {
-        if (!$this->isPropertyAvailable("DisplayName")) {
-            return null;
-        }
         return $this->getProperty("DisplayName");
     }
     /**
@@ -34,20 +31,15 @@ class SharePointList extends Entity
      */
     public function getDrive()
     {
-        if (!$this->isPropertyAvailable("Drive")) {
-            $this->setProperty("Drive", new Drive($this->getContext(), new ResourcePath("Drive", $this->getResourcePath())));
-        }
-        return $this->getProperty("Drive");
+        return $this->getProperty("Drive",
+            new Drive($this->getContext(), new ResourcePath("Drive", $this->getResourcePath())));
     }
     /**
      * @return ListInfo
      */
     public function getList()
     {
-        if (!$this->isPropertyAvailable("List")) {
-            return null;
-        }
-        return $this->getProperty("List");
+        return $this->getProperty("List", new ListInfo());
     }
     /**
      * @var ListInfo
@@ -61,10 +53,7 @@ class SharePointList extends Entity
      */
     public function getSharepointIds()
     {
-        if (!$this->isPropertyAvailable("SharepointIds")) {
-            return null;
-        }
-        return $this->getProperty("SharepointIds");
+        return $this->getProperty("SharepointIds", new SharepointIds());
     }
     /**
      * @var SharepointIds
@@ -78,10 +67,7 @@ class SharePointList extends Entity
      */
     public function getSystem()
     {
-        if (!$this->isPropertyAvailable("System")) {
-            return null;
-        }
-        return $this->getProperty("System");
+        return $this->getProperty("System", new SystemFacet());
     }
     /**
      * @var SystemFacet
@@ -95,9 +81,7 @@ class SharePointList extends Entity
      */
     public function getItems()
     {
-        if (!$this->isPropertyAvailable("Items")) {
-            $this->setProperty("Items", new ListItemCollection($this->getContext(), new ResourcePath("Items", $this->getResourcePath())));
-        }
-        return $this->getProperty("Items");
+        return $this->getProperty("Items",
+            new ListItemCollection($this->getContext(), new ResourcePath("Items", $this->getResourcePath())));
     }
 }

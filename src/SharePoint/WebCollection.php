@@ -3,7 +3,6 @@
 namespace Office365\SharePoint;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientRuntimeContext;
-use Office365\Runtime\OData\ODataQueryOptions;
 use Office365\Runtime\ResourcePath;
 
 
@@ -14,18 +13,11 @@ use Office365\Runtime\ResourcePath;
 class WebCollection extends BaseEntityCollection
 {
 
-    /**
-     * @var string|null
-     */
-    private $parentWebUrl;
-
     public function __construct(ClientRuntimeContext $ctx,
                                 ResourcePath $resourcePath = null,
-                                ODataQueryOptions $queryOptions = null,
-                                $parentWebUrl=Null)
+                                $parentWeb=Null)
     {
-        parent::__construct($ctx, $resourcePath, $queryOptions);
-        $this->parentWebUrl = $parentWebUrl;
+        parent::__construct($ctx, $resourcePath,Web::class,$parentWeb);
     }
 
     /**
@@ -46,7 +38,6 @@ class WebCollection extends BaseEntityCollection
         $this->addChild($web);
         return $web;
     }
-
 
     function getResourceUrl()
     {

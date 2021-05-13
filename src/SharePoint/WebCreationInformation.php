@@ -60,7 +60,7 @@ class WebCreationInformation extends ClientValue
         $this->Language = 1033;
         $this->WebTemplate = "STS";
         $this->UseSamePermissionsAsParentSite = true;
-        parent::__construct(null);
+        parent::__construct();
     }
 
 }

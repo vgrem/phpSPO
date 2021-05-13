@@ -44,7 +44,7 @@ class TeamCollection extends EntityCollection
 
         $this->getContext()->getPendingRequest()->afterExecuteRequest(function ($resp) use ($returnType) {
             $teamId = $this->parseCreateResponse($resp);
-            //$returnType->setProperty("Id", $teamId, false);
+            $returnType->setProperty("Id", $teamId, false);
             $returnType->resourcePath = new ResourcePath($teamId, new ResourcePath("groups"));
         }, true);
         return $returnType;
@@ -55,14 +55,9 @@ class TeamCollection extends EntityCollection
      */
     private function parseCreateResponse($response){
         $headerKey = "Content-Location";
-        $result = array_values(array_filter(
-            explode("\r\n", $response->getContent()),
-            function ($line) use ($headerKey) {
-                return stripos($line,$headerKey) === 0;
-            }
-        ));
-        if(count($result) == 1){
-            preg_match('#\(\'(.*?)\'\)#', $result[0], $match);
+        $extraHeaders = $response->getHeaders();
+        if(array_key_exists($headerKey,$extraHeaders)){
+            preg_match('#\(\'(.*?)\'\)#', $extraHeaders[$headerKey], $match);
             return $match[1];
         }
         return null;

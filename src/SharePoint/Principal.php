@@ -19,10 +19,7 @@ class Principal extends Entity
      */
     public function getPrincipalType()
     {
-        if ($this->isPropertyAvailable('PrincipalType')) {
-            return $this->getProperty("PrincipalType");
-        }
-        return null;
+        return $this->getProperty("PrincipalType");
     }
     /**
      * Specifies 
@@ -34,23 +31,9 @@ class Principal extends Entity
      */
     public function getId()
     {
-        if (!$this->isPropertyAvailable("Id")) {
-            return null;
-        }
         return $this->getProperty("Id");
     }
-    /**
-     * Specifies 
-     * the member 
-     * identifier for the user or group.Its value 
-     * MUST be equal to or greater than 1. Its value MUST be equal to or less than 
-     * 2147483647. 
-     * @var integer
-     */
-    public function setId($value)
-    {
-        $this->setProperty("Id", $value, true);
-    }
+
     /**
      * Specifies 
      * whether the principal is hidden 
@@ -59,20 +42,20 @@ class Principal extends Entity
      */
     public function getIsHiddenInUI()
     {
-        if (!$this->isPropertyAvailable("IsHiddenInUI")) {
-            return null;
-        }
         return $this->getProperty("IsHiddenInUI");
     }
+
     /**
-     * Specifies 
-     * whether the principal is hidden 
+     * Specifies
+     * whether the principal is hidden
      * in the user interface (UI).<77>
+     *
+     * @return self
      * @var bool
      */
     public function setIsHiddenInUI($value)
     {
-        $this->setProperty("IsHiddenInUI", $value, true);
+        return $this->setProperty("IsHiddenInUI", $value, true);
     }
     /**
      * If this object 
@@ -83,21 +66,21 @@ class Principal extends Entity
      */
     public function getLoginName()
     {
-        if (!$this->isPropertyAvailable("LoginName")) {
-            return null;
-        }
         return $this->getProperty("LoginName");
     }
+
     /**
-     * If this object 
-     * (1) represents a user, LoginName specifies the login 
-     * name of the user. For a group, it specifies 
+     * If this object
+     * (1) represents a user, LoginName specifies the login
+     * name of the user. For a group, it specifies
      * the name of the group.
+     *
+     * @return self
      * @var string
      */
     public function setLoginName($value)
     {
-        $this->setProperty("LoginName", $value, true);
+        return $this->setProperty("LoginName", $value, true);
     }
     /**
      * Specifies 
@@ -107,32 +90,41 @@ class Principal extends Entity
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
+
     /**
-     * Specifies 
-     * the name of the principal.It MUST 
-     * NOT be NULL. Its length MUST be equal to or less than 255. 
+     * Specifies
+     * the name of the principal.It MUST
+     * NOT be NULL. Its length MUST be equal to or less than 255.
+     *
+     * @return self
      * @var string
      */
     public function setTitle($value)
     {
-        $this->setProperty("Title", $value, true);
+        return $this->setProperty("Title", $value, true);
     }
+
     /**
-     * Specifies 
-     * the type of principal 
+     * Specifies
+     * the type of principal
      * represented by this object (1).
+     *
+     * @return self
      * @var integer
      */
     public function setPrincipalType($value)
     {
-        $this->setProperty("PrincipalType", $value, true);
+        return $this->setProperty("PrincipalType", $value, true);
     }
 
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @param bool $persistChanges
+     * @return self
+     */
     public function setProperty($name, $value, $persistChanges = true)
     {
         parent::setProperty($name, $value, $persistChanges);

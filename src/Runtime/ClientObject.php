@@ -24,13 +24,13 @@ class ClientObject
     /**
      * @var array
      */
-    private $properties;
+    protected $properties;
 
 
     /**
      * @var array
      */
-    private $changes = array();
+    protected $changes = array();
 
     /**
      * @var self
@@ -90,7 +90,7 @@ class ClientObject
 
 
     /**
-     * @return $this
+     * @return self
      */
     public function executeQuery(){
         $this->getContext()->executeQuery();
@@ -210,7 +210,16 @@ class ClientObject
      */
     function toJson($onlyChanges=false)
     {
-        return $onlyChanges ? $this->changes : $this->properties;
+        if($onlyChanges){
+            $result = array();
+            foreach ($this->properties as $k => $v) {
+                if (array_key_exists($k, $this->changes)) {
+                    $result[$k] = $v;
+                }
+            }
+            return $result;
+        }
+        return $this->properties;
     }
 
 
@@ -221,7 +230,7 @@ class ClientObject
      */
     public function isPropertyAvailable($name)
     {
-        return isset($this->{$name});
+        return isset($this->properties[$name]);
     }
 
 
@@ -242,10 +251,17 @@ class ClientObject
      */
     public function getProperty($name,$defaultValue=null)
     {
-        if (!$this->isPropertyAvailable($name) and isset($defaultValue)) {
-            $this->setProperty($name,$defaultValue);
+        $calledFnName = debug_backtrace()[1]['function'];
+
+        if($this->isPropertyAvailable($name))
+            return $this->properties[$name];
+        else if(is_null($defaultValue)) {
+            $getter = "get$name";
+            if(method_exists($this,$getter) && strcasecmp($getter, $calledFnName) != 0) {
+                $defaultValue = $this->$getter();
+            }
         }
-        return $this->{$name};
+        return $defaultValue;
     }
 
     /**
@@ -258,63 +274,27 @@ class ClientObject
     public function setProperty($name, $value, $persistChanges = true)
     {
         if($persistChanges)
-            $this->changes[$name] = $value;
-        $this->{$name} = $value;
-        return $this;
-    }
+            $this->changes[$name] = true;
 
-    /**
-     * @param string $name
-     * @return mixed|null
-     */
-    public function getPropertyType($name){
-        $getterName = "get$name";
-        if(method_exists($this,$getterName)) {
-            return $this->{$getterName}();
+        if($value instanceof ClientObject || $value instanceof ClientValue){
+            $this->properties[$name] = $value;
+            return $this;
         }
-        return $this->{$name};
-    }
 
-    /**
-     * @param $name
-     * @param $value
-     */
-    public function __set($name, $value)
-    {
-        if(is_array($value)) {  /*Navigation property? */
-            $propVal = $this->getPropertyType($name);
-            if($propVal instanceof ClientObject || $propVal instanceof ClientValue) {
+        if(!is_null($value)) {
+            $childProperty = $this->getProperty($name);
+            if($childProperty instanceof ClientObject || $childProperty instanceof ClientValue) {
                 foreach ($value as $k=>$v){
-                    $propVal->setProperty($k,$v,False);
+                    $childProperty->setProperty($k,$v,False);
                 }
-                $this->properties[$name] = $propVal;
+                $this->properties[$name] = $childProperty;
             }
             else
                 $this->properties[$name] = $value;
         }
         else
             $this->properties[$name] = $value;
-    }
-
-    /**
-     * @param $name
-     * @return mixed|null
-     */
-    public function __get($name)
-    {
-        if (array_key_exists($name, $this->properties)) {
-            return $this->properties[$name];
-        }
-        return null;
-    }
-
-    /**
-     * @param $name
-     * @return bool
-     */
-    public function __isset($name)
-    {
-        return isset($this->properties[$name]);
+        return $this;
     }
 
 
@@ -322,10 +302,11 @@ class ClientObject
      * Ensures property is loaded
      * @param string $propName
      * @param callable $loadedCallback
+     * @return self
      */
     public function ensureProperty($propName, $loadedCallback=null)
     {
-        $this->ensureProperties(array($propName), $loadedCallback);
+        return $this->ensureProperties(array($propName), $loadedCallback);
     }
 
     /**
@@ -349,5 +330,6 @@ class ClientObject
                     if(is_callable($loadedCallback)) call_user_func($loadedCallback, $this);
             });
         }
+        return $this;
     }
 }

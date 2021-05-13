@@ -83,11 +83,9 @@ class ListItem extends SecurableObject
      */
     public function getAttachmentFiles()
     {
-        if (!$this->isPropertyAvailable('AttachmentFiles')) {
-            $this->setProperty("AttachmentFiles", new AttachmentCollection($this->getContext(),
-                new ResourcePath("AttachmentFiles", $this->getResourcePath())), false);
-        }
-        return $this->getProperty("AttachmentFiles");
+        return $this->getProperty("AttachmentFiles",
+            new AttachmentCollection($this->getContext(),
+                new ResourcePath("AttachmentFiles", $this->getResourcePath())));
     }
     /**
      * Gets the parent list that contains the list item.
@@ -95,11 +93,8 @@ class ListItem extends SecurableObject
      */
     public function getParentList()
     {
-        if (!$this->isPropertyAvailable('ParentList')) {
-            $this->setProperty("ParentList", new SPList($this->getContext(),
-                new ResourcePath("parentlist", $this->getResourcePath())), false);
-        }
-        return $this->getProperty("ParentList");
+        return $this->getProperty("ParentList",
+            new SPList($this->getContext(),new ResourcePath("parentlist", $this->getResourcePath())));
     }
     /**
      * Gets the associated Folder resource.
@@ -107,11 +102,8 @@ class ListItem extends SecurableObject
      */
     public function getFolder()
     {
-        if (!$this->isPropertyAvailable('Folder')) {
-            $this->setProperty("Folder", new Folder($this->getContext(),
-                new ResourcePath("Folder", $this->getResourcePath())), false);
-        }
-        return $this->getProperty("Folder");
+        return $this->getProperty("Folder",
+            new Folder($this->getContext(),new ResourcePath("Folder", $this->getResourcePath())));
     }
     /**
      * Gets the associated File resource.
@@ -119,11 +111,8 @@ class ListItem extends SecurableObject
      */
     public function getFile()
     {
-        if (!$this->isPropertyAvailable('File')) {
-            $this->setProperty("File", new File($this->getContext(),
-                new ResourcePath("File", $this->getResourcePath())), false);
-        }
-        return $this->getProperty("File");
+        return $this->getProperty("File",
+            new File($this->getContext(),new ResourcePath("File", $this->getResourcePath())));
     }
     /**
      * Indicates 
@@ -132,19 +121,19 @@ class ListItem extends SecurableObject
      */
     public function getCommentsDisabled()
     {
-        if (!$this->isPropertyAvailable("CommentsDisabled")) {
-            return null;
-        }
         return $this->getProperty("CommentsDisabled");
     }
+
     /**
-     * Indicates 
+     * Indicates
      * whether comments for this item are disabled or not.
+     *
+     * @return self
      * @var bool
      */
     public function setCommentsDisabled($value)
     {
-        $this->setProperty("CommentsDisabled", $value, true);
+        return $this->setProperty("CommentsDisabled", $value, true);
     }
     /**
      * Indicates 
@@ -153,9 +142,6 @@ class ListItem extends SecurableObject
      */
     public function getCommentsDisabledScope()
     {
-        if (!$this->isPropertyAvailable("CommentsDisabledScope")) {
-            return null;
-        }
         return $this->getProperty("CommentsDisabledScope");
     }
     /**
@@ -172,10 +158,7 @@ class ListItem extends SecurableObject
      */
     public function getComplianceInfo()
     {
-        if (!$this->isPropertyAvailable("ComplianceInfo")) {
-            return null;
-        }
-        return $this->getProperty("ComplianceInfo");
+        return $this->getProperty("ComplianceInfo", new ListItemComplianceInfo());
     }
     /**
      * @var ListItemComplianceInfo
@@ -193,9 +176,6 @@ class ListItem extends SecurableObject
      */
     public function getDisplayName()
     {
-        if (!$this->isPropertyAvailable("DisplayName")) {
-            return null;
-        }
         return $this->getProperty("DisplayName");
     }
     /**
@@ -219,10 +199,7 @@ class ListItem extends SecurableObject
      */
     public function getEffectiveBasePermissions()
     {
-        if (!$this->isPropertyAvailable("EffectiveBasePermissions")) {
-            return null;
-        }
-        return $this->getProperty("EffectiveBasePermissions");
+        return $this->getProperty("EffectiveBasePermissions", new BasePermissions());
     }
     /**
      * Specifies 
@@ -249,10 +226,7 @@ class ListItem extends SecurableObject
      */
     public function getEffectiveBasePermissionsForUI()
     {
-        if (!$this->isPropertyAvailable("EffectiveBasePermissionsForUI")) {
-            return null;
-        }
-        return $this->getProperty("EffectiveBasePermissionsForUI");
+        return $this->getProperty("EffectiveBasePermissionsForUI", new BasePermissions());
     }
     /**
      * Specifies 
@@ -279,9 +253,6 @@ class ListItem extends SecurableObject
      */
     public function getFileSystemObjectType()
     {
-        if (!$this->isPropertyAvailable("FileSystemObjectType")) {
-            return null;
-        }
         return $this->getProperty("FileSystemObjectType");
     }
     /**
@@ -305,9 +276,6 @@ class ListItem extends SecurableObject
      */
     public function getIconOverlay()
     {
-        if (!$this->isPropertyAvailable("IconOverlay")) {
-            return null;
-        }
         return $this->getProperty("IconOverlay");
     }
     /**
@@ -426,55 +394,43 @@ class ListItem extends SecurableObject
      */
     public function getContentType()
     {
-        if (!$this->isPropertyAvailable("ContentType")) {
-            $this->setProperty("ContentType", new ContentType($this->getContext(),
-                new ResourcePath("ContentType", $this->getResourcePath())));
-        }
-        return $this->getProperty("ContentType");
+        return $this->getProperty("ContentType",
+            new ContentType($this->getContext(),new ResourcePath("ContentType", $this->getResourcePath())));
     }
     /**
      * @return DlpPolicyTip
      */
     public function getGetDlpPolicyTip()
     {
-        if (!$this->isPropertyAvailable("GetDlpPolicyTip")) {
-            $this->setProperty("GetDlpPolicyTip", new DlpPolicyTip($this->getContext(),
-                new ResourcePath("GetDlpPolicyTip", $this->getResourcePath())));
-        }
-        return $this->getProperty("GetDlpPolicyTip");
+        return $this->getProperty("GetDlpPolicyTip",
+            new DlpPolicyTip($this->getContext(),new ResourcePath("GetDlpPolicyTip", $this->getResourcePath())));
     }
     /**
      * @return FieldStringValues
      */
     public function getFieldValuesAsHtml()
     {
-        if (!$this->isPropertyAvailable("FieldValuesAsHtml")) {
-            $this->setProperty("FieldValuesAsHtml", new FieldStringValues($this->getContext(),
+        return $this->getProperty("FieldValuesAsHtml",
+            new FieldStringValues($this->getContext(),
                 new ResourcePath("FieldValuesAsHtml", $this->getResourcePath())));
-        }
-        return $this->getProperty("FieldValuesAsHtml");
     }
     /**
      * @return FieldStringValues
      */
     public function getFieldValuesAsText()
     {
-        if (!$this->isPropertyAvailable("FieldValuesAsText")) {
-            $this->setProperty("FieldValuesAsText", new FieldStringValues($this->getContext(),
+        return $this->getProperty("FieldValuesAsText",
+            new FieldStringValues($this->getContext(),
                 new ResourcePath("FieldValuesAsText", $this->getResourcePath())));
-        }
-        return $this->getProperty("FieldValuesAsText");
     }
     /**
      * @return FieldStringValues
      */
     public function getFieldValuesForEdit()
     {
-        if (!$this->isPropertyAvailable("FieldValuesForEdit")) {
-            $this->setProperty("FieldValuesForEdit", new FieldStringValues($this->getContext(),
+        return $this->getProperty("FieldValuesForEdit",
+            new FieldStringValues($this->getContext(),
                 new ResourcePath("FieldValuesForEdit", $this->getResourcePath())));
-        }
-        return $this->getProperty("FieldValuesForEdit");
     }
 
 

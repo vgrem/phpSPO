@@ -108,11 +108,8 @@ class Web extends SecurableObject
      */
     public function getLists()
     {
-        if (!$this->isPropertyAvailable('Lists')) {
-            $this->setProperty("Lists",
-                new ListCollection($this->getContext(), new ResourcePath("Lists", $this->getResourcePath())));
-        }
-        return $this->getProperty("Lists");
+        return $this->getProperty("Lists",
+            new ListCollection($this->getContext(), new ResourcePath("Lists", $this->getResourcePath())));
     }
     /**
      * Gets a Web site collection object that represents all Web sites immediately beneath the Web site,
@@ -121,11 +118,9 @@ class Web extends SecurableObject
      */
     public function getWebs()
     {
-        if (!$this->isPropertyAvailable('Webs')) {
-            $this->setProperty("Webs", new WebCollection($this->getContext(),
-                new ResourcePath("webs", $this->getResourcePath())), $this->webUrl);
-        }
-        return $this->getProperty("Webs");
+        return $this->getProperty("Webs",
+            new WebCollection($this->getContext(),
+                new ResourcePath("webs", $this->getResourcePath()), $this));
     }
     /**
      * Gets the collection of field objects that represents all the fields in the Web site.
@@ -133,11 +128,9 @@ class Web extends SecurableObject
      */
     public function getFields()
     {
-        if (!$this->isPropertyAvailable('Fields')) {
-            $this->setProperty("Fields", new FieldCollection($this->getContext(),
+        return $this->getProperty("Fields",
+            new FieldCollection($this->getContext(),
                 new ResourcePath("fields", $this->getResourcePath()),$this));
-        }
-        return $this->getProperty("Fields");
     }
     /**
      * Gets the collection of all first-level folders in the Web site.
@@ -145,10 +138,8 @@ class Web extends SecurableObject
      */
     public function getFolders()
     {
-        if (!isset($this->Folders)) {
-            $this->Folders = new FolderCollection($this->getContext(), new ResourcePath("folders", $this->getResourcePath()));
-        }
-        return $this->Folders;
+        return $this->getProperty("Folders",
+            new FolderCollection($this->getContext(), new ResourcePath("folders", $this->getResourcePath())));
     }
     /**
      * Gets the collection of all users that belong to the site collection.
@@ -156,10 +147,8 @@ class Web extends SecurableObject
      */
     public function getSiteUsers()
     {
-        if (!isset($this->SiteUsers)) {
-            $this->SiteUsers = new UserCollection($this->getContext(), new ResourcePath("SiteUsers", $this->getResourcePath()));
-        }
-        return $this->SiteUsers;
+        return $this->getProperty("SiteUsers",
+            new UserCollection($this->getContext(), new ResourcePath("SiteUsers", $this->getResourcePath())));
     }
     /**
      * Gets the collection of groups for the site collection.
@@ -167,10 +156,8 @@ class Web extends SecurableObject
      */
     public function getSiteGroups()
     {
-        if (!isset($this->SiteGroups)) {
-            $this->setProperty("SiteGroups", new GroupCollection($this->getContext(), new ResourcePath("SiteGroups", $this->getResourcePath())));
-        }
-        return $this->getProperty("SiteGroups");
+        return $this->getProperty("SiteGroups",
+            new GroupCollection($this->getContext(), new ResourcePath("SiteGroups", $this->getResourcePath())));
     }
     /**
      * Gets the collection of role definitions for the Web site.
@@ -178,10 +165,9 @@ class Web extends SecurableObject
      */
     public function getRoleDefinitions()
     {
-        if (!$this->isPropertyAvailable('RoleDefinitions')) {
-            $this->setProperty("RoleDefinitions", new RoleDefinitionCollection($this->getContext(), new ResourcePath("RoleDefinitions", $this->getResourcePath())));
-        }
-        return $this->getProperty("RoleDefinitions");
+        return $this->getProperty("RoleDefinitions",
+            new RoleDefinitionCollection($this->getContext(),
+                new ResourcePath("RoleDefinitions", $this->getResourcePath())));
     }
     /**
      * Gets a value that specifies the collection of user custom actions for the site.
@@ -189,10 +175,9 @@ class Web extends SecurableObject
      */
     public function getUserCustomActions()
     {
-        if (!$this->isPropertyAvailable('UserCustomActions')) {
-            $this->setProperty("UserCustomActions", new UserCustomActionCollection($this->getContext(), new ResourcePath("UserCustomActions", $this->getResourcePath())));
-        }
-        return $this->getProperty("UserCustomActions");
+        return $this->getProperty("UserCustomActions",
+            new UserCustomActionCollection($this->getContext(),
+                new ResourcePath("UserCustomActions", $this->getResourcePath())));
     }
     /**
      * @return User
@@ -209,8 +194,9 @@ class Web extends SecurableObject
      */
     public function getFileByServerRelativeUrl($serverRelativeUrl)
     {
-        $path = new ResourcePathServiceOperation("getFileByServerRelativeUrl", array(rawurlencode($serverRelativeUrl)), $this->getResourcePath());
-        return new File($this->getContext(), $path);
+        return new File($this->getContext(),
+            new ResourcePathServiceOperation("getFileByServerRelativeUrl",
+                array(rawurlencode($serverRelativeUrl)), $this->getResourcePath()));
     }
     /**
      * Returns the file object located at the specified server-relative Path.
@@ -219,8 +205,9 @@ class Web extends SecurableObject
      */
     public function getFileByServerRelativePath($serverRelativePath)
     {
-        $path = new ResourcePathServiceOperation("getFileByServerRelativePath", array("decodedUrl" => rawurlencode($serverRelativePath->DecodedUrl)), $this->getResourcePath());
-        return new File($this->getContext(), $path);
+        $params = array("decodedUrl" => rawurlencode($serverRelativePath->DecodedUrl));
+        return new File($this->getContext(),
+            new ResourcePathServiceOperation("getFileByServerRelativePath", $params,$this->getResourcePath()));
     }
     /**
      * Returns the folder object located at the specified server-relative URL.
@@ -229,7 +216,9 @@ class Web extends SecurableObject
      */
     public function getFolderByServerRelativeUrl($serverRelativeUrl)
     {
-        return new Folder($this->getContext(), new ResourcePathServiceOperation("getFolderByServerRelativeUrl", array(rawurlencode($serverRelativeUrl)), $this->getResourcePath()));
+        return new Folder($this->getContext(),
+            new ResourcePathServiceOperation("getFolderByServerRelativeUrl",
+                array(rawurlencode($serverRelativeUrl)), $this->getResourcePath()));
     }
     /**
      * Returns the folder object located at the specified server-relative Path.
@@ -238,17 +227,18 @@ class Web extends SecurableObject
      */
     public function getFolderByServerRelativePath($serverRelativePath)
     {
-        return new Folder($this->getContext(), new ResourcePathServiceOperation("getFolderByServerRelativePath", array("decodedUrl" => rawurlencode($serverRelativePath->DecodedUrl)), $this->getResourcePath()));
+        return new Folder($this->getContext(),
+            new ResourcePathServiceOperation("getFolderByServerRelativePath",
+                array("decodedUrl" => rawurlencode($serverRelativePath->DecodedUrl)), $this->getResourcePath()));
     }
     /**
      * @return ContentTypeCollection
      */
     public function getContentTypes()
     {
-        if (!$this->isPropertyAvailable('ContentTypes')) {
-            $this->setProperty('ContentTypes', new ContentTypeCollection($this->getContext(), new ResourcePath('ContentTypes', $this->getResourcePath())), false);
-        }
-        return $this->getProperty('ContentTypes');
+        return $this->getProperty('ContentTypes',
+            new ContentTypeCollection($this->getContext(),
+                new ResourcePath('ContentTypes', $this->getResourcePath())));
     }
     /**
      * @param string $name
@@ -269,9 +259,6 @@ class Web extends SecurableObject
      */
     public function getAccessRequestListUrl()
     {
-        if (!$this->isPropertyAvailable("AccessRequestListUrl")) {
-            return null;
-        }
         return $this->getProperty("AccessRequestListUrl");
     }
     /**
@@ -286,9 +273,6 @@ class Web extends SecurableObject
      */
     public function getAccessRequestSiteDescription()
     {
-        if (!$this->isPropertyAvailable("AccessRequestSiteDescription")) {
-            return null;
-        }
         return $this->getProperty("AccessRequestSiteDescription");
     }
     /**
@@ -306,9 +290,6 @@ class Web extends SecurableObject
      */
     public function getAllowAutomaticASPXPageIndexing()
     {
-        if (!$this->isPropertyAvailable("AllowAutomaticASPXPageIndexing")) {
-            return null;
-        }
         return $this->getProperty("AllowAutomaticASPXPageIndexing");
     }
     /**
@@ -330,9 +311,6 @@ class Web extends SecurableObject
      */
     public function getAllowCreateDeclarativeWorkflowForCurrentUser()
     {
-        if (!$this->isPropertyAvailable("AllowCreateDeclarativeWorkflowForCurrentUser")) {
-            return null;
-        }
         return $this->getProperty("AllowCreateDeclarativeWorkflowForCurrentUser");
     }
     /**
@@ -354,9 +332,6 @@ class Web extends SecurableObject
      */
     public function getAllowDesignerForCurrentUser()
     {
-        if (!$this->isPropertyAvailable("AllowDesignerForCurrentUser")) {
-            return null;
-        }
         return $this->getProperty("AllowDesignerForCurrentUser");
     }
     /**
@@ -377,9 +352,6 @@ class Web extends SecurableObject
      */
     public function getAllowMasterPageEditingForCurrentUser()
     {
-        if (!$this->isPropertyAvailable("AllowMasterPageEditingForCurrentUser")) {
-            return null;
-        }
         return $this->getProperty("AllowMasterPageEditingForCurrentUser");
     }
     /**
@@ -401,9 +373,6 @@ class Web extends SecurableObject
      */
     public function getAllowRevertFromTemplateForCurrentUser()
     {
-        if (!$this->isPropertyAvailable("AllowRevertFromTemplateForCurrentUser")) {
-            return null;
-        }
         return $this->getProperty("AllowRevertFromTemplateForCurrentUser");
     }
     /**
@@ -425,9 +394,6 @@ class Web extends SecurableObject
      */
     public function getAllowRssFeeds()
     {
-        if (!$this->isPropertyAvailable("AllowRssFeeds")) {
-            return null;
-        }
         return $this->getProperty("AllowRssFeeds");
     }
     /**
@@ -450,9 +416,6 @@ class Web extends SecurableObject
      */
     public function getAllowSaveDeclarativeWorkflowAsTemplateForCurrentUser()
     {
-        if (!$this->isPropertyAvailable("AllowSaveDeclarativeWorkflowAsTemplateForCurrentUser")) {
-            return null;
-        }
         return $this->getProperty("AllowSaveDeclarativeWorkflowAsTemplateForCurrentUser");
     }
     /**
@@ -477,9 +440,6 @@ class Web extends SecurableObject
      */
     public function getAllowSavePublishDeclarativeWorkflowForCurrentUser()
     {
-        if (!$this->isPropertyAvailable("AllowSavePublishDeclarativeWorkflowForCurrentUser")) {
-            return null;
-        }
         return $this->getProperty("AllowSavePublishDeclarativeWorkflowForCurrentUser");
     }
     /**
@@ -503,9 +463,6 @@ class Web extends SecurableObject
      */
     public function getAlternateCssUrl()
     {
-        if (!$this->isPropertyAvailable("AlternateCssUrl")) {
-            return null;
-        }
         return $this->getProperty("AlternateCssUrl");
     }
     /**
@@ -529,9 +486,6 @@ class Web extends SecurableObject
      */
     public function getAppInstanceId()
     {
-        if (!$this->isPropertyAvailable("AppInstanceId")) {
-            return null;
-        }
         return $this->getProperty("AppInstanceId");
     }
     /**
@@ -551,9 +505,6 @@ class Web extends SecurableObject
      */
     public function getClassicWelcomePage()
     {
-        if (!$this->isPropertyAvailable("ClassicWelcomePage")) {
-            return null;
-        }
         return $this->getProperty("ClassicWelcomePage");
     }
     /**
@@ -1716,9 +1667,6 @@ class Web extends SecurableObject
      */
     public function getTenantTagPolicyEnabled()
     {
-        if (!$this->isPropertyAvailable("TenantTagPolicyEnabled")) {
-            return null;
-        }
         return $this->getProperty("TenantTagPolicyEnabled");
     }
     /**
@@ -1736,9 +1684,6 @@ class Web extends SecurableObject
      */
     public function getThemeData()
     {
-        if (!$this->isPropertyAvailable("ThemeData")) {
-            return null;
-        }
         return $this->getProperty("ThemeData");
     }
     /**
@@ -1759,9 +1704,6 @@ class Web extends SecurableObject
      */
     public function getThemedCssFolderUrl()
     {
-        if (!$this->isPropertyAvailable("ThemedCssFolderUrl")) {
-            return null;
-        }
         return $this->getProperty("ThemedCssFolderUrl");
     }
     /**
@@ -1783,9 +1725,6 @@ class Web extends SecurableObject
      */
     public function getThirdPartyMdmEnabled()
     {
-        if (!$this->isPropertyAvailable("ThirdPartyMdmEnabled")) {
-            return null;
-        }
         return $this->getProperty("ThirdPartyMdmEnabled");
     }
     /**
@@ -1807,9 +1746,6 @@ class Web extends SecurableObject
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -1831,9 +1767,6 @@ class Web extends SecurableObject
      */
     public function getTreeViewEnabled()
     {
-        if (!$this->isPropertyAvailable("TreeViewEnabled")) {
-            return null;
-        }
         return $this->getProperty("TreeViewEnabled");
     }
     /**
@@ -1856,9 +1789,6 @@ class Web extends SecurableObject
      */
     public function getUIVersion()
     {
-        if (!$this->isPropertyAvailable("UIVersion")) {
-            return null;
-        }
         return $this->getProperty("UIVersion");
     }
     /**
@@ -1882,9 +1812,6 @@ class Web extends SecurableObject
      */
     public function getUIVersionConfigurationEnabled()
     {
-        if (!$this->isPropertyAvailable("UIVersionConfigurationEnabled")) {
-            return null;
-        }
         return $this->getProperty("UIVersionConfigurationEnabled");
     }
     /**
@@ -1909,9 +1836,6 @@ class Web extends SecurableObject
      */
     public function getUrl()
     {
-        if (!$this->isPropertyAvailable("Url")) {
-            return null;
-        }
         return $this->getProperty("Url");
     }
     /**
@@ -1933,9 +1857,6 @@ class Web extends SecurableObject
      */
     public function getUseAccessRequestDefault()
     {
-        if (!$this->isPropertyAvailable("UseAccessRequestDefault")) {
-            return null;
-        }
         return $this->getProperty("UseAccessRequestDefault");
     }
     /**
@@ -1956,9 +1877,6 @@ class Web extends SecurableObject
      */
     public function getWebTemplate()
     {
-        if (!$this->isPropertyAvailable("WebTemplate")) {
-            return null;
-        }
         return $this->getProperty("WebTemplate");
     }
     /**
@@ -1984,22 +1902,22 @@ class Web extends SecurableObject
      */
     public function getWelcomePage()
     {
-        if (!$this->isPropertyAvailable("WelcomePage")) {
-            return null;
-        }
         return $this->getProperty("WelcomePage");
     }
+
     /**
-     * Specifies 
-     * the URL 
-     * of the Welcome page for the 
-     * site 
+     * Specifies
+     * the URL
+     * of the Welcome page for the
+     * site
      * (2).
+     *
+     * @return self
      * @var string
      */
     public function setWelcomePage($value)
     {
-        $this->setProperty("WelcomePage", $value, true);
+        return $this->setProperty("WelcomePage", $value, true);
     }
     /**
      * Specifies 
@@ -2010,10 +1928,8 @@ class Web extends SecurableObject
      */
     public function getAssociatedMemberGroup()
     {
-        if (!$this->isPropertyAvailable("AssociatedMemberGroup")) {
-            $this->setProperty("AssociatedMemberGroup", new Group($this->getContext(), new ResourcePath("AssociatedMemberGroup", $this->getResourcePath())));
-        }
-        return $this->getProperty("AssociatedMemberGroup");
+        return $this->getProperty("AssociatedMemberGroup",
+            new Group($this->getContext(), new ResourcePath("AssociatedMemberGroup", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -2024,10 +1940,8 @@ class Web extends SecurableObject
      */
     public function getAssociatedOwnerGroup()
     {
-        if (!$this->isPropertyAvailable("AssociatedOwnerGroup")) {
-            $this->setProperty("AssociatedOwnerGroup", new Group($this->getContext(), new ResourcePath("AssociatedOwnerGroup", $this->getResourcePath())));
-        }
-        return $this->getProperty("AssociatedOwnerGroup");
+        return $this->getProperty("AssociatedOwnerGroup",
+            new Group($this->getContext(), new ResourcePath("AssociatedOwnerGroup", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -2037,10 +1951,8 @@ class Web extends SecurableObject
      */
     public function getAssociatedVisitorGroup()
     {
-        if (!$this->isPropertyAvailable("AssociatedVisitorGroup")) {
-            $this->setProperty("AssociatedVisitorGroup", new Group($this->getContext(), new ResourcePath("AssociatedVisitorGroup", $this->getResourcePath())));
-        }
-        return $this->getProperty("AssociatedVisitorGroup");
+        return $this->getProperty("AssociatedVisitorGroup",
+            new Group($this->getContext(), new ResourcePath("AssociatedVisitorGroup", $this->getResourcePath())));
     }
     /**
      * Gets a 
@@ -2049,10 +1961,8 @@ class Web extends SecurableObject
      */
     public function getAuthor()
     {
-        if (!$this->isPropertyAvailable("Author")) {
-            $this->setProperty("Author", new User($this->getContext(), new ResourcePath("Author", $this->getResourcePath())));
-        }
-        return $this->getProperty("Author");
+        return $this->getProperty("Author",
+            new User($this->getContext(), new ResourcePath("Author", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -2063,10 +1973,9 @@ class Web extends SecurableObject
      */
     public function getAvailableContentTypes()
     {
-        if (!$this->isPropertyAvailable("AvailableContentTypes")) {
-            $this->setProperty("AvailableContentTypes", new ContentTypeCollection($this->getContext(), new ResourcePath("AvailableContentTypes", $this->getResourcePath())));
-        }
-        return $this->getProperty("AvailableContentTypes");
+        return $this->getProperty("AvailableContentTypes",
+            new ContentTypeCollection($this->getContext(),
+                new ResourcePath("AvailableContentTypes", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -2078,10 +1987,9 @@ class Web extends SecurableObject
      */
     public function getAvailableFields()
     {
-        if (!$this->isPropertyAvailable("AvailableFields")) {
-            $this->setProperty("AvailableFields", new FieldCollection($this->getContext(), new ResourcePath("AvailableFields", $this->getResourcePath())));
-        }
-        return $this->getProperty("AvailableFields");
+        return $this->getProperty("AvailableFields",
+            new FieldCollection($this->getContext(),
+                new ResourcePath("AvailableFields", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -2091,10 +1999,9 @@ class Web extends SecurableObject
      */
     public function getRecycleBin()
     {
-        if (!$this->isPropertyAvailable("RecycleBin")) {
-            $this->setProperty("RecycleBin", new RecycleBinItemCollection($this->getContext(), new ResourcePath("RecycleBin", $this->getResourcePath())));
-        }
-        return $this->getProperty("RecycleBin");
+        return $this->getProperty("RecycleBin",
+            new RecycleBinItemCollection($this->getContext(),
+                new ResourcePath("RecycleBin", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -2104,90 +2011,75 @@ class Web extends SecurableObject
      */
     public function getRootFolder()
     {
-        if (!$this->isPropertyAvailable("RootFolder")) {
-            $this->setProperty("RootFolder", new Folder($this->getContext(), new ResourcePath("RootFolder", $this->getResourcePath())));
-        }
-        return $this->getProperty("RootFolder");
+        return $this->getProperty("RootFolder",
+            new Folder($this->getContext(), new ResourcePath("RootFolder", $this->getResourcePath())));
     }
     /**
      * @return UserResource
      */
     public function getDescriptionResource()
     {
-        if (!$this->isPropertyAvailable("DescriptionResource")) {
-            $this->setProperty("DescriptionResource", new UserResource($this->getContext(), new ResourcePath("DescriptionResource", $this->getResourcePath())));
-        }
-        return $this->getProperty("DescriptionResource");
+        return $this->getProperty("DescriptionResource",
+            new UserResource($this->getContext(),
+                new ResourcePath("DescriptionResource", $this->getResourcePath())));
     }
     /**
      * @return UserResource
      */
     public function getTitleResource()
     {
-        if (!$this->isPropertyAvailable("TitleResource")) {
-            $this->setProperty("TitleResource", new UserResource($this->getContext(), new ResourcePath("TitleResource", $this->getResourcePath())));
-        }
-        return $this->getProperty("TitleResource");
+        return $this->getProperty("TitleResource",
+            new UserResource($this->getContext(), new ResourcePath("TitleResource", $this->getResourcePath())));
     }
     /**
      * @return SPDataLeakagePreventionStatusInfo
      */
     public function getDataLeakagePreventionStatusInfo()
     {
-        if (!$this->isPropertyAvailable("DataLeakagePreventionStatusInfo")) {
-            $this->setProperty("DataLeakagePreventionStatusInfo", new SPDataLeakagePreventionStatusInfo($this->getContext(), new ResourcePath("DataLeakagePreventionStatusInfo", $this->getResourcePath())));
-        }
-        return $this->getProperty("DataLeakagePreventionStatusInfo");
+        return $this->getProperty("DataLeakagePreventionStatusInfo",
+            new SPDataLeakagePreventionStatusInfo($this->getContext(),
+                new ResourcePath("DataLeakagePreventionStatusInfo", $this->getResourcePath())));
     }
     /**
      * @return MultilingualSettings
      */
     public function getMultilingualSettings()
     {
-        if (!$this->isPropertyAvailable("MultilingualSettings")) {
-            $this->setProperty("MultilingualSettings", new MultilingualSettings($this->getContext(), new ResourcePath("MultilingualSettings", $this->getResourcePath())));
-        }
-        return $this->getProperty("MultilingualSettings");
+        return $this->getProperty("MultilingualSettings",
+            new MultilingualSettings($this->getContext(),
+                new ResourcePath("MultilingualSettings", $this->getResourcePath())));
     }
     /**
      * @return Navigation
      */
     public function getNavigation()
     {
-        if (!$this->isPropertyAvailable("Navigation")) {
-            $this->setProperty("Navigation", new Navigation($this->getContext(), new ResourcePath("Navigation", $this->getResourcePath())));
-        }
-        return $this->getProperty("Navigation");
+        return $this->getProperty("Navigation",
+            new Navigation($this->getContext(), new ResourcePath("Navigation", $this->getResourcePath())));
     }
     /**
      * @return WebInformation
      */
     public function getParentWeb()
     {
-        if (!$this->isPropertyAvailable("ParentWeb")) {
-            $this->setProperty("ParentWeb", new WebInformation($this->getContext(), new ResourcePath("ParentWeb", $this->getResourcePath())));
-        }
-        return $this->getProperty("ParentWeb");
+        return $this->getProperty("ParentWeb",
+            new WebInformation($this->getContext(), new ResourcePath("ParentWeb", $this->getResourcePath())));
     }
     /**
      * @return RegionalSettings
      */
     public function getRegionalSettings()
     {
-        if (!$this->isPropertyAvailable("RegionalSettings")) {
-            $this->setProperty("RegionalSettings", new RegionalSettings($this->getContext(), new ResourcePath("RegionalSettings", $this->getResourcePath())));
-        }
-        return $this->getProperty("RegionalSettings");
+        return $this->getProperty("RegionalSettings",
+            new RegionalSettings($this->getContext(), new ResourcePath("RegionalSettings", $this->getResourcePath())));
     }
     /**
      * @return ThemeInfo
      */
     public function getThemeInfo()
     {
-        if (!$this->isPropertyAvailable("ThemeInfo")) {
-            $this->setProperty("ThemeInfo", new ThemeInfo($this->getContext(), new ResourcePath("ThemeInfo", $this->getResourcePath())));
-        }
-        return $this->getProperty("ThemeInfo");
+        return $this->getProperty("ThemeInfo",
+            new ThemeInfo($this->getContext(), new ResourcePath("ThemeInfo", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -2198,10 +2090,8 @@ class Web extends SecurableObject
      */
     public function getSiteUserInfoList()
     {
-        if (!$this->isPropertyAvailable("SiteUserInfoList")) {
-            $this->setProperty("SiteUserInfoList", new SPList($this->getContext(), new ResourcePath("SiteUserInfoList", $this->getResourcePath())));
-        }
-        return $this->getProperty("SiteUserInfoList");
+        return $this->getProperty("SiteUserInfoList",
+            new SPList($this->getContext(), new ResourcePath("SiteUserInfoList", $this->getResourcePath())));
     }
     /**
      * Accessibility: Read OnlySpecifies 
@@ -2211,9 +2101,6 @@ class Web extends SecurableObject
      */
     public function getSupportedUILanguageIds()
     {
-        if (!$this->isPropertyAvailable("SupportedUILanguageIds")) {
-            return null;
-        }
         return $this->getProperty("SupportedUILanguageIds");
     }
     /**
@@ -2221,9 +2108,6 @@ class Web extends SecurableObject
      */
     public function getDefaultNewPageTemplateId()
     {
-        if (!$this->isPropertyAvailable("DefaultNewPageTemplateId")) {
-            return null;
-        }
         return $this->getProperty("DefaultNewPageTemplateId");
     }
     /**
@@ -2238,9 +2122,6 @@ class Web extends SecurableObject
      */
     public function getHideTitleInHeader()
     {
-        if (!$this->isPropertyAvailable("HideTitleInHeader")) {
-            return null;
-        }
         return $this->getProperty("HideTitleInHeader");
     }
     /**
@@ -2255,9 +2136,6 @@ class Web extends SecurableObject
      */
     public function getNextStepsFirstRunEnabled()
     {
-        if (!$this->isPropertyAvailable("NextStepsFirstRunEnabled")) {
-            return null;
-        }
         return $this->getProperty("NextStepsFirstRunEnabled");
     }
     /**
@@ -2272,19 +2150,15 @@ class Web extends SecurableObject
      */
     public function getCanModernizeHomepage()
     {
-        if (!$this->isPropertyAvailable("CanModernizeHomepage")) {
-            $this->setProperty("CanModernizeHomepage", new ModernizeHomepageResult($this->getContext(), new ResourcePath("CanModernizeHomepage", $this->getResourcePath())));
-        }
-        return $this->getProperty("CanModernizeHomepage");
+        return $this->getProperty("CanModernizeHomepage",
+            new ModernizeHomepageResult($this->getContext(),
+                new ResourcePath("CanModernizeHomepage", $this->getResourcePath())));
     }
     /**
      * @return integer
      */
     public function getLogoAlignment()
     {
-        if (!$this->isPropertyAvailable("LogoAlignment")) {
-            return null;
-        }
         return $this->getProperty("LogoAlignment");
     }
     /**
@@ -2299,9 +2173,6 @@ class Web extends SecurableObject
      */
     public function getWebTemplateConfiguration()
     {
-        if (!$this->isPropertyAvailable("WebTemplateConfiguration")) {
-            return null;
-        }
         return $this->getProperty("WebTemplateConfiguration");
     }
     /**
@@ -2316,9 +2187,6 @@ class Web extends SecurableObject
      */
     public function getWebTemplatesGalleryFirstRunEnabled()
     {
-        if (!$this->isPropertyAvailable("WebTemplatesGalleryFirstRunEnabled")) {
-            return null;
-        }
         return $this->getProperty("WebTemplatesGalleryFirstRunEnabled");
     }
     /**
@@ -2333,10 +2201,8 @@ class Web extends SecurableObject
      */
     public function getAccessRequestsList()
     {
-        if (!$this->isPropertyAvailable("AccessRequestsList")) {
-            $this->setProperty("AccessRequestsList", new SPList($this->getContext(), new ResourcePath("AccessRequestsList", $this->getResourcePath())));
-        }
-        return $this->getProperty("AccessRequestsList");
+        return $this->getProperty("AccessRequestsList",
+            new SPList($this->getContext(), new ResourcePath("AccessRequestsList", $this->getResourcePath())));
     }
     /**
      * @param string $url
@@ -2370,10 +2236,7 @@ class Web extends SecurableObject
      */
     public function getServerRelativePath()
     {
-        if (!$this->isPropertyAvailable("ServerRelativePath")) {
-            return null;
-        }
-        return $this->getProperty("ServerRelativePath");
+        return $this->getProperty("ServerRelativePath", new SPResourcePath());
     }
     /**
      * Gets the
@@ -2401,9 +2264,6 @@ class Web extends SecurableObject
      */
     public function getHasWebTemplateExtension()
     {
-        if (!$this->isPropertyAvailable("HasWebTemplateExtension")) {
-            return null;
-        }
         return $this->getProperty("HasWebTemplateExtension");
     }
     /**
@@ -2418,16 +2278,16 @@ class Web extends SecurableObject
      */
     public function getKeepFieldUserResources()
     {
-        if (!$this->isPropertyAvailable("KeepFieldUserResources")) {
-            return null;
-        }
         return $this->getProperty("KeepFieldUserResources");
     }
+
     /**
+     *
+     * @return Web
      * @var bool
      */
     public function setKeepFieldUserResources($value)
     {
-        $this->setProperty("KeepFieldUserResources", $value, true);
+        return $this->setProperty("KeepFieldUserResources", $value, true);
     }
 }

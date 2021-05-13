@@ -7,7 +7,6 @@ use DateTime;
 use DateTimeZone;
 use Office365\Common\Location;
 use Office365\Common\PhysicalAddress;
-use Office365\OutlookServices\Attendee;
 use Office365\OutlookServices\BodyType;
 use Office365\OutlookServices\EmailAddress;
 use Office365\OutlookServices\Event;
@@ -30,7 +29,7 @@ class CalendarTest extends GraphTestCase
         $location->Address->City = "Helsinki";
         $location->Address->CountryOrRegion = "Finland";
         $event->setLocation($location);
-        $event->getAttendees()->addChild(new Attendee(new EmailAddress($currentUser->getDisplayName(),$currentUser->getId())));
+        $event->setAttendees([new EmailAddress($currentUser->getDisplayName(),$currentUser->getId())]);
         self::$graphClient->executeQuery();
         self::assertNotNull($event->getId());
         return $event;

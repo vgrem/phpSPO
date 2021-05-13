@@ -8,6 +8,7 @@ $tenant_prefix = $domain_parts[0];
 return array(
     'TenantName' => "{$tenant_prefix}.onmicrosoft.com",
 	'Url' => "https://{$tenant_prefix}.sharepoint.com",
+    'TeamSiteUrl' => "https://{$tenant_prefix}.sharepoint.com/sites/team",
     'OneDriveUrl' => "https://{$tenant_prefix}-my.sharepoint.com",
     'AdminTenantUrl' => "https://{$tenant_prefix}-admin.sharepoint.com",
     'Password' => $secure_vars[1],

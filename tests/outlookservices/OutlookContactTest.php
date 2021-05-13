@@ -5,6 +5,7 @@ namespace Office365;
 
 use Office365\OutlookServices\Contact;
 use Office365\OutlookServices\EmailAddress;
+use Office365\Runtime\Http\RequestException;
 
 class OutlookContactTest extends GraphTestCase
 {
@@ -16,7 +17,7 @@ class OutlookContactTest extends GraphTestCase
         $contact->setGivenName("Pavel");
         $contact->setSurname("Bansky");
         $contact->getBusinessPhones()[] = "+1 732 555 0102";
-        $contact->getEmailAddresses()->addChild(new EmailAddress("Pavel Bansky","pavelb@a830edad9050849NDA1.onmicrosoft.com"));
+        $contact->setEmailAddresses([new EmailAddress("Pavel Bansky","pavelb@a830edad9050849NDA1.onmicrosoft.com")]);
         self::$graphClient->executeQuery();
         self::assertNotNull($contact->getId());
         return $contact;
@@ -57,15 +58,12 @@ class OutlookContactTest extends GraphTestCase
     {
         $contactIdToDelete = $contact->getId();
         $contact->deleteObject()->executeQuery();
-
-        $contacts = self::$graphClient->getMe()->getContacts()->get()->executeQuery();
-        $result = array_filter(
-            $contacts->getData(),
-            function (Contact $curContact) use ($contactIdToDelete) {
-                return  $curContact->Id === $contactIdToDelete;
-            }
-        );
-        self::assertEquals(0,count ($result));
+        try {
+            self::$graphClient->getMe()->getContacts()->getById($contactIdToDelete)->get()->executeQuery();
+        }
+        catch (RequestException $ex){
+            self::assertEquals(404, $ex->getCode());
+        }
     }
 
 }

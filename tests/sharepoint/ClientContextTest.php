@@ -73,9 +73,7 @@ class ClientContextTest extends SharePointTestCase
 
 
     public function testEnsureNavigationProperty(){
-        $web = self::$context->getWeb();
-        $web->ensureProperty("CurrentUser");
-        self::$context->executeQuery();
+        $web = self::$context->getWeb()->ensureProperty("CurrentUser")->executeQuery();
         self::assertTrue($web->isPropertyAvailable("CurrentUser"));
     }
 

@@ -5,18 +5,15 @@
  */
 namespace Office365\Common;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\ResourcePath;
-class LicenseDetails extends ClientObject
+use Office365\Entity;
+
+class LicenseDetails extends Entity
 {
     /**
      * @return string
      */
     public function getSkuId()
     {
-        if (!$this->isPropertyAvailable("SkuId")) {
-            return null;
-        }
         return $this->getProperty("SkuId");
     }
     /**

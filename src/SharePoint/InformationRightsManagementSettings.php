@@ -5,14 +5,13 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 
 /**
  * A 
  * collection of Information Rights Management 
  * (IRM) settings for a list.<201>
  */
-class InformationRightsManagementSettings extends ClientObject
+class InformationRightsManagementSettings extends BaseEntity
 {
 
     /**

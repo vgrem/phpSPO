@@ -21,9 +21,6 @@ class Contact extends Entity
      */
     public function getParentFolderId()
     {
-        if (!$this->isPropertyAvailable("ParentFolderId")) {
-            return null;
-        }
         return $this->getProperty("ParentFolderId");
     }
     /**
@@ -40,9 +37,6 @@ class Contact extends Entity
      */
     public function getFileAs()
     {
-        if (!$this->isPropertyAvailable("FileAs")) {
-            return null;
-        }
         return $this->getProperty("FileAs");
     }
     /**
@@ -59,9 +53,6 @@ class Contact extends Entity
      */
     public function getDisplayName()
     {
-        if (!$this->isPropertyAvailable("DisplayName")) {
-            return null;
-        }
         return $this->getProperty("DisplayName");
     }
     /**
@@ -78,9 +69,6 @@ class Contact extends Entity
      */
     public function getGivenName()
     {
-        if (!$this->isPropertyAvailable("GivenName")) {
-            return null;
-        }
         return $this->getProperty("GivenName");
     }
     /**
@@ -97,9 +85,6 @@ class Contact extends Entity
      */
     public function getInitials()
     {
-        if (!$this->isPropertyAvailable("Initials")) {
-            return null;
-        }
         return $this->getProperty("Initials");
     }
     /**
@@ -116,9 +101,6 @@ class Contact extends Entity
      */
     public function getMiddleName()
     {
-        if (!$this->isPropertyAvailable("MiddleName")) {
-            return null;
-        }
         return $this->getProperty("MiddleName");
     }
     /**
@@ -135,9 +117,6 @@ class Contact extends Entity
      */
     public function getNickName()
     {
-        if (!$this->isPropertyAvailable("NickName")) {
-            return null;
-        }
         return $this->getProperty("NickName");
     }
     /**
@@ -154,9 +133,6 @@ class Contact extends Entity
      */
     public function getSurname()
     {
-        if (!$this->isPropertyAvailable("Surname")) {
-            return null;
-        }
         return $this->getProperty("Surname");
     }
 
@@ -177,9 +153,6 @@ class Contact extends Entity
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -196,9 +169,6 @@ class Contact extends Entity
      */
     public function getYomiGivenName()
     {
-        if (!$this->isPropertyAvailable("YomiGivenName")) {
-            return null;
-        }
         return $this->getProperty("YomiGivenName");
     }
     /**
@@ -215,9 +185,6 @@ class Contact extends Entity
      */
     public function getYomiSurname()
     {
-        if (!$this->isPropertyAvailable("YomiSurname")) {
-            return null;
-        }
         return $this->getProperty("YomiSurname");
     }
     /**
@@ -623,5 +590,14 @@ class Contact extends Entity
      */
     public function getEmailAddresses(){
         return $this->getProperty("EmailAddresses",new ClientValueCollection(EmailAddress::class));
+    }
+
+    /**
+     * @param EmailAddress[] $values
+     * @return Contact
+     */
+    public function setEmailAddresses($values){
+        return $this->setProperty("EmailAddresses",
+            ClientValueCollection::fromArray(EmailAddress::class,$values));
     }
 }

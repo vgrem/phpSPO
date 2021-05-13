@@ -232,7 +232,8 @@ class File extends SecurableObject
      */
     public function getLimitedWebPartManager($scope)
     {
-        return new LimitedWebPartManager($this->getContext(), new ResourcePathServiceOperation("getLimitedWebPartManager", array($scope), $this->getResourcePath()));
+        return new LimitedWebPartManager($this->getContext(),
+            new ResourcePathServiceOperation("getLimitedWebPartManager", array($scope), $this->getResourcePath()));
     }
     /**
      * Returns IRM settings for given file.
@@ -241,10 +242,9 @@ class File extends SecurableObject
      */
     public function getInformationRightsManagementSettings()
     {
-        if (!$this->isPropertyAvailable('InformationRightsManagementSettings')) {
-            $this->setProperty("InformationRightsManagementSettings", new InformationRightsManagementSettings($this->getContext()));
-        }
-        return $this->getProperty("InformationRightsManagementSettings");
+        return $this->getProperty("InformationRightsManagementSettings",
+            new InformationRightsManagementSettings($this->getContext(),
+                new ResourcePath("InformationRightsManagementSettings", $this->getResourcePath())));
     }
     /**
      * Gets a value that returns a collection of file version objects that represent the versions of the file.
@@ -252,10 +252,8 @@ class File extends SecurableObject
      */
     public function getVersions()
     {
-        if (!$this->isPropertyAvailable('Versions')) {
-            $this->setProperty("Versions", new FileVersionCollection($this->getContext(), new ResourcePath("Versions", $this->getResourcePath())));
-        }
-        return $this->getProperty("Versions");
+        return $this->getProperty("Versions",
+            new FileVersionCollection($this->getContext(), new ResourcePath("Versions", $this->getResourcePath())));
     }
     /**
      * Gets a value that indicates how the file is checked out of a document library
@@ -263,10 +261,7 @@ class File extends SecurableObject
      */
     public function getCheckOutType()
     {
-        if ($this->isPropertyAvailable('CheckOutType')) {
-            return $this->getProperty("CheckOutType");
-        }
-        return null;
+        return $this->getProperty("CheckOutType");
     }
     /**
      * Specifies the list item field (2) values for the list item corresponding to the file.
@@ -274,10 +269,8 @@ class File extends SecurableObject
      */
     public function getListItemAllFields()
     {
-        if (!$this->isPropertyAvailable("ListItemAllFields")) {
-            $this->setProperty("ListItemAllFields", new ListItem($this->getContext(), new ResourcePath("ListItemAllFields", $this->getResourcePath())));
-        }
-        return $this->getProperty("ListItemAllFields");
+        return $this->getProperty("ListItemAllFields",
+            new ListItem($this->getContext(), new ResourcePath("ListItemAllFields", $this->getResourcePath())));
     }
     /**
      * Starts a new chunk upload session and uploads the first fragment
@@ -330,6 +323,7 @@ class File extends SecurableObject
                 $this->resourcePath = new ResourcePath("GetFileByServerRelativeUrl('{$value}')", new ResourcePath("Web"));
             }
         }
+        return $this;
     }
     /**
      * Specifies 
@@ -339,20 +333,20 @@ class File extends SecurableObject
      */
     public function getCheckInComment()
     {
-        if (!$this->isPropertyAvailable("CheckInComment")) {
-            return null;
-        }
         return $this->getProperty("CheckInComment");
     }
+
     /**
-     * Specifies 
-     * the comment used when a document is checked into a document library.Its length 
-     * MUST be equal to or less than 1023. 
+     * Specifies
+     * the comment used when a document is checked into a document library.Its length
+     * MUST be equal to or less than 1023.
+     *
+     * @return self
      * @var string
      */
     public function setCheckInComment($value)
     {
-        $this->setProperty("CheckInComment", $value, true);
+        return $this->setProperty("CheckInComment", $value, true);
     }
     /**
      * Specifies 
@@ -371,9 +365,6 @@ class File extends SecurableObject
      */
     public function getContentTag()
     {
-        if (!$this->isPropertyAvailable("ContentTag")) {
-            return null;
-        }
         return $this->getProperty("ContentTag");
     }
     /**
@@ -393,9 +384,6 @@ class File extends SecurableObject
      */
     public function getCustomizedPageStatus()
     {
-        if (!$this->isPropertyAvailable("CustomizedPageStatus")) {
-            return null;
-        }
         return $this->getProperty("CustomizedPageStatus");
     }
     /**
@@ -414,9 +402,6 @@ class File extends SecurableObject
      */
     public function getListId()
     {
-        if (!$this->isPropertyAvailable("ListId")) {
-            return null;
-        }
         return $this->getProperty("ListId");
     }
     /**
@@ -437,9 +422,6 @@ class File extends SecurableObject
      */
     public function getETag()
     {
-        if (!$this->isPropertyAvailable("ETag")) {
-            return null;
-        }
         return $this->getProperty("ETag");
     }
     /**
@@ -460,9 +442,6 @@ class File extends SecurableObject
      */
     public function getExists()
     {
-        if (!$this->isPropertyAvailable("Exists")) {
-            return null;
-        }
         return $this->getProperty("Exists");
     }
     /**
@@ -483,9 +462,6 @@ class File extends SecurableObject
      */
     public function getIrmEnabled()
     {
-        if (!$this->isPropertyAvailable("IrmEnabled")) {
-            return null;
-        }
         return $this->getProperty("IrmEnabled");
     }
     /**
@@ -508,9 +484,6 @@ class File extends SecurableObject
      */
     public function getLength()
     {
-        if (!$this->isPropertyAvailable("Length")) {
-            return null;
-        }
         return $this->getProperty("Length");
     }
     /**
@@ -533,9 +506,6 @@ class File extends SecurableObject
      */
     public function getLevel()
     {
-        if (!$this->isPropertyAvailable("Level")) {
-            return null;
-        }
         return $this->getProperty("Level");
     }
     /**
@@ -557,9 +527,6 @@ class File extends SecurableObject
      */
     public function getLinkingUri()
     {
-        if (!$this->isPropertyAvailable("LinkingUri")) {
-            return null;
-        }
         return $this->getProperty("LinkingUri");
     }
     /**
@@ -580,9 +547,6 @@ class File extends SecurableObject
      */
     public function getLinkingUrl()
     {
-        if (!$this->isPropertyAvailable("LinkingUrl")) {
-            return null;
-        }
         return $this->getProperty("LinkingUrl");
     }
     /**
@@ -604,9 +568,6 @@ class File extends SecurableObject
      */
     public function getMajorVersion()
     {
-        if (!$this->isPropertyAvailable("MajorVersion")) {
-            return null;
-        }
         return $this->getProperty("MajorVersion");
     }
     /**
@@ -629,9 +590,6 @@ class File extends SecurableObject
      */
     public function getMinorVersion()
     {
-        if (!$this->isPropertyAvailable("MinorVersion")) {
-            return null;
-        }
         return $this->getProperty("MinorVersion");
     }
     /**

@@ -20,16 +20,12 @@ class EntityType extends BaseEntity
 
     public function getValueProperty()
     {
-        if(!$this->isPropertyAvailable("{name}")){
-            return null;
-        }
         return $this->getProperty("{name}");
     }
 
     public function setValueProperty($value)
     {
-        $this->setProperty("{name}",$value,true);
-        return $this;
+        return $this->setProperty("{name}",$value,true);
     }
 
 

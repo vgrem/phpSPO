@@ -12,11 +12,9 @@ class TermSet extends TaxonomyItem
      * @return TaxonomyItemCollection
      */
     public function getTerms(){
-        if (!$this->isPropertyAvailable("terms")) {
-            $this->setProperty("terms", new TaxonomyItemCollection($this->getContext(),
+        return $this->getProperty("terms",
+            new TaxonomyItemCollection($this->getContext(),
                 new ResourcePath("terms", $this->getResourcePath()),Term::class, $this));
-        }
-        return $this->getProperty("terms");
     }
 
 }

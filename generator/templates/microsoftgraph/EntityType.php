@@ -24,8 +24,7 @@ class EntityType extends Entity
 
     public function setValueProperty($value)
     {
-        $this->setProperty("{name}",$value,true);
-        return $this;
+        return $this->setProperty("{name}",$value,true);
     }
 
 }

@@ -196,11 +196,14 @@ class User extends Principal
         }
         return $this->getProperty("UserPrincipalName");
     }
+
     /**
+     *
+     * @return self
      * @var string
      */
     public function setUserPrincipalName($value)
     {
-        $this->setProperty("UserPrincipalName", $value, true);
+        return $this->setProperty("UserPrincipalName", $value, true);
     }
 }

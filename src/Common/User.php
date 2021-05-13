@@ -18,7 +18,7 @@ use Office365\OutlookServices\Message;
 use Office365\Planner\PlannerUser;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
-use Office365\Teams\Team;
+use Office365\Teams\TeamCollection;
 
 /**
  *  "Represents an Azure AD user account. Inherits from directoryObject."
@@ -48,9 +48,6 @@ class User extends DirectoryObject
      */
     public function getAccountEnabled()
     {
-        if (!$this->isPropertyAvailable("AccountEnabled")) {
-            return null;
-        }
         return $this->getProperty("AccountEnabled");
     }
     /**
@@ -67,9 +64,6 @@ class User extends DirectoryObject
      */
     public function getAgeGroup()
     {
-        if (!$this->isPropertyAvailable("AgeGroup")) {
-            return null;
-        }
         return $this->getProperty("AgeGroup");
     }
     /**
@@ -86,9 +80,6 @@ class User extends DirectoryObject
      */
     public function getBusinessPhones()
     {
-        if (!$this->isPropertyAvailable("BusinessPhones")) {
-            return null;
-        }
         return $this->getProperty("BusinessPhones");
     }
     /**
@@ -105,9 +96,6 @@ class User extends DirectoryObject
      */
     public function getCity()
     {
-        if (!$this->isPropertyAvailable("City")) {
-            return null;
-        }
         return $this->getProperty("City");
     }
     /**
@@ -123,9 +111,6 @@ class User extends DirectoryObject
      */
     public function getCompanyName()
     {
-        if (!$this->isPropertyAvailable("CompanyName")) {
-            return null;
-        }
         return $this->getProperty("CompanyName");
     }
     /**
@@ -141,9 +126,6 @@ class User extends DirectoryObject
      */
     public function getConsentProvidedForMinor()
     {
-        if (!$this->isPropertyAvailable("ConsentProvidedForMinor")) {
-            return null;
-        }
         return $this->getProperty("ConsentProvidedForMinor");
     }
     /**
@@ -160,9 +142,6 @@ class User extends DirectoryObject
      */
     public function getCountry()
     {
-        if (!$this->isPropertyAvailable("Country")) {
-            return null;
-        }
         return $this->getProperty("Country");
     }
     /**
@@ -179,9 +158,6 @@ class User extends DirectoryObject
      */
     public function getCreationType()
     {
-        if (!$this->isPropertyAvailable("CreationType")) {
-            return null;
-        }
         return $this->getProperty("CreationType");
     }
     /**
@@ -198,9 +174,6 @@ class User extends DirectoryObject
      */
     public function getDepartment()
     {
-        if (!$this->isPropertyAvailable("Department")) {
-            return null;
-        }
         return $this->getProperty("Department");
     }
     /**
@@ -217,9 +190,6 @@ class User extends DirectoryObject
      */
     public function getDisplayName()
     {
-        if (!$this->isPropertyAvailable("DisplayName")) {
-            return null;
-        }
         return $this->getProperty("DisplayName");
     }
     /**
@@ -236,9 +206,6 @@ class User extends DirectoryObject
      */
     public function getEmployeeId()
     {
-        if (!$this->isPropertyAvailable("EmployeeId")) {
-            return null;
-        }
         return $this->getProperty("EmployeeId");
     }
     /**
@@ -255,9 +222,6 @@ class User extends DirectoryObject
      */
     public function getFaxNumber()
     {
-        if (!$this->isPropertyAvailable("FaxNumber")) {
-            return null;
-        }
         return $this->getProperty("FaxNumber");
     }
     /**
@@ -274,9 +238,6 @@ class User extends DirectoryObject
      */
     public function getGivenName()
     {
-        if (!$this->isPropertyAvailable("GivenName")) {
-            return null;
-        }
         return $this->getProperty("GivenName");
     }
     /**
@@ -293,9 +254,6 @@ class User extends DirectoryObject
      */
     public function getImAddresses()
     {
-        if (!$this->isPropertyAvailable("ImAddresses")) {
-            return null;
-        }
         return $this->getProperty("ImAddresses");
     }
     /**
@@ -312,9 +270,6 @@ class User extends DirectoryObject
      */
     public function getIsResourceAccount()
     {
-        if (!$this->isPropertyAvailable("IsResourceAccount")) {
-            return null;
-        }
         return $this->getProperty("IsResourceAccount");
     }
     /**
@@ -331,9 +286,6 @@ class User extends DirectoryObject
      */
     public function getJobTitle()
     {
-        if (!$this->isPropertyAvailable("JobTitle")) {
-            return null;
-        }
         return $this->getProperty("JobTitle");
     }
     /**
@@ -350,9 +302,6 @@ class User extends DirectoryObject
      */
     public function getLegalAgeGroupClassification()
     {
-        if (!$this->isPropertyAvailable("LegalAgeGroupClassification")) {
-            return null;
-        }
         return $this->getProperty("LegalAgeGroupClassification");
     }
     /**
@@ -369,9 +318,6 @@ class User extends DirectoryObject
      */
     public function getMail()
     {
-        if (!$this->isPropertyAvailable("Mail")) {
-            return null;
-        }
         return $this->getProperty("Mail");
     }
     /**
@@ -942,13 +888,16 @@ class User extends DirectoryObject
         }
         return $this->getProperty("Schools");
     }
+
     /**
      * A list for the user to enumerate the schools they have attended.
+     *
+     * @return self
      * @var array
      */
     public function setSchools($value)
     {
-        $this->setProperty("Schools", $value, true);
+        return $this->setProperty("Schools", $value, true);
     }
     /**
      * A list for the user to enumerate their skills.
@@ -1002,13 +951,16 @@ class User extends DirectoryObject
     {
         return $this->getProperty("PasswordProfile", new PasswordProfile());
     }
+
     /**
      * Specifies the password profile for the user. The profile contains the user’s password. This property is required when a user is created. The password in the profile must satisfy minimum requirements as specified by the **passwordPolicies** property. By default, a strong password is required.
+     *
+     * @return self
      * @var PasswordProfile
      */
     public function setPasswordProfile($value)
     {
-        $this->setProperty("PasswordProfile", $value, true);
+        return $this->setProperty("PasswordProfile", $value, true);
     }
     /**
      * Settings for the primary mailbox of the signed-in user. You can [get](../api/user-get-mailboxsettings.md) or [update](../api/user-update-mailboxsettings.md) settings for sending automatic replies to incoming messages, locale and time zone.
@@ -1063,10 +1015,8 @@ class User extends DirectoryObject
      */
     public function getDrive()
     {
-        if (!$this->isPropertyAvailable("Drive")) {
-            $this->setProperty("Drive", new Drive($this->getContext(), new ResourcePath("Drive", $this->getResourcePath())));
-        }
-        return $this->getProperty("Drive");
+        return $this->getProperty("Drive",
+            new Drive($this->getContext(), new ResourcePath("Drive", $this->getResourcePath())));
     }
     /**
      *  Entry-point to the Planner resource that might exist for a user. Read-only.
@@ -1074,10 +1024,8 @@ class User extends DirectoryObject
      */
     public function getPlanner()
     {
-        if (!$this->isPropertyAvailable("Planner")) {
-            $this->setProperty("Planner", new PlannerUser($this->getContext(), new ResourcePath("Planner", $this->getResourcePath())));
-        }
-        return $this->getProperty("Planner");
+        return $this->getProperty("Planner",
+            new PlannerUser($this->getContext(), new ResourcePath("Planner", $this->getResourcePath())));
     }
     /**
      *  Read-only. Nullable.
@@ -1151,12 +1099,11 @@ class User extends DirectoryObject
     }
 
     /**
-     * @return EntityCollection
+     * @return TeamCollection
      */
     public function getJoinedTeams()
     {
         return $this->getProperty("JoinedTeams",
-            new EntityCollection($this->getContext(),
-                new ResourcePath("joinedTeams", $this->getResourcePath()),Team::class));
+            new TeamCollection($this->getContext(),new ResourcePath("joinedTeams", $this->getResourcePath())));
     }
 }

@@ -46,14 +46,14 @@ class Folder extends Entity
     {
         $targetFolder =  $this->getContext()->getWeb()->getRootFolder()->getFolders()->add($strNewUrl);
         $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use($strNewUrl,$bOverWrite, $targetFolder) {
-            $this->ensureProperty("Files", function ()  use ($strNewUrl,$bOverWrite){
+            $this->ensureProperty("Files", function ()  use ($strNewUrl,$bOverWrite, $targetFolder){
                 /** @var File $file */
                 foreach($this->getFiles() as $file){
                     $newFileUrl = join("/", array($strNewUrl,$file->getName())) ;
                     $file->copyTo($newFileUrl, $bOverWrite);
                 }
+                $this->getContext()->load($targetFolder);
             });
-            $this->getContext()->load($targetFolder);
         });
         return $targetFolder;
     }
@@ -70,14 +70,14 @@ class Folder extends Entity
     {
         $targetFolder =  $this->getContext()->getWeb()->getRootFolder()->getFolders()->add($newUrl);
         $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use($newUrl, $flags, $targetFolder) {
-            $this->ensureProperty("Files", function () use ($newUrl, $flags){
+            $this->ensureProperty("Files", function () use ($newUrl, $flags, $targetFolder){
                 /** @var File $file */
                 foreach($this->getFiles() as $file){
                     $newFileUrl = join("/", array($newUrl,$file->getName())) ;
                     $file->moveTo($newFileUrl, $flags);
                 }
+                $this->getContext()->load($targetFolder);
             });
-            $this->getContext()->load($targetFolder);
         });
         return $targetFolder;
     }
@@ -113,11 +113,8 @@ class Folder extends Entity
      */
     public function getFiles()
     {
-        if (!$this->isPropertyAvailable('Files')) {
-            $this->setProperty("Files",
-                new FileCollection($this->getContext(), new ResourcePath("Files", $this->getResourcePath())));
-        }
-        return $this->getProperty("Files");
+        return $this->getProperty("Files",
+            new FileCollection($this->getContext(), new ResourcePath("Files", $this->getResourcePath())));
     }
     /**
      * Gets the collection of list folders contained in the list folder.
@@ -125,11 +122,8 @@ class Folder extends Entity
      */
     public function getFolders()
     {
-        if (!$this->isPropertyAvailable("Folders")) {
-            $this->setProperty("Folders",
-                new FolderCollection($this->getContext(), new ResourcePath("folders", $this->getResourcePath())));
-        }
-        return $this->getProperty("Folders");
+        return $this->getProperty("Folders",
+            new FolderCollection($this->getContext(), new ResourcePath("folders", $this->getResourcePath())));
     }
     /**
      * Specifies the list item field (2) values for the list item corresponding to the folder.
@@ -137,10 +131,8 @@ class Folder extends Entity
      */
     public function getListItemAllFields()
     {
-        if (!$this->isPropertyAvailable("ListItemAllFields")) {
-            $this->setProperty("ListItemAllFields", new ListItem($this->getContext(), new ResourcePath("ListItemAllFields", $this->getResourcePath())));
-        }
-        return $this->getProperty("ListItemAllFields");
+        return $this->getProperty("ListItemAllFields",
+            new ListItem($this->getContext(), new ResourcePath("ListItemAllFields", $this->getResourcePath())));
     }
 
     /**
@@ -164,9 +156,6 @@ class Folder extends Entity
      */
     public function getExists()
     {
-        if (!$this->isPropertyAvailable("Exists")) {
-            return null;
-        }
         return $this->getProperty("Exists");
     }
     /**
@@ -185,9 +174,6 @@ class Folder extends Entity
      */
     public function getIsWOPIEnabled()
     {
-        if (!$this->isPropertyAvailable("IsWOPIEnabled")) {
-            return null;
-        }
         return $this->getProperty("IsWOPIEnabled");
     }
     /**
@@ -206,9 +192,6 @@ class Folder extends Entity
      */
     public function getItemCount()
     {
-        if (!$this->isPropertyAvailable("ItemCount")) {
-            return null;
-        }
         return $this->getProperty("ItemCount");
     }
     /**
@@ -229,9 +212,6 @@ class Folder extends Entity
      */
     public function getName()
     {
-        if (!$this->isPropertyAvailable("Name")) {
-            return null;
-        }
         return $this->getProperty("Name");
     }
     /**
@@ -252,9 +232,6 @@ class Folder extends Entity
      */
     public function getProgID()
     {
-        if (!$this->isPropertyAvailable("ProgID")) {
-            return null;
-        }
         return $this->getProperty("ProgID");
     }
     /**
@@ -275,9 +252,6 @@ class Folder extends Entity
      */
     public function getServerRelativeUrl()
     {
-        if (!$this->isPropertyAvailable("ServerRelativeUrl")) {
-            return null;
-        }
         return $this->getProperty("ServerRelativeUrl");
     }
 
@@ -286,7 +260,7 @@ class Folder extends Entity
      * the server-relative
      * URL of the list folder.It MUST
      * NOT be NULL. It MUST be a URL of server-relative form.
-     * @return Folder|void
+     * @return self
      * @var string
      */
     public function setServerRelativeUrl($value)
@@ -300,16 +274,13 @@ class Folder extends Entity
      */
     public function getTimeCreated()
     {
-        if (!$this->isPropertyAvailable("TimeCreated")) {
-            return null;
-        }
         return $this->getProperty("TimeCreated");
     }
 
     /**
      * Gets when
      * the folder was created in UTC.
-     * @return Folder
+     * @return self
      * @var string
      */
     public function setTimeCreated($value)
@@ -323,9 +294,6 @@ class Folder extends Entity
      */
     public function getTimeLastModified()
     {
-        if (!$this->isPropertyAvailable("TimeLastModified")) {
-            return null;
-        }
         return $this->getProperty("TimeLastModified");
     }
     /**
@@ -344,9 +312,6 @@ class Folder extends Entity
      */
     public function getUniqueId()
     {
-        if (!$this->isPropertyAvailable("UniqueId")) {
-            return null;
-        }
         return $this->getProperty("UniqueId");
     }
     /**
@@ -368,22 +333,22 @@ class Folder extends Entity
      */
     public function getWelcomePage()
     {
-        if (!$this->isPropertyAvailable("WelcomePage")) {
-            return null;
-        }
         return $this->getProperty("WelcomePage");
     }
+
     /**
-     * Specifies 
-     * the server-relative 
-     * URL for the list folderWelcome 
-     * page.It MUST 
-     * NOT be NULL. 
+     * Specifies
+     * the server-relative
+     * URL for the list folderWelcome
+     * page.It MUST
+     * NOT be NULL.
+     *
+     * @return self
      * @var string
      */
     public function setWelcomePage($value)
     {
-        $this->setProperty("WelcomePage", $value, true);
+        return $this->setProperty("WelcomePage", $value, true);
     }
     /**
      * Specifies 
@@ -393,21 +358,16 @@ class Folder extends Entity
      */
     public function getParentFolder()
     {
-        if (!$this->isPropertyAvailable("ParentFolder")) {
-            $this->setProperty("ParentFolder", new Folder($this->getContext(), new ResourcePath("ParentFolder", $this->getResourcePath())));
-        }
-        return $this->getProperty("ParentFolder");
+        return $this->getProperty("ParentFolder",
+            new Folder($this->getContext(), new ResourcePath("ParentFolder", $this->getResourcePath())));
     }
     /**
      * @return StorageMetrics
      */
     public function getStorageMetrics()
     {
-        if (!$this->isPropertyAvailable("StorageMetrics")) {
-            $this->setProperty("StorageMetrics", new StorageMetrics($this->getContext(),
-                new ResourcePath("StorageMetrics", $this->getResourcePath())));
-        }
-        return $this->getProperty("StorageMetrics");
+        return $this->getProperty("StorageMetrics",
+            new StorageMetrics($this->getContext(),new ResourcePath("StorageMetrics", $this->getResourcePath())));
     }
     /**
      * Returns 
@@ -416,18 +376,18 @@ class Folder extends Entity
      */
     public function getServerRelativePath()
     {
-        if (!$this->isPropertyAvailable("ServerRelativePath")) {
-            return null;
-        }
-        return $this->getProperty("ServerRelativePath");
+        return $this->getProperty("ServerRelativePath", new SPResourcePath());
     }
+
     /**
-     * Returns 
+     * Returns
      * the server-relative path of the folder.
+     *
+     * @return self
      * @var SPResourcePath
      */
     public function setServerRelativePath($value)
     {
-        $this->setProperty("ServerRelativePath", $value, true);
+        return $this->setProperty("ServerRelativePath", $value, true);
     }
 }

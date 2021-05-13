@@ -36,9 +36,6 @@ class ThemeInfo extends ClientObject
      */
     public function getThemeBackgroundImageUri()
     {
-        if (!$this->isPropertyAvailable("ThemeBackgroundImageUri")) {
-            return null;
-        }
         return $this->getProperty("ThemeBackgroundImageUri");
     }
     /**

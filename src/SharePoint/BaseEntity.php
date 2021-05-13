@@ -44,7 +44,7 @@ class BaseEntity extends ClientObject
      */
     public function setProperty($name, $value, $persistChanges = true)
     {
-        //fallback: determine entity by
+        //fallback: determine entity by Id
         if ($name === "Id") {
             if (is_null($this->getResourcePath())) {
                 if (is_int($value)) {
@@ -56,7 +56,8 @@ class BaseEntity extends ClientObject
                 $this->resourcePath = new ResourcePath($segment,$this->parentCollection->getResourcePath()->getParent());
             }
         }
-        return parent::setProperty($name, $value, $persistChanges);
+        parent::setProperty($name, $value, $persistChanges);
+        return $this;
     }
 
 }

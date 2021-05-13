@@ -5,8 +5,7 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
 
-class ListHomeItemCollection extends ClientObject
+class ListHomeItemCollection extends BaseEntity
 {
 }

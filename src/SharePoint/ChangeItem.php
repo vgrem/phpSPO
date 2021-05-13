@@ -21,19 +21,19 @@ class ChangeItem extends Change
      */
     public function getActivityType()
     {
-        if (!$this->isPropertyAvailable("ActivityType")) {
-            return null;
-        }
         return $this->getProperty("ActivityType");
     }
+
     /**
-     * Returns 
+     * Sets
      * activity type defined in section 3.2.5.464
+     *
+     * @return self
      * @var integer
      */
     public function setActivityType($value)
     {
-        $this->setProperty("ActivityType", $value, true);
+        return $this->setProperty("ActivityType", $value, true);
     }
     /**
      * Specifies 

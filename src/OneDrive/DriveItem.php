@@ -83,7 +83,7 @@ class DriveItem extends BaseItem
     /**
      * Delete a DriveItem by using its ID or path. Note that deleting items using this method will move the items to
      * the recycle bin instead of permanently deleting the item.
-     * @return DriveItem
+     * @return self
      */
     public function delete()
     {
@@ -98,180 +98,177 @@ class DriveItem extends BaseItem
      */
     public function getCTag()
     {
-        if (!$this->isPropertyAvailable("CTag")) {
-            return null;
-        }
         return $this->getProperty("CTag");
     }
+
     /**
+     *
+     * @return self
      * @var string
      */
     public function setCTag($value)
     {
-        $this->setProperty("CTag", $value, true);
+        return $this->setProperty("CTag", $value, true);
     }
     /**
      * @return GeoCoordinates
      */
     public function getLocation()
     {
-        if (!$this->isPropertyAvailable("Location")) {
-            return null;
-        }
-        return $this->getProperty("Location");
+        return $this->getProperty("Location", new GeoCoordinates());
     }
+
     /**
+     *
+     * @return self
      * @var GeoCoordinates
      */
     public function setLocation($value)
     {
-        $this->setProperty("Location", $value, true);
+        return $this->setProperty("Location", $value, true);
     }
     /**
      * @return integer
      */
     public function getSize()
     {
-        if (!$this->isPropertyAvailable("Size")) {
-            return null;
-        }
         return $this->getProperty("Size");
     }
+
     /**
+     *
+     * @return self
      * @var integer
      */
     public function setSize($value)
     {
-        $this->setProperty("Size", $value, true);
+        return $this->setProperty("Size", $value, true);
     }
     /**
      * @return string
      */
     public function getWebDavUrl()
     {
-        if (!$this->isPropertyAvailable("WebDavUrl")) {
-            return null;
-        }
         return $this->getProperty("WebDavUrl");
     }
+
     /**
+     *
+     * @return self
      * @var string
      */
     public function setWebDavUrl($value)
     {
-        $this->setProperty("WebDavUrl", $value, true);
+        return $this->setProperty("WebDavUrl", $value, true);
     }
     /**
      * @return Audio
      */
     public function getAudio()
     {
-        if (!$this->isPropertyAvailable("Audio")) {
-            return null;
-        }
-        return $this->getProperty("Audio");
+        return $this->getProperty("Audio", new Audio());
     }
+
     /**
+     *
+     * @return self
      * @var Audio
      */
     public function setAudio($value)
     {
-        $this->setProperty("Audio", $value, true);
+        return $this->setProperty("Audio", $value, true);
     }
     /**
      * @return Deleted
      */
     public function getDeleted()
     {
-        if (!$this->isPropertyAvailable("Deleted")) {
-            return null;
-        }
-        return $this->getProperty("Deleted");
+        return $this->getProperty("Deleted", new Deleted());
     }
+
     /**
+     *
+     * @return self
      * @var Deleted
      */
     public function setDeleted($value)
     {
-        $this->setProperty("Deleted", $value, true);
+        return $this->setProperty("Deleted", $value, true);
     }
     /**
      * @return File
      */
     public function getFile()
     {
-        if (!$this->isPropertyAvailable("File")) {
-            return null;
-        }
-        return $this->getProperty("File");
+        return $this->getProperty("File", new File());
     }
+
     /**
+     *
+     * @return self
      * @var File
      */
     public function setFile($value)
     {
-        $this->setProperty("File", $value, true);
+        return $this->setProperty("File", $value, true);
     }
     /**
      * @return FileSystemInfo
      */
     public function getFileSystemInfo()
     {
-        if (!$this->isPropertyAvailable("FileSystemInfo")) {
-            return null;
-        }
-        return $this->getProperty("FileSystemInfo");
+        return $this->getProperty("FileSystemInfo", new FileSystemInfo());
     }
+
     /**
+     *
+     * @return self
      * @var FileSystemInfo
      */
     public function setFileSystemInfo($value)
     {
-        $this->setProperty("FileSystemInfo", $value, true);
+        return $this->setProperty("FileSystemInfo", $value, true);
     }
     /**
      * @return Folder
      */
     public function getFolder()
     {
-        if (!$this->isPropertyAvailable("Folder")) {
-            return null;
-        }
-        return $this->getProperty("Folder");
+        return $this->getProperty("Folder", new Folder());
     }
+
     /**
+     *
+     * @return self
      * @var Folder
      */
     public function setFolder($value)
     {
-        $this->setProperty("Folder", $value, true);
+        return $this->setProperty("Folder", $value, true);
     }
     /**
      * @return Image
      */
     public function getImage()
     {
-        if (!$this->isPropertyAvailable("Image")) {
-            return null;
-        }
-        return $this->getProperty("Image");
+        return $this->getProperty("Image", new Image());
     }
+
     /**
+     *
+     * @return self
      * @var Image
      */
     public function setImage($value)
     {
-        $this->setProperty("Image", $value, true);
+        return $this->setProperty("Image", $value, true);
     }
     /**
      * @return Package
      */
     public function getPackage()
     {
-        if (!$this->isPropertyAvailable("Package")) {
-            return null;
-        }
-        return $this->getProperty("Package");
+        return $this->getProperty("Package", new Package());
     }
     /**
      * @var Package
@@ -302,10 +299,7 @@ class DriveItem extends BaseItem
      */
     public function getPublication()
     {
-        if (!$this->isPropertyAvailable("Publication")) {
-            return null;
-        }
-        return $this->getProperty("Publication");
+        return $this->getProperty("Publication", new PublicationFacet());
     }
     /**
      * @var PublicationFacet
@@ -319,10 +313,7 @@ class DriveItem extends BaseItem
      */
     public function getRemoteItem()
     {
-        if (!$this->isPropertyAvailable("RemoteItem")) {
-            return null;
-        }
-        return $this->getProperty("RemoteItem");
+        return $this->getProperty("RemoteItem", new RemoteItem());
     }
     /**
      * @var RemoteItem
@@ -336,10 +327,7 @@ class DriveItem extends BaseItem
      */
     public function getRoot()
     {
-        if (!$this->isPropertyAvailable("Root")) {
-            return null;
-        }
-        return $this->getProperty("Root");
+        return $this->getProperty("Root", new Root());
     }
     /**
      * @var Root
@@ -353,10 +341,7 @@ class DriveItem extends BaseItem
      */
     public function getSearchResult()
     {
-        if (!$this->isPropertyAvailable("SearchResult")) {
-            return null;
-        }
-        return $this->getProperty("SearchResult");
+        return $this->getProperty("SearchResult", new SearchResult());
     }
     /**
      * @var SearchResult
@@ -370,10 +355,7 @@ class DriveItem extends BaseItem
      */
     public function getShared()
     {
-        if (!$this->isPropertyAvailable("Shared")) {
-            return null;
-        }
-        return $this->getProperty("Shared");
+        return $this->getProperty("Shared", new Shared());
     }
     /**
      * @var Shared
@@ -387,10 +369,7 @@ class DriveItem extends BaseItem
      */
     public function getSharepointIds()
     {
-        if (!$this->isPropertyAvailable("SharepointIds")) {
-            return null;
-        }
-        return $this->getProperty("SharepointIds");
+        return $this->getProperty("SharepointIds", new SharepointIds());
     }
     /**
      * @var SharepointIds
@@ -404,10 +383,7 @@ class DriveItem extends BaseItem
      */
     public function getSpecialFolder()
     {
-        if (!$this->isPropertyAvailable("SpecialFolder")) {
-            return null;
-        }
-        return $this->getProperty("SpecialFolder");
+        return $this->getProperty("SpecialFolder", new SpecialFolder());
     }
     /**
      * @var SpecialFolder
@@ -421,10 +397,7 @@ class DriveItem extends BaseItem
      */
     public function getVideo()
     {
-        if (!$this->isPropertyAvailable("Video")) {
-            return null;
-        }
-        return $this->getProperty("Video");
+        return $this->getProperty("Video", new Video());
     }
     /**
      * @var Video
@@ -438,57 +411,47 @@ class DriveItem extends BaseItem
      */
     public function getWorkbook()
     {
-        if (!$this->isPropertyAvailable("Workbook")) {
-            $this->setProperty("Workbook", new Workbook($this->getContext(), new ResourcePath("Workbook", $this->getResourcePath())));
-        }
-        return $this->getProperty("Workbook");
+        return $this->getProperty("Workbook",
+            new Workbook($this->getContext(), new ResourcePath("Workbook", $this->getResourcePath())));
     }
     /**
      * @return ItemAnalytics
      */
     public function getAnalytics()
     {
-        if (!$this->isPropertyAvailable("Analytics")) {
-            $this->setProperty("Analytics", new ItemAnalytics($this->getContext(), new ResourcePath("Analytics", $this->getResourcePath())));
-        }
-        return $this->getProperty("Analytics");
+        return $this->getProperty("Analytics",
+            new ItemAnalytics($this->getContext(), new ResourcePath("Analytics", $this->getResourcePath())));
     }
     /**
      * @return ListItem
      */
     public function getListItem()
     {
-        if (!$this->isPropertyAvailable("ListItem")) {
-            $this->setProperty("ListItem", new ListItem($this->getContext(), new ResourcePath("ListItem", $this->getResourcePath())));
-        }
-        return $this->getProperty("ListItem");
+        return $this->getProperty("ListItem",
+            new ListItem($this->getContext(), new ResourcePath("ListItem", $this->getResourcePath())));
     }
     /**
      * @return DriveItemCollection
      */
     public function getChildren()
     {
-        if (!$this->isPropertyAvailable("Children")) {
-            $this->setProperty("Children", new DriveItemCollection($this->getContext(), new ResourcePath("Children", $this->getResourcePath())));
-        }
-        return $this->getProperty("Children");
+        return $this->getProperty("Children",
+            new DriveItemCollection($this->getContext(), new ResourcePath("Children", $this->getResourcePath())));
     }
     /**
      * @return PermissionCollection
      */
     public function getPermissions()
     {
-        if (!$this->isPropertyAvailable("Permissions")) {
-            $this->setProperty("Permissions", new PermissionCollection($this->getContext(),
-                new ResourcePath("Permissions", $this->getResourcePath())));
-        }
-        return $this->getProperty("Permissions");
+        return $this->getProperty("Permissions",
+            new PermissionCollection($this->getContext(),new ResourcePath("Permissions", $this->getResourcePath())));
     }
 
     /**
      * @param string $name
      * @param mixed $value
      * @param bool $persistChanges
+     * @return self
      */
     public function setProperty($name, $value, $persistChanges = true)
     {
@@ -497,6 +460,22 @@ class DriveItem extends BaseItem
             $this->resourcePath = new ResourcePath($value,
                 new ResourcePath("items", $this->parentCollection->getResourcePath()->getParent()->getParent()));
         }
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isFile(){
+        return $this->isPropertyAvailable("File");
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFolder(){
+        return $this->isPropertyAvailable("Folder");
     }
 
 }

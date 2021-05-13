@@ -399,11 +399,13 @@ class Message extends OutlookItem
      * @return $this
      */
     public function setToRecipients($values){
-        foreach ($values as $val){
-            if($val instanceof EmailAddress)
-                $this->getToRecipients()->addChild(new Recipient($val));
-        }
-        return $this;
+        $values = array_map(function ($value) {
+            if ($value instanceof EmailAddress)
+                return new Recipient($value);
+            else
+                return $value;
+        }, $values);
+        return $this->setProperty("ToRecipients", ClientValueCollection::fromArray(Recipient::class,$values));
     }
 
     /**

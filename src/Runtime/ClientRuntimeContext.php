@@ -56,7 +56,7 @@ abstract class ClientRuntimeContext
     /**
      * Prepare to load resource
      * @param ClientObject $clientObject
-     * @param array $includeProperties
+     * @param string[] $includeProperties
      */
     public function load(ClientObject $clientObject, array $includeProperties = null)
     {

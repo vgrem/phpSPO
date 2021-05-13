@@ -29,8 +29,7 @@ class Team extends Entity
      */
     public function setWebUrl($value)
     {
-        $this->setProperty("WebUrl", $value, true);
-        return $this;
+        return $this->setProperty("WebUrl", $value, true);
     }
     /**
      * Whether this team is in read-only mode. 
@@ -49,8 +48,7 @@ class Team extends Entity
      */
     public function setIsArchived($value)
     {
-        $this->setProperty("IsArchived", $value, true);
-        return $this;
+        return $this->setProperty("IsArchived", $value, true);
     }
     /**
      * Settings to configure whether members can perform certain actions, for example, create channels and add bots, in the team.
@@ -69,8 +67,7 @@ class Team extends Entity
      */
     public function setMemberSettings($value)
     {
-        $this->setProperty("MemberSettings", $value, true);
-        return $this;
+        return $this->setProperty("MemberSettings", $value, true);
     }
     /**
      * Settings to configure whether guests can create, update, or delete channels in the team.
@@ -89,8 +86,7 @@ class Team extends Entity
      */
     public function setGuestSettings($value)
     {
-        $this->setProperty("GuestSettings", $value, true);
-        return $this;
+        return $this->setProperty("GuestSettings", $value, true);
     }
     /**
      * Settings to configure messaging and mentions in the team.
@@ -109,8 +105,7 @@ class Team extends Entity
      */
     public function setMessagingSettings($value)
     {
-        $this->setProperty("MessagingSettings", $value, true);
-        return $this;
+        return $this->setProperty("MessagingSettings", $value, true);
     }
     /**
      * Settings to configure use of Giphy, memes, and stickers in the team.
@@ -129,7 +124,6 @@ class Team extends Entity
      */
     public function setFunSettings($value)
     {
-        $this->setProperty("FunSettings", $value, true);
-        return $this;
+        return $this->setProperty("FunSettings", $value, true);
     }
 }

@@ -38,9 +38,7 @@ class FolderTest extends SharePointTestCase
         $folderName = "Archive_" . rand(1, 100000);
         $folder = self::$targetList->getRootFolder()->getFolders()->add($folderName)->executeQuery();
 
-        $items = self::$targetList->getItems()->expand("Folder");
-        self::$context->load($items);
-        self::$context->executeQuery();
+        $items = self::$targetList->getItems()->expand("Folder")->get()->executeQuery();
         $result = $items->findItems(function (ListItem $item) use ($folder) {
             return $item->getFolder()->getName() === $folder->getName();
         });
@@ -52,10 +50,10 @@ class FolderTest extends SharePointTestCase
     {
         $folderName = "Archive_" . rand(1, 100000);
         $folder = self::$targetList->getRootFolder()->getFolders()->add($folderName);
-        self::$context->load(self::$targetList->getRootFolder());
+        $rootFolder = self::$targetList->getRootFolder()->get();
         self::$context->executeQuery();
-        $expectedFolderUrl = self::$targetList->getRootFolder()->getProperty("ServerRelativeUrl") . "/" . $folderName;
-        $this->assertEquals($folder->getProperty("ServerRelativeUrl"), $expectedFolderUrl);
+        $expectedFolderUrl = $rootFolder->getServerRelativeUrl() . "/" . $folderName;
+        $this->assertEquals($folder->getServerRelativeUrl(), $expectedFolderUrl);
         return $folder;
     }
 
@@ -89,17 +87,14 @@ class FolderTest extends SharePointTestCase
         self::$context->executeQuery();
         self::assertFalse($folderItem->getHasUniqueRoleAssignments());
         //1. create unique perms
-        $folderItem->breakRoleInheritance(true);
-        self::$context->executeQuery();
+        $folderItem->breakRoleInheritance(true)->executeQuery();
         self::$context->load($folderItem,array("HasUniqueRoleAssignments"));
         self::$context->executeQuery();
         self::assertTrue($folderItem->getHasUniqueRoleAssignments());
         //2. grant read permissions for a group
         $visitorGroup = self::$context->getWeb()->getAssociatedVisitorGroup()->get();
-        $roleDef = self::$context->getWeb()->getRoleDefinitions()->getByType(RoleType::Reader);
-        self::$context->executeQuery();
-        $folderItem->getRoleAssignments()->addRoleAssignment($visitorGroup->getId(),$roleDef->getId());
-        self::$context->executeQuery();
+        $roleDef = self::$context->getWeb()->getRoleDefinitions()->getByType(RoleType::Reader)->executeQuery();
+        $folderItem->getRoleAssignments()->addRoleAssignment($visitorGroup->getId(),$roleDef->getId())->executeQuery();
     }
 
     /**

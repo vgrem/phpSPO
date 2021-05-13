@@ -9,4 +9,5 @@ use Office365\Runtime\ClientValueCollection;
 
 class ListDataValidationFailureCollection extends ClientValueCollection
 {
+
 }

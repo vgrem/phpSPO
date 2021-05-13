@@ -31,11 +31,9 @@ class SecurableObject extends Entity
      */
     public function getRoleAssignments()
     {
-        if (!isset($this->RoleAssignments)) {
-            $this->setProperty('RoleAssignments', new RoleAssignmentCollection($this->getContext(),
+        return $this->getProperty('RoleAssignments',
+            new RoleAssignmentCollection($this->getContext(),
                 new ResourcePath("roleAssignments", $this->getResourcePath())));
-        }
-        return $this->getProperty('RoleAssignments');
     }
     /**
      * Gets a Boolean value indicating whether the object has unique security or

@@ -5,30 +5,28 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * Specifies 
  * a change on a group.The RelativeTime property is not included in the default 
  * scalar property set for this type.
  */
-class ChangeGroup extends ClientObject
+class ChangeGroup extends Change
 {
     /**
      * @return integer
      */
     public function getGroupId()
     {
-        if (!$this->isPropertyAvailable("GroupId")) {
-            return null;
-        }
         return $this->getProperty("GroupId");
     }
+
     /**
+     *
+     * @return self
      * @var integer
      */
     public function setGroupId($value)
     {
-        $this->setProperty("GroupId", $value, true);
+        return $this->setProperty("GroupId", $value, true);
     }
 }

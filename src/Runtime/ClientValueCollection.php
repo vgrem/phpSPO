@@ -16,6 +16,19 @@ class ClientValueCollection extends ClientValue
     }
 
     /**
+     * @param string $itemTypeName
+     * @param array $values
+     * @return ClientValueCollection
+     */
+    public static function fromArray($itemTypeName,$values)
+    {
+        $col = new ClientValueCollection($itemTypeName);
+        foreach ($values as $value)
+            $col->addChild($value);
+        return $col;
+    }
+
+    /**
      * Adds property to collection
      * @param ClientValue $value
      */

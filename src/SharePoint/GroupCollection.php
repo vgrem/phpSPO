@@ -6,6 +6,9 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\Actions\InvokePostMethodQuery;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ResourcePathServiceOperation;
 
 /**
@@ -13,6 +16,17 @@ use Office365\Runtime\ResourcePathServiceOperation;
  */
 class GroupCollection extends BaseEntityCollection
 {
+
+    /**
+     * GroupCollection constructor.
+     * @param ClientRuntimeContext $ctx
+     * @param ResourcePath|null $resourcePath
+     * @param ClientObject|null $parent
+     */
+    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, ClientObject $parent = null)
+    {
+        parent::__construct($ctx, $resourcePath, Group::class, $parent);
+    }
 
     /**
      * Create a group

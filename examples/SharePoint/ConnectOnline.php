@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
-$settings = include(__DIR__ . '/../../Settings.php');
+$settings = include(__DIR__ . '/../../tests/Settings.php');
 
 
 use Office365\Runtime\Auth\UserCredentials;
@@ -15,7 +15,7 @@ try {
     $ctx = (new ClientContext($settings['Url']))->withCredentials($credentials);
 
     $site = $ctx->getSite();
-    $ctx->load($site); //2. load Site resource
+    $ctx->load($site,["RootWeb", "Url"]); //2. load Site resource
     $ctx->executeQuery();  //3. submit query to the server
     print $site->getUrl();
 }
