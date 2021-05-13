@@ -17,9 +17,6 @@ class Navigation extends BaseEntity
      */
     public function getUseShared()
     {
-        if (!$this->isPropertyAvailable("UseShared")) {
-            return null;
-        }
         return $this->getProperty("UseShared");
     }
     /**

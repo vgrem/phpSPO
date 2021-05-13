@@ -5,23 +5,22 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
+use Office365\Runtime\ResourcePath;
 
 /**
  * Represents 
  * a collection of SPLanguage objects.<263>
  */
-class LanguageCollection extends ClientObject
+class LanguageCollection extends BaseEntity
 {
     /**
      * @return LanguageCollection
      */
     public function getItems()
     {
-        if (!$this->isPropertyAvailable("Items")) {
-            return null;
-        }
-        return $this->getProperty("Items");
+        return $this->getProperty("Items",
+            new BaseEntityCollection($this->getContext(),
+                new ResourcePath("Items",$this->getResourcePath()),Language::class));
     }
     /**
      * @var LanguageCollection

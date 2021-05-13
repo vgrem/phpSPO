@@ -12,7 +12,7 @@ class EmailAddress extends ClientValue
      * @param string $name
      * @param string $address
      */
-    public function __construct($name, $address)
+    public function __construct($name=null, $address=null)
     {
         $this->Name = $name;
         $this->Address = $address;

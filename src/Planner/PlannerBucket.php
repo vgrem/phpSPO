@@ -18,9 +18,6 @@ class PlannerBucket extends Entity
      */
     public function getName()
     {
-        if (!$this->isPropertyAvailable("Name")) {
-            return null;
-        }
         return $this->getProperty("Name");
     }
     /**
@@ -37,9 +34,6 @@ class PlannerBucket extends Entity
      */
     public function getPlanId()
     {
-        if (!$this->isPropertyAvailable("PlanId")) {
-            return null;
-        }
         return $this->getProperty("PlanId");
     }
     /**
@@ -56,9 +50,6 @@ class PlannerBucket extends Entity
      */
     public function getOrderHint()
     {
-        if (!$this->isPropertyAvailable("OrderHint")) {
-            return null;
-        }
         return $this->getProperty("OrderHint");
     }
     /**

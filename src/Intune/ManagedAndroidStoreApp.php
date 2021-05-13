@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * Modified: 2020-05-26T22:12:31+00:00
+ */
+namespace Office365\Intune;
+
+use Office365\Runtime\ClientObject;
+
+class ManagedAndroidStoreApp extends ClientObject
+{
+    /**
+     * @return string
+     */
+    public function getPackageId()
+    {
+        if (!$this->isPropertyAvailable("PackageId")) {
+            return null;
+        }
+        return $this->getProperty("PackageId");
+    }
+    /**
+     * @var string
+     */
+    public function setPackageId($value)
+    {
+        $this->setProperty("PackageId", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getAppStoreUrl()
+    {
+        if (!$this->isPropertyAvailable("AppStoreUrl")) {
+            return null;
+        }
+        return $this->getProperty("AppStoreUrl");
+    }
+    /**
+     * @var string
+     */
+    public function setAppStoreUrl($value)
+    {
+        $this->setProperty("AppStoreUrl", $value, true);
+    }
+    /**
+     * @return AndroidMinimumOperatingSystem
+     */
+    public function getMinimumSupportedOperatingSystem()
+    {
+        if (!$this->isPropertyAvailable("MinimumSupportedOperatingSystem")) {
+            return null;
+        }
+        return $this->getProperty("MinimumSupportedOperatingSystem");
+    }
+    /**
+     * @var AndroidMinimumOperatingSystem
+     */
+    public function setMinimumSupportedOperatingSystem($value)
+    {
+        $this->setProperty("MinimumSupportedOperatingSystem", $value, true);
+    }
+}

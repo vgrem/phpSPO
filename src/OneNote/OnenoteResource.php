@@ -14,9 +14,6 @@ class OnenoteResource extends Entity
      */
     public function getContentUrl()
     {
-        if (!$this->isPropertyAvailable("ContentUrl")) {
-            return null;
-        }
         return $this->getProperty("ContentUrl");
     }
     /**

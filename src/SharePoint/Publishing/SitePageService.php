@@ -5,10 +5,10 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
 
-class SitePageService extends ClientObject
+class SitePageService extends BaseEntity
 {
     /**
      * @return bool

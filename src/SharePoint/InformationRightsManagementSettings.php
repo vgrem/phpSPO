@@ -63,9 +63,6 @@ class InformationRightsManagementSettings extends BaseEntity
      */
     public function getAllowWriteCopy()
     {
-        if (!$this->isPropertyAvailable("AllowWriteCopy")) {
-            return null;
-        }
         return $this->getProperty("AllowWriteCopy");
     }
     /**
@@ -85,9 +82,6 @@ class InformationRightsManagementSettings extends BaseEntity
      */
     public function getDisableDocumentBrowserView()
     {
-        if (!$this->isPropertyAvailable("DisableDocumentBrowserView")) {
-            return null;
-        }
         return $this->getProperty("DisableDocumentBrowserView");
     }
     /**
@@ -132,9 +126,7 @@ class InformationRightsManagementSettings extends BaseEntity
      */
     public function getDocumentLibraryProtectionExpireDate()
     {
-        if (!$this->isPropertyAvailable("DocumentLibraryProtectionExpireDate")) {
-            return null;
-        }
+
         return $this->getProperty("DocumentLibraryProtectionExpireDate");
     }
     /**

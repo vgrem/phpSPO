@@ -16,9 +16,6 @@ class FileVersionEvent extends BaseEntity
      */
     public function getEditor()
     {
-        if (!$this->isPropertyAvailable("Editor")) {
-            return null;
-        }
         return $this->getProperty("Editor");
     }
     /**
@@ -33,9 +30,6 @@ class FileVersionEvent extends BaseEntity
      */
     public function getEditorEmail()
     {
-        if (!$this->isPropertyAvailable("EditorEmail")) {
-            return null;
-        }
         return $this->getProperty("EditorEmail");
     }
     /**
@@ -50,10 +44,7 @@ class FileVersionEvent extends BaseEntity
      */
     public function getSharedByUser()
     {
-        if (!$this->isPropertyAvailable("SharedByUser")) {
-            return null;
-        }
-        return $this->getProperty("SharedByUser");
+        return $this->getProperty("SharedByUser", new SharedWithUser());
     }
     /**
      * @var SharedWithUser
@@ -67,10 +58,7 @@ class FileVersionEvent extends BaseEntity
      */
     public function getSharedWithUsers()
     {
-        if (!$this->isPropertyAvailable("SharedWithUsers")) {
-            return null;
-        }
-        return $this->getProperty("SharedWithUsers");
+        return $this->getProperty("SharedWithUsers", new SharedWithUserCollection());
     }
     /**
      * @var SharedWithUserCollection
@@ -84,9 +72,6 @@ class FileVersionEvent extends BaseEntity
      */
     public function getTime()
     {
-        if (!$this->isPropertyAvailable("Time")) {
-            return null;
-        }
         return $this->getProperty("Time");
     }
     /**

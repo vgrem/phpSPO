@@ -3,7 +3,9 @@
 namespace Office365;
 
 
+use Office365\Common\Application;
 use Office365\Common\Group;
+use Office365\Common\OrgContact;
 use Office365\Common\User;
 use Office365\Common\UserCollection;
 use Office365\OneDrive\DriveCollection;
@@ -91,6 +93,13 @@ class GraphServiceClient extends ClientRuntimeContext
     }
 
 
+    /**
+     * @return EntityCollection
+     */
+    public function getApplications(){
+        return new EntityCollection($this,new ResourcePath("applications"),Application::class);
+    }
+
 
     /**
      * Retrieve the properties and relationships of user object.
@@ -114,6 +123,13 @@ class GraphServiceClient extends ClientRuntimeContext
         return new TeamCollection($this,new ResourcePath("teams"));
     }
 
+
+    /**
+     * @return EntityCollection
+     */
+    public function getContact(){
+        return new EntityCollection($this,new ResourcePath("contacts"),OrgContact::class);
+    }
 
     /**
      * @return string

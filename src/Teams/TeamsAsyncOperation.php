@@ -15,9 +15,6 @@ class TeamsAsyncOperation extends Entity
      */
     public function getAttemptsCount()
     {
-        if (!$this->isPropertyAvailable("AttemptsCount")) {
-            return null;
-        }
         return $this->getProperty("AttemptsCount");
     }
     /**
@@ -32,9 +29,6 @@ class TeamsAsyncOperation extends Entity
      */
     public function getTargetResourceId()
     {
-        if (!$this->isPropertyAvailable("TargetResourceId")) {
-            return null;
-        }
         return $this->getProperty("TargetResourceId");
     }
     /**
@@ -49,9 +43,6 @@ class TeamsAsyncOperation extends Entity
      */
     public function getTargetResourceLocation()
     {
-        if (!$this->isPropertyAvailable("TargetResourceLocation")) {
-            return null;
-        }
         return $this->getProperty("TargetResourceLocation");
     }
     /**
@@ -66,10 +57,7 @@ class TeamsAsyncOperation extends Entity
      */
     public function getError()
     {
-        if (!$this->isPropertyAvailable("Error")) {
-            return null;
-        }
-        return $this->getProperty("Error");
+        return $this->getProperty("Error", new OperationError());
     }
     /**
      * @var OperationError

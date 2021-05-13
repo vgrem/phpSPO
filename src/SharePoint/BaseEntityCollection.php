@@ -20,6 +20,12 @@ class BaseEntityCollection extends ClientObjectCollection
      */
     private $parent;
 
+    /**
+     * @param ClientRuntimeContext $ctx
+     * @param ResourcePath|null $resourcePath
+     * @param string|null $itemTypeName
+     * @param ClientObject|null $parent
+     */
     public function __construct(ClientRuntimeContext $ctx,
                                 ResourcePath $resourcePath = null,
                                 $itemTypeName = null,

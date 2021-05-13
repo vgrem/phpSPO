@@ -868,10 +868,8 @@ class File extends SecurableObject
      */
     public function getAuthor()
     {
-        if (!$this->isPropertyAvailable("Author")) {
-            $this->setProperty("Author", new User($this->getContext(), new ResourcePath("Author", $this->getResourcePath())));
-        }
-        return $this->getProperty("Author");
+        return $this->getProperty("Author",
+            new User($this->getContext(), new ResourcePath("Author", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -880,10 +878,8 @@ class File extends SecurableObject
      */
     public function getCheckedOutByUser()
     {
-        if (!$this->isPropertyAvailable("CheckedOutByUser")) {
-            $this->setProperty("CheckedOutByUser", new User($this->getContext(), new ResourcePath("CheckedOutByUser", $this->getResourcePath())));
-        }
-        return $this->getProperty("CheckedOutByUser");
+        return $this->getProperty("CheckedOutByUser",
+            new User($this->getContext(), new ResourcePath("CheckedOutByUser", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -893,10 +889,8 @@ class File extends SecurableObject
      */
     public function getLockedByUser()
     {
-        if (!$this->isPropertyAvailable("LockedByUser")) {
-            $this->setProperty("LockedByUser", new User($this->getContext(), new ResourcePath("LockedByUser", $this->getResourcePath())));
-        }
-        return $this->getProperty("LockedByUser");
+        return $this->getProperty("LockedByUser",
+            new User($this->getContext(), new ResourcePath("LockedByUser", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -906,20 +900,17 @@ class File extends SecurableObject
      */
     public function getModifiedBy()
     {
-        if (!$this->isPropertyAvailable("ModifiedBy")) {
-            $this->setProperty("ModifiedBy", new User($this->getContext(), new ResourcePath("ModifiedBy", $this->getResourcePath())));
-        }
-        return $this->getProperty("ModifiedBy");
+        return $this->getProperty("ModifiedBy",
+            new User($this->getContext(), new ResourcePath("ModifiedBy", $this->getResourcePath())));
     }
     /**
      * @return EffectiveInformationRightsManagementSettings
      */
     public function getEffectiveInformationRightsManagementSettings()
     {
-        if (!$this->isPropertyAvailable("EffectiveInformationRightsManagementSettings")) {
-            $this->setProperty("EffectiveInformationRightsManagementSettings", new EffectiveInformationRightsManagementSettings($this->getContext(), new ResourcePath("EffectiveInformationRightsManagementSettings", $this->getResourcePath())));
-        }
-        return $this->getProperty("EffectiveInformationRightsManagementSettings");
+        return $this->getProperty("EffectiveInformationRightsManagementSettings",
+            new EffectiveInformationRightsManagementSettings($this->getContext(),
+                new ResourcePath("EffectiveInformationRightsManagementSettings", $this->getResourcePath())));
     }
     /**
      * @return Web|null
@@ -935,10 +926,7 @@ class File extends SecurableObject
      */
     public function getServerRelativePath()
     {
-        if (!$this->isPropertyAvailable("ServerRelativePath")) {
-            return null;
-        }
-        return $this->getProperty("ServerRelativePath");
+        return $this->getProperty("ServerRelativePath", new SPResourcePath());
     }
     /**
      * Specifies 
@@ -954,9 +942,6 @@ class File extends SecurableObject
      */
     public function getVroomItemID()
     {
-        if (!$this->isPropertyAvailable("VroomItemID")) {
-            return null;
-        }
         return $this->getProperty("VroomItemID");
     }
     /**
@@ -971,9 +956,6 @@ class File extends SecurableObject
      */
     public function getVroomDriveID()
     {
-        if (!$this->isPropertyAvailable("VroomDriveID")) {
-            return null;
-        }
         return $this->getProperty("VroomDriveID");
     }
     /**
@@ -988,9 +970,6 @@ class File extends SecurableObject
      */
     public function getHasAlternateContentStreams()
     {
-        if (!$this->isPropertyAvailable("HasAlternateContentStreams")) {
-            return null;
-        }
         return $this->getProperty("HasAlternateContentStreams");
     }
     /**
@@ -1005,9 +984,6 @@ class File extends SecurableObject
      */
     public function getServerRedirectedUrl()
     {
-        if (!$this->isPropertyAvailable("ServerRedirectedUrl")) {
-            return null;
-        }
         return $this->getProperty("ServerRedirectedUrl");
     }
     /**

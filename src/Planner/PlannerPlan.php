@@ -19,10 +19,7 @@ class PlannerPlan extends Entity
      */
     public function getCreatedBy()
     {
-        if (!$this->isPropertyAvailable("CreatedBy")) {
-            return null;
-        }
-        return $this->getProperty("CreatedBy");
+        return $this->getProperty("CreatedBy", new IdentitySet());
     }
     /**
      * Read-only. The user who created the plan.
@@ -38,9 +35,6 @@ class PlannerPlan extends Entity
      */
     public function getOwner()
     {
-        if (!$this->isPropertyAvailable("Owner")) {
-            return null;
-        }
         return $this->getProperty("Owner");
     }
     /**
@@ -57,9 +51,6 @@ class PlannerPlan extends Entity
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -76,9 +67,7 @@ class PlannerPlan extends Entity
      */
     public function getDetails()
     {
-        if (!$this->isPropertyAvailable("Details")) {
-            $this->setProperty("Details", new PlannerPlanDetails($this->getContext(), new ResourcePath("Details", $this->getResourcePath())));
-        }
-        return $this->getProperty("Details");
+        return $this->getProperty("Details",
+            new PlannerPlanDetails($this->getContext(),new ResourcePath("Details", $this->getResourcePath())));
     }
 }

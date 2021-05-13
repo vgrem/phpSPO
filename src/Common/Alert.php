@@ -18,9 +18,6 @@ class Alert extends Entity
      */
     public function getActivityGroupName()
     {
-        if (!$this->isPropertyAvailable("ActivityGroupName")) {
-            return null;
-        }
         return $this->getProperty("ActivityGroupName");
     }
     /**
@@ -37,9 +34,6 @@ class Alert extends Entity
      */
     public function getAssignedTo()
     {
-        if (!$this->isPropertyAvailable("AssignedTo")) {
-            return null;
-        }
         return $this->getProperty("AssignedTo");
     }
     /**
@@ -56,9 +50,6 @@ class Alert extends Entity
      */
     public function getAzureSubscriptionId()
     {
-        if (!$this->isPropertyAvailable("AzureSubscriptionId")) {
-            return null;
-        }
         return $this->getProperty("AzureSubscriptionId");
     }
     /**
@@ -74,9 +65,6 @@ class Alert extends Entity
      */
     public function getAzureTenantId()
     {
-        if (!$this->isPropertyAvailable("AzureTenantId")) {
-            return null;
-        }
         return $this->getProperty("AzureTenantId");
     }
     /**
@@ -206,9 +194,6 @@ class Alert extends Entity
      */
     public function getSourceMaterials()
     {
-        if (!$this->isPropertyAvailable("SourceMaterials")) {
-            return null;
-        }
         return $this->getProperty("SourceMaterials");
     }
     /**
@@ -225,9 +210,6 @@ class Alert extends Entity
      */
     public function getTags()
     {
-        if (!$this->isPropertyAvailable("Tags")) {
-            return null;
-        }
         return $this->getProperty("Tags");
     }
     /**
@@ -243,9 +225,6 @@ class Alert extends Entity
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -269,7 +248,6 @@ class Alert extends Entity
      */
     public function setVendorInformation($value)
     {
-        $this->setProperty("VendorInformation", $value, true);
-        return $this;
+        return $this->setProperty("VendorInformation", $value, true);
     }
 }

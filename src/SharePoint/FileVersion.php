@@ -183,9 +183,6 @@ class FileVersion extends BaseEntity
      */
     public function getVersionLabel()
     {
-        if (!$this->isPropertyAvailable("VersionLabel")) {
-            return null;
-        }
         return $this->getProperty("VersionLabel");
     }
     /**

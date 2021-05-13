@@ -5,18 +5,15 @@
  */
 namespace Office365\OneNote;
 
-use Office365\Runtime\ClientObject;
+use Office365\Entity;
 use Office365\Runtime\ResourcePath;
-class OnenotePage extends ClientObject
+class OnenotePage extends Entity
 {
     /**
      * @return string
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -31,9 +28,6 @@ class OnenotePage extends ClientObject
      */
     public function getCreatedByAppId()
     {
-        if (!$this->isPropertyAvailable("CreatedByAppId")) {
-            return null;
-        }
         return $this->getProperty("CreatedByAppId");
     }
     /**
@@ -48,9 +42,6 @@ class OnenotePage extends ClientObject
      */
     public function getContentUrl()
     {
-        if (!$this->isPropertyAvailable("ContentUrl")) {
-            return null;
-        }
         return $this->getProperty("ContentUrl");
     }
     /**
@@ -65,9 +56,6 @@ class OnenotePage extends ClientObject
      */
     public function getLevel()
     {
-        if (!$this->isPropertyAvailable("Level")) {
-            return null;
-        }
         return $this->getProperty("Level");
     }
     /**
@@ -82,9 +70,6 @@ class OnenotePage extends ClientObject
      */
     public function getOrder()
     {
-        if (!$this->isPropertyAvailable("Order")) {
-            return null;
-        }
         return $this->getProperty("Order");
     }
     /**
@@ -99,9 +84,6 @@ class OnenotePage extends ClientObject
      */
     public function getUserTags()
     {
-        if (!$this->isPropertyAvailable("UserTags")) {
-            return null;
-        }
         return $this->getProperty("UserTags");
     }
     /**
@@ -116,10 +98,7 @@ class OnenotePage extends ClientObject
      */
     public function getLinks()
     {
-        if (!$this->isPropertyAvailable("Links")) {
-            return null;
-        }
-        return $this->getProperty("Links");
+        return $this->getProperty("Links", new PageLinks());
     }
     /**
      * @var PageLinks
@@ -133,19 +112,15 @@ class OnenotePage extends ClientObject
      */
     public function getParentSection()
     {
-        if (!$this->isPropertyAvailable("ParentSection")) {
-            $this->setProperty("ParentSection", new OnenoteSection($this->getContext(), new ResourcePath("ParentSection", $this->getResourcePath())));
-        }
-        return $this->getProperty("ParentSection");
+        return $this->getProperty("ParentSection",
+            new OnenoteSection($this->getContext(), new ResourcePath("ParentSection", $this->getResourcePath())));
     }
     /**
      * @return Notebook
      */
     public function getParentNotebook()
     {
-        if (!$this->isPropertyAvailable("ParentNotebook")) {
-            $this->setProperty("ParentNotebook", new Notebook($this->getContext(), new ResourcePath("ParentNotebook", $this->getResourcePath())));
-        }
-        return $this->getProperty("ParentNotebook");
+        return $this->getProperty("ParentNotebook",
+            new Notebook($this->getContext(), new ResourcePath("ParentNotebook", $this->getResourcePath())));
     }
 }

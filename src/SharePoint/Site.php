@@ -64,7 +64,7 @@ class Site extends BaseEntity
     {
         return $this->getProperty("UserCustomActions",
             new UserCustomActionCollection($this->getContext(),
-                new ResourcePath("UserCustomActions", $this->getResourcePath())));
+                new ResourcePath("UserCustomActions", $this->getResourcePath()),$this));
     }
     /**
      * Specifies 

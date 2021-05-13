@@ -15,19 +15,15 @@ class WorkbookChartAreaFormat extends Entity
      */
     public function getFill()
     {
-        if (!$this->isPropertyAvailable("Fill")) {
-            $this->setProperty("Fill", new WorkbookChartFill($this->getContext(), new ResourcePath("Fill", $this->getResourcePath())));
-        }
-        return $this->getProperty("Fill");
+        return $this->getProperty("Fill",
+            new WorkbookChartFill($this->getContext(), new ResourcePath("Fill", $this->getResourcePath())));
     }
     /**
      * @return WorkbookChartFont
      */
     public function getFont()
     {
-        if (!$this->isPropertyAvailable("Font")) {
-            $this->setProperty("Font", new WorkbookChartFont($this->getContext(), new ResourcePath("Font", $this->getResourcePath())));
-        }
-        return $this->getProperty("Font");
+        return $this->getProperty("Font",
+            new WorkbookChartFont($this->getContext(), new ResourcePath("Font", $this->getResourcePath())));
     }
 }

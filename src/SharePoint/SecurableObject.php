@@ -52,11 +52,9 @@ class SecurableObject extends Entity
      */
     public function getFirstUniqueAncestorSecurableObject()
     {
-        if (!$this->isPropertyAvailable("FirstUniqueAncestorSecurableObject")) {
-            $this->setProperty("FirstUniqueAncestorSecurableObject", new SecurableObject($this->getContext(),
+        return $this->getProperty("FirstUniqueAncestorSecurableObject",
+            new SecurableObject($this->getContext(),
                 new ResourcePath("FirstUniqueAncestorSecurableObject", $this->getResourcePath())));
-        }
-        return $this->getProperty("FirstUniqueAncestorSecurableObject");
     }
 
     /**
@@ -65,12 +63,11 @@ class SecurableObject extends Entity
      * uniquely defined for this securable object or
      * inherited from a parent securable object. If the value is "false", role
      * assignments are inherited from a parent securable object.
-     * @return SecurableObject
+     * @return self
      * @var bool
      */
     public function setHasUniqueRoleAssignments($value)
     {
-        $this->setProperty("HasUniqueRoleAssignments", $value, true);
-        return $this;
+        return $this->setProperty("HasUniqueRoleAssignments", $value, true);
     }
 }

@@ -5,12 +5,12 @@
  */
 namespace Office365\OneNote;
 
-use Office365\Runtime\ClientObject;
+use Office365\Entity;
 use Office365\Runtime\ResourcePath;
 /**
  * A section group in a OneNote notebook. Section groups can contain sections and section groups.
  */
-class SectionGroup extends ClientObject
+class SectionGroup extends Entity
 {
     /**
      * The URL for the `sections` navigation property, which returns all the sections in the section group. Read-only.
@@ -56,10 +56,8 @@ class SectionGroup extends ClientObject
      */
     public function getParentNotebook()
     {
-        if (!$this->isPropertyAvailable("ParentNotebook")) {
-            $this->setProperty("ParentNotebook", new Notebook($this->getContext(), new ResourcePath("ParentNotebook", $this->getResourcePath())));
-        }
-        return $this->getProperty("ParentNotebook");
+        return $this->getProperty("ParentNotebook",
+            new Notebook($this->getContext(), new ResourcePath("ParentNotebook", $this->getResourcePath())));
     }
     /**
      * The section group that contains the section group. Read-only.
@@ -67,9 +65,7 @@ class SectionGroup extends ClientObject
      */
     public function getParentSectionGroup()
     {
-        if (!$this->isPropertyAvailable("ParentSectionGroup")) {
-            $this->setProperty("ParentSectionGroup", new SectionGroup($this->getContext(), new ResourcePath("ParentSectionGroup", $this->getResourcePath())));
-        }
-        return $this->getProperty("ParentSectionGroup");
+        return $this->getProperty("ParentSectionGroup",
+            new SectionGroup($this->getContext(), new ResourcePath("ParentSectionGroup", $this->getResourcePath())));
     }
 }

@@ -17,19 +17,16 @@ class Workbook extends Entity
      */
     public function getApplication()
     {
-        if (!$this->isPropertyAvailable("Application")) {
-            $this->setProperty("Application", new WorkbookApplication($this->getContext(), new ResourcePath("Application", $this->getResourcePath())));
-        }
-        return $this->getProperty("Application");
+        return $this->getProperty("Application",
+            new WorkbookApplication($this->getContext(),
+                new ResourcePath("Application", $this->getResourcePath())));
     }
     /**
      * @return WorkbookFunctions
      */
     public function getFunctions()
     {
-        if (!$this->isPropertyAvailable("Functions")) {
-            $this->setProperty("Functions", new WorkbookFunctions($this->getContext(), new ResourcePath("Functions", $this->getResourcePath())));
-        }
-        return $this->getProperty("Functions");
+        return $this->getProperty("Functions",
+            new WorkbookFunctions($this->getContext(), new ResourcePath("Functions", $this->getResourcePath())));
     }
 }

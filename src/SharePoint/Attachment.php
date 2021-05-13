@@ -58,10 +58,7 @@ class Attachment extends BaseEntity
      */
     public function getFileNameAsPath()
     {
-        if (!$this->isPropertyAvailable("FileNameAsPath")) {
-            return null;
-        }
-        return $this->getProperty("FileNameAsPath");
+        return $this->getProperty("FileNameAsPath", new SPResourcePath());
     }
     /**
      * The file 
@@ -91,7 +88,6 @@ class Attachment extends BaseEntity
      */
     public function setServerRelativePath($value)
     {
-        $this->setProperty("ServerRelativePath", $value, true);
-        return $this;
+        return $this->setProperty("ServerRelativePath", $value, true);
     }
 }

@@ -21,9 +21,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getClientSideComponentId()
     {
-        if (!$this->isPropertyAvailable("ClientSideComponentId")) {
-            return null;
-        }
         return $this->getProperty("ClientSideComponentId");
     }
     /**
@@ -45,9 +42,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getClientSideComponentProperties()
     {
-        if (!$this->isPropertyAvailable("ClientSideComponentProperties")) {
-            return null;
-        }
         return $this->getProperty("ClientSideComponentProperties");
     }
     /**
@@ -94,9 +88,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getDescription()
     {
-        if (!$this->isPropertyAvailable("Description")) {
-            return null;
-        }
         return $this->getProperty("Description");
     }
     /**
@@ -116,9 +107,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getGroup()
     {
-        if (!$this->isPropertyAvailable("Group")) {
-            return null;
-        }
         return $this->getProperty("Group");
     }
     /**
@@ -136,9 +124,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getHostProperties()
     {
-        if (!$this->isPropertyAvailable("HostProperties")) {
-            return null;
-        }
         return $this->getProperty("HostProperties");
     }
     /**
@@ -155,9 +140,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getId()
     {
-        if (!$this->isPropertyAvailable("Id")) {
-            return null;
-        }
         return $this->getProperty("Id");
     }
     /**
@@ -179,9 +161,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getImageUrl()
     {
-        if (!$this->isPropertyAvailable("ImageUrl")) {
-            return null;
-        }
         return $this->getProperty("ImageUrl");
     }
     /**
@@ -204,9 +183,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getLocation()
     {
-        if (!$this->isPropertyAvailable("Location")) {
-            return null;
-        }
         return $this->getProperty("Location");
     }
     /**
@@ -226,9 +202,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getName()
     {
-        if (!$this->isPropertyAvailable("Name")) {
-            return null;
-        }
         return $this->getProperty("Name");
     }
     /**
@@ -256,9 +229,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getRegistrationId()
     {
-        if (!$this->isPropertyAvailable("RegistrationId")) {
-            return null;
-        }
         return $this->getProperty("RegistrationId");
     }
     /**
@@ -294,9 +264,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getRegistrationType()
     {
-        if (!$this->isPropertyAvailable("RegistrationType")) {
-            return null;
-        }
         return $this->getProperty("RegistrationType");
     }
     /**
@@ -325,10 +292,7 @@ class UserCustomAction extends BaseEntity
      */
     public function getRights()
     {
-        if (!$this->isPropertyAvailable("Rights")) {
-            return null;
-        }
-        return $this->getProperty("Rights");
+        return $this->getProperty("Rights", new BasePermissions());
     }
     /**
      * Specifies 
@@ -476,9 +440,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getUrl()
     {
-        if (!$this->isPropertyAvailable("Url")) {
-            return null;
-        }
         return $this->getProperty("Url");
     }
     /**
@@ -501,9 +462,6 @@ class UserCustomAction extends BaseEntity
      */
     public function getVersionOfUserCustomAction()
     {
-        if (!$this->isPropertyAvailable("VersionOfUserCustomAction")) {
-            return null;
-        }
         return $this->getProperty("VersionOfUserCustomAction");
     }
     /**
@@ -521,21 +479,16 @@ class UserCustomAction extends BaseEntity
      */
     public function getDescriptionResource()
     {
-        if (!$this->isPropertyAvailable("DescriptionResource")) {
-            $this->setProperty("DescriptionResource", new UserResource($this->getContext(),
+        return $this->getProperty("DescriptionResource",
+            new UserResource($this->getContext(),
                 new ResourcePath("DescriptionResource", $this->getResourcePath())));
-        }
-        return $this->getProperty("DescriptionResource");
     }
     /**
      * @return UserResource
      */
     public function getTitleResource()
     {
-        if (!$this->isPropertyAvailable("TitleResource")) {
-            $this->setProperty("TitleResource", new UserResource($this->getContext(),
-                new ResourcePath("TitleResource", $this->getResourcePath())));
-        }
-        return $this->getProperty("TitleResource");
+        return $this->getProperty("TitleResource",
+            new UserResource($this->getContext(),new ResourcePath("TitleResource", $this->getResourcePath())));
     }
 }

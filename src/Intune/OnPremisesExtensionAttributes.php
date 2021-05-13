@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * Modified: 2020-05-24T21:58:36+00:00
+ */
+namespace Office365\Intune;
+
+use Office365\Runtime\ClientValue;
+class OnPremisesExtensionAttributes extends ClientValue
+{
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute1;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute2;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute3;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute4;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute5;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute6;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute7;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute8;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute9;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute10;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute11;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute12;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute13;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute14;
+    /**
+     * @var string
+     */
+    public $ExtensionAttribute15;
+}

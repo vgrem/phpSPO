@@ -14,10 +14,7 @@ class MicrofeedManager extends ClientObject
      */
     public function getCurrentUser()
     {
-        if (!$this->isPropertyAvailable("CurrentUser")) {
-            return null;
-        }
-        return $this->getProperty("CurrentUser");
+        return $this->getProperty("CurrentUser", new MicroBlogEntity());
     }
     /**
      * @var MicroBlogEntity
@@ -31,9 +28,6 @@ class MicrofeedManager extends ClientObject
      */
     public function getIsFeedActivityPublic()
     {
-        if (!$this->isPropertyAvailable("IsFeedActivityPublic")) {
-            return null;
-        }
         return $this->getProperty("IsFeedActivityPublic");
     }
     /**
@@ -48,9 +42,6 @@ class MicrofeedManager extends ClientObject
      */
     public function getStaticThreadLink()
     {
-        if (!$this->isPropertyAvailable("StaticThreadLink")) {
-            return null;
-        }
         return $this->getProperty("StaticThreadLink");
     }
     /**

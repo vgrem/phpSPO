@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Modified: 2020-05-29T07:19:37+00:00
+ */
+namespace Office365\Intune;
+
+use Office365\Runtime\ClientValue;
+class TeleconferenceDeviceMediaQuality extends ClientValue
+{
+    /**
+     * @var integer
+     */
+    public $ChannelIndex;
+    /**
+     * @var integer
+     */
+    public $NetworkLinkSpeedInBytes;
+    /**
+     * @var string
+     */
+    public $LocalIPAddress;
+    /**
+     * @var integer
+     */
+    public $LocalPort;
+    /**
+     * @var string
+     */
+    public $RemoteIPAddress;
+    /**
+     * @var integer
+     */
+    public $RemotePort;
+    /**
+     * @var integer
+     */
+    public $InboundPackets;
+    /**
+     * @var integer
+     */
+    public $OutboundPackets;
+    /**
+     * @var double
+     */
+    public $AverageInboundPacketLossRateInPercentage;
+    /**
+     * @var double
+     */
+    public $AverageOutboundPacketLossRateInPercentage;
+    /**
+     * @var double
+     */
+    public $MaximumInboundPacketLossRateInPercentage;
+    /**
+     * @var double
+     */
+    public $MaximumOutboundPacketLossRateInPercentage;
+}

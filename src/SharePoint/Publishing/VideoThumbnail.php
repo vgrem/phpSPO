@@ -5,18 +5,15 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
-class VideoThumbnail extends ClientObject
+class VideoThumbnail extends BaseEntity
 {
     /**
      * @return integer
      */
     public function getChoice()
     {
-        if (!$this->isPropertyAvailable("Choice")) {
-            return null;
-        }
         return $this->getProperty("Choice");
     }
     /**
@@ -31,9 +28,6 @@ class VideoThumbnail extends ClientObject
      */
     public function getIsSelected()
     {
-        if (!$this->isPropertyAvailable("IsSelected")) {
-            return null;
-        }
         return $this->getProperty("IsSelected");
     }
     /**
@@ -48,9 +42,6 @@ class VideoThumbnail extends ClientObject
      */
     public function getUrl()
     {
-        if (!$this->isPropertyAvailable("Url")) {
-            return null;
-        }
         return $this->getProperty("Url");
     }
     /**

@@ -657,9 +657,6 @@ class Web extends SecurableObject
      */
     public function getDescription()
     {
-        if (!$this->isPropertyAvailable("Description")) {
-            return null;
-        }
         return $this->getProperty("Description");
     }
     /**
@@ -679,9 +676,6 @@ class Web extends SecurableObject
      */
     public function getDesignerDownloadUrlForCurrentUser()
     {
-        if (!$this->isPropertyAvailable("DesignerDownloadUrlForCurrentUser")) {
-            return null;
-        }
         return $this->getProperty("DesignerDownloadUrlForCurrentUser");
     }
     /**
@@ -703,9 +697,6 @@ class Web extends SecurableObject
      */
     public function getDesignPackageId()
     {
-        if (!$this->isPropertyAvailable("DesignPackageId")) {
-            return null;
-        }
         return $this->getProperty("DesignPackageId");
     }
     /**
@@ -724,9 +715,6 @@ class Web extends SecurableObject
      */
     public function getDisableAppViews()
     {
-        if (!$this->isPropertyAvailable("DisableAppViews")) {
-            return null;
-        }
         return $this->getProperty("DisableAppViews");
     }
     /**
@@ -741,9 +729,6 @@ class Web extends SecurableObject
      */
     public function getDisableFlows()
     {
-        if (!$this->isPropertyAvailable("DisableFlows")) {
-            return null;
-        }
         return $this->getProperty("DisableFlows");
     }
     /**
@@ -758,9 +743,6 @@ class Web extends SecurableObject
      */
     public function getDisableRecommendedItems()
     {
-        if (!$this->isPropertyAvailable("DisableRecommendedItems")) {
-            return null;
-        }
         return $this->getProperty("DisableRecommendedItems");
     }
     /**
@@ -778,9 +760,6 @@ class Web extends SecurableObject
      */
     public function getDocumentLibraryCalloutOfficeWebAppPreviewersDisabled()
     {
-        if (!$this->isPropertyAvailable("DocumentLibraryCalloutOfficeWebAppPreviewersDisabled")) {
-            return null;
-        }
         return $this->getProperty("DocumentLibraryCalloutOfficeWebAppPreviewersDisabled");
     }
     /**
@@ -801,9 +780,6 @@ class Web extends SecurableObject
      */
     public function getEffectiveBasePermissions()
     {
-        if (!$this->isPropertyAvailable("EffectiveBasePermissions")) {
-            return null;
-        }
         return $this->getProperty("EffectiveBasePermissions");
     }
     /**
@@ -828,9 +804,6 @@ class Web extends SecurableObject
      */
     public function getEnableMinimalDownload()
     {
-        if (!$this->isPropertyAvailable("EnableMinimalDownload")) {
-            return null;
-        }
         return $this->getProperty("EnableMinimalDownload");
     }
     /**
@@ -855,9 +828,6 @@ class Web extends SecurableObject
      */
     public function getExcludeFromOfflineClient()
     {
-        if (!$this->isPropertyAvailable("ExcludeFromOfflineClient")) {
-            return null;
-        }
         return $this->getProperty("ExcludeFromOfflineClient");
     }
     /**
@@ -875,9 +845,6 @@ class Web extends SecurableObject
      */
     public function getFooterEmphasis()
     {
-        if (!$this->isPropertyAvailable("FooterEmphasis")) {
-            return null;
-        }
         return $this->getProperty("FooterEmphasis");
     }
     /**
@@ -892,9 +859,6 @@ class Web extends SecurableObject
      */
     public function getFooterEnabled()
     {
-        if (!$this->isPropertyAvailable("FooterEnabled")) {
-            return null;
-        }
         return $this->getProperty("FooterEnabled");
     }
     /**
@@ -909,9 +873,6 @@ class Web extends SecurableObject
      */
     public function getFooterLayout()
     {
-        if (!$this->isPropertyAvailable("FooterLayout")) {
-            return null;
-        }
         return $this->getProperty("FooterLayout");
     }
     /**
@@ -926,9 +887,6 @@ class Web extends SecurableObject
      */
     public function getHeaderEmphasis()
     {
-        if (!$this->isPropertyAvailable("HeaderEmphasis")) {
-            return null;
-        }
         return $this->getProperty("HeaderEmphasis");
     }
     /**
@@ -943,9 +901,6 @@ class Web extends SecurableObject
      */
     public function getHeaderLayout()
     {
-        if (!$this->isPropertyAvailable("HeaderLayout")) {
-            return null;
-        }
         return $this->getProperty("HeaderLayout");
     }
     /**
@@ -960,9 +915,6 @@ class Web extends SecurableObject
      */
     public function getHorizontalQuickLaunch()
     {
-        if (!$this->isPropertyAvailable("HorizontalQuickLaunch")) {
-            return null;
-        }
         return $this->getProperty("HorizontalQuickLaunch");
     }
     /**
@@ -980,9 +932,6 @@ class Web extends SecurableObject
      */
     public function getId()
     {
-        if (!$this->isPropertyAvailable("Id")) {
-            return null;
-        }
         return $this->getProperty("Id");
     }
     /**
@@ -1000,9 +949,6 @@ class Web extends SecurableObject
      */
     public function getIsHomepageModernized()
     {
-        if (!$this->isPropertyAvailable("IsHomepageModernized")) {
-            return null;
-        }
         return $this->getProperty("IsHomepageModernized");
     }
     /**
@@ -1019,9 +965,6 @@ class Web extends SecurableObject
      */
     public function getIsMultilingual()
     {
-        if (!$this->isPropertyAvailable("IsMultilingual")) {
-            return null;
-        }
         return $this->getProperty("IsMultilingual");
     }
     /**
@@ -1038,9 +981,6 @@ class Web extends SecurableObject
      */
     public function getIsProvisioningComplete()
     {
-        if (!$this->isPropertyAvailable("IsProvisioningComplete")) {
-            return null;
-        }
         return $this->getProperty("IsProvisioningComplete");
     }
     /**
@@ -1055,9 +995,6 @@ class Web extends SecurableObject
      */
     public function getIsRevertHomepageLinkHidden()
     {
-        if (!$this->isPropertyAvailable("IsRevertHomepageLinkHidden")) {
-            return null;
-        }
         return $this->getProperty("IsRevertHomepageLinkHidden");
     }
     /**
@@ -1075,9 +1012,6 @@ class Web extends SecurableObject
      */
     public function getLanguage()
     {
-        if (!$this->isPropertyAvailable("Language")) {
-            return null;
-        }
         return $this->getProperty("Language");
     }
     /**
@@ -1098,9 +1032,6 @@ class Web extends SecurableObject
      */
     public function getLastItemModifiedDate()
     {
-        if (!$this->isPropertyAvailable("LastItemModifiedDate")) {
-            return null;
-        }
         return $this->getProperty("LastItemModifiedDate");
     }
     /**
@@ -1122,9 +1053,6 @@ class Web extends SecurableObject
      */
     public function getLastItemUserModifiedDate()
     {
-        if (!$this->isPropertyAvailable("LastItemUserModifiedDate")) {
-            return null;
-        }
         return $this->getProperty("LastItemUserModifiedDate");
     }
     /**
@@ -1147,9 +1075,6 @@ class Web extends SecurableObject
      */
     public function getMasterUrl()
     {
-        if (!$this->isPropertyAvailable("MasterUrl")) {
-            return null;
-        }
         return $this->getProperty("MasterUrl");
     }
     /**
@@ -1168,9 +1093,6 @@ class Web extends SecurableObject
      */
     public function getMegaMenuEnabled()
     {
-        if (!$this->isPropertyAvailable("MegaMenuEnabled")) {
-            return null;
-        }
         return $this->getProperty("MegaMenuEnabled");
     }
     /**
@@ -1187,9 +1109,6 @@ class Web extends SecurableObject
      */
     public function getMembersCanShare()
     {
-        if (!$this->isPropertyAvailable("MembersCanShare")) {
-            return null;
-        }
         return $this->getProperty("MembersCanShare");
     }
     /**
@@ -1206,9 +1125,6 @@ class Web extends SecurableObject
      */
     public function getNavAudienceTargetingEnabled()
     {
-        if (!$this->isPropertyAvailable("NavAudienceTargetingEnabled")) {
-            return null;
-        }
         return $this->getProperty("NavAudienceTargetingEnabled");
     }
     /**
@@ -1226,9 +1142,6 @@ class Web extends SecurableObject
      */
     public function getNoCrawl()
     {
-        if (!$this->isPropertyAvailable("NoCrawl")) {
-            return null;
-        }
         return $this->getProperty("NoCrawl");
     }
     /**
@@ -1248,9 +1161,6 @@ class Web extends SecurableObject
      */
     public function getNotificationsInOneDriveForBusinessEnabled()
     {
-        if (!$this->isPropertyAvailable("NotificationsInOneDriveForBusinessEnabled")) {
-            return null;
-        }
         return $this->getProperty("NotificationsInOneDriveForBusinessEnabled");
     }
     /**
@@ -1269,9 +1179,6 @@ class Web extends SecurableObject
      */
     public function getNotificationsInSharePointEnabled()
     {
-        if (!$this->isPropertyAvailable("NotificationsInSharePointEnabled")) {
-            return null;
-        }
         return $this->getProperty("NotificationsInSharePointEnabled");
     }
     /**
@@ -1288,9 +1195,6 @@ class Web extends SecurableObject
      */
     public function getObjectCacheEnabled()
     {
-        if (!$this->isPropertyAvailable("ObjectCacheEnabled")) {
-            return null;
-        }
         return $this->getProperty("ObjectCacheEnabled");
     }
     /**

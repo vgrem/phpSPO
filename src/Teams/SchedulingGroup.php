@@ -17,9 +17,6 @@ class SchedulingGroup extends Entity
      */
     public function getDisplayName()
     {
-        if (!$this->isPropertyAvailable("DisplayName")) {
-            return null;
-        }
         return $this->getProperty("DisplayName");
     }
     /**
@@ -34,9 +31,6 @@ class SchedulingGroup extends Entity
      */
     public function getIsActive()
     {
-        if (!$this->isPropertyAvailable("IsActive")) {
-            return null;
-        }
         return $this->getProperty("IsActive");
     }
     /**
@@ -51,9 +45,6 @@ class SchedulingGroup extends Entity
      */
     public function getUserIds()
     {
-        if (!$this->isPropertyAvailable("UserIds")) {
-            return null;
-        }
         return $this->getProperty("UserIds");
     }
     /**

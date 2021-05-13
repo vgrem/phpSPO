@@ -15,19 +15,15 @@ class FeedVideoPage extends BaseEntity
      */
     public function getVideoDuration()
     {
-        if (!$this->isPropertyAvailable("VideoDuration")) {
-            return null;
-        }
         return $this->getProperty("VideoDuration");
     }
 
     /**
      * @param $value
-     * @return $this
+     * @return self
      */
     public function setVideoDuration($value)
     {
-        $this->setProperty("VideoDuration", $value, true);
-        return $this;
+        return $this->setProperty("VideoDuration", $value, true);
     }
 }

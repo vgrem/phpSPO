@@ -15,9 +15,6 @@ class WorkbookChartFont extends Entity
      */
     public function getBold()
     {
-        if (!$this->isPropertyAvailable("Bold")) {
-            return null;
-        }
         return $this->getProperty("Bold");
     }
     /**
@@ -32,9 +29,6 @@ class WorkbookChartFont extends Entity
      */
     public function getColor()
     {
-        if (!$this->isPropertyAvailable("Color")) {
-            return null;
-        }
         return $this->getProperty("Color");
     }
     /**
@@ -66,9 +60,6 @@ class WorkbookChartFont extends Entity
      */
     public function getName()
     {
-        if (!$this->isPropertyAvailable("Name")) {
-            return null;
-        }
         return $this->getProperty("Name");
     }
     /**
@@ -83,9 +74,6 @@ class WorkbookChartFont extends Entity
      */
     public function getSize()
     {
-        if (!$this->isPropertyAvailable("Size")) {
-            return null;
-        }
         return $this->getProperty("Size");
     }
     /**
@@ -100,9 +88,6 @@ class WorkbookChartFont extends Entity
      */
     public function getUnderline()
     {
-        if (!$this->isPropertyAvailable("Underline")) {
-            return null;
-        }
         return $this->getProperty("Underline");
     }
     /**

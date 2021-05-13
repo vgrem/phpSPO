@@ -15,9 +15,6 @@ class SitePage extends ClientObject
      */
     public function getAlternativeUrlMap()
     {
-        if (!$this->isPropertyAvailable("AlternativeUrlMap")) {
-            return null;
-        }
         return $this->getProperty("AlternativeUrlMap");
     }
     /**
@@ -32,9 +29,6 @@ class SitePage extends ClientObject
      */
     public function getCanvasContent1()
     {
-        if (!$this->isPropertyAvailable("CanvasContent1")) {
-            return null;
-        }
         return $this->getProperty("CanvasContent1");
     }
     /**
@@ -49,9 +43,6 @@ class SitePage extends ClientObject
      */
     public function getCanvasJson1()
     {
-        if (!$this->isPropertyAvailable("CanvasJson1")) {
-            return null;
-        }
         return $this->getProperty("CanvasJson1");
     }
     /**
@@ -66,9 +57,6 @@ class SitePage extends ClientObject
      */
     public function getIsLikedByCurrentUser()
     {
-        if (!$this->isPropertyAvailable("IsLikedByCurrentUser")) {
-            return null;
-        }
         return $this->getProperty("IsLikedByCurrentUser");
     }
     /**
@@ -83,9 +71,6 @@ class SitePage extends ClientObject
      */
     public function getIsTemplate()
     {
-        if (!$this->isPropertyAvailable("IsTemplate")) {
-            return null;
-        }
         return $this->getProperty("IsTemplate");
     }
     /**
@@ -100,9 +85,6 @@ class SitePage extends ClientObject
      */
     public function getLayoutWebpartsContent()
     {
-        if (!$this->isPropertyAvailable("LayoutWebpartsContent")) {
-            return null;
-        }
         return $this->getProperty("LayoutWebpartsContent");
     }
     /**
@@ -117,9 +99,6 @@ class SitePage extends ClientObject
      */
     public function getName()
     {
-        if (!$this->isPropertyAvailable("Name")) {
-            return null;
-        }
         return $this->getProperty("Name");
     }
     /**
@@ -134,9 +113,6 @@ class SitePage extends ClientObject
      */
     public function getSitePageFlags()
     {
-        if (!$this->isPropertyAvailable("SitePageFlags")) {
-            return null;
-        }
         return $this->getProperty("SitePageFlags");
     }
     /**

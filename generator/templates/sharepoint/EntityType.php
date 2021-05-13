@@ -11,11 +11,8 @@ class EntityType extends BaseEntity
 
     public function getObjectProperty()
     {
-        if(!$this->isPropertyAvailable("{name}")){
-            $this->setProperty("{name}", new ClientObject($this->getContext(),
-                new ResourcePath("{name}",$this->getResourcePath())));
-        }
-        return $this->getProperty("{name}");
+        return $this->getProperty("{name}",
+            new ClientObject($this->getContext(),new ResourcePath("{name}",$this->getResourcePath())));
     }
 
     public function getValueProperty()

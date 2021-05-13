@@ -37,9 +37,6 @@ class Calendar extends Entity
      */
     public function getName()
     {
-        if (!$this->isPropertyAvailable("Name")) {
-            return null;
-        }
         return $this->getProperty("Name");
     }
     /**
@@ -56,9 +53,6 @@ class Calendar extends Entity
      */
     public function getChangeKey()
     {
-        if (!$this->isPropertyAvailable("ChangeKey")) {
-            return null;
-        }
         return $this->getProperty("ChangeKey");
     }
     /**
@@ -74,9 +68,6 @@ class Calendar extends Entity
      */
     public function getCanShare()
     {
-        if (!$this->isPropertyAvailable("CanShare")) {
-            return null;
-        }
         return $this->getProperty("CanShare");
     }
     /**
@@ -91,9 +82,6 @@ class Calendar extends Entity
      */
     public function getCanViewPrivateItems()
     {
-        if (!$this->isPropertyAvailable("CanViewPrivateItems")) {
-            return null;
-        }
         return $this->getProperty("CanViewPrivateItems");
     }
     /**
@@ -108,9 +96,6 @@ class Calendar extends Entity
      */
     public function getCanEdit()
     {
-        if (!$this->isPropertyAvailable("CanEdit")) {
-            return null;
-        }
         return $this->getProperty("CanEdit");
     }
     /**
@@ -125,10 +110,7 @@ class Calendar extends Entity
      */
     public function getOwner()
     {
-        if (!$this->isPropertyAvailable("Owner")) {
-            return null;
-        }
-        return $this->getProperty("Owner");
+        return $this->getProperty("Owner", new EmailAddress());
     }
     /**
      * @var EmailAddress
@@ -143,9 +125,6 @@ class Calendar extends Entity
      */
     public function getIsTallyingResponses()
     {
-        if (!$this->isPropertyAvailable("IsTallyingResponses")) {
-            return null;
-        }
         return $this->getProperty("IsTallyingResponses");
     }
     /**
@@ -162,9 +141,6 @@ class Calendar extends Entity
      */
     public function getIsRemovable()
     {
-        if (!$this->isPropertyAvailable("IsRemovable")) {
-            return null;
-        }
         return $this->getProperty("IsRemovable");
     }
     /**

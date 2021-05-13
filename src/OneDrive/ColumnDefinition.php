@@ -14,9 +14,6 @@ class ColumnDefinition extends Entity
      */
     public function getColumnGroup()
     {
-        if (!$this->isPropertyAvailable("ColumnGroup")) {
-            return null;
-        }
         return $this->getProperty("ColumnGroup");
     }
     /**
@@ -31,9 +28,6 @@ class ColumnDefinition extends Entity
      */
     public function getDescription()
     {
-        if (!$this->isPropertyAvailable("Description")) {
-            return null;
-        }
         return $this->getProperty("Description");
     }
     /**
@@ -65,9 +59,6 @@ class ColumnDefinition extends Entity
      */
     public function getEnforceUniqueValues()
     {
-        if (!$this->isPropertyAvailable("EnforceUniqueValues")) {
-            return null;
-        }
         return $this->getProperty("EnforceUniqueValues");
     }
     /**
@@ -82,9 +73,6 @@ class ColumnDefinition extends Entity
      */
     public function getHidden()
     {
-        if (!$this->isPropertyAvailable("Hidden")) {
-            return null;
-        }
         return $this->getProperty("Hidden");
     }
     /**
@@ -99,9 +87,6 @@ class ColumnDefinition extends Entity
      */
     public function getIndexed()
     {
-        if (!$this->isPropertyAvailable("Indexed")) {
-            return null;
-        }
         return $this->getProperty("Indexed");
     }
     /**
@@ -150,9 +135,6 @@ class ColumnDefinition extends Entity
      */
     public function getRequired()
     {
-        if (!$this->isPropertyAvailable("Required")) {
-            return null;
-        }
         return $this->getProperty("Required");
     }
     /**
@@ -167,10 +149,7 @@ class ColumnDefinition extends Entity
      */
     public function getBoolean()
     {
-        if (!$this->isPropertyAvailable("Boolean")) {
-            return null;
-        }
-        return $this->getProperty("Boolean");
+        return $this->getProperty("Boolean", new BooleanColumn());
     }
     /**
      * @var BooleanColumn
@@ -184,10 +163,7 @@ class ColumnDefinition extends Entity
      */
     public function getCalculated()
     {
-        if (!$this->isPropertyAvailable("Calculated")) {
-            return null;
-        }
-        return $this->getProperty("Calculated");
+        return $this->getProperty("Calculated", new CalculatedColumn());
     }
     /**
      * @var CalculatedColumn

@@ -15,10 +15,7 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getAuthor()
     {
-        if (!$this->isPropertyAvailable("Author")) {
-            return null;
-        }
-        return $this->getProperty("Author");
+        return $this->getProperty("Author", new Principal());
     }
     /**
      * @var Principal
@@ -32,9 +29,6 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getCallerStack()
     {
-        if (!$this->isPropertyAvailable("CallerStack")) {
-            return null;
-        }
         return $this->getProperty("CallerStack");
     }
     /**
@@ -49,9 +43,6 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getContentTypeId()
     {
-        if (!$this->isPropertyAvailable("ContentTypeId")) {
-            return null;
-        }
         return $this->getProperty("ContentTypeId");
     }
     /**
@@ -66,9 +57,6 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getDriveAccessToken()
     {
-        if (!$this->isPropertyAvailable("DriveAccessToken")) {
-            return null;
-        }
         return $this->getProperty("DriveAccessToken");
     }
     /**
@@ -83,9 +71,6 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getDriveAccessTokenV21()
     {
-        if (!$this->isPropertyAvailable("DriveAccessTokenV21")) {
-            return null;
-        }
         return $this->getProperty("DriveAccessTokenV21");
     }
     /**
@@ -100,9 +85,6 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getDriveUrl()
     {
-        if (!$this->isPropertyAvailable("DriveUrl")) {
-            return null;
-        }
         return $this->getProperty("DriveUrl");
     }
     /**
@@ -117,10 +99,7 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getEditor()
     {
-        if (!$this->isPropertyAvailable("Editor")) {
-            return null;
-        }
-        return $this->getProperty("Editor");
+        return $this->getProperty("Editor", new Principal());
     }
     /**
      * @var Principal
@@ -134,9 +113,6 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getExtension()
     {
-        if (!$this->isPropertyAvailable("Extension")) {
-            return null;
-        }
         return $this->getProperty("Extension");
     }
     /**
@@ -151,9 +127,6 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getFileLeafRef()
     {
-        if (!$this->isPropertyAvailable("FileLeafRef")) {
-            return null;
-        }
         return $this->getProperty("FileLeafRef");
     }
     /**
@@ -168,9 +141,6 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getFileRef()
     {
-        if (!$this->isPropertyAvailable("FileRef")) {
-            return null;
-        }
         return $this->getProperty("FileRef");
     }
     /**
@@ -185,9 +155,6 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getIsContainer()
     {
-        if (!$this->isPropertyAvailable("IsContainer")) {
-            return null;
-        }
         return $this->getProperty("IsContainer");
     }
     /**
@@ -202,9 +169,6 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getLinkingUrl()
     {
-        if (!$this->isPropertyAvailable("LinkingUrl")) {
-            return null;
-        }
         return $this->getProperty("LinkingUrl");
     }
     /**
@@ -219,9 +183,6 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getListId()
     {
-        if (!$this->isPropertyAvailable("ListId")) {
-            return null;
-        }
         return $this->getProperty("ListId");
     }
     /**
@@ -236,9 +197,6 @@ class SharedDocumentInfo extends BaseEntity
      */
     public function getListItemId()
     {
-        if (!$this->isPropertyAvailable("ListItemId")) {
-            return null;
-        }
         return $this->getProperty("ListItemId");
     }
     /**

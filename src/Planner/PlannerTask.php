@@ -19,10 +19,7 @@ class PlannerTask extends Entity
      */
     public function getCreatedBy()
     {
-        if (!$this->isPropertyAvailable("CreatedBy")) {
-            return null;
-        }
-        return $this->getProperty("CreatedBy");
+        return $this->getProperty("CreatedBy", new IdentitySet());
     }
     /**
      * Identity of the user that created the task.
@@ -38,9 +35,6 @@ class PlannerTask extends Entity
      */
     public function getPlanId()
     {
-        if (!$this->isPropertyAvailable("PlanId")) {
-            return null;
-        }
         return $this->getProperty("PlanId");
     }
     /**
@@ -57,9 +51,6 @@ class PlannerTask extends Entity
      */
     public function getBucketId()
     {
-        if (!$this->isPropertyAvailable("BucketId")) {
-            return null;
-        }
         return $this->getProperty("BucketId");
     }
     /**
@@ -76,9 +67,6 @@ class PlannerTask extends Entity
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -95,9 +83,6 @@ class PlannerTask extends Entity
      */
     public function getOrderHint()
     {
-        if (!$this->isPropertyAvailable("OrderHint")) {
-            return null;
-        }
         return $this->getProperty("OrderHint");
     }
     /**
@@ -114,9 +99,6 @@ class PlannerTask extends Entity
      */
     public function getAssigneePriority()
     {
-        if (!$this->isPropertyAvailable("AssigneePriority")) {
-            return null;
-        }
         return $this->getProperty("AssigneePriority");
     }
     /**
@@ -133,9 +115,6 @@ class PlannerTask extends Entity
      */
     public function getPercentComplete()
     {
-        if (!$this->isPropertyAvailable("PercentComplete")) {
-            return null;
-        }
         return $this->getProperty("PercentComplete");
     }
     /**
@@ -152,9 +131,6 @@ class PlannerTask extends Entity
      */
     public function getHasDescription()
     {
-        if (!$this->isPropertyAvailable("HasDescription")) {
-            return null;
-        }
         return $this->getProperty("HasDescription");
     }
     /**
@@ -171,10 +147,7 @@ class PlannerTask extends Entity
      */
     public function getCompletedBy()
     {
-        if (!$this->isPropertyAvailable("CompletedBy")) {
-            return null;
-        }
-        return $this->getProperty("CompletedBy");
+        return $this->getProperty("CompletedBy", new IdentitySet());
     }
     /**
      * Identity of the user that completed the task.
@@ -190,9 +163,6 @@ class PlannerTask extends Entity
      */
     public function getReferenceCount()
     {
-        if (!$this->isPropertyAvailable("ReferenceCount")) {
-            return null;
-        }
         return $this->getProperty("ReferenceCount");
     }
     /**
@@ -209,9 +179,6 @@ class PlannerTask extends Entity
      */
     public function getChecklistItemCount()
     {
-        if (!$this->isPropertyAvailable("ChecklistItemCount")) {
-            return null;
-        }
         return $this->getProperty("ChecklistItemCount");
     }
     /**
@@ -228,9 +195,6 @@ class PlannerTask extends Entity
      */
     public function getActiveChecklistItemCount()
     {
-        if (!$this->isPropertyAvailable("ActiveChecklistItemCount")) {
-            return null;
-        }
         return $this->getProperty("ActiveChecklistItemCount");
     }
     /**
@@ -247,9 +211,6 @@ class PlannerTask extends Entity
      */
     public function getConversationThreadId()
     {
-        if (!$this->isPropertyAvailable("ConversationThreadId")) {
-            return null;
-        }
         return $this->getProperty("ConversationThreadId");
     }
     /**
@@ -266,10 +227,7 @@ class PlannerTask extends Entity
      */
     public function getAppliedCategories()
     {
-        if (!$this->isPropertyAvailable("AppliedCategories")) {
-            return null;
-        }
-        return $this->getProperty("AppliedCategories");
+        return $this->getProperty("AppliedCategories", new PlannerAppliedCategories());
     }
     /**
      * The categories to which the task has been applied. See [applied Categories](plannerappliedcategories.md) for possible values.

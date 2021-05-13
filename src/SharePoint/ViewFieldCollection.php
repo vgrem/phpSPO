@@ -9,8 +9,11 @@ namespace Office365\SharePoint;
  * Specifies 
  * the collection of fields (2) in a list view.
  */
-class ViewFieldCollection extends BaseEntityCollection
+class ViewFieldCollection extends BaseEntity
 {
+
+
+
     /**
      * Specifies 
      * the XML 
@@ -51,9 +54,6 @@ class ViewFieldCollection extends BaseEntityCollection
      */
     public function getItems()
     {
-        if (!$this->isPropertyAvailable("Items")) {
-            return null;
-        }
         return $this->getProperty("Items");
     }
     /**

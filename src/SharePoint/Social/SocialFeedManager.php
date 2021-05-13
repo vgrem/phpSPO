@@ -16,10 +16,7 @@ class SocialFeedManager extends BaseEntity
      */
     public function getOwner()
     {
-        if (!$this->isPropertyAvailable("Owner")) {
-            return null;
-        }
-        return $this->getProperty("Owner");
+        return $this->getProperty("Owner", new SocialActor());
     }
     /**
      * @var SocialActor
@@ -33,9 +30,6 @@ class SocialFeedManager extends BaseEntity
      */
     public function getPersonalSitePortalUri()
     {
-        if (!$this->isPropertyAvailable("PersonalSitePortalUri")) {
-            return null;
-        }
         return $this->getProperty("PersonalSitePortalUri");
     }
     /**

@@ -1,0 +1,165 @@
+<?php
+
+/**
+ * Modified: 2020-05-26T22:07:25+00:00
+ */
+namespace Office365\Intune;
+
+use Office365\Runtime\ClientObject;
+
+class WindowsInformationProtectionPolicy extends ClientObject
+{
+    /**
+     * @return bool
+     */
+    public function getRevokeOnMdmHandoffDisabled()
+    {
+        if (!$this->isPropertyAvailable("RevokeOnMdmHandoffDisabled")) {
+            return null;
+        }
+        return $this->getProperty("RevokeOnMdmHandoffDisabled");
+    }
+    /**
+     * @var bool
+     */
+    public function setRevokeOnMdmHandoffDisabled($value)
+    {
+        $this->setProperty("RevokeOnMdmHandoffDisabled", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getMdmEnrollmentUrl()
+    {
+        if (!$this->isPropertyAvailable("MdmEnrollmentUrl")) {
+            return null;
+        }
+        return $this->getProperty("MdmEnrollmentUrl");
+    }
+    /**
+     * @var string
+     */
+    public function setMdmEnrollmentUrl($value)
+    {
+        $this->setProperty("MdmEnrollmentUrl", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getWindowsHelloForBusinessBlocked()
+    {
+        if (!$this->isPropertyAvailable("WindowsHelloForBusinessBlocked")) {
+            return null;
+        }
+        return $this->getProperty("WindowsHelloForBusinessBlocked");
+    }
+    /**
+     * @var bool
+     */
+    public function setWindowsHelloForBusinessBlocked($value)
+    {
+        $this->setProperty("WindowsHelloForBusinessBlocked", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getPinMinimumLength()
+    {
+        if (!$this->isPropertyAvailable("PinMinimumLength")) {
+            return null;
+        }
+        return $this->getProperty("PinMinimumLength");
+    }
+    /**
+     * @var integer
+     */
+    public function setPinMinimumLength($value)
+    {
+        $this->setProperty("PinMinimumLength", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getPinExpirationDays()
+    {
+        if (!$this->isPropertyAvailable("PinExpirationDays")) {
+            return null;
+        }
+        return $this->getProperty("PinExpirationDays");
+    }
+    /**
+     * @var integer
+     */
+    public function setPinExpirationDays($value)
+    {
+        $this->setProperty("PinExpirationDays", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getNumberOfPastPinsRemembered()
+    {
+        if (!$this->isPropertyAvailable("NumberOfPastPinsRemembered")) {
+            return null;
+        }
+        return $this->getProperty("NumberOfPastPinsRemembered");
+    }
+    /**
+     * @var integer
+     */
+    public function setNumberOfPastPinsRemembered($value)
+    {
+        $this->setProperty("NumberOfPastPinsRemembered", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getPasswordMaximumAttemptCount()
+    {
+        if (!$this->isPropertyAvailable("PasswordMaximumAttemptCount")) {
+            return null;
+        }
+        return $this->getProperty("PasswordMaximumAttemptCount");
+    }
+    /**
+     * @var integer
+     */
+    public function setPasswordMaximumAttemptCount($value)
+    {
+        $this->setProperty("PasswordMaximumAttemptCount", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getMinutesOfInactivityBeforeDeviceLock()
+    {
+        if (!$this->isPropertyAvailable("MinutesOfInactivityBeforeDeviceLock")) {
+            return null;
+        }
+        return $this->getProperty("MinutesOfInactivityBeforeDeviceLock");
+    }
+    /**
+     * @var integer
+     */
+    public function setMinutesOfInactivityBeforeDeviceLock($value)
+    {
+        $this->setProperty("MinutesOfInactivityBeforeDeviceLock", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getDaysWithoutContactBeforeUnenroll()
+    {
+        if (!$this->isPropertyAvailable("DaysWithoutContactBeforeUnenroll")) {
+            return null;
+        }
+        return $this->getProperty("DaysWithoutContactBeforeUnenroll");
+    }
+    /**
+     * @var integer
+     */
+    public function setDaysWithoutContactBeforeUnenroll($value)
+    {
+        $this->setProperty("DaysWithoutContactBeforeUnenroll", $value, true);
+    }
+}

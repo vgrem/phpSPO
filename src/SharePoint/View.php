@@ -22,10 +22,9 @@ class View extends Entity
      */
     public function getViewFields()
     {
-        if (!$this->isPropertyAvailable('ViewFields')) {
-            $this->setProperty("ViewFields", new ViewFieldCollection($this->getContext(), new ResourcePath("ViewFields", $this->getResourcePath())));
-        }
-        return $this->getProperty("ViewFields");
+        return $this->getProperty("ViewFields",
+            new ViewFieldCollection($this->getContext(),
+                new ResourcePath("ViewFields", $this->getResourcePath())));
     }
 
     /**
@@ -52,9 +51,6 @@ class View extends Entity
      */
     public function getAggregations()
     {
-        if (!$this->isPropertyAvailable("Aggregations")) {
-            return null;
-        }
         return $this->getProperty("Aggregations");
     }
     /**
@@ -82,9 +78,6 @@ class View extends Entity
      */
     public function getAggregationsStatus()
     {
-        if (!$this->isPropertyAvailable("AggregationsStatus")) {
-            return null;
-        }
         return $this->getProperty("AggregationsStatus");
     }
     /**
@@ -108,9 +101,6 @@ class View extends Entity
      */
     public function getBaseViewId()
     {
-        if (!$this->isPropertyAvailable("BaseViewId")) {
-            return null;
-        }
         return $this->getProperty("BaseViewId");
     }
     /**
@@ -132,9 +122,6 @@ class View extends Entity
      */
     public function getColumnWidth()
     {
-        if (!$this->isPropertyAvailable("ColumnWidth")) {
-            return null;
-        }
         return $this->getProperty("ColumnWidth");
     }
     /**

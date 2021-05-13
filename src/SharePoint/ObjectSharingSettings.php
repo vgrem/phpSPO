@@ -22,9 +22,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getAccessRequestMode()
     {
-        if (!$this->isPropertyAvailable("AccessRequestMode")) {
-            return null;
-        }
         return $this->getProperty("AccessRequestMode");
     }
     /**
@@ -44,9 +41,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getBlockPeoplePickerAndSharing()
     {
-        if (!$this->isPropertyAvailable("BlockPeoplePickerAndSharing")) {
-            return null;
-        }
         return $this->getProperty("BlockPeoplePickerAndSharing");
     }
     /**
@@ -67,9 +61,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanCurrentUserManageOrganizationReadonlyLink()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserManageOrganizationReadonlyLink")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserManageOrganizationReadonlyLink");
     }
     /**
@@ -90,9 +81,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanCurrentUserManageOrganizationReadWriteLink()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserManageOrganizationReadWriteLink")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserManageOrganizationReadWriteLink");
     }
     /**
@@ -113,9 +101,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanCurrentUserManageReadonlyLink()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserManageReadonlyLink")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserManageReadonlyLink");
     }
     /**
@@ -136,9 +121,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanCurrentUserManageReadWriteLink()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserManageReadWriteLink")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserManageReadWriteLink");
     }
     /**
@@ -160,9 +142,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanCurrentUserRetrieveOrganizationReadonlyLink()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserRetrieveOrganizationReadonlyLink")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserRetrieveOrganizationReadonlyLink");
     }
     /**
@@ -185,9 +164,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanCurrentUserRetrieveOrganizationReadWriteLink()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserRetrieveOrganizationReadWriteLink")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserRetrieveOrganizationReadWriteLink");
     }
     /**
@@ -210,9 +186,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanCurrentUserRetrieveReadonlyLink()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserRetrieveReadonlyLink")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserRetrieveReadonlyLink");
     }
     /**
@@ -235,9 +208,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanCurrentUserRetrieveReadWriteLink()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserRetrieveReadWriteLink")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserRetrieveReadWriteLink");
     }
     /**
@@ -259,9 +229,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanCurrentUserShareExternally()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserShareExternally")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserShareExternally");
     }
     /**
@@ -281,9 +248,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanCurrentUserShareInternally()
     {
-        if (!$this->isPropertyAvailable("CanCurrentUserShareInternally")) {
-            return null;
-        }
         return $this->getProperty("CanCurrentUserShareInternally");
     }
     /**
@@ -302,9 +266,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanSendEmail()
     {
-        if (!$this->isPropertyAvailable("CanSendEmail")) {
-            return null;
-        }
         return $this->getProperty("CanSendEmail");
     }
     /**
@@ -323,9 +284,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanSendLink()
     {
-        if (!$this->isPropertyAvailable("CanSendLink")) {
-            return null;
-        }
         return $this->getProperty("CanSendLink");
     }
     /**
@@ -344,9 +302,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getCanShareFolder()
     {
-        if (!$this->isPropertyAvailable("CanShareFolder")) {
-            return null;
-        }
         return $this->getProperty("CanShareFolder");
     }
     /**
@@ -365,9 +320,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getDefaultShareLinkPermission()
     {
-        if (!$this->isPropertyAvailable("DefaultShareLinkPermission")) {
-            return null;
-        }
         return $this->getProperty("DefaultShareLinkPermission");
     }
     /**
@@ -386,9 +338,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getDefaultShareLinkType()
     {
-        if (!$this->isPropertyAvailable("DefaultShareLinkType")) {
-            return null;
-        }
         return $this->getProperty("DefaultShareLinkType");
     }
     /**
@@ -407,9 +356,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getGroupsList()
     {
-        if (!$this->isPropertyAvailable("GroupsList")) {
-            return null;
-        }
         return $this->getProperty("GroupsList");
     }
     /**
@@ -429,9 +375,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getHasEditRole()
     {
-        if (!$this->isPropertyAvailable("HasEditRole")) {
-            return null;
-        }
         return $this->getProperty("HasEditRole");
     }
     /**
@@ -452,9 +395,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getHasReadRole()
     {
-        if (!$this->isPropertyAvailable("HasReadRole")) {
-            return null;
-        }
         return $this->getProperty("HasReadRole");
     }
     /**
@@ -474,9 +414,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getInheritingWebLink()
     {
-        if (!$this->isPropertyAvailable("InheritingWebLink")) {
-            return null;
-        }
         return $this->getProperty("InheritingWebLink");
     }
     /**
@@ -495,9 +432,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getIsGuestUser()
     {
-        if (!$this->isPropertyAvailable("IsGuestUser")) {
-            return null;
-        }
         return $this->getProperty("IsGuestUser");
     }
     /**
@@ -517,9 +451,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getIsPictureLibrary()
     {
-        if (!$this->isPropertyAvailable("IsPictureLibrary")) {
-            return null;
-        }
         return $this->getProperty("IsPictureLibrary");
     }
     /**
@@ -539,9 +470,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getIsUserSiteAdmin()
     {
-        if (!$this->isPropertyAvailable("IsUserSiteAdmin")) {
-            return null;
-        }
         return $this->getProperty("IsUserSiteAdmin");
     }
     /**
@@ -560,9 +488,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getItemId()
     {
-        if (!$this->isPropertyAvailable("ItemId")) {
-            return null;
-        }
         return $this->getProperty("ItemId");
     }
     /**
@@ -581,9 +506,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getItemName()
     {
-        if (!$this->isPropertyAvailable("ItemName")) {
-            return null;
-        }
         return $this->getProperty("ItemName");
     }
     /**
@@ -602,9 +524,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getItemUrl()
     {
-        if (!$this->isPropertyAvailable("ItemUrl")) {
-            return null;
-        }
         return $this->getProperty("ItemUrl");
     }
     /**
@@ -624,9 +543,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getListId()
     {
-        if (!$this->isPropertyAvailable("ListId")) {
-            return null;
-        }
         return $this->getProperty("ListId");
     }
     /**
@@ -648,9 +564,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getPermissionsOnlyMode()
     {
-        if (!$this->isPropertyAvailable("PermissionsOnlyMode")) {
-            return null;
-        }
         return $this->getProperty("PermissionsOnlyMode");
     }
     /**
@@ -672,9 +585,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getRequiredAnonymousLinkExpirationInDays()
     {
-        if (!$this->isPropertyAvailable("RequiredAnonymousLinkExpirationInDays")) {
-            return null;
-        }
         return $this->getProperty("RequiredAnonymousLinkExpirationInDays");
     }
     /**
@@ -695,9 +605,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getRoles()
     {
-        if (!$this->isPropertyAvailable("Roles")) {
-            return null;
-        }
         return $this->getProperty("Roles");
     }
     /**
@@ -717,9 +624,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getShareByEmailEnabled()
     {
-        if (!$this->isPropertyAvailable("ShareByEmailEnabled")) {
-            return null;
-        }
         return $this->getProperty("ShareByEmailEnabled");
     }
     /**
@@ -739,9 +643,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getShowExternalSharingWarning()
     {
-        if (!$this->isPropertyAvailable("ShowExternalSharingWarning")) {
-            return null;
-        }
         return $this->getProperty("ShowExternalSharingWarning");
     }
     /**
@@ -762,9 +663,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getSimplifiedRoles()
     {
-        if (!$this->isPropertyAvailable("SimplifiedRoles")) {
-            return null;
-        }
         return $this->getProperty("SimplifiedRoles");
     }
     /**
@@ -828,10 +726,9 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getObjectSharingInformation()
     {
-        if (!$this->isPropertyAvailable("ObjectSharingInformation")) {
-            $this->setProperty("ObjectSharingInformation", new ObjectSharingInformation($this->getContext(), new ResourcePath("ObjectSharingInformation", $this->getResourcePath())));
-        }
-        return $this->getProperty("ObjectSharingInformation");
+        return $this->getProperty("ObjectSharingInformation",
+            new ObjectSharingInformation($this->getContext(),
+                new ResourcePath("ObjectSharingInformation", $this->getResourcePath())));
     }
     /**
      * @return SharePointSharingSettings
@@ -847,9 +744,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getEnforceIBSegmentFiltering()
     {
-        if (!$this->isPropertyAvailable("EnforceIBSegmentFiltering")) {
-            return null;
-        }
         return $this->getProperty("EnforceIBSegmentFiltering");
     }
     /**
@@ -864,9 +758,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getSiteIBSegmentIDs()
     {
-        if (!$this->isPropertyAvailable("SiteIBSegmentIDs")) {
-            return null;
-        }
         return $this->getProperty("SiteIBSegmentIDs");
     }
     /**
@@ -881,9 +772,6 @@ class ObjectSharingSettings extends BaseEntity
      */
     public function getEnforceSPOSearch()
     {
-        if (!$this->isPropertyAvailable("EnforceSPOSearch")) {
-            return null;
-        }
         return $this->getProperty("EnforceSPOSearch");
     }
     /**

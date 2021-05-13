@@ -17,10 +17,7 @@ class PlannerPlanDetails extends Entity
      */
     public function getSharedWith()
     {
-        if (!$this->isPropertyAvailable("SharedWith")) {
-            return null;
-        }
-        return $this->getProperty("SharedWith");
+        return $this->getProperty("SharedWith", new PlannerUserIds());
     }
     /**
      * Set of user ids that this plan is shared with. If you are leveraging Office 365 Groups, use the Groups API to manage group membership to share the [group's](group.md) plan. You can also add existing members of the group to this collection though it is not required for them to access the plan owned by the group. 
@@ -36,10 +33,7 @@ class PlannerPlanDetails extends Entity
      */
     public function getCategoryDescriptions()
     {
-        if (!$this->isPropertyAvailable("CategoryDescriptions")) {
-            return null;
-        }
-        return $this->getProperty("CategoryDescriptions");
+        return $this->getProperty("CategoryDescriptions", new PlannerCategoryDescriptions());
     }
     /**
      * An object that specifies the descriptions of the six categories that can be associated with tasks in the plan

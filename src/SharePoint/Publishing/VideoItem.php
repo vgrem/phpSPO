@@ -136,9 +136,6 @@ class VideoItem extends Entity
      */
     public function getFileName()
     {
-        if (!$this->isPropertyAvailable("FileName")) {
-            return null;
-        }
         return $this->getProperty("FileName");
     }
     /**
@@ -153,9 +150,6 @@ class VideoItem extends Entity
      */
     public function getOwnerName()
     {
-        if (!$this->isPropertyAvailable("OwnerName")) {
-            return null;
-        }
         return $this->getProperty("OwnerName");
     }
     /**
@@ -170,9 +164,6 @@ class VideoItem extends Entity
      */
     public function getPlayerPageUrl()
     {
-        if (!$this->isPropertyAvailable("PlayerPageUrl")) {
-            return null;
-        }
         return $this->getProperty("PlayerPageUrl");
     }
     /**
@@ -187,9 +178,6 @@ class VideoItem extends Entity
      */
     public function getServerRelativeUrl()
     {
-        if (!$this->isPropertyAvailable("ServerRelativeUrl")) {
-            return null;
-        }
         return $this->getProperty("ServerRelativeUrl");
     }
     /**
@@ -204,9 +192,6 @@ class VideoItem extends Entity
      */
     public function getThumbnailSelection()
     {
-        if (!$this->isPropertyAvailable("ThumbnailSelection")) {
-            return null;
-        }
         return $this->getProperty("ThumbnailSelection");
     }
     /**
@@ -238,9 +223,6 @@ class VideoItem extends Entity
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -255,9 +237,6 @@ class VideoItem extends Entity
      */
     public function getID()
     {
-        if (!$this->isPropertyAvailable("ID")) {
-            return null;
-        }
         return $this->getProperty("ID");
     }
     /**
@@ -272,9 +251,6 @@ class VideoItem extends Entity
      */
     public function getUrl()
     {
-        if (!$this->isPropertyAvailable("Url")) {
-            return null;
-        }
         return $this->getProperty("Url");
     }
     /**
@@ -289,9 +265,6 @@ class VideoItem extends Entity
      */
     public function getVideoDownloadUrl()
     {
-        if (!$this->isPropertyAvailable("VideoDownloadUrl")) {
-            return null;
-        }
         return $this->getProperty("VideoDownloadUrl");
     }
     /**
@@ -306,9 +279,6 @@ class VideoItem extends Entity
      */
     public function getVideoDurationInSeconds()
     {
-        if (!$this->isPropertyAvailable("VideoDurationInSeconds")) {
-            return null;
-        }
         return $this->getProperty("VideoDurationInSeconds");
     }
     /**
@@ -323,9 +293,6 @@ class VideoItem extends Entity
      */
     public function getVideoProcessingStatus()
     {
-        if (!$this->isPropertyAvailable("VideoProcessingStatus")) {
-            return null;
-        }
         return $this->getProperty("VideoProcessingStatus");
     }
     /**
@@ -340,9 +307,6 @@ class VideoItem extends Entity
      */
     public function getViewCount()
     {
-        if (!$this->isPropertyAvailable("ViewCount")) {
-            return null;
-        }
         return $this->getProperty("ViewCount");
     }
     /**
@@ -357,9 +321,6 @@ class VideoItem extends Entity
      */
     public function getYammerObjectUrl()
     {
-        if (!$this->isPropertyAvailable("YammerObjectUrl")) {
-            return null;
-        }
         return $this->getProperty("YammerObjectUrl");
     }
     /**

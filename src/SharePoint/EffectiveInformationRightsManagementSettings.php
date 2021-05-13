@@ -5,23 +5,18 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientObject;
-
 /**
  * A 
  * collection of effective IRM settings on the 
  * file.
  */
-class EffectiveInformationRightsManagementSettings extends ClientObject
+class EffectiveInformationRightsManagementSettings extends BaseEntity
 {
     /**
      * @return bool
      */
     public function getAllowPrint()
     {
-        if (!$this->isPropertyAvailable("AllowPrint")) {
-            return null;
-        }
         return $this->getProperty("AllowPrint");
     }
     /**
@@ -36,9 +31,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getAllowScript()
     {
-        if (!$this->isPropertyAvailable("AllowScript")) {
-            return null;
-        }
         return $this->getProperty("AllowScript");
     }
     /**
@@ -53,9 +45,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getAllowWriteCopy()
     {
-        if (!$this->isPropertyAvailable("AllowWriteCopy")) {
-            return null;
-        }
         return $this->getProperty("AllowWriteCopy");
     }
     /**
@@ -70,9 +59,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getDisableDocumentBrowserView()
     {
-        if (!$this->isPropertyAvailable("DisableDocumentBrowserView")) {
-            return null;
-        }
         return $this->getProperty("DisableDocumentBrowserView");
     }
     /**
@@ -87,9 +73,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getDocumentAccessExpireDays()
     {
-        if (!$this->isPropertyAvailable("DocumentAccessExpireDays")) {
-            return null;
-        }
         return $this->getProperty("DocumentAccessExpireDays");
     }
     /**
@@ -104,9 +87,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getDocumentLibraryProtectionExpireDate()
     {
-        if (!$this->isPropertyAvailable("DocumentLibraryProtectionExpireDate")) {
-            return null;
-        }
         return $this->getProperty("DocumentLibraryProtectionExpireDate");
     }
     /**
@@ -121,9 +101,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getEnableDocumentAccessExpire()
     {
-        if (!$this->isPropertyAvailable("EnableDocumentAccessExpire")) {
-            return null;
-        }
         return $this->getProperty("EnableDocumentAccessExpire");
     }
     /**
@@ -138,9 +115,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getEnableDocumentBrowserPublishingView()
     {
-        if (!$this->isPropertyAvailable("EnableDocumentBrowserPublishingView")) {
-            return null;
-        }
         return $this->getProperty("EnableDocumentBrowserPublishingView");
     }
     /**
@@ -155,9 +129,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getEnableGroupProtection()
     {
-        if (!$this->isPropertyAvailable("EnableGroupProtection")) {
-            return null;
-        }
         return $this->getProperty("EnableGroupProtection");
     }
     /**
@@ -172,9 +143,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getEnableLicenseCacheExpire()
     {
-        if (!$this->isPropertyAvailable("EnableLicenseCacheExpire")) {
-            return null;
-        }
         return $this->getProperty("EnableLicenseCacheExpire");
     }
     /**
@@ -189,9 +157,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getGroupName()
     {
-        if (!$this->isPropertyAvailable("GroupName")) {
-            return null;
-        }
         return $this->getProperty("GroupName");
     }
     /**
@@ -206,9 +171,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getIrmEnabled()
     {
-        if (!$this->isPropertyAvailable("IrmEnabled")) {
-            return null;
-        }
         return $this->getProperty("IrmEnabled");
     }
     /**
@@ -223,9 +185,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getLicenseCacheExpireDays()
     {
-        if (!$this->isPropertyAvailable("LicenseCacheExpireDays")) {
-            return null;
-        }
         return $this->getProperty("LicenseCacheExpireDays");
     }
     /**
@@ -240,9 +199,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getPolicyDescription()
     {
-        if (!$this->isPropertyAvailable("PolicyDescription")) {
-            return null;
-        }
         return $this->getProperty("PolicyDescription");
     }
     /**
@@ -274,9 +230,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getSettingSource()
     {
-        if (!$this->isPropertyAvailable("SettingSource")) {
-            return null;
-        }
         return $this->getProperty("SettingSource");
     }
     /**
@@ -291,9 +244,6 @@ class EffectiveInformationRightsManagementSettings extends ClientObject
      */
     public function getTemplateId()
     {
-        if (!$this->isPropertyAvailable("TemplateId")) {
-            return null;
-        }
         return $this->getProperty("TemplateId");
     }
     /**

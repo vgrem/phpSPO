@@ -15,10 +15,7 @@ class SocialRestFeed extends BaseEntity
      */
     public function getSocialFeed()
     {
-        if (!$this->isPropertyAvailable("SocialFeed")) {
-            return null;
-        }
-        return $this->getProperty("SocialFeed");
+        return $this->getProperty("SocialFeed", new SocialFeed());
     }
 
     /**

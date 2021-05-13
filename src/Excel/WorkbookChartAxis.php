@@ -83,39 +83,34 @@ class WorkbookChartAxis extends Entity
      */
     public function getFormat()
     {
-        if (!$this->isPropertyAvailable("Format")) {
-            $this->setProperty("Format", new WorkbookChartAxisFormat($this->getContext(), new ResourcePath("Format", $this->getResourcePath())));
-        }
-        return $this->getProperty("Format");
+        return $this->getProperty("Format",
+            new WorkbookChartAxisFormat($this->getContext(),
+                new ResourcePath("Format", $this->getResourcePath())));
     }
     /**
      * @return WorkbookChartGridlines
      */
     public function getMajorGridlines()
     {
-        if (!$this->isPropertyAvailable("MajorGridlines")) {
-            $this->setProperty("MajorGridlines", new WorkbookChartGridlines($this->getContext(), new ResourcePath("MajorGridlines", $this->getResourcePath())));
-        }
-        return $this->getProperty("MajorGridlines");
+        return $this->getProperty("MajorGridlines",
+            new WorkbookChartGridlines($this->getContext(),
+                new ResourcePath("MajorGridlines", $this->getResourcePath())));
     }
     /**
      * @return WorkbookChartGridlines
      */
     public function getMinorGridlines()
     {
-        if (!$this->isPropertyAvailable("MinorGridlines")) {
-            $this->setProperty("MinorGridlines", new WorkbookChartGridlines($this->getContext(), new ResourcePath("MinorGridlines", $this->getResourcePath())));
-        }
-        return $this->getProperty("MinorGridlines");
+        return $this->getProperty("MinorGridlines",
+            new WorkbookChartGridlines($this->getContext(),
+                new ResourcePath("MinorGridlines", $this->getResourcePath())));
     }
     /**
      * @return WorkbookChartAxisTitle
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            $this->setProperty("Title", new WorkbookChartAxisTitle($this->getContext(), new ResourcePath("Title", $this->getResourcePath())));
-        }
-        return $this->getProperty("Title");
+        return $this->getProperty("Title",
+            new WorkbookChartAxisTitle($this->getContext(), new ResourcePath("Title", $this->getResourcePath())));
     }
 }

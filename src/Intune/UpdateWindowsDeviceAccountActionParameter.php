@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * Modified: 2020-05-26T22:12:31+00:00
+ */
+namespace Office365\Intune;
+
+use Office365\Runtime\ClientValue;
+class UpdateWindowsDeviceAccountActionParameter extends ClientValue
+{
+    /**
+     * @var bool
+     */
+    public $PasswordRotationEnabled;
+    /**
+     * @var bool
+     */
+    public $CalendarSyncEnabled;
+    /**
+     * @var string
+     */
+    public $DeviceAccountEmail;
+    /**
+     * @var string
+     */
+    public $ExchangeServer;
+    /**
+     * @var string
+     */
+    public $SessionInitiationProtocalAddress;
+    /**
+     * @var WindowsDeviceAccount
+     */
+    public $DeviceAccount;
+}

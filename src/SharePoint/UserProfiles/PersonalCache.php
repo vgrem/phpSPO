@@ -15,9 +15,6 @@ class PersonalCache extends BaseEntity
      */
     public function getMySiteUrl()
     {
-        if (!$this->isPropertyAvailable("MySiteUrl")) {
-            return null;
-        }
         return $this->getProperty("MySiteUrl");
     }
     /**

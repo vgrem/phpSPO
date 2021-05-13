@@ -15,9 +15,6 @@ class PersonProperties extends BaseEntity
      */
     public function getAccountName()
     {
-        if (!$this->isPropertyAvailable("AccountName")) {
-            return null;
-        }
         return $this->getProperty("AccountName");
     }
     /**
@@ -32,9 +29,6 @@ class PersonProperties extends BaseEntity
      */
     public function getDirectReports()
     {
-        if (!$this->isPropertyAvailable("DirectReports")) {
-            return null;
-        }
         return $this->getProperty("DirectReports");
     }
     /**
@@ -49,9 +43,6 @@ class PersonProperties extends BaseEntity
      */
     public function getDisplayName()
     {
-        if (!$this->isPropertyAvailable("DisplayName")) {
-            return null;
-        }
         return $this->getProperty("DisplayName");
     }
     /**
@@ -66,9 +57,6 @@ class PersonProperties extends BaseEntity
      */
     public function getEmail()
     {
-        if (!$this->isPropertyAvailable("Email")) {
-            return null;
-        }
         return $this->getProperty("Email");
     }
     /**
@@ -83,9 +71,6 @@ class PersonProperties extends BaseEntity
      */
     public function getExtendedManagers()
     {
-        if (!$this->isPropertyAvailable("ExtendedManagers")) {
-            return null;
-        }
         return $this->getProperty("ExtendedManagers");
     }
     /**
@@ -100,9 +85,6 @@ class PersonProperties extends BaseEntity
      */
     public function getExtendedReports()
     {
-        if (!$this->isPropertyAvailable("ExtendedReports")) {
-            return null;
-        }
         return $this->getProperty("ExtendedReports");
     }
     /**
@@ -117,9 +99,6 @@ class PersonProperties extends BaseEntity
      */
     public function getIsFollowed()
     {
-        if (!$this->isPropertyAvailable("IsFollowed")) {
-            return null;
-        }
         return $this->getProperty("IsFollowed");
     }
     /**
@@ -134,9 +113,6 @@ class PersonProperties extends BaseEntity
      */
     public function getLatestPost()
     {
-        if (!$this->isPropertyAvailable("LatestPost")) {
-            return null;
-        }
         return $this->getProperty("LatestPost");
     }
     /**
@@ -151,9 +127,6 @@ class PersonProperties extends BaseEntity
      */
     public function getPeers()
     {
-        if (!$this->isPropertyAvailable("Peers")) {
-            return null;
-        }
         return $this->getProperty("Peers");
     }
     /**
@@ -168,9 +141,6 @@ class PersonProperties extends BaseEntity
      */
     public function getPersonalSiteHostUrl()
     {
-        if (!$this->isPropertyAvailable("PersonalSiteHostUrl")) {
-            return null;
-        }
         return $this->getProperty("PersonalSiteHostUrl");
     }
     /**
@@ -185,9 +155,6 @@ class PersonProperties extends BaseEntity
      */
     public function getPersonalUrl()
     {
-        if (!$this->isPropertyAvailable("PersonalUrl")) {
-            return null;
-        }
         return $this->getProperty("PersonalUrl");
     }
     /**
@@ -202,9 +169,6 @@ class PersonProperties extends BaseEntity
      */
     public function getPictureUrl()
     {
-        if (!$this->isPropertyAvailable("PictureUrl")) {
-            return null;
-        }
         return $this->getProperty("PictureUrl");
     }
     /**
@@ -219,9 +183,6 @@ class PersonProperties extends BaseEntity
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -236,9 +197,6 @@ class PersonProperties extends BaseEntity
      */
     public function getUserProfileProperties()
     {
-        if (!$this->isPropertyAvailable("UserProfileProperties")) {
-            return null;
-        }
         return $this->getProperty("UserProfileProperties");
     }
     /**
@@ -253,9 +211,6 @@ class PersonProperties extends BaseEntity
      */
     public function getUserUrl()
     {
-        if (!$this->isPropertyAvailable("UserUrl")) {
-            return null;
-        }
         return $this->getProperty("UserUrl");
     }
     /**
