@@ -7,6 +7,7 @@ namespace Office365\Common;
 
 
 use Office365\Entity;
+use Office365\Runtime\ClientValueCollection;
 
 /**
  * An aggregation of information about a person from across mail, contacts, and social networks. People can be local contacts, contacts from social networking or your organization's directory, and people from recent communications (such as email and Skype).
@@ -19,18 +20,18 @@ class Person extends Entity
      */
     public function getDisplayName()
     {
-        if (!$this->isPropertyAvailable("DisplayName")) {
-            return null;
-        }
         return $this->getProperty("DisplayName");
     }
+
     /**
      * The person's display name.
+     *
+     * @return self
      * @var string
      */
     public function setDisplayName($value)
     {
-        $this->setProperty("DisplayName", $value, true);
+        return $this->setProperty("DisplayName", $value, true);
     }
     /**
      * The person's given name.
@@ -38,9 +39,6 @@ class Person extends Entity
      */
     public function getGivenName()
     {
-        if (!$this->isPropertyAvailable("GivenName")) {
-            return null;
-        }
         return $this->getProperty("GivenName");
     }
     /**
@@ -57,9 +55,6 @@ class Person extends Entity
      */
     public function getSurname()
     {
-        if (!$this->isPropertyAvailable("Surname")) {
-            return null;
-        }
         return $this->getProperty("Surname");
     }
     /**
@@ -76,18 +71,18 @@ class Person extends Entity
      */
     public function getBirthday()
     {
-        if (!$this->isPropertyAvailable("Birthday")) {
-            return null;
-        }
         return $this->getProperty("Birthday");
     }
+
     /**
      * The person's birthday.
+     *
+     * @return self
      * @var string
      */
     public function setBirthday($value)
     {
-        $this->setProperty("Birthday", $value, true);
+        return $this->setProperty("Birthday", $value, true);
     }
     /**
      * Free-form notes that the user has taken about this person.
@@ -95,9 +90,6 @@ class Person extends Entity
      */
     public function getPersonNotes()
     {
-        if (!$this->isPropertyAvailable("PersonNotes")) {
-            return null;
-        }
         return $this->getProperty("PersonNotes");
     }
     /**
@@ -133,18 +125,18 @@ class Person extends Entity
      */
     public function getJobTitle()
     {
-        if (!$this->isPropertyAvailable("JobTitle")) {
-            return null;
-        }
         return $this->getProperty("JobTitle");
     }
+
     /**
      * The person's job title.
+     *
+     * @return self
      * @var string
      */
     public function setJobTitle($value)
     {
-        $this->setProperty("JobTitle", $value, true);
+        return $this->setProperty("JobTitle", $value, true);
     }
     /**
      * The name of the person's company.
@@ -152,18 +144,18 @@ class Person extends Entity
      */
     public function getCompanyName()
     {
-        if (!$this->isPropertyAvailable("CompanyName")) {
-            return null;
-        }
         return $this->getProperty("CompanyName");
     }
+
     /**
      * The name of the person's company.
+     *
+     * @return self
      * @var string
      */
     public function setCompanyName($value)
     {
-        $this->setProperty("CompanyName", $value, true);
+        return $this->setProperty("CompanyName", $value, true);
     }
     /**
      * The phonetic Japanese name of the person's company.
@@ -171,9 +163,6 @@ class Person extends Entity
      */
     public function getYomiCompany()
     {
-        if (!$this->isPropertyAvailable("YomiCompany")) {
-            return null;
-        }
         return $this->getProperty("YomiCompany");
     }
     /**
@@ -190,18 +179,18 @@ class Person extends Entity
      */
     public function getDepartment()
     {
-        if (!$this->isPropertyAvailable("Department")) {
-            return null;
-        }
         return $this->getProperty("Department");
     }
+
     /**
      * The person's department.
+     *
+     * @return self
      * @var string
      */
     public function setDepartment($value)
     {
-        $this->setProperty("Department", $value, true);
+        return $this->setProperty("Department", $value, true);
     }
     /**
      * The location of the person's office.
@@ -209,9 +198,6 @@ class Person extends Entity
      */
     public function getOfficeLocation()
     {
-        if (!$this->isPropertyAvailable("OfficeLocation")) {
-            return null;
-        }
         return $this->getProperty("OfficeLocation");
     }
     /**
@@ -228,9 +214,6 @@ class Person extends Entity
      */
     public function getProfession()
     {
-        if (!$this->isPropertyAvailable("Profession")) {
-            return null;
-        }
         return $this->getProperty("Profession");
     }
     /**
@@ -247,9 +230,6 @@ class Person extends Entity
      */
     public function getUserPrincipalName()
     {
-        if (!$this->isPropertyAvailable("UserPrincipalName")) {
-            return null;
-        }
         return $this->getProperty("UserPrincipalName");
     }
     /**
@@ -266,9 +246,6 @@ class Person extends Entity
      */
     public function getImAddress()
     {
-        if (!$this->isPropertyAvailable("ImAddress")) {
-            return null;
-        }
         return $this->getProperty("ImAddress");
     }
     /**
@@ -285,10 +262,7 @@ class Person extends Entity
      */
     public function getPersonType()
     {
-        if (!$this->isPropertyAvailable("PersonType")) {
-            return null;
-        }
-        return $this->getProperty("PersonType");
+        return $this->getProperty("PersonType", new PersonType());
     }
     /**
      * The type of person.
@@ -298,4 +272,13 @@ class Person extends Entity
     {
         $this->setProperty("PersonType", $value, true);
     }
+
+    /**
+     * @return ClientValueCollection
+     */
+    public function getWebsites()
+    {
+        return $this->getProperty("websites", new ClientValueCollection(WebSite::class));
+    }
+
 }

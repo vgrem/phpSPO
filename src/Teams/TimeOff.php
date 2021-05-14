@@ -3,23 +3,19 @@
 /**
  * Modified: 2020-05-29T07:19:37+00:00
  */
-namespace Office365\Common;
+namespace Office365\Teams;
 
-use Office365\Runtime\ClientObject;
 
 /**
  * A unit of non-work in a schedule.
  */
-class TimeOff extends ClientObject
+class TimeOff extends ChangeTrackedEntity
 {
     /**
      * @return string
      */
     public function getUserId()
     {
-        if (!$this->isPropertyAvailable("UserId")) {
-            return null;
-        }
         return $this->getProperty("UserId");
     }
     /**

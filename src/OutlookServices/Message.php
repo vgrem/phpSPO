@@ -6,7 +6,6 @@
 namespace Office365\OutlookServices;
 
 use Office365\EntityCollection;
-use Office365\Common\FollowupFlag;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ClientValue;

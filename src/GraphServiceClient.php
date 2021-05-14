@@ -5,10 +5,12 @@ namespace Office365;
 
 use Office365\Common\Application;
 use Office365\Common\Group;
+use Office365\Common\GroupSetting;
 use Office365\Common\OrgContact;
 use Office365\Common\User;
 use Office365\Common\UserCollection;
 use Office365\OneDrive\DriveCollection;
+use Office365\OneDrive\DriveItem;
 use Office365\OneDrive\Site;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\Actions\DeleteEntityQuery;
@@ -117,18 +119,32 @@ class GraphServiceClient extends ClientRuntimeContext
     }
 
     /**
+     * @return EntityCollection
+     */
+    public function getGroupSettings(){
+        return new EntityCollection($this,new ResourcePath("groupSettings"), GroupSetting::class);
+    }
+
+    /**
      * @return TeamCollection
      */
     public function getTeams(){
         return new TeamCollection($this,new ResourcePath("teams"));
     }
 
-
     /**
      * @return EntityCollection
      */
     public function getContact(){
         return new EntityCollection($this,new ResourcePath("contacts"),OrgContact::class);
+    }
+
+
+    /**
+     * @return EntityCollection
+     */
+    public function getWorkbooks(){
+        return new EntityCollection($this,new ResourcePath("workbooks"),DriveItem::class);
     }
 
     /**

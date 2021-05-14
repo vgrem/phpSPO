@@ -8,7 +8,6 @@ namespace Office365\OutlookServices;
 
 use Office365\Entity;
 use Office365\Common\DateTimeTimeZone;
-use Office365\Common\PatternedRecurrence;
 use Office365\Runtime\ClientValueCollection;
 use Office365\Runtime\ResourcePath;
 /**

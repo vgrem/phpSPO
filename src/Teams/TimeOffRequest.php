@@ -3,14 +3,14 @@
 /**
  * Modified: 2020-05-29T07:19:37+00:00
  */
-namespace Office365\Common;
+namespace Office365\Teams;
 
-use Office365\Runtime\ClientObject;
+use Office365\Entity;
 
 /**
  * Represents a type of shift request to take [timeOff](../resources/timeoff.md).
  */
-class TimeOffRequest extends ClientObject
+class TimeOffRequest extends Entity
 {
     /**
      * The reason for the time off.
@@ -18,17 +18,17 @@ class TimeOffRequest extends ClientObject
      */
     public function getTimeOffReasonId()
     {
-        if (!$this->isPropertyAvailable("TimeOffReasonId")) {
-            return null;
-        }
         return $this->getProperty("TimeOffReasonId");
     }
+
     /**
      * The reason for the time off.
+     *
+     * @return self
      * @var string
      */
     public function setTimeOffReasonId($value)
     {
-        $this->setProperty("TimeOffReasonId", $value, true);
+        return $this->setProperty("TimeOffReasonId", $value, true);
     }
 }

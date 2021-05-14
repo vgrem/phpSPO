@@ -5,7 +5,7 @@
  */
 namespace Office365\Common;
 
-use Office365\Runtime\ClientObject;
-class ReportRoot extends ClientObject
+use Office365\Entity;
+class ReportRoot extends Entity
 {
 }

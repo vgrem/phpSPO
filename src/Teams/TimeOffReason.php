@@ -3,13 +3,13 @@
 /**
  * Modified: 2020-05-29T07:19:37+00:00
  */
-namespace Office365\Common;
+namespace Office365\Teams;
 
-use Office365\Runtime\ClientObject;
+use Office365\Entity;
 /**
  * Represents a valid reason to for a [timeOff](timeoff.md) instance in a [schedule](schedule.md).
  */
-class TimeOffReason extends ClientObject
+class TimeOffReason extends Entity
 {
     /**
      * @return string

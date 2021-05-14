@@ -19,9 +19,6 @@ class GroupSetting extends Entity
      */
     public function getDisplayName()
     {
-        if (!$this->isPropertyAvailable("DisplayName")) {
-            return null;
-        }
         return $this->getProperty("DisplayName");
     }
     /**
@@ -38,9 +35,6 @@ class GroupSetting extends Entity
      */
     public function getTemplateId()
     {
-        if (!$this->isPropertyAvailable("TemplateId")) {
-            return null;
-        }
         return $this->getProperty("TemplateId");
     }
     /**

@@ -10,6 +10,7 @@ use Office365\OneDrive\DriveCollection;
 use Office365\OneDrive\SiteCollection;
 use Office365\OneNote\Onenote;
 use Office365\OutlookServices\Calendar;
+use Office365\OutlookServices\ProfilePhoto;
 use Office365\Planner\PlannerGroup;
 use Office365\Runtime\ResourcePath;
 use Office365\Teams\Team;
@@ -25,9 +26,6 @@ class Group extends DirectoryObject
      */
     public function getClassification()
     {
-        if (!$this->isPropertyAvailable("Classification")) {
-            return null;
-        }
         return $this->getProperty("Classification");
     }
     /**
@@ -44,9 +42,6 @@ class Group extends DirectoryObject
      */
     public function getDescription()
     {
-        if (!$this->isPropertyAvailable("Description")) {
-            return null;
-        }
         return $this->getProperty("Description");
     }
     /**
@@ -63,9 +58,6 @@ class Group extends DirectoryObject
      */
     public function getDisplayName()
     {
-        if (!$this->isPropertyAvailable("DisplayName")) {
-            return null;
-        }
         return $this->getProperty("DisplayName");
     }
     /**
@@ -82,9 +74,6 @@ class Group extends DirectoryObject
      */
     public function getHasMembersWithLicenseErrors()
     {
-        if (!$this->isPropertyAvailable("HasMembersWithLicenseErrors")) {
-            return null;
-        }
         return $this->getProperty("HasMembersWithLicenseErrors");
     }
     /**
@@ -101,9 +90,6 @@ class Group extends DirectoryObject
      */
     public function getGroupTypes()
     {
-        if (!$this->isPropertyAvailable("GroupTypes")) {
-            return null;
-        }
         return $this->getProperty("GroupTypes");
     }
     /**
@@ -120,10 +106,7 @@ class Group extends DirectoryObject
      */
     public function getLicenseProcessingState()
     {
-        if (!$this->isPropertyAvailable("LicenseProcessingState")) {
-            return null;
-        }
-        return $this->getProperty("LicenseProcessingState");
+        return $this->getProperty("LicenseProcessingState", new LicenseProcessingState());
     }
     /**
      * Indicates status of the group license assignment to all members of the group. Default value is **false**. Read-only. Possible values: `QueuedForProcessing`, `ProcessingInProgress`, and `ProcessingComplete`.<br><br>Returned only on $select. Read-only.
@@ -139,9 +122,6 @@ class Group extends DirectoryObject
      */
     public function getMail()
     {
-        if (!$this->isPropertyAvailable("Mail")) {
-            return null;
-        }
         return $this->getProperty("Mail");
     }
     /**
@@ -158,9 +138,6 @@ class Group extends DirectoryObject
      */
     public function getMailEnabled()
     {
-        if (!$this->isPropertyAvailable("MailEnabled")) {
-            return null;
-        }
         return $this->getProperty("MailEnabled");
     }
     /**
@@ -177,9 +154,6 @@ class Group extends DirectoryObject
      */
     public function getMailNickname()
     {
-        if (!$this->isPropertyAvailable("MailNickname")) {
-            return null;
-        }
         return $this->getProperty("MailNickname");
     }
     /**
@@ -195,9 +169,6 @@ class Group extends DirectoryObject
      */
     public function getOnPremisesDomainName()
     {
-        if (!$this->isPropertyAvailable("OnPremisesDomainName")) {
-            return null;
-        }
         return $this->getProperty("OnPremisesDomainName");
     }
     /**
@@ -212,9 +183,6 @@ class Group extends DirectoryObject
      */
     public function getOnPremisesNetBiosName()
     {
-        if (!$this->isPropertyAvailable("OnPremisesNetBiosName")) {
-            return null;
-        }
         return $this->getProperty("OnPremisesNetBiosName");
     }
     /**
@@ -229,9 +197,6 @@ class Group extends DirectoryObject
      */
     public function getOnPremisesSamAccountName()
     {
-        if (!$this->isPropertyAvailable("OnPremisesSamAccountName")) {
-            return null;
-        }
         return $this->getProperty("OnPremisesSamAccountName");
     }
     /**
@@ -247,9 +212,6 @@ class Group extends DirectoryObject
      */
     public function getOnPremisesSecurityIdentifier()
     {
-        if (!$this->isPropertyAvailable("OnPremisesSecurityIdentifier")) {
-            return null;
-        }
         return $this->getProperty("OnPremisesSecurityIdentifier");
     }
     /**
@@ -266,9 +228,6 @@ class Group extends DirectoryObject
      */
     public function getOnPremisesSyncEnabled()
     {
-        if (!$this->isPropertyAvailable("OnPremisesSyncEnabled")) {
-            return null;
-        }
         return $this->getProperty("OnPremisesSyncEnabled");
     }
     /**
@@ -285,9 +244,6 @@ class Group extends DirectoryObject
      */
     public function getPreferredDataLocation()
     {
-        if (!$this->isPropertyAvailable("PreferredDataLocation")) {
-            return null;
-        }
         return $this->getProperty("PreferredDataLocation");
     }
     /**
@@ -304,9 +260,6 @@ class Group extends DirectoryObject
      */
     public function getProxyAddresses()
     {
-        if (!$this->isPropertyAvailable("ProxyAddresses")) {
-            return null;
-        }
         return $this->getProperty("ProxyAddresses");
     }
     /**
@@ -323,9 +276,6 @@ class Group extends DirectoryObject
      */
     public function getSecurityEnabled()
     {
-        if (!$this->isPropertyAvailable("SecurityEnabled")) {
-            return null;
-        }
         return $this->getProperty("SecurityEnabled");
     }
     /**
@@ -342,9 +292,6 @@ class Group extends DirectoryObject
      */
     public function getSecurityIdentifier()
     {
-        if (!$this->isPropertyAvailable("SecurityIdentifier")) {
-            return null;
-        }
         return $this->getProperty("SecurityIdentifier");
     }
     /**
@@ -361,9 +308,6 @@ class Group extends DirectoryObject
      */
     public function getVisibility()
     {
-        if (!$this->isPropertyAvailable("Visibility")) {
-            return null;
-        }
         return $this->getProperty("Visibility");
     }
     /**
@@ -380,9 +324,6 @@ class Group extends DirectoryObject
      */
     public function getAllowExternalSenders()
     {
-        if (!$this->isPropertyAvailable("AllowExternalSenders")) {
-            return null;
-        }
         return $this->getProperty("AllowExternalSenders");
     }
     /**
@@ -399,9 +340,6 @@ class Group extends DirectoryObject
      */
     public function getAutoSubscribeNewMembers()
     {
-        if (!$this->isPropertyAvailable("AutoSubscribeNewMembers")) {
-            return null;
-        }
         return $this->getProperty("AutoSubscribeNewMembers");
     }
     /**
@@ -418,9 +356,6 @@ class Group extends DirectoryObject
      */
     public function getIsSubscribedByMail()
     {
-        if (!$this->isPropertyAvailable("IsSubscribedByMail")) {
-            return null;
-        }
         return $this->getProperty("IsSubscribedByMail");
     }
     /**
@@ -437,9 +372,6 @@ class Group extends DirectoryObject
      */
     public function getUnseenCount()
     {
-        if (!$this->isPropertyAvailable("UnseenCount")) {
-            return null;
-        }
         return $this->getProperty("UnseenCount");
     }
     /**
@@ -455,9 +387,6 @@ class Group extends DirectoryObject
      */
     public function getIsArchived()
     {
-        if (!$this->isPropertyAvailable("IsArchived")) {
-            return null;
-        }
         return $this->getProperty("IsArchived");
     }
     /**
@@ -473,10 +402,8 @@ class Group extends DirectoryObject
      */
     public function getCreatedOnBehalfOf()
     {
-        if (!$this->isPropertyAvailable("CreatedOnBehalfOf")) {
-            $this->setProperty("CreatedOnBehalfOf", new DirectoryObject($this->getContext(), new ResourcePath("CreatedOnBehalfOf", $this->getResourcePath())));
-        }
-        return $this->getProperty("CreatedOnBehalfOf");
+        return $this->getProperty("CreatedOnBehalfOf",
+            new DirectoryObject($this->getContext(), new ResourcePath("CreatedOnBehalfOf", $this->getResourcePath())));
     }
     /**
      * The group's calendar. Read-only.
@@ -484,10 +411,8 @@ class Group extends DirectoryObject
      */
     public function getCalendar()
     {
-        if (!$this->isPropertyAvailable("Calendar")) {
-            $this->setProperty("Calendar", new Calendar($this->getContext(), new ResourcePath("Calendar", $this->getResourcePath())));
-        }
-        return $this->getProperty("Calendar");
+        return $this->getProperty("Calendar",
+            new Calendar($this->getContext(), new ResourcePath("Calendar", $this->getResourcePath())));
     }
     /**
      *  The group's profile photo 
@@ -495,10 +420,8 @@ class Group extends DirectoryObject
      */
     public function getPhoto()
     {
-        if (!$this->isPropertyAvailable("Photo")) {
-            $this->setProperty("Photo", new ProfilePhoto($this->getContext(), new ResourcePath("Photo", $this->getResourcePath())));
-        }
-        return $this->getProperty("Photo");
+        return $this->getProperty("Photo",
+            new ProfilePhoto($this->getContext(), new ResourcePath("Photo", $this->getResourcePath())));
     }
     /**
      * The group's default drive. Read-only.
@@ -506,10 +429,8 @@ class Group extends DirectoryObject
      */
     public function getDrive()
     {
-        if (!$this->isPropertyAvailable("Drive")) {
-            $this->setProperty("Drive", new Drive($this->getContext(), new ResourcePath("Drive", $this->getResourcePath())));
-        }
-        return $this->getProperty("Drive");
+        return $this->getProperty("Drive",
+            new Drive($this->getContext(), new ResourcePath("Drive", $this->getResourcePath())));
     }
     /**
      * The list of SharePoint sites in this group. Access the default site with /sites/root.
@@ -517,10 +438,7 @@ class Group extends DirectoryObject
      */
     public function getSites()
     {
-        if (!$this->isPropertyAvailable("Sites")) {
-            $this->setProperty("Sites", new SiteCollection());
-        }
-        return $this->getProperty("Sites");
+        return $this->getProperty("Sites", new SiteCollection());
     }
     /**
      *  Entry-point to Planner resource that might exist for a Unified Group.
@@ -528,10 +446,8 @@ class Group extends DirectoryObject
      */
     public function getPlanner()
     {
-        if (!$this->isPropertyAvailable("Planner")) {
-            $this->setProperty("Planner", new PlannerGroup($this->getContext(), new ResourcePath("Planner", $this->getResourcePath())));
-        }
-        return $this->getProperty("Planner");
+        return $this->getProperty("Planner",
+            new PlannerGroup($this->getContext(), new ResourcePath("Planner", $this->getResourcePath())));
     }
     /**
      *  Read-only.
@@ -539,20 +455,16 @@ class Group extends DirectoryObject
      */
     public function getOnenote()
     {
-        if (!$this->isPropertyAvailable("Onenote")) {
-            $this->setProperty("Onenote", new Onenote($this->getContext(), new ResourcePath("Onenote", $this->getResourcePath())));
-        }
-        return $this->getProperty("Onenote");
+        return $this->getProperty("Onenote",
+            new Onenote($this->getContext(), new ResourcePath("Onenote", $this->getResourcePath())));
     }
     /**
      * @return Team
      */
     public function getTeam()
     {
-        if (!$this->isPropertyAvailable("Team")) {
-            $this->setProperty("Team", new Team($this->getContext(), new ResourcePath("Team", $this->getResourcePath())));
-        }
-        return $this->getProperty("Team");
+        return $this->getProperty("Team",
+            new Team($this->getContext(), new ResourcePath("Team", $this->getResourcePath())));
     }
     /**
      * The group's drives. Read-only.
@@ -560,19 +472,14 @@ class Group extends DirectoryObject
      */
     public function getDrives()
     {
-        if (!$this->isPropertyAvailable("Drives")) {
-            $this->setProperty("Drives", new DriveCollection($this->getContext(), new ResourcePath("Drives", $this->getResourcePath())));
-        }
-        return $this->getProperty("Drives");
+        return $this->getProperty("Drives",
+            new DriveCollection($this->getContext(), new ResourcePath("Drives", $this->getResourcePath())));
     }
     /**
      * @return bool
      */
     public function getHideFromOutlookClients()
     {
-        if (!$this->isPropertyAvailable("HideFromOutlookClients")) {
-            return null;
-        }
         return $this->getProperty("HideFromOutlookClients");
     }
     /**
@@ -587,9 +494,6 @@ class Group extends DirectoryObject
      */
     public function getHideFromAddressLists()
     {
-        if (!$this->isPropertyAvailable("HideFromAddressLists")) {
-            return null;
-        }
         return $this->getProperty("HideFromAddressLists");
     }
     /**

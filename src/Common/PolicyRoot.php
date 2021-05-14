@@ -5,8 +5,8 @@
  */
 namespace Office365\Common;
 
-use Office365\Runtime\ClientObject;
+use Office365\Entity;
 
-class PolicyRoot extends ClientObject
+class PolicyRoot extends Entity
 {
 }

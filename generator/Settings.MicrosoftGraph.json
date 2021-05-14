@@ -10,6 +10,7 @@
     "placeholder": "",
     "ignoredTypes": [
         "Microsoft.Graph.Android*",
+        "Microsoft.Graph.Comms*",
         "Microsoft.Graph.Device*",
         "Microsoft.Graph.Ios*",
         "Microsoft.Graph.Macos*",
@@ -20,13 +21,19 @@
         "Microsoft.Graph.ManagedMobile*",
         "Microsoft.Graph.MediaContent*",
         "Microsoft.Graph.MobileApp*",
+        "Microsoft.Graph.OmaSetting*",
         "Microsoft.Graph.OnPremises*",
         "Microsoft.Graph.SharedPc*",
         "Microsoft.Graph.SoftwareUpdate*",
         "Microsoft.Graph.Telecom*",
         "Microsoft.Graph.Teleconference*",
         "Microsoft.Graph.Windows*",
-        "Microsoft.Graph.Terms*"
+        "Microsoft.Graph.Terms*",
+        "Microsoft.Graph.RgbColor",
+        "Microsoft.Graph.IntuneBrand",
+        "Microsoft.Graph.MobileApp",
+        "Microsoft.Graph.Process",
+        "Microsoft.Graph.Education*"
     ],
     "ignoredProperties": [
     ],

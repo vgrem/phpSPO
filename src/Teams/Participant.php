@@ -3,7 +3,7 @@
 /**
  * Modified: 2020-05-26T22:12:31+00:00
  */
-namespace Office365\Common;
+namespace Office365\Teams;
 
 use Office365\Entity;
 
@@ -51,10 +51,7 @@ class Participant extends Entity
      */
     public function getInfo()
     {
-        if (!$this->isPropertyAvailable("Info")) {
-            return null;
-        }
-        return $this->getProperty("Info");
+        return $this->getProperty("Info", new ParticipantInfo());
     }
     /**
      * @var ParticipantInfo
