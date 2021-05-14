@@ -5,12 +5,13 @@ namespace Office365;
 use DateInterval;
 use DateTime;
 use DateTimeZone;
-use Office365\Common\Location;
-use Office365\Common\PhysicalAddress;
 use Office365\OutlookServices\BodyType;
 use Office365\OutlookServices\EmailAddress;
 use Office365\OutlookServices\Event;
 use Office365\OutlookServices\ItemBody;
+use Office365\OutlookServices\Location;
+use Office365\OutlookServices\PhysicalAddress;
+use Office365\Runtime\Http\RequestException;
 
 
 class CalendarTest extends GraphTestCase
@@ -79,10 +80,14 @@ class CalendarTest extends GraphTestCase
      */
     public function testDeleteEvent(Event $event)
     {
+        $deletedId = $event->getId();
         $event->deleteObject()->executeQuery();
-        $myEvents = self::$graphClient->getMe()->getEvents()->get()->executeQuery();
-        $deletedEvent = $myEvents->findFirst("Id",$event->getId());
-        self::assertNull($deletedEvent);
+        try {
+            self::$graphClient->getMe()->getEvents()->getById($deletedId)->get()->executeQuery();
+        }
+        catch (RequestException $ex){
+            self::assertEquals(404, $ex->getCode());
+        }
     }
 
 }

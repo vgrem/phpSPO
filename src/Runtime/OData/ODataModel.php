@@ -12,6 +12,9 @@ class ODataModel
 
     private $typeResolvedEvent;
 
+    /**
+     * @param array $options
+     */
     public function __construct($options)
     {
         $this->options = $options;

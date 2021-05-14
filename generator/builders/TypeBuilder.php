@@ -30,6 +30,10 @@ class TypeBuilder extends NodeVisitorAbstract {
     private $template;
 
 
+    /**
+     * @param array $options
+     * @param array $typeSchema
+     */
     public function __construct($options,$typeSchema)
     {
         $this->options = $options;

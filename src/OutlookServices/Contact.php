@@ -5,7 +5,6 @@
  */
 namespace Office365\OutlookServices;
 
-use Office365\Common\PhysicalAddress;
 use Office365\Common\ProfilePhoto;
 use Office365\Entity;
 use Office365\Runtime\ClientValueCollection;

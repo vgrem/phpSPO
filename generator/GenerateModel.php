@@ -9,8 +9,8 @@ use Office365\Generator\Documentation\SharePointSpecsService;
 use Office365\Runtime\Auth\UserCredentials;
 use Office365\Runtime\OData\MetadataResolver;
 use Office365\Runtime\OData\ODataModel;
-use Office365\Runtime\OData\ODataV3Reader;
-use Office365\Runtime\OData\ODataV4Reader;
+use Office365\Runtime\OData\V3\ODataV3Reader;
+use Office365\Runtime\OData\V4\ODataV4Reader;
 use Office365\SharePoint\ClientContext;
 
 
@@ -22,6 +22,7 @@ function generateTypeFile($typeSchema, $options)
 {
     if(!isset($typeSchema['baseType'])){
         #print ("[Warn] ${$typeSchema['alias']} type not determined.\n");
+        return;
     }
     else{
         $templatePath = join(DIRECTORY_SEPARATOR,[$options['templatePath'],$typeSchema['baseType'] . '.php']) ;
@@ -105,7 +106,7 @@ function generateMicrosoftGraphModel()
 
 
 function syncSharePointMetadataFile($fileName){
-    $Settings = include('../Settings.php');
+    $Settings = include('../tests/Settings.php');
     $credentials = new UserCredentials($Settings['UserName'], $Settings['Password']);
     $ctx = (new ClientContext($Settings['Url']))->withCredentials($credentials);
     $ctx->requestFormDigest();
@@ -126,7 +127,7 @@ function syncSharePointMetadataFile($fileName){
 
 try {
 
-    $modelName = "OutlookServices";
+    $modelName = "MicrosoftGraph";
     if (count($argv) > 1)
         $modelName = $argv[1];
 
