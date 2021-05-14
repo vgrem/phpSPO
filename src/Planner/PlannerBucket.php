@@ -20,13 +20,16 @@ class PlannerBucket extends Entity
     {
         return $this->getProperty("Name");
     }
+
     /**
      * Name of the bucket.
+     *
+     * @return self
      * @var string
      */
     public function setName($value)
     {
-        $this->setProperty("Name", $value, true);
+        return $this->setProperty("Name", $value, true);
     }
     /**
      * Plan ID to which the bucket belongs.

@@ -69,13 +69,16 @@ class PlannerTask extends Entity
     {
         return $this->getProperty("Title");
     }
+
     /**
      * Title of the task.
+     *
+     * @return self
      * @var string
      */
     public function setTitle($value)
     {
-        $this->setProperty("Title", $value, true);
+        return $this->setProperty("Title", $value, true);
     }
     /**
      * Hint used to order items of this type in a list view. The format is defined as outlined [here](planner-order-hint-format.md).
@@ -262,10 +265,8 @@ class PlannerTask extends Entity
      */
     public function getDetails()
     {
-        if (!$this->isPropertyAvailable("Details")) {
-            $this->setProperty("Details", new PlannerTaskDetails($this->getContext(), new ResourcePath("Details", $this->getResourcePath())));
-        }
-        return $this->getProperty("Details");
+        return $this->getProperty("Details",
+            new PlannerTaskDetails($this->getContext(), new ResourcePath("Details", $this->getResourcePath())));
     }
     /**
      *  Read-only. Nullable. Used to render the task correctly in the task board view when grouped by assignedTo.
@@ -273,10 +274,9 @@ class PlannerTask extends Entity
      */
     public function getAssignedToTaskBoardFormat()
     {
-        if (!$this->isPropertyAvailable("AssignedToTaskBoardFormat")) {
-            $this->setProperty("AssignedToTaskBoardFormat", new PlannerAssignedToTaskBoardTaskFormat($this->getContext(), new ResourcePath("AssignedToTaskBoardFormat", $this->getResourcePath())));
-        }
-        return $this->getProperty("AssignedToTaskBoardFormat");
+        return $this->getProperty("AssignedToTaskBoardFormat",
+            new PlannerAssignedToTaskBoardTaskFormat($this->getContext(),
+                new ResourcePath("AssignedToTaskBoardFormat", $this->getResourcePath())));
     }
     /**
      *  Read-only. Nullable. Used to render the task correctly in the task board view when grouped by progress.
@@ -284,10 +284,9 @@ class PlannerTask extends Entity
      */
     public function getProgressTaskBoardFormat()
     {
-        if (!$this->isPropertyAvailable("ProgressTaskBoardFormat")) {
-            $this->setProperty("ProgressTaskBoardFormat", new PlannerProgressTaskBoardTaskFormat($this->getContext(), new ResourcePath("ProgressTaskBoardFormat", $this->getResourcePath())));
-        }
-        return $this->getProperty("ProgressTaskBoardFormat");
+        return $this->getProperty("ProgressTaskBoardFormat",
+            new PlannerProgressTaskBoardTaskFormat($this->getContext(),
+                new ResourcePath("ProgressTaskBoardFormat", $this->getResourcePath())));
     }
     /**
      *  Read-only. Nullable. Used to render the task correctly in the task board view when grouped by bucket.
@@ -295,9 +294,8 @@ class PlannerTask extends Entity
      */
     public function getBucketTaskBoardFormat()
     {
-        if (!$this->isPropertyAvailable("BucketTaskBoardFormat")) {
-            $this->setProperty("BucketTaskBoardFormat", new PlannerBucketTaskBoardTaskFormat($this->getContext(), new ResourcePath("BucketTaskBoardFormat", $this->getResourcePath())));
-        }
-        return $this->getProperty("BucketTaskBoardFormat");
+        return $this->getProperty("BucketTaskBoardFormat",
+            new PlannerBucketTaskBoardTaskFormat($this->getContext(),
+                new ResourcePath("BucketTaskBoardFormat", $this->getResourcePath())));
     }
 }

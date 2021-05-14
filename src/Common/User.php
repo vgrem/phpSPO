@@ -14,7 +14,9 @@ use Office365\OutlookServices\Calendar;
 use Office365\OutlookServices\Contact;
 use Office365\OutlookServices\Event;
 use Office365\OutlookServices\MailboxSettings;
+use Office365\OutlookServices\MailFolder;
 use Office365\OutlookServices\Message;
+use Office365\OutlookServices\ProfilePhoto;
 use Office365\Planner\PlannerUser;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
@@ -391,9 +393,6 @@ class User extends DirectoryObject
      */
     public function getOnPremisesImmutableId()
     {
-        if (!$this->isPropertyAvailable("OnPremisesImmutableId")) {
-            return null;
-        }
         return $this->getProperty("OnPremisesImmutableId");
     }
     /**
@@ -410,9 +409,6 @@ class User extends DirectoryObject
      */
     public function getOnPremisesSecurityIdentifier()
     {
-        if (!$this->isPropertyAvailable("OnPremisesSecurityIdentifier")) {
-            return null;
-        }
         return $this->getProperty("OnPremisesSecurityIdentifier");
     }
     /**
@@ -429,9 +425,6 @@ class User extends DirectoryObject
      */
     public function getOnPremisesSyncEnabled()
     {
-        if (!$this->isPropertyAvailable("OnPremisesSyncEnabled")) {
-            return null;
-        }
         return $this->getProperty("OnPremisesSyncEnabled");
     }
     /**
@@ -448,9 +441,6 @@ class User extends DirectoryObject
      */
     public function getOnPremisesDomainName()
     {
-        if (!$this->isPropertyAvailable("OnPremisesDomainName")) {
-            return null;
-        }
         return $this->getProperty("OnPremisesDomainName");
     }
     /**
@@ -467,9 +457,6 @@ class User extends DirectoryObject
      */
     public function getOnPremisesSamAccountName()
     {
-        if (!$this->isPropertyAvailable("OnPremisesSamAccountName")) {
-            return null;
-        }
         return $this->getProperty("OnPremisesSamAccountName");
     }
     /**
@@ -492,7 +479,7 @@ class User extends DirectoryObject
         return $this->getProperty("OnPremisesUserPrincipalName");
     }
     /**
-     *  Contains the on-premises `userPrincipalName` synchronized from the on-premises directory. The property is only populated for customers who are synchronizing their on-premises directory to Azure Active Directory via Azure AD Connect. Read-only. 
+     *  Contains the on-premises `userPrincipalName` synchronized from the on-premises directory. The property is only populated for customers who are synchronizing their on-premises directory to Azure Active Directory via Azure AD Connect. Read-only.
      * @var string
      */
     public function setOnPremisesUserPrincipalName($value)
@@ -524,9 +511,6 @@ class User extends DirectoryObject
      */
     public function getPasswordPolicies()
     {
-        if (!$this->isPropertyAvailable("PasswordPolicies")) {
-            return null;
-        }
         return $this->getProperty("PasswordPolicies");
     }
     /**
@@ -543,9 +527,6 @@ class User extends DirectoryObject
      */
     public function getOfficeLocation()
     {
-        if (!$this->isPropertyAvailable("OfficeLocation")) {
-            return null;
-        }
         return $this->getProperty("OfficeLocation");
     }
     /**
@@ -562,9 +543,6 @@ class User extends DirectoryObject
      */
     public function getPostalCode()
     {
-        if (!$this->isPropertyAvailable("PostalCode")) {
-            return null;
-        }
         return $this->getProperty("PostalCode");
     }
     /**
@@ -581,9 +559,6 @@ class User extends DirectoryObject
      */
     public function getPreferredLanguage()
     {
-        if (!$this->isPropertyAvailable("PreferredLanguage")) {
-            return null;
-        }
         return $this->getProperty("PreferredLanguage");
     }
     /**
@@ -600,9 +575,6 @@ class User extends DirectoryObject
      */
     public function getProxyAddresses()
     {
-        if (!$this->isPropertyAvailable("ProxyAddresses")) {
-            return null;
-        }
         return $this->getProperty("ProxyAddresses");
     }
     /**
@@ -619,9 +591,6 @@ class User extends DirectoryObject
      */
     public function getShowInAddressList()
     {
-        if (!$this->isPropertyAvailable("ShowInAddressList")) {
-            return null;
-        }
         return $this->getProperty("ShowInAddressList");
     }
     /**
@@ -638,9 +607,6 @@ class User extends DirectoryObject
      */
     public function getState()
     {
-        if (!$this->isPropertyAvailable("State")) {
-            return null;
-        }
         return $this->getProperty("State");
     }
     /**
@@ -657,9 +623,6 @@ class User extends DirectoryObject
      */
     public function getStreetAddress()
     {
-        if (!$this->isPropertyAvailable("StreetAddress")) {
-            return null;
-        }
         return $this->getProperty("StreetAddress");
     }
     /**
@@ -676,9 +639,6 @@ class User extends DirectoryObject
      */
     public function getSurname()
     {
-        if (!$this->isPropertyAvailable("Surname")) {
-            return null;
-        }
         return $this->getProperty("Surname");
     }
     /**
@@ -695,9 +655,6 @@ class User extends DirectoryObject
      */
     public function getUsageLocation()
     {
-        if (!$this->isPropertyAvailable("UsageLocation")) {
-            return null;
-        }
         return $this->getProperty("UsageLocation");
     }
     /**
@@ -714,9 +671,6 @@ class User extends DirectoryObject
      */
     public function getUserPrincipalName()
     {
-        if (!$this->isPropertyAvailable("UserPrincipalName")) {
-            return null;
-        }
         return $this->getProperty("UserPrincipalName");
     }
     /**
@@ -733,9 +687,6 @@ class User extends DirectoryObject
      */
     public function getUserType()
     {
-        if (!$this->isPropertyAvailable("UserType")) {
-            return null;
-        }
         return $this->getProperty("UserType");
     }
     /**
@@ -751,9 +702,6 @@ class User extends DirectoryObject
      */
     public function getDeviceEnrollmentLimit()
     {
-        if (!$this->isPropertyAvailable("DeviceEnrollmentLimit")) {
-            return null;
-        }
         return $this->getProperty("DeviceEnrollmentLimit");
     }
     /**
@@ -769,9 +717,6 @@ class User extends DirectoryObject
      */
     public function getAboutMe()
     {
-        if (!$this->isPropertyAvailable("AboutMe")) {
-            return null;
-        }
         return $this->getProperty("AboutMe");
     }
     /**
@@ -788,9 +733,6 @@ class User extends DirectoryObject
      */
     public function getInterests()
     {
-        if (!$this->isPropertyAvailable("Interests")) {
-            return null;
-        }
         return $this->getProperty("Interests");
     }
     /**
@@ -807,9 +749,6 @@ class User extends DirectoryObject
      */
     public function getMySite()
     {
-        if (!$this->isPropertyAvailable("MySite")) {
-            return null;
-        }
         return $this->getProperty("MySite");
     }
     /**
@@ -826,9 +765,6 @@ class User extends DirectoryObject
      */
     public function getPastProjects()
     {
-        if (!$this->isPropertyAvailable("PastProjects")) {
-            return null;
-        }
         return $this->getProperty("PastProjects");
     }
     /**
@@ -845,9 +781,6 @@ class User extends DirectoryObject
      */
     public function getPreferredName()
     {
-        if (!$this->isPropertyAvailable("PreferredName")) {
-            return null;
-        }
         return $this->getProperty("PreferredName");
     }
     /**
@@ -864,9 +797,6 @@ class User extends DirectoryObject
      */
     public function getResponsibilities()
     {
-        if (!$this->isPropertyAvailable("Responsibilities")) {
-            return null;
-        }
         return $this->getProperty("Responsibilities");
     }
     /**
@@ -883,9 +813,6 @@ class User extends DirectoryObject
      */
     public function getSchools()
     {
-        if (!$this->isPropertyAvailable("Schools")) {
-            return null;
-        }
         return $this->getProperty("Schools");
     }
 
@@ -905,9 +832,6 @@ class User extends DirectoryObject
      */
     public function getSkills()
     {
-        if (!$this->isPropertyAvailable("Skills")) {
-            return null;
-        }
         return $this->getProperty("Skills");
     }
     /**
@@ -927,22 +851,7 @@ class User extends DirectoryObject
         return $this->getProperty("Manager",
             new DirectoryObject($this->getContext(), new ResourcePath("Manager", $this->getResourcePath())));
     }
-    /**
-     * Contains extensionAttributes 1-15 for the user. Note that the individual extension attributes are neither selectable nor filterable. For an `onPremisesSyncEnabled` user, this set of properties is mastered on-premises and is read-only. For a cloud-only user (where `onPremisesSyncEnabled` is false), these properties may be set during creation or update. 
-     * @return OnPremisesExtensionAttributes
-     */
-    public function getOnPremisesExtensionAttributes()
-    {
-        return $this->getProperty("OnPremisesExtensionAttributes", new OnPremisesExtensionAttributes());
-    }
-    /**
-     * Contains extensionAttributes 1-15 for the user. Note that the individual extension attributes are neither selectable nor filterable. For an `onPremisesSyncEnabled` user, this set of properties is mastered on-premises and is read-only. For a cloud-only user (where `onPremisesSyncEnabled` is false), these properties may be set during creation or update. 
-     * @var OnPremisesExtensionAttributes
-     */
-    public function setOnPremisesExtensionAttributes($value)
-    {
-        $this->setProperty("OnPremisesExtensionAttributes", $value, true);
-    }
+
     /**
      * Specifies the password profile for the user. The profile contains the user’s password. This property is required when a user is created. The password in the profile must satisfy minimum requirements as specified by the **passwordPolicies** property. By default, a strong password is required.
      * @return PasswordProfile
@@ -993,10 +902,9 @@ class User extends DirectoryObject
      */
     public function getInferenceClassification()
     {
-        if (!$this->isPropertyAvailable("InferenceClassification")) {
-            $this->setProperty("InferenceClassification", new InferenceClassification($this->getContext(), new ResourcePath("InferenceClassification", $this->getResourcePath())));
-        }
-        return $this->getProperty("InferenceClassification");
+        return $this->getProperty("InferenceClassification",
+            new InferenceClassification($this->getContext(),
+                new ResourcePath("InferenceClassification", $this->getResourcePath())));
     }
     /**
      *  The user's profile photo. Read-only.
@@ -1004,10 +912,8 @@ class User extends DirectoryObject
      */
     public function getPhoto()
     {
-        if (!$this->isPropertyAvailable("Photo")) {
-            $this->setProperty("Photo", new ProfilePhoto($this->getContext(), new ResourcePath("Photo", $this->getResourcePath())));
-        }
-        return $this->getProperty("Photo");
+        return $this->getProperty("Photo",
+            new ProfilePhoto($this->getContext(), new ResourcePath("Photo", $this->getResourcePath())));
     }
     /**
      * The user's OneDrive. Read-only.
@@ -1033,20 +939,16 @@ class User extends DirectoryObject
      */
     public function getInsights()
     {
-        if (!$this->isPropertyAvailable("Insights")) {
-            $this->setProperty("Insights", new OfficeGraphInsights($this->getContext(), new ResourcePath("Insights", $this->getResourcePath())));
-        }
-        return $this->getProperty("Insights");
+        return $this->getProperty("Insights",
+            new OfficeGraphInsights($this->getContext(), new ResourcePath("Insights", $this->getResourcePath())));
     }
     /**
      * @return UserSettings
      */
     public function getSettings()
     {
-        if (!$this->isPropertyAvailable("Settings")) {
-            $this->setProperty("Settings", new UserSettings($this->getContext(), new ResourcePath("Settings", $this->getResourcePath())));
-        }
-        return $this->getProperty("Settings");
+        return $this->getProperty("Settings",
+            new UserSettings($this->getContext(), new ResourcePath("Settings", $this->getResourcePath())));
     }
     /**
      *  Read-only.
@@ -1105,5 +1007,15 @@ class User extends DirectoryObject
     {
         return $this->getProperty("JoinedTeams",
             new TeamCollection($this->getContext(),new ResourcePath("joinedTeams", $this->getResourcePath())));
+    }
+
+    /**
+     * @return EntityCollection
+     */
+    public function getMailFolders()
+    {
+        return $this->getProperty("MailFolders",
+            new EntityCollection($this->getContext(),
+                new ResourcePath("MailFolders", $this->getResourcePath()),MailFolder::class));
     }
 }

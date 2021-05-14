@@ -18,18 +18,18 @@ class MailFolder extends Entity
      */
     public function getDisplayName()
     {
-        if (!$this->isPropertyAvailable("DisplayName")) {
-            return null;
-        }
         return $this->getProperty("DisplayName");
     }
+
     /**
      * The mailFolder's display name.
+     *
+     * @return self
      * @var string
      */
     public function setDisplayName($value)
     {
-        $this->setProperty("DisplayName", $value, true);
+        return $this->setProperty("DisplayName", $value, true);
     }
     /**
      * The unique identifier for the mailFolder's parent mailFolder.
@@ -37,9 +37,6 @@ class MailFolder extends Entity
      */
     public function getParentFolderId()
     {
-        if (!$this->isPropertyAvailable("ParentFolderId")) {
-            return null;
-        }
         return $this->getProperty("ParentFolderId");
     }
     /**
@@ -56,9 +53,6 @@ class MailFolder extends Entity
      */
     public function getChildFolderCount()
     {
-        if (!$this->isPropertyAvailable("ChildFolderCount")) {
-            return null;
-        }
         return $this->getProperty("ChildFolderCount");
     }
     /**
@@ -75,9 +69,6 @@ class MailFolder extends Entity
      */
     public function getUnreadItemCount()
     {
-        if (!$this->isPropertyAvailable("UnreadItemCount")) {
-            return null;
-        }
         return $this->getProperty("UnreadItemCount");
     }
     /**
@@ -94,9 +85,6 @@ class MailFolder extends Entity
      */
     public function getTotalItemCount()
     {
-        if (!$this->isPropertyAvailable("TotalItemCount")) {
-            return null;
-        }
         return $this->getProperty("TotalItemCount");
     }
     /**

@@ -19,26 +19,23 @@ class Permission extends Entity
      */
     public function getRoles()
     {
-        if (!$this->isPropertyAvailable("Roles")) {
-            return null;
-        }
         return $this->getProperty("Roles");
     }
+
     /**
+     *
+     * @return self
      * @var array
      */
     public function setRoles($value)
     {
-        $this->setProperty("Roles", $value, true);
+        return $this->setProperty("Roles", $value, true);
     }
     /**
      * @return string
      */
     public function getShareId()
     {
-        if (!$this->isPropertyAvailable("ShareId")) {
-            return null;
-        }
         return $this->getProperty("ShareId");
     }
     /**
@@ -53,27 +50,24 @@ class Permission extends Entity
      */
     public function getGrantedTo()
     {
-        if (!$this->isPropertyAvailable("GrantedTo")) {
-            return null;
-        }
-        return $this->getProperty("GrantedTo");
+        return $this->getProperty("GrantedTo", new IdentitySet());
     }
+
     /**
+     *
+     * @return self
      * @var IdentitySet
      */
     public function setGrantedTo($value)
     {
-        $this->setProperty("GrantedTo", $value, true);
+        return $this->setProperty("GrantedTo", $value, true);
     }
     /**
      * @return ItemReference
      */
     public function getInheritedFrom()
     {
-        if (!$this->isPropertyAvailable("InheritedFrom")) {
-            return null;
-        }
-        return $this->getProperty("InheritedFrom");
+        return $this->getProperty("InheritedFrom", new ItemReference());
     }
     /**
      * @var ItemReference
@@ -87,10 +81,7 @@ class Permission extends Entity
      */
     public function getInvitation()
     {
-        if (!$this->isPropertyAvailable("Invitation")) {
-            return null;
-        }
-        return $this->getProperty("Invitation");
+        return $this->getProperty("Invitation", new SharingInvitation());
     }
     /**
      * @var SharingInvitation
@@ -104,10 +95,7 @@ class Permission extends Entity
      */
     public function getLink()
     {
-        if (!$this->isPropertyAvailable("Link")) {
-            return null;
-        }
-        return $this->getProperty("Link");
+        return $this->getProperty("Link", new SharingLink());
     }
     /**
      * @var SharingLink
@@ -121,9 +109,6 @@ class Permission extends Entity
      */
     public function getHasPassword()
     {
-        if (!$this->isPropertyAvailable("HasPassword")) {
-            return null;
-        }
         return $this->getProperty("HasPassword");
     }
     /**

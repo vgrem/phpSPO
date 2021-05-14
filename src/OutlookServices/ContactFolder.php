@@ -18,9 +18,6 @@ class ContactFolder extends Entity
      */
     public function getParentFolderId()
     {
-        if (!$this->isPropertyAvailable("ParentFolderId")) {
-            return null;
-        }
         return $this->getProperty("ParentFolderId");
     }
     /**
@@ -37,17 +34,17 @@ class ContactFolder extends Entity
      */
     public function getDisplayName()
     {
-        if (!$this->isPropertyAvailable("DisplayName")) {
-            return null;
-        }
         return $this->getProperty("DisplayName");
     }
+
     /**
      * The folder's display name.
+     *
+     * @return self
      * @var string
      */
     public function setDisplayName($value)
     {
-        $this->setProperty("DisplayName", $value, true);
+        return $this->setProperty("DisplayName", $value, true);
     }
 }
