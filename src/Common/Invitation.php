@@ -5,9 +5,9 @@
  */
 namespace Office365\Common;
 
-use Office365\Runtime\ClientObject;
+use Office365\Entity;
 use Office365\Runtime\ResourcePath;
-class Invitation extends ClientObject
+class Invitation extends Entity
 {
     /**
      * The display name of the user being invited.
@@ -15,9 +15,6 @@ class Invitation extends ClientObject
      */
     public function getInvitedUserDisplayName()
     {
-        if (!$this->isPropertyAvailable("InvitedUserDisplayName")) {
-            return null;
-        }
         return $this->getProperty("InvitedUserDisplayName");
     }
     /**
@@ -34,9 +31,6 @@ class Invitation extends ClientObject
      */
     public function getInvitedUserType()
     {
-        if (!$this->isPropertyAvailable("InvitedUserType")) {
-            return null;
-        }
         return $this->getProperty("InvitedUserType");
     }
     /**
@@ -53,9 +47,6 @@ class Invitation extends ClientObject
      */
     public function getInvitedUserEmailAddress()
     {
-        if (!$this->isPropertyAvailable("InvitedUserEmailAddress")) {
-            return null;
-        }
         return $this->getProperty("InvitedUserEmailAddress");
     }
     /**
@@ -72,9 +63,6 @@ class Invitation extends ClientObject
      */
     public function getSendInvitationMessage()
     {
-        if (!$this->isPropertyAvailable("SendInvitationMessage")) {
-            return null;
-        }
         return $this->getProperty("SendInvitationMessage");
     }
     /**
@@ -91,9 +79,6 @@ class Invitation extends ClientObject
      */
     public function getInviteRedirectUrl()
     {
-        if (!$this->isPropertyAvailable("InviteRedirectUrl")) {
-            return null;
-        }
         return $this->getProperty("InviteRedirectUrl");
     }
     /**
@@ -110,9 +95,6 @@ class Invitation extends ClientObject
      */
     public function getInviteRedeemUrl()
     {
-        if (!$this->isPropertyAvailable("InviteRedeemUrl")) {
-            return null;
-        }
         return $this->getProperty("InviteRedeemUrl");
     }
     /**
@@ -129,18 +111,18 @@ class Invitation extends ClientObject
      */
     public function getStatus()
     {
-        if (!$this->isPropertyAvailable("Status")) {
-            return null;
-        }
         return $this->getProperty("Status");
     }
+
     /**
      * The status of the invitation. Possible values: PendingAcceptance, Completed, InProgress, and Error
+     *
+     * @return self
      * @var string
      */
     public function setStatus($value)
     {
-        $this->setProperty("Status", $value, true);
+        return $this->setProperty("Status", $value, true);
     }
     /**
      * Additional configuration for the message being sent to the invited user, including customizing message text, language and cc recipient list.
@@ -148,10 +130,7 @@ class Invitation extends ClientObject
      */
     public function getInvitedUserMessageInfo()
     {
-        if (!$this->isPropertyAvailable("InvitedUserMessageInfo")) {
-            return null;
-        }
-        return $this->getProperty("InvitedUserMessageInfo");
+        return $this->getProperty("InvitedUserMessageInfo",new InvitedUserMessageInfo());
     }
     /**
      * Additional configuration for the message being sent to the invited user, including customizing message text, language and cc recipient list.
@@ -167,9 +146,7 @@ class Invitation extends ClientObject
      */
     public function getInvitedUser()
     {
-        if (!$this->isPropertyAvailable("InvitedUser")) {
-            $this->setProperty("InvitedUser", new User($this->getContext(), new ResourcePath("InvitedUser", $this->getResourcePath())));
-        }
-        return $this->getProperty("InvitedUser");
+        return $this->getProperty("InvitedUser",
+            new User($this->getContext(), new ResourcePath("InvitedUser", $this->getResourcePath())));
     }
 }

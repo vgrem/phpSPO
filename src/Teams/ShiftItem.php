@@ -5,8 +5,8 @@
  */
 namespace Office365\Teams;
 
-use Office365\Runtime\ClientValue;
-class ShiftItem extends ClientValue
+
+class ShiftItem extends ScheduleEntity
 {
     /**
      * @var string

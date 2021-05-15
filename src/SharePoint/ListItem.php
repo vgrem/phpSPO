@@ -324,9 +324,6 @@ class ListItem extends SecurableObject
      */
     public function getServerRedirectedEmbedUri()
     {
-        if (!$this->isPropertyAvailable("ServerRedirectedEmbedUri")) {
-            return null;
-        }
         return $this->getProperty("ServerRedirectedEmbedUri");
     }
     /**
@@ -348,9 +345,6 @@ class ListItem extends SecurableObject
      */
     public function getServerRedirectedEmbedUrl()
     {
-        if (!$this->isPropertyAvailable("ServerRedirectedEmbedUrl")) {
-            return null;
-        }
         return $this->getProperty("ServerRedirectedEmbedUrl");
     }
     /**
@@ -371,9 +365,6 @@ class ListItem extends SecurableObject
      */
     public function getClient_Title()
     {
-        if (!$this->isPropertyAvailable("Client_Title")) {
-            return null;
-        }
         return $this->getProperty("Client_Title");
     }
     /**

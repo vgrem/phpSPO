@@ -93,6 +93,7 @@ class OutlookMailTest extends GraphTestCase
         //verify
         $foundMessage = self::$graphClient->getMe()->getMessages()->getById($message->getId())->get()->executeQuery();
         self::assertNotNull($foundMessage);
+        self::assertInstanceOf(Message::class, $foundMessage);
     }
 
 

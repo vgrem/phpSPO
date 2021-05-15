@@ -3,7 +3,9 @@
 namespace Office365;
 
 
+use Office365\Runtime\Http\RequestException;
 use Office365\Teams\Team;
+use Office365\Teams\TeamGuestSettings;
 
 class TeamsTest extends GraphTestCase
 {
@@ -31,12 +33,46 @@ class TeamsTest extends GraphTestCase
     /**
      * @depends testCreateTeam
      * @param Team $team
+     * @return Team
+     * @throws \Exception
+     */
+    public function testGetTeam(Team $team)
+    {
+        /** @var Team $team */
+        $team = self::$graphClient->getTeams()->getById($team->getId())->get()->executeQueryRetry();
+        self::assertNotNull($team->getResourcePath());
+        self::assertInstanceOf(Team::class, $team);
+        return $team;
+    }
+
+    /**
+     * @depends testGetTeam
+     * @param Team $team
+     * @throws \Exception
+     */
+    public function testUpdateTeam(Team $team)
+    {
+        $settings = new TeamGuestSettings();
+        $settings->AllowDeleteChannels = true;
+        $team->setGuestSettings($settings)->update()->executeQuery();
+        self::assertNotNull($team->getResourcePath());
+    }
+
+    /**
+     * @depends testGetTeam
+     * @param Team $team
      * @throws \Exception
      */
     public function testDeleteTeam(Team $team)
     {
-        $teamToDel = $team->get()->executeQueryRetry();
-        $teamToDel->deleteObject()->executeQuery();
+        $deletedId = $team->getId();
+        $team->deleteObject()->executeQuery();
+        try {
+            self::$graphClient->getGroups()->getById($deletedId)->get()->executeQuery();
+        }
+        catch (RequestException $ex){
+            self::assertEquals(404, $ex->getCode());
+        }
     }
 
 }

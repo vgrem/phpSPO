@@ -6,6 +6,8 @@
 namespace Office365\Teams;
 
 use Office365\Entity;
+use Office365\Runtime\Http\RequestOptions;
+
 
 /**
  *  "A team in Microsoft Teams is a collection of channels. "
@@ -113,7 +115,7 @@ class Team extends Entity
      */
     public function getFunSettings()
     {
-        return $this->getProperty("FunSettings");
+        return $this->getProperty("FunSettings", new TeamFunSettings());
     }
 
     /**
@@ -126,4 +128,18 @@ class Team extends Entity
     {
         return $this->setProperty("FunSettings", $value, true);
     }
+
+    /**
+     * Deletes a Team
+     * @return Team
+     */
+    public function deleteObject()
+    {
+        parent::deleteObject();
+        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function (RequestOptions $request){
+            $request->Url = str_replace ( "teams" , "groups", $request->Url );
+        });
+        return $this;
+    }
+
 }

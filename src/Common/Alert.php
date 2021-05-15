@@ -118,18 +118,18 @@ class Alert extends Entity
      */
     public function getConfidence()
     {
-        if (!$this->isPropertyAvailable("Confidence")) {
-            return null;
-        }
         return $this->getProperty("Confidence");
     }
+
     /**
      * Confidence of the detection logic (percentage between 1-100).
+     *
+     * @return self
      * @var integer
      */
     public function setConfidence($value)
     {
-        $this->setProperty("Confidence", $value, true);
+        return $this->setProperty("Confidence", $value, true);
     }
     /**
      * Alert description.

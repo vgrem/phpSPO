@@ -18,17 +18,17 @@ class PlannerBucketTaskBoardTaskFormat extends Entity
      */
     public function getOrderHint()
     {
-        if (!$this->isPropertyAvailable("OrderHint")) {
-            return null;
-        }
         return $this->getProperty("OrderHint");
     }
+
     /**
      * Hint used to order tasks in the Bucket view of the Task Board. The format is defined as outlined [here](planner-order-hint-format.md).
+     *
+     * @return PlannerBucketTaskBoardTaskFormat
      * @var string
      */
     public function setOrderHint($value)
     {
-        $this->setProperty("OrderHint", $value, true);
+        return $this->setProperty("OrderHint", $value, true);
     }
 }

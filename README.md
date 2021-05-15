@@ -6,9 +6,10 @@ A REST/OData based client library for Office 365.
 ### Usage 
 
 1.   [Installation](#Installation)
-1.   [Working with SharePoint API](#Working-with-SharePoint-API) 
-2.   [Working with Outlook API](#Working-with-Outlook-API) 
-3.   [Working with OneDrive API](#Working-with-OneDrive-API)
+2.   [Working with SharePoint API](#Working-with-SharePoint-API)
+3.   [Working with Teams API](#Working-with-Teams-API)
+4.   [Working with Outlook API](#Working-with-Outlook-API) 
+5.   [Working with OneDrive API](#Working-with-OneDrive-API)
 
 
 ### Status
@@ -193,6 +194,9 @@ $listItem->setProperty('PercentComplete',1);
 $listItem->update();
 $client->executeQuery();
 ```
+
+
+### Working with Teams API
 
 
 

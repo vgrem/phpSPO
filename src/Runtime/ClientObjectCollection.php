@@ -227,12 +227,13 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
 
     /**
      * Creates resource for a collection
+     * @param ResourcePath|null $resourcePath
      * @return ClientObject
      */
-    public function createType()
+    public function createType($resourcePath=null)
     {
         $itemTypeName = $this->getItemTypeName();
-        $clientObject = new $itemTypeName($this->getContext());
+        $clientObject = new $itemTypeName($this->getContext(),$resourcePath);
         $clientObject->parentCollection = $this;
         return $clientObject;
     }

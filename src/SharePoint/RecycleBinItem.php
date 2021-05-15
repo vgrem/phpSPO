@@ -99,9 +99,6 @@ class RecycleBinItem extends ClientObject
      */
     public function getDeletedByName()
     {
-        if (!$this->isPropertyAvailable("DeletedByName")) {
-            return null;
-        }
         return $this->getProperty("DeletedByName");
     }
     /**
@@ -124,9 +121,6 @@ class RecycleBinItem extends ClientObject
      */
     public function getDeletedDate()
     {
-        if (!$this->isPropertyAvailable("DeletedDate")) {
-            return null;
-        }
         return $this->getProperty("DeletedDate");
     }
     /**
@@ -175,9 +169,6 @@ class RecycleBinItem extends ClientObject
      */
     public function getDirName()
     {
-        if (!$this->isPropertyAvailable("DirName")) {
-            return null;
-        }
         return $this->getProperty("DirName");
     }
     /**
@@ -201,9 +192,6 @@ class RecycleBinItem extends ClientObject
      */
     public function getId()
     {
-        if (!$this->isPropertyAvailable("Id")) {
-            return null;
-        }
         return $this->getProperty("Id");
     }
     /**
@@ -225,9 +213,6 @@ class RecycleBinItem extends ClientObject
      */
     public function getItemState()
     {
-        if (!$this->isPropertyAvailable("ItemState")) {
-            return null;
-        }
         return $this->getProperty("ItemState");
     }
     /**
@@ -249,9 +234,6 @@ class RecycleBinItem extends ClientObject
      */
     public function getItemType()
     {
-        if (!$this->isPropertyAvailable("ItemType")) {
-            return null;
-        }
         return $this->getProperty("ItemType");
     }
     /**
@@ -302,9 +284,6 @@ class RecycleBinItem extends ClientObject
      */
     public function getSize()
     {
-        if (!$this->isPropertyAvailable("Size")) {
-            return null;
-        }
         return $this->getProperty("Size");
     }
     /**
@@ -326,9 +305,6 @@ class RecycleBinItem extends ClientObject
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -349,10 +325,8 @@ class RecycleBinItem extends ClientObject
      */
     public function getAuthor()
     {
-        if (!$this->isPropertyAvailable("Author")) {
-            $this->setProperty("Author", new User($this->getContext(), new ResourcePath("Author", $this->getResourcePath())));
-        }
-        return $this->getProperty("Author");
+        return $this->getProperty("Author",
+            new User($this->getContext(), new ResourcePath("Author", $this->getResourcePath())));
     }
     /**
      * Gets the email 
@@ -363,10 +337,8 @@ class RecycleBinItem extends ClientObject
      */
     public function getDeletedBy()
     {
-        if (!$this->isPropertyAvailable("DeletedBy")) {
-            $this->setProperty("DeletedBy", new User($this->getContext(), new ResourcePath("DeletedBy", $this->getResourcePath())));
-        }
-        return $this->getProperty("DeletedBy");
+        return $this->getProperty("DeletedBy",
+            new User($this->getContext(), new ResourcePath("DeletedBy", $this->getResourcePath())));
     }
     /**
      * Returns 
@@ -377,10 +349,7 @@ class RecycleBinItem extends ClientObject
      */
     public function getDirNamePath()
     {
-        if (!$this->isPropertyAvailable("DirNamePath")) {
-            return null;
-        }
-        return $this->getProperty("DirNamePath");
+        return $this->getProperty("DirNamePath", new SPResourcePath());
     }
     /**
      * Returns 
@@ -402,10 +371,7 @@ class RecycleBinItem extends ClientObject
      */
     public function getLeafNamePath()
     {
-        if (!$this->isPropertyAvailable("LeafNamePath")) {
-            return null;
-        }
-        return $this->getProperty("LeafNamePath");
+        return $this->getProperty("LeafNamePath", new SPResourcePath());
     }
     /**
      * Returns 

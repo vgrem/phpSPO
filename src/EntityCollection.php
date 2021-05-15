@@ -25,12 +25,12 @@ class EntityCollection extends ClientObjectCollection
     }
 
     /**
-     * @param string $id
-     * @return Entity
+     * @param string $id Entity Id
+     * @return ClientObject
      */
     function getById($id)
     {
-        return new Entity($this->getContext(),new ResourcePath($id, $this->getResourcePath()));
+        return $this->createType(new ResourcePath($id, $this->getResourcePath()));
     }
 
     /**
@@ -58,7 +58,7 @@ class EntityCollection extends ClientObjectCollection
     {
         if(is_int($offset))
             return parent::offsetGet($offset);
-        return new Entity($this->getContext(),new ResourcePath($offset, $this->getResourcePath()));
+        return $this->getById($offset);
     }
 
 }

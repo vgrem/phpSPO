@@ -102,23 +102,19 @@ abstract class ClientRuntimeContext
      * @param int $delaySecs
      * @throws Exception
      */
-    public function executeQueryRetry($retryCount,$delaySecs)
+    public function executeQueryRetry($retryCount,$delaySecs, $currentRetry=0)
     {
-        $currentRetry = 0;
-        for(;;){
-            try{
-                $this->executeQuery();
-                break;
+        try{
+            $this->executeQuery();
+        }
+        catch(Exception $ex) {
+            if ($currentRetry > $retryCount || !($ex instanceof RequestException))
+            {
+                throw $ex;
             }
-            catch(Exception $ex) {
-                $this->addQuery($this->getPendingRequest()->getCurrentQuery(),true);
-                $currentRetry++;
-                if ($currentRetry > $retryCount || !($ex instanceof RequestException))
-                {
-                    throw $ex;
-                }
-                sleep($delaySecs);
-            }
+            sleep($delaySecs);
+            $this->addQuery($this->getPendingRequest()->getCurrentQuery(),true);
+            $this->executeQueryRetry($retryCount,$delaySecs, $currentRetry+1);
         }
     }
 

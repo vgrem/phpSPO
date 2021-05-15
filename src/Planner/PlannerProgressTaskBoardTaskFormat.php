@@ -18,17 +18,17 @@ class PlannerProgressTaskBoardTaskFormat extends Entity
      */
     public function getOrderHint()
     {
-        if (!$this->isPropertyAvailable("OrderHint")) {
-            return null;
-        }
         return $this->getProperty("OrderHint");
     }
+
     /**
      * Hint value used to order the task on the Progress view of the Task Board. The format is defined as outlined [here](planner-order-hint-format.md).
+     *
+     * @return self
      * @var string
      */
     public function setOrderHint($value)
     {
-        $this->setProperty("OrderHint", $value, true);
+        return $this->setProperty("OrderHint", $value, true);
     }
 }
