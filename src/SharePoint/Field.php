@@ -61,9 +61,6 @@ class Field extends Entity
      */
     public function getCanBeDeleted()
     {
-        if (!$this->isPropertyAvailable("CanBeDeleted")) {
-            return null;
-        }
         return $this->getProperty("CanBeDeleted");
     }
     /**
@@ -83,9 +80,6 @@ class Field extends Entity
      */
     public function getClientSideComponentId()
     {
-        if (!$this->isPropertyAvailable("ClientSideComponentId")) {
-            return null;
-        }
         return $this->getProperty("ClientSideComponentId");
     }
     /**
@@ -292,9 +286,6 @@ class Field extends Entity
      */
     public function getEntityPropertyName()
     {
-        if (!$this->isPropertyAvailable("EntityPropertyName")) {
-            return null;
-        }
         return $this->getProperty("EntityPropertyName");
     }
     /**
@@ -668,9 +659,6 @@ class Field extends Entity
      */
     public function getSealed()
     {
-        if (!$this->isPropertyAvailable("Sealed")) {
-            return null;
-        }
         return $this->getProperty("Sealed");
     }
     /**
@@ -690,9 +678,6 @@ class Field extends Entity
      */
     public function getShowInFiltersPane()
     {
-        if (!$this->isPropertyAvailable("ShowInFiltersPane")) {
-            return null;
-        }
         return $this->getProperty("ShowInFiltersPane");
     }
     /**
@@ -712,9 +697,6 @@ class Field extends Entity
      */
     public function getSortable()
     {
-        if (!$this->isPropertyAvailable("Sortable")) {
-            return null;
-        }
         return $this->getProperty("Sortable");
     }
     /**
@@ -737,9 +719,6 @@ class Field extends Entity
      */
     public function getStaticName()
     {
-        if (!$this->isPropertyAvailable("StaticName")) {
-            return null;
-        }
         return $this->getProperty("StaticName");
     }
     /**
@@ -762,9 +741,6 @@ class Field extends Entity
      */
     public function getTitle()
     {
-        if (!$this->isPropertyAvailable("Title")) {
-            return null;
-        }
         return $this->getProperty("Title");
     }
     /**
@@ -811,9 +787,6 @@ class Field extends Entity
      */
     public function getTypeAsString()
     {
-        if (!$this->isPropertyAvailable("TypeAsString")) {
-            return null;
-        }
         return $this->getProperty("TypeAsString");
     }
     /**
@@ -836,9 +809,6 @@ class Field extends Entity
      */
     public function getTypeDisplayName()
     {
-        if (!$this->isPropertyAvailable("TypeDisplayName")) {
-            return null;
-        }
         return $this->getProperty("TypeDisplayName");
     }
     /**
@@ -883,9 +853,6 @@ class Field extends Entity
      */
     public function getValidationFormula()
     {
-        if (!$this->isPropertyAvailable("ValidationFormula")) {
-            return null;
-        }
         return $this->getProperty("ValidationFormula");
     }
     /**

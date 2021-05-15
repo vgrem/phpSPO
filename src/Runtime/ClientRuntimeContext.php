@@ -5,6 +5,7 @@ namespace Office365\Runtime;
 use Exception;
 use Office365\Runtime\Actions\ClientAction;
 use Office365\Runtime\Actions\ReadEntityQuery;
+use Office365\Runtime\Http\RequestException;
 use Office365\Runtime\Http\Response;
 use Office365\Runtime\Http\RequestOptions;
 
@@ -77,20 +78,47 @@ abstract class ClientRuntimeContext
 
     /**
      * @param ClientAction $query
+     * @param bool $toBegin
      */
-    public function addQuery(ClientAction $query)
+    public function addQuery(ClientAction $query,$toBegin=false)
     {
-        $this->getPendingRequest()->addQuery($query);
+        $this->getPendingRequest()->addQuery($query,$toBegin);
     }
 
     /**
      * Submit a client request
-     *
      */
     public function executeQuery()
     {
         if ($this->hasPendingRequest()) {
             $this->getPendingRequest()->executeQuery();
+        }
+    }
+
+
+    /**
+     * Submit a query along with handling transient failures
+     * @param int $retryCount
+     * @param int $delaySecs
+     * @throws Exception
+     */
+    public function executeQueryRetry($retryCount,$delaySecs)
+    {
+        $currentRetry = 0;
+        for(;;){
+            try{
+                $this->executeQuery();
+                break;
+            }
+            catch(Exception $ex) {
+                $this->addQuery($this->getPendingRequest()->getCurrentQuery(),true);
+                $currentRetry++;
+                if ($currentRetry > $retryCount || !($ex instanceof RequestException))
+                {
+                    throw $ex;
+                }
+                sleep($delaySecs);
+            }
         }
     }
 

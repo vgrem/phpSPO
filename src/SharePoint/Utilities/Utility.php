@@ -48,9 +48,7 @@ class Utility
         $ctx = $discussionItem->getContext();
         $list = $discussionItem->getParentList();
 
-        $contentTypes = $list->getContentTypes();
-        $ctx->load($contentTypes);
-        $ctx->executeQuery();
+        $contentTypes = $list->getContentTypes()->get()->executeQuery();
         $result = $contentTypes->findItems(
             function (ContentType $item){
               return  $item->getProperty("Name") === "Message";
@@ -64,8 +62,7 @@ class Utility
             "FileSystemObjectType" => 0,
             "ContentTypeId" => $result[0]->getProperty("Id")
         );
-        $messageItem = $list->addItem($messagePayload);
-        $ctx->executeQuery();
+        $messageItem = $list->addItem($messagePayload)->executeQuery();
         //move message into discussion folder
         $ctx->load($discussionItem,array("FileRef"));
         $ctx->load($messageItem,array("FileRef","FileDirRef"));

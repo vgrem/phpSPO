@@ -90,10 +90,14 @@ abstract class ClientRequest
     /**
      * Add query into request queue
      * @param ClientAction $query
+     * @param bool $toBegin
      */
-    public function addQuery(ClientAction $query)
+    public function addQuery(ClientAction $query,$toBegin=false)
     {
-        $this->queries[] = $query;
+        if($toBegin)
+            array_unshift($this->queries , $query);
+        else
+            $this->queries[] = $query;
         $this->currentQuery = $query;
     }
 

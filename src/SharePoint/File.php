@@ -174,6 +174,7 @@ class File extends SecurableObject
     {
         $qry = new InvokePostMethodQuery($this, "moveto", array("newurl" => rawurlencode($newUrl), "flags" => $flags));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     /**
      * Moves the file to the Recycle Bin and returns the identifier of the new Recycle Bin item.
@@ -182,6 +183,7 @@ class File extends SecurableObject
     {
         $qry = new InvokePostMethodQuery($this, "recycle");
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     /**
      * Opens the file
@@ -664,9 +666,6 @@ class File extends SecurableObject
      */
     public function getServerRelativeUrl()
     {
-        if (!$this->isPropertyAvailable("ServerRelativeUrl")) {
-            return null;
-        }
         return $this->getProperty("ServerRelativeUrl");
     }
     /**

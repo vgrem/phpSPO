@@ -90,10 +90,23 @@ class ClientObject
 
 
     /**
+     * Submit a client request
      * @return self
      */
     public function executeQuery(){
         $this->getContext()->executeQuery();
+        return $this;
+    }
+
+    /**
+     * Submit a query along with handling transient failures
+     * @param int $retryCount
+     * @param int $delaySecs
+     * @return self
+     * @throws \Exception
+     */
+    public function executeQueryRetry($retryCount=3,$delaySecs=10){
+        $this->getContext()->executeQueryRetry($retryCount,$delaySecs);
         return $this;
     }
 

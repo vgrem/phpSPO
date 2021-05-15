@@ -31,11 +31,12 @@ class TeamsTest extends GraphTestCase
     /**
      * @depends testCreateTeam
      * @param Team $team
+     * @throws \Exception
      */
     public function testDeleteTeam(Team $team)
     {
-        sleep(20);
-        $team->deleteObject()->executeQuery();
+        $teamToDel = $team->get()->executeQueryRetry();
+        $teamToDel->deleteObject()->executeQuery();
     }
 
 }

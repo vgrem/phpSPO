@@ -15,26 +15,23 @@ class PickerEntityInformation extends BaseEntity
      */
     public function getEntity()
     {
-        if (!$this->isPropertyAvailable("Entity")) {
-            return null;
-        }
-        return $this->getProperty("Entity");
+        return $this->getProperty("Entity", new PickerEntityInformationRequest());
     }
+
     /**
+     *
+     * @return self
      * @var PickerEntityInformationRequest
      */
     public function setEntity($value)
     {
-        $this->setProperty("Entity", $value, true);
+        return $this->setProperty("Entity", $value, true);
     }
     /**
      * @return integer
      */
     public function getTotalMemberCount()
     {
-        if (!$this->isPropertyAvailable("TotalMemberCount")) {
-            return null;
-        }
         return $this->getProperty("TotalMemberCount");
     }
     /**

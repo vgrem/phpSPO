@@ -18,13 +18,13 @@ class UtilityTest extends SharePointTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        $listTitle = self::createUniqueName("Discussions");
+        $listTitle = "Discussions123"; //self::createUniqueName("Discussions");
         self::$discussionsList = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DiscussionBoard);
     }
 
     public static function tearDownAfterClass()
     {
-        self::$discussionsList->deleteObject()->executeQuery();
+        //self::$discussionsList->deleteObject()->executeQuery();
         parent::tearDownAfterClass();
     }
 
@@ -47,7 +47,7 @@ class UtilityTest extends SharePointTestCase
     public function testCreateNewDiscussionReply(ListItem $discussion)
     {
         $messageTitle = self::createUniqueName("Reply");
-        Utility::createNewDiscussionReply($discussion,$messageTitle);
+        Utility::createNewDiscussionReply($discussion,$messageTitle)->executeQuery();
         $discussionFolder = $discussion->getFolder();
         self::$context->load($discussionFolder,array("ItemCount"));
         self::$context->executeQuery();
