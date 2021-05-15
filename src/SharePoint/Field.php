@@ -874,9 +874,6 @@ class Field extends Entity
      */
     public function getValidationMessage()
     {
-        if (!$this->isPropertyAvailable("ValidationMessage")) {
-            return null;
-        }
         return $this->getProperty("ValidationMessage");
     }
     /**

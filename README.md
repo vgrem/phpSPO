@@ -120,7 +120,7 @@ $web = $client->getWeb();
 $list = $web->getLists()->getByTitle("{list-title}"); //init List resource
 $items = $list->getItems();  //prepare a query to retrieve from the 
 $client->load($items);  //save a query to retrieve list items from the server 
-$client->executeQuery(); //submit query to SharePoint Online REST service
+$client->executeQuery(); //submit query to SharePoint server
 /** @var ListItem $item */
 foreach($items as $item) {
     print "Task: {$item->getProperty('Title')}\r\n";
@@ -197,6 +197,31 @@ $client->executeQuery();
 
 
 ### Working with Teams API
+
+#### Example: create a Team
+The following is an example of a minimal request to create a Team (via delegated permissions)
+
+```php
+
+use Office365\GraphServiceClient;
+use Office365\Runtime\Auth\AADTokenProvider;
+use Office365\Runtime\Auth\UserCredentials;
+
+function acquireToken()
+{
+    $tenant = "{tenant}.onmicrosoft.com";
+    $resource = "https://graph.microsoft.com";
+  
+    $provider = new AADTokenProvider($tenant);
+    return $provider->acquireTokenForPassword($resource, "{clientId}",
+        new UserCredentials("{UserName}", "{Password}"));
+}
+
+$client = new GraphServiceClient("acquireToken");
+$teamName = "My Sample Team";
+$newTeam = $client->getTeams()->add($teamName)->executeQuery();
+
+```
 
 
 

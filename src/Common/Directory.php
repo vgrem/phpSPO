@@ -5,11 +5,13 @@
  */
 namespace Office365\Common;
 
-use Office365\Runtime\ClientObject;
+use Office365\Entity;
 
 /**
  *  ". Deleted items will remain available to restore for up to 30 days. After 30 days, the items are permanently deleted."
  */
-class Directory extends ClientObject
+class Directory extends Entity
 {
+
+
 }

@@ -10,10 +10,7 @@ use Office365\SharePoint\BaseEntity;
 
 class UserProfile extends BaseEntity
 {
-    /*public function __construct(ClientRuntimeContext $ctx)
-    {
-        parent::__construct($ctx, new ResourcePath("SP.UserProfiles.ProfileLoader.getProfileLoader/getUserProfile"));
-    }*/
+
     /**
      * Enqueues creating a personal site for this user, which can be used to share documents, web pages, and other files.
      */
@@ -21,6 +18,7 @@ class UserProfile extends BaseEntity
     {
         $qry = new InvokePostMethodQuery($this, "createPersonalSiteEnque", array(false));
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     /**
      * @return string
@@ -396,7 +394,7 @@ class UserProfile extends BaseEntity
 
     /**
      * @param $value
-     * @return $this
+     * @return self
      */
     public function setUrlToCreatePersonalSite($value)
     {

@@ -5,26 +5,22 @@
  */
 namespace Office365\SharePoint\UserProfiles;
 
-use Office365\Runtime\ClientObject;
+
+use Office365\Runtime\ResourcePath;
+use Office365\SharePoint\BaseEntity;
+use Office365\SharePoint\BaseEntityCollection;
 
 
-class HashTagCollection extends ClientObject
+class HashTagCollection extends BaseEntity
 {
     /**
      * @return HashTagCollection
      */
     public function getItems()
     {
-        if (!$this->isPropertyAvailable("Items")) {
-            return null;
-        }
-        return $this->getProperty("Items");
+        return $this->getProperty("Items",
+            new BaseEntityCollection($this->getContext(),
+                new ResourcePath("items",$this->resourcePath), HashTag::class));
     }
-    /**
-     * @var HashTagCollection
-     */
-    public function setItems($value)
-    {
-        $this->setProperty("Items", $value, true);
-    }
+
 }

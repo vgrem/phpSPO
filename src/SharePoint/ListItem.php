@@ -299,9 +299,6 @@ class ListItem extends SecurableObject
      */
     public function getId()
     {
-        if (!$this->isPropertyAvailable("Id")) {
-            return null;
-        }
         return $this->getProperty("Id");
     }
     /**

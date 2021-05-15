@@ -20,6 +20,15 @@ use Office365\Teams\Team;
  */
 class Group extends DirectoryObject
 {
+
+    /**
+     * Create a new team under a group.
+     */
+    public function addTeam(){
+
+    }
+
+
     /**
      * Describes a classification for the group (such as low, medium or high business impact). Valid values for this property are defined by creating a ClassificationList [setting](groupsetting.md) value, based on the [template definition](groupsettingtemplate.md).<br><br>Returned by default.
      * @return string
@@ -44,13 +53,16 @@ class Group extends DirectoryObject
     {
         return $this->getProperty("Description");
     }
+
     /**
      * An optional description for the group. <br><br>Returned by default.
+     *
+     * @return self
      * @var string
      */
     public function setDescription($value)
     {
-        $this->setProperty("Description", $value, true);
+        return $this->setProperty("Description", $value, true);
     }
     /**
      * The display name for the group. This property is required when a group is created and cannot be cleared during updates. <br><br>Returned by default. Supports $filter and $orderby. 
@@ -60,13 +72,16 @@ class Group extends DirectoryObject
     {
         return $this->getProperty("DisplayName");
     }
+
     /**
-     * The display name for the group. This property is required when a group is created and cannot be cleared during updates. <br><br>Returned by default. Supports $filter and $orderby. 
+     * The display name for the group. This property is required when a group is created and cannot be cleared during updates. <br><br>Returned by default. Supports $filter and $orderby.
+     *
+     * @return self
      * @var string
      */
     public function setDisplayName($value)
     {
-        $this->setProperty("DisplayName", $value, true);
+        return $this->setProperty("DisplayName", $value, true);
     }
     /**
      * Indicates whether there are members in this group that have license errors from its group-based license assignment. <br><br>This property is never returned on a GET operation. You can use it as a $filter argument to get groups that have members with license errors (that is, filter for this property being true). See an [example](../api/group-list.md).

@@ -5,8 +5,13 @@
  */
 namespace Office365\Teams;
 
+use Office365\Common\DirectoryObject;
+use Office365\Common\User;
 use Office365\Entity;
+use Office365\EntityCollection;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\Http\RequestOptions;
+use Office365\Runtime\ResourcePath;
 
 
 /**
@@ -130,8 +135,41 @@ class Team extends Entity
     }
 
     /**
+     * @return EntityCollection
+     */
+    public function getMembers()
+    {
+        return $this->getProperty("Members",
+            new EntityCollection($this->getContext(),
+                new ResourcePath("Members",$this->getResourcePath()),DirectoryObject::class));
+    }
+
+
+    /**
+     * @param User $user
+     * @param string[] $roles
+     * @return Entity
+     */
+    public function addMember($user, $roles){
+        $returnType = new Entity($this->getContext());
+        $this->getMembers()->addChild($returnType);
+
+        $user->ensureProperty("Id",function () use ($user, $returnType, $roles){
+            $payload = array(
+                "@odata.type" => "#microsoft.graph.aadUserConversationMember",
+                "roles" => $roles,
+                "user@odata.bind" => "https://graph.microsoft.com/v1.0/users('{$user->getId()}')"
+            );
+            $qry = new InvokePostMethodQuery($this->getMembers(),null,null,null,$payload);
+            $this->getContext()->addQueryAndResultObject($qry, $returnType);
+
+        });
+        return $returnType;
+    }
+
+    /**
      * Deletes a Team
-     * @return Team
+     * @return self
      */
     public function deleteObject()
     {
