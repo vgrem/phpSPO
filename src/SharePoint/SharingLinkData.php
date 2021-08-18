@@ -74,7 +74,7 @@ class SharingLinkData extends ClientValue
      * Indicates 
      * if the link URL is a tokenized sharing link 
      * that supports forms sharing. This is limited to only tokenized sharing links 
-     * generated with the Excel Survey feature.This value 
+     * generated with the Workspaces Survey feature.This value
      * MUST be true only if the link URL is a tokenized sharing link which is 
      * configured to support forms sharing, otherwise this MUST be false.
      * @var bool
