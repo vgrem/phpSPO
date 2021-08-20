@@ -3,7 +3,7 @@
 require_once '../vendor/autoload.php';
 
 use Office365\GraphServiceClient;
-use Office365\OneDrive\DriveItem;
+use Office365\OneDrive\DriveItems\DriveItem;
 use Office365\Runtime\Auth\AADTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 
