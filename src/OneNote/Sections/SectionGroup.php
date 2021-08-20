@@ -3,9 +3,10 @@
 /**
  * Modified: 2020-05-26T22:12:31+00:00 
  */
-namespace Office365\OneNote;
+namespace Office365\OneNote\Sections;
 
 use Office365\Entity;
+use Office365\OneNote\Notebooks\Notebook;
 use Office365\Runtime\ResourcePath;
 
 /**

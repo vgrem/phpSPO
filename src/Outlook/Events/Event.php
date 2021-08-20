@@ -3,10 +3,19 @@
 /**
  * Modified: 2020-05-29T07:19:37+00:00
  */
-namespace Office365\Outlook;
+namespace Office365\Outlook\Events;
 
 
 use Office365\Entity;
+use Office365\Outlook\Attendee;
+use Office365\Outlook\Calendars\Calendar;
+use Office365\Outlook\DateTimeTimeZone;
+use Office365\Outlook\EmailAddress;
+use Office365\Outlook\ItemBody;
+use Office365\Outlook\Location;
+use Office365\Outlook\PatternedRecurrence;
+use Office365\Outlook\Recipient;
+use Office365\Outlook\ResponseStatus;
 use Office365\Runtime\ClientValueCollection;
 use Office365\Runtime\ResourcePath;
 /**

@@ -8,7 +8,8 @@ namespace Office365\Directory\Subscriptions;
 use Office365\Entity;
 
 /**
- *  "A subscription allows a client app to receive change notifications about changes to data in Microsoft Graph. Currently, subscriptions are enabled for the following resources
+ *  A subscription allows a client app to receive change notifications about changes to data in Microsoft Graph.
+ * Currently, subscriptions are enabled for the following resources
  */
 class Subscription extends Entity
 {

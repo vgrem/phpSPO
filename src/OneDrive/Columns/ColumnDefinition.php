@@ -3,9 +3,16 @@
 /**
  * Modified: 2020-05-26T22:10:14+00:00 
  */
-namespace Office365\OneDrive;
+namespace Office365\OneDrive\Columns;
 
 use Office365\Entity;
+use Office365\OneDrive\CurrencyColumn;
+use Office365\OneDrive\DateTimeColumn;
+use Office365\OneDrive\DefaultColumnValue;
+use Office365\OneDrive\LookupColumn;
+use Office365\OneDrive\NumberColumn;
+use Office365\OneDrive\PersonOrGroupColumn;
+use Office365\OneDrive\TextColumn;
 
 class ColumnDefinition extends Entity
 {

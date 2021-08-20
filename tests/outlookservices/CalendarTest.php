@@ -7,7 +7,7 @@ use DateTime;
 use DateTimeZone;
 use Office365\Outlook\BodyType;
 use Office365\Outlook\EmailAddress;
-use Office365\Outlook\Event;
+use Office365\Outlook\Events\Event;
 use Office365\Outlook\ItemBody;
 use Office365\Outlook\Location;
 use Office365\Outlook\PhysicalAddress;
