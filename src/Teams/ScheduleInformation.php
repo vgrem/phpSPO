@@ -5,7 +5,7 @@
  */
 namespace Office365\Teams;
 
-use Office365\Common\WorkingHours;
+use Office365\Outlook\WorkingHours;
 use Office365\Runtime\ClientValue;
 class ScheduleInformation extends ClientValue
 {

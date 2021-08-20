@@ -3,7 +3,7 @@
 namespace Office365;
 
 
-use Office365\Common\User;
+use Office365\Directory\Users\User;
 use Office365\Runtime\Http\RequestException;
 use Office365\Teams\Team;
 use Office365\Teams\TeamGuestSettings;

@@ -3,12 +3,11 @@
 namespace Office365;
 
 
-use Office365\Common\Application;
-use Office365\Common\Group;
-use Office365\Common\GroupSetting;
-use Office365\Common\OrgContact;
-use Office365\Common\User;
-use Office365\Common\UserCollection;
+use Office365\Directory\Applications\Application;
+use Office365\Directory\Groups\Group;
+use Office365\Directory\Groups\GroupSetting;
+use Office365\Directory\Users\User;
+use Office365\Directory\Users\UserCollection;
 use Office365\OneDrive\DriveCollection;
 use Office365\OneDrive\DriveItem;
 use Office365\OneDrive\Site;
@@ -131,14 +130,6 @@ class GraphServiceClient extends ClientRuntimeContext
     public function getTeams(){
         return new TeamCollection($this,new ResourcePath("teams"));
     }
-
-    /**
-     * @return EntityCollection
-     */
-    public function getContact(){
-        return new EntityCollection($this,new ResourcePath("contacts"),OrgContact::class);
-    }
-
 
     /**
      * @return EntityCollection

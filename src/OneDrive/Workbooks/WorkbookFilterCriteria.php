@@ -5,7 +5,6 @@
  */
 namespace Office365\OneDrive\Workbooks;
 
-use Office365\Common\Json;
 use Office365\Runtime\ClientValue;
 class WorkbookFilterCriteria extends ClientValue
 {

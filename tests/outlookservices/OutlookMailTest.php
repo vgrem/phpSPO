@@ -3,13 +3,13 @@
 namespace Office365;
 
 
-use Office365\OutlookServices\BodyType;
-use Office365\OutlookServices\EmailAddress;
-use Office365\OutlookServices\FileAttachment;
-use Office365\OutlookServices\ItemAttachment;
-use Office365\OutlookServices\ItemBody;
-use Office365\OutlookServices\Message;
-use Office365\OutlookServices\Recipient;
+use Office365\Outlook\BodyType;
+use Office365\Outlook\EmailAddress;
+use Office365\Outlook\FileAttachment;
+use Office365\Outlook\ItemAttachment;
+use Office365\Outlook\ItemBody;
+use Office365\Outlook\Message;
+use Office365\Outlook\Recipient;
 
 class OutlookMailTest extends GraphTestCase
 {

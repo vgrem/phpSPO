@@ -7,7 +7,7 @@ namespace Office365\OneDrive;
 
 
 
-use Office365\Common\GeoCoordinates;
+use Office365\GeoCoordinates;
 use Office365\OneDrive\Workbooks\Workbook;
 use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;

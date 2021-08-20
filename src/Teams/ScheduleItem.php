@@ -5,7 +5,7 @@
  */
 namespace Office365\Teams;
 
-use Office365\Common\DateTimeTimeZone;
+use Office365\Outlook\DateTimeTimeZone;
 use Office365\Runtime\ClientValue;
 class ScheduleItem extends ClientValue
 {

@@ -5,10 +5,8 @@
  */
 namespace Office365\OneDrive;
 
-use Office365\Common\AccessAction;
+use Office365\Directory\Identities\IdentitySet;
 use Office365\Entity;
-
-use Office365\Common\IdentitySet;
 use Office365\Runtime\ResourcePath;
 class ItemActivity extends Entity
 {
@@ -35,7 +33,8 @@ class ItemActivity extends Entity
     public function getDriveItem()
     {
         if (!$this->isPropertyAvailable("DriveItem")) {
-            $this->setProperty("DriveItem", new DriveItem($this->getContext(), new ResourcePath("DriveItem", $this->getResourcePath())));
+            $this->setProperty("DriveItem", new DriveItem($this->getContext(),
+                new ResourcePath("DriveItem", $this->getResourcePath())));
         }
         return $this->getProperty("DriveItem");
     }

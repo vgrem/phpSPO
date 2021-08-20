@@ -5,7 +5,7 @@
  */
 namespace Office365\Planner;
 
-use Office365\Common\IdentitySet;
+use Office365\Directory\Identities\IdentitySet;
 use Office365\Runtime\ClientValue;
 class PlannerChecklistItem extends ClientValue
 {

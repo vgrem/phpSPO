@@ -238,10 +238,10 @@ The following example demonstrates how to send a message via Outlook Mail API:
 
 ```php
  use Office365\GraphServiceClient;
- use Office365\OutlookServices\Message;
- use Office365\OutlookServices\ItemBody;
- use Office365\OutlookServices\BodyType;
- use Office365\OutlookServices\EmailAddress;
+ use Office365\Outlook\Message;
+ use Office365\Outlook\ItemBody;
+ use Office365\Outlook\BodyType;
+ use Office365\Outlook\EmailAddress;
  use Office365\Runtime\Auth\AADTokenProvider;
  use Office365\Runtime\Auth\UserCredentials;
 

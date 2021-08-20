@@ -5,8 +5,8 @@
  */
 namespace Office365\OneNote;
 
+use Office365\Directory\Identities\IdentitySet;
 use Office365\Entity;
-use Office365\Common\IdentitySet;
 
 class OnenoteEntityHierarchyModel extends Entity
 {

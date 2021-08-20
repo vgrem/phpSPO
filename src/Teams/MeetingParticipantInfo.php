@@ -5,7 +5,7 @@
  */
 namespace Office365\Teams;
 
-use Office365\Common\IdentitySet;
+use Office365\Directory\Identities\IdentitySet;
 use Office365\Runtime\ClientValue;
 class MeetingParticipantInfo extends ClientValue
 {

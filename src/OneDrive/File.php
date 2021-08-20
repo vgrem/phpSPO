@@ -5,7 +5,6 @@
  */
 namespace Office365\OneDrive;
 
-use Office365\Common\Hashes;
 use Office365\Runtime\ClientValue;
 class File extends ClientValue
 {

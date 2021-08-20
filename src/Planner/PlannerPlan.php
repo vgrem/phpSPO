@@ -5,8 +5,8 @@
  */
 namespace Office365\Planner;
 
+use Office365\Directory\Identities\IdentitySet;
 use Office365\Entity;
-use Office365\Common\IdentitySet;
 use Office365\Runtime\ResourcePath;
 /**
  * The **plannerPlan** resource represents a plan in Office 365. A plan can be owned by a [group](group.md) and contains a collection of [plannerTasks](plannertask.md). It can also have a collection of [plannerBuckets](plannerbucket.md). Each plan object has a [details](plannerplandetails.md) object that can contain more information about the plan. For more information about the relationships between groups, plans, and tasks, see [Planner](planner-overview.md).

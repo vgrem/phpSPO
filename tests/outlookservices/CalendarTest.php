@@ -5,12 +5,12 @@ namespace Office365;
 use DateInterval;
 use DateTime;
 use DateTimeZone;
-use Office365\OutlookServices\BodyType;
-use Office365\OutlookServices\EmailAddress;
-use Office365\OutlookServices\Event;
-use Office365\OutlookServices\ItemBody;
-use Office365\OutlookServices\Location;
-use Office365\OutlookServices\PhysicalAddress;
+use Office365\Outlook\BodyType;
+use Office365\Outlook\EmailAddress;
+use Office365\Outlook\Event;
+use Office365\Outlook\ItemBody;
+use Office365\Outlook\Location;
+use Office365\Outlook\PhysicalAddress;
 use Office365\Runtime\Http\RequestException;
 
 

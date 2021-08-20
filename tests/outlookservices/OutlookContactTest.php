@@ -3,8 +3,8 @@
 namespace Office365;
 
 
-use Office365\OutlookServices\Contact;
-use Office365\OutlookServices\EmailAddress;
+use Office365\Outlook\Contact;
+use Office365\Outlook\EmailAddress;
 use Office365\Runtime\Http\RequestException;
 
 class OutlookContactTest extends GraphTestCase

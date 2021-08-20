@@ -5,7 +5,6 @@
  */
 namespace Office365\OneDrive;
 
-use Office365\Common\IncompleteData;
 use Office365\Entity;
 
 class ItemActivityStat extends Entity

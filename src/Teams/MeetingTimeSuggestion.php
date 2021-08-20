@@ -5,7 +5,6 @@
  */
 namespace Office365\Teams;
 
-use Office365\Common\TimeSlot;
 use Office365\Runtime\ClientValue;
 class MeetingTimeSuggestion extends ClientValue
 {

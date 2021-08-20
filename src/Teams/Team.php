@@ -5,8 +5,8 @@
  */
 namespace Office365\Teams;
 
-use Office365\Common\DirectoryObject;
-use Office365\Common\User;
+use Office365\Directory\DirectoryObject;
+use Office365\Directory\Users\User;
 use Office365\Entity;
 use Office365\EntityCollection;
 use Office365\Runtime\Actions\InvokePostMethodQuery;

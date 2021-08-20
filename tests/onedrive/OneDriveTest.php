@@ -2,7 +2,7 @@
 
 namespace Office365;
 
-use Office365\Common\IdentitySet;
+use Office365\Directory\Identities\IdentitySet;
 use Office365\OneDrive\DriveItem;
 
 

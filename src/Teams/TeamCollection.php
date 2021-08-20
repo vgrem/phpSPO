@@ -4,7 +4,7 @@
 namespace Office365\Teams;
 
 
-use Office365\Common\Group;
+use Office365\Directory\Groups\Group;
 use Office365\EntityCollection;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientRuntimeContext;
