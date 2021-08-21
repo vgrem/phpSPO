@@ -3,10 +3,15 @@
 /**
  * Modified: 2020-05-26T22:30:38+00:00 
  */
-namespace Office365\OneDrive;
+namespace Office365\OneDrive\Shares;
 
 use Office365\Directory\Identities\IdentitySet;
 use Office365\Entity;
+use Office365\OneDrive\DriveItems\DriveItem;
+use Office365\OneDrive\DriveItems\DriveItemCollection;
+use Office365\OneDrive\ListItems\ListItem;
+use Office365\OneDrive\Lists\SharePointList;
+use Office365\OneDrive\Sites\Site;
 use Office365\Runtime\ResourcePath;
 class SharedDriveItem extends Entity
 {

@@ -12,7 +12,6 @@ use Office365\OneDrive\DriveItems\DriveItem;
 use Office365\OneDrive\DriveItems\DriveItemCollection;
 use Office365\OneDrive\DriveItems\SystemFacet;
 use Office365\OneDrive\Lists\SharePointList;
-use Office365\OneDrive\Quota;
 use Office365\OneDrive\SharepointIds;
 use Office365\Runtime\ResourcePath;
 /**

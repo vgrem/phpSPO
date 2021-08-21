@@ -8,8 +8,6 @@ namespace Office365\Planner\Tasks;
 use Office365\Directory\Identities\IdentitySet;
 use Office365\Entity;
 use Office365\Planner\Buckets\PlannerBucketTaskBoardTaskFormat;
-use Office365\Planner\PlannerAppliedCategories;
-use Office365\Planner\PlannerAssignedToTaskBoardTaskFormat;
 use Office365\Planner\PlannerAssignments;
 use Office365\Planner\PlannerProgressTaskBoardTaskFormat;
 use Office365\Runtime\ResourcePath;

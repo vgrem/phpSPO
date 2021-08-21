@@ -3,9 +3,12 @@
 /**
  * Modified: 2020-05-25T06:42:59+00:00 
  */
-namespace Office365\OneDrive;
+namespace Office365\OneDrive\DriveItems;
 
 use Office365\Directory\Identities\IdentitySet;
+use Office365\OneDrive\ItemReference;
+use Office365\OneDrive\SharepointIds;
+use Office365\OneDrive\Shares\Shared;
 use Office365\Runtime\ClientValue;
 class RemoteItem extends ClientValue
 {

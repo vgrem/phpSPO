@@ -3,9 +3,10 @@
 /**
  * Modified: 2020-05-26T22:12:31+00:00 
  */
-namespace Office365\Planner;
+namespace Office365\Planner\Tasks;
 
 use Office365\Entity;
+use Office365\Planner\PlannerOrderHintsByAssignee;
 
 /**
  * The **plannerAssignedToTaskBoardTaskFormat** resource represents the information used to render a task correctly in the AssignedTo view of the Task Board (a view organized by users to whom tasks are assigned to). Each [task](plannertask.md) will have one **plannerAssignedToTaskBoardTaskFormat** object associated with it.
