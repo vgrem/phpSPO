@@ -3,9 +3,12 @@
 /**
  * Modified: 2020-05-25T05:58:15+00:00 
  */
-namespace Office365\Outlook;
+namespace Office365\Outlook\Contacts;
 
 use Office365\Entity;
+use Office365\Outlook\EmailAddress;
+use Office365\Outlook\PhysicalAddress;
+use Office365\Outlook\ProfilePhoto;
 use Office365\Runtime\ClientValueCollection;
 use Office365\Runtime\ResourcePath;
 /**

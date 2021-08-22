@@ -3,9 +3,18 @@
 /**
  * Modified: 2020-05-26T22:10:14+00:00 
  */
-namespace Office365\Outlook;
+namespace Office365\Outlook\Messages;
 
 use Office365\EntityCollection;
+use Office365\Outlook\Attachment;
+use Office365\Outlook\EmailAddress;
+use Office365\Outlook\FileAttachment;
+use Office365\Outlook\FollowupFlag;
+use Office365\Outlook\ItemAttachment;
+use Office365\Outlook\ItemBody;
+use Office365\Outlook\OutlookItem;
+use Office365\Outlook\Recipient;
+use Office365\Outlook\ReferenceAttachment;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ClientValue;
@@ -415,9 +424,4 @@ class Message extends OutlookItem
             new EntityCollection($this->getContext(),$this->getResourcePath(),Attachment::class));
     }
 
-
-    public function getServerTypeName()
-    {
-        return parent::getServerTypeName();
-    }
 }

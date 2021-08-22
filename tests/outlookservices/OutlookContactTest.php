@@ -3,7 +3,7 @@
 namespace Office365;
 
 
-use Office365\Outlook\Contact;
+use Office365\Outlook\Contacts\Contact;
 use Office365\Outlook\EmailAddress;
 use Office365\Runtime\Http\RequestException;
 
