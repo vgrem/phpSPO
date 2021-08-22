@@ -49,6 +49,9 @@ class ClientResult
     }
 
 
+    /**
+     * @return bool|int|ClientObject|ClientValue|string|null
+     */
     public function getValue(){
         return $this->value;
     }
