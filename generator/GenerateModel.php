@@ -127,7 +127,7 @@ function syncSharePointMetadataFile($fileName){
 
 try {
 
-    $modelName = "MicrosoftGraph";
+    $modelName = "SharePoint";
     if (count($argv) > 1)
         $modelName = $argv[1];
 

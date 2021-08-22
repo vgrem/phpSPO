@@ -3,7 +3,7 @@
 /**
  * Modified: 2020-05-26T22:07:25+00:00 
  */
-namespace Office365\Outlook;
+namespace Office365\Outlook\Messages;
 
 /**
  *  "A file (such as a text file or Word document) attached to an event, message or post. The  **contentBytes** "

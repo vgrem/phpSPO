@@ -3,8 +3,9 @@
 /**
  * Modified: 2020-05-26T22:07:25+00:00 
  */
-namespace Office365\Outlook;
+namespace Office365\Outlook\Messages;
 
+use Office365\Outlook\OutlookItem;
 use Office365\Runtime\ResourcePath;
 /**
  *  "A contact, event, or message that's attached to another event, message, or post.  "

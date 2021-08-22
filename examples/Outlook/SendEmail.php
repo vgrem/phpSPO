@@ -6,7 +6,7 @@ use Office365\GraphServiceClient;
 use Office365\Outlook\BodyType;
 use Office365\Outlook\EmailAddress;
 use Office365\Outlook\ItemBody;
-use Office365\Outlook\Message;
+use Office365\Outlook\Messages\Message;
 use Office365\Runtime\Auth\AADTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 
