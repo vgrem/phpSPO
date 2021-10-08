@@ -11,6 +11,7 @@ use Office365\Directory\Users\UserCollection;
 use Office365\OneDrive\DriveItems\DriveItem;
 use Office365\OneDrive\Drives\DriveCollection;
 use Office365\OneDrive\Sites\Site;
+use Office365\Reports\ReportRoot;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;
@@ -136,6 +137,13 @@ class GraphServiceClient extends ClientRuntimeContext
      */
     public function getWorkbooks(){
         return new EntityCollection($this,new ResourcePath("workbooks"),DriveItem::class);
+    }
+
+    /**
+     * @return ReportRoot
+     */
+    public function getReports(){
+        return new ReportRoot($this,new ResourcePath("reports"));
     }
 
     /**

@@ -13,6 +13,7 @@ use Office365\OneDrive\Drives\Drive;
 use Office365\OneDrive\Drives\DriveCollection;
 use Office365\OneNote\Onenote;
 use Office365\Outlook\Calendars\Calendar;
+use Office365\Outlook\Calendars\CalendarGroup;
 use Office365\Outlook\Contacts\Contact;
 use Office365\Outlook\Events\Event;
 use Office365\Outlook\MailboxSettings;
@@ -1019,5 +1020,27 @@ class User extends DirectoryObject
         return $this->getProperty("MailFolders",
             new EntityCollection($this->getContext(),
                 new ResourcePath("MailFolders", $this->getResourcePath()),MailFolder::class));
+    }
+
+    /**
+     * Get all the user's calendars
+     * @return EntityCollection
+     */
+    public function getCalendars()
+    {
+        return $this->getProperty("Calendars",
+            new EntityCollection($this->getContext(),
+                new ResourcePath("Calendars", $this->getResourcePath()),Calendar::class));
+    }
+
+    /**
+     * Get the user's calendar groups.
+     * @return EntityCollection
+     */
+    public function getCalendarGroups()
+    {
+        return $this->getProperty("CalendarGroups",
+            new EntityCollection($this->getContext(),
+                new ResourcePath("CalendarGroups", $this->getResourcePath()),CalendarGroup::class));
     }
 }
