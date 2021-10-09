@@ -4,6 +4,8 @@
 namespace Office365\Runtime\OData;
 
 
+use Office365\Runtime\OData\V3\JsonLightFormat;
+
 abstract class ODataFormat
 {
 

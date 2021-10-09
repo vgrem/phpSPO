@@ -13,6 +13,13 @@ use Office365\Runtime\ClientValue;
  */
 class Report extends ClientValue
 {
+
+    public function setProperty($name, $value)
+    {
+        $this->Content = $value;
+        return $this;
+    }
+
     /**
      * @var string
      */

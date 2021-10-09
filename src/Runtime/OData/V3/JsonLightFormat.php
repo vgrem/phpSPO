@@ -1,7 +1,10 @@
 <?php
 
 
-namespace Office365\Runtime\OData;
+namespace Office365\Runtime\OData\V3;
+
+use Office365\Runtime\OData\ODataFormat;
+use Office365\Runtime\OData\ODataMetadataLevel;
 
 class JsonLightFormat extends ODataFormat
 {

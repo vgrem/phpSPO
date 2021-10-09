@@ -11,10 +11,10 @@ use Office365\Runtime\Auth\UserCredentials;
 use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\OData\ODataRequest;
+use Office365\Runtime\OData\V3\JsonLightFormat;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ClientRuntimeContext;
-use Office365\Runtime\OData\JsonLightFormat;
 use Office365\Runtime\OData\ODataMetadataLevel;
 use Office365\Runtime\Http\RequestOptions;
 

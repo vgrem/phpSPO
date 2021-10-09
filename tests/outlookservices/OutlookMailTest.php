@@ -5,9 +5,9 @@ namespace Office365;
 
 use Office365\Outlook\BodyType;
 use Office365\Outlook\EmailAddress;
-use Office365\Outlook\FileAttachment;
-use Office365\Outlook\ItemAttachment;
 use Office365\Outlook\ItemBody;
+use Office365\Outlook\Messages\FileAttachment;
+use Office365\Outlook\Messages\ItemAttachment;
 use Office365\Outlook\Messages\Message;
 use Office365\Outlook\Recipient;
 

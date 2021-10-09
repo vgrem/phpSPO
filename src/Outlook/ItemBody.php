@@ -32,6 +32,6 @@ class ItemBody extends ClientValue
     public function setProperty($name, $value)
     {
         $name = ucfirst($name);
-        parent::setProperty($name, $value);
+        return parent::setProperty($name, $value);
     }
 }

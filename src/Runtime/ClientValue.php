@@ -16,6 +16,7 @@ class ClientValue
     /**
      * @param string $name
      * @param mixed $value
+     * @return $this
      */
     function setProperty($name, $value)
     {
@@ -33,6 +34,7 @@ class ClientValue
         }
         else
             $this->{$name} = $value;
+        return $this;
     }
 
     /**
@@ -61,12 +63,12 @@ class ClientValue
      */
     function toJson()
     {
-        $payload = array();
+        $json = array();
         foreach (get_object_vars($this) as $key => $val) {
             if (!is_null($val))
-                $payload[$key] = $val;
+                $json[$key] = $val;
         }
-        return $payload;
+        return $json;
     }
 
 }

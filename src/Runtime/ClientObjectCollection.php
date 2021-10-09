@@ -6,7 +6,7 @@ use Exception;
 use Generator;
 use IteratorAggregate;
 use Office365\Runtime\Http\RequestOptions;
-use Office365\Runtime\OData\JsonLightFormat;
+use Office365\Runtime\OData\V3\JsonLightFormat;
 use Traversable;
 
 

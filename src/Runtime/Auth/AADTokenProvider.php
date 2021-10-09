@@ -163,16 +163,6 @@ class AADTokenProvider extends BaseTokenProvider
      */
     private function normalizeToken($tokenValue)
     {
-        $tokenPayload = json_decode($tokenValue,true);
-        if (!is_null($tokenPayload)) {
-            if (isset($tokenPayload['id_token'])) {
-                $idToken = $tokenPayload['id_token'];
-                $idTokenPayload = base64_decode(
-                    explode('.', $idToken)[1]
-                );
-                $tokenPayload['id_token_info'] = json_decode($idTokenPayload, true);
-            }
-        }
-        return $tokenPayload;
+        return json_decode($tokenValue,true);
     }
 }
