@@ -7,6 +7,7 @@ use Office365\Generator\Builders\TypeBuilder;
 use Office365\Generator\Documentation\MSGraphDocsService;
 use Office365\Generator\Documentation\SharePointSpecsService;
 use Office365\Runtime\Auth\UserCredentials;
+use Office365\Runtime\Http\RequestException;
 use Office365\Runtime\OData\MetadataResolver;
 use Office365\Runtime\OData\ODataModel;
 use Office365\Runtime\OData\V3\ODataV3Reader;
@@ -81,7 +82,11 @@ function generateSharePointModel()
 {
     syncSharePointMetadataFile('./Settings.SharePoint.json');
     $options = loadSettingsFromFile('./Settings.SharePoint.json');
-    $options['docs'] = new SharePointSpecsService($options['docsRoot']);
+    try {
+        $options['docs'] = new SharePointSpecsService($options['docsRoot']);
+    } catch (RequestException $e) {
+        //ignore
+    }
     $reader = new ODataV3Reader();
     $model = $reader->generateModel($options);
     generateFiles($model);

@@ -7,8 +7,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Office365\\Generator\\": "./generator/",
-            "Office365\\": "../src/"
+            "Office365\\": ["../src/"],
+            "Office365\\Generator\\": ["../generator/"]
         }
     },
     "name": "vgrem/php-office365-sdk-generator",

@@ -274,12 +274,12 @@ class ODataModel
         $parts = explode('.', $typeName);
         $parts[0] = $this->options['rootNamespace'];
         $typeAlias = array_pop($parts);
-        $namespace = implode(DIRECTORY_SEPARATOR,array_filter($parts));
+        $namespace = implode("\\",array_filter($parts));
         $filePath = implode(DIRECTORY_SEPARATOR,array_filter([str_replace($this->options['rootNamespace'],"",$namespace),$typeAlias . ".php"]));
 
         return array(
             'alias' => $typeAlias,
-            'name' => implode(DIRECTORY_SEPARATOR,[$namespace,$typeAlias]),
+            'name' => implode("\\",[$namespace,$typeAlias]),
             'file' => implode(DIRECTORY_SEPARATOR,[$this->options['outputPath'],$filePath]),
             'namespace' => $namespace,
             'primitive' => false,

@@ -13,6 +13,9 @@ abstract class ODataReader
     function generateModel($options)
     {
         $model = new ODataModel($options);
+        $model->onTypeResolved(function ($typeSchema){
+            echo "${typeSchema['name']} type resolved." .  PHP_EOL;
+        });
         $edmx = file_get_contents($options['metadataPath']);
         $this->parseEdmx($edmx, $model);
         return $model;
