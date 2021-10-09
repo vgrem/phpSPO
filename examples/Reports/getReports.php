@@ -21,6 +21,9 @@ $client = new GraphServiceClient("acquireToken");
 $result = $client->getReports()->getOffice365ActivationCounts()->executeQuery();
 var_dump($result->getValue());
 
+$result = $client->getReports()->getOffice365ActiveUserDetail("D7")->executeQuery();
+var_dump($result->getValue());
+
 
 
 

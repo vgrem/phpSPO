@@ -6,7 +6,7 @@ namespace Office365\SharePoint\Taxonomy;
 
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\Http\RequestOptions;
-use Office365\Runtime\OData\JsonFormat;
+use Office365\Runtime\OData\V4\JsonFormat;
 use Office365\Runtime\OData\ODataMetadataLevel;
 use Office365\Runtime\OData\ODataRequest;
 use Office365\Runtime\ResourcePath;

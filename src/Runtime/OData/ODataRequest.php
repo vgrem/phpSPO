@@ -19,6 +19,7 @@ use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\OData\V3\JsonLightFormat;
+use Office365\Runtime\OData\V4\JsonFormat;
 use Office365\SharePoint\ClientContext;
 
 

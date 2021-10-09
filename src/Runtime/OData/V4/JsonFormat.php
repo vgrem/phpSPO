@@ -1,10 +1,12 @@
 <?php
 
 
-namespace Office365\Runtime\OData;
+namespace Office365\Runtime\OData\V4;
 
 
 use Exception;
+use Office365\Runtime\OData\ODataFormat;
+use Office365\Runtime\OData\ODataMetadataLevel;
 
 class JsonFormat extends ODataFormat
 {

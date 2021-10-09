@@ -30,7 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Office365\\": ["tests/", "tests/common/", "tests/sharepoint/", "tests/onenote/", "tests/onedrive/", "tests/outlookservices/", "tests/directory/", "tests/teams/"]
+            "Office365\\": ["tests/", "tests/common/", "tests/sharepoint/", "tests/onenote/", "tests/onedrive/", "tests/outlookservices/", "tests/directory/", "tests/teams/", "tests/reports/"]
         }
     },
     "autoload": {
