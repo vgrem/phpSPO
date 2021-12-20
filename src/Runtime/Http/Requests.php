@@ -134,7 +134,7 @@ class Requests
             $opt = $options->Method === HttpMethod::Get ? CURLOPT_FILE : CURLOPT_INFILE;
             curl_setopt($ch, $opt, $options->StreamHandle);
         }
-        $options->ensureHeader("Content-Length",strlen($options->Data));
+        $options->ensureHeader("Content-Length", strlen($options->Data !== null ? $options->Data : ''));
         //custom HTTP headers
         if($options->Headers)
             curl_setopt($ch, CURLOPT_HTTPHEADER, $options->getRawHeaders());
