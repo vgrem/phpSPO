@@ -195,8 +195,8 @@ class SamlTokenProvider extends BaseTokenProvider
             $xml = new DOMDocument();
             $xml->loadXML($response);
             $xpath = new DOMXPath($xml);
-            if ($xpath->query("//STSAuthURL")->length > 0) {
-                return $xpath->query("//STSAuthURL")->item(0);
+            if ($xpath->query("//AuthURL")->length > 0) {
+                return $xpath->query("//AuthURL")->item(0);
             }
         }
         return null;
