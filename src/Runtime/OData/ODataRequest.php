@@ -263,7 +263,7 @@ class ODataRequest extends ClientRequest
             yield "value" => $json;
 
 
-        if (isset($json[$format->CollectionTag])) {
+        if (isset($json[$format->CollectionTag]) && is_array($json[$format->CollectionTag])) {
             if (isset($json[$format->NextCollectionTag])) {
                 yield $format->NextCollectionTag => $json[$format->NextCollectionTag];
             }
@@ -312,7 +312,8 @@ class ODataRequest extends ClientRequest
         } else if ($format instanceof JsonFormat) {
             return fnmatch("$format->ControlFamilyTag.*", $key) !== true
                 && fnmatch("*$format->ControlFamilyTag.*", $key) !== true
-                && fnmatch("$format->TypeTag.*", $key) !== true;
+                && fnmatch("$format->TypeTag.*", $key) !== true
+                && fnmatch("#microsoft.graph.*", $key) !== true;
 
         }
         return true;

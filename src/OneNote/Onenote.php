@@ -7,7 +7,9 @@ namespace Office365\OneNote;
 
 
 use Office365\Entity;
+use Office365\EntityCollection;
 use Office365\OneNote\Pages\OnenotePageCollection;
+use Office365\OneNote\Sections\OnenoteSection;
 use Office365\Runtime\ResourcePath;
 /**
  *  "The entry point for OneNote resources."
@@ -22,5 +24,16 @@ class Onenote extends Entity
     {
         return $this->getProperty("Pages",
             new OnenotePageCollection($this->getContext(),new ResourcePath("Pages", $this->getResourcePath())));
+    }
+
+    /**
+     * @return EntityCollection
+     */
+    public function getSections()
+    {
+        return $this->getProperty("Sections",
+            new EntityCollection($this->getContext(),
+                new ResourcePath("Sections",
+                $this->getResourcePath()), OnenoteSection::class));
     }
 }

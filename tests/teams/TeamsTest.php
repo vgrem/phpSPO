@@ -11,6 +11,11 @@ use Office365\Teams\TeamGuestSettings;
 class TeamsTest extends GraphTestCase
 {
 
+    /**
+     * @var Team
+     */
+    protected static $targetTeam;
+
     public function testGetJoinedTeams()
     {
         $myTeams = self::$graphClient->getMe()->getJoinedTeams()->get()->executeQuery();
@@ -70,6 +75,7 @@ class TeamsTest extends GraphTestCase
         $user = self::$graphClient->getUsers()->getById(self::$testAccountName);
         $member = $team->addMember($user, ["owner"])->executeQuery();
         self::assertNotNull($member->getResourcePath());
+        self::$targetTeam = $team;
         return $member;
     }
 
@@ -91,7 +97,10 @@ class TeamsTest extends GraphTestCase
      */
     public function testRemoveTeamMember(Entity $member)
     {
+        $membersBefore = self::$targetTeam->getMembers()->get()->executeQuery();
         $member->deleteObject()->executeQuery();
+        $membersAfter = self::$targetTeam->getMembers()->get()->executeQuery();
+        self::assertEquals($membersBefore->getCount() - 1, $membersAfter->getCount());
     }
 
     /**
