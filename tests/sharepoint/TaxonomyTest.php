@@ -10,7 +10,7 @@ use Office365\SharePoint\Taxonomy\TermSet;
 use PHPUnit\Framework\TestCase;
 
 
-class TaxonomyTest extends TestCase
+class TaxonomyTest extends SharePointTestCase
 {
 
     /**
@@ -22,8 +22,8 @@ class TaxonomyTest extends TestCase
     {
         $settings = include(__DIR__ . '/../Settings.php');
         $appPrincipal = new ClientCredential($settings['ClientId'],$settings['ClientSecret']);
-        $ctx = (new ClientContext($settings['Url']))->withCredentials($appPrincipal);
-        self::$taxSvc = new TaxonomyService($ctx);
+        $appCtx = (new ClientContext($settings['Url']))->withCredentials($appPrincipal);
+        self::$taxSvc = new TaxonomyService($appCtx);
         parent::setUpBeforeClass();
     }
 
