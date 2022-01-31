@@ -24,7 +24,7 @@ abstract class SharePointTestCase extends TestCase
 
     protected  static $settings;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$settings = include(__DIR__ . '/../Settings.php');
         self::$testAccountName = self::$settings['TestAccountName'];
@@ -32,7 +32,7 @@ abstract class SharePointTestCase extends TestCase
             ->withCredentials(new UserCredentials(self::$settings['UserName'],self::$settings['Password']));
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$context = null;
     }

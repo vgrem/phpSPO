@@ -18,7 +18,7 @@ class TaxonomyTest extends TestCase
      */
     protected static $taxSvc;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $settings = include(__DIR__ . '/../Settings.php');
         $appPrincipal = new ClientCredential($settings['ClientId'],$settings['ClientSecret']);
@@ -27,14 +27,14 @@ class TaxonomyTest extends TestCase
         parent::setUpBeforeClass();
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
     }
 
-    public function testLoadClient(){
+    /*public function testLoadClient(){
         self::$taxSvc->executeQuery();
-    }
+    }*/
 
     /*public function testGetTermStore()
     {

@@ -14,14 +14,14 @@ class ViewTest extends SharePointTestCase
      */
     private static $targetList;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         $listTitle = self::createUniqueName("Orders");
         self::$targetList = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::Tasks);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$targetList->deleteObject()->executeQuery();
         parent::tearDownAfterClass();

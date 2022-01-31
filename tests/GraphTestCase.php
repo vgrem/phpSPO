@@ -21,7 +21,7 @@ abstract class GraphTestCase extends TestCase
     protected  static $settings;
 
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$settings = include(__DIR__ . '/Settings.php');
         self::$testAccountName = self::$settings['TestAccountName'];
@@ -30,7 +30,7 @@ abstract class GraphTestCase extends TestCase
         });
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$graphClient = null;
     }

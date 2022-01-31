@@ -19,14 +19,14 @@ class FolderTest extends SharePointTestCase
 
 
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         $listTitle = "Documents_" . rand(1, 100000);
         self::$targetList = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DocumentLibrary);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$targetList->deleteObject()->executeQuery();
         parent::tearDownAfterClass();

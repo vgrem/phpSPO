@@ -18,14 +18,14 @@ class FileTest extends SharePointTestCase
     private static $targetList;
 
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         $listTitle = "Documents_" . rand(1, 100000);
         self::$targetList = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DocumentLibrary);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$targetList->deleteObject()->executeQuery();
         parent::tearDownAfterClass();
@@ -143,10 +143,10 @@ class FileTest extends SharePointTestCase
      * @depends testUploadFiles
      * @param $fileToMove
      */
-    public  function testMoveFile(File $fileToMove){
+    /*public  function testMoveFile(File $fileToMove){
         //$targetUrl = self::$targetList->getRootFolder()->getServerRelativeUrl() . "big_buck_bunny.mp4";
         //$fileToMove->moveToEx("",true);
-    }
+    }*/
 
 
     /**

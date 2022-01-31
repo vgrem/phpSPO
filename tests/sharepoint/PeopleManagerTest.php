@@ -13,7 +13,7 @@ class PeopleManagerTest extends SharePointTestCase
      */
     private static $testUser;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         self::$testUser = self::$context->getWeb()->ensureUser(self::$testAccountName)->executeQuery();

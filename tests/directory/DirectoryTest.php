@@ -6,7 +6,7 @@ namespace Office365;
 class DirectoryTest extends GraphTestCase
 {
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
     }

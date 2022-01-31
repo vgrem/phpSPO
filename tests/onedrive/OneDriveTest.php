@@ -10,7 +10,7 @@ class OneDriveTest extends GraphTestCase
 {
     private static $localFile;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$localFile = __DIR__ . "/../../examples/data/SharePoint User Guide.docx";
         parent::setUpBeforeClass();

@@ -9,17 +9,13 @@ namespace Office365\OneDrive\DriveItems;
 
 use Office365\GeoCoordinates;
 use Office365\OneDrive\BaseItem;
-use Office365\OneDrive\Deleted;
 use Office365\OneDrive\ItemAnalytics;
 use Office365\OneDrive\ListItems\ListItem;
-use Office365\OneDrive\Package;
 use Office365\OneDrive\PermissionCollection;
-use Office365\OneDrive\PublicationFacet;
-use Office365\OneDrive\RemoteItem;
 use Office365\OneDrive\Root;
 use Office365\OneDrive\SearchResult;
-use Office365\OneDrive\Shared;
 use Office365\OneDrive\SharepointIds;
+use Office365\OneDrive\Shares\Shared;
 use Office365\OneDrive\Workbooks\Workbook;
 use Office365\Runtime\Actions\DeleteEntityQuery;
 use Office365\Runtime\Http\HttpMethod;

@@ -10,7 +10,7 @@ class ListTest extends SharePointTestCase
 {
     private static $listTitle;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         self::$listTitle = "Orders_" . rand(1,100000);

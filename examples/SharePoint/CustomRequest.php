@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
-$settings = include(__DIR__ . '/../../Settings.php');
+$settings = include(__DIR__ . './../../tests/Settings.php');
 
 use Office365\Runtime\Auth\ClientCredential;
 use Office365\Runtime\Http\RequestOptions;

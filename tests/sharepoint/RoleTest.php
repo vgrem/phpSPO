@@ -11,14 +11,14 @@ class RoleTest extends SharePointTestCase
 
     private static $securedTargetObject;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         $listTitle = "Documents_" . rand(1, 100000);
         self::$securedTargetObject = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DocumentLibrary);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$securedTargetObject->deleteObject()->executeQuery();
         parent::tearDownAfterClass();

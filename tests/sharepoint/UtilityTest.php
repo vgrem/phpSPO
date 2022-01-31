@@ -15,14 +15,14 @@ class UtilityTest extends SharePointTestCase
      */
     private static $discussionsList;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         $listTitle = "Discussions123"; //self::createUniqueName("Discussions");
         self::$discussionsList = self::ensureList(self::$context->getWeb(), $listTitle, ListTemplateType::DiscussionBoard);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         //self::$discussionsList->deleteObject()->executeQuery();
         parent::tearDownAfterClass();
