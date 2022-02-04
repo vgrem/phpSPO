@@ -427,6 +427,17 @@ class ListItem extends SecurableObject
         return $this->typeName;
     }
 
+
+    public function setProperty($name, $value, $persistChanges = true)
+    {
+        if($value instanceof FieldLookupValue){
+            parent::setProperty("{$name}Id", $value->LookupId, true);
+            parent::setProperty($name, $value, false);
+            return $this;
+        }
+        return parent::setProperty($name, $value, $persistChanges);
+    }
+
     /**
      * @var string
      */

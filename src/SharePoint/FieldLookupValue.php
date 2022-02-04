@@ -10,6 +10,12 @@ use Office365\Runtime\ClientValue;
 
 class FieldLookupValue extends ClientValue
 {
+    public function __construct($LookupId)
+    {
+        $this->LookupId = $LookupId;
+        parent::__construct();
+    }
+
     /**
      * Gets or sets the identifier (ID) of the list item that this instance of the lookup field is referring to.
      * @var int
