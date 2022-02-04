@@ -262,15 +262,13 @@ class ClientObject
      * @param mixed|null $defaultValue
      * @return mixed|null
      */
-    public function getProperty($name,$defaultValue=null)
+    public function getProperty($name,$defaultValue=null,$resolve=false)
     {
-        $calledFnName = debug_backtrace()[1]['function'];
-
         if($this->isPropertyAvailable($name))
             return $this->properties[$name];
-        else if(is_null($defaultValue)) {
+        else if(is_null($defaultValue) && $resolve) {
             $getter = "get$name";
-            if(method_exists($this,$getter) && strcasecmp($getter, $calledFnName) != 0) {
+            if(method_exists($this,$getter)) {
                 $defaultValue = $this->$getter();
             }
         }
@@ -295,7 +293,7 @@ class ClientObject
         }
 
         if(!is_null($value)) {
-            $childProperty = $this->getProperty($name);
+            $childProperty = $this->getProperty($name,null,true);
             if($childProperty instanceof ClientObject || $childProperty instanceof ClientValue) {
                 foreach ($value as $k=>$v){
                     $childProperty->setProperty($k,$v,False);
