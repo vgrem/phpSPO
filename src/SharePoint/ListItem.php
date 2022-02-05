@@ -430,12 +430,18 @@ class ListItem extends SecurableObject
 
     public function setProperty($name, $value, $persistChanges = true)
     {
-        if($value instanceof FieldLookupValue){
+        if ($value instanceof  FieldMultiLookupValue){
+            parent::setProperty("{$name}Id", $value, true);
+            parent::setProperty($name, $value, false);
+        }
+        elseif($value instanceof FieldLookupValue){
             parent::setProperty("{$name}Id", $value->LookupId, true);
             parent::setProperty($name, $value, false);
-            return $this;
         }
-        return parent::setProperty($name, $value, $persistChanges);
+        else{
+            parent::setProperty($name, $value, $persistChanges);
+        }
+        return $this;
     }
 
     /**

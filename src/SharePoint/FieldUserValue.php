@@ -10,5 +10,20 @@ namespace Office365\SharePoint;
 
 class FieldUserValue extends FieldLookupValue
 {
+
+    /**
+     * Initialize field value from User
+     * @param User $user
+     * @return FieldUserValue
+     */
+    public static function fromUser($user){
+        $value = new FieldUserValue(-1);
+        $user->ensureProperty("Id",function () use($value, $user){
+            $value->LookupId = $user->getId();
+        });
+        return $value;
+    }
+
+
     public $Email;
 }

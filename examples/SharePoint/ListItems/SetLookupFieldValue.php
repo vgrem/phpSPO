@@ -7,6 +7,8 @@ $settings = include('./../../../tests/Settings.php');
 use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ClientContext;
 use Office365\SharePoint\FieldLookupValue;
+use Office365\SharePoint\FieldMultiLookupValue;
+use Office365\SharePoint\FieldUserValue;
 use Office365\SharePoint\ListItem;
 
 $credentials = new ClientCredential($settings['ClientId'], $settings['ClientSecret']);
@@ -20,8 +22,12 @@ if($items->getCount() !== 1){
     return;
 }
 $taskId = $items[0]->getProperty("Id");
+$me = $ctx->getWeb()->getCurrentUser()->get()->executeQuery();
+
 $taskProps = array(
     'Title' => "New task N#" . rand(1, 100000),
-    'ParentTask' => new FieldLookupValue($taskId)
+    'ParentTask' => new FieldLookupValue($taskId),
+    'PrimaryManager' => new FieldUserValue($me->getId()),
+    'Managers' => new FieldMultiLookupValue([$me->getId()])
 );
 $item = $list->addItem($taskProps)->executeQuery();
