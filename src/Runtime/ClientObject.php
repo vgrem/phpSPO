@@ -127,14 +127,6 @@ class ClientObject
         return $this->parentCollection;
     }
 
-    /**
-     * @return null
-     */
-    protected function getServerTypeId()
-    {
-        return null;
-    }
-
 
     /**
      * @return ClientRuntimeContext
@@ -211,11 +203,11 @@ class ClientObject
 
     /**
      * Gets entity type name
-     * @return string
+     * @return ServerTypeInfo
      */
-    public function getServerTypeName()
+    public function getServerTypeInfo()
     {
-        return null;
+        return ServerTypeInfo::resolve($this);
     }
 
     /**

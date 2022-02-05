@@ -8,6 +8,7 @@ namespace Office365\SharePoint\UserProfiles;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\ResourcePath;
+use Office365\Runtime\ServerTypeInfo;
 use Office365\SharePoint\BaseEntity;
 
 class ProfileLoader extends BaseEntity
@@ -31,9 +32,12 @@ class ProfileLoader extends BaseEntity
         return $loader;
     }
 
-    function getServerTypeName()
+    /**
+     * @return ServerTypeInfo
+     */
+    function getServerTypeInfo()
     {
-        return "SP.UserProfiles.ProfileLoader";
+        return new ServerTypeInfo("SP.UserProfiles", "ProfileLoader");
     }
 
 }

@@ -7,6 +7,7 @@ namespace Office365\SharePoint\Publishing;
 
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ResourcePath;
+use Office365\Runtime\ServerTypeInfo;
 
 class VideoChannel extends ClientObject
 {
@@ -51,9 +52,13 @@ class VideoChannel extends ClientObject
     {
         return new VideoCollection($this->getContext(), new ResourcePath("Videos", $this->getResourcePath()));
     }
-    public function getServerTypeName()
+
+    /**
+     * @return ServerTypeInfo
+     */
+    public function getServerTypeInfo()
     {
-        return implode(".", array("SP", "Publishing", parent::getServerTypeName()));
+        return new ServerTypeInfo("SP.Publishing", "VideoChannel");
     }
     /**
      * @return bool

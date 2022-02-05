@@ -8,6 +8,7 @@ namespace Office365\SharePoint\Publishing;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\Http\RequestOptions;
+use Office365\Runtime\ServerTypeInfo;
 use Office365\SharePoint\ClientContext;
 use Office365\SharePoint\Entity;
 
@@ -42,9 +43,13 @@ class VideoItem extends Entity
         }
         parent::setProperty($name, $value, $persistChanges);
     }
-    public function getServerTypeName()
+
+    /**
+     * @return ServerTypeInfo
+     */
+    public function getServerTypeInfo()
     {
-        return implode(".", array("SP", "Publishing", parent::getServerTypeName()));
+        return new ServerTypeInfo("SP.Publishing", "VideoItem");
     }
     /**
      * @return string

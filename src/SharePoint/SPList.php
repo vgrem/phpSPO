@@ -10,6 +10,8 @@ use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ResourcePathServiceOperation;
+use Office365\Runtime\ServerTypeInfo;
+
 /**
  * Specifies 
  * a list 
@@ -143,9 +145,13 @@ class SPList extends SecurableObject
     {
         return $this->getProperty("ParentWeb", new Web($this->getContext(), new ResourcePath("ParentWeb", $this->getResourcePath())));
     }
-    public function getServerTypeName()
+
+    /**
+     * @return ServerTypeInfo
+     */
+    public function getServerTypeInfo()
     {
-        return "SP.List";
+        return new ServerTypeInfo("SP", "List");
     }
     /**
      * @return bool

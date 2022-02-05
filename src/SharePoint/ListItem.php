@@ -6,6 +6,8 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ResourcePath;
+use Office365\Runtime\ServerTypeInfo;
+
 /**
  * Specifies 
  * a list 
@@ -422,9 +424,12 @@ class ListItem extends SecurableObject
     }
 
 
-    public function getServerTypeName()
+    /**
+     * @return ServerTypeInfo
+     */
+    public function getServerTypeInfo()
     {
-        return $this->typeName;
+        return ServerTypeInfo::fromFullName($this->typeName);
     }
 
 
@@ -442,6 +447,15 @@ class ListItem extends SecurableObject
             parent::setProperty($name, $value, $persistChanges);
         }
         return $this;
+    }
+
+    /**
+     * @return ListItem
+     */
+    public function update()
+    {
+        $this->ensureTypeName($this->getParentList());
+        return parent::update();
     }
 
     /**

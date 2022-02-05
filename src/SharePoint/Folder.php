@@ -92,8 +92,7 @@ class Folder extends Entity
         $item = $this->getListItemAllFields();
         $item->setProperty('Title', $name);
         $item->setProperty('FileLeafRef', $name);
-        $qry = new UpdateEntityQuery($item);
-        $this->getContext()->addQueryAndResultObject($qry, $this);
+        $item->update();
         return $this;
     }
     /**

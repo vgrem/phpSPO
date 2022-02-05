@@ -3,12 +3,16 @@
 namespace Office365\SharePoint\Portal;
 
 use Office365\Runtime\ClientValue;
+use Office365\Runtime\ServerTypeInfo;
 
 class SPSiteCreationResponse extends ClientValue
 {
-    function getServerTypeName()
+    /**
+     * @return ServerTypeInfo
+     */
+    function getServerTypeInfo()
     {
-        return "Microsoft.SharePoint.Portal.SPSiteCreationResponse";
+        return new ServerTypeInfo("Microsoft.SharePoint.Portal", "SPSiteCreationResponse");
     }
 
 

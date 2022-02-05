@@ -5,16 +5,17 @@ namespace Office365\SharePoint\Search;
 
 
 use Office365\Runtime\ClientValue;
+use Office365\Runtime\ServerTypeInfo;
 
 class SearchRequest extends ClientValue
 {
 
     /**
-     * @return string
+     * @return ServerTypeInfo
      */
-    public function getServerTypeName()
+    public function getServerTypeInfo()
     {
-        return "Microsoft.Office.Server.Search.REST.SearchRequest";
+        return new ServerTypeInfo("Microsoft.Office.Server.Search.REST", "SearchRequest");
     }
 
     /**

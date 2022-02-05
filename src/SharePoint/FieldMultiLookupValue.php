@@ -3,6 +3,7 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValueCollection;
+use Office365\Runtime\ServerTypeInfo;
 
 class FieldMultiLookupValue extends ClientValueCollection
 {
@@ -21,6 +22,14 @@ class FieldMultiLookupValue extends ClientValueCollection
             return $value->LookupId;
         }, $this->getData());
         return array('results' => $lookupIds);
+    }
+
+    /**
+     * @return ServerTypeInfo
+     */
+    public function getServerTypeInfo()
+    {
+        return ServerTypeInfo::primitive("integer", true);
     }
 
 }

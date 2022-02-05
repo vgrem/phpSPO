@@ -3,6 +3,7 @@
 
 namespace Office365\SharePoint;
 use Office365\Runtime\ClientValue;
+use Office365\Runtime\ServerTypeInfo;
 
 /**
  * Specifies properties that are used as parameters to initialize a new content type.
@@ -15,9 +16,12 @@ class ContentTypeCreationInformation extends ClientValue
     }
 
 
-    public function getServerTypeName()
+    /**
+     * @return ServerTypeInfo
+     */
+    public function getServerTypeInfo()
     {
-        return "SP.ContentType";
+        return new ServerTypeInfo("SP", "ContentType");
     }
 
 

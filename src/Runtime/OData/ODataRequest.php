@@ -75,30 +75,8 @@ class ODataRequest extends ClientRequest
      */
     public function normalizeTypeName($type)
     {
-        $collection = false;
-        $typeName = $type->getServerTypeName();
-        if (is_null($typeName)) {
-
-            if ($type instanceof ClientValueCollection) {
-                $collection = true;
-                $typeInfo = explode("\\", $type->getItemTypeName());
-            }
-            else{
-                $typeInfo = explode("\\", get_class($type));
-            }
-            $typeName = end($typeInfo);
-
-            //if ($this->context instanceof OutlookClient)
-            //    $typeName = "#Microsoft.OutlookServices.$typeName";
-            if ($this->context instanceof ClientContext)
-                $typeName = "SP.$typeName";
-            else if ($this->context instanceof GraphServiceClient) {
-                $typeName = lcfirst($typeName);
-                $typeName = "microsoft.graph.$typeName";
-            }
-            return $collection ? "Collection($typeName)" : $typeName;
-        }
-        return $typeName;
+        $typeInfo = $type->getServerTypeInfo()->patch($this->context);
+        return (string)$typeInfo;
     }
 
 
@@ -119,8 +97,8 @@ class ODataRequest extends ClientRequest
                 return $this->normalizePayload($property,$format);
             }, $value->toJson(true));
 
-            if(!($value instanceof ClientValueCollection || $value instanceof ClientObjectCollection))
-                $this->ensureAnnotation($value,$json,$format);
+
+            $this->ensureAnnotation($value,$json,$format);
             return $json;
         } else if (is_array($value)) {
             return array_map(function ($item) use($format){
@@ -147,7 +125,8 @@ class ODataRequest extends ClientRequest
             }
         }
         elseif ($format instanceof JsonFormat){
-            $json[$format->TypeTag] = "$typeName";
+            if(!($type instanceof ClientValueCollection))
+                $json[$format->TypeTag] = "$typeName";
         }
     }
 

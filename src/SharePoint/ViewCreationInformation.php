@@ -6,6 +6,8 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
+use Office365\Runtime\ServerTypeInfo;
+
 /**
  * Specifies 
  * the properties used to create a new list view.
@@ -50,9 +52,12 @@ class ViewCreationInformation extends ClientValue
         parent::__construct();
     }
 
-    public function getServerTypeName()
+    /**
+     * @return ServerTypeInfo
+     */
+    public function getServerTypeInfo()
     {
-        return "SP.View";
+        return new ServerTypeInfo("SP", "View");
     }
 
     public $baseViewId;

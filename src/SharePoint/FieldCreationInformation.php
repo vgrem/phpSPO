@@ -6,6 +6,8 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
+use Office365\Runtime\ServerTypeInfo;
+
 /**
  * Represents properties that can be set when creating a field.
  */
@@ -16,9 +18,12 @@ class FieldCreationInformation extends ClientValue
         parent::__construct();
     }
 
-    public function getServerTypeName()
+    /**
+     * @return ServerTypeInfo
+     */
+    public function getServerTypeInfo()
     {
-        return "SP.Field";
+        return new ServerTypeInfo("SP", "Field");
     }
 
     /**

@@ -30,7 +30,7 @@ class ClientValueCollection extends ClientValue
 
     /**
      * Adds property to collection
-     * @param ClientValue $value
+     * @param ClientValue|string  $value
      */
     public function addChild($value)
     {
@@ -81,17 +81,10 @@ class ClientValueCollection extends ClientValue
      */
     function getItemTypeName()
     {
-        if(isset($this->itemTypeName))
+        if(isset($this->itemTypeName)) {
             return $this->itemTypeName;
+        }
         return str_replace("Collection","",get_class($this));
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getServerTypeName()
-    {
-        return null;
     }
 
     /**

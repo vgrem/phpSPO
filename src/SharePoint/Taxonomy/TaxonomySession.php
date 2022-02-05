@@ -28,7 +28,7 @@ class TaxonomySession extends ClientObject implements ICSOMCallable
         if(is_null($ctx))
             throw new InvalidArgumentException("Context is not initialized");
         $qry = new InvokePostMethodQuery($this, null, "GetTaxonomySession", null,null);
-        $qry->TypeId = $this->getServerTypeId();
+        $qry->TypeId = $this->getServerTypeInfo()->Id;
         $qry->IsStatic = true;
         $taxonomySession = new TaxonomySession($ctx);
         $this->context->addQuery($qry);

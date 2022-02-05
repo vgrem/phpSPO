@@ -51,11 +51,11 @@ class ClientValue
 
 
     /**
-     * @return string
+     * @return ServerTypeInfo
      */
-    public function getServerTypeName()
+    public function getServerTypeInfo()
     {
-        return null;
+        return ServerTypeInfo::resolve($this);
     }
 
     /**

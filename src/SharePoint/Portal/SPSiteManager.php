@@ -7,6 +7,7 @@ namespace Office365\SharePoint\Portal;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientResult;
 use Office365\Runtime\ResourcePath;
+use Office365\Runtime\ServerTypeInfo;
 use Office365\SharePoint\BaseEntity;
 use Office365\SharePoint\ClientContext;
 
@@ -55,9 +56,12 @@ class SPSiteManager extends BaseEntity
     }
 
 
-    public function getServerTypeName()
+    /**
+     * @return ServerTypeInfo
+     */
+    public function getServerTypeInfo()
     {
-        return "Microsoft.SharePoint.Portal.SPSiteManager";
+        return new ServerTypeInfo("Microsoft.SharePoint.Portal", "SPSiteManager");
     }
 
 }

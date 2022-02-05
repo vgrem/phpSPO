@@ -14,10 +14,7 @@ class OutlookItem extends Entity
      */
     public function getChangeKey()
     {
-        if (!$this->isPropertyAvailable("ChangeKey")) {
-            return null;
-        }
-        return $this->getProperty("ChangeKey");
+        return $this->getProperty("ChangeKey", null);
     }
     /**
      * @var string
@@ -31,10 +28,7 @@ class OutlookItem extends Entity
      */
     public function getCategories()
     {
-        if (!$this->isPropertyAvailable("Categories")) {
-            return null;
-        }
-        return $this->getProperty("Categories");
+        return $this->getProperty("Categories", null);
     }
     /**
      * @var array

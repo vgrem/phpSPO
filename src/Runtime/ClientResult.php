@@ -50,7 +50,7 @@ class ClientResult
 
 
     /**
-     * @return bool|int|ClientObject|ClientValue|string|null
+     * @return bool|int|string|ClientObject|ClientValue|null
      */
     public function getValue(){
         return $this->value;
