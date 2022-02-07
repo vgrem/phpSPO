@@ -17,7 +17,7 @@ class AttachmentCollection extends BaseEntityCollection
     }
 
     /**
-     * Creates a Attachment resource
+     * Creates an Attachment resource
      * @param AttachmentCreationInformation $information
      * @return Attachment
      */

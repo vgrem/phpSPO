@@ -137,7 +137,7 @@ class ClientContext extends ClientRuntimeContext
      */
     public function requestFormDigest()
     {
-        $request = new RequestOptions($this->getServiceRootUrl() . "contextinfo");
+        $request = new RequestOptions($this->getServiceRootUrl() . "/contextinfo");
         $request->Method = HttpMethod::Post;
         $response = $this->executeQueryDirect($request);
         if(!isset($this->contextWebInformation))
@@ -221,7 +221,7 @@ class ClientContext extends ClientRuntimeContext
      */
     public function getServiceRootUrl()
     {
-        return  "{$this->getBaseUrl()}/_api/";
+        return  "{$this->getBaseUrl()}/_api";
     }
 
 

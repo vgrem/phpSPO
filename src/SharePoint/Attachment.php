@@ -6,6 +6,8 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\Actions\DeleteEntityQuery;
+use Office365\Runtime\ResourcePathServiceOperation;
+
 /**
  * Specifies 
  * a list 
@@ -17,6 +19,7 @@ class Attachment extends BaseEntity
     {
         $qry = new DeleteEntityQuery($this);
         $this->getContext()->addQuery($qry);
+        return $this;
     }
     /**
      * @return string
@@ -89,5 +92,14 @@ class Attachment extends BaseEntity
     public function setServerRelativePath($value)
     {
         return $this->setProperty("ServerRelativePath", $value, true);
+    }
+
+    public function setProperty($name, $value, $persistChanges = true)
+    {
+        if($name == "ServerRelativeUrl" && is_null($this->getResourcePath())){
+            $this->resourcePath = new ResourcePathServiceOperation("getFileByServerRelativeUrl",
+                array(rawurlencode($value)), $this->getContext()->getWeb()->getResourcePath());
+        }
+        return parent::setProperty($name, $value, $persistChanges);
     }
 }

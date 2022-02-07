@@ -38,7 +38,7 @@ class TaxonomyService extends ClientRuntimeContext
 
     public function getServiceRootUrl()
     {
-        return  "{$this->context->getBaseUrl()}/_api/v2.1/";
+        return  "{$this->context->getBaseUrl()}/_api/v2.1";
     }
 
     /**

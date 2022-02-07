@@ -463,9 +463,9 @@ class DriveItem extends BaseItem
     public function setProperty($name, $value, $persistChanges = true)
     {
         parent::setProperty($name, $value, $persistChanges);
-        if($name == "id" && $this->resourcePath->getParent()->getSegment() == "Children"){
+        if($name == "id" && $this->resourcePath->getParent()->getName() == "Children"){
             $this->resourcePath = new ResourcePath($value,
-                new ResourcePath("items", $this->parentCollection->getResourcePath()->getParent()->getParent()));
+                new ResourcePath("items", $this->getParentCollection()->getResourcePath()->getParent()->getParent()));
         }
         return $this;
     }

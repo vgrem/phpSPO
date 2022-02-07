@@ -151,7 +151,7 @@ class GraphServiceClient extends ClientRuntimeContext
      */
     public function getServiceRootUrl()
     {
-        return "https://graph.microsoft.com/" . Office365Version::V1 . "/";
+        return "https://graph.microsoft.com/" . Office365Version::V1;
     }
 
     public function authenticateRequest(RequestOptions $options)

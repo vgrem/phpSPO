@@ -24,7 +24,7 @@ use Office365\SharePoint\ClientContext;
 
 
 /**
- * OData request (for V3/v4)
+ * OData request (V3/v4 compatible)
  */
 class ODataRequest extends ClientRequest
 {
@@ -45,7 +45,7 @@ class ODataRequest extends ClientRequest
      */
     public function buildRequest(){
         $qry = $this->currentQuery;
-        $url = $qry->getActionUrl();
+        $url = $qry->getUrl();
         $request = new RequestOptions($url);
         if($qry instanceof InvokeMethodQuery){
             if($this->format instanceof JsonLightFormat){

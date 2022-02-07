@@ -7,23 +7,29 @@ class ResourcePath
 {
 
     /**
-     * ResourcePath constructor.
-     * @param string $segment
+     * @param string $name
      * @param ResourcePath|null $parent
      */
-    public function __construct($segment, ResourcePath $parent = null)
+    public function __construct($name, ResourcePath $parent = null)
     {
-        $this->segment = $segment;
+        $this->name = $name;
         $this->parent = $parent;
     }
 
+    /**
+     * @return string[]
+     */
+    public function getSegments(){
+        return ["/", $this->name];
+    }
 
     /**
      * @return string
      */
-    public function getSegment(){
-        return $this->segment;
+    public function getName(){
+        return $this->name;
     }
+
 
     /**
      * @return null|ResourcePath
@@ -37,14 +43,13 @@ class ResourcePath
      */
     public function toUrl()
     {
-        $segments = array();
+        $allSegments = array();
         $current = clone $this;
         while (isset($current)) {
-            if(!is_null($current->getSegment()))
-                array_unshift($segments, $current->getSegment());
+            $allSegments = array_merge($current->getSegments(), $allSegments);
             $current = $current->getParent();
         }
-        return implode("/", $segments);
+        return implode("", $allSegments);
     }
 
     /**
@@ -55,11 +60,6 @@ class ResourcePath
     /**
      * @var string $segment
      */
-    protected $segment;
+    protected $name;
 
-
-    /**
-     * @var int
-     */
-    public $Id;
 }

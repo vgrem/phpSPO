@@ -5,6 +5,7 @@
  */
 namespace Office365\SharePoint;
 
+use Office365\Runtime\Paths\EntityResourcePath;
 use Office365\Runtime\ResourcePath;
 /**
  * Specifies 
@@ -22,8 +23,7 @@ class ContentType extends Entity
             $value = $value['StringValue'];
         } else {
             if ($name == "StringId") {
-                $parentPath = $this->parentCollection->getResourcePath();
-                $this->resourcePath = new ResourcePath($parentPath->getSegment() . "('{$value}')", $parentPath->getParent());
+                $this->resourcePath = new EntityResourcePath($value, $this->getParentCollection()->getResourcePath());
             }
         }
         return parent::setProperty($name, $value, $persistChanges);

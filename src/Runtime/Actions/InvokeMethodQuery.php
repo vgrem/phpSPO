@@ -28,26 +28,29 @@ class InvokeMethodQuery extends ClientAction
     /**
      * @return ResourcePath
      */
-    public function getMethodPath(){
-        return new ResourcePathServiceOperation($this->MethodName,$this->MethodParameters);
+    public function getPath(){
+        if ($this->IsStatic) {
+            $request = $this->getContext()->getPendingRequest();
+            $entityTypeName = $request->normalizeTypeName($this->BindingType);
+            $staticName = implode(".",[$entityTypeName, $this->MethodName]);
+            return new ResourcePathServiceOperation($staticName,$this->MethodParameters);
+        }
+        return new ResourcePathServiceOperation($this->MethodName, $this->MethodParameters);
     }
 
     /**
      * @return string
      */
-    public function getActionUrl()
+    public function getUrl()
     {
-        if (!is_null($this->MethodName)) {
-            if ($this->IsStatic) {
-                $request = $this->getContext()->getPendingRequest();
-                $entityTypeName = $request->normalizeTypeName($this->BindingType);
-                $methodUrl = implode(".", array($entityTypeName, $this->getMethodPath()->toUrl()));
-                return implode("", array($this->getContext()->getServiceRootUrl(), $methodUrl));
-            } else {
-                return implode("/", array($this->BindingType->getResourceUrl(), $this->getMethodPath()->toUrl()));
-            }
+        if(is_null($this->MethodName)){
+            return parent::getUrl();
         }
-        return parent::getActionUrl();
+
+        if ($this->IsStatic) {
+            return implode("", [$this->getContext()->getServiceRootUrl(), $this->getPath()->toUrl()]);
+        }
+        return implode("", [$this->BindingType->getResourceUrl(), $this->getPath()->toUrl()]);
     }
 
 

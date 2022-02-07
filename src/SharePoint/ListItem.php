@@ -5,6 +5,7 @@
  */
 namespace Office365\SharePoint;
 
+use Office365\Runtime\Paths\EntityResourcePath;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ServerTypeInfo;
 
@@ -445,6 +446,9 @@ class ListItem extends SecurableObject
         }
         else{
             parent::setProperty($name, $value, $persistChanges);
+        }
+        if($name == "Id" && $this->resourcePath instanceof  EntityResourcePath){
+            $this->resourcePath->setKey($value);
         }
         return $this;
     }

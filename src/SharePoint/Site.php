@@ -44,7 +44,7 @@ class Site extends BaseEntity
     {
         $params = array("LCID" => $lcid, "overrideCompatLevel" => $overrideCompatLevel);
         $qry = new InvokeMethodQuery($this, "GetWebTemplates", $params);
-        $result = new WebTemplateCollection($this->getContext(), $qry->getMethodPath());
+        $result = new WebTemplateCollection($this->getContext(), $qry->getPath());
         $this->getContext()->addQueryAndResultObject($qry, $result);
         return $result;
     }

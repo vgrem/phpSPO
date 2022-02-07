@@ -46,7 +46,7 @@ abstract class ClientAction
      * Build action url
      * @return string
      */
-    public function getActionUrl()
+    public function getUrl()
     {
         return $this->BindingType->getResourceUrl();
     }
@@ -63,7 +63,7 @@ abstract class ClientAction
     public $BindingType;
 
     /**
-     * @var ClientObject
+     * @var ClientObject|ClientResult
      */
     public $ReturnType;
 

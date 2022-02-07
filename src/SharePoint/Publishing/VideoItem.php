@@ -5,6 +5,7 @@
  */
 namespace Office365\SharePoint\Publishing;
 
+use Office365\Runtime\Paths\EntityResourcePath;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\Http\RequestOptions;
@@ -37,8 +38,7 @@ class VideoItem extends Entity
     {
         if ($name == "ID") {
             if (is_null($this->getResourcePath())) {
-                $parentPath = $this->parentCollection->getResourcePath();
-                $this->resourcePath = new ResourcePath($parentPath->getSegment() . "(guid'{$value}')", $parentPath->getParent());
+                $this->resourcePath = new EntityResourcePath($value, $this->getParentCollection()->getResourcePath());
             }
         }
         parent::setProperty($name, $value, $persistChanges);
@@ -56,9 +56,6 @@ class VideoItem extends Entity
      */
     public function getChannelID()
     {
-        if (!$this->isPropertyAvailable("ChannelID")) {
-            return null;
-        }
         return $this->getProperty("ChannelID");
     }
     /**
@@ -73,9 +70,6 @@ class VideoItem extends Entity
      */
     public function getCreatedDate()
     {
-        if (!$this->isPropertyAvailable("CreatedDate")) {
-            return null;
-        }
         return $this->getProperty("CreatedDate");
     }
     /**
@@ -90,9 +84,6 @@ class VideoItem extends Entity
      */
     public function getDefaultEmbedCode()
     {
-        if (!$this->isPropertyAvailable("DefaultEmbedCode")) {
-            return null;
-        }
         return $this->getProperty("DefaultEmbedCode");
     }
     /**
@@ -107,9 +98,6 @@ class VideoItem extends Entity
      */
     public function getDescription()
     {
-        if (!$this->isPropertyAvailable("Description")) {
-            return null;
-        }
         return $this->getProperty("Description");
     }
     /**
@@ -124,9 +112,6 @@ class VideoItem extends Entity
      */
     public function getDisplayFormUrl()
     {
-        if (!$this->isPropertyAvailable("DisplayFormUrl")) {
-            return null;
-        }
         return $this->getProperty("DisplayFormUrl");
     }
     /**
@@ -211,9 +196,6 @@ class VideoItem extends Entity
      */
     public function getThumbnailUrl()
     {
-        if (!$this->isPropertyAvailable("ThumbnailUrl")) {
-            return null;
-        }
         return $this->getProperty("ThumbnailUrl");
     }
     /**

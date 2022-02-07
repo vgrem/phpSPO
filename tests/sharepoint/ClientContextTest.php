@@ -82,9 +82,7 @@ class ClientContextTest extends SharePointTestCase
         $pageAbsUrl = self::$settings["Url"] . "/sites/team/SitePages/Home.aspx";
         $credentials = new UserCredentials(self::$settings['UserName'],self::$settings['Password']);
         $ctx = ClientContext::fromUrl($pageAbsUrl)->withCredentials($credentials);
-        $me = $ctx->getWeb()->getCurrentUser();
-        $ctx->load($me);
-        $ctx->executeQuery();
+        $me = $ctx->getWeb()->getCurrentUser()->get()->executeQuery();
         self::assertNotEmpty($me->getEmail());
     }
 

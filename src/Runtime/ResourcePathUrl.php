@@ -10,12 +10,15 @@ class ResourcePathUrl extends ResourcePath
 {
     public function __construct($url, ResourcePath $parent = null)
     {
-        parent::__construct(rawurlencode($url), $parent);
+        parent::__construct($url, $parent);
     }
 
-    public function toUrl()
+    /**
+     * @return string[]
+     */
+    public function getSegments()
     {
-        return $this->parent->toUrl() . ":/$this->segment:/";
+        return [":/", rawurlencode($this->getName()), ":/"];
     }
 
 }
