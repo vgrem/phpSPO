@@ -6,8 +6,8 @@ namespace Office365\SharePoint;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\ResourcePathServiceOperation;
 
 class ContentTypeCollection extends BaseEntityCollection
 {
@@ -30,7 +30,7 @@ class ContentTypeCollection extends BaseEntityCollection
     {
         $contentType = new ContentType(
             $this->getContext(),
-            new ResourcePathServiceOperation("GetById",array($id),$this->getResourcePath())
+            new ServiceOperationPath("GetById",array($id),$this->getResourcePath())
         );
         $this->addChild($contentType);
         return $contentType;

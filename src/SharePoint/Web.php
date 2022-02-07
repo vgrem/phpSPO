@@ -5,10 +5,11 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ClientResult;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
+use Office365\Runtime\ClientResult;
+use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\ResourcePathServiceOperation;
+
 /**
  * Specifies 
  * a site 
@@ -195,7 +196,7 @@ class Web extends SecurableObject
     public function getFileByServerRelativeUrl($serverRelativeUrl)
     {
         return new File($this->getContext(),
-            new ResourcePathServiceOperation("getFileByServerRelativeUrl",
+            new ServiceOperationPath("getFileByServerRelativeUrl",
                 array(rawurlencode($serverRelativeUrl)), $this->getResourcePath()));
     }
     /**
@@ -207,7 +208,7 @@ class Web extends SecurableObject
     {
         $params = array("decodedUrl" => rawurlencode($serverRelativePath->DecodedUrl));
         return new File($this->getContext(),
-            new ResourcePathServiceOperation("getFileByServerRelativePath", $params,$this->getResourcePath()));
+            new ServiceOperationPath("getFileByServerRelativePath", $params,$this->getResourcePath()));
     }
     /**
      * Returns the folder object located at the specified server-relative URL.
@@ -217,7 +218,7 @@ class Web extends SecurableObject
     public function getFolderByServerRelativeUrl($serverRelativeUrl)
     {
         return new Folder($this->getContext(),
-            new ResourcePathServiceOperation("getFolderByServerRelativeUrl",
+            new ServiceOperationPath("getFolderByServerRelativeUrl",
                 array(rawurlencode($serverRelativeUrl)), $this->getResourcePath()));
     }
     /**
@@ -228,7 +229,7 @@ class Web extends SecurableObject
     public function getFolderByServerRelativePath($serverRelativePath)
     {
         return new Folder($this->getContext(),
-            new ResourcePathServiceOperation("getFolderByServerRelativePath",
+            new ServiceOperationPath("getFolderByServerRelativePath",
                 array("decodedUrl" => rawurlencode($serverRelativePath->DecodedUrl)), $this->getResourcePath()));
     }
     /**

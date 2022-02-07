@@ -3,9 +3,9 @@
 namespace Office365;
 
 use Office365\Runtime\Paths\EntityResourcePath;
+use Office365\Runtime\Paths\ServiceOperationPath;
+use Office365\Runtime\Paths\ResourcePathUrl;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\ResourcePathServiceOperation;
-use Office365\Runtime\ResourcePathUrl;
 use PHPUnit\Framework\TestCase;
 
 
@@ -32,7 +32,7 @@ class ResourcePathTest extends TestCase
 
     function testCreateStaticFunctionPath(){
         $filePath = "archive/2020/sample.docx";
-        $path = new ResourcePathServiceOperation("getFileByServerRelativeUrl", array($filePath),
+        $path = new ServiceOperationPath("getFileByServerRelativeUrl", array($filePath),
             new ResourcePath("Web"));
         self::assertEquals("/Web/getFileByServerRelativeUrl('$filePath')",$path->toUrl());
     }

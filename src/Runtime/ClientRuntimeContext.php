@@ -58,11 +58,13 @@ abstract class ClientRuntimeContext
      * Prepare to load resource
      * @param ClientObject $clientObject
      * @param string[] $includeProperties
+     * @return ClientRuntimeContext
      */
     public function load(ClientObject $clientObject, array $includeProperties = null)
     {
         $qry = new ReadEntityQuery($clientObject,$includeProperties);
         $this->addQueryAndResultObject($qry, $clientObject);
+        return $this;
     }
 
 

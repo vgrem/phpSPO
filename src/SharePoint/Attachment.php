@@ -6,7 +6,7 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\Actions\DeleteEntityQuery;
-use Office365\Runtime\ResourcePathServiceOperation;
+use Office365\Runtime\Paths\ServiceOperationPath;
 
 /**
  * Specifies 
@@ -97,7 +97,7 @@ class Attachment extends BaseEntity
     public function setProperty($name, $value, $persistChanges = true)
     {
         if($name == "ServerRelativeUrl" && is_null($this->getResourcePath())){
-            $this->resourcePath = new ResourcePathServiceOperation("getFileByServerRelativeUrl",
+            $this->resourcePath = new ServiceOperationPath("getFileByServerRelativeUrl",
                 array(rawurlencode($value)), $this->getContext()->getWeb()->getResourcePath());
         }
         return parent::setProperty($name, $value, $persistChanges);

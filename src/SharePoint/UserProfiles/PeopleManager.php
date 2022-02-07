@@ -8,10 +8,10 @@ namespace Office365\SharePoint\UserProfiles;
 
 use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
-use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\ClientResult;
+use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\ResourcePathServiceOperation;
 use Office365\SharePoint\BaseEntity;
 
 class PeopleManager extends BaseEntity
@@ -39,7 +39,7 @@ class PeopleManager extends BaseEntity
     public function getMyProperties()
     {
         return new PersonProperties($this->getContext(),
-            new ResourcePathServiceOperation("getMyProperties",null,$this->getResourcePath()));
+            new ServiceOperationPath("getMyProperties",null,$this->getResourcePath()));
     }
     /**
      * Gets the people who are following the current user.
@@ -48,7 +48,7 @@ class PeopleManager extends BaseEntity
     public function getMyFollowers()
     {
         return new PersonProperties($this->getContext(),
-            new ResourcePathServiceOperation("getMyFollowers",null,$this->getResourcePath()));
+            new ServiceOperationPath("getMyFollowers",null,$this->getResourcePath()));
     }
     /**
      * Adds the specified user to the current user's list of followed users.
@@ -92,7 +92,7 @@ class PeopleManager extends BaseEntity
     public function getFollowersFor($accountName)
     {
         return new PersonPropertiesCollection($this->getContext(),
-            new ResourcePathServiceOperation("getFollowersFor", array(rawurlencode($accountName)),$this->getResourcePath()));
+            new ServiceOperationPath("getFollowersFor", array(rawurlencode($accountName)),$this->getResourcePath()));
     }
     /**
      * Gets the specified user profile property for the specified user.

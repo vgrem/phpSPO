@@ -8,8 +8,8 @@ namespace Office365\SharePoint;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\ResourcePathServiceOperation;
 
 class FieldCollection extends BaseEntityCollection
 {
@@ -42,7 +42,7 @@ class FieldCollection extends BaseEntityCollection
     {
         return new Field(
             $this->getContext(),
-            new ResourcePathServiceOperation("getByTitle",array($title),$this->getResourcePath())
+            new ServiceOperationPath("getByTitle",array($title),$this->getResourcePath())
         );
     }
 
@@ -54,7 +54,7 @@ class FieldCollection extends BaseEntityCollection
     {
         return new Field(
             $this->getContext(),
-            new ResourcePathServiceOperation("getByInternalNameOrTitle",array($internalNameOrTitle),$this->getResourcePath())
+            new ServiceOperationPath("getByInternalNameOrTitle",array($internalNameOrTitle),$this->getResourcePath())
         );
     }
 }

@@ -18,12 +18,12 @@ use Office365\OneDrive\SharepointIds;
 use Office365\OneDrive\Shares\Shared;
 use Office365\OneDrive\Workbooks\Workbook;
 use Office365\Runtime\Actions\DeleteEntityQuery;
-use Office365\Runtime\Http\HttpMethod;
-use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
+use Office365\Runtime\Http\HttpMethod;
+use Office365\Runtime\Http\RequestOptions;
+use Office365\Runtime\Paths\ResourcePathUrl;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\ResourcePathUrl;
 
 /**
  *  Item is the main data model in the OneDrive API. Everything is an item.

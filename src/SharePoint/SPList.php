@@ -9,8 +9,8 @@ use Office365\Runtime\Actions\CreateEntityQuery;
 use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\Paths\EntityResourcePath;
+use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\ResourcePathServiceOperation;
 use Office365\Runtime\ServerTypeInfo;
 
 /**
@@ -1439,7 +1439,7 @@ class SPList extends SecurableObject
     {
         if (is_null($this->resourcePath)) {
             if ($name === "Id") {
-                $this->resourcePath = new ResourcePathServiceOperation("GetById", array($value), $this->parentCollection->resourcePath);
+                $this->resourcePath = new ServiceOperationPath("GetById", array($value), $this->parentCollection->resourcePath);
             }
         }
         return parent::setProperty($name, $value, $persistChanges);

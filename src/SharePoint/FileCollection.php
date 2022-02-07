@@ -4,8 +4,8 @@ namespace Office365\SharePoint;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\ResourcePathServiceOperation;
 
 
 /**
@@ -68,7 +68,7 @@ class FileCollection extends BaseEntityCollection
      * @return File
      */
     public function getByUrl($serverRelativeUrl){
-        $path = new ResourcePathServiceOperation("getByUrl",array(
+        $path = new ServiceOperationPath("getByUrl",array(
             rawurlencode($serverRelativeUrl)
         ),$this->getResourcePath());
         return new File($this->getContext(),$path);

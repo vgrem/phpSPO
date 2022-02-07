@@ -17,15 +17,16 @@ $credentials = new ClientCredential($settings['ClientId'], $settings['ClientSecr
 $siteUrl = $settings['TeamSiteUrl'];
 $ctx = (new ClientContext($siteUrl))->withCredentials($credentials);
 
+
+
 $list = $ctx->getWeb()->getLists()->getByTitle("Tasks");
 $taskProps = array(
     'Title' => "New task N#" . rand(1, 100000)
+
 );
 $listItem = $list->addItem($taskProps);
 
 $localPath = "../../data/SharePoint User Guide.docx";
-$info = new AttachmentCreationInformation();
-$info->FileName = basename($localPath);
-$info->ContentStream = file_get_contents($localPath);
-$attachment = $listItem->getAttachmentFiles()->add($info)->executeQuery();
+$listItem->getAttachmentFiles()->add($localPath)->executeQuery();
+
 

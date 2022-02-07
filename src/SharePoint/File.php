@@ -6,17 +6,18 @@
 namespace Office365\SharePoint;
 
 use Exception;
-use Office365\Runtime\ClientResult;
-use Office365\Runtime\Http\RequestException;
 use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
+use Office365\Runtime\ClientResult;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\Http\HttpMethod;
-use Office365\Runtime\ResourcePath;
-use Office365\Runtime\ResourcePathServiceOperation;
-use Office365\Runtime\Types\Guid;
+use Office365\Runtime\Http\RequestException;
 use Office365\Runtime\Http\RequestOptions;
+use Office365\Runtime\Paths\ServiceOperationPath;
+use Office365\Runtime\ResourcePath;
+use Office365\Runtime\Types\Guid;
 use Office365\SharePoint\WebParts\LimitedWebPartManager;
+
 /**
  * Represents 
  * a file in a site (2) that can be 
@@ -228,7 +229,7 @@ class File extends SecurableObject
      */
     public function getLimitedWebPartManager($scope)
     {
-        return new LimitedWebPartManager($this->getContext(), new ResourcePathServiceOperation("getLimitedWebPartManager", array($scope), $this->getResourcePath()));
+        return new LimitedWebPartManager($this->getContext(), new ServiceOperationPath("getLimitedWebPartManager", array($scope), $this->getResourcePath()));
     }
     /**
      * Returns IRM settings for given file.

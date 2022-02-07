@@ -5,7 +5,8 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ResourcePathServiceOperation;
+use Office365\Runtime\Paths\ServiceOperationPath;
+
 /**
  * Specifies 
  * a base type that represents a user or group that can be 
@@ -123,7 +124,7 @@ class Principal extends Entity
         parent::setProperty($name, $value, $persistChanges);
         if (is_null($this->resourcePath)) {
             if ($name === "Id") {
-                $this->resourcePath = new ResourcePathServiceOperation("GetById", array($value), $this->parentCollection->resourcePath);
+                $this->resourcePath = new ServiceOperationPath("GetById", array($value), $this->parentCollection->resourcePath);
             }
         }
         return $this;

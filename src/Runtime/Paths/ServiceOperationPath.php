@@ -1,15 +1,18 @@
 <?php
 
 
-namespace Office365\Runtime;
+namespace Office365\Runtime\Paths;
 use Exception;
+use Office365\Runtime\ClientObject;
+use Office365\Runtime\ClientValue;
 use Office365\Runtime\CSOM\ICSOMCallable;
+use Office365\Runtime\ResourcePath;
 use SimpleXMLElement;
 
 /**
  * Resource path to address Service Operations which represents simple functions exposed by an OData service
  */
-class ResourcePathServiceOperation extends ResourcePath implements ICSOMCallable
+class ServiceOperationPath extends ResourcePath implements ICSOMCallable
 {
     /**
      * ResourcePathMethod constructor.

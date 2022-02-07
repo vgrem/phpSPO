@@ -5,7 +5,7 @@
  */
 namespace Office365\SharePoint;
 
-use Office365\Runtime\ResourcePathServiceOperation;
+use Office365\Runtime\Paths\ServiceOperationPath;
 
 /**
  * Defines a 
@@ -207,7 +207,7 @@ class RoleDefinition extends Entity
     public function setProperty($name, $value, $persistChanges = true)
     {
         if($name == "Id" && is_null($this->resourcePath)){
-            $this->resourcePath = new ResourcePathServiceOperation(
+            $this->resourcePath = new ServiceOperationPath(
                 "GetById",
                 array($value),
                 $this->parentCollection->getResourcePath());

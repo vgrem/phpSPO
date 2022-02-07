@@ -9,8 +9,8 @@ namespace Office365\SharePoint;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\ResourcePathServiceOperation;
 
 class UserCollection extends BaseEntityCollection
 {
@@ -46,7 +46,7 @@ class UserCollection extends BaseEntityCollection
      */
     public function getById($id)
     {
-        $path = new ResourcePathServiceOperation("getById",array($id),$this->getResourcePath());
+        $path = new ServiceOperationPath("getById",array($id),$this->getResourcePath());
         return new User($this->getContext(),$path);
     }
 
@@ -57,7 +57,7 @@ class UserCollection extends BaseEntityCollection
      */
     public function getByEmail($emailAddress)
     {
-        $path = new ResourcePathServiceOperation("getByEmail",array($emailAddress),$this->getResourcePath());
+        $path = new ServiceOperationPath("getByEmail",array($emailAddress),$this->getResourcePath());
         return new User($this->getContext(),$path);
     }
 
@@ -68,7 +68,7 @@ class UserCollection extends BaseEntityCollection
     public function getByLoginName($loginName)
     {
         return new User($this->getContext(),
-            new ResourcePathServiceOperation("getByLoginName",array($loginName),$this->getResourcePath()));
+            new ServiceOperationPath("getByLoginName",array($loginName),$this->getResourcePath()));
     }
 
 

@@ -8,8 +8,8 @@ namespace Office365\SharePoint;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\ResourcePathServiceOperation;
 
 /**
  * Represents a collection of Group resources.
@@ -52,7 +52,7 @@ class GroupCollection extends BaseEntityCollection
     {
         return new Group(
             $this->getContext(),
-            new ResourcePathServiceOperation("getById", array($id),$this->getResourcePath())
+            new ServiceOperationPath("getById", array($id),$this->getResourcePath())
         );
     }
 
@@ -66,7 +66,7 @@ class GroupCollection extends BaseEntityCollection
     {
         return new Group(
             $this->getContext(),
-            new ResourcePathServiceOperation( "getByName", array(rawurlencode($name)), $this->getResourcePath())
+            new ServiceOperationPath( "getByName", array(rawurlencode($name)), $this->getResourcePath())
         );
     }
 

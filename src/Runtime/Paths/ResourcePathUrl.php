@@ -1,7 +1,9 @@
 <?php
 
 
-namespace Office365\Runtime;
+namespace Office365\Runtime\Paths;
+
+use Office365\Runtime\ResourcePath;
 
 /**
  * Resource path for OneDrive path-based addressing

@@ -5,6 +5,7 @@
  */
 namespace Office365\SharePoint;
 
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\Paths\EntityResourcePath;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ServerTypeInfo;
@@ -454,6 +455,7 @@ class ListItem extends SecurableObject
     }
 
     /**
+     * Sets field values and creates a new version if versioning is enabled for the list
      * @return ListItem
      */
     public function update()
@@ -461,6 +463,29 @@ class ListItem extends SecurableObject
         $this->ensureTypeName($this->getParentList());
         return parent::update();
     }
+
+
+    /**
+     * Updates the database with changes made to the list item.
+     * @return $this
+     */
+    public function systemUpdate(){
+        $qry = new InvokePostMethodQuery($this, "SystemUpdate");
+        $this->getContext()->addQuery($qry);
+        return $this;
+    }
+
+
+    /**
+     * Updates the item without creating another version of the item.
+     * @return $this
+     */
+    public function updateOverwriteVersion(){
+        $qry = new InvokePostMethodQuery($this, "UpdateOverwriteVersion");
+        $this->getContext()->addQuery($qry);
+        return $this;
+    }
+
 
     /**
      * @var string

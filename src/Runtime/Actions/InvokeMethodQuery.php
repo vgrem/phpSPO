@@ -5,8 +5,8 @@ namespace Office365\Runtime\Actions;
 
 
 use Office365\Runtime\ClientObject;
+use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
-use Office365\Runtime\ResourcePathServiceOperation;
 
 
 class InvokeMethodQuery extends ClientAction
@@ -33,9 +33,9 @@ class InvokeMethodQuery extends ClientAction
             $request = $this->getContext()->getPendingRequest();
             $entityTypeName = $request->normalizeTypeName($this->BindingType);
             $staticName = implode(".",[$entityTypeName, $this->MethodName]);
-            return new ResourcePathServiceOperation($staticName,$this->MethodParameters);
+            return new ServiceOperationPath($staticName,$this->MethodParameters);
         }
-        return new ResourcePathServiceOperation($this->MethodName, $this->MethodParameters);
+        return new ServiceOperationPath($this->MethodName, $this->MethodParameters);
     }
 
     /**
