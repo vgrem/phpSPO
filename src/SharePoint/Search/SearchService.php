@@ -2,6 +2,7 @@
 
 
 namespace Office365\SharePoint\Search;
+use Office365\Runtime\ClientResult;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
@@ -21,10 +22,10 @@ class SearchService extends BaseEntity
     /**
      * Constructs a search query.
      * @param SearchRequest $request
-     * @return SearchResult
+     * @return ClientResult
      */
     public function postQuery(SearchRequest $request){
-        $result = new SearchResult();
+        $result = new ClientResult($this->getContext(), new SearchResult());
         $qry = new InvokePostMethodQuery($this, "postquery",null,"request", $request);
         $this->getContext()->addQueryAndResultObject($qry,$result);
         return $result;

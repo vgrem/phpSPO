@@ -10,9 +10,10 @@ use Office365\Runtime\ClientValue;
 
 class FieldLookupValue extends ClientValue
 {
-    public function __construct($LookupId)
+    public function __construct($LookupId=null, $LookupValue=null)
     {
         $this->LookupId = $LookupId;
+        $this->LookupValue =  $LookupValue;
         parent::__construct();
     }
 

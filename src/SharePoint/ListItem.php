@@ -6,6 +6,8 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\Actions\InvokePostMethodQuery;
+use Office365\Runtime\ClientResult;
+use Office365\Runtime\ClientValueCollection;
 use Office365\Runtime\Paths\EntityResourcePath;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ServerTypeInfo;
@@ -484,6 +486,42 @@ class ListItem extends SecurableObject
         $qry = new InvokePostMethodQuery($this, "UpdateOverwriteVersion");
         $this->getContext()->addQuery($qry);
         return $this;
+    }
+
+    /**
+     * Validates and sets the values of the specified collection of fields (2) for the list item and,
+     * if successfully validated, commits all changes. Returns the modified list of values
+     * with updated exception information.
+     * @param array $formValues Specifies a collection of field internal names and values for the given field (2).
+     * @param bool $newDocumentUpdate
+     * @param string|null $checkInComment
+     * @param bool $datesInUTC
+     * @return ClientResult
+     */
+    public function validateUpdateListItem($formValues,
+                                           $newDocumentUpdate=false,
+                                           $checkInComment=null,
+                                           $datesInUTC=false,
+                                           $numberInInvariantCulture=false)
+    {
+
+        $normalizedFormValues = array_map(function ($k, $v) {
+                return new ListItemFormUpdateValue($k, $v);
+            }, array_keys($formValues), array_values($formValues));
+
+        $payload = array(
+            "formValues" => $normalizedFormValues,
+            "bNewDocumentUpdate" => $newDocumentUpdate,
+            "checkInComment" => $checkInComment,
+            "datesInUTC" => $datesInUTC,
+            "numberInInvariantCulture" => $numberInInvariantCulture
+        );
+        $result = new ClientResult($this->getContext(),
+            new ClientValueCollection(ListItemFormUpdateValue::class));
+        $qry = new InvokePostMethodQuery($this, "ValidateUpdateListItem",
+            null, null, $payload);
+        $this->getContext()->addQueryAndResultObject($qry, $result);
+        return $result;
     }
 
 

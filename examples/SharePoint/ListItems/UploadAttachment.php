@@ -18,15 +18,30 @@ $siteUrl = $settings['TeamSiteUrl'];
 $ctx = (new ClientContext($siteUrl))->withCredentials($credentials);
 
 
+$user = $ctx->getWeb()->getSiteUsers()->getByEmail($settings['TestAccountName'])->get()->executeQuery();
+
 
 $list = $ctx->getWeb()->getLists()->getByTitle("Tasks");
-$taskProps = array(
-    'Title' => "New task N#" . rand(1, 100000)
 
+//create list item
+$taskProps = array(
+    'Title' => "New task N#" . rand(1, 100000),
 );
 $listItem = $list->addItem($taskProps);
 
+//add attachment
 $localPath = "../../data/SharePoint User Guide.docx";
-$listItem->getAttachmentFiles()->add($localPath)->executeQuery();
+$listItem->getAttachmentFiles()->add($localPath);
+
+//update list item system metadata
+$fieldValues = array(
+    'Editor' => new FieldUserValue($user->get(),$user->getLoginName()),
+    'Author' => new FieldUserValue($user->get(),$user->getLoginName()),
+);
+$listItem->validateUpdateListItem($fieldValues)->executeQuery();
+
+
+
+
 
 

@@ -20,6 +20,7 @@ class FieldUserValue extends FieldLookupValue
         $value = new FieldUserValue(-1);
         $user->ensureProperty("Id",function () use($value, $user){
             $value->LookupId = $user->getId();
+            $value->LookupValue = $user->getLoginName();
         });
         return $value;
     }

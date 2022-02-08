@@ -13,6 +13,25 @@ use Office365\Runtime\ClientValue;
  */
 class ListItemFormUpdateValue extends ClientValue
 {
+
+    public function __construct($name,$value)
+    {
+        parent::__construct();
+        $this->FieldName = $name;
+        $this->FieldValue = $value;
+    }
+
+
+    public function toJson()
+    {
+        $json = parent::toJson();
+        $value = $json['FieldValue'];
+        if($value instanceof  FieldLookupValue){
+            $json['FieldValue'] = "[{'Key':'$value->LookupValue'}]";
+        }
+        return $json;
+    }
+
     /**
      * Specifies 
      * the error message result after validating the value for the field (2).
