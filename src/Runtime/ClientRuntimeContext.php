@@ -63,7 +63,7 @@ abstract class ClientRuntimeContext
     public function load(ClientObject $clientObject, array $includeProperties = null)
     {
         $qry = new ReadEntityQuery($clientObject,$includeProperties);
-        $this->addQueryAndResultObject($qry, $clientObject);
+        $this->getPendingRequest()->addQueryAndResultObject($qry, $clientObject);
         return $this;
     }
 
@@ -80,11 +80,11 @@ abstract class ClientRuntimeContext
 
     /**
      * @param ClientAction $query
-     * @param bool $toBegin
+     * @param bool $executeFirst
      */
-    public function addQuery(ClientAction $query,$toBegin=false)
+    public function addQuery(ClientAction $query, $executeFirst=false)
     {
-        $this->getPendingRequest()->addQuery($query,$toBegin);
+        $this->getPendingRequest()->addQuery($query,$executeFirst);
     }
 
     /**

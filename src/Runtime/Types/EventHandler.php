@@ -14,14 +14,10 @@ class EventHandler
     /**
      * @param callable $callback
      * @param bool $once
-     * @param bool $toBegin
      */
-    public function addEvent(callable $callback, $once=false, $toBegin=false)
+    public function addEvent(callable $callback, $once=false)
     {
-        if($toBegin)
-            array_unshift($this->events , array("target" => $callback, "once" => $once));
-        else
-            $this->events[] = array("target" => $callback, "once" => $once);
+        $this->events[] = array("target" => $callback, "once" => $once);
     }
 
     /**

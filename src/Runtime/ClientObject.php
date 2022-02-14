@@ -2,6 +2,8 @@
 
 namespace Office365\Runtime;
 
+use Exception;
+use Office365\Runtime\Actions\ReadEntityQuery;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\OData\ODataQueryOptions;
 
@@ -33,7 +35,7 @@ class ClientObject
     protected $changes = array();
 
     /**
-     * @var self
+     * @var ClientObjectCollection
      */
     protected $parentCollection;
 
@@ -103,7 +105,7 @@ class ClientObject
      * @param int $retryCount
      * @param int $delaySecs
      * @return self
-     * @throws \Exception
+     * @throws Exception
      */
     public function executeQueryRetry($retryCount=3,$delaySecs=10){
         $this->getContext()->executeQueryRetry($retryCount,$delaySecs);
@@ -326,10 +328,10 @@ class ClientObject
         if(count($result) === 0) {
             if(is_callable($loadedCallback)) call_user_func($loadedCallback, $this);
         } else {
-            $this->getContext()->load($this, $propNames);
-            $query = $this->getContext()->getCurrentQuery();
-            $this->getContext()->afterExecuteQuery(function ($curQuery) use ($query, $loadedCallback){
-                if($curQuery->getId() == $query->getId())
+            $qry = new ReadEntityQuery($this, $propNames);
+            $this->getContext()->addQueryAndResultObject($qry, $this);
+            $this->getContext()->afterExecuteQuery(function ($activeQuery) use ($qry,$loadedCallback){
+                if($activeQuery->getId() == $qry->getId())
                     if(is_callable($loadedCallback)) call_user_func($loadedCallback, $this);
             });
         }

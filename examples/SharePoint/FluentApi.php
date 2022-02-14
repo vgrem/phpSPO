@@ -4,7 +4,7 @@ use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ClientContext;
 
 
-$settings = include('../../Settings.php');
+$settings = include(__DIR__ . './../../tests/Settings.php');
 require_once '../vendor/autoload.php';
 
 $credentials = new ClientCredential($settings['ClientId'], $settings['ClientSecret']);

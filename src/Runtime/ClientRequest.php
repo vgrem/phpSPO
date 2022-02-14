@@ -98,7 +98,6 @@ abstract class ClientRequest
             array_unshift($this->queries , $query);
         else
             $this->queries[] = $query;
-        $this->currentQuery = $query;
     }
 
     /**
@@ -108,26 +107,24 @@ abstract class ClientRequest
     public function addQueryAndResultObject(ClientAction $query, $resultObject = null)
     {
         $query->ReturnType = $resultObject;
-        $this->addQuery($query);
+        $this->addQuery($query,false);
     }
 
 
     /**
      * @param callable $event
-     * @param bool $toBegin
      */
-    public function beforeExecuteRequest(callable $event, $toBegin=false)
+    public function beforeExecuteRequest(callable $event)
     {
-        $this->beforeExecute->addEvent($event,false,$toBegin);
+        $this->beforeExecute->addEvent($event,false);
     }
 
     /**
      * @param callable $event
-     * @param false $toBegin
      */
-    public function beforeExecuteRequestOnce(callable $event, $toBegin=false)
+    public function beforeExecuteRequestOnce(callable $event)
     {
-        $this->beforeExecute->addEvent($event,true,$toBegin);
+        $this->beforeExecute->addEvent($event,true);
     }
 
     /**

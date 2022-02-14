@@ -35,8 +35,8 @@ $listItem->getAttachmentFiles()->add($localPath);
 
 //update list item system metadata
 $fieldValues = array(
-    'Editor' => new FieldUserValue($user->get(),$user->getLoginName()),
-    'Author' => new FieldUserValue($user->get(),$user->getLoginName()),
+    'Editor' => FieldUserValue::fromUser($user),
+    'Author' => FieldUserValue::fromUser($user),
 );
 $listItem->validateUpdateListItem($fieldValues)->executeQuery();
 
