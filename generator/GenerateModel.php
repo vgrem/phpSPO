@@ -125,8 +125,7 @@ function syncSharePointMetadataFile($fileName){
         file_put_contents($options['metadataPath'],$contents);
         $options['version'] = $latestVersion;
         $options['timestamp'] = date('c');
-        //file_put_contents($fileName,json_encode($options,JSON_PRETTY_PRINT));
-        file_put_contents($fileName,json_encode($options));
+        file_put_contents($fileName,json_encode($options,JSON_PRETTY_PRINT));
     }
 }
 
