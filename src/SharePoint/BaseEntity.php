@@ -8,7 +8,7 @@ use Office365\Runtime\Auth\UserCredentials;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\OData\ODataQueryOptions;
-use Office365\Runtime\Paths\EntityResourcePath;
+use Office365\Runtime\Paths\EntityPath;
 use Office365\Runtime\ResourcePath;
 
 /**
@@ -48,7 +48,7 @@ class BaseEntity extends ClientObject
         //fallback: determine entity by Id
         if ($name === "Id") {
             if (is_null($this->getResourcePath())) {
-                $this->resourcePath = new EntityResourcePath($value, $this->getParentCollection()->getResourcePath());
+                $this->resourcePath = new EntityPath($value, $this->getParentCollection()->getResourcePath());
             }
         }
         parent::setProperty($name, $value, $persistChanges);

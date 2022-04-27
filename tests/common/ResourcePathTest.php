@@ -2,7 +2,7 @@
 
 namespace Office365;
 
-use Office365\Runtime\Paths\EntityResourcePath;
+use Office365\Runtime\Paths\EntityPath;
 use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\Paths\ResourcePathUrl;
 use Office365\Runtime\ResourcePath;
@@ -19,7 +19,7 @@ class ResourcePathTest extends TestCase
     }
 
     function testCreateSingleEntityPath(){
-        $path = new EntityResourcePath(1, new ResourcePath("SiteUsers",new ResourcePath("Web")));
+        $path = new EntityPath(1, new ResourcePath("SiteUsers",new ResourcePath("Web")));
         self::assertEquals("/Web/SiteUsers(1)",$path->toUrl());
     }
 

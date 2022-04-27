@@ -5,8 +5,7 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\Paths\EntityResourcePath;
-use Office365\Runtime\ResourcePath;
+use Office365\Runtime\Paths\EntityPath;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\ServerTypeInfo;
@@ -38,7 +37,7 @@ class VideoItem extends Entity
     {
         if ($name == "ID") {
             if (is_null($this->getResourcePath())) {
-                $this->resourcePath = new EntityResourcePath($value, $this->getParentCollection()->getResourcePath());
+                $this->resourcePath = new EntityPath($value, $this->getParentCollection()->getResourcePath());
             }
         }
         parent::setProperty($name, $value, $persistChanges);

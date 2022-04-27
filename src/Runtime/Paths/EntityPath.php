@@ -7,7 +7,7 @@ use Office365\Runtime\ResourcePath;
 /**
  *  Resource path for addressing a single entity
  */
-class EntityResourcePath extends ResourcePath
+class EntityPath extends ResourcePath
 {
 
     /**

@@ -8,7 +8,7 @@ namespace Office365\SharePoint;
 use Office365\Runtime\Actions\CreateEntityQuery;
 use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
-use Office365\Runtime\Paths\EntityResourcePath;
+use Office365\Runtime\Paths\EntityPath;
 use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ServerTypeInfo;
@@ -36,7 +36,7 @@ class SPList extends SecurableObject
     public function addItem(array $listItemCreationInformation)
     {
         $items = new ListItemCollection($this->getContext(), new ResourcePath("items", $this->getResourcePath()));
-        $listItem = new ListItem($this->getContext(), new EntityResourcePath(null,$items->getResourcePath()));
+        $listItem = new ListItem($this->getContext(), new EntityPath(null,$items->getResourcePath()));
         $listItem->setProperty("ParentList", $this, false);
         $items->addChild($listItem);
         foreach ($listItemCreationInformation as $key => $value) {

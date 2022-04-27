@@ -8,10 +8,11 @@ namespace Office365\SharePoint;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientResult;
 use Office365\Runtime\ClientValueCollection;
-use Office365\Runtime\Paths\EntityResourcePath;
+use Office365\Runtime\Paths\EntityPath;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ServerTypeInfo;
 use Office365\SharePoint\Taxonomy\TaxonomyFieldValue;
+use Office365\SharePoint\Taxonomy\TaxonomyFieldValueCollection;
 
 /**
  * Specifies 
@@ -448,13 +449,13 @@ class ListItem extends SecurableObject
             parent::setProperty("{$name}Id", $value->LookupId, true);
             parent::setProperty($name, $value, false);
         }
-        elseif($value instanceof TaxonomyFieldValue){
+        elseif($value instanceof TaxonomyFieldValue || $value instanceof TaxonomyFieldValueCollection){
            $this->setTaxonomyFieldValue($name, $value);
         }
         else{
             parent::setProperty($name, $value, $persistChanges);
         }
-        if($name == "Id" && $this->resourcePath instanceof  EntityResourcePath){
+        if($name == "Id" && $this->resourcePath instanceof  EntityPath){
             $this->resourcePath->setKey($value);
         }
         return $this;
