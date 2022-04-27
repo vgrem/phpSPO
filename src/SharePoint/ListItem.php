@@ -11,6 +11,7 @@ use Office365\Runtime\ClientValueCollection;
 use Office365\Runtime\Paths\EntityResourcePath;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ServerTypeInfo;
+use Office365\SharePoint\Taxonomy\TaxonomyFieldValue;
 
 /**
  * Specifies 
@@ -447,6 +448,9 @@ class ListItem extends SecurableObject
             parent::setProperty("{$name}Id", $value->LookupId, true);
             parent::setProperty($name, $value, false);
         }
+        elseif($value instanceof TaxonomyFieldValue){
+           $this->setTaxonomyFieldValue($name, $value);
+        }
         else{
             parent::setProperty($name, $value, $persistChanges);
         }
@@ -454,6 +458,22 @@ class ListItem extends SecurableObject
             $this->resourcePath->setKey($value);
         }
         return $this;
+    }
+
+
+    /**
+     * @param string $name
+     * @param string $value
+     */
+    private function setTaxonomyFieldValue($name, $value){
+        $taxField = $this->getParentList()->getFields()->getByInternalNameOrTitle($name);
+        $taxField->ensureProperty("TextField", function () use ($taxField, $value){
+            $taxTextField = $this->getParentList()->getFields()->getById($taxField->getProperty("TextField"));
+            $taxTextField->ensureProperty("StaticName", function () use($taxTextField, $value){
+                $this->setProperty($taxTextField->getStaticName(), (string)$value);
+                $this->update();
+            });
+        });
     }
 
     /**

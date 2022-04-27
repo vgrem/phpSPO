@@ -57,4 +57,16 @@ class FieldCollection extends BaseEntityCollection
             new ServiceOperationPath("getByInternalNameOrTitle",array($internalNameOrTitle),$this->getResourcePath())
         );
     }
+
+    /**
+     * @param string $id
+     * @return Field
+     */
+    public function getById($id)
+    {
+        return new Field(
+            $this->getContext(),
+            new ServiceOperationPath("getById",array($id),$this->getResourcePath())
+        );
+    }
 }

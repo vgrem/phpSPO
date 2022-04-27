@@ -37,6 +37,7 @@ class SPList extends SecurableObject
     {
         $items = new ListItemCollection($this->getContext(), new ResourcePath("items", $this->getResourcePath()));
         $listItem = new ListItem($this->getContext(), new EntityResourcePath(null,$items->getResourcePath()));
+        $listItem->setProperty("ParentList", $this, false);
         $items->addChild($listItem);
         foreach ($listItemCreationInformation as $key => $value) {
             $listItem->setProperty($key, $value);
