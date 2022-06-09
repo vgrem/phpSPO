@@ -8,7 +8,7 @@ use Office365\SharePoint\ClientContext;
 $settings = include('../../Settings.php');
 require_once '../vendor/autoload.php';
 
-$sourceFileUrl = rawurlencode("/Shared Documents/SharePoint User Guide.docx");
+$sourceFileUrl = "/Shared Documents/SharePoint User Guide.docx";
 $targetPath = "../data/SharePoint User Guide.docx";
 
 $appCreds = new ClientCredential($settings['ClientId'], $settings['ClientSecret']);
