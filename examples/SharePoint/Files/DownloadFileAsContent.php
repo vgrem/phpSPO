@@ -5,10 +5,10 @@ use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ClientContext;
 
 
-$settings = include('../../Settings.php');
-require_once '../vendor/autoload.php';
+require_once '../../vendor/autoload.php';
+$settings = include('../../../tests/Settings.php');
 
-$sourceFileUrl = rawurlencode("/Shared Documents/SharePoint User Guide.docx");
+$sourceFileUrl = "/Shared Documents/SharePoint User Guide.docx";
 $targetPath = "../data/SharePoint User Guide.docx";
 
 $appCreds = new ClientCredential($settings['ClientId'], $settings['ClientSecret']);

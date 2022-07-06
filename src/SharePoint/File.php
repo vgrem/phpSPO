@@ -190,7 +190,7 @@ class File extends SecurableObject
     public static function openBinary(ClientRuntimeContext $ctx, $serverRelativeUrl)
     {
         $serverRelativeUrl = rawurlencode($serverRelativeUrl);
-        $url = $ctx->getServiceRootUrl() . "web/getfilebyserverrelativeurl('{$serverRelativeUrl}')/\$value";
+        $url = $ctx->getServiceRootUrl() . "/web/getfilebyserverrelativeurl('{$serverRelativeUrl}')/\$value";
         $options = new RequestOptions($url);
         $options->TransferEncodingChunkedAllowed = true;
         $response = $ctx->executeQueryDirect($options);
@@ -210,7 +210,7 @@ class File extends SecurableObject
     public static function saveBinary(ClientRuntimeContext $ctx, $serverRelativeUrl, $content)
     {
         $serverRelativeUrl = rawurlencode($serverRelativeUrl);
-        $url = $ctx->getServiceRootUrl() . "web/getfilebyserverrelativeurl('{$serverRelativeUrl}')/\$value";
+        $url = $ctx->getServiceRootUrl() . "/web/getfilebyserverrelativeurl('{$serverRelativeUrl}')/\$value";
         $request = new RequestOptions($url);
         $request->Method = HttpMethod::Post;
         $request->ensureHeader('X-HTTP-Method', 'PUT');

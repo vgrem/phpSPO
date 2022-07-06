@@ -4,8 +4,8 @@ use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ClientContext;
 use Office365\SharePoint\File;
 
-$settings = include('../../Settings.php');
-require_once '../vendor/autoload.php';
+require_once '../../vendor/autoload.php';
+$settings = include('../../../tests/Settings.php');
 
 $appCreds = new ClientCredential($settings['ClientId'], $settings['ClientSecret']);
 $ctx = (new ClientContext($settings['Url']))->withCredentials($appCreds);
@@ -20,8 +20,7 @@ foreach ($files as $file) {
     try {
         $fileName = join(DIRECTORY_SEPARATOR, [sys_get_temp_dir(), $file->getName()]);
         $fh = fopen($fileName, 'w+');
-        $file->download($fh);
-        $ctx->executeQuery();
+        $file->download($fh)->executeQuery();
         fclose($fh);
         print "File {$fileName} has been downloaded successfully\r\n";
     } catch (Exception $e) {
