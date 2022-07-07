@@ -91,10 +91,14 @@ class AADTokenProvider extends BaseTokenProvider
      * @param string $resource
      * @param string $clientId
      * @param UserCredentials $userCredentials
+     * 
+     * @param FALSE|string $clientSecret
+     * Use $clientSecret in case your app is a confidential client.
+     * 
      * @throws Exception Resource owner password credential (ROPC) grant
      * (https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc)
      */
-    public function acquireTokenForPassword($resource, $clientId, $userCredentials)
+    public function acquireTokenForPassword($resource, $clientId, $userCredentials, $clientSecret = FALSE)
     {
         $parameters = array(
             'grant_type' => 'password',
@@ -103,6 +107,11 @@ class AADTokenProvider extends BaseTokenProvider
             'password' => $userCredentials->Password,
             'resource' => $resource
         );
+
+        if($clientSecret) {
+            $parameters += array('client_secret' => $clientSecret);
+        }
+
         return $this->acquireToken($parameters);
     }
 
