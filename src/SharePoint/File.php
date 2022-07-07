@@ -54,24 +54,21 @@ class File extends SecurableObject
     public function download($handle)
     {
         $this->ensureProperty("ServerRelativeUrl", function () use($handle) {
-            $this->constructDownloadQuery($this->getServerRelativeUrl(), $handle);
+            $this->constructDownloadQuery($this, $handle);
         });
         return $this;
     }
     /**
-     * @param string $url
+     * @param File $file
      * @param resource $handle
-     * @return InvokeMethodQuery
      */
-    private function constructDownloadQuery($url, $handle)
+    private function constructDownloadQuery($file, $handle)
     {
-        $url = rawurlencode($url);
-        $qry = new InvokeMethodQuery($this->getParentWeb(), "getFileByServerRelativeUrl('{$url}')/\$value");
-        $this->getContext()->addQuery($qry);
+        $file->getContext()->load($file);
         $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function ($request) use($handle) {
+            $request->Url .= "/\$value";
             $request->StreamHandle = $handle;
         });
-        return $qry;
     }
     /**
      * Checks out the file from a document library based on the check-out type.

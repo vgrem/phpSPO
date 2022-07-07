@@ -44,9 +44,6 @@ class ChangeItem extends Change
      */
     public function getContentTypeId()
     {
-        if (!$this->isPropertyAvailable("ContentTypeId")) {
-            return null;
-        }
         return $this->getProperty("ContentTypeId");
     }
     /**
@@ -67,9 +64,6 @@ class ChangeItem extends Change
      */
     public function getEditor()
     {
-        if (!$this->isPropertyAvailable("Editor")) {
-            return null;
-        }
         return $this->getProperty("Editor");
     }
     /**
@@ -88,9 +82,6 @@ class ChangeItem extends Change
      */
     public function getEditorEmailHint()
     {
-        if (!$this->isPropertyAvailable("EditorEmailHint")) {
-            return null;
-        }
         return $this->getProperty("EditorEmailHint");
     }
     /**
@@ -109,9 +100,6 @@ class ChangeItem extends Change
      */
     public function getEditorLoginName()
     {
-        if (!$this->isPropertyAvailable("EditorLoginName")) {
-            return null;
-        }
         return $this->getProperty("EditorLoginName");
     }
     /**
@@ -131,9 +119,6 @@ class ChangeItem extends Change
      */
     public function getFileSystemObjectType()
     {
-        if (!$this->isPropertyAvailable("FileSystemObjectType")) {
-            return null;
-        }
         return $this->getProperty("FileSystemObjectType");
     }
     /**
@@ -154,9 +139,6 @@ class ChangeItem extends Change
      */
     public function getFileType()
     {
-        if (!$this->isPropertyAvailable("FileType")) {
-            return null;
-        }
         return $this->getProperty("FileType");
     }
     /**
@@ -194,9 +176,6 @@ class ChangeItem extends Change
      */
     public function getHidden()
     {
-        if (!$this->isPropertyAvailable("Hidden")) {
-            return null;
-        }
         return $this->getProperty("Hidden");
     }
     /**
@@ -219,9 +198,6 @@ class ChangeItem extends Change
      */
     public function getItemId()
     {
-        if (!$this->isPropertyAvailable("ItemId")) {
-            return null;
-        }
         return $this->getProperty("ItemId");
     }
     /**
@@ -249,9 +225,6 @@ class ChangeItem extends Change
      */
     public function getListId()
     {
-        if (!$this->isPropertyAvailable("ListId")) {
-            return null;
-        }
         return $this->getProperty("ListId");
     }
     /**
@@ -277,9 +250,6 @@ class ChangeItem extends Change
      */
     public function getListTemplate()
     {
-        if (!$this->isPropertyAvailable("ListTemplate")) {
-            return null;
-        }
         return $this->getProperty("ListTemplate");
     }
     /**
@@ -299,9 +269,6 @@ class ChangeItem extends Change
      */
     public function getListTitle()
     {
-        if (!$this->isPropertyAvailable("ListTitle")) {
-            return null;
-        }
         return $this->getProperty("ListTitle");
     }
     /**
@@ -321,9 +288,6 @@ class ChangeItem extends Change
      */
     public function getServerRelativeUrl()
     {
-        if (!$this->isPropertyAvailable("ServerRelativeUrl")) {
-            return null;
-        }
         return $this->getProperty("ServerRelativeUrl");
     }
     /**

@@ -17,6 +17,11 @@ class SPResourcePath extends ClientValue
         parent::__construct();
     }
 
+    public function __toString()
+    {
+        return $this->DecodedUrl;
+    }
+
     /**
      * @var string
      */
