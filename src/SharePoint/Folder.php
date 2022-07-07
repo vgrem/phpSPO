@@ -143,7 +143,7 @@ class Folder extends Entity
     function setProperty($name, $value, $persistChanges = true)
     {
         if ($name == "UniqueId") {
-            $this->resourcePath = new ResourcePath("GetFolderById(guid'{$value}')", new ResourcePath("Web"));
+            $this->resourcePath = $this->getContext()->getWeb()->getFolderById($value)->getResourcePath();
         }
         parent::setProperty($name, $value, $persistChanges);
         return $this;

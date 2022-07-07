@@ -192,6 +192,17 @@ class Web extends SecurableObject
         $params = array("decodedUrl" => rawurlencode($serverRelativePath->DecodedUrl));
         return new File($this->getContext(), new ServiceOperationPath("getFileByServerRelativePath", $params, $this->getResourcePath()));
     }
+
+    /**
+     * Returns the file object with the specified GUID.
+     * @param string uniqueId A GUID that identifies the file object.
+     * @return File
+     */
+    public function getFileById($uniqueId)
+    {
+        return new File($this->getContext(),
+            new ServiceOperationPath("GetFileById", array($uniqueId), $this->getResourcePath()));
+    }
     /**
      * Returns the folder object located at the specified server-relative URL.
      * @param string $serverRelativeUrl The server relative URL of the folder.
@@ -209,6 +220,16 @@ class Web extends SecurableObject
     public function getFolderByServerRelativePath($serverRelativePath)
     {
         return new Folder($this->getContext(), new ServiceOperationPath("getFolderByServerRelativePath", array("decodedUrl" => rawurlencode($serverRelativePath->DecodedUrl)), $this->getResourcePath()));
+    }
+    /**
+     * Returns the folder object with the specified GUID.
+     * @param string uniqueId A GUID that identifies the folder object.
+     * @return Folder
+     */
+    public function getFolderById($uniqueId)
+    {
+        return new Folder($this->getContext(),
+            new ServiceOperationPath("GetFolderById", array($uniqueId), $this->getResourcePath()));
     }
     /**
      * @return ContentTypeCollection

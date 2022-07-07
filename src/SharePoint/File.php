@@ -6,7 +6,6 @@
 namespace Office365\SharePoint;
 
 use Exception;
-use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientResult;
 use Office365\Runtime\ClientRuntimeContext;
@@ -16,6 +15,7 @@ use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Types\Guid;
+use Office365\SharePoint\Internal\Paths\FileContentPath;
 use Office365\SharePoint\WebParts\LimitedWebPartManager;
 
 /**
@@ -177,17 +177,25 @@ class File extends SecurableObject
         $this->getContext()->addQuery($qry);
         return $this;
     }
+
+
     /**
      * Opens the file
-     * @param ClientRuntimeContext $ctx
-     * @param $serverRelativeUrl
+     * @param ClientContext $ctx
+     * @param string $serverRelativeUrl
+     * @param  bool $usePath
      * @return mixed|string
      * @throws Exception
      */
-    public static function openBinary(ClientRuntimeContext $ctx, $serverRelativeUrl)
+    public static function openBinary(ClientRuntimeContext $ctx, $serverRelativeUrl, $usePath=true)
     {
-        $serverRelativeUrl = rawurlencode($serverRelativeUrl);
-        $url = $ctx->getServiceRootUrl() . "/web/getfilebyserverrelativeurl('{$serverRelativeUrl}')/\$value";
+        $file = new File($ctx);
+        if($usePath)
+            $file->setProperty("ServerRelativePath",new SPResourcePath($serverRelativeUrl));
+        else
+            $file->setProperty("ServerRelativeUrl",$serverRelativeUrl);
+        $contentPath = new FileContentPath($file->getResourcePath());
+        $url = $ctx->getServiceRootUrl() . $contentPath->toUrl();
         $options = new RequestOptions($url);
         $options->TransferEncodingChunkedAllowed = true;
         $response = $ctx->executeQueryDirect($options);
@@ -199,15 +207,21 @@ class File extends SecurableObject
     /**
      * Saves the file
      * Note: it is supported to update the existing file only. For adding a new file see FileCollection.add method
-     * @param ClientRuntimeContext $ctx
+     * @param ClientContext $ctx
      * @param string $serverRelativeUrl
      * @param string $content file content
+     * @param  bool $usePath
      * @throws Exception
      */
-    public static function saveBinary(ClientRuntimeContext $ctx, $serverRelativeUrl, $content)
+    public static function saveBinary(ClientRuntimeContext $ctx, $serverRelativeUrl, $content, $usePath=true)
     {
-        $serverRelativeUrl = rawurlencode($serverRelativeUrl);
-        $url = $ctx->getServiceRootUrl() . "/web/getfilebyserverrelativeurl('{$serverRelativeUrl}')/\$value";
+        $file = new File($ctx);
+        if($usePath)
+            $file->setProperty("ServerRelativePath",new SPResourcePath($serverRelativeUrl));
+        else
+            $file->setProperty("ServerRelativeUrl",$serverRelativeUrl);
+        $contentPath = new FileContentPath($file->getResourcePath());
+        $url = $ctx->getServiceRootUrl() . $contentPath->toUrl();
         $request = new RequestOptions($url);
         $request->Method = HttpMethod::Post;
         $request->ensureHeader('X-HTTP-Method', 'PUT');
@@ -259,7 +273,8 @@ class File extends SecurableObject
      */
     public function getListItemAllFields()
     {
-        return $this->getProperty("ListItemAllFields", new ListItem($this->getContext(), new ResourcePath("ListItemAllFields", $this->getResourcePath())));
+        return $this->getProperty("ListItemAllFields",
+            new ListItem($this->getContext(), new ResourcePath("ListItemAllFields", $this->getResourcePath())));
     }
     /**
      * Starts a new chunk upload session and uploads the first fragment
@@ -298,7 +313,8 @@ class File extends SecurableObject
      */
     public function finishUpload($uploadId, $fileOffset, $content)
     {
-        $qry = new InvokePostMethodQuery($this, "finishupload", array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset), null, $content);
+        $qry = new InvokePostMethodQuery($this, "finishupload",
+            array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset), null, $content);
         $this->getContext()->addQueryAndResultObject($qry, $this);
         return $this;
     }
@@ -306,10 +322,14 @@ class File extends SecurableObject
     {
         parent::setProperty($name, $value, $persistChanges);
         if ($name === "UniqueId") {
-            $this->resourcePath = new ResourcePath("GetFileById(guid'{$value}')", new ResourcePath("Web"));
-        } else {
+            $this->resourcePath = $this->getParentWeb()->getFileById($value)->getResourcePath();
+        }
+        if (is_null($this->resourcePath)) {
             if ($name === "ServerRelativeUrl") {
-                $this->resourcePath = new ResourcePath("GetFileByServerRelativeUrl('{$value}')", new ResourcePath("Web"));
+                $this->resourcePath = $this->getParentWeb()->getFileByServerRelativeUrl($value)->getResourcePath();
+            }
+            elseif ($name === "ServerRelativePath") {
+                $this->resourcePath = $this->getParentWeb()->getFileByServerRelativePath($value)->getResourcePath();
             }
         }
         return $this;
@@ -889,7 +909,9 @@ class File extends SecurableObject
      */
     public function getEffectiveInformationRightsManagementSettings()
     {
-        return $this->getProperty("EffectiveInformationRightsManagementSettings", new EffectiveInformationRightsManagementSettings($this->getContext(), new ResourcePath("EffectiveInformationRightsManagementSettings", $this->getResourcePath())));
+        return $this->getProperty("EffectiveInformationRightsManagementSettings",
+            new EffectiveInformationRightsManagementSettings($this->getContext(),
+                new ResourcePath("EffectiveInformationRightsManagementSettings", $this->getResourcePath())));
     }
     /**
      * @return Web|null
