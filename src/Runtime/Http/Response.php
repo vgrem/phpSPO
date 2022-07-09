@@ -10,21 +10,28 @@ class Response
     {
         $this->Content = $content;
         $this->StatusCode = $headers['HttpCode'];
+        // validate the individual responses,
+        // so we can catch an instance where there is an unauthorized response.
+        $this->validate();
     }
 
     public function getHeaders()
     {
+        if (!empty($this->Headers)) {
+            return $this->Headers;
+        }
         $lines = array_map(function ($line) {
             return $line;
         }, explode("\r\n", $this->getContent()));
-        $result = array();
+        $this->Headers = [];
+
         foreach ($lines as $line){
             if($line != ""){
                 list($k, $v) = preg_split("/[ :]/", $line,2);
-                $result[$k] = $v;
+                $this->Headers[$k] = $v;
             }
         }
-        return $result;
+        return $this->Headers;
     }
 
 
@@ -34,6 +41,13 @@ class Response
      */
     public function validate(){
         if ($this->StatusCode >= 400) {
+            $headers = $this->getHeaders();
+            $content = $this->Content;
+            if (array_key_exists('Content-Length', $headers) && trim($headers['Content-Length']) == '0') {
+                if (array_key_exists('X-MSDAVEXT_Error', $headers)) {
+                    $this->Content = urldecode($headers['X-MSDAVEXT_Error']);
+                }
+            }
             throw new RequestException($this->Content,$this->StatusCode);
         }
     }
@@ -58,5 +72,10 @@ class Response
      * @var mixed
      */
     protected $Content;
+
+    /**
+     * @var array The parsed headers.
+     */
+     protected $Headers = [];
 
 }
