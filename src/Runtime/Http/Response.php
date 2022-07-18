@@ -47,8 +47,8 @@ class Response
                 if (array_key_exists('X-MSDAVEXT_Error', $headers)) {
                     $this->Content = urldecode($headers['X-MSDAVEXT_Error']);
                 }
+                throw new RequestException($this->Content,$this->StatusCode);
             }
-            throw new RequestException($this->Content,$this->StatusCode);
         }
     }
 
