@@ -151,7 +151,7 @@ class AuthenticationContext implements IAuthenticationContext
      */
     protected function ensureAuthenticationCookie(RequestOptions $options)
     {
-        $headerVal = http_build_query($this->authCookies,null, "; ");
+        $headerVal = http_build_query($this->authCookies, '', "; ");
         $options->ensureHeader('Cookie', urldecode($headerVal));
     }
 
