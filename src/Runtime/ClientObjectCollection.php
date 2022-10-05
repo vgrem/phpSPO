@@ -281,10 +281,10 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
 
 
     /**
-     * @return Generator|Traversable
+     * @return Traversable
      * @throws Exception
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         /** @var ClientObject $item */
         foreach ($this->data as $index => $item) {
@@ -321,11 +321,12 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
      * @return boolean
      * @abstracting ArrayAccess
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->data[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     /**
      * Returns the value at specified offset
      *
@@ -348,7 +349,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
      * @access public
      * @abstracting ArrayAccess
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $this->data[] = $value;
@@ -364,7 +365,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
      * @access public
      * @abstracting ArrayAccess
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if ($this->offsetExists($offset)) {
             unset($this->data[$offset]);
