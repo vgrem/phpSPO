@@ -54,7 +54,7 @@ require_once '/path/to/your-project/vendor/autoload.php';
 
 #### Requirements 
 
-PHP version: [PHP 5.5 or later](https://secure.php.net/)
+PHP version: [PHP 7.1 or later](https://www.php.net/)
 
 
 #### Working with SharePoint API
