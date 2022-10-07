@@ -1,14 +1,14 @@
 ﻿### About
-Office 365 Library for PHP. 
+Office 365 Library for PHP.
 A REST/OData based client library for Office 365.
 
 
-### Usage 
+### Usage
 
 1.   [Installation](#Installation)
 2.   [Working with SharePoint API](#Working-with-SharePoint-API)
 3.   [Working with Teams API](#Working-with-Teams-API)
-4.   [Working with Outlook API](#Working-with-Outlook-API) 
+4.   [Working with Outlook API](#Working-with-Outlook-API)
 5.   [Working with OneDrive API](#Working-with-OneDrive-API)
 
 
@@ -52,7 +52,7 @@ Finally, be sure to include the autoloader:
 require_once '/path/to/your-project/vendor/autoload.php';
 ```
 
-#### Requirements 
+#### Requirements
 
 PHP version: [PHP 7.1 or later](https://www.php.net/)
 
@@ -62,7 +62,7 @@ PHP version: [PHP 7.1 or later](https://www.php.net/)
 The list of supported SharePoint versions:
 
 - SharePoint Online and OneDrive for Business
-- SharePoint On-Premises (2013-2019) 
+- SharePoint On-Premises (2013-2019)
 
 #### Authentication
 
@@ -74,7 +74,7 @@ The following auth flows supported:
 
   use Office365\Runtime\Auth\ClientCredential;
   use Office365\SharePoint\ClientContext;
-  
+
   $credentials = new ClientCredential("{clientId}", "{clientSecret}");
   $ctx = (new ClientContext("{siteUrl}"))->withCredentials($credentials);
 ```
@@ -83,26 +83,26 @@ The following auth flows supported:
 - user credentials auth:
 
 ```php
-  
+
   use Office365\Runtime\Auth\UserCredentials;
   use Office365\SharePoint\ClientContext;
-  
+
   $credentials = new UserCredentials("{userName}", "{password}");
   $ctx = (new ClientContext("{siteUrl}"))->withCredentials($credentials);
 ```
-  
-  
+
+
 - NTLM auth (for SharePoint On-Premises):
 ```php
    use Office365\Runtime\Auth\UserCredentials;
    use Office365\SharePoint\ClientContext;
-  
+
    $credentials = new UserCredentials("{userName}", "{password}");
    $ctx = (new ClientContext("{siteUrl}"))->withNtlm($credentials);
-  
+
 ```
 
-#### Examples  
+#### Examples
 
 The following examples demonstrates how to perform basic CRUD operations against **SharePoint** list item resources:
 
@@ -114,12 +114,12 @@ use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ListItem;
 
 $credentials = new ClientCredential("{client-id}", "{client-secret}");
-$client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->withCredentials($credentials);     
+$client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->withCredentials($credentials);
 
 $web = $client->getWeb();
 $list = $web->getLists()->getByTitle("{list-title}"); //init List resource
-$items = $list->getItems();  //prepare a query to retrieve from the 
-$client->load($items);  //save a query to retrieve list items from the server 
+$items = $list->getItems();  //prepare a query to retrieve from the
+$client->load($items);  //save a query to retrieve list items from the server
 $client->executeQuery(); //submit query to SharePoint server
 /** @var ListItem $item */
 foreach($items as $item) {
@@ -136,14 +136,14 @@ use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ListItem;
 
 $credentials = new ClientCredential("{client-id}", "{client-secret}");
-$client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->withCredentials($credentials);     
+$client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->withCredentials($credentials);
 
 $items = $client->getWeb()
                 ->getLists()
-                ->getByTitle("{list-title}") 
+                ->getByTitle("{list-title}")
                 ->getItems()
                 ->get()
-                ->executeQuery();      
+                ->executeQuery();
 /** @var ListItem $item */
 foreach($items as $item) {
     print "Task: {$item->getProperty('Title')}\r\n";
@@ -211,7 +211,7 @@ function acquireToken()
 {
     $tenant = "{tenant}.onmicrosoft.com";
     $resource = "https://graph.microsoft.com";
-  
+
     $provider = new AADTokenProvider($tenant);
     return $provider->acquireTokenForPassword($resource, "{clientId}",
         new UserCredentials("{UserName}", "{Password}"));
@@ -229,7 +229,7 @@ $newTeam = $client->getTeams()->add($teamName)->executeQuery();
 
 Supported list of APIs:
 
--   [Outlook REST API](https://msdn.microsoft.com/en-us/office/office365/api/use-outlook-rest-api#DefineOutlookRESTAPI) 
+-   [Outlook REST API](https://msdn.microsoft.com/en-us/office/office365/api/use-outlook-rest-api#DefineOutlookRESTAPI)
     -   [Outlook Contacts REST API](https://msdn.microsoft.com/en-us/office/office365/api/contacts-rest-operations)
     -   [Outlook Calendar REST API](https://msdn.microsoft.com/en-us/office/office365/api/calendar-rest-operations)
     -   [Outlook Mail REST API](https://msdn.microsoft.com/en-us/office/office365/api/mail-rest-operations)
@@ -249,7 +249,7 @@ function acquireToken()
 {
     $tenant = "{tenant}.onmicrosoft.com";
     $resource = "https://graph.microsoft.com";
-  
+
     $provider = new AADTokenProvider($tenant);
     return $provider->acquireTokenForPassword($resource, "{clientId}",
         new UserCredentials("{UserName}", "{Password}"));
@@ -278,7 +278,7 @@ function acquireToken()
 {
     $tenant = "{tenant}.onmicrosoft.com";
     $resource = "https://graph.microsoft.com";
-  
+
     $provider = new AADTokenProvider($tenant);
     return $provider->acquireTokenForPassword($resource, "{clientId}",
         new UserCredentials("{UserName}", "{Password}"));
@@ -291,5 +291,3 @@ $client->executeQuery();
 print $drive->getWebUrl();
 
 ```
-
-
