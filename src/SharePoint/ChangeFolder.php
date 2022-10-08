@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2019-11-16T19:41:02+00:00 16.0.19506.12022
+ * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
  */
 namespace Office365\SharePoint;
 
@@ -15,7 +15,6 @@ namespace Office365\SharePoint;
  */
 class ChangeFolder extends Change
 {
-
     /**
      * Identifies 
      * the folder 
@@ -73,5 +72,19 @@ class ChangeFolder extends Change
     public function setWebId($value)
     {
         $this->setProperty("WebId", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getIsRecycleBinOperation()
+    {
+        return $this->getProperty("IsRecycleBinOperation");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsRecycleBinOperation($value)
+    {
+        return $this->setProperty("IsRecycleBinOperation", $value, true);
     }
 }

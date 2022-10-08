@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Modified: 2019-10-12T19:45:14+00:00  API: 16.0.19402.12016
+ * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
  */
 namespace Office365\SharePoint\Sharing;
 
 use Office365\Runtime\ClientValue;
 use Office365\SharePoint\UserIdInfo;
-
 /**
  * Microsoft.SharePoint.Client.Sharing.Principal 
  * class is a representation of an identity (user/group).
@@ -76,4 +75,8 @@ class Principal extends ClientValue
      * @var string
      */
     public $userPrincipalName;
+    /**
+     * @var string
+     */
+    public $directoryObjectId;
 }

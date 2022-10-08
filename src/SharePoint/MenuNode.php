@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-08-22T15:28:03+00:00 16.0.21611.12002
+ * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
  */
 namespace Office365\SharePoint;
 
@@ -99,4 +99,8 @@ class MenuNode extends ClientValue
      * @var bool
      */
     public $OpenInNewWindow;
+    /**
+     * @var bool
+     */
+    public $IsTitleForExistingLanguage;
 }

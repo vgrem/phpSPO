@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Generated 2019-11-16T20:28:28+00:00 16.0.19506.12022
+ * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
  */
 namespace Office365\SharePoint\Taxonomy;
 
 use Office365\SharePoint\FieldLookup;
-
 class TaxonomyField extends FieldLookup
 {
     /**
@@ -212,5 +211,19 @@ class TaxonomyField extends FieldLookup
     public function setUserCreated($value)
     {
         $this->setProperty("UserCreated", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getIsDocTagsEnabled()
+    {
+        return $this->getProperty("IsDocTagsEnabled");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsDocTagsEnabled($value)
+    {
+        return $this->setProperty("IsDocTagsEnabled", $value, true);
     }
 }

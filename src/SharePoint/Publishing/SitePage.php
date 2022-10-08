@@ -1,13 +1,11 @@
 <?php
 
 /**
- * Generated 2019-11-17T18:31:00+00:00 16.0.19506.12022
+ * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
  */
 namespace Office365\SharePoint\Publishing;
 
 use Office365\Runtime\ClientObject;
-
-
 class SitePage extends ClientObject
 {
     /**
@@ -121,5 +119,19 @@ class SitePage extends ClientObject
     public function setSitePageFlags($value)
     {
         $this->setProperty("SitePageFlags", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->getProperty("Language");
+    }
+    /**
+     * @var string
+     */
+    public function setLanguage($value)
+    {
+        return $this->setProperty("Language", $value, true);
     }
 }

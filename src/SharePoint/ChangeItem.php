@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2020-08-19T18:22:34+00:00 16.0.20405.12008
+ * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
  */
 namespace Office365\SharePoint;
 
@@ -23,7 +23,6 @@ class ChangeItem extends Change
     {
         return $this->getProperty("ActivityType");
     }
-
     /**
      * Sets
      * activity type defined in section 3.2.5.464
@@ -446,5 +445,19 @@ class ChangeItem extends Change
     public function setMoveWasForRestore($value)
     {
         $this->setProperty("MoveWasForRestore", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getIsRecycleBinOperation()
+    {
+        return $this->getProperty("IsRecycleBinOperation");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsRecycleBinOperation($value)
+    {
+        return $this->setProperty("IsRecycleBinOperation", $value, true);
     }
 }

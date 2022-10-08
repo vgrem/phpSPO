@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Modified: 2019-11-17T18:33:00+00:00 16.0.19506.12022
+ * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
  */
 namespace Office365\SharePoint\Sharing;
 
 use Office365\SharePoint\BaseEntity;
 use Office365\SharePoint\ContentTypeId;
-
 class SharedDocumentInfo extends BaseEntity
 {
     /**
@@ -528,5 +527,19 @@ class SharedDocumentInfo extends BaseEntity
     public function setWebId($value)
     {
         $this->setProperty("WebId", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getActivity()
+    {
+        return $this->getProperty("Activity");
+    }
+    /**
+     * @var string
+     */
+    public function setActivity($value)
+    {
+        return $this->setProperty("Activity", $value, true);
     }
 }

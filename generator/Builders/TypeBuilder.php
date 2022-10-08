@@ -34,7 +34,7 @@ class TypeBuilder extends NodeVisitorAbstract {
      * @param array $options
      * @param array $typeSchema
      */
-    public function __construct($options,$typeSchema)
+    public function __construct(array $options, array $typeSchema)
     {
         $this->options = $options;
         $this->typeSchema = $typeSchema;
@@ -45,7 +45,7 @@ class TypeBuilder extends NodeVisitorAbstract {
      * Save generated model into a file
      * @param string $outputFile
      */
-    public function save($outputFile){
+    public function save(string $outputFile){
         $prettyPrinter = new PrettyPrinter\Standard();
         $code = $prettyPrinter->prettyPrintFile($this->typeNode);
         file_put_contents($outputFile, $code);

@@ -19,7 +19,7 @@ use Office365\SharePoint\ClientContext;
  * @param $typeSchema array
  * @param $options array
  */
-function generateTypeFile($typeSchema, $options)
+function generateTypeFile(array $typeSchema, array $options)
 {
     if(!isset($typeSchema['baseType'])){
         #print ("[Warn] ${$typeSchema['alias']} type not determined.\n");

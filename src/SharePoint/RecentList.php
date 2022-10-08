@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2020-08-05T10:16:13+00:00 16.0.20315.12009
+ * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
  */
 namespace Office365\SharePoint;
 
@@ -313,5 +313,19 @@ class RecentList extends ClientObject
     public function setwebTemplateConfiguration($value)
     {
         $this->setProperty("webTemplateConfiguration", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function gettemplateTypeId()
+    {
+        return $this->getProperty("templateTypeId");
+    }
+    /**
+     * @var string
+     */
+    public function settemplateTypeId($value)
+    {
+        return $this->setProperty("templateTypeId", $value, true);
     }
 }

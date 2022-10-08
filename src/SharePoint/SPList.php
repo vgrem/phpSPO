@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-08-22T15:28:03+00:00 16.0.21611.12002
+ * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
  */
 namespace Office365\SharePoint;
 
@@ -12,7 +12,6 @@ use Office365\Runtime\Paths\EntityPath;
 use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
 use Office365\Runtime\ServerTypeInfo;
-
 /**
  * Specifies 
  * a list 
@@ -36,7 +35,7 @@ class SPList extends SecurableObject
     public function addItem(array $listItemCreationInformation)
     {
         $items = new ListItemCollection($this->getContext(), new ResourcePath("items", $this->getResourcePath()));
-        $listItem = new ListItem($this->getContext(), new EntityPath(null,$items->getResourcePath()));
+        $listItem = new ListItem($this->getContext(), new EntityPath(null, $items->getResourcePath()));
         $listItem->setProperty("ParentList", $this, false);
         $items->addChild($listItem);
         foreach ($listItemCreationInformation as $key => $value) {
@@ -147,7 +146,6 @@ class SPList extends SecurableObject
     {
         return $this->getProperty("ParentWeb", new Web($this->getContext(), new ResourcePath("ParentWeb", $this->getResourcePath())));
     }
-
     /**
      * @return ServerTypeInfo
      */
@@ -1568,5 +1566,33 @@ class SPList extends SecurableObject
     public function setShowHiddenFieldsInModernForm($value)
     {
         return $this->setProperty("ShowHiddenFieldsInModernForm", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getHighPriorityMediaProcessing()
+    {
+        return $this->getProperty("HighPriorityMediaProcessing");
+    }
+    /**
+     * @var bool
+     */
+    public function setHighPriorityMediaProcessing($value)
+    {
+        return $this->setProperty("HighPriorityMediaProcessing", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getIsPredictionModelApplied()
+    {
+        return $this->getProperty("IsPredictionModelApplied");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsPredictionModelApplied($value)
+    {
+        return $this->setProperty("IsPredictionModelApplied", $value, true);
     }
 }

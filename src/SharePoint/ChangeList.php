@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Generated 2019-11-16T19:51:42+00:00 16.0.19506.12022
+ * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
  */
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ResourcePath;
-
 /**
  * Specifies 
  * a change on a list.The RelativeTime and RootFolderUrl properties are not 
@@ -15,7 +14,6 @@ use Office365\Runtime\ResourcePath;
  */
 class ChangeList extends Change
 {
-
     /**
      * An 
      * SPListTemplateType object that returns the list template type 
@@ -151,7 +149,6 @@ class ChangeList extends Change
     {
         return $this->getProperty("WebId");
     }
-
     /**
      * Identifies
      * the site
@@ -176,7 +173,20 @@ class ChangeList extends Change
      */
     public function getCreator()
     {
-        return $this->getProperty("Creator",
-            new User($this->getContext(), new ResourcePath("Creator", $this->getResourcePath())));
+        return $this->getProperty("Creator", new User($this->getContext(), new ResourcePath("Creator", $this->getResourcePath())));
+    }
+    /**
+     * @return bool
+     */
+    public function getIsRecycleBinOperation()
+    {
+        return $this->getProperty("IsRecycleBinOperation");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsRecycleBinOperation($value)
+    {
+        return $this->setProperty("IsRecycleBinOperation", $value, true);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2020-04-22T21:18:30+00:00 16.0.20008.12009
+ * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
  */
 namespace Office365\SharePoint;
 
@@ -16,7 +16,6 @@ use Office365\Runtime\ResourcePath;
  */
 class ContentType extends Entity
 {
-
     function setProperty($name, $value, $persistChanges = true)
     {
         if ($name == "Id") {
@@ -41,7 +40,6 @@ class ContentType extends Entity
         }
         return $this->getProperty("Description");
     }
-
     /**
      * Specifies
      * the description of the content type.It MUST
@@ -647,5 +645,131 @@ class ContentType extends Entity
     public function setClientFormCustomFormatter($value)
     {
         $this->setProperty("ClientFormCustomFormatter", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getDisplayFormClientSideComponentId()
+    {
+        return $this->getProperty("DisplayFormClientSideComponentId");
+    }
+    /**
+     * @var string
+     */
+    public function setDisplayFormClientSideComponentId($value)
+    {
+        return $this->setProperty("DisplayFormClientSideComponentId", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getDisplayFormClientSideComponentProperties()
+    {
+        return $this->getProperty("DisplayFormClientSideComponentProperties");
+    }
+    /**
+     * @var string
+     */
+    public function setDisplayFormClientSideComponentProperties($value)
+    {
+        return $this->setProperty("DisplayFormClientSideComponentProperties", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getDisplayFormTarget()
+    {
+        return $this->getProperty("DisplayFormTarget");
+    }
+    /**
+     * @var integer
+     */
+    public function setDisplayFormTarget($value)
+    {
+        return $this->setProperty("DisplayFormTarget", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getEditFormClientSideComponentId()
+    {
+        return $this->getProperty("EditFormClientSideComponentId");
+    }
+    /**
+     * @var string
+     */
+    public function setEditFormClientSideComponentId($value)
+    {
+        return $this->setProperty("EditFormClientSideComponentId", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getEditFormClientSideComponentProperties()
+    {
+        return $this->getProperty("EditFormClientSideComponentProperties");
+    }
+    /**
+     * @var string
+     */
+    public function setEditFormClientSideComponentProperties($value)
+    {
+        return $this->setProperty("EditFormClientSideComponentProperties", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getEditFormTarget()
+    {
+        return $this->getProperty("EditFormTarget");
+    }
+    /**
+     * @var integer
+     */
+    public function setEditFormTarget($value)
+    {
+        return $this->setProperty("EditFormTarget", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getNewFormClientSideComponentId()
+    {
+        return $this->getProperty("NewFormClientSideComponentId");
+    }
+    /**
+     * @var string
+     */
+    public function setNewFormClientSideComponentId($value)
+    {
+        return $this->setProperty("NewFormClientSideComponentId", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getNewFormClientSideComponentProperties()
+    {
+        return $this->getProperty("NewFormClientSideComponentProperties");
+    }
+    /**
+     * @var string
+     */
+    public function setNewFormClientSideComponentProperties($value)
+    {
+        return $this->setProperty("NewFormClientSideComponentProperties", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getNewFormTarget()
+    {
+        return $this->getProperty("NewFormTarget");
+    }
+    /**
+     * @var integer
+     */
+    public function setNewFormTarget($value)
+    {
+        return $this->setProperty("NewFormTarget", $value, true);
     }
 }

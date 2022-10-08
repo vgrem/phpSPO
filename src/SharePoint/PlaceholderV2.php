@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2022-01-31T19:42:54+02:00 16.0.22112.12004
+ * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
  */
 namespace Office365\SharePoint;
 
@@ -28,4 +28,8 @@ class PlaceholderV2 extends ClientValue
      * @var string
      */
     public $Source;
+    /**
+     * @var string
+     */
+    public $AdditionalFieldsData;
 }
