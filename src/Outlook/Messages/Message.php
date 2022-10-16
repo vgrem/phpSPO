@@ -399,6 +399,14 @@ class Message extends OutlookItem
         return $this->getProperty("ToRecipients",new ClientValueCollection(Recipient::class));
     }
 
+
+    /**
+     * @return ClientValueCollection
+     */
+    public function getCcRecipients(){
+        return $this->getProperty("CcRecipients",new ClientValueCollection(Recipient::class));
+    }
+    
     /**
      * @param EmailAddress[] $values
      * @return $this
@@ -413,6 +421,20 @@ class Message extends OutlookItem
         return $this->setProperty("ToRecipients", ClientValueCollection::fromArray(Recipient::class,$values));
     }
 
+  
+    /**
+     * @param EmailAddress[] $values
+     * @return $this
+     */
+    public function setCcRecipients($values){
+        $values = array_map(function ($value) {
+            if ($value instanceof EmailAddress)
+                return new Recipient($value);
+            else
+                return $value;
+        }, $values);
+        return $this->setProperty("CcRecipients", ClientValueCollection::fromArray(Recipient::class,$values));
+    }
     /**
      * @return EntityCollection
      */
