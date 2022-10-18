@@ -81,6 +81,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
         $this->data[] = $clientObject;
         if (is_null($clientObject->parentCollection))
             $clientObject->parentCollection = $this;
+        return $this;
     }
 
 

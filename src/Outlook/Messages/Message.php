@@ -29,6 +29,10 @@ class Message extends OutlookItem
      */
     public function addAttachment($attachmentType)
     {
+        if($this->getAttachments()->getCount() === 0){
+            $this->setProperty("Attachments", $this->getAttachments());
+        }
+
         $attachment = new $attachmentType($this->getContext());
         $this->getAttachments()->addChild($attachment);
         return $attachment;
