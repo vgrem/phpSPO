@@ -13,21 +13,19 @@ class Requests
 
     /**
      * @param RequestOptions $options
-     * @param array $headers
      * @return Response
      * @throws RequestException
      */
-	public static function execute(RequestOptions $options, &$headers = array())
+	public static function execute(RequestOptions $options)
 	{
-		$ch = Requests::init($options);
-        $response = curl_exec($ch);
-        $headers["HttpCode"] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $headers["ContentType"] = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-        if ($response === false) {
-            throw new RequestException(curl_error($ch), curl_errno($ch));
-        }
-        curl_close($ch);
-		return new Response($response,$headers);
+            $ch = Requests::init($options);
+            $response = curl_exec($ch);
+            $curlInfo = curl_getinfo($ch);
+            if ($response === false) {
+                throw new RequestException(curl_error($ch), curl_errno($ch));
+            }
+            curl_close($ch);
+            return new Response($response, $curlInfo, $options);
 	}
 
 
