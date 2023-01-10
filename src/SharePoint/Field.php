@@ -6,18 +6,30 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\Actions\InvokePostMethodQuery;
+use Office365\Runtime\ClientResult;
 use Office365\Runtime\ResourcePath;
+use phpDocumentor\Reflection\Types\Integer;
 
 /**
- * Represent 
- * a field 
- * (2) that is specified in [MS-WSSTS] 
- * section 2.1.2.9.The NoCrawl and SchemaXmlWithResourceTokens properties are 
- * not included in the default scalar property set 
- * for this type.
+ * A field is an element of a list or content type schema that specifies a property that is tracked for a list item.
+ * A field has an internal name, which specifies an identifier for the field. A field internal name is unique among
+ * other fields in a list and cannot contain spaces.
+ * A field has an identifier, which is a GUID.
+ * A field has a specified field type. A field (2) also contains state information for settings and additional
+ * metadata specified by the field type.
  */
 class Field extends Entity
 {
+
+    /**
+     * Creates an index for this field.
+     */
+    function enableIndex(){
+        $returnType = new ClientResult($this->getContext());
+        $qry = new InvokePostMethodQuery($this, "EnableIndex");
+        $this->getContext()->addQueryAndResultObject($qry, $returnType);
+        return $returnType;
+    }
 
     /**
      * Sets the value of the ShowInDisplayForm property for this field.
@@ -203,7 +215,7 @@ class Field extends Entity
     }
     /**
      * Specifies 
-     * the description of the field (2). 
+     * the description of the field
      * @return string
      */
     public function getDescription()

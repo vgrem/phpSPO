@@ -54,7 +54,8 @@ class FieldCollection extends BaseEntityCollection
     {
         return new Field(
             $this->getContext(),
-            new ServiceOperationPath("getByInternalNameOrTitle",array($internalNameOrTitle),$this->getResourcePath())
+            new ServiceOperationPath("getByInternalNameOrTitle",
+                array($internalNameOrTitle),$this->getResourcePath())
         );
     }
 

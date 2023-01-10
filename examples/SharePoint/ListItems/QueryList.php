@@ -12,7 +12,7 @@ use Office365\SharePoint\ListItem;
 $credentials = new ClientCredential($settings['ClientId'], $settings['ClientSecret']);
 $client = (new ClientContext($settings['Url'] . "/sites/team"))->withCredentials($credentials);
 
-$list = $client->getWeb()->getLists()->getByTitle("Tasks");
+$list = $client->getWeb()->getLists()->getByTitle("Company Tasks");
 $qry = new CamlQuery();
 $qry->ViewXml = <<<XML
 <View>
@@ -21,9 +21,7 @@ $qry->ViewXml = <<<XML
     </Query>
 </View>
 XML;
-$items = $list->getItems($qry);
-$client->load($items);
-$client->executeQuery();
+$items = $list->getItems($qry)->executeQuery();
 
 /** @var ListItem $item */
 foreach ($items as $index => $item){
