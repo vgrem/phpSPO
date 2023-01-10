@@ -17,6 +17,8 @@ use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\OData\ODataMetadataLevel;
 use Office365\Runtime\Http\RequestOptions;
+use Office365\SharePoint\Portal\GroupSiteManager;
+use Office365\SharePoint\UserProfiles\PeopleManager;
 
 /**
  * Client context for SharePoint API service
@@ -32,6 +34,16 @@ class ClientContext extends ClientRuntimeContext
      * @var Web
      */
     private $web;
+
+    /**
+     * @var PeopleManager
+     */
+    private $peopleManager;
+
+    /**
+     * @var GroupSiteManager
+     */
+    private $groupSiteManager;
 
     /**
      * @var ContextWebInformation
@@ -110,6 +122,7 @@ class ClientContext extends ClientRuntimeContext
     }
 
     /**
+     * NTLM authentication flow (for SharePoint On-Premises)
      * @param UserCredentials $credential
      */
     public function withNtlm($credential){
@@ -198,6 +211,28 @@ class ClientContext extends ClientRuntimeContext
     public function getContextWebInformation()
     {
         return $this->contextWebInformation;
+    }
+
+    /**
+     * Alias to GroupSiteManager
+     */
+    public function getGroupSiteManager()
+    {
+        if(!isset($this->groupSiteManager)){
+            $this->groupSiteManager = new GroupSiteManager($this);
+        }
+        return $this->groupSiteManager;
+    }
+
+    /**
+     * Alias to PeopleManager
+     */
+    public function getPeopleManager()
+    {
+        if(!isset($this->peopleManager)){
+            $this->peopleManager = new PeopleManager($this);
+        }
+        return $this->peopleManager;
     }
 
     /**

@@ -14,6 +14,9 @@ use Office365\Runtime\Paths\ServiceOperationPath;
 use Office365\Runtime\ResourcePath;
 use Office365\SharePoint\BaseEntity;
 
+/**
+ * The PeopleManager class is used for operations related to people.
+ */
 class PeopleManager extends BaseEntity
 {
     public function __construct(ClientRuntimeContext $ctx)
