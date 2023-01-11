@@ -18,6 +18,8 @@ use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\OData\ODataMetadataLevel;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\SharePoint\Portal\GroupSiteManager;
+use Office365\SharePoint\Portal\SPSiteManager;
+use Office365\SharePoint\Search\SearchService;
 use Office365\SharePoint\UserProfiles\PeopleManager;
 
 /**
@@ -44,6 +46,19 @@ class ClientContext extends ClientRuntimeContext
      * @var GroupSiteManager
      */
     private $groupSiteManager;
+
+
+    /**
+     * @var SPSiteManager
+     */
+    private $siteManager;
+
+
+    /**
+     * @var SearchService
+     */
+    private $search;
+
 
     /**
      * @var ContextWebInformation
@@ -214,6 +229,17 @@ class ClientContext extends ClientRuntimeContext
     }
 
     /**
+     * Alias to SPSiteManager
+     */
+    public function getSiteManager()
+    {
+        if(!isset($this->siteManager)){
+            $this->siteManager = new SPSiteManager($this);
+        }
+        return $this->siteManager;
+    }
+
+    /**
      * Alias to GroupSiteManager
      */
     public function getGroupSiteManager()
@@ -222,6 +248,17 @@ class ClientContext extends ClientRuntimeContext
             $this->groupSiteManager = new GroupSiteManager($this);
         }
         return $this->groupSiteManager;
+    }
+
+    /**
+     * Alias to SearchService
+     */
+    public function getSearch()
+    {
+        if(!isset($this->search)){
+            $this->search = new SearchService($this);
+        }
+        return $this->search;
     }
 
     /**

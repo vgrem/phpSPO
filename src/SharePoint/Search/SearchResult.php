@@ -10,7 +10,6 @@ use Office365\Runtime\ServerTypeInfo;
 class SearchResult extends ClientValue
 {
 
-
     /**
      * @return ServerTypeInfo
      */
