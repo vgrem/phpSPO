@@ -142,13 +142,6 @@ class RequestOptions
      */
     public $StreamHandle;
 
-
-    /**
-     * @var string
-     */
-    public $Proxy;
-
-
     /**
      * It should contain the maximum time in seconds that you allow the connection phase to the server to take
      * @var ?int
