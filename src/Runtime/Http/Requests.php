@@ -17,7 +17,7 @@ class Requests
      */
     public static function setDefaultOptions(array $defaultOptions): void
     {
-        self::$defaultOptions = array_merge(self::$defaultOptions, $defaultOptions);
+        self::$defaultOptions = array_replace(self::$defaultOptions, $defaultOptions);
     }
 
     /**
