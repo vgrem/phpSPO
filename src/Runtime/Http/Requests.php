@@ -12,6 +12,15 @@ class Requests
 	);
 
     /**
+     * @param array $defaultOptions An array specifying which options to set and their values. The keys should be valid
+     * curl_setopt() constants or their integer equivalents.
+     */
+    public static function setDefaultOptions(array $defaultOptions): void
+    {
+        self::$defaultOptions = array_replace(self::$defaultOptions, $defaultOptions);
+    }
+
+    /**
      * @param RequestOptions $options
      * @return Response
      * @throws RequestException
