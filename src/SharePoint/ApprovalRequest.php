@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
+ * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
  */
 namespace Office365\SharePoint;
 
@@ -117,5 +117,61 @@ class ApprovalRequest extends ClientValue
     public function setTitle($value)
     {
         return $this->setProperty("Title", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getActions()
+    {
+        return $this->getProperty("Actions");
+    }
+    /**
+     * @var string
+     */
+    public function setActions($value)
+    {
+        return $this->setProperty("Actions", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getAllowResubmit()
+    {
+        return $this->getProperty("AllowResubmit");
+    }
+    /**
+     * @var bool
+     */
+    public function setAllowResubmit($value)
+    {
+        return $this->setProperty("AllowResubmit", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getApprovers()
+    {
+        return $this->getProperty("Approvers");
+    }
+    /**
+     * @var string
+     */
+    public function setApprovers($value)
+    {
+        return $this->setProperty("Approvers", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getResponses()
+    {
+        return $this->getProperty("Responses");
+    }
+    /**
+     * @var string
+     */
+    public function setResponses($value)
+    {
+        return $this->setProperty("Responses", $value, true);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2022-01-31T19:42:54+02:00 16.0.22112.12004
+ * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
  */
 namespace Office365\SharePoint;
 
@@ -20,4 +20,12 @@ class UpdateTemplateInfoV2 extends ClientValue
      * @var string
      */
     public $Url;
+    /**
+     * @var array
+     */
+    public $DeletedPlaceholderColumnIds;
+    /**
+     * @var bool
+     */
+    public $SetTemplateViewAsDefaultView;
 }

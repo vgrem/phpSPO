@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-03-12T16:05:00+00:00 16.0.21103.12002
+ * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
  */
 namespace Office365\SharePoint;
 
@@ -169,4 +169,8 @@ class SharingLinkData extends ClientValue
      * @var bool
      */
     public $IsManageListLink;
+    /**
+     * @var bool
+     */
+    public $TrackLinkUsers;
 }

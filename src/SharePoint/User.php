@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-08-22T15:28:03+00:00 16.0.21611.12002
+ * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
  */
 namespace Office365\SharePoint;
 
@@ -215,5 +215,19 @@ class User extends Principal
     public function setEmailWithFallback($value)
     {
         return $this->setProperty("EmailWithFallback", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getHexCid()
+    {
+        return $this->getProperty("HexCid");
+    }
+    /**
+     * @var string
+     */
+    public function setHexCid($value)
+    {
+        return $this->setProperty("HexCid", $value, true);
     }
 }

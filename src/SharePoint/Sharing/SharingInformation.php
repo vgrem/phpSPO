@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2022-01-31T19:42:54+02:00 16.0.22112.12004
+ * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -710,5 +710,47 @@ class SharingInformation extends ClientObject
     public function setstandardRolesModified($value)
     {
         return $this->setProperty("standardRolesModified", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getdisplayName()
+    {
+        return $this->getProperty("displayName");
+    }
+    /**
+     * @var string
+     */
+    public function setdisplayName($value)
+    {
+        return $this->setProperty("displayName", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getitemUrl()
+    {
+        return $this->getProperty("itemUrl");
+    }
+    /**
+     * @var string
+     */
+    public function setitemUrl($value)
+    {
+        return $this->setProperty("itemUrl", $value, true);
+    }
+    /**
+     * @return SensitivityLabelInformation
+     */
+    public function getsensitivityLabelInformation()
+    {
+        return $this->getProperty("sensitivityLabelInformation");
+    }
+    /**
+     * @var SensitivityLabelInformation
+     */
+    public function setsensitivityLabelInformation($value)
+    {
+        return $this->setProperty("sensitivityLabelInformation", $value, true);
     }
 }

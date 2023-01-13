@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
+ * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
  */
 namespace Office365\SharePoint;
 
@@ -1594,5 +1594,19 @@ class SPList extends SecurableObject
     public function setIsPredictionModelApplied($value)
     {
         return $this->setProperty("IsPredictionModelApplied", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getHasCopyMoveRules()
+    {
+        return $this->getProperty("HasCopyMoveRules");
+    }
+    /**
+     * @var bool
+     */
+    public function setHasCopyMoveRules($value)
+    {
+        return $this->setProperty("HasCopyMoveRules", $value, true);
     }
 }
