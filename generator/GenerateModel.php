@@ -110,19 +110,27 @@ function generateMicrosoftGraphModel()
 }
 
 
+function saveMetadataFile($xml, $metadataPath){
+    $dom = new DOMDocument();
+    $dom->preserveWhiteSpace = false;
+    $dom->formatOutput = true;
+    $dom->loadXML($xml);
+    file_put_contents($metadataPath,$dom->saveXML());
+}
+
+
 function syncSharePointMetadataFile($fileName){
     $Settings = include('../tests/Settings.php');
     $credentials = new UserCredentials($Settings['UserName'], $Settings['Password']);
     $ctx = (new ClientContext($Settings['Url']))->withCredentials($credentials);
-    $ctx->requestFormDigest();
-    $ctx->executeQuery();
+    $ctx->requestFormDigest()->executeQuery();
     $latestVersion = $ctx->getContextWebInformation()->LibraryVersion;
 
     $options = json_decode(file_get_contents($fileName), true);
     if(!file_exists($options['metadataPath']) || $options['version'] != $latestVersion){
         echo "Loading metadata for version " . $options['version'] . " ..."  . PHP_EOL;
         $contents = MetadataResolver::getMetadata($ctx);
-        file_put_contents($options['metadataPath'],$contents);
+        saveMetadataFile($contents, $options['metadataPath']);
         $options['version'] = $latestVersion;
         $options['timestamp'] = date('c');
         file_put_contents($fileName,json_encode($options,JSON_PRETTY_PRINT));

@@ -20,6 +20,7 @@ use Office365\Runtime\Http\RequestOptions;
 use Office365\SharePoint\Portal\GroupSiteManager;
 use Office365\SharePoint\Portal\SPSiteManager;
 use Office365\SharePoint\Search\SearchService;
+use Office365\SharePoint\Taxonomy\TaxonomyService;
 use Office365\SharePoint\UserProfiles\PeopleManager;
 
 /**
@@ -58,6 +59,12 @@ class ClientContext extends ClientRuntimeContext
      * @var SearchService
      */
     private $search;
+
+
+    /**
+     * @var TaxonomyService
+     */
+    private $taxonomy;
 
 
     /**
@@ -174,6 +181,7 @@ class ClientContext extends ClientRuntimeContext
         $format->FunctionTag = "GetContextWebInformation";
         $payload = json_decode($response->getContent(), true);
         $this->getPendingRequest()->mapJson($payload,$this->contextWebInformation, $format);
+        return $this;
     }
 
 
@@ -260,6 +268,19 @@ class ClientContext extends ClientRuntimeContext
         }
         return $this->search;
     }
+
+
+    /**
+     * Alias to TaxonomyService
+     */
+    public function getTaxonomy()
+    {
+        if(!isset($this->taxonomy)){
+            $this->taxonomy = new TaxonomyService($this);
+        }
+        return $this->taxonomy;
+    }
+
 
     /**
      * Alias to PeopleManager

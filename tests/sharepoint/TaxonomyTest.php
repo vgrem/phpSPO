@@ -23,7 +23,7 @@ class TaxonomyTest extends SharePointTestCase
         $settings = include(__DIR__ . '/../Settings.php');
         $appPrincipal = new ClientCredential($settings['ClientId'],$settings['ClientSecret']);
         $appCtx = (new ClientContext($settings['Url']))->withCredentials($appPrincipal);
-        self::$taxSvc = new TaxonomyService($appCtx);
+        self::$taxSvc = $appCtx->getTaxonomy();
         parent::setUpBeforeClass();
     }
 
