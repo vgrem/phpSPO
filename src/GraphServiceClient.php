@@ -39,6 +39,7 @@ class GraphServiceClient extends ClientRuntimeContext
     {
         $this->acquireTokenFunc = $acquireToken;
         $this->getPendingRequest()->beforeExecuteRequest(function (RequestOptions $request) {
+            $this->authenticateRequest($request);
             $this->prepareRequest($request);
         });
         parent::__construct();
@@ -50,8 +51,7 @@ class GraphServiceClient extends ClientRuntimeContext
     function getPendingRequest()
     {
         if(!$this->pendingRequest){
-            $format = new JsonFormat(ODataMetadataLevel::Verbose);
-            $this->pendingRequest = new ODataRequest($this,$format);
+            $this->pendingRequest = new ODataRequest(new JsonFormat(ODataMetadataLevel::Verbose));
         }
         return $this->pendingRequest;
     }

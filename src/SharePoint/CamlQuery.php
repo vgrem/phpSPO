@@ -6,7 +6,7 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-
+use Office365\Runtime\ServerTypeInfo;
 
 
 /**
@@ -58,4 +58,10 @@ class CamlQuery extends ClientValue
     public $ViewXml;
     public $AllowIncrementalResults;
     public $FolderServerRelativePath;
+
+
+    public function getServerTypeInfo()
+    {
+        return new ServerTypeInfo("SP", "CamlQuery");
+    }
 }

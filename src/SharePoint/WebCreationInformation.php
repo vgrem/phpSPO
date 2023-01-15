@@ -2,7 +2,7 @@
 
 namespace Office365\SharePoint;
 use Office365\Runtime\ClientValue;
-
+use Office365\Runtime\ServerTypeInfo;
 
 
 /**
@@ -61,6 +61,11 @@ class WebCreationInformation extends ClientValue
         $this->WebTemplate = "STS";
         $this->UseSamePermissionsAsParentSite = true;
         parent::__construct();
+    }
+
+    public function getServerTypeInfo()
+    {
+        return new ServerTypeInfo("SP", "WebCreationInformation");
     }
 
 }

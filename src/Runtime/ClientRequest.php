@@ -30,37 +30,16 @@ abstract class ClientRequest
      */
     protected $afterExecute;
 
-    /**
-     * @var ClientRuntimeContext
-     */
-    protected $context;
 
-
-    /**
-     * @var ClientAction[]
-     */
-    protected $queries = array();
-
-
-    /**
-     * @var ClientAction
-     */
-    protected $currentQuery = null;
-
-    /** @var Guid  */
+    /** @var Guid */
     protected $requestId;
 
     /** @var integer */
     protected $requestStatus;
 
 
-    /**
-     * ClientRequest constructor.
-     * @param ClientRuntimeContext $context
-     */
-    public function __construct(ClientRuntimeContext $context)
+    public function __construct()
     {
-        $this->context = $context;
         $this->beforeExecute = new EventHandler();
         $this->afterExecute = new EventHandler();
         $this->requestId = Guid::newGuid();
@@ -69,54 +48,11 @@ abstract class ClientRequest
 
 
     /**
-     * @return ClientAction|null
-     */
-    protected function getNextQuery()
-    {
-        $qry = array_shift($this->queries);
-        $this->currentQuery = $qry;
-        return $qry;
-    }
-
-
-    /**
-     * @return ClientAction
-     */
-    public function getCurrentQuery(){
-        return $this->currentQuery;
-    }
-
-
-    /**
-     * Add query into request queue
-     * @param ClientAction $query
-     * @param bool $executeFirst
-     */
-    public function addQuery(ClientAction $query, $executeFirst=false)
-    {
-        if($executeFirst)
-            array_unshift($this->queries , $query);
-        else
-            $this->queries[] = $query;
-    }
-
-    /**
-     * @param ClientAction $query
-     * @param ClientObject|ClientResult $resultObject
-     */
-    public function addQueryAndResultObject(ClientAction $query, $resultObject = null)
-    {
-        $query->ReturnType = $resultObject;
-        $this->addQuery($query,false);
-    }
-
-
-    /**
      * @param callable $event
      */
     public function beforeExecuteRequest(callable $event)
     {
-        $this->beforeExecute->addEvent($event,false);
+        $this->beforeExecute->addEvent($event, false);
     }
 
     /**
@@ -124,37 +60,33 @@ abstract class ClientRequest
      */
     public function beforeExecuteRequestOnce(callable $event)
     {
-        $this->beforeExecute->addEvent($event,true);
+        $this->beforeExecute->addEvent($event, true);
     }
 
     /**
      * @param callable $event
      * @param bool $once
      */
-    public function afterExecuteRequest(callable $event,$once=true)
+    public function afterExecuteRequest(callable $event, $once = true)
     {
-        $this->afterExecute->addEvent($event,$once);
+        $this->afterExecute->addEvent($event, $once);
     }
 
     /**
      * Submit a query
      * @throws Exception
      */
-    public function executeQuery()
+    public function executeQuery($query)
     {
-        while ($this->getNextQuery() !== null) {
-            try{
-                $request = $this->buildRequest();
-                $this->beforeExecute->triggerEvent(array($request));
-                $response = $this->executeQueryDirect($request);
-                $this->processResponse($response);
-                $this->afterExecute->triggerEvent(array($response));
-                $this->requestStatus = ClientRequestStatus::CompletedSuccess;
-            }
-            catch(Exception $e){
-                $this->requestStatus = ClientRequestStatus::CompletedException;
-                throw $e;
-            }
+        try {
+            $request = $this->buildRequest($query);
+            $response = $this->executeQueryDirect($request);
+            $this->processResponse($response, $query);
+            $this->afterExecute->triggerEvent(array($response));
+            $this->requestStatus = ClientRequestStatus::CompletedSuccess;
+        } catch (Exception $e) {
+            $this->requestStatus = ClientRequestStatus::CompletedException;
+            throw $e;
         }
     }
 
@@ -165,7 +97,7 @@ abstract class ClientRequest
      */
     public function executeQueryDirect(RequestOptions $request)
     {
-        $this->context->authenticateRequest($request);
+        $this->beforeExecute->triggerEvent(array($request));
         $response = Requests::execute($request);
         $this->validate($response);
         return $response;
@@ -174,31 +106,22 @@ abstract class ClientRequest
 
     /**
      * @param Response $response
+     * @param ClientAction $query
      */
-    public abstract function processResponse($response);
+    public abstract function processResponse($response, $query);
 
     /**
      * Build Request
+     * @param ClientAction $query
      * @return RequestOptions
      */
-    abstract public function buildRequest();
-
-
-    /**
-     * @return ClientAction[]
-     */
-    public function getActions(){
-        return $this->queries;
-    }
-
-    public function clearActions(){
-        $this->queries = array();
-    }
+    abstract public function buildRequest($query);
 
     /**
      * @return int
      */
-    public function getRequestStatus(){
+    public function getRequestStatus()
+    {
         return $this->requestStatus;
     }
 
@@ -211,7 +134,7 @@ abstract class ClientRequest
     public function validate($response)
     {
         if ($response->getStatusCode() >= 400) {
-            throw new RequestException($response->getContent(),$response->getStatusCode());
+            throw new RequestException($response->getContent(), $response->getStatusCode());
         }
         return true;
     }

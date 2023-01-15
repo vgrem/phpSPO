@@ -30,8 +30,7 @@ class InvokeMethodQuery extends ClientAction
      */
     public function getPath(){
         if ($this->IsStatic) {
-            $request = $this->getContext()->getPendingRequest();
-            $entityTypeName = $request->normalizeTypeName($this->BindingType);
+            $entityTypeName = (string)$this->BindingType->getServerTypeInfo();
             $staticName = implode(".",[$entityTypeName, $this->MethodName]);
             return new ServiceOperationPath($staticName,$this->MethodParameters);
         }

@@ -5,8 +5,9 @@
  */
 namespace Office365\Outlook;
 
-use Office365\Runtime\ClientValue;
-class Recipient extends ClientValue
+use Office365\Complex;
+
+class Recipient extends Complex
 {
     function __construct(EmailAddress $emailAddress=null)
     {

@@ -5,8 +5,9 @@
  */
 namespace Office365\Teams;
 
-use Office365\Runtime\ClientValue;
-class TeamGuestSettings extends ClientValue
+use Office365\Complex;
+
+class TeamGuestSettings extends Complex
 {
     /**
      * @var bool

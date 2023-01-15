@@ -5,8 +5,9 @@
  */
 namespace Office365\Outlook;
 
-use Office365\Runtime\ClientValue;
-class ItemBody extends ClientValue
+use Office365\Complex;
+
+class ItemBody extends Complex
 {
 
     function __construct($contentType=null,$content=null)

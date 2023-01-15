@@ -54,7 +54,7 @@ class TeamCollection extends EntityCollection
      * @param Response $response
      */
     private function parseCreateResponse($response){
-        $headerKey = "Content-Location";
+        $headerKey = "content-location";
         $extraHeaders = $response->getHeaders();
         if(array_key_exists($headerKey,$extraHeaders)){
             preg_match('#\(\'(.*?)\'\)#', $extraHeaders[$headerKey], $match);

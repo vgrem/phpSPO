@@ -97,6 +97,7 @@ class ClientContext extends ClientRuntimeContext
     {
         $this->baseUrl = $url;
         $this->getPendingRequest()->beforeExecuteRequest(function (RequestOptions $request) {
+            $this->authenticateRequest($request);
             $this->buildSharePointSpecificRequest($request);
         });
         $this->authContext = $authCtx;
@@ -126,7 +127,7 @@ class ClientContext extends ClientRuntimeContext
     public function getPendingRequest()
     {
         if (!isset($this->pendingRequest)) {
-            $this->pendingRequest = new ODataRequest($this,new JsonLightFormat(ODataMetadataLevel::Verbose));
+            $this->pendingRequest = new ODataRequest(new JsonLightFormat(ODataMetadataLevel::Verbose));
         }
         return $this->pendingRequest;
     }
@@ -172,15 +173,19 @@ class ClientContext extends ClientRuntimeContext
      */
     public function requestFormDigest()
     {
-        $request = new RequestOptions($this->getServiceRootUrl() . "/contextinfo");
-        $request->Method = HttpMethod::Post;
-        $response = $this->executeQueryDirect($request);
+        $options = new RequestOptions($this->getServiceRootUrl() . "/contextinfo");
+        $options->Method = HttpMethod::Post;
+        $request = new ODataRequest(new JsonLightFormat(ODataMetadataLevel::Verbose));
+        $request->beforeExecuteRequest(function (RequestOptions $request) {
+            $this->authenticateRequest($request);
+        });
+        $response = $request->executeQueryDirect($options);
         if(!isset($this->contextWebInformation))
             $this->contextWebInformation = new ContextWebInformation();
         $format = new JsonLightFormat();
         $format->FunctionTag = "GetContextWebInformation";
         $payload = json_decode($response->getContent(), true);
-        $this->getPendingRequest()->mapJson($payload,$this->contextWebInformation, $format);
+        $request->mapJson($payload,$this->contextWebInformation, $format);
         return $this;
     }
 
@@ -195,7 +200,6 @@ class ClientContext extends ClientRuntimeContext
         if($request->Method === HttpMethod::Post) {
             $this->ensureFormDigest($request);
         }
-
         //set data modification headers
         if ($query instanceof UpdateEntityQuery) {
             $request->ensureHeader("IF-MATCH", "*");

@@ -3,6 +3,7 @@
 namespace Office365\Runtime;
 
 use Exception;
+use Office365\Complex;
 use Office365\GraphServiceClient;
 use Office365\SharePoint\ClientContext;
 
@@ -62,22 +63,22 @@ class ServerTypeInfo
         }
         $parts = explode("\\", $itemTypeName);
         $typeName = end($parts);
-        //$namespace = implode(".", array_slice($parts, 1, count($parts) - 2));
-        return new ServerTypeInfo(null, $typeName, $collection);
-    }
-
-    /**
-     * @param ClientRuntimeContext $context
-     */
-    public function patch($context){
-        if ($context instanceof ClientContext) {
-            if(is_null($this->Namespace)) $this->Namespace = "SP";
+        $namespace = null;
+        if($type instanceof ClientObject){
+            $context  = $type->getContext();
+            if ($context instanceof ClientContext) {
+                if(is_null($namespace)) $namespace = "SP";
+            }
+            else if ($context instanceof GraphServiceClient) {
+                if(is_null($namespace)) $namespace = "microsoft.graph";
+                $typeName = lcfirst($typeName);
+            }
         }
-        else if ($context instanceof GraphServiceClient) {
-            if(is_null($this->Namespace)) $this->Namespace = "microsoft.graph";
-            $this->Name = lcfirst($this->Name);
+        elseif($type instanceof Complex){
+            if(is_null($namespace)) $namespace = "microsoft.graph";
+            $typeName = lcfirst($typeName);
         }
-        return $this;
+        return new ServerTypeInfo($namespace, $typeName, $collection);
     }
 
     public function __toString()

@@ -17,6 +17,16 @@ abstract class ClientRuntimeContext
 {
 
     /**
+     * @var ClientAction
+     */
+    protected $currentQuery = null;
+
+    /**
+     * @var ClientAction[]
+     */
+    protected $queries = array();
+
+    /**
      * @var Version $RequestSchemaVersion
      */
     public $RequestSchemaVersion;
@@ -31,7 +41,7 @@ abstract class ClientRuntimeContext
      * @return RequestOptions
      */
     public function buildRequest(){
-       return $this->getPendingRequest()->buildRequest();
+       return $this->getPendingRequest()->buildRequest($this->getCurrentQuery());
     }
 
     /**
@@ -48,13 +58,6 @@ abstract class ClientRuntimeContext
 
 
     /**
-     * @return ClientAction
-     */
-    public function getCurrentQuery(){
-        return $this->getPendingRequest()->getCurrentQuery();
-    }
-
-    /**
      * Prepare to load resource
      * @param ClientObject $clientObject
      * @param string[] $includeProperties
@@ -63,37 +66,19 @@ abstract class ClientRuntimeContext
     public function load(ClientObject $clientObject, array $includeProperties = null)
     {
         $qry = new ReadEntityQuery($clientObject,$includeProperties);
-        $this->getPendingRequest()->addQueryAndResultObject($qry, $clientObject);
+        $this->addQueryAndResultObject($qry, $clientObject);
         return $this;
     }
 
-
-    /**
-     * @param ClientAction $query
-     * @param ClientObject|ClientValue|ClientResult $resultObject
-     */
-    public function addQueryAndResultObject(ClientAction $query, $resultObject)
-    {
-        $this->getPendingRequest()->addQueryAndResultObject($query, $resultObject);
-    }
-
-
-    /**
-     * @param ClientAction $query
-     * @param bool $executeFirst
-     */
-    public function addQuery(ClientAction $query, $executeFirst=false)
-    {
-        $this->getPendingRequest()->addQuery($query,$executeFirst);
-    }
 
     /**
      * Submit a client request
      */
     public function executeQuery()
     {
-        if ($this->hasPendingRequest()) {
-            $this->getPendingRequest()->executeQuery();
+        while ($this->hasPendingRequest()) {
+            $qry = $this->getNextQuery();
+            $this->getPendingRequest()->executeQuery($qry);
         }
     }
 
@@ -115,7 +100,7 @@ abstract class ClientRuntimeContext
                 throw $ex;
             }
             sleep($delaySecs);
-            $this->addQuery($this->getPendingRequest()->getCurrentQuery(),true);
+            $this->addQuery($this->getCurrentQuery(),true);
             $this->executeQueryRetry($retryCount,$delaySecs, $currentRetry+1);
         }
     }
@@ -141,7 +126,7 @@ abstract class ClientRuntimeContext
      */
     public function hasPendingRequest()
     {
-        return count($this->getPendingRequest()->getActions()) > 0;
+        return count($this->getActions()) > 0;
     }
 
 
@@ -155,6 +140,16 @@ abstract class ClientRuntimeContext
         },false);
     }
 
+    /**
+     * @param ClientAction $query
+     * @param ClientObject|ClientResult $returnType
+     */
+    public function addQueryAndResultObject(ClientAction $query, $returnType = null)
+    {
+        $query->ReturnType = $returnType;
+        $this->addQuery($query, false);
+    }
+
 
     /**
      * Gets the build version.
@@ -162,5 +157,46 @@ abstract class ClientRuntimeContext
      */
     public function getServerLibraryVersion(){
         return new Version();
+    }
+
+    /**
+     * @return ClientAction|null
+     */
+    protected function getNextQuery()
+    {
+        $qry = array_shift($this->queries);
+        $this->currentQuery = $qry;
+        return $qry;
+    }
+
+    /**
+     * @return ClientAction
+     */
+    public function getCurrentQuery(){
+        return $this->currentQuery;
+    }
+
+    public function clearActions(){
+        $this->queries = array();
+    }
+
+    /**
+     * @return ClientAction[]
+     */
+    public function getActions(){
+        return $this->queries;
+    }
+
+    /**
+     * Add query into request queue
+     * @param ClientAction $query
+     * @param bool $executeFirst
+     */
+    public function addQuery(ClientAction $query, $executeFirst=false)
+    {
+        if($executeFirst)
+            array_unshift($this->queries , $query);
+        else
+            $this->queries[] = $query;
     }
 }

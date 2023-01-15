@@ -5,8 +5,9 @@
  */
 namespace Office365\Outlook;
 
-use Office365\Runtime\ClientValue;
-class EmailAddress extends ClientValue
+use Office365\Complex;
+
+class EmailAddress extends Complex
 {
     /**
      * @param string $name

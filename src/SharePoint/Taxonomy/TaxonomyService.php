@@ -57,8 +57,10 @@ class TaxonomyService extends ClientRuntimeContext
     public function getPendingRequest()
     {
         if(!$this->pendingRequest){
-            $format = new JsonFormat(ODataMetadataLevel::MinimalMetadata);
-            $this->pendingRequest = new ODataRequest($this,$format);
+            $this->pendingRequest = new ODataRequest(new JsonFormat(ODataMetadataLevel::MinimalMetadata));
+            $this->pendingRequest->beforeExecuteRequest(function (RequestOptions $request){
+                $this->authenticateRequest($request);
+            });
         }
         return $this->pendingRequest;
     }

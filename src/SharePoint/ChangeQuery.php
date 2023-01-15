@@ -6,6 +6,8 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
+use Office365\Runtime\ServerTypeInfo;
+
 /**
  * Defines a query that is performed against the change log.
  */
@@ -202,4 +204,9 @@ class ChangeQuery extends ClientValue
      * @var bool
      */
     public $IgnoreStartTokenNotFoundError;
+
+    public function getServerTypeInfo()
+    {
+        return new ServerTypeInfo("SP", "ChangeQuery");
+    }
 }

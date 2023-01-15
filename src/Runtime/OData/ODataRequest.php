@@ -5,12 +5,11 @@ namespace Office365\Runtime\OData;
 
 use Exception;
 use Generator;
-use Office365\GraphServiceClient;
+use Office365\Runtime\Actions\ClientAction;
 use Office365\Runtime\ClientObject;
 use Office365\Runtime\ClientObjectCollection;
 use Office365\Runtime\ClientRequest;
 use Office365\Runtime\ClientResult;
-use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\ClientValue;
 use Office365\Runtime\ClientValueCollection;
 use Office365\Runtime\Http\RequestOptions;
@@ -20,7 +19,6 @@ use Office365\Runtime\Actions\InvokeMethodQuery;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\OData\V3\JsonLightFormat;
 use Office365\Runtime\OData\V4\JsonFormat;
-use Office365\SharePoint\ClientContext;
 
 
 /**
@@ -30,31 +28,33 @@ class ODataRequest extends ClientRequest
 {
 
     /**
-     * @param ClientRuntimeContext $context
      * @param ODataFormat $format
      */
-    public function __construct(ClientRuntimeContext $context, ODataFormat $format)
+    public function __construct(ODataFormat $format)
     {
-        parent::__construct($context);
+        parent::__construct();
         $this->format = $format;
     }
 
 
     /**
+     * @param ClientAction $query
      * @return RequestOptions
      */
-    public function buildRequest(){
-        $qry = $this->currentQuery;
-        $url = $qry->getUrl();
+    public function buildRequest($query){
+        $url = $query->getUrl();
         $request = new RequestOptions($url);
-        if($qry instanceof InvokeMethodQuery){
+        if($query instanceof InvokeMethodQuery){
             if($this->format instanceof JsonLightFormat){
-                $this->format->FunctionTag = $qry->MethodName;
+                $this->format->FunctionTag = $query->MethodName;
+                if($query instanceof InvokePostMethodQuery) {
+                    $this->format->ParameterTag = $query->ParameterName;
+                }
             }
 
-            if ($qry instanceof InvokePostMethodQuery) {
+            if ($query instanceof InvokePostMethodQuery) {
                 $request->Method = HttpMethod::Post;
-                $payload = $qry->ParameterType;
+                $payload = $query->ParameterType;
                 if ($payload) {
                     if (is_string($payload))
                         $request->Data = $payload;
@@ -66,17 +66,6 @@ class ODataRequest extends ClientRequest
             }
         }
         return $request;
-    }
-
-
-    /**
-     * @param ClientObject|ClientValue $type
-     * @return string
-     */
-    public function normalizeTypeName($type)
-    {
-        $typeInfo = $type->getServerTypeInfo()->patch($this->context);
-        return (string)$typeInfo;
     }
 
 
@@ -96,8 +85,6 @@ class ODataRequest extends ClientRequest
             $json = array_map(function ($property) use($format){
                 return $this->normalizePayload($property,$format);
             }, $value->toJson(true));
-
-
             $this->ensureAnnotation($value,$json,$format);
             return $json;
         } else if (is_array($value)) {
@@ -115,13 +102,12 @@ class ODataRequest extends ClientRequest
      */
     protected function ensureAnnotation($type, &$json,$format)
     {
-        $qry = $this->context->getCurrentQuery();
-        $typeName = $this->normalizeTypeName($type);
+        $typeName = (string)$type->getServerTypeInfo();
         if ($format instanceof JsonLightFormat && $format->MetadataLevel == ODataMetadataLevel::Verbose) {
 
             $json[$format->MetadataTag] = array("type" => $typeName);
-            if($qry instanceof InvokePostMethodQuery && !is_null($qry->ParameterName)) {
-                 $json = array($qry->ParameterName => $json);
+            if(isset($format->ParameterTag)){
+                $json = array($format->ParameterTag => $json);
             }
         }
         elseif ($format instanceof JsonFormat){
@@ -153,18 +139,17 @@ class ODataRequest extends ClientRequest
 
     /**
      * @param Response $response
+     * @param ClientAction $query
      * @throws Exception
      */
-    public function processResponse($response)
+    public function processResponse($response, $query)
     {
-        $currentQry = $this->context->getCurrentQuery();
-
         $content = $response->getContent();
         if (empty($content)) {
             return;
         }
 
-        $resultObject = $currentQry->ReturnType;
+        $resultObject = $query->ReturnType;
         if (is_null($resultObject)) {
             return;
         }

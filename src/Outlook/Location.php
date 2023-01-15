@@ -5,8 +5,9 @@
  */
 namespace Office365\Outlook;
 
-use Office365\Runtime\ClientValue;
-class Location extends ClientValue
+use Office365\Complex;
+
+class Location extends Complex
 {
     /**
      * @var string

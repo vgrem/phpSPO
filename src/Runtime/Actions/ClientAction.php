@@ -17,7 +17,7 @@ abstract class ClientAction
     /**
      * @param ClientRuntimeContext $context
      * @param ClientObject|null $bindingType
-     * @param ClientObject|ClientValue|ClientResult $returnType
+     * @param ClientObject|ClientValue|ClientResult|null $returnType
      */
     public function __construct($context, $bindingType,$returnType)
     {

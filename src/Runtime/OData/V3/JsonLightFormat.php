@@ -17,6 +17,7 @@ class JsonLightFormat extends ODataFormat
         $this->CollectionTag = "results";
         $this->NextCollectionTag = "__next";
         $this->SecurityTag ="d";
+        $this->ParameterTag =null;
     }
 
 
@@ -46,5 +47,10 @@ class JsonLightFormat extends ODataFormat
      * @var string
      */
     public $FunctionTag;
+
+    /**
+     * @var string
+     */
+    public $ParameterTag;
 
 }
