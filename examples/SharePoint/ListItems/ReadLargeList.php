@@ -11,8 +11,21 @@ $siteUrl = $settings['TeamSiteUrl'];
 $ctx = (new ClientContext($siteUrl))->withCredentials($credentials);
 
 $list = $ctx->getWeb()->getLists()->getByTitle("Contacts_Large");
-$items = $list->getItems()->get()->top(100)->executeQuery();
+
+/*
+$items = $list->getItems()->get()->paged(500, function ($itemsCountLoaded){
+    print("$itemsCountLoaded items loaded...\n");
+})->executeQuery();
 
 foreach ($items as $index => $item){
     print($index . ":" . $item->getProperty('Title') . PHP_EOL);
-}
+}*/
+
+//$totalItemsCount = $items->getCount();
+//print($totalItemsCount);
+
+$allItems = $list->getItems()->getAll()->paged(5000, function ($itemsCount){
+    print("$itemsCount items loaded...\n");
+})->executeQuery();
+
+

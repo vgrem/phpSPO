@@ -7,6 +7,7 @@ use Generator;
 use IteratorAggregate;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\OData\V3\JsonLightFormat;
+use Office365\Runtime\Types\EventHandler;
 use Traversable;
 
 
@@ -34,6 +35,17 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
 
 
     /**
+     * @var bool
+     */
+    protected $pagedMode;
+
+    /**
+     * @var EventHandler
+     */
+    protected $pageLoaded;
+
+
+    /**
      * @param ClientRuntimeContext $ctx
      * @param ResourcePath $resourcePath
      * @param string $itemTypeName
@@ -44,6 +56,8 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
         $this->data = array();
         $this->NextRequestUrl = null;
         $this->itemTypeName = $itemTypeName;
+        $this->pagedMode = false;
+        $this->pageLoaded = new EventHandler();
     }
 
 
@@ -165,7 +179,10 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
 
     public function clearData()
     {
-        $this->data = array();
+        if(!$this->pagedMode){
+            $this->data = array();
+        }
+        $this->NextRequestUrl = null;
     }
 
     /**
@@ -176,6 +193,22 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
     public function filter($value)
     {
         $this->queryOptions->Filter = rawurlencode($value);
+        return $this;
+    }
+
+
+    /**
+     * Retrieves via server-driven paging mode
+     * @param int $pageSize
+     * @param callable $pageLoaded
+     */
+    public function paged($pageSize=null, $pageLoaded=null){
+        $this->pagedMode = true;
+        if(isset($pageLoaded))
+            $this->pageLoaded->addEvent($pageLoaded);
+        if(isset($pageSize)){
+            $this->top($pageSize);
+        }
         return $this;
     }
 
@@ -292,26 +325,61 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
             yield $index => $item;
         }
 
-        if(is_null($this->queryOptions->Top) && !is_null($this->NextRequestUrl)){
-            foreach ($this->getNextItems() as $item){
-                $this->addChild($item);
-                yield $item;
+        if($this->pagedMode){
+            $nextItems = $this->getNext()->executeQuery();
+            if($this->hasNext()){
+                foreach ($nextItems as $item){
+                    yield $item;
+                }
             }
         }
     }
+
+    protected function hasNext(){
+        return !is_null($this->NextRequestUrl);
+    }
+
+    /**
+     * @return self
+     */
+    public function get()
+    {
+        $this->getContext()->getPendingRequest()->afterExecuteRequest(function (){
+            $this->pageLoaded->triggerEvent(array(count($this->data)));
+        });
+        return parent::get();
+    }
+
+
+    /**
+     * Gets all the items in a collection, regardless of the size.
+     * @param int $pageSize
+     * @param callable $pageLoaded
+     * @return self
+     */
+    public function getAll($pageSize=null, $pageLoaded=null)
+    {
+        $this->paged($pageSize,$pageLoaded);
+        $this->getContext()->getPendingRequest()->afterExecuteRequest(function (){
+            if($this->hasNext()) {
+                $this->getNext();
+            }
+        }, false);
+        return $this->get();
+    }
+
+
 
     /**
      * @return ClientObjectCollection
      * @throws Exception
      */
-    private function getNextItems(){
-        $items = new ClientObjectCollection($this->context,$this->resourcePath);
-        $request = new RequestOptions($this->NextRequestUrl);
-        $response = $this->getContext()->executeQueryDirect($request);
-        $payload = json_decode($response->getContent(), true);
-        $this->getContext()->getPendingRequest()->mapJson($payload,$items,new JsonLightFormat());
-        $this->NextRequestUrl = null;
-        return $items;
+    private function getNext(){
+        $this->getContext()->getPendingRequest()->beforeExecuteRequest(function (RequestOptions $request){
+            $request->Url = $this->NextRequestUrl;
+        });
+        $this->get();
+        return $this;
     }
 
     /**
