@@ -11,6 +11,42 @@ use Office365\Runtime\Types\EventHandler;
 use Traversable;
 
 
+class PageInfo {
+
+    public function __construct()
+    {
+        $this->startIndex = 0;
+        $this->endIndex = 0;
+    }
+
+    public function setNextPage($index){
+        if($index == 0)
+            return;
+
+        if($this->endIndex < $index){
+            $this->startIndex = $this->endIndex;
+            $this->endIndex = $index;
+        }
+    }
+
+    public function __toString()
+    {
+        return "$this->endIndex";
+    }
+
+    /**
+     * @var int
+     */
+    public $startIndex;
+
+    /**
+     * @var int
+     */
+    public $endIndex;
+
+}
+
+
 /**
  * Client objects collection (represents EntitySet in terms of OData)
  */
@@ -44,6 +80,11 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
      */
     protected $pageLoaded;
 
+    /**
+     * @var PageInfo
+     */
+    protected $pageInfo;
+
 
     /**
      * @param ClientRuntimeContext $ctx
@@ -57,6 +98,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
         $this->NextRequestUrl = null;
         $this->itemTypeName = $itemTypeName;
         $this->pagedMode = false;
+        $this->pageInfo = new PageInfo();
         $this->pageLoaded = new EventHandler();
     }
 
@@ -164,6 +206,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
     }
 
     /**
+     * Returns total items count
      * @return int
      * @throws Exception
      */
@@ -345,7 +388,8 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
     public function get()
     {
         $this->getContext()->getPendingRequest()->afterExecuteRequest(function (){
-            $this->pageLoaded->triggerEvent(array(count($this->data)));
+            $this->pageInfo->setNextPage(count($this->data));
+            $this->pageLoaded->triggerEvent(array($this));
         });
         return parent::get();
     }
@@ -439,5 +483,9 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
         if ($this->offsetExists($offset)) {
             unset($this->data[$offset]);
         }
+    }
+
+    public function getPageInfo(){
+        return $this->pageInfo;
     }
 }

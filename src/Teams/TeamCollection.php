@@ -67,20 +67,20 @@ class TeamCollection extends EntityCollection
     /**
      * To list all teams in an organization (tenant), you find all groups that have teams,
      * and then get information for each team.
-     * @param string[] $includeProperties
      */
-    public function getAll($includeProperties=array())
+    public function getAll($pageSize=null, $pageLoaded=null)
     {
-        $includeProperties = array_merge($includeProperties, array("id", "resourceProvisioningOptions"));
-        $groups = $this->getContext()->getGroups()->select($includeProperties)->get();
-        $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use($groups) {
-            /** @var Group $group */
-            foreach ($groups as $group){
-                if (in_array("Team", $group->getProperty("ResourceProvisioningOptions"))) {
-                    $this->addChild($group);
+        $includeProperties = array("id", "resourceProvisioningOptions");
+        $this->getContext()->getGroups()->select($includeProperties)->getAll($pageSize,
+            function ($returnType) {
+                $pagedItems = array_slice($returnType->getData(), $returnType->pageInfo->endIndex);
+                /** @var Group $group */
+                foreach ($pagedItems as $group) {
+                    if (in_array("Team", $group->getProperty("ResourceProvisioningOptions"))) {
+                        $this->addChild($group);
+                    }
                 }
-            }
-        }, true);
+            });
         return $this;
     }
 

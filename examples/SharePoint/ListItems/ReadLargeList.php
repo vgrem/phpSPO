@@ -13,8 +13,8 @@ $ctx = (new ClientContext($siteUrl))->withCredentials($credentials);
 $list = $ctx->getWeb()->getLists()->getByTitle("Contacts_Large");
 
 /*
-$items = $list->getItems()->get()->paged(500, function ($itemsCountLoaded){
-    print("$itemsCountLoaded items loaded...\n");
+$items = $list->getItems()->get()->paged(500, function ($returnType){
+    print("{$returnType->getItemsCount()} items loaded...\n");
 })->executeQuery();
 
 foreach ($items as $index => $item){
@@ -24,8 +24,8 @@ foreach ($items as $index => $item){
 //$totalItemsCount = $items->getCount();
 //print($totalItemsCount);
 
-$allItems = $list->getItems()->getAll()->paged(5000, function ($itemsCount){
-    print("$itemsCount items loaded...\n");
+$allItems = $list->getItems()->getAll()->paged(5000, function ($returnType){
+    print("{$returnType->getPageInfo()} items loaded...\n");
 })->executeQuery();
 
 

@@ -24,7 +24,7 @@ class TeamsTest extends GraphTestCase
 
     public function testGetAllTeams()
     {
-        $teams = self::$graphClient->getTeams()->getAll(array("displayName"))->executeQuery();
+        $teams = self::$graphClient->getTeams()->getAll()->executeQuery();
         self::assertNotNull($teams->getResourcePath());
     }
 
