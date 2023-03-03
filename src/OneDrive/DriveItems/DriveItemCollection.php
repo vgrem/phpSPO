@@ -8,6 +8,9 @@ use Office365\EntityCollection;
 use Office365\OneDrive\ConflictBehavior;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientRuntimeContext;
+use Office365\Runtime\Http\RequestOptions;
+use Office365\Runtime\OData\ODataMetadataLevel;
+use Office365\Runtime\OData\V4\JsonFormat;
 use Office365\Runtime\ResourcePath;
 use stdClass;
 
@@ -32,10 +35,14 @@ class DriveItemCollection extends EntityCollection
         $payload = array(
             "name" => $folderName,
             "folder" => new stdClass(),
-            "@microsoft.graph.conflictBehavior" => ConflictBehavior::Rename
+            "@microsoft.graph.conflictBehavior" => ConflictBehavior::Rename,
         );
         $qry = new InvokePostMethodQuery($this,null,null,null, $payload);
         $this->getContext()->addQueryAndResultObject($qry, $folderItem);
+        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function (RequestOptions $request){
+            $format = new JsonFormat(ODataMetadataLevel::MinimalMetadata);
+            $request->Headers["Content-Type"] = $format->getMediaType();
+        });
         return $folderItem;
     }
 
