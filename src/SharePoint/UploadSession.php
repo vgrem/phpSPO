@@ -44,12 +44,13 @@ class UploadSession
             if ($firstChunk) {
                 $uploadFile->startUpload($this->uploadSessionId, $buffer);
                 $firstChunk = false;
-            } elseif ($fileSize == $bytesRead) {
-                $this->targetFile = $uploadFile->finishUpload($this->uploadSessionId,$offset, $buffer);
             } else {
                 $uploadFile->continueUpload($this->uploadSessionId,$offset, $buffer);
             }
             $offset = $bytesRead;
+            if ($fileSize == $bytesRead) {
+                $this->targetFile = $uploadFile->finishUpload($this->uploadSessionId,$offset, '');
+            }
         }
         fclose($handle);
 
