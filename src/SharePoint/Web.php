@@ -75,6 +75,17 @@ class Web extends SecurableObject
         $ctx->addQueryAndResultObject($qry, $result);
         return $result;
     }
+
+    /**
+     * Retrieves the default document library
+     * @return SPList
+     */
+    public function defaultDocumentLibrary(){
+        return new SPList($this->getContext(),
+            new ServiceOperationPath("DefaultDocumentLibrary", null,
+                $this->getResourcePath()));
+    }
+
     /**
      * @param string $logonName
      * @return User

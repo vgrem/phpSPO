@@ -28,7 +28,7 @@ abstract class SharePointTestCase extends TestCase
     {
         self::$settings = include(__DIR__ . '/../Settings.php');
         self::$testAccountName = self::$settings['TestAccountName'];
-        self::$context = (new ClientContext(self::$settings['Url']))
+        self::$context = (new ClientContext(self::$settings['TeamSiteUrl']))
             ->withCredentials(new UserCredentials(self::$settings['UserName'],self::$settings['Password']));
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 $secure_vars = explode(";",getenv("phpSPO_secure_vars"));
-$tenant_prefix = $secure_vars[4];
+$tenant_prefix = "mediadev8";
 
 return array(
     'TenantName' => "{$tenant_prefix}.onmicrosoft.com",
