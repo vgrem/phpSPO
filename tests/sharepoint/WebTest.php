@@ -98,8 +98,8 @@ class WebTest extends SharePointTestCase
             ->breakRoleInheritance(true)
             ->executeQuery();
 
-        $targetWeb->select("HasUniqueRoleAssignments")->get()->executeQuery();
-        self::assertTrue($targetWeb->getHasUniqueRoleAssignments());
+        $result = $targetWeb->select(["HasUniqueRoleAssignments"])->get()->executeQuery();
+        self::assertTrue($result->getHasUniqueRoleAssignments());
     }
 
     /**

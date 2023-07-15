@@ -2138,7 +2138,10 @@ class Web extends SecurableObject
     {
         $url = parent::getResourceUrl();
         if (!is_null($this->webUrl)) {
-            return str_replace("/_api", "{$this->webUrl}/_api", $url);
+            $urlInfo = parse_url($this->getContext()->getBaseUrl());
+            $rootSiteUrl =  $urlInfo['scheme'] . '://' . $urlInfo['host'];
+            return "{$rootSiteUrl}{$this->webUrl}/_api/web";
+            #return str_replace("/_api", "{$this->webUrl}/_api", $url);
         }
         return $url;
     }
