@@ -4,6 +4,7 @@ namespace Office365\SharePoint;
 
 use Exception;
 use Office365\Runtime\Auth\AuthenticationContext;
+use Office365\Runtime\Auth\CertificateCredentials;
 use Office365\Runtime\Auth\ClientCredential;
 use Office365\Runtime\Auth\IAuthenticationContext;
 use Office365\Runtime\Auth\NetworkCredentialContext;
@@ -22,6 +23,7 @@ use Office365\SharePoint\Portal\SPSiteManager;
 use Office365\SharePoint\Search\SearchService;
 use Office365\SharePoint\Taxonomy\TaxonomyService;
 use Office365\SharePoint\UserProfiles\PeopleManager;
+use function PHPUnit\Framework\throwException;
 
 /**
  * Client context for SharePoint API service
@@ -141,6 +143,16 @@ class ClientContext extends ClientRuntimeContext
     {
         $this->authContext = new AuthenticationContext($this->baseUrl);
         $this->authContext->registerProvider($credential);
+        return $this;
+    }
+
+    /**
+     * @return ClientContext
+     */
+    public function withClientCertificate($tenant, $clientId, $privateKey, $thumbprint, $scopes=null){
+        $this->authContext = new AuthenticationContext($this->baseUrl);
+        $this->authContext->registerProvider(
+            new CertificateCredentials($tenant, $clientId, $privateKey, $thumbprint, $scopes));
         return $this;
     }
 

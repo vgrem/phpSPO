@@ -4,6 +4,7 @@
 namespace Office365\Runtime\Auth;
 
 use Exception;
+use Firebase\JWT\JWT;
 use Office365\Runtime\Http\HttpMethod;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\Http\Requests;
@@ -19,6 +20,13 @@ class AADTokenProvider extends BaseTokenProvider
      * @var string
      */
     private static $TokenEndpoint = '/oauth2/token';
+
+
+    /**
+     * @var string
+     */
+    private static $TokenEndpointV2 = '/oauth2/v2.0/token';
+
 
     /**
      * @var string
@@ -43,6 +51,10 @@ class AADTokenProvider extends BaseTokenProvider
     public function __construct($tenant)
     {
         $this->authorityUrl = self::$AuthorityUrl . $tenant;
+    }
+
+    public function getTokenUrl($useV2){
+        return $this->authorityUrl . ($useV2 ?  self::$TokenEndpointV2:  self::$TokenEndpoint);
     }
 
 
@@ -85,6 +97,36 @@ class AADTokenProvider extends BaseTokenProvider
         );
         return $this->acquireToken($parameters);
     }
+
+
+    /**
+     * @param CertificateCredentials $credentials
+     * @throws Exception
+     */
+    public function acquireTokenForClientCertificate($credentials){
+        $header = [
+            'x5t' => base64_encode(hex2bin($credentials->Thumbprint)),
+        ];
+        $now = time();
+        $payload = [
+            'aud' => $this->getTokenUrl(true),
+            'exp' => $now + 360,
+            'iat' => $now,
+            'iss' => $credentials->ClientId,
+            'jti' => bin2hex(random_bytes(20)),
+            'nbf' => $now,
+            'sub' => $credentials->ClientId,
+        ];
+        $jwt = JWT::encode($payload, str_replace('\n', "\n", $credentials->PrivateKey), 'RS256', null, $header);
+
+        $params['client_assertion_type'] = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer';
+        $params['client_assertion'] = $jwt;
+        $params['grant_type'] = "client_credentials";
+        $params['scope'] = implode(" ", $credentials->Scope);
+
+        return $this->acquireToken($params, true);
+    }
+
 
 
     /**
@@ -140,24 +182,26 @@ class AADTokenProvider extends BaseTokenProvider
     /**
      * Acquires the access token
      * @param array $parameters
+     * @param bool $useV2
      * @return mixed
      * @throws Exception
      */
-    public function acquireToken($parameters)
+    public function acquireToken($parameters, $useV2=false)
     {
-        $request = $this->prepareTokenRequest($parameters);
+        $request = $this->prepareTokenRequest($parameters, $useV2);
         $response = Requests::execute($request);
         $response->validate();
         return $this->normalizeToken($response->getContent());
     }
 
     /**
-     * @param $parameters
+     * @param array $parameters
+     * @param bool $useV2
      * @return RequestOptions
      */
-    private function prepareTokenRequest($parameters)
+    private function prepareTokenRequest($parameters, $useV2)
     {
-        $tokenUrl = $this->authorityUrl . self::$TokenEndpoint;
+        $tokenUrl = $this->getTokenUrl($useV2);
         $request = new RequestOptions($tokenUrl);
         $request->ensureHeader('content-Type', 'application/x-www-form-urlencoded');
         $request->Method = HttpMethod::Post;

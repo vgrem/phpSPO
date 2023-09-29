@@ -2,7 +2,6 @@
 
 namespace Office365\Runtime\Auth;
 
-
 use Exception;
 use Office365\Runtime\Http\RequestOptions;
 
@@ -49,7 +48,7 @@ class AuthenticationContext implements IAuthenticationContext
     }
 
     /**
-     * @param ClientCredential|UserCredentials $credential
+     * @param ClientCredential|UserCredentials|CertificateCredentials $credential
      */
     public function registerProvider($credential)
     {
@@ -58,6 +57,8 @@ class AuthenticationContext implements IAuthenticationContext
                 $this->acquireTokenForUser($credential->Username, $credential->Password);
             elseif ($credential instanceof ClientCredential)
                 $this->acquireAppOnlyAccessToken($credential->ClientId, $credential->ClientSecret);
+            elseif ($credential instanceof CertificateCredentials)
+                $this->acquireAppOnlyAccessTokenWithCert($credential);
             else
                 throw new Exception("Unknown credentials");
         };
@@ -65,7 +66,7 @@ class AuthenticationContext implements IAuthenticationContext
 
 
     /**
-     * @var string
+     * @param string $value
      */
     public function setAccessToken($value)
     {
@@ -105,6 +106,19 @@ class AuthenticationContext implements IAuthenticationContext
         ));
     }
 
+    /**
+     * Acquire App-Only access token via client certificate flow
+     * @param CertificateCredentials $credentials
+     * @throws Exception
+     */
+    public function acquireAppOnlyAccessTokenWithCert($credentials){
+        if(!isset($credentials->Scope)){
+            $credentials->Scope[] = "{$this->authorityUrl}/.default";
+        }
+        $this->provider = new AADTokenProvider($credentials->Tenant);
+        $this->accessToken = $this->provider->acquireTokenForClientCertificate($credentials);
+    }
+
 
 
     /**
@@ -132,6 +146,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * Ensures Authorization header is set
      * @param RequestOptions $options
+     * @throws Exception
      */
     protected function ensureAuthorizationHeader(RequestOptions $options)
     {

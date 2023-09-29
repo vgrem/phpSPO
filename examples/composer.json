@@ -2,7 +2,8 @@
   "name": "vgrem/php-spo-examples",
   "description": "Examples that demonstrate how to utilize library",
   "require": {
-    "fzaninotto/faker": "*"
+    "fzaninotto/faker": "*",
+    "firebase/php-jwt": "*"
   },
   "autoload": {
     "psr-4": {

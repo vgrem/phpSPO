@@ -22,7 +22,8 @@
         "ext-json": "*",
         "ext-simplexml": "*",
         "ext-dom": "*",
-        "ext-libxml": "*"
+        "ext-libxml": "*",
+        "firebase/php-jwt": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9"

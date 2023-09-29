@@ -23,6 +23,7 @@ use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Actions\UpdateEntityQuery;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Teams\TeamCollection;
+use RuntimeException;
 
 
 /**
@@ -157,8 +158,20 @@ class GraphServiceClient extends ClientRuntimeContext
     public function authenticateRequest(RequestOptions $options)
     {
         $token = call_user_func($this->acquireTokenFunc, $this);
+        $this->validateToken($token);
         $headerVal = $token['token_type'] . ' ' . $token['access_token'];
         $options->ensureHeader('Authorization', $headerVal);
+    }
+
+    private function validateToken($accessToken){
+        if (isset($accessToken['error'])) {
+            $message = $accessToken['error'];
+
+            if (isset($accessToken['error_description'])) {
+                $message .= PHP_EOL . $accessToken['error_description'];
+            }
+            throw new RuntimeException($message);
+        }
     }
 
 
