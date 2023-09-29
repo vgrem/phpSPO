@@ -113,7 +113,9 @@ class AuthenticationContext implements IAuthenticationContext
      */
     public function acquireAppOnlyAccessTokenWithCert($credentials){
         if(!isset($credentials->Scope)){
-            $credentials->Scope[] = "{$this->authorityUrl}/.default";
+            $hostInfo = parse_url($this->authorityUrl);
+            $defaultScope =  $hostInfo['scheme'] . '://' . $hostInfo['host'] . '/.default';
+            $credentials->Scope[] = $defaultScope;
         }
         $this->provider = new AADTokenProvider($credentials->Tenant);
         $this->accessToken = $this->provider->acquireTokenForClientCertificate($credentials);

@@ -147,6 +147,8 @@ class ClientContext extends ClientRuntimeContext
     }
 
     /**
+     * Creates authenticated SharePoint context via certificate credentials
+     *
      * @return ClientContext
      */
     public function withClientCertificate($tenant, $clientId, $privateKey, $thumbprint, $scopes=null){
