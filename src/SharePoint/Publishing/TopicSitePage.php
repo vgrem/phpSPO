@@ -1,13 +1,11 @@
 <?php
 
 /**
- * Generated 2019-12-21T23:09:34+00:00 16.0.19520.12047
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint\Publishing;
 
 use Office365\Runtime\ClientObject;
-
-
 class TopicSitePage extends ClientObject
 {
     /**
@@ -60,5 +58,19 @@ class TopicSitePage extends ClientObject
     public function setEntityType($value)
     {
         $this->setProperty("EntityType", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getVerifiedTopicAllowedEditors()
+    {
+        return $this->getProperty("VerifiedTopicAllowedEditors");
+    }
+    /**
+     * @var string
+     */
+    public function setVerifiedTopicAllowedEditors($value)
+    {
+        return $this->setProperty("VerifiedTopicAllowedEditors", $value, true);
     }
 }

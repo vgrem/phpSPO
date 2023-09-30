@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint;
 
@@ -173,5 +173,33 @@ class ApprovalRequest extends ClientValue
     public function setResponses($value)
     {
         return $this->setProperty("Responses", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getPartnerMetadata()
+    {
+        return $this->getProperty("PartnerMetadata");
+    }
+    /**
+     * @var string
+     */
+    public function setPartnerMetadata($value)
+    {
+        return $this->setProperty("PartnerMetadata", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getPriority()
+    {
+        return $this->getProperty("Priority");
+    }
+    /**
+     * @var integer
+     */
+    public function setPriority($value)
+    {
+        return $this->setProperty("Priority", $value, true);
     }
 }

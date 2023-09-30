@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint\Taxonomy;
 
@@ -225,5 +225,19 @@ class TaxonomyField extends FieldLookup
     public function setIsDocTagsEnabled($value)
     {
         return $this->setProperty("IsDocTagsEnabled", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getIsEnhancedImageTaggingEnabled()
+    {
+        return $this->getProperty("IsEnhancedImageTaggingEnabled");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsEnhancedImageTaggingEnabled($value)
+    {
+        return $this->setProperty("IsEnhancedImageTaggingEnabled", $value, true);
     }
 }

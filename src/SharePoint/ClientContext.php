@@ -23,7 +23,6 @@ use Office365\SharePoint\Portal\SPSiteManager;
 use Office365\SharePoint\Search\SearchService;
 use Office365\SharePoint\Taxonomy\TaxonomyService;
 use Office365\SharePoint\UserProfiles\PeopleManager;
-use function PHPUnit\Framework\throwException;
 
 /**
  * Client context for SharePoint API service

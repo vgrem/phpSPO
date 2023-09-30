@@ -6,22 +6,18 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class PortalAndOrgNewsSiteReference extends ClientValue
+class FolderColoringInformation extends ClientValue
 {
     /**
      * @var string
      */
-    public $SiteId;
+    public $ColorHex;
     /**
      * @var string
      */
-    public $WebId;
+    public $ColorTag;
     /**
-     * @var bool
+     * @var string
      */
-    public $IsInDraftMode;
-    /**
-     * @var bool
-     */
-    public $IsVivaBackend;
+    public $Emoji;
 }

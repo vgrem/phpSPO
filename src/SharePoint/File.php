@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-08-22T15:28:03+00:00 16.0.21611.12002
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint;
 
@@ -17,7 +17,6 @@ use Office365\Runtime\ResourcePath;
 use Office365\Runtime\Types\Guid;
 use Office365\SharePoint\Internal\Paths\FileContentPath;
 use Office365\SharePoint\WebParts\LimitedWebPartManager;
-
 /**
  * Represents 
  * a file in a site (2) that can be 
@@ -177,8 +176,6 @@ class File extends SecurableObject
         $this->getContext()->addQuery($qry);
         return $this;
     }
-
-
     /**
      * Opens the file
      * @param ClientContext $ctx
@@ -187,13 +184,14 @@ class File extends SecurableObject
      * @return mixed|string
      * @throws Exception
      */
-    public static function openBinary(ClientRuntimeContext $ctx, $serverRelativeUrl, $usePath=true)
+    public static function openBinary(ClientRuntimeContext $ctx, $serverRelativeUrl, $usePath = true)
     {
         $file = new File($ctx);
-        if($usePath)
-            $file->setProperty("ServerRelativePath",new SPResourcePath($serverRelativeUrl));
-        else
-            $file->setProperty("ServerRelativeUrl",$serverRelativeUrl);
+        if ($usePath) {
+            $file->setProperty("ServerRelativePath", new SPResourcePath($serverRelativeUrl));
+        } else {
+            $file->setProperty("ServerRelativeUrl", $serverRelativeUrl);
+        }
         $contentPath = new FileContentPath($file->getResourcePath());
         $url = $ctx->getServiceRootUrl() . $contentPath->toUrl();
         $options = new RequestOptions($url);
@@ -213,13 +211,14 @@ class File extends SecurableObject
      * @param  bool $usePath
      * @throws Exception
      */
-    public static function saveBinary(ClientRuntimeContext $ctx, $serverRelativeUrl, $content, $usePath=true)
+    public static function saveBinary(ClientRuntimeContext $ctx, $serverRelativeUrl, $content, $usePath = true)
     {
         $file = new File($ctx);
-        if($usePath)
-            $file->setProperty("ServerRelativePath",new SPResourcePath($serverRelativeUrl));
-        else
-            $file->setProperty("ServerRelativeUrl",$serverRelativeUrl);
+        if ($usePath) {
+            $file->setProperty("ServerRelativePath", new SPResourcePath($serverRelativeUrl));
+        } else {
+            $file->setProperty("ServerRelativeUrl", $serverRelativeUrl);
+        }
         $contentPath = new FileContentPath($file->getResourcePath());
         $url = $ctx->getServiceRootUrl() . $contentPath->toUrl();
         $request = new RequestOptions($url);
@@ -273,8 +272,7 @@ class File extends SecurableObject
      */
     public function getListItemAllFields()
     {
-        return $this->getProperty("ListItemAllFields",
-            new ListItem($this->getContext(), new ResourcePath("ListItemAllFields", $this->getResourcePath())));
+        return $this->getProperty("ListItemAllFields", new ListItem($this->getContext(), new ResourcePath("ListItemAllFields", $this->getResourcePath())));
     }
     /**
      * Starts a new chunk upload session and uploads the first fragment
@@ -313,8 +311,7 @@ class File extends SecurableObject
      */
     public function finishUpload($uploadId, $fileOffset, $content)
     {
-        $qry = new InvokePostMethodQuery($this, "finishupload",
-            array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset), null, $content);
+        $qry = new InvokePostMethodQuery($this, "finishupload", array('uploadId' => $uploadId->toString(), 'fileOffset' => $fileOffset), null, $content);
         $this->getContext()->addQueryAndResultObject($qry, $this);
         return $this;
     }
@@ -327,8 +324,7 @@ class File extends SecurableObject
         if (is_null($this->resourcePath)) {
             if ($name === "ServerRelativeUrl") {
                 $this->resourcePath = $this->getParentWeb()->getFileByServerRelativeUrl($value)->getResourcePath();
-            }
-            elseif ($name === "ServerRelativePath") {
+            } elseif ($name === "ServerRelativePath") {
                 $this->resourcePath = $this->getParentWeb()->getFileByServerRelativePath($value)->getResourcePath();
             }
         }
@@ -909,9 +905,7 @@ class File extends SecurableObject
      */
     public function getEffectiveInformationRightsManagementSettings()
     {
-        return $this->getProperty("EffectiveInformationRightsManagementSettings",
-            new EffectiveInformationRightsManagementSettings($this->getContext(),
-                new ResourcePath("EffectiveInformationRightsManagementSettings", $this->getResourcePath())));
+        return $this->getProperty("EffectiveInformationRightsManagementSettings", new EffectiveInformationRightsManagementSettings($this->getContext(), new ResourcePath("EffectiveInformationRightsManagementSettings", $this->getResourcePath())));
     }
     /**
      * @return Web|null
@@ -1021,5 +1015,26 @@ class File extends SecurableObject
     public function setExpirationDate($value)
     {
         return $this->setProperty("ExpirationDate", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getExistsAllowThrowForPolicyFailures()
+    {
+        return $this->getProperty("ExistsAllowThrowForPolicyFailures");
+    }
+    /**
+     * @var bool
+     */
+    public function setExistsAllowThrowForPolicyFailures($value)
+    {
+        return $this->setProperty("ExistsAllowThrowForPolicyFailures", $value, true);
+    }
+    /**
+     * @return FileVersionCollection
+     */
+    public function getVersionExpirationReport()
+    {
+        return $this->getProperty("VersionExpirationReport", new FileVersionCollection($this->getContext(), new ResourcePath("VersionExpirationReport", $this->getResourcePath())));
     }
 }

@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Generated 2019-12-21T23:09:34+00:00 16.0.19520.12047
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint\Publishing;
 
 use Office365\Runtime\ClientValue;
-
 class TopicPageFieldsData extends ClientValue
 {
     /**
@@ -21,4 +20,8 @@ class TopicPageFieldsData extends ClientValue
      * @var string
      */
     public $EntityType;
+    /**
+     * @var string
+     */
+    public $VerifiedTopicAllowedEditors;
 }

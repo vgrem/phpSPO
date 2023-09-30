@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-04-23T09:48:37+00:00 16.0.21207.12005
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint;
 
@@ -44,4 +44,8 @@ class ClassificationResult extends ClientValue
      * @var string
      */
     public $SensitivityLabel;
+    /**
+     * @var string
+     */
+    public $Error;
 }

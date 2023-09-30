@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Generated 2019-11-16T19:13:59+00:00 16.0.19506.12022
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ResourcePath;
-
 /**
  * Represents 
  * a version of a fileobject 
@@ -203,9 +202,36 @@ class FileVersion extends BaseEntity
     public function getCreatedBy()
     {
         if (!$this->isPropertyAvailable("CreatedBy")) {
-            $this->setProperty("CreatedBy", new User($this->getContext(),
-                new ResourcePath("CreatedBy", $this->getResourcePath())));
+            $this->setProperty("CreatedBy", new User($this->getContext(), new ResourcePath("CreatedBy", $this->getResourcePath())));
         }
         return $this->getProperty("CreatedBy");
+    }
+    /**
+     * @return string
+     */
+    public function getExpirationDate()
+    {
+        return $this->getProperty("ExpirationDate");
+    }
+    /**
+     * @var string
+     */
+    public function setExpirationDate($value)
+    {
+        return $this->setProperty("ExpirationDate", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getSnapshotDate()
+    {
+        return $this->getProperty("SnapshotDate");
+    }
+    /**
+     * @var string
+     */
+    public function setSnapshotDate($value)
+    {
+        return $this->setProperty("SnapshotDate", $value, true);
     }
 }

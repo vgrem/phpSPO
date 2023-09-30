@@ -6,22 +6,18 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class PortalAndOrgNewsSiteReference extends ClientValue
+class Audience extends ClientValue
 {
     /**
      * @var string
      */
-    public $SiteId;
+    public $Email;
     /**
      * @var string
      */
-    public $WebId;
+    public $Id;
     /**
-     * @var bool
+     * @var string
      */
-    public $IsInDraftMode;
-    /**
-     * @var bool
-     */
-    public $IsVivaBackend;
+    public $Title;
 }

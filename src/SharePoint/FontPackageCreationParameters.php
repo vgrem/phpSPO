@@ -6,22 +6,18 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class SPInvitationCreationResult extends ClientValue
+class FontPackageCreationParameters extends ClientValue
 {
-    /**
-     * @var string
-     */
-    public $Email;
-    /**
-     * @var string
-     */
-    public $InvitationLink;
     /**
      * @var bool
      */
-    public $Succeeded;
+    public $IsHidden;
     /**
      * @var string
      */
-    public $Error;
+    public $PackageJson;
+    /**
+     * @var string
+     */
+    public $Title;
 }

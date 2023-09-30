@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint;
 
@@ -56,4 +56,8 @@ class SPListRule extends ClientValue
      * @var string
      */
     public $RuleTemplateId;
+    /**
+     * @var SPRuleUserInfo
+     */
+    public $LastModifiedBy;
 }

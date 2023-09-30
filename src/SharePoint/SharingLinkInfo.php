@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Generated 2020-11-13T16:48:11+00:00 16.0.20628.12006
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
 use Office365\SharePoint\Sharing\LinkInvitationCollection;
-
 /**
  * Specifies 
  * the information about the tokenized sharing link.
@@ -222,4 +221,16 @@ class SharingLinkInfo extends ClientValue
      * @var bool
      */
     public $IsManageListLink;
+    /**
+     * @var bool
+     */
+    public $IsEphemeral;
+    /**
+     * @var string
+     */
+    public $MeetingId;
+    /**
+     * @var bool
+     */
+    public $RestrictToExistingRelationships;
 }

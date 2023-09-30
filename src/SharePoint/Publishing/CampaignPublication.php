@@ -1,14 +1,11 @@
 <?php
 
 /**
- * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\ClientObject;
-use Office365\Runtime\Actions\DeleteEntityQuery;
-use Office365\Runtime\ResourcePath;
-use Office365\Runtime\Actions\UpdateEntityQuery;
+use Office365\SharePoint\BaseEntity;
 class CampaignPublication extends BaseEntity
 {
     /**
@@ -80,5 +77,19 @@ class CampaignPublication extends BaseEntity
     public function setYammerEndpoint($value)
     {
         return $this->setProperty("YammerEndpoint", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getTeamsEndpoint()
+    {
+        return $this->getProperty("TeamsEndpoint");
+    }
+    /**
+     * @var string
+     */
+    public function setTeamsEndpoint($value)
+    {
+        return $this->setProperty("TeamsEndpoint", $value, true);
     }
 }

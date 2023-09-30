@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-03-12T16:05:00+00:00 16.0.21103.12002
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint;
 
@@ -12,4 +12,28 @@ class ConfigurationData extends ClientValue
      * @var SPResourcePath
      */
     public $BridgeAbsolutePath;
+    /**
+     * @var bool
+     */
+    public $IsPersonalizationEnabled;
+    /**
+     * @var bool
+     */
+    public $IsVivaHomeOptedOut;
+    /**
+     * @var HomeSiteNavConfiguration
+     */
+    public $NavConfig;
+    /**
+     * @var string
+     */
+    public $SiteId;
+    /**
+     * @var integer
+     */
+    public $VivaExperienceType;
+    /**
+     * @var string
+     */
+    public $WebId;
 }

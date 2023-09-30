@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2020-08-17T19:25:17+00:00 16.0.20405.12007
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint;
 
@@ -20,7 +20,6 @@ use Office365\Runtime\ResourcePath;
  */
 class Folder extends Entity
 {
-
     /**
      * Upload a file under Folder
      * @param string $name
@@ -35,7 +34,6 @@ class Folder extends Entity
         $info->Overwrite = true;
         return $this->getFiles()->add($info);
     }
-
     /**
      * Copies the folder along with files to the destination URL.
      * @param string $strNewUrl The absolute URL or server relative URL of the destination file path to copy to.
@@ -44,12 +42,12 @@ class Folder extends Entity
      */
     public function copyTo($strNewUrl, $bOverWrite)
     {
-        $targetFolder =  $this->getContext()->getWeb()->getRootFolder()->getFolders()->add($strNewUrl);
-        $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use($strNewUrl,$bOverWrite, $targetFolder) {
-            $this->ensureProperty("Files", function ()  use ($strNewUrl,$bOverWrite, $targetFolder){
+        $targetFolder = $this->getContext()->getWeb()->getRootFolder()->getFolders()->add($strNewUrl);
+        $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use($strNewUrl, $bOverWrite, $targetFolder) {
+            $this->ensureProperty("Files", function () use($strNewUrl, $bOverWrite, $targetFolder) {
                 /** @var File $file */
-                foreach($this->getFiles() as $file){
-                    $newFileUrl = join("/", array($strNewUrl,$file->getName())) ;
+                foreach ($this->getFiles() as $file) {
+                    $newFileUrl = join("/", array($strNewUrl, $file->getName()));
                     $file->copyTo($newFileUrl, $bOverWrite);
                 }
                 $this->getContext()->load($targetFolder);
@@ -57,9 +55,6 @@ class Folder extends Entity
         });
         return $targetFolder;
     }
-
-
-
     /**
      * Moves the file to the specified destination URL.
      * @param string $newUrl The absolute URL or server relative URL of the destination file path to move to.
@@ -68,12 +63,12 @@ class Folder extends Entity
      */
     public function moveTo($newUrl, $flags)
     {
-        $targetFolder =  $this->getContext()->getWeb()->getRootFolder()->getFolders()->add($newUrl);
+        $targetFolder = $this->getContext()->getWeb()->getRootFolder()->getFolders()->add($newUrl);
         $this->getContext()->getPendingRequest()->afterExecuteRequest(function () use($newUrl, $flags, $targetFolder) {
-            $this->ensureProperty("Files", function () use ($newUrl, $flags, $targetFolder){
+            $this->ensureProperty("Files", function () use($newUrl, $flags, $targetFolder) {
                 /** @var File $file */
-                foreach($this->getFiles() as $file){
-                    $newFileUrl = join("/", array($newUrl,$file->getName())) ;
+                foreach ($this->getFiles() as $file) {
+                    $newFileUrl = join("/", array($newUrl, $file->getName()));
                     $file->moveTo($newFileUrl, $flags);
                 }
                 $this->getContext()->load($targetFolder);
@@ -81,7 +76,6 @@ class Folder extends Entity
         });
         return $targetFolder;
     }
-
     /**
      * Rename a file
      * @param string $name
@@ -112,8 +106,7 @@ class Folder extends Entity
      */
     public function getFiles()
     {
-        return $this->getProperty("Files",
-            new FileCollection($this->getContext(), new ResourcePath("Files", $this->getResourcePath())));
+        return $this->getProperty("Files", new FileCollection($this->getContext(), new ResourcePath("Files", $this->getResourcePath())));
     }
     /**
      * Gets the collection of list folders contained in the list folder.
@@ -121,8 +114,7 @@ class Folder extends Entity
      */
     public function getFolders()
     {
-        return $this->getProperty("Folders",
-            new FolderCollection($this->getContext(), new ResourcePath("folders", $this->getResourcePath())));
+        return $this->getProperty("Folders", new FolderCollection($this->getContext(), new ResourcePath("folders", $this->getResourcePath())));
     }
     /**
      * Specifies the list item field (2) values for the list item corresponding to the folder.
@@ -130,10 +122,8 @@ class Folder extends Entity
      */
     public function getListItemAllFields()
     {
-        return $this->getProperty("ListItemAllFields",
-            new ListItem($this->getContext(), new ResourcePath("ListItemAllFields", $this->getResourcePath())));
+        return $this->getProperty("ListItemAllFields", new ListItem($this->getContext(), new ResourcePath("ListItemAllFields", $this->getResourcePath())));
     }
-
     /**
      * @param string $name
      * @param mixed $value
@@ -253,7 +243,6 @@ class Folder extends Entity
     {
         return $this->getProperty("ServerRelativeUrl");
     }
-
     /**
      * Specifies
      * the server-relative
@@ -275,7 +264,6 @@ class Folder extends Entity
     {
         return $this->getProperty("TimeCreated");
     }
-
     /**
      * Gets when
      * the folder was created in UTC.
@@ -334,7 +322,6 @@ class Folder extends Entity
     {
         return $this->getProperty("WelcomePage");
     }
-
     /**
      * Specifies
      * the server-relative
@@ -357,16 +344,14 @@ class Folder extends Entity
      */
     public function getParentFolder()
     {
-        return $this->getProperty("ParentFolder",
-            new Folder($this->getContext(), new ResourcePath("ParentFolder", $this->getResourcePath())));
+        return $this->getProperty("ParentFolder", new Folder($this->getContext(), new ResourcePath("ParentFolder", $this->getResourcePath())));
     }
     /**
      * @return StorageMetrics
      */
     public function getStorageMetrics()
     {
-        return $this->getProperty("StorageMetrics",
-            new StorageMetrics($this->getContext(),new ResourcePath("StorageMetrics", $this->getResourcePath())));
+        return $this->getProperty("StorageMetrics", new StorageMetrics($this->getContext(), new ResourcePath("StorageMetrics", $this->getResourcePath())));
     }
     /**
      * Returns 
@@ -377,7 +362,6 @@ class Folder extends Entity
     {
         return $this->getProperty("ServerRelativePath", new SPResourcePath());
     }
-
     /**
      * Returns
      * the server-relative path of the folder.
@@ -388,5 +372,19 @@ class Folder extends Entity
     public function setServerRelativePath($value)
     {
         return $this->setProperty("ServerRelativePath", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getExistsAllowThrowForPolicyFailures()
+    {
+        return $this->getProperty("ExistsAllowThrowForPolicyFailures");
+    }
+    /**
+     * @var bool
+     */
+    public function setExistsAllowThrowForPolicyFailures($value)
+    {
+        return $this->setProperty("ExistsAllowThrowForPolicyFailures", $value, true);
     }
 }

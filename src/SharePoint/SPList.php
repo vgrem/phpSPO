@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint;
 
@@ -1608,5 +1608,61 @@ class SPList extends SecurableObject
     public function setHasCopyMoveRules($value)
     {
         return $this->setProperty("HasCopyMoveRules", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getHasContentAssemblyTemplates()
+    {
+        return $this->getProperty("HasContentAssemblyTemplates");
+    }
+    /**
+     * @var bool
+     */
+    public function setHasContentAssemblyTemplates($value)
+    {
+        return $this->setProperty("HasContentAssemblyTemplates", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getHasFolderColoringFields()
+    {
+        return $this->getProperty("HasFolderColoringFields");
+    }
+    /**
+     * @var bool
+     */
+    public function setHasFolderColoringFields($value)
+    {
+        return $this->setProperty("HasFolderColoringFields", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getHasListBoundContentAssemblyTemplates()
+    {
+        return $this->getProperty("HasListBoundContentAssemblyTemplates");
+    }
+    /**
+     * @var bool
+     */
+    public function setHasListBoundContentAssemblyTemplates($value)
+    {
+        return $this->setProperty("HasListBoundContentAssemblyTemplates", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getSensitivityLabelToEncryptOnDOwnloadForLibrary()
+    {
+        return $this->getProperty("SensitivityLabelToEncryptOnDOwnloadForLibrary");
+    }
+    /**
+     * @var string
+     */
+    public function setSensitivityLabelToEncryptOnDOwnloadForLibrary($value)
+    {
+        return $this->setProperty("SensitivityLabelToEncryptOnDOwnloadForLibrary", $value, true);
     }
 }

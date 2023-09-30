@@ -6,22 +6,22 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class SPInvitationCreationResult extends ClientValue
+class HomeSiteReference extends ClientValue
 {
     /**
-     * @var string
+     * @var array
      */
-    public $Email;
+    public $Audiences;
+    /**
+     * @var integer
+     */
+    public $SiteFlags;
     /**
      * @var string
      */
-    public $InvitationLink;
-    /**
-     * @var bool
-     */
-    public $Succeeded;
+    public $SiteId;
     /**
      * @var string
      */
-    public $Error;
+    public $WebId;
 }

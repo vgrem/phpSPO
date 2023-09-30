@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -752,5 +752,75 @@ class SharingInformation extends ClientObject
     public function setsensitivityLabelInformation($value)
     {
         return $this->setProperty("sensitivityLabelInformation", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getisConsumerFiles()
+    {
+        return $this->getProperty("isConsumerFiles");
+    }
+    /**
+     * @var bool
+     */
+    public function setisConsumerFiles($value)
+    {
+        return $this->setProperty("isConsumerFiles", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getsiteId()
+    {
+        return $this->getProperty("siteId");
+    }
+    /**
+     * @var string
+     */
+    public function setsiteId($value)
+    {
+        return $this->setProperty("siteId", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getsubstrateFileId()
+    {
+        return $this->getProperty("substrateFileId");
+    }
+    /**
+     * @var string
+     */
+    public function setsubstrateFileId($value)
+    {
+        return $this->setProperty("substrateFileId", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function gettenantDisplayName()
+    {
+        return $this->getProperty("tenantDisplayName");
+    }
+    /**
+     * @var string
+     */
+    public function settenantDisplayName($value)
+    {
+        return $this->setProperty("tenantDisplayName", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function gettenantId()
+    {
+        return $this->getProperty("tenantId");
+    }
+    /**
+     * @var string
+     */
+    public function settenantId($value)
+    {
+        return $this->setProperty("tenantId", $value, true);
     }
 }

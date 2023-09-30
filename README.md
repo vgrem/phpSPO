@@ -1,6 +1,6 @@
 ﻿### About
-Office 365 Library for PHP.
-A REST/OData based client library for Office 365.
+Microsoft 365 Library for PHP.
+A REST/OData based client library for Microsoft 365.
 
 
 ### Usage

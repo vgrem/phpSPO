@@ -6,22 +6,14 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class SPInvitationCreationResult extends ClientValue
+class CAAEFieldElement extends ClientValue
 {
     /**
      * @var string
      */
-    public $Email;
+    public $Id;
     /**
      * @var string
      */
-    public $InvitationLink;
-    /**
-     * @var bool
-     */
-    public $Succeeded;
-    /**
-     * @var string
-     */
-    public $Error;
+    public $Version;
 }

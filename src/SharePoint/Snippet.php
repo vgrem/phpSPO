@@ -6,22 +6,22 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class PortalAndOrgNewsSiteReference extends ClientValue
+class Snippet extends ClientValue
 {
     /**
      * @var string
      */
-    public $SiteId;
+    public $Id;
     /**
      * @var string
      */
-    public $WebId;
+    public $Name;
     /**
-     * @var bool
+     * @var string
      */
-    public $IsInDraftMode;
+    public $SnippetLibraryMappedId;
     /**
-     * @var bool
+     * @var string
      */
-    public $IsVivaBackend;
+    public $SnippetLibraryMappedVersion;
 }

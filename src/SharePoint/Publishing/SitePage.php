@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint\Publishing;
 
@@ -133,5 +133,47 @@ class SitePage extends ClientObject
     public function setLanguage($value)
     {
         return $this->setProperty("Language", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getCheckIn()
+    {
+        return $this->getProperty("CheckIn");
+    }
+    /**
+     * @var bool
+     */
+    public function setCheckIn($value)
+    {
+        return $this->setProperty("CheckIn", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getCreationMode()
+    {
+        return $this->getProperty("CreationMode");
+    }
+    /**
+     * @var integer
+     */
+    public function setCreationMode($value)
+    {
+        return $this->setProperty("CreationMode", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getTranspileContent()
+    {
+        return $this->getProperty("TranspileContent");
+    }
+    /**
+     * @var string
+     */
+    public function setTranspileContent($value)
+    {
+        return $this->setProperty("TranspileContent", $value, true);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-10-09T13:33:47+03:00 16.0.21729.12001
+ * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint\Publishing;
 
@@ -56,4 +56,20 @@ class SitePageFieldsData extends ClientValue
      * @var string
      */
     public $CallToAction;
+    /**
+     * @var string
+     */
+    public $EmailTranspileContent;
+    /**
+     * @var string
+     */
+    public $HiddenHighlightsMetadata;
+    /**
+     * @var string
+     */
+    public $HideListEditorMetadata;
+    /**
+     * @var string
+     */
+    public $TeamsTranspileContent;
 }
