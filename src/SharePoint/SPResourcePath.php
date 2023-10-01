@@ -23,6 +23,14 @@ class SPResourcePath extends ClientValue
     }
 
     /**
+     * @return array
+     */
+    public function toJson()
+    {
+        return array("DecodedUrl" => rawurlencode($this->DecodedUrl));
+    }
+
+    /**
      * @var string
      */
     public $DecodedUrl;

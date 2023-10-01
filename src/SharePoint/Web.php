@@ -195,13 +195,16 @@ class Web extends SecurableObject
     }
     /**
      * Returns the file object located at the specified server-relative Path.
-     * @param SPResourcePath $serverRelativePath The server relative Path of the file.
+     * @param SPResourcePath|string $serverRelativePath The server relative Path of the file.
      * @return File
      */
     public function getFileByServerRelativePath($serverRelativePath)
     {
-        $params = array("decodedUrl" => rawurlencode($serverRelativePath->DecodedUrl));
-        return new File($this->getContext(), new ServiceOperationPath("getFileByServerRelativePath", $params, $this->getResourcePath()));
+        if(is_string($serverRelativePath)) {
+            $serverRelativePath = new SPResourcePath($serverRelativePath);
+        }
+        return new File($this->getContext(),
+            new ServiceOperationPath("getFileByServerRelativePath", $serverRelativePath->toJson(), $this->getResourcePath()));
     }
     /**
      * Returns the file object with the specified GUID.
@@ -223,12 +226,15 @@ class Web extends SecurableObject
     }
     /**
      * Returns the folder object located at the specified server-relative Path.
-     * @param SPResourcePath $serverRelativePath
+     * @param SPResourcePath|string $serverRelativePath
      * @return Folder
      */
     public function getFolderByServerRelativePath($serverRelativePath)
     {
-        return new Folder($this->getContext(), new ServiceOperationPath("getFolderByServerRelativePath", array("decodedUrl" => rawurlencode($serverRelativePath->DecodedUrl)), $this->getResourcePath()));
+        if(is_string($serverRelativePath)) {
+            $serverRelativePath = new SPResourcePath($serverRelativePath);
+        }
+        return new Folder($this->getContext(), new ServiceOperationPath("getFolderByServerRelativePath", $serverRelativePath->toJson(), $this->getResourcePath()));
     }
     /**
      * Returns the folder object with the specified GUID.
