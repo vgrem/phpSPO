@@ -1,4 +1,4 @@
-﻿### About
+﻿## About
 Microsoft 365 Library for PHP.
 A REST/OData based client library for Microsoft 365.
 
@@ -68,7 +68,7 @@ The list of supported SharePoint versions:
 
 The following auth flows supported:
 
-- app principals (client credentials) auth (refer [Granting access using SharePoint App-Only](https://docs.microsoft.com/en-us/sharepoint/dev/solution-guidance/security-apponly-azureacs) for a details):
+#### 1. app principal with client credentials:
 
 ```php
 
@@ -79,8 +79,34 @@ The following auth flows supported:
   $ctx = (new ClientContext("{siteUrl}"))->withCredentials($credentials);
 ```
 
+Documentation:
 
-- user credentials auth:
+- [wiki](https://github.com/vgrem/phpSPO/wiki/How-to-connect-to-SharePoint-Online-and-and-SharePoint-2013-2016-2019-on-premises--with-app-principal)
+- [Granting access using SharePoint App-Only](https://docs.microsoft.com/en-us/sharepoint/dev/solution-guidance/security-apponly-azureacs)
+
+#### 2. app principal with client certificate:
+
+```php
+
+  use Office365\Runtime\Auth\ClientCredential;
+  use Office365\SharePoint\ClientContext;
+
+
+$tenant = "{tenant}.onmicrosoft.com"; //tenant id or name
+$privateKetPath = "-- path to private.key file--"
+$privateKey = file_get_contents($privateKetPath);
+
+$ctx = (new ClientContext("{siteUrl}"))->withClientCertificate(
+    $tenant, "{clientId}", $privateKey, "{thumbprint}");
+```
+
+Documentation:
+
+- [wiki](https://github.com/vgrem/phpSPO/wiki/Granting-access-via-Azure-AD-App%E2%80%90Only-with-Certificate) 
+- [Granting access using SharePoint App-Only](https://docs.microsoft.com/en-us/sharepoint/dev/solution-guidance/security-apponly-azureacs) 
+
+
+#### 3. user credentials auth:
 
 ```php
 
@@ -92,7 +118,7 @@ The following auth flows supported:
 ```
 
 
-- NTLM auth (for SharePoint On-Premises):
+#### 4. NTLM auth (for SharePoint On-Premises):
 ```php
    use Office365\Runtime\Auth\UserCredentials;
    use Office365\SharePoint\ClientContext;
