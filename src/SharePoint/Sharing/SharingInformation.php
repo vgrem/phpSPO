@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
+ * Generated  2023-10-01T08:17:31+00:00 16.0.24106.12014
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -822,5 +822,19 @@ class SharingInformation extends ClientObject
     public function settenantId($value)
     {
         return $this->setProperty("tenantId", $value, true);
+    }
+    /**
+     * @return RecipientLimits
+     */
+    public function getrecipientLimits()
+    {
+        return $this->getProperty("recipientLimits");
+    }
+    /**
+     * @var RecipientLimits
+     */
+    public function setrecipientLimits($value)
+    {
+        return $this->setProperty("recipientLimits", $value, true);
     }
 }
