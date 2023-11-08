@@ -38,6 +38,23 @@ class ListItemTest extends SharePointTestCase
         $this->assertEquals($itemsCount, $items->getCount());
     }
 
+    public function testIterator()
+    {
+        // Test that list items can be iterated over without crashing
+        // First, test a simple get with no paging
+        foreach (self::$targetList->getItems()->get()->executeQuery() as $item) {
+            $this->assertNotEmpty($item);
+        }
+        // Now test with explicit paging
+        foreach (self::$targetList->getItems()->get()->paged(1)->executeQuery() as $item) {
+            $this->assertNotEmpty($item);
+        }
+        // Now test with implicit paging via getAll()
+        foreach (self::$targetList->getItems()->getAll()->executeQuery() as $item) {
+            $this->assertNotEmpty($item);
+        }
+    }
+
 
     public function testCreateFolderInList(){
         //ensure Folder creation is enabled for a List
