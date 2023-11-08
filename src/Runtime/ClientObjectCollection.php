@@ -369,8 +369,8 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
         }
 
         if($this->pagedMode){
-            $nextItems = $this->getNext()->executeQuery();
             if($this->hasNext()){
+                $nextItems = $this->getNext()->executeQuery();
                 foreach ($nextItems as $item){
                     yield $item;
                 }
