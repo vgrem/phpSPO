@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-10-01T08:17:31+00:00 16.0.24106.12014
+ * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
  */
 namespace Office365\SharePoint;
 
@@ -1671,5 +1671,33 @@ class SPList extends SecurableObject
     public function getVersionPolicies()
     {
         return $this->getProperty("VersionPolicies", new VersionPolicyManager($this->getContext(), new ResourcePath("VersionPolicies", $this->getResourcePath())));
+    }
+    /**
+     * @return string
+     */
+    public function getEnabledQueryableColumnsDateTime()
+    {
+        return $this->getProperty("EnabledQueryableColumnsDateTime");
+    }
+    /**
+     * @var string
+     */
+    public function setEnabledQueryableColumnsDateTime($value)
+    {
+        return $this->setProperty("EnabledQueryableColumnsDateTime", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getIsContributorOwnerEnabled()
+    {
+        return $this->getProperty("IsContributorOwnerEnabled");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsContributorOwnerEnabled($value)
+    {
+        return $this->setProperty("IsContributorOwnerEnabled", $value, true);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
+ * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
  */
 namespace Office365\SharePoint;
 
@@ -201,5 +201,33 @@ class ApprovalRequest extends ClientValue
     public function setPriority($value)
     {
         return $this->setProperty("Priority", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getCurrentStepNumber()
+    {
+        return $this->getProperty("CurrentStepNumber");
+    }
+    /**
+     * @var integer
+     */
+    public function setCurrentStepNumber($value)
+    {
+        return $this->setProperty("CurrentStepNumber", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getRequestType()
+    {
+        return $this->getProperty("RequestType");
+    }
+    /**
+     * @var string
+     */
+    public function setRequestType($value)
+    {
+        return $this->setProperty("RequestType", $value, true);
     }
 }

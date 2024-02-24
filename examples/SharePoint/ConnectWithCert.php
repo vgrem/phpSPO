@@ -20,7 +20,7 @@ $settings = include(__DIR__ . './../../tests/Settings.php');
 use Office365\SharePoint\ClientContext;
 
 
-$thumbprint = "054343442AC255DD07488910C7E000F92227FD98";
+$thumbprint = "DA6B7FBF6AADBEC6BD171F738ED1E34283F30FD4";
 $privateKey = file_get_contents("./private.key");
 
 $ctx = (new ClientContext($settings['Url']))->withClientCertificate(

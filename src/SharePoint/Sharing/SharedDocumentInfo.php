@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2022-10-08T10:32:22+03:00 16.0.22921.12007
+ * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -541,5 +541,47 @@ class SharedDocumentInfo extends BaseEntity
     public function setActivity($value)
     {
         return $this->setProperty("Activity", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getColorHex()
+    {
+        return $this->getProperty("ColorHex");
+    }
+    /**
+     * @var string
+     */
+    public function setColorHex($value)
+    {
+        return $this->setProperty("ColorHex", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getColorTag()
+    {
+        return $this->getProperty("ColorTag");
+    }
+    /**
+     * @var string
+     */
+    public function setColorTag($value)
+    {
+        return $this->setProperty("ColorTag", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getEmoji()
+    {
+        return $this->getProperty("Emoji");
+    }
+    /**
+     * @var string
+     */
+    public function setEmoji($value)
+    {
+        return $this->setProperty("Emoji", $value, true);
     }
 }

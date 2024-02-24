@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
+ * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
  */
 namespace Office365\SharePoint;
 
@@ -44,4 +44,8 @@ class ApprovalsCreateRequestParameters extends ClientValue
      * @var string
      */
     public $version;
+    /**
+     * @var integer
+     */
+    public $itemUrlType;
 }

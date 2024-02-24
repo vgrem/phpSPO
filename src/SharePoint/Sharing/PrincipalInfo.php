@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Modified: 2019-10-12T20:10:10+00:00  API: 16.0.19402.12016
+ * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -24,4 +24,8 @@ class PrincipalInfo extends ClientValue
      * @var integer
      */
     public $role;
+    /**
+     * @var bool
+     */
+    public $isInherited;
 }

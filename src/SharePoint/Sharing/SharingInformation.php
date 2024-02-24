@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-10-01T08:17:31+00:00 16.0.24106.12014
+ * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -836,5 +836,33 @@ class SharingInformation extends ClientObject
     public function setrecipientLimits($value)
     {
         return $this->setProperty("recipientLimits", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getageGroup()
+    {
+        return $this->getProperty("ageGroup");
+    }
+    /**
+     * @var integer
+     */
+    public function setageGroup($value)
+    {
+        return $this->setProperty("ageGroup", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getisPremium()
+    {
+        return $this->getProperty("isPremium");
+    }
+    /**
+     * @var bool
+     */
+    public function setisPremium($value)
+    {
+        return $this->setProperty("isPremium", $value, true);
     }
 }

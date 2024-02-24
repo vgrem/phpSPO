@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
+ * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
  */
 namespace Office365\SharePoint\Publishing;
 
@@ -32,4 +32,8 @@ class CampaignPublicationFieldsData extends ClientValue
      * @var string
      */
     public $EndpointTeams;
+    /**
+     * @var string
+     */
+    public $EndpointVivaEngage;
 }
