@@ -41,7 +41,7 @@ or via `composer.json` file:
 ```json
 {
     "require": {
-        "vgrem/php-spo": "^2.4"
+        "vgrem/php-spo": "^3"
     }
 }
 ```
