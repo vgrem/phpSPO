@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-10-01T08:17:31+00:00 16.0.24106.12014
+ * Generated  2024-03-17T10:39:33+00:00 16.0.24628.12008
  */
 namespace Office365\SharePoint;
 
@@ -1445,5 +1445,19 @@ class Site extends BaseEntity
     public function getVersionPolicyForNewLibrariesTemplate()
     {
         return $this->getProperty("VersionPolicyForNewLibrariesTemplate", new SiteVersionPolicyManager($this->getContext(), new ResourcePath("VersionPolicyForNewLibrariesTemplate", $this->getResourcePath())));
+    }
+    /**
+     * @return bool
+     */
+    public function getIsRestrictedAccessControlPolicyEnforcedOnSite()
+    {
+        return $this->getProperty("IsRestrictedAccessControlPolicyEnforcedOnSite");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsRestrictedAccessControlPolicyEnforcedOnSite($value)
+    {
+        return $this->setProperty("IsRestrictedAccessControlPolicyEnforcedOnSite", $value, true);
     }
 }

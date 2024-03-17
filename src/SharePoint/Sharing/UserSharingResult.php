@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
+ * Generated  2024-03-17T10:39:33+00:00 16.0.24628.12008
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -78,4 +78,8 @@ class UserSharingResult extends ClientValue
      * @var string
      */
     public $OtherMails;
+    /**
+     * @var string
+     */
+    public $ExpirationDateTimeOnACE;
 }

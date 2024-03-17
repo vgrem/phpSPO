@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-08-22T15:28:03+00:00 16.0.21611.12002
+ * Generated  2024-03-17T10:39:33+00:00 16.0.24628.12008
  */
 namespace Office365\SharePoint;
 
@@ -789,5 +789,19 @@ class ObjectSharingSettings extends BaseEntity
     public function setSiteIBMode($value)
     {
         return $this->setProperty("SiteIBMode", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getCanCurrentUserShareToExistingGuests()
+    {
+        return $this->getProperty("CanCurrentUserShareToExistingGuests");
+    }
+    /**
+     * @var bool
+     */
+    public function setCanCurrentUserShareToExistingGuests($value)
+    {
+        return $this->setProperty("CanCurrentUserShareToExistingGuests", $value, true);
     }
 }

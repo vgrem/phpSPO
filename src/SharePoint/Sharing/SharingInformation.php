@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
+ * Generated  2024-03-17T10:39:33+00:00 16.0.24628.12008
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -864,5 +864,19 @@ class SharingInformation extends ClientObject
     public function setisPremium($value)
     {
         return $this->setProperty("isPremium", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getcanAddExistingExternalPrincipal()
+    {
+        return $this->getProperty("canAddExistingExternalPrincipal");
+    }
+    /**
+     * @var bool
+     */
+    public function setcanAddExistingExternalPrincipal($value)
+    {
+        return $this->setProperty("canAddExistingExternalPrincipal", $value, true);
     }
 }

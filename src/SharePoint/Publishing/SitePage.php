@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
+ * Generated  2024-03-17T10:39:33+00:00 16.0.24628.12008
  */
 namespace Office365\SharePoint\Publishing;
 
@@ -175,5 +175,33 @@ class SitePage extends ClientObject
     public function setTranspileContent($value)
     {
         return $this->setProperty("TranspileContent", $value, true);
+    }
+    /**
+     * @return SitePageAuthoringMetadata
+     */
+    public function getAuthoringMetadata()
+    {
+        return $this->getProperty("AuthoringMetadata");
+    }
+    /**
+     * @var SitePageAuthoringMetadata
+     */
+    public function setAuthoringMetadata($value)
+    {
+        return $this->setProperty("AuthoringMetadata", $value, true);
+    }
+    /**
+     * @return SitePageBoostProperties
+     */
+    public function getBoostProperties()
+    {
+        return $this->getProperty("BoostProperties");
+    }
+    /**
+     * @var SitePageBoostProperties
+     */
+    public function setBoostProperties($value)
+    {
+        return $this->setProperty("BoostProperties", $value, true);
     }
 }
