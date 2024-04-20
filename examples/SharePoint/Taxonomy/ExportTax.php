@@ -10,10 +10,9 @@ use Office365\SharePoint\Taxonomy\TermGroup;
 $settings = include('../../../tests/Settings.php');
 $appPrincipal = new ClientCredential($settings['ClientId'],$settings['ClientSecret']);
 $ctx = (new ClientContext($settings['Url']))->withCredentials($appPrincipal);
-$taxSvc = new TaxonomyService($ctx);
-$groups = $taxSvc->getTermStore()->getTermGroups()->get()->executeQuery();
+$groups = $ctx->getTaxonomy()->getTermStore()->getTermGroups()->get()->executeQuery();
 
-$fp = fopen('./SiteTaxonomy.csv', 'w');
+$fp = fopen('./Taxonomy.csv', 'w');
 
 /** @var TermGroup $group */
 foreach ($groups as $group){

@@ -318,6 +318,7 @@ class ClientObject
      * Ensure properties are loaded
      * @param array $propNames
      * @param callable $loadedCallback
+     * @return self
      */
     public function ensureProperties($propNames, $loadedCallback=null){
 
