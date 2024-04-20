@@ -7,17 +7,9 @@ use Office365\OneNote\Pages\OnenotePage;
 use Office365\Runtime\Auth\AADTokenProvider;
 use Office365\Runtime\Auth\UserCredentials;
 
-function acquireToken()
-{
-    $settings = include( '../../tests/Settings.php');
-    $resource = "https://graph.microsoft.com";
-    $provider = new AADTokenProvider($settings['TenantName']);
-    return $provider->acquireTokenForPassword($resource, $settings['ClientId'],
-        new UserCredentials($settings['UserName'], $settings['Password']));
-}
-
-
-$client = new GraphServiceClient("acquireToken");
+$settings = include( '../../tests/Settings.php');
+$client = GraphServiceClient::withUserCredentials(
+    $settings['TenantName'], $settings['ClientId'], $settings['UserName'], $settings['Password']);
 
 $pages = $client->getMe()->getOneNote()->getPages()->get()->executeQuery();
 /** @var OnenotePage $page */
