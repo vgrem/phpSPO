@@ -6,14 +6,14 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class PublishModernTemplatePayload extends ClientValue
+class CreateAgreementFolderInfo extends ClientValue
 {
     /**
      * @var string
      */
-    public $Url;
+    public $AgreementFolderServerRelativeUrl;
     /**
-     * @var bool
+     * @var string
      */
-    public $DisableSearchAndApprovals;
+    public $AgreementNumber;
 }

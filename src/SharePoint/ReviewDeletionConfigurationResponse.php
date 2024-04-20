@@ -6,14 +6,18 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class PublishModernTemplatePayload extends ClientValue
+class ReviewDeletionConfigurationResponse extends ClientValue
 {
     /**
      * @var string
      */
-    public $Url;
+    public $Action;
     /**
-     * @var bool
+     * @var string
      */
-    public $DisableSearchAndApprovals;
+    public $ContractCategoryId;
+    /**
+     * @var string
+     */
+    public $Message;
 }

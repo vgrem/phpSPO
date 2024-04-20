@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Generated 2019-10-12T19:41:09+00:00 16.0.19402.12016
+ * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
  */
 namespace Office365\SharePoint\UserProfiles;
 
 use Office365\Runtime\ClientValue;
-
 class PersonalCacheItem extends ClientValue
 {
     /**
@@ -41,4 +40,12 @@ class PersonalCacheItem extends ClientValue
      * @var string
      */
     public $ModifiedTimeUtc;
+    /**
+     * @var string
+     */
+    public $CacheName;
+    /**
+     * @var string
+     */
+    public $ContainerUrl;
 }

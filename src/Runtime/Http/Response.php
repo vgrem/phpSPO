@@ -21,7 +21,7 @@ class Response
      * returns a Array including all response headers of
      * this request. when RequestOptions::IncludeHeaders was not
      * set to true this will be empty.
-     * @return Array
+     * @return array
      */
     public function getHeaders()
     {
@@ -109,7 +109,7 @@ class Response
     /**
      * returns the array of curl_getinfo.
      * Check https://www.php.net/manual/function.curl-getinfo.php for the available keys.
-     * @return Array
+     * @return array
      */
     public function getCurlInfo()
     {
@@ -150,7 +150,7 @@ class Response
     protected $RequestOptions;
 
     /**
-     * @var Array
+     * @var array
      */
     protected $CurlInfo;
 

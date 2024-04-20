@@ -3,37 +3,37 @@
 /**
  * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
  */
-namespace Office365\SharePoint\Sharing;
+namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class InheritedFrom extends ClientValue
+class UpdateUploadedAgreementMetadataPayload extends ClientValue
 {
     /**
      * @var string
      */
-    public $driveId;
+    public $AgreementNumber;
     /**
      * @var string
      */
-    public $driveType;
+    public $AgreementUrl;
     /**
      * @var string
      */
-    public $id;
+    public $Category;
     /**
      * @var string
      */
-    public $name;
+    public $Country;
+    /**
+     * @var bool
+     */
+    public $IsDraft;
     /**
      * @var string
      */
-    public $path;
+    public $Language;
     /**
      * @var string
      */
-    public $shareId;
-    /**
-     * @var SharePointIds
-     */
-    public $sharepointIds;
+    public $State;
 }

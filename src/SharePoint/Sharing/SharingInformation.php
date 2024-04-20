@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-03-17T10:39:33+00:00 16.0.24628.12008
+ * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -878,5 +878,33 @@ class SharingInformation extends ClientObject
     public function setcanAddExistingExternalPrincipal($value)
     {
         return $this->setProperty("canAddExistingExternalPrincipal", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getallOrganizationSecurityGroupId()
+    {
+        return $this->getProperty("allOrganizationSecurityGroupId");
+    }
+    /**
+     * @var string
+     */
+    public function setallOrganizationSecurityGroupId($value)
+    {
+        return $this->setProperty("allOrganizationSecurityGroupId", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getdiscoverableByOrganizationEnabled()
+    {
+        return $this->getProperty("discoverableByOrganizationEnabled");
+    }
+    /**
+     * @var bool
+     */
+    public function setdiscoverableByOrganizationEnabled($value)
+    {
+        return $this->setProperty("discoverableByOrganizationEnabled", $value, true);
     }
 }

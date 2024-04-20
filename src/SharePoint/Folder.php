@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
+ * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
  */
 namespace Office365\SharePoint;
 
@@ -386,5 +386,19 @@ class Folder extends Entity
     public function setExistsAllowThrowForPolicyFailures($value)
     {
         return $this->setProperty("ExistsAllowThrowForPolicyFailures", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getExistsWithException()
+    {
+        return $this->getProperty("ExistsWithException");
+    }
+    /**
+     * @var bool
+     */
+    public function setExistsWithException($value)
+    {
+        return $this->setProperty("ExistsWithException", $value, true);
     }
 }

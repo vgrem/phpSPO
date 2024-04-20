@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
+ * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
  */
 namespace Office365\SharePoint;
 
@@ -1036,5 +1036,19 @@ class File extends SecurableObject
     public function getVersionExpirationReport()
     {
         return $this->getProperty("VersionExpirationReport", new FileVersionCollection($this->getContext(), new ResourcePath("VersionExpirationReport", $this->getResourcePath())));
+    }
+    /**
+     * @return bool
+     */
+    public function getExistsWithException()
+    {
+        return $this->getProperty("ExistsWithException");
+    }
+    /**
+     * @var bool
+     */
+    public function setExistsWithException($value)
+    {
+        return $this->setProperty("ExistsWithException", $value, true);
     }
 }

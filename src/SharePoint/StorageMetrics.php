@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Generated 2019-11-17T16:07:15+00:00 16.0.19506.12022
+ * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
  */
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientObject;
-
 /**
  * Represents 
  * storage-related metrics.
@@ -80,5 +79,19 @@ class StorageMetrics extends ClientObject
     public function setTotalSize($value)
     {
         $this->setProperty("TotalSize", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getAdditionalFileStreamSize()
+    {
+        return $this->getProperty("AdditionalFileStreamSize");
+    }
+    /**
+     * @var integer
+     */
+    public function setAdditionalFileStreamSize($value)
+    {
+        return $this->setProperty("AdditionalFileStreamSize", $value, true);
     }
 }

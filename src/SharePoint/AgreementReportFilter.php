@@ -6,30 +6,34 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class RulesValidationEntryResponse extends ClientValue
+class AgreementReportFilter extends ClientValue
 {
     /**
-     * @var integer
+     * @var string
      */
-    public $Action;
+    public $Category;
     /**
      * @var string
      */
-    public $BusinessJustification;
+    public $FirstParty;
     /**
      * @var string
      */
-    public $LastUpdatedDateTime;
-    /**
-     * @var ReviewerInfo
-     */
-    public $Reviewer;
-    /**
-     * @var RulesDefinition
-     */
-    public $Rule;
+    public $Language;
     /**
      * @var string
      */
-    public $AISuggestionText;
+    public $Location;
+    /**
+     * @var string
+     */
+    public $Owner;
+    /**
+     * @var string
+     */
+    public $SecondParty;
+    /**
+     * @var string
+     */
+    public $State;
 }

@@ -6,30 +6,30 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class RulesValidationEntryResponse extends ClientValue
+class ApprovalConfigurationResponse extends ClientValue
 {
     /**
      * @var integer
      */
-    public $Action;
+    public $ApprovalConfigurationID;
     /**
      * @var string
      */
-    public $BusinessJustification;
+    public $CategoryID;
     /**
      * @var string
      */
-    public $LastUpdatedDateTime;
-    /**
-     * @var ReviewerInfo
-     */
-    public $Reviewer;
-    /**
-     * @var RulesDefinition
-     */
-    public $Rule;
+    public $CategoryLabel;
     /**
      * @var string
      */
-    public $AISuggestionText;
+    public $Country;
+    /**
+     * @var string
+     */
+    public $Language;
+    /**
+     * @var string
+     */
+    public $Source;
 }

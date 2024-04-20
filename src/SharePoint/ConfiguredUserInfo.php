@@ -3,25 +3,25 @@
 /**
  * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
  */
-namespace Office365\SharePoint\Publishing;
+namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class VivaEngagePublishingStatus extends ClientValue
+class ConfiguredUserInfo extends ClientValue
 {
     /**
      * @var string
      */
-    public $DestinationId;
-    /**
-     * @var integer
-     */
-    public $ErrorCode;
+    public $Email;
     /**
      * @var string
      */
-    public $ErrorMessage;
+    public $LoginName;
+    /**
+     * @var string
+     */
+    public $Name;
     /**
      * @var integer
      */
-    public $Status;
+    public $UserId;
 }

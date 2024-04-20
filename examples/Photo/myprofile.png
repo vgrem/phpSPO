@@ -1,1 +1,1 @@
-{"error":{"code":"ErrorItemNotFound","message":"The photo wasn't found.","innerError":{"date":"2021-05-09T12:09:17","request-id":"88100359-9b4d-4fec-9651-3c647d955397","client-request-id":"88100359-9b4d-4fec-9651-3c647d955397"}}}
+{"error":{"code":"ImageNotFound","message":"Exception of type 'Microsoft.Fast.Profile.Core.Exception.ImageNotFoundException' was thrown.","innerError":{"date":"2024-03-17T11:16:24","request-id":"49f91656-0b65-421d-9957-c346acfc62f7","client-request-id":"49f91656-0b65-421d-9957-c346acfc62f7"}}}
