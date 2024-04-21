@@ -4,22 +4,14 @@ require_once '../vendor/autoload.php';
 
 use Office365\GraphServiceClient;
 use Office365\OneDrive\DriveItems\DriveItem;
-use Office365\Runtime\Auth\AADTokenProvider;
-use Office365\Runtime\Auth\UserCredentials;
 
 
-function acquireToken()
-{
-    $resource = "https://graph.microsoft.com";
-    $settings = include('../../tests/Settings.php');
-    $provider = new AADTokenProvider($settings['TenantName']);
-    return $provider->acquireTokenForPassword($resource, $settings['ClientId'],
-        new UserCredentials($settings['UserName'], $settings['Password']));
-}
+$settings = include('../../tests/Settings.php');
+$client = GraphServiceClient::withUserCredentials(
+    $settings['TenantName'], $settings['ClientId'], $settings['UserName'], $settings['Password']
+);
 
-$client = new GraphServiceClient("acquireToken");
-
-$items = $client->getMe()->getDrive()->getRoot()->getChildren()->get()->executeQuery();
+$items = $client->getMe()->getDrive()->getRoot()->getChildren()->top(10)->get()->executeQuery();
 /** @var DriveItem $item */
 foreach ($items as $item){
     if($item->isFile()){

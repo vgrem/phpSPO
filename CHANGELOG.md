@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.2] - 2024-04-21
+
+### Added
+
+- `GraphServiceClient::withUserCredentials` and `GraphServiceClient::withClientSecret` methods introduced
+
+### Fixed
+
+-  #337: Don't try to retrieve next set of items when using an iterator, if no next items are expected to exist
 
 ## [3.0.3] - 2023-07-15
 

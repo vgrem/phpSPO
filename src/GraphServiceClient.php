@@ -13,6 +13,7 @@ use Office365\OneDrive\Drives\DriveCollection;
 use Office365\OneDrive\Sites\Site;
 use Office365\Reports\ReportRoot;
 use Office365\Runtime\Auth\AADTokenProvider;
+use Office365\Runtime\Auth\ClientCredential;
 use Office365\Runtime\Auth\UserCredentials;
 use Office365\Runtime\ClientRuntimeContext;
 use Office365\Runtime\Actions\DeleteEntityQuery;
@@ -63,6 +64,22 @@ class GraphServiceClient extends ClientRuntimeContext
             $provider = new AADTokenProvider($tenantName);
             return $provider->acquireTokenForPassword($resource, $clientId,
                 new UserCredentials($userName, $password));
+        });
+    }
+
+    /**
+     * @param $tenantName
+     * @param $clientId
+     * @param $clientSecret
+     * @return GraphServiceClient
+     */
+    public static function withClientSecret($tenantName, $clientId, $clientSecret)
+    {
+        return new GraphServiceClient(function () use ($clientSecret, $clientId, $tenantName) {
+            $resource = "https://graph.microsoft.com";
+            $provider = new AADTokenProvider($tenantName);
+            return $provider->acquireTokenForClientCredential($resource,
+                new ClientCredential($clientId, $clientSecret),["/.default"]);
         });
     }
 
