@@ -28,7 +28,7 @@ function tryGetFile($file){
 $credentials = new ClientCredential($settings['ClientId'], $settings['ClientSecret']);
 $ctx = (new ClientContext($settings['TeamSiteUrl']))->withCredentials($credentials);
 
-$fileUrl = "/sites/team/Shared Documents/Archive/Sample2.pdf";
+$fileUrl = "/sites/team/Shared Documents/Archive/404File.pdf";
 $file = $ctx->getWeb()->getFileByServerRelativeUrl($fileUrl);
 try {
     if (!tryGetFile($file)) {

@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Generated 2021-03-12T16:05:00+00:00 16.0.21103.12002
+ * Generated  2024-06-08T09:12:30+00:00 16.0.24922.12004
  */
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
 use Office365\Runtime\ServerTypeInfo;
-
 /**
  * Defines a query that is performed against the change log.
  */
@@ -204,9 +203,12 @@ class ChangeQuery extends ClientValue
      * @var bool
      */
     public $IgnoreStartTokenNotFoundError;
-
     public function getServerTypeInfo()
     {
         return new ServerTypeInfo("SP", "ChangeQuery");
     }
+    /**
+     * @var bool
+     */
+    public $AppConsentPrincipal;
 }

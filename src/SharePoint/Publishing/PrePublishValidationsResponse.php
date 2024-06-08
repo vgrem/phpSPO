@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
+ * Generated  2024-06-08T09:12:30+00:00 16.0.24922.12004
  */
 namespace Office365\SharePoint\Publishing;
 
@@ -12,4 +12,8 @@ class PrePublishValidationsResponse extends ClientValue
      * @var array
      */
     public $ErrorCodes;
+    /**
+     * @var PrePublishValidationsErrorCodesForVivaEngage
+     */
+    public $PrePublishValidationsErrorCodesForVivaEngage;
 }

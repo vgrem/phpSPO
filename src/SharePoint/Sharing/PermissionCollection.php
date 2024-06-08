@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Modified: 2019-10-12T20:10:10+00:00  API: 16.0.19402.12016
+ * Generated  2024-06-08T09:12:30+00:00 16.0.24922.12004
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -41,4 +41,8 @@ class PermissionCollection extends ClientValue
      * @var array
      */
     public $siteAdmins;
+    /**
+     * @var integer
+     */
+    public $totalNumberOfPrincipals;
 }
