@@ -187,8 +187,7 @@ $client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->wi
 
 $list = $client->getWeb()->getLists()->getByTitle("Tasks");
 $itemProperties = array('Title' => 'Order Approval', 'Body' => 'Order approval task');
-$item = $list->addItem($itemProperties);
-$client->executeQuery();
+$item = $list->addItem($itemProperties)->executeQuery();
 print "Task {$item->getProperty('Title')} has been created.\r\n";
 ```
 
@@ -202,8 +201,7 @@ $client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->wi
 
 $list = $client->getWeb()->getLists()->getByTitle("Tasks");
 $listItem = $list->getItemById("{item-id-to-delete}");
-$listItem->deleteObject();
-$client->executeQuery();
+$listItem->deleteObject()->executeQuery();
 ```
 
 Example 4. How to update SharePoint list item:
@@ -217,8 +215,7 @@ $client = (new ClientContext("https://{your-tenant-prefix}.sharepoint.com"))->wi
 $list = $client->getWeb()->getLists()->getByTitle("Tasks");
 $listItem = $list->getItemById("{item-id-to-update}");
 $listItem->setProperty('PercentComplete',1);
-$listItem->update();
-$client->executeQuery();
+$listItem->update()->executeQuery();
 ```
 
 
@@ -311,9 +308,7 @@ function acquireToken()
 }
 
 $client = new GraphServiceClient("acquireToken");
-$drive = $client->getMe()->getDrive();
-$client->load($drive);
-$client->executeQuery();
+$drive = $client->getMe()->getDrive()->get()->executeQuery();
 print $drive->getWebUrl();
 
 ```
