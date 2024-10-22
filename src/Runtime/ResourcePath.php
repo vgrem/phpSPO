@@ -46,9 +46,12 @@ class ResourcePath
         $allSegments = array();
         $current = clone $this;
         while (isset($current)) {
-            $allSegments = array_merge($current->getSegments(), $allSegments);
+            if (!($current->getName() === 'items' && isset($allSegments[1]) && $allSegments[1] === 'items')) {
+                $allSegments = array_merge($current->getSegments(), $allSegments);
+            }
             $current = $current->getParent();
         }
+
         return implode("", $allSegments);
     }
 
