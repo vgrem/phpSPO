@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
+ * Generated  2024-10-28T19:27:51+00:00 16.0.25409.12005
  */
 namespace Office365\SharePoint;
 
@@ -1473,5 +1473,19 @@ class Site extends BaseEntity
     public function setRestrictedAccessControlGroupsEnforcedOnSite($value)
     {
         return $this->setProperty("RestrictedAccessControlGroupsEnforcedOnSite", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getIsRestrictContentOrgWideSearchPolicyEnforcedOnSite()
+    {
+        return $this->getProperty("IsRestrictContentOrgWideSearchPolicyEnforcedOnSite");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsRestrictContentOrgWideSearchPolicyEnforcedOnSite($value)
+    {
+        return $this->setProperty("IsRestrictContentOrgWideSearchPolicyEnforcedOnSite", $value, true);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-10-09T13:33:47+03:00 16.0.21729.12001
+ * Generated  2024-10-28T19:35:46+00:00 16.0.25409.12005
  */
 namespace Office365\SharePoint\Publishing;
 
@@ -563,5 +563,33 @@ class SitePageMetadata extends BaseEntity
     public function setCallToAction($value)
     {
         return $this->setProperty("CallToAction", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getCreated()
+    {
+        return $this->getProperty("Created");
+    }
+    /**
+     * @var string
+     */
+    public function setCreated($value)
+    {
+        return $this->setProperty("Created", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getHasUserRecentlyModified()
+    {
+        return $this->getProperty("HasUserRecentlyModified");
+    }
+    /**
+     * @var bool
+     */
+    public function setHasUserRecentlyModified($value)
+    {
+        return $this->setProperty("HasUserRecentlyModified", $value, true);
     }
 }

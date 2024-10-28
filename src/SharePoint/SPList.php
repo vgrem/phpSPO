@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
+ * Generated  2024-10-28T19:27:51+00:00 16.0.25409.12005
  */
 namespace Office365\SharePoint;
 
@@ -1699,5 +1699,19 @@ class SPList extends SecurableObject
     public function setIsContributorOwnerEnabled($value)
     {
         return $this->setProperty("IsContributorOwnerEnabled", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getExcludeFromOfflineMode()
+    {
+        return $this->getProperty("ExcludeFromOfflineMode");
+    }
+    /**
+     * @var bool
+     */
+    public function setExcludeFromOfflineMode($value)
+    {
+        return $this->setProperty("ExcludeFromOfflineMode", $value, true);
     }
 }

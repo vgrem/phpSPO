@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-06-08T09:12:30+00:00 16.0.24922.12004
+ * Generated  2024-10-28T18:15:51+00:00 16.0.25409.12005
  */
 namespace Office365\SharePoint;
 
@@ -32,4 +32,12 @@ class BrandCenterConfiguration extends ClientValue
      * @var SPResourcePath
      */
     public $BrandFontLibraryUrl;
+    /**
+     * @var string
+     */
+    public $BrandColorsListId;
+    /**
+     * @var SPResourcePath
+     */
+    public $BrandColorsListUrl;
 }

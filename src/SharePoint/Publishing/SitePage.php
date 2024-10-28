@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-03-17T10:39:33+00:00 16.0.24628.12008
+ * Generated  2024-10-28T19:35:46+00:00 16.0.25409.12005
  */
 namespace Office365\SharePoint\Publishing;
 
@@ -203,5 +203,33 @@ class SitePage extends ClientObject
     public function setBoostProperties($value)
     {
         return $this->setProperty("BoostProperties", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getPublicationMetadata()
+    {
+        return $this->getProperty("PublicationMetadata");
+    }
+    /**
+     * @var string
+     */
+    public function setPublicationMetadata($value)
+    {
+        return $this->setProperty("PublicationMetadata", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getPublicationRecipients()
+    {
+        return $this->getProperty("PublicationRecipients");
+    }
+    /**
+     * @var string
+     */
+    public function setPublicationRecipients($value)
+    {
+        return $this->setProperty("PublicationRecipients", $value, true);
     }
 }

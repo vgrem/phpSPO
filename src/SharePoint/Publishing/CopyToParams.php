@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-09-30T09:13:50+00:00 16.0.24106.12014
+ * Generated  2024-10-28T19:35:46+00:00 16.0.25409.12005
  */
 namespace Office365\SharePoint\Publishing;
 
@@ -64,4 +64,12 @@ class CopyToParams extends ClientValue
      * @var string
      */
     public $ScenarioPayload;
+    /**
+     * @var bool
+     */
+    public $CreateCopyWithTitleSuffix;
+    /**
+     * @var array
+     */
+    public $DependencyPropertyTypesToDeepCopy;
 }

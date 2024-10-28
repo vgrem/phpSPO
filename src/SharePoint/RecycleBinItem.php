@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2020-08-19T18:22:34+00:00 16.0.20405.12008
+ * Generated  2024-10-28T19:27:51+00:00 16.0.25409.12005
  */
 namespace Office365\SharePoint;
 
@@ -325,8 +325,7 @@ class RecycleBinItem extends ClientObject
      */
     public function getAuthor()
     {
-        return $this->getProperty("Author",
-            new User($this->getContext(), new ResourcePath("Author", $this->getResourcePath())));
+        return $this->getProperty("Author", new User($this->getContext(), new ResourcePath("Author", $this->getResourcePath())));
     }
     /**
      * Gets the email 
@@ -337,8 +336,7 @@ class RecycleBinItem extends ClientObject
      */
     public function getDeletedBy()
     {
-        return $this->getProperty("DeletedBy",
-            new User($this->getContext(), new ResourcePath("DeletedBy", $this->getResourcePath())));
+        return $this->getProperty("DeletedBy", new User($this->getContext(), new ResourcePath("DeletedBy", $this->getResourcePath())));
     }
     /**
      * Returns 
@@ -383,5 +381,19 @@ class RecycleBinItem extends ClientObject
     public function setLeafNamePath($value)
     {
         $this->setProperty("LeafNamePath", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getUniqueId()
+    {
+        return $this->getProperty("UniqueId");
+    }
+    /**
+     * @var string
+     */
+    public function setUniqueId($value)
+    {
+        return $this->setProperty("UniqueId", $value, true);
     }
 }

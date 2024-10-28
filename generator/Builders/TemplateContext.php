@@ -3,10 +3,12 @@
 namespace Office365\Generator\Builders;
 
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use PhpParser\NodeFinder;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\ParserFactory;
+use PhpParser\PhpVersion;
 
 class TemplateContext extends NodeVisitorAbstract
 {
@@ -86,7 +88,7 @@ class TemplateContext extends NodeVisitorAbstract
 
     private function parseTemplate($fileName){
         $template = file_get_contents($fileName);
-        $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP5);
+        $parser = (new ParserFactory)->createForVersion(PhpVersion::fromString("7.1"));
         return $parser->parse($template);
     }
 
@@ -96,22 +98,24 @@ class TemplateContext extends NodeVisitorAbstract
         $node = $origNode;
         if($node instanceof Node\Stmt\Namespace_){
             if($node->name instanceof Node\Name){
-                $node->name->parts = explode("\\",$this->values['namespace']);
+                //$node->name->parts = explode("\\",$this->values['namespace']);
+                $node->name = new Node\Name($this->values['namespace']);
             }
         }
         elseif ($node instanceof Node\Stmt\Class_) {
             if(isset($this->values['class']))
-                $node->name = $this->values['class'];
+                $node->name = new Identifier($this->values['class']);
         }
         elseif ($node instanceof Node\Stmt\ClassMethod) {
-            $node->name = $this->values['function'];
+            $node->name = new Identifier($this->values['function']);
         }
         elseif ($node instanceof Node\Name) {
             /*if($node->parts[0] === "ClientObject" && count($node->parts) > 1) {
                 $node->parts[0] = $this->values['property'];
             }*/
-            if($node->parts[0] === "ClientObject" && isset($this->values['type'])) {
-                $node->parts[0] = $this->values['type'];
+            if($node->getParts()[0] === "ClientObject" && isset($this->values['type'])) {
+                //$node->parts[0] = $this->values['type'];
+                $node->name = $this->values['type'];
             }
         }
         elseif ($node instanceof Node\Scalar\String_){

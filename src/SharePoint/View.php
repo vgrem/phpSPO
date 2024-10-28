@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-04-23T09:48:37+00:00 16.0.21207.12005
+ * Generated  2024-10-28T19:27:51+00:00 16.0.25409.12005
  */
 namespace Office365\SharePoint;
 
@@ -15,18 +15,14 @@ use Office365\Runtime\ResourcePath;
  */
 class View extends Entity
 {
-
     /**
      * Gets a value that specifies the collection of fields in the list view.
      * @return ViewFieldCollection
      */
     public function getViewFields()
     {
-        return $this->getProperty("ViewFields",
-            new ViewFieldCollection($this->getContext(),
-                new ResourcePath("ViewFields", $this->getResourcePath())));
+        return $this->getProperty("ViewFields", new ViewFieldCollection($this->getContext(), new ResourcePath("ViewFields", $this->getResourcePath())));
     }
-
     /**
      * Returns the list view as HTML.
      * @return View
@@ -1208,5 +1204,19 @@ class View extends Entity
     public function setCustomOrder($value)
     {
         $this->setProperty("CustomOrder", $value, true);
+    }
+    /**
+     * @return GridInitInfoType
+     */
+    public function getGridInitInfo()
+    {
+        return $this->getProperty("GridInitInfo");
+    }
+    /**
+     * @var GridInitInfoType
+     */
+    public function setGridInitInfo($value)
+    {
+        return $this->setProperty("GridInitInfo", $value, true);
     }
 }

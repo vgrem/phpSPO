@@ -1,15 +1,13 @@
 <?php
 
 /**
- * Generated 2020-11-13T16:48:11+00:00 16.0.20628.12006
+ * Generated  2024-10-28T19:27:51+00:00 16.0.25409.12005
  */
 namespace Office365\SharePoint;
 
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ClientResult;
 use Office365\Runtime\ResourcePath;
-use phpDocumentor\Reflection\Types\Integer;
-
 /**
  * A field is an element of a list or content type schema that specifies a property that is tracked for a list item.
  * A field has an internal name, which specifies an identifier for the field. A field internal name is unique among
@@ -20,17 +18,16 @@ use phpDocumentor\Reflection\Types\Integer;
  */
 class Field extends Entity
 {
-
     /**
      * Creates an index for this field.
      */
-    function enableIndex(){
+    function enableIndex()
+    {
         $returnType = new ClientResult($this->getContext());
         $qry = new InvokePostMethodQuery($this, "EnableIndex");
         $this->getContext()->addQueryAndResultObject($qry, $returnType);
         return $returnType;
     }
-
     /**
      * Sets the value of the ShowInDisplayForm property for this field.
      * @param $value true to show the field in the form; otherwise false.
@@ -43,8 +40,8 @@ class Field extends Entity
         return $this;
     }
     /**
-     * Gets a 
-     * Boolean value that specifies whether the field is auto-indexed.True to 
+     * Gets a
+     * Boolean value that specifies whether the field is auto-indexed.True to
      * specify that the field is auto-indexed; otherwise, false.
      * @return bool
      */
@@ -56,8 +53,8 @@ class Field extends Entity
         return $this->getProperty("AutoIndexed");
     }
     /**
-     * Gets a 
-     * Boolean value that specifies whether the field is auto-indexed.True to 
+     * Gets a
+     * Boolean value that specifies whether the field is auto-indexed.True to
      * specify that the field is auto-indexed; otherwise, false.
      * @var bool
      */
@@ -66,8 +63,8 @@ class Field extends Entity
         $this->setProperty("AutoIndexed", $value, true);
     }
     /**
-     * Specifies 
-     * whether the field (2) can be 
+     * Specifies
+     * whether the field (2) can be
      * deleted.
      * @return bool
      */
@@ -76,8 +73,8 @@ class Field extends Entity
         return $this->getProperty("CanBeDeleted");
     }
     /**
-     * Specifies 
-     * whether the field (2) can be 
+     * Specifies
+     * whether the field (2) can be
      * deleted.
      * @var bool
      */
@@ -86,7 +83,7 @@ class Field extends Entity
         $this->setProperty("CanBeDeleted", $value, true);
     }
     /**
-     * The unique 
+     * The unique
      * identifier of the client-side component defined with SharePoint Framework.
      * @return string
      */
@@ -95,7 +92,7 @@ class Field extends Entity
         return $this->getProperty("ClientSideComponentId");
     }
     /**
-     * The unique 
+     * The unique
      * identifier of the client-side component defined with SharePoint Framework.
      * @var string
      */
@@ -104,10 +101,10 @@ class Field extends Entity
         $this->setProperty("ClientSideComponentId", $value, true);
     }
     /**
-     * This 
-     * property is only used when a ClientSideComponentId is specified. It is 
-     * optional. If non-empty, the string MUST contain a JSON object with custom 
-     * initialization properties whose format and meaning are defined by the 
+     * This
+     * property is only used when a ClientSideComponentId is specified. It is
+     * optional. If non-empty, the string MUST contain a JSON object with custom
+     * initialization properties whose format and meaning are defined by the
      * client-side component.
      * @return string
      */
@@ -116,10 +113,10 @@ class Field extends Entity
         return $this->getProperty("ClientSideComponentProperties");
     }
     /**
-     * This 
-     * property is only used when a ClientSideComponentId is specified. It is 
-     * optional. If non-empty, the string MUST contain a JSON object with custom 
-     * initialization properties whose format and meaning are defined by the 
+     * This
+     * property is only used when a ClientSideComponentId is specified. It is
+     * optional. If non-empty, the string MUST contain a JSON object with custom
+     * initialization properties whose format and meaning are defined by the
      * client-side component.
      * @var string
      */
@@ -156,7 +153,7 @@ class Field extends Entity
         $this->setProperty("ClientValidationMessage", $value, true);
     }
     /**
-     * A JSON 
+     * A JSON
      * string representing the custom rendering format of the field.
      * @return string
      */
@@ -165,7 +162,7 @@ class Field extends Entity
         return $this->getProperty("CustomFormatter");
     }
     /**
-     * A JSON 
+     * A JSON
      * string representing the custom rendering format of the field.
      * @var string
      */
@@ -174,7 +171,7 @@ class Field extends Entity
         $this->setProperty("CustomFormatter", $value, true);
     }
     /**
-     * Gets or 
+     * Gets or
      * sets the default formula for a calculated field.
      * @return string
      */
@@ -183,7 +180,7 @@ class Field extends Entity
         return $this->getProperty("DefaultFormula");
     }
     /**
-     * Gets or 
+     * Gets or
      * sets the default formula for a calculated field.
      * @var string
      */
@@ -192,9 +189,9 @@ class Field extends Entity
         $this->setProperty("DefaultFormula", $value, true);
     }
     /**
-     * Specifies 
-     * the default value for the field (2).Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external 
+     * Specifies
+     * the default value for the field (2).Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external
      *   list.
      * @return string
      */
@@ -203,9 +200,9 @@ class Field extends Entity
         return $this->getProperty("DefaultValue");
     }
     /**
-     * Specifies 
-     * the default value for the field (2).Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external 
+     * Specifies
+     * the default value for the field (2).Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external
      *   list.
      * @var string
      */
@@ -214,7 +211,7 @@ class Field extends Entity
         $this->setProperty("DefaultValue", $value, true);
     }
     /**
-     * Specifies 
+     * Specifies
      * the description of the field
      * @return string
      */
@@ -223,7 +220,7 @@ class Field extends Entity
         return $this->getProperty("Description");
     }
     /**
-     * Specifies 
+     * Specifies
      * the description of the field (2). 
      * @var string
      */
@@ -232,14 +229,14 @@ class Field extends Entity
         $this->setProperty("Description", $value, true);
     }
     /**
-     * Specifies 
-     * the reading 
-     * order of the field (2). Its value 
-     * is implementation-specific to the client used to browse instances of this field 
-     * (2). If the value is set to "none", Microsoft.SharePoint.Client.List.Direction 
-     * specifies the reading order of the field (2) that is specified in section 3.2.5.79.1.1.14.Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed to a value other than 
-     *   "none," and the list is an external 
+     * Specifies
+     * the reading
+     * order of the field (2). Its value
+     * is implementation-specific to the client used to browse instances of this field
+     * (2). If the value is set to "none", Microsoft.SharePoint.Client.List.Direction
+     * specifies the reading order of the field (2) that is specified in section 3.2.5.79.1.1.14.Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed to a value other than
+     *   "none," and the list is an external
      *   list.
      * @return string
      */
@@ -248,14 +245,14 @@ class Field extends Entity
         return $this->getProperty("Direction");
     }
     /**
-     * Specifies 
-     * the reading 
-     * order of the field (2). Its value 
-     * is implementation-specific to the client used to browse instances of this field 
-     * (2). If the value is set to "none", Microsoft.SharePoint.Client.List.Direction 
-     * specifies the reading order of the field (2) that is specified in section 3.2.5.79.1.1.14.Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed to a value other than 
-     *   "none," and the list is an external 
+     * Specifies
+     * the reading
+     * order of the field (2). Its value
+     * is implementation-specific to the client used to browse instances of this field
+     * (2). If the value is set to "none", Microsoft.SharePoint.Client.List.Direction
+     * specifies the reading order of the field (2) that is specified in section 3.2.5.79.1.1.14.Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed to a value other than
+     *   "none," and the list is an external
      *   list.
      * @var string
      */
@@ -264,11 +261,11 @@ class Field extends Entity
         $this->setProperty("Direction", $value, true);
     }
     /**
-     * Specifies 
-     * whether the field (2) enforces 
-     * unique values.The value 
-     * MUST NOT be set to "true" for the following built-in fields (2)Field IdentifierField Name{1df5e554-ec7e-46a6-901d-d85a3881cb18}Author{d31655d1-1d5b-4511-95a1-7a09e9b75bf2}Editor{28cf69c5-fa48-462a-b5cd-27b6f9d2bd5f}Modified{7841bf41-43d0-4434-9f50-a673baef7631}_UIVersion{8c06beca-0777-48f7-91c7-6da68bc07b69}Created{26d0756c-986a-48a7-af35-bf18ab85ff4a}_HasCopyDestinations{3881510a-4e4a-4ee8-b102-8ee8e2d0dd4b}CheckoutUser{c042a256-787d-4a6f-8a8a-cf6ab767f12d}ContentTypeExceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionAdding unique column constraints 
-     *   to the field (2) where the list is an external 
+     * Specifies
+     * whether the field (2) enforces
+     * unique values.The value
+     * MUST NOT be set to "true" for the following built-in fields (2)Field IdentifierField Name{1df5e554-ec7e-46a6-901d-d85a3881cb18}Author{d31655d1-1d5b-4511-95a1-7a09e9b75bf2}Editor{28cf69c5-fa48-462a-b5cd-27b6f9d2bd5f}Modified{7841bf41-43d0-4434-9f50-a673baef7631}_UIVersion{8c06beca-0777-48f7-91c7-6da68bc07b69}Created{26d0756c-986a-48a7-af35-bf18ab85ff4a}_HasCopyDestinations{3881510a-4e4a-4ee8-b102-8ee8e2d0dd4b}CheckoutUser{c042a256-787d-4a6f-8a8a-cf6ab767f12d}ContentTypeExceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionAdding unique column constraints
+     *   to the field (2) where the list is an external
      *   list.
      * @return bool
      */
@@ -277,11 +274,11 @@ class Field extends Entity
         return $this->getProperty("EnforceUniqueValues");
     }
     /**
-     * Specifies 
-     * whether the field (2) enforces 
-     * unique values.The value 
-     * MUST NOT be set to "true" for the following built-in fields (2)Field IdentifierField Name{1df5e554-ec7e-46a6-901d-d85a3881cb18}Author{d31655d1-1d5b-4511-95a1-7a09e9b75bf2}Editor{28cf69c5-fa48-462a-b5cd-27b6f9d2bd5f}Modified{7841bf41-43d0-4434-9f50-a673baef7631}_UIVersion{8c06beca-0777-48f7-91c7-6da68bc07b69}Created{26d0756c-986a-48a7-af35-bf18ab85ff4a}_HasCopyDestinations{3881510a-4e4a-4ee8-b102-8ee8e2d0dd4b}CheckoutUser{c042a256-787d-4a6f-8a8a-cf6ab767f12d}ContentTypeExceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionAdding unique column constraints 
-     *   to the field (2) where the list is an external 
+     * Specifies
+     * whether the field (2) enforces
+     * unique values.The value
+     * MUST NOT be set to "true" for the following built-in fields (2)Field IdentifierField Name{1df5e554-ec7e-46a6-901d-d85a3881cb18}Author{d31655d1-1d5b-4511-95a1-7a09e9b75bf2}Editor{28cf69c5-fa48-462a-b5cd-27b6f9d2bd5f}Modified{7841bf41-43d0-4434-9f50-a673baef7631}_UIVersion{8c06beca-0777-48f7-91c7-6da68bc07b69}Created{26d0756c-986a-48a7-af35-bf18ab85ff4a}_HasCopyDestinations{3881510a-4e4a-4ee8-b102-8ee8e2d0dd4b}CheckoutUser{c042a256-787d-4a6f-8a8a-cf6ab767f12d}ContentTypeExceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionAdding unique column constraints
+     *   to the field (2) where the list is an external
      *   list.
      * @var bool
      */
@@ -290,10 +287,10 @@ class Field extends Entity
         $this->setProperty("EnforceUniqueValues", $value, true);
     }
     /**
-     * Gets the 
-     * name of the entity property of this field (2) in the list item 
-     * entity that uses this field (2).It MUST 
-     * NOT be NULL. It MUST NOT be empty. 
+     * Gets the
+     * name of the entity property of this field (2) in the list item
+     * entity that uses this field (2).It MUST
+     * NOT be NULL. It MUST NOT be empty.
      * @return string
      */
     public function getEntityPropertyName()
@@ -301,10 +298,10 @@ class Field extends Entity
         return $this->getProperty("EntityPropertyName");
     }
     /**
-     * Gets the 
-     * name of the entity property of this field (2) in the list item 
-     * entity that uses this field (2).It MUST 
-     * NOT be NULL. It MUST NOT be empty. 
+     * Gets the
+     * name of the entity property of this field (2) in the list item
+     * entity that uses this field (2).It MUST
+     * NOT be NULL. It MUST NOT be empty.
      * @var string
      */
     public function setEntityPropertyName($value)
@@ -312,8 +309,8 @@ class Field extends Entity
         $this->setProperty("EntityPropertyName", $value, true);
     }
     /**
-     * Specifies 
-     * whether list items in the list 
+     * Specifies
+     * whether list items in the list
      * can be filtered by the field (2) value.
      * @return bool
      */
@@ -322,8 +319,8 @@ class Field extends Entity
         return $this->getProperty("Filterable");
     }
     /**
-     * Specifies 
-     * whether list items in the list 
+     * Specifies
+     * whether list items in the list
      * can be filtered by the field (2) value.
      * @var bool
      */
@@ -332,8 +329,8 @@ class Field extends Entity
         $this->setProperty("Filterable", $value, true);
     }
     /**
-     * Gets a Boolean 
-     * value that indicates whether the field (2) derives 
+     * Gets a Boolean
+     * value that indicates whether the field (2) derives
      * from a base field type.
      * @return bool
      */
@@ -342,8 +339,8 @@ class Field extends Entity
         return $this->getProperty("FromBaseType");
     }
     /**
-     * Gets a Boolean 
-     * value that indicates whether the field (2) derives 
+     * Gets a Boolean
+     * value that indicates whether the field (2) derives
      * from a base field type.
      * @var bool
      */
@@ -352,11 +349,11 @@ class Field extends Entity
         $this->setProperty("FromBaseType", $value, true);
     }
     /**
-     * Specifies 
-     * the field 
-     * group.It MUST 
-     * NOT be NULL. It MUST NOT be empty. Its length MUST be equal to or less than 
-     * 128. Exceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external 
+     * Specifies
+     * the field
+     * group.It MUST
+     * NOT be NULL. It MUST NOT be empty. Its length MUST be equal to or less than
+     * 128. Exceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external
      *   list.
      * @return string
      */
@@ -365,11 +362,11 @@ class Field extends Entity
         return $this->getProperty("Group");
     }
     /**
-     * Specifies 
-     * the field 
-     * group.It MUST 
-     * NOT be NULL. It MUST NOT be empty. Its length MUST be equal to or less than 
-     * 128. Exceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external 
+     * Specifies
+     * the field
+     * group.It MUST
+     * NOT be NULL. It MUST NOT be empty. Its length MUST be equal to or less than
+     * 128. Exceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external
      *   list.
      * @var string
      */
@@ -378,9 +375,9 @@ class Field extends Entity
         $this->setProperty("Group", $value, true);
     }
     /**
-     * Specifies 
-     * whether the field (2) is hidden 
-     * in list 
+     * Specifies
+     * whether the field (2) is hidden
+     * in list
      * views and list forms.
      * @return bool
      */
@@ -389,9 +386,9 @@ class Field extends Entity
         return $this->getProperty("Hidden");
     }
     /**
-     * Specifies 
-     * whether the field (2) is hidden 
-     * in list 
+     * Specifies
+     * whether the field (2) is hidden
+     * in list
      * views and list forms.
      * @var bool
      */
@@ -400,8 +397,8 @@ class Field extends Entity
         $this->setProperty("Hidden", $value, true);
     }
     /**
-     * Specifies 
-     * the field 
+     * Specifies
+     * the field
      * identifier.
      * @return string
      */
@@ -410,8 +407,8 @@ class Field extends Entity
         return $this->getProperty("Id");
     }
     /**
-     * Specifies 
-     * the field 
+     * Specifies
+     * the field
      * identifier.
      * @var string
      */
@@ -420,7 +417,7 @@ class Field extends Entity
         $this->setProperty("Id", $value, true);
     }
     /**
-     * Gets or 
+     * Gets or
      * sets a Boolean value that specifies whether the field is indexed.
      * @return bool
      */
@@ -429,7 +426,7 @@ class Field extends Entity
         return $this->getProperty("Indexed");
     }
     /**
-     * Gets or 
+     * Gets or
      * sets a Boolean value that specifies whether the field is indexed.
      * @var bool
      */
@@ -438,10 +435,10 @@ class Field extends Entity
         $this->setProperty("Indexed", $value, true);
     }
     /**
-     * Specifies 
-     * the field 
-     * internal name.It MUST 
-     * NOT be NULL. It MUST NOT be empty. 
+     * Specifies
+     * the field
+     * internal name.It MUST
+     * NOT be NULL. It MUST NOT be empty.
      * @return string
      */
     public function getInternalName()
@@ -452,10 +449,10 @@ class Field extends Entity
         return $this->getProperty("InternalName");
     }
     /**
-     * Specifies 
-     * the field 
-     * internal name.It MUST 
-     * NOT be NULL. It MUST NOT be empty. 
+     * Specifies
+     * the field
+     * internal name.It MUST
+     * NOT be NULL. It MUST NOT be empty.
      * @var string
      */
     public function setInternalName($value)
@@ -463,9 +460,9 @@ class Field extends Entity
         $this->setProperty("InternalName", $value, true);
     }
     /**
-     * Gets the name 
-     * of an external ECMAScript ([ECMA-262-1999]) 
-     * file containing any client rendering logic for fields (2) of this 
+     * Gets the name
+     * of an external ECMAScript ([ECMA-262-1999])
+     * file containing any client rendering logic for fields (2) of this
      * type.
      * @return string
      */
@@ -474,9 +471,9 @@ class Field extends Entity
         return $this->getProperty("JSLink");
     }
     /**
-     * Gets the name 
-     * of an external ECMAScript ([ECMA-262-1999]) 
-     * file containing any client rendering logic for fields (2) of this 
+     * Gets the name
+     * of an external ECMAScript ([ECMA-262-1999])
+     * file containing any client rendering logic for fields (2) of this
      * type.
      * @var string
      */
@@ -485,8 +482,8 @@ class Field extends Entity
         $this->setProperty("JSLink", $value, true);
     }
     /**
-     * Gets or 
-     * sets a Boolean value that specifies whether the field can be crawled by a 
+     * Gets or
+     * sets a Boolean value that specifies whether the field can be crawled by a
      * search engine.
      * @return bool
      */
@@ -495,8 +492,8 @@ class Field extends Entity
         return $this->getProperty("NoCrawl");
     }
     /**
-     * Gets or 
-     * sets a Boolean value that specifies whether the field can be crawled by a 
+     * Gets or
+     * sets a Boolean value that specifies whether the field can be crawled by a
      * search engine.
      * @var bool
      */
@@ -505,7 +502,7 @@ class Field extends Entity
         $this->setProperty("NoCrawl", $value, true);
     }
     /**
-     * Boolean 
+     * Boolean
      * value that indicates whether the field pins to filter pane.
      * @return bool
      */
@@ -514,7 +511,7 @@ class Field extends Entity
         return $this->getProperty("PinnedToFiltersPane");
     }
     /**
-     * Boolean 
+     * Boolean
      * value that indicates whether the field pins to filter pane.
      * @var bool
      */
@@ -523,10 +520,10 @@ class Field extends Entity
         $this->setProperty("PinnedToFiltersPane", $value, true);
     }
     /**
-     * Specifies 
-     * whether the value of the field (2) is 
-     * read-only.Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external 
+     * Specifies
+     * whether the value of the field (2) is
+     * read-only.Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external
      *   list.
      * @return bool
      */
@@ -538,10 +535,10 @@ class Field extends Entity
         return $this->getProperty("ReadOnlyField");
     }
     /**
-     * Specifies 
-     * whether the value of the field (2) is 
-     * read-only.Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external 
+     * Specifies
+     * whether the value of the field (2) is
+     * read-only.Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external
      *   list.
      * @var bool
      */
@@ -550,11 +547,11 @@ class Field extends Entity
         $this->setProperty("ReadOnlyField", $value, true);
     }
     /**
-     * Specifies 
-     * whether the field (2) requires a 
-     * value. If the field (2) requires a value, this value MUST be set to 
-     * "true". Otherwise, it MUST be set to "false".Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is set to "true", and the list 
+     * Specifies
+     * whether the field (2) requires a
+     * value. If the field (2) requires a value, this value MUST be set to
+     * "true". Otherwise, it MUST be set to "false".Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is set to "true", and the list
      *   is an external list.
      * @return bool
      */
@@ -566,11 +563,11 @@ class Field extends Entity
         return $this->getProperty("Required");
     }
     /**
-     * Specifies 
-     * whether the field (2) requires a 
-     * value. If the field (2) requires a value, this value MUST be set to 
-     * "true". Otherwise, it MUST be set to "false".Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is set to "true", and the list 
+     * Specifies
+     * whether the field (2) requires a
+     * value. If the field (2) requires a value, this value MUST be set to
+     * "true". Otherwise, it MUST be set to "false".Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is set to "true", and the list
      *   is an external list.
      * @var bool
      */
@@ -579,15 +576,15 @@ class Field extends Entity
         $this->setProperty("Required", $value, true);
     }
     /**
-     * Specifies 
-     * the XML 
-     * schema that defines the field (2).It MUST be 
-     * NULL, empty, or an XML fragment that 
-     * conforms to the FieldDefinition type as defined in [MS-WSSFO2] 
-     * section 2.2.8.3.3 
-     * or [MS-WSSFO3] 
-     * section 2.2.7.3.3.Exceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed to a non-NULL or non-empty value, and 
-     *   the list is an external 
+     * Specifies
+     * the XML
+     * schema that defines the field (2).It MUST be
+     * NULL, empty, or an XML fragment that
+     * conforms to the FieldDefinition type as defined in [MS-WSSFO2]
+     * section 2.2.8.3.3
+     * or [MS-WSSFO3]
+     * section 2.2.7.3.3.Exceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed to a non-NULL or non-empty value, and
+     *   the list is an external
      *   list.
      * @return string
      */
@@ -599,15 +596,15 @@ class Field extends Entity
         return $this->getProperty("SchemaXml");
     }
     /**
-     * Specifies 
-     * the XML 
-     * schema that defines the field (2).It MUST be 
-     * NULL, empty, or an XML fragment that 
-     * conforms to the FieldDefinition type as defined in [MS-WSSFO2] 
-     * section 2.2.8.3.3 
-     * or [MS-WSSFO3] 
-     * section 2.2.7.3.3.Exceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed to a non-NULL or non-empty value, and 
-     *   the list is an external 
+     * Specifies
+     * the XML
+     * schema that defines the field (2).It MUST be
+     * NULL, empty, or an XML fragment that
+     * conforms to the FieldDefinition type as defined in [MS-WSSFO2]
+     * section 2.2.8.3.3
+     * or [MS-WSSFO3]
+     * section 2.2.7.3.3.Exceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed to a non-NULL or non-empty value, and
+     *   the list is an external
      *   list.
      * @var string
      */
@@ -616,7 +613,7 @@ class Field extends Entity
         $this->setProperty("SchemaXml", $value, true);
     }
     /**
-     * Gets the 
+     * Gets the
      * unlocalized schema XML for this field (2).
      * @return string
      */
@@ -628,7 +625,7 @@ class Field extends Entity
         return $this->getProperty("SchemaXmlWithResourceTokens");
     }
     /**
-     * Gets the 
+     * Gets the
      * unlocalized schema XML for this field (2).
      * @var string
      */
@@ -637,11 +634,11 @@ class Field extends Entity
         $this->setProperty("SchemaXmlWithResourceTokens", $value, true);
     }
     /**
-     * Specifies 
-     * the server-relative 
-     * URL of the list or the site (2) 
-     * that the field (2) belongs 
-     * to. 
+     * Specifies
+     * the server-relative
+     * URL of the list or the site (2)
+     * that the field (2) belongs
+     * to.
      * @return string
      */
     public function getScope()
@@ -652,11 +649,11 @@ class Field extends Entity
         return $this->getProperty("Scope");
     }
     /**
-     * Specifies 
-     * the server-relative 
-     * URL of the list or the site (2) 
-     * that the field (2) belongs 
-     * to. 
+     * Specifies
+     * the server-relative
+     * URL of the list or the site (2)
+     * that the field (2) belongs
+     * to.
      * @var string
      */
     public function setScope($value)
@@ -664,8 +661,8 @@ class Field extends Entity
         $this->setProperty("Scope", $value, true);
     }
     /**
-     * Specifies 
-     * whether properties on the field (2) cannot be 
+     * Specifies
+     * whether properties on the field (2) cannot be
      * changed and whether the field (2) cannot be deleted.
      * @return bool
      */
@@ -674,8 +671,8 @@ class Field extends Entity
         return $this->getProperty("Sealed");
     }
     /**
-     * Specifies 
-     * whether properties on the field (2) cannot be 
+     * Specifies
+     * whether properties on the field (2) cannot be
      * changed and whether the field (2) cannot be deleted.
      * @var bool
      */
@@ -684,7 +681,7 @@ class Field extends Entity
         $this->setProperty("Sealed", $value, true);
     }
     /**
-     * Indicates 
+     * Indicates
      * whether the field will be shown.
      * @return integer
      */
@@ -693,7 +690,7 @@ class Field extends Entity
         return $this->getProperty("ShowInFiltersPane");
     }
     /**
-     * Indicates 
+     * Indicates
      * whether the field will be shown.
      * @var integer
      */
@@ -702,8 +699,8 @@ class Field extends Entity
         $this->setProperty("ShowInFiltersPane", $value, true);
     }
     /**
-     * Specifies 
-     * whether list items in the list 
+     * Specifies
+     * whether list items in the list
      * can be sorted by the field (2) value.
      * @return bool
      */
@@ -712,8 +709,8 @@ class Field extends Entity
         return $this->getProperty("Sortable");
     }
     /**
-     * Specifies 
-     * whether list items in the list 
+     * Specifies
+     * whether list items in the list
      * can be sorted by the field (2) value.
      * @var bool
      */
@@ -722,10 +719,10 @@ class Field extends Entity
         $this->setProperty("Sortable", $value, true);
     }
     /**
-     * Specifies 
-     * a customizable identifier of the field (2). If the 
-     * value is NULL or empty, the protocol server MUST use the value of InternalName.Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external 
+     * Specifies
+     * a customizable identifier of the field (2). If the
+     * value is NULL or empty, the protocol server MUST use the value of InternalName.Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external
      *   list.
      * @return string
      */
@@ -734,10 +731,10 @@ class Field extends Entity
         return $this->getProperty("StaticName");
     }
     /**
-     * Specifies 
-     * a customizable identifier of the field (2). If the 
-     * value is NULL or empty, the protocol server MUST use the value of InternalName.Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external 
+     * Specifies
+     * a customizable identifier of the field (2). If the
+     * value is NULL or empty, the protocol server MUST use the value of InternalName.Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external
      *   list.
      * @var string
      */
@@ -746,8 +743,8 @@ class Field extends Entity
         $this->setProperty("StaticName", $value, true);
     }
     /**
-     * Specifies 
-     * the display 
+     * Specifies
+     * the display
      * name of the field (2).
      * @return string
      */
@@ -756,8 +753,8 @@ class Field extends Entity
         return $this->getProperty("Title");
     }
     /**
-     * Specifies 
-     * the display 
+     * Specifies
+     * the display
      * name of the field (2).
      * @var string
      */
@@ -766,9 +763,9 @@ class Field extends Entity
         $this->setProperty("Title", $value, true);
     }
     /**
-     * Specifies 
-     * the type of the field (2).Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external 
+     * Specifies
+     * the type of the field (2).Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external
      *   list.
      * @return integer
      */
@@ -780,9 +777,9 @@ class Field extends Entity
         return $this->getProperty("FieldTypeKind");
     }
     /**
-     * Specifies 
-     * the type of the field (2).Exceptions: 
-     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external 
+     * Specifies
+     * the type of the field (2).Exceptions:
+     * Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external
      *   list.
      * @var integer
      */
@@ -791,9 +788,9 @@ class Field extends Entity
         $this->setProperty("FieldTypeKind", $value, true);
     }
     /**
-     * Specifies 
-     * the type of the field (2).It MUST 
-     * NOT be NULL. It MUST NOT be empty. Exceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external 
+     * Specifies
+     * the type of the field (2).It MUST
+     * NOT be NULL. It MUST NOT be empty. Exceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external
      *   list.
      * @return string
      */
@@ -802,9 +799,9 @@ class Field extends Entity
         return $this->getProperty("TypeAsString");
     }
     /**
-     * Specifies 
-     * the type of the field (2).It MUST 
-     * NOT be NULL. It MUST NOT be empty. Exceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external 
+     * Specifies
+     * the type of the field (2).It MUST
+     * NOT be NULL. It MUST NOT be empty. Exceptions: Error CodeError Type NameCondition-1System.NotSupportedExceptionValue is changed, and the list is an external
      *   list.
      * @var string
      */
@@ -813,10 +810,10 @@ class Field extends Entity
         $this->setProperty("TypeAsString", $value, true);
     }
     /**
-     * Specifies 
-     * the display 
-     * name for the type of the field (2).It MUST 
-     * NOT be NULL. It MUST NOT be empty. 
+     * Specifies
+     * the display
+     * name for the type of the field (2).It MUST
+     * NOT be NULL. It MUST NOT be empty.
      * @return string
      */
     public function getTypeDisplayName()
@@ -824,10 +821,10 @@ class Field extends Entity
         return $this->getProperty("TypeDisplayName");
     }
     /**
-     * Specifies 
-     * the display 
-     * name for the type of the field (2).It MUST 
-     * NOT be NULL. It MUST NOT be empty. 
+     * Specifies
+     * the display
+     * name for the type of the field (2).It MUST
+     * NOT be NULL. It MUST NOT be empty.
      * @var string
      */
     public function setTypeDisplayName($value)
@@ -835,9 +832,9 @@ class Field extends Entity
         $this->setProperty("TypeDisplayName", $value, true);
     }
     /**
-     * Specifies 
-     * the description for the type of the field (2).It MUST 
-     * NOT be NULL. It MUST NOT be empty. 
+     * Specifies
+     * the description for the type of the field (2).It MUST
+     * NOT be NULL. It MUST NOT be empty.
      * @return string
      */
     public function getTypeShortDescription()
@@ -848,9 +845,9 @@ class Field extends Entity
         return $this->getProperty("TypeShortDescription");
     }
     /**
-     * Specifies 
-     * the description for the type of the field (2).It MUST 
-     * NOT be NULL. It MUST NOT be empty. 
+     * Specifies
+     * the description for the type of the field (2).It MUST
+     * NOT be NULL. It MUST NOT be empty.
      * @var string
      */
     public function setTypeShortDescription($value)
@@ -858,8 +855,8 @@ class Field extends Entity
         $this->setProperty("TypeShortDescription", $value, true);
     }
     /**
-     * Specifies 
-     * the data 
+     * Specifies
+     * the data
      * validation criteria for the value of the field (2).
      * @return string
      */
@@ -868,8 +865,8 @@ class Field extends Entity
         return $this->getProperty("ValidationFormula");
     }
     /**
-     * Specifies 
-     * the data 
+     * Specifies
+     * the data
      * validation criteria for the value of the field (2).
      * @var string
      */
@@ -878,10 +875,10 @@ class Field extends Entity
         $this->setProperty("ValidationFormula", $value, true);
     }
     /**
-     * Specifies 
-     * the error message returned when data validation fails 
-     * for the field (2).Its length 
-     * MUST be equal to or less than 1024. 
+     * Specifies
+     * the error message returned when data validation fails
+     * for the field (2).Its length
+     * MUST be equal to or less than 1024.
      * @return string
      */
     public function getValidationMessage()
@@ -889,10 +886,10 @@ class Field extends Entity
         return $this->getProperty("ValidationMessage");
     }
     /**
-     * Specifies 
-     * the error message returned when data validation fails 
-     * for the field (2).Its length 
-     * MUST be equal to or less than 1024. 
+     * Specifies
+     * the error message returned when data validation fails
+     * for the field (2).Its length
+     * MUST be equal to or less than 1024.
      * @var string
      */
     public function setValidationMessage($value)
@@ -952,5 +949,19 @@ class Field extends Entity
     public function setIsModern($value)
     {
         $this->setProperty("IsModern", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getAutofillInfo()
+    {
+        return $this->getProperty("AutofillInfo");
+    }
+    /**
+     * @var string
+     */
+    public function setAutofillInfo($value)
+    {
+        return $this->setProperty("AutofillInfo", $value, true);
     }
 }

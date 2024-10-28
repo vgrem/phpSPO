@@ -6,6 +6,7 @@ use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\ParserFactory;
+use PhpParser\PhpVersion;
 use PhpParser\PrettyPrinter;
 
 
@@ -65,7 +66,8 @@ class TypeBuilder extends NodeVisitorAbstract {
 
         if ($this->typeSchema['state'] === "attached") {
             $code = file_get_contents($this->typeSchema['file']);
-            $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP5);
+            //$parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP5);
+            $parser = (new ParserFactory)->createForVersion(PhpVersion::fromString("7.1"));
             $this->typeNode = $parser->parse($code);
         }
         else {
@@ -98,14 +100,14 @@ class TypeBuilder extends NodeVisitorAbstract {
             }
 
             //build function nodes
-            $funcBuilder = new FunctionBuilder();
+            /*$funcBuilder = new FunctionBuilder();
             if(isset($this->typeSchema['functions'])){
                 foreach($this->typeSchema['functions'] as $funcSchema){
                     if ($funcSchema['state'] === "detached"){
                         //$node->stmts[] = $funcBuilder->build($template);
                     }
                 }
-            }
+            }*/
         }
     }
 

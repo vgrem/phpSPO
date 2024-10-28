@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-06-08T09:12:30+00:00 16.0.24922.12004
+ * Generated  2024-10-28T18:15:51+00:00 16.0.25409.12005
  */
 namespace Office365\SharePoint;
 
@@ -16,4 +16,20 @@ class AgreementAttributeDTO extends ClientValue
      * @var string
      */
     public $ReviewSubmissionDate;
+    /**
+     * @var string
+     */
+    public $ReviewCompleteDate;
+    /**
+     * @var UserDTO
+     */
+    public $Reviewer;
+    /**
+     * @var string
+     */
+    public $ReviewStartDate;
+    /**
+     * @var integer
+     */
+    public $State;
 }

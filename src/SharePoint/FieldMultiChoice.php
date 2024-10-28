@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2019-11-16T20:01:10+00:00 16.0.19506.12022
+ * Generated  2024-10-28T19:35:46+00:00 16.0.25409.12005
  */
 namespace Office365\SharePoint;
 
@@ -87,5 +87,19 @@ class FieldMultiChoice extends Field
     public function setChoices($value)
     {
         $this->setProperty("Choices", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getUnlimitedLengthInDocumentLibrary()
+    {
+        return $this->getProperty("UnlimitedLengthInDocumentLibrary");
+    }
+    /**
+     * @var bool
+     */
+    public function setUnlimitedLengthInDocumentLibrary($value)
+    {
+        return $this->setProperty("UnlimitedLengthInDocumentLibrary", $value, true);
     }
 }

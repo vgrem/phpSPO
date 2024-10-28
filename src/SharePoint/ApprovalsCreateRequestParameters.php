@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
+ * Generated  2024-10-28T19:09:39+00:00 16.0.25409.12005
  */
 namespace Office365\SharePoint;
 
@@ -48,4 +48,8 @@ class ApprovalsCreateRequestParameters extends ClientValue
      * @var integer
      */
     public $itemUrlType;
+    /**
+     * @var bool
+     */
+    public $markDocAsFinal;
 }
