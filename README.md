@@ -93,8 +93,8 @@ Documentation:
 
 
 $tenant = "{tenant}.onmicrosoft.com"; //tenant id or name
-$privateKetPath = "-- path to private.key file--"
-$privateKey = file_get_contents($privateKetPath);
+$privateKeyPath = "-- path to private.key file--"
+$privateKey = file_get_contents($privateKeyPath);
 
 $ctx = (new ClientContext("{siteUrl}"))->withClientCertificate(
     $tenant, "{clientId}", $privateKey, "{thumbprint}");
