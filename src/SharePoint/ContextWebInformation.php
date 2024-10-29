@@ -10,7 +10,34 @@ use Office365\Runtime\ClientValue;
  */
 class ContextWebInformation extends ClientValue
 {
-    
+
+
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->_valid_from = time();
+    }
+
+    /**
+     * @var int
+     */
+    private $_valid_from;
+
+    /**
+     * Determines whether FormDigest has been expired or not
+     * @return bool
+     */
+    function isValid()
+    {
+        if ($this->FormDigestTimeoutSeconds === null) {
+            return false;
+        }
+
+        $expires_in_sec = time() - $this->_valid_from;
+        return $expires_in_sec < $this->FormDigestTimeoutSeconds;
+    }
+
     /**
      * The form digest value.
      * @var string

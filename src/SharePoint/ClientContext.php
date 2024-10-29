@@ -174,7 +174,7 @@ class ClientContext extends ClientRuntimeContext
      */
     public function ensureFormDigest(RequestOptions $request)
     {
-        if (!isset($this->contextWebInformation)) {
+        if (!$this->getContextWebInformation()->isValid()) {
             $this->requestFormDigest();
         }
         $request->ensureHeader("X-RequestDigest",$this->getContextWebInformation()->FormDigestValue);
@@ -250,6 +250,8 @@ class ClientContext extends ClientRuntimeContext
      */
     public function getContextWebInformation()
     {
+        if(!isset($this->contextWebInformation))
+            $this->contextWebInformation = new ContextWebInformation();
         return $this->contextWebInformation;
     }
 
