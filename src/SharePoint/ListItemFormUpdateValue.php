@@ -6,6 +6,8 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
+use Office365\Runtime\ServerTypeInfo;
+
 /**
  * Specifies 
  * the properties of a list itemfield (2) 
@@ -30,6 +32,12 @@ class ListItemFormUpdateValue extends ClientValue
             $json['FieldValue'] = "[{'Key':'$value->LookupValue'}]";
         }
         return $json;
+    }
+
+
+    public function getServerTypeInfo()
+    {
+        return new ServerTypeInfo("SP", "ListItemFormUpdateValue");
     }
 
     /**

@@ -6,7 +6,6 @@ use Exception;
 use Office365\Complex;
 use Office365\GraphServiceClient;
 use Office365\SharePoint\ClientContext;
-use Office365\SharePoint\ListItemFormUpdateValue;
 
 class ServerTypeInfo
 {
@@ -74,9 +73,6 @@ class ServerTypeInfo
                 if(is_null($namespace)) $namespace = "microsoft.graph";
                 $typeName = lcfirst($typeName);
             }
-        }
-        elseif($type instanceof ListItemFormUpdateValue) {
-            if(is_null($namespace)) $namespace = "SP";
         }
         elseif($type instanceof Complex){
             if(is_null($namespace)) $namespace = "microsoft.graph";
