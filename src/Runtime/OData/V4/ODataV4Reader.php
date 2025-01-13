@@ -10,7 +10,7 @@ use SimpleXMLIterator;
 class ODataV4Reader extends ODataReader
 {
 
-    function parseEdmx($edmx, $model, SimpleXMLIterator &$parentNode = null, SimpleXMLIterator &$prevNode = null, $prevValue=null)
+    function parseEdmx($edmx, $model, ?SimpleXMLIterator &$parentNode = null, ?SimpleXMLIterator &$prevNode = null, $prevValue=null)
     {
         if (is_null($parentNode)) {
             $parentNode = new SimpleXMLIterator($edmx);

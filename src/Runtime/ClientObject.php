@@ -58,8 +58,8 @@ class ClientObject
      * @param string|null $namespace
      */
     public function __construct(ClientRuntimeContext $ctx,
-                                ResourcePath $resourcePath = null,
-                                ODataQueryOptions $queryOptions = null,
+                                ?ResourcePath $resourcePath = null,
+                                ?ODataQueryOptions $queryOptions = null,
                                 $namespace=null)
     {
         $this->context = $ctx;

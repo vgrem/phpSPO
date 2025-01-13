@@ -10,7 +10,7 @@ use Office365\SharePoint\BaseEntityCollection;
 
 class SpotlightChannelCollection extends BaseEntityCollection
 {
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, ClientObject $parent = null)
+    public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null, ?ClientObject $parent = null)
     {
         parent::__construct($ctx, $resourcePath, SpotlightChannel::class, $parent);
     }

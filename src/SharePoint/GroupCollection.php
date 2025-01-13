@@ -23,7 +23,7 @@ class GroupCollection extends BaseEntityCollection
      * @param ResourcePath|null $resourcePath
      * @param ClientObject|null $parent
      */
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, ClientObject $parent = null)
+    public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null, ?ClientObject $parent = null)
     {
         parent::__construct($ctx, $resourcePath, Group::class, $parent);
     }

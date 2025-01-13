@@ -94,7 +94,7 @@ class ClientContext extends ClientRuntimeContext
      * @param string $url Site or Web url
      * @param IAuthenticationContext $authCtx
      */
-    public function __construct($url, IAuthenticationContext $authCtx=null)
+    public function __construct($url, ?IAuthenticationContext $authCtx=null)
     {
         $this->baseUrl = $url;
         $this->getPendingRequest()->beforeExecuteRequest(function (RequestOptions $request) {

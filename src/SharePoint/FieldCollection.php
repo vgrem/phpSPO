@@ -14,7 +14,7 @@ use Office365\Runtime\ResourcePath;
 class FieldCollection extends BaseEntityCollection
 {
 
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, ClientObject $parent = null)
+    public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null, ?ClientObject $parent = null)
     {
         parent::__construct($ctx, $resourcePath, Field::class, $parent);
     }

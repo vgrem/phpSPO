@@ -19,8 +19,8 @@ class BaseEntity extends ClientObject
 {
 
     public function __construct(ClientRuntimeContext $ctx,
-                                ResourcePath $resourcePath = null,
-                                ODataQueryOptions $queryOptions = null)
+                                ?ResourcePath $resourcePath = null,
+                                ?ODataQueryOptions $queryOptions = null)
     {
         parent::__construct($ctx,$resourcePath,$queryOptions,"SP");
     }

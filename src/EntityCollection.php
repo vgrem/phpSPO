@@ -19,7 +19,7 @@ class EntityCollection extends ClientObjectCollection
      * @param ResourcePath|null $resourcePath
      * @param null $itemTypeName
      */
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, $itemTypeName = null)
+    public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null, $itemTypeName = null)
     {
         parent::__construct($ctx, $resourcePath, $itemTypeName);
     }

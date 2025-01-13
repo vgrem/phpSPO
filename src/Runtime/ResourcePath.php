@@ -10,7 +10,7 @@ class ResourcePath
      * @param string $name
      * @param ResourcePath|null $parent
      */
-    public function __construct($name, ResourcePath $parent = null)
+    public function __construct($name, ?ResourcePath $parent = null)
     {
         $this->name = $name;
         $this->parent = $parent;

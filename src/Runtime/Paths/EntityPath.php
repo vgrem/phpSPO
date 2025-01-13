@@ -14,7 +14,7 @@ class EntityPath extends ResourcePath
      * @param string|null $key
      * @param ResourcePath|null $parent
      */
-    public function __construct($key = null, ResourcePath $parent = null)
+    public function __construct($key = null, ?ResourcePath $parent = null)
     {
         parent::__construct($key, $parent);
     }

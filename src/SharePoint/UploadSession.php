@@ -27,7 +27,7 @@ class UploadSession
      * @param callable $chunkUploaded
      * @param int $chunkSize
      */
-    function buildQuery($files, $sourcePath, $targetFileName,  callable $chunkUploaded=null,$chunkSize = 1048576){
+    function buildQuery($files, $sourcePath, $targetFileName, ?callable $chunkUploaded=null, $chunkSize = 1048576){
         $ctx= $files->getContext();
         $fileSize = filesize($sourcePath);
         $firstChunk = true;

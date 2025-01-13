@@ -9,7 +9,7 @@ use Office365\Runtime\ResourcePath;
 
 class ChangeCollection extends BaseEntityCollection
 {
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, ClientObject $parent = null)
+    public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null, ?ClientObject $parent = null)
     {
         parent::__construct($ctx, $resourcePath, Change::class, $parent);
     }

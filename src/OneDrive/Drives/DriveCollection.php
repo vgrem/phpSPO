@@ -12,7 +12,7 @@ use Office365\Runtime\ResourcePath;
 class DriveCollection extends EntityCollection
 {
 
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null)
+    public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null)
     {
         parent::__construct($ctx, $resourcePath, Drive::class);
     }

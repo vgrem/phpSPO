@@ -20,7 +20,7 @@ class ServiceOperationPath extends ResourcePath implements ICSOMCallable
      * @param array|ClientObject|ClientValue $methodParameters
      * @param ResourcePath|null $parent
      */
-    public function __construct($methodName=null, $methodParameters = null,ResourcePath $parent=null)
+    public function __construct($methodName=null, $methodParameters = null, ?ResourcePath $parent=null)
     {
         parent::__construct($this->buildSegment($methodName,$methodParameters), $parent);
         $this->methodName = $methodName;
