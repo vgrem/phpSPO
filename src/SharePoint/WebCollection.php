@@ -14,7 +14,7 @@ class WebCollection extends BaseEntityCollection
 {
 
     public function __construct(ClientRuntimeContext $ctx,
-                                ResourcePath $resourcePath = null,
+                                ?ResourcePath $resourcePath = null,
                                 $parentWeb=Null)
     {
         parent::__construct($ctx, $resourcePath,Web::class,$parentWeb);

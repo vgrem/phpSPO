@@ -9,7 +9,7 @@ use Office365\Complex;
 
 class Recipient extends Complex
 {
-    function __construct(EmailAddress $emailAddress=null)
+    function __construct(?EmailAddress $emailAddress=null)
     {
         $this->EmailAddress = $emailAddress;
         parent::__construct();

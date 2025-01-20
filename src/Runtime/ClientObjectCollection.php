@@ -91,7 +91,7 @@ class ClientObjectCollection extends ClientObject implements IteratorAggregate, 
      * @param ResourcePath $resourcePath
      * @param string $itemTypeName
      */
-    public function __construct(ClientRuntimeContext $ctx,ResourcePath $resourcePath = null,$itemTypeName=null)
+    public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null, $itemTypeName=null)
     {
         parent::__construct($ctx, $resourcePath);
         $this->data = array();

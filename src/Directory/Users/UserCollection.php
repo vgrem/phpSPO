@@ -11,7 +11,7 @@ use Office365\Runtime\ResourcePath;
 class UserCollection extends EntityCollection
 {
 
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null)
+    public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null)
     {
         parent::__construct($ctx, $resourcePath, User::class);
     }

@@ -14,7 +14,7 @@ use Office365\Runtime\ResourcePath;
 
 class TeamCollection extends EntityCollection
 {
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null)
+    public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null)
     {
         parent::__construct($ctx, $resourcePath, Team::class);
     }

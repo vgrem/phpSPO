@@ -18,7 +18,7 @@ use Office365\Runtime\ResourcePath;
 class Entity extends ClientObject
 {
 
-    public function __construct(ClientRuntimeContext $ctx, ResourcePath $resourcePath = null, $namespace = null)
+    public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null, $namespace = null)
     {
         parent::__construct($ctx, $resourcePath, null, $namespace);
     }

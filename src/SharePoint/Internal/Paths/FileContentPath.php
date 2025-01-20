@@ -11,7 +11,7 @@ class FileContentPath extends ResourcePath
     /***
      * @param ResourcePath|null $parent
      */
-    public function __construct(ResourcePath $parent = null)
+    public function __construct(?ResourcePath $parent = null)
     {
         parent::__construct("\$value", $parent);
     }

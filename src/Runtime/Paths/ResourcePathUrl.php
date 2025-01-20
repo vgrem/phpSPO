@@ -10,7 +10,7 @@ use Office365\Runtime\ResourcePath;
  */
 class ResourcePathUrl extends ResourcePath
 {
-    public function __construct($url, ResourcePath $parent = null)
+    public function __construct($url, ?ResourcePath $parent = null)
     {
         parent::__construct($url, $parent);
     }

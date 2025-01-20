@@ -60,7 +60,7 @@ class SPList extends SecurableObject
      * @param CamlQuery $camlQuery
      * @return ListItemCollection
      */
-    public function getItems(CamlQuery $camlQuery = null)
+    public function getItems(?CamlQuery $camlQuery = null)
     {
         $targetItems = new ListItemCollection($this->getContext(), new ResourcePath("items", $this->getResourcePath()));
         if (is_null($camlQuery)) {

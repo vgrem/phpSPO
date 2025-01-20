@@ -17,9 +17,9 @@ class TaxonomyItemCollection extends ClientObjectCollection
     private $parent;
 
     public function __construct(ClientRuntimeContext $ctx,
-                                ResourcePath $resourcePath = null,
+                                ?ResourcePath $resourcePath = null,
                                 $itemTypeName = null,
-                                TaxonomyItem $parent=null)
+                                ?TaxonomyItem $parent=null)
     {
         parent::__construct($ctx, $resourcePath, $itemTypeName);
         $this->parent = $parent;
