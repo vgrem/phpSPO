@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-10-09T13:33:47+03:00 16.0.21729.12001
+ * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint;
 
@@ -94,5 +94,33 @@ class TeamSiteData extends BaseEntity
     public function setThemeToken($value)
     {
         return $this->setProperty("ThemeToken", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getHeaderColorIndexInDarkMode()
+    {
+        return $this->getProperty("HeaderColorIndexInDarkMode");
+    }
+    /**
+     * @var integer
+     */
+    public function setHeaderColorIndexInDarkMode($value)
+    {
+        return $this->setProperty("HeaderColorIndexInDarkMode", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getHeaderColorIndexInLightMode()
+    {
+        return $this->getProperty("HeaderColorIndexInLightMode");
+    }
+    /**
+     * @var integer
+     */
+    public function setHeaderColorIndexInLightMode($value)
+    {
+        return $this->setProperty("HeaderColorIndexInLightMode", $value, true);
     }
 }

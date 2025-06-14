@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
+ * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint;
 
@@ -93,5 +93,33 @@ class StorageMetrics extends ClientObject
     public function setAdditionalFileStreamSize($value)
     {
         return $this->setProperty("AdditionalFileStreamSize", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getVersionCount()
+    {
+        return $this->getProperty("VersionCount");
+    }
+    /**
+     * @var integer
+     */
+    public function setVersionCount($value)
+    {
+        return $this->setProperty("VersionCount", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getVersionSize()
+    {
+        return $this->getProperty("VersionSize");
+    }
+    /**
+     * @var integer
+     */
+    public function setVersionSize($value)
+    {
+        return $this->setProperty("VersionSize", $value, true);
     }
 }

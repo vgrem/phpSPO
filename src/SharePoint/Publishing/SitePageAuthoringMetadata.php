@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
+ * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint\Publishing;
 
@@ -16,4 +16,24 @@ class SitePageAuthoringMetadata extends ClientValue
      * @var string
      */
     public $SessionId;
+    /**
+     * @var integer
+     */
+    public $ClientOperation;
+    /**
+     * @var string
+     */
+    public $FluidContainerCustomId;
+    /**
+     * @var bool
+     */
+    public $IsSingleUserSession;
+    /**
+     * @var string
+     */
+    public $RestoredFrom;
+    /**
+     * @var string
+     */
+    public $RestoreTo;
 }

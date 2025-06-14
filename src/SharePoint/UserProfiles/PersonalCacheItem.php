@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
+ * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint\UserProfiles;
 
@@ -48,4 +48,8 @@ class PersonalCacheItem extends ClientValue
      * @var string
      */
     public $ContainerUrl;
+    /**
+     * @var string
+     */
+    public $CacheValueHtml;
 }

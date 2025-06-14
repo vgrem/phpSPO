@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2023-01-13T18:22:53+02:00 16.0.23207.12005
+ * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint;
 
@@ -75,17 +75,14 @@ class Web extends SecurableObject
         $ctx->addQueryAndResultObject($qry, $result);
         return $result;
     }
-
     /**
      * Retrieves the default document library
      * @return SPList
      */
-    public function defaultDocumentLibrary(){
-        return new SPList($this->getContext(),
-            new ServiceOperationPath("DefaultDocumentLibrary", null,
-                $this->getResourcePath()));
+    public function defaultDocumentLibrary()
+    {
+        return new SPList($this->getContext(), new ServiceOperationPath("DefaultDocumentLibrary", null, $this->getResourcePath()));
     }
-
     /**
      * @param string $logonName
      * @return User
@@ -200,11 +197,10 @@ class Web extends SecurableObject
      */
     public function getFileByServerRelativePath($serverRelativePath)
     {
-        if(is_string($serverRelativePath)) {
+        if (is_string($serverRelativePath)) {
             $serverRelativePath = new SPResourcePath($serverRelativePath);
         }
-        return new File($this->getContext(),
-            new ServiceOperationPath("getFileByServerRelativePath", $serverRelativePath->toJson(), $this->getResourcePath()));
+        return new File($this->getContext(), new ServiceOperationPath("getFileByServerRelativePath", $serverRelativePath->toJson(), $this->getResourcePath()));
     }
     /**
      * Returns the file object with the specified GUID.
@@ -231,7 +227,7 @@ class Web extends SecurableObject
      */
     public function getFolderByServerRelativePath($serverRelativePath)
     {
-        if(is_string($serverRelativePath)) {
+        if (is_string($serverRelativePath)) {
             $serverRelativePath = new SPResourcePath($serverRelativePath);
         }
         return new Folder($this->getContext(), new ServiceOperationPath("getFolderByServerRelativePath", $serverRelativePath->toJson(), $this->getResourcePath()));
@@ -2145,7 +2141,7 @@ class Web extends SecurableObject
         $url = parent::getResourceUrl();
         if (!is_null($this->webUrl)) {
             $urlInfo = parse_url($this->getContext()->getBaseUrl());
-            $rootSiteUrl =  $urlInfo['scheme'] . '://' . $urlInfo['host'];
+            $rootSiteUrl = $urlInfo['scheme'] . '://' . $urlInfo['host'];
             $webPath = str_replace($rootSiteUrl, "", $this->getContext()->getBaseUrl());
             return str_replace("{$webPath}/_api", "{$this->webUrl}/_api", $url);
         }
@@ -2278,5 +2274,187 @@ class Web extends SecurableObject
     public function setRelatedHubSiteIds($value)
     {
         return $this->setProperty("RelatedHubSiteIds", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getFooterAlignment()
+    {
+        return $this->getProperty("FooterAlignment");
+    }
+    /**
+     * @var integer
+     */
+    public function setFooterAlignment($value)
+    {
+        return $this->setProperty("FooterAlignment", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getFooterBlur()
+    {
+        return $this->getProperty("FooterBlur");
+    }
+    /**
+     * @var integer
+     */
+    public function setFooterBlur($value)
+    {
+        return $this->setProperty("FooterBlur", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getFooterColorIndexInDarkMode()
+    {
+        return $this->getProperty("FooterColorIndexInDarkMode");
+    }
+    /**
+     * @var integer
+     */
+    public function setFooterColorIndexInDarkMode($value)
+    {
+        return $this->setProperty("FooterColorIndexInDarkMode", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getFooterColorIndexInLightMode()
+    {
+        return $this->getProperty("FooterColorIndexInLightMode");
+    }
+    /**
+     * @var integer
+     */
+    public function setFooterColorIndexInLightMode($value)
+    {
+        return $this->setProperty("FooterColorIndexInLightMode", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getFooterOverlayColor()
+    {
+        return $this->getProperty("FooterOverlayColor");
+    }
+    /**
+     * @var integer
+     */
+    public function setFooterOverlayColor($value)
+    {
+        return $this->setProperty("FooterOverlayColor", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getFooterOverlayGradientDirection()
+    {
+        return $this->getProperty("FooterOverlayGradientDirection");
+    }
+    /**
+     * @var integer
+     */
+    public function setFooterOverlayGradientDirection($value)
+    {
+        return $this->setProperty("FooterOverlayGradientDirection", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getFooterOverlayOpacity()
+    {
+        return $this->getProperty("FooterOverlayOpacity");
+    }
+    /**
+     * @var integer
+     */
+    public function setFooterOverlayOpacity($value)
+    {
+        return $this->setProperty("FooterOverlayOpacity", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getHeaderColorIndexInDarkMode()
+    {
+        return $this->getProperty("HeaderColorIndexInDarkMode");
+    }
+    /**
+     * @var integer
+     */
+    public function setHeaderColorIndexInDarkMode($value)
+    {
+        return $this->setProperty("HeaderColorIndexInDarkMode", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getHeaderColorIndexInLightMode()
+    {
+        return $this->getProperty("HeaderColorIndexInLightMode");
+    }
+    /**
+     * @var integer
+     */
+    public function setHeaderColorIndexInLightMode($value)
+    {
+        return $this->setProperty("HeaderColorIndexInLightMode", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getHeaderOverlayColor()
+    {
+        return $this->getProperty("HeaderOverlayColor");
+    }
+    /**
+     * @var integer
+     */
+    public function setHeaderOverlayColor($value)
+    {
+        return $this->setProperty("HeaderOverlayColor", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getHeaderOverlayGradientDirection()
+    {
+        return $this->getProperty("HeaderOverlayGradientDirection");
+    }
+    /**
+     * @var integer
+     */
+    public function setHeaderOverlayGradientDirection($value)
+    {
+        return $this->setProperty("HeaderOverlayGradientDirection", $value, true);
+    }
+    /**
+     * @return integer
+     */
+    public function getHeaderOverlayOpacity()
+    {
+        return $this->getProperty("HeaderOverlayOpacity");
+    }
+    /**
+     * @var integer
+     */
+    public function setHeaderOverlayOpacity($value)
+    {
+        return $this->setProperty("HeaderOverlayOpacity", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getThemeApplicationActionHistory()
+    {
+        return $this->getProperty("ThemeApplicationActionHistory");
+    }
+    /**
+     * @var string
+     */
+    public function setThemeApplicationActionHistory($value)
+    {
+        return $this->setProperty("ThemeApplicationActionHistory", $value, true);
     }
 }

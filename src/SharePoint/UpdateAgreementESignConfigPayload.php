@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-03-17T10:39:33+00:00 16.0.24628.12008
+ * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint;
 
@@ -32,4 +32,8 @@ class UpdateAgreementESignConfigPayload extends ClientValue
      * @var array
      */
     public $SignersEmail;
+    /**
+     * @var bool
+     */
+    public $MoveStateToInESign;
 }

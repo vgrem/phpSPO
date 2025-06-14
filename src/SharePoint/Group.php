@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Generated 2019-11-17T14:35:07+00:00 16.0.19506.12022
+ * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ResourcePath;
-
 /**
  * Represents 
  * a collection of users. The CanCurrentUserEditMembership, CanCurrentUserManageGroup 
@@ -21,8 +20,7 @@ class Group extends Principal
      */
     public function getUsers()
     {
-        return $this->getProperty("Users",
-            new UserCollection($this->getContext(),new ResourcePath("Users", $this->getResourcePath())));
+        return $this->getProperty("Users", new UserCollection($this->getContext(), new ResourcePath("Users", $this->getResourcePath())));
     }
     /**
      * Specifies 
@@ -231,7 +229,20 @@ class Group extends Principal
      */
     public function getOwner()
     {
-        return $this->getProperty("Owner",
-            new Principal($this->getContext(),new ResourcePath("Owner", $this->getResourcePath())));
+        return $this->getProperty("Owner", new Principal($this->getContext(), new ResourcePath("Owner", $this->getResourcePath())));
+    }
+    /**
+     * @return bool
+     */
+    public function getContainsCurrentUser()
+    {
+        return $this->getProperty("ContainsCurrentUser");
+    }
+    /**
+     * @var bool
+     */
+    public function setContainsCurrentUser($value)
+    {
+        return $this->setProperty("ContainsCurrentUser", $value, true);
     }
 }

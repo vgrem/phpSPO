@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-10-28T19:27:51+00:00 16.0.25409.12005
+ * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint;
 
@@ -1487,5 +1487,89 @@ class Site extends BaseEntity
     public function setIsRestrictContentOrgWideSearchPolicyEnforcedOnSite($value)
     {
         return $this->setProperty("IsRestrictContentOrgWideSearchPolicyEnforcedOnSite", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getIsExternalWorkspace()
+    {
+        return $this->getProperty("IsExternalWorkspace");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsExternalWorkspace($value)
+    {
+        return $this->setProperty("IsExternalWorkspace", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getIsRubySite()
+    {
+        return $this->getProperty("IsRubySite");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsRubySite($value)
+    {
+        return $this->setProperty("IsRubySite", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getIsScheduledForRemoval()
+    {
+        return $this->getProperty("IsScheduledForRemoval");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsScheduledForRemoval($value)
+    {
+        return $this->setProperty("IsScheduledForRemoval", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getIsUnlicensedOdb()
+    {
+        return $this->getProperty("IsUnlicensedOdb");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsUnlicensedOdb($value)
+    {
+        return $this->setProperty("IsUnlicensedOdb", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getScheduledDateForRemoval()
+    {
+        return $this->getProperty("ScheduledDateForRemoval");
+    }
+    /**
+     * @var string
+     */
+    public function setScheduledDateForRemoval($value)
+    {
+        return $this->setProperty("ScheduledDateForRemoval", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getUnifiedDomainUrl()
+    {
+        return $this->getProperty("UnifiedDomainUrl");
+    }
+    /**
+     * @var string
+     */
+    public function setUnifiedDomainUrl($value)
+    {
+        return $this->setProperty("UnifiedDomainUrl", $value, true);
     }
 }

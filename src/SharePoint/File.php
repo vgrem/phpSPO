@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-06-08T09:12:30+00:00 16.0.24922.12004
+ * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint;
 
@@ -30,7 +30,7 @@ class File extends SecurableObject
 {
     public function moveToEx($destUrl, $overwrite)
     {
-        $this->ensureProperty("ServerRelativeUrl", function () use($destUrl, $overwrite) {
+        $this->ensureProperty("ServerRelativeUrl", function () use ($destUrl, $overwrite) {
             MoveCopyUtil::moveFile($this->getContext(), $this->getServerRelativeUrl(), $destUrl, $overwrite, new MoveCopyOptions());
         });
     }
@@ -52,7 +52,7 @@ class File extends SecurableObject
      */
     public function download($handle)
     {
-        $this->ensureProperty("ServerRelativeUrl", function () use($handle) {
+        $this->ensureProperty("ServerRelativeUrl", function () use ($handle) {
             $this->constructDownloadQuery($this, $handle);
         });
         return $this;
@@ -64,7 +64,7 @@ class File extends SecurableObject
     private function constructDownloadQuery($file, $handle)
     {
         $file->getContext()->load($file);
-        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function ($request) use($handle) {
+        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function ($request) use ($handle) {
             $request->Url .= "/\$value";
             $request->StreamHandle = $handle;
         });
@@ -197,7 +197,7 @@ class File extends SecurableObject
         $options = new RequestOptions($url);
         $options->TransferEncodingChunkedAllowed = true;
         $response = $ctx->executeQueryDirect($options);
-        if (400 <= ($statusCode = $response->getStatusCode())) {
+        if (400 <= $statusCode = $response->getStatusCode()) {
             throw new RequestException(sprintf('Could not open file located at "%s". SharePoint has responded with status code %d, error was: %s', rawurldecode($serverRelativeUrl), $statusCode, $response->getContent()), $statusCode, $response->getContent());
         }
         return $response->getContent();
@@ -1064,5 +1064,12 @@ class File extends SecurableObject
     public function setSuppressExpirationNotification($value)
     {
         return $this->setProperty("SuppressExpirationNotification", $value, true);
+    }
+    /**
+     * @return Web
+     */
+    public function getWeb()
+    {
+        return $this->getProperty("Web", new Web($this->getContext(), new ResourcePath("Web", $this->getResourcePath())));
     }
 }

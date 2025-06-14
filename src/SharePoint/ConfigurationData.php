@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
+ * Generated  2025-06-14T08:49:21+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint;
 
@@ -44,4 +44,8 @@ class ConfigurationData extends ClientValue
      * @var string
      */
     public $Theme;
+    /**
+     * @var bool
+     */
+    public $IsVivaHomeFeedReplaceFlightEnabled;
 }

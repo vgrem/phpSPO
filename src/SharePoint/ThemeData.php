@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-06-08T09:12:30+00:00 16.0.24922.12004
+ * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint;
 
@@ -28,4 +28,8 @@ class ThemeData extends ClientValue
      * @var string
      */
     public $themeJson;
+    /**
+     * @var bool
+     */
+    public $isThemesV2;
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-10-28T19:35:46+00:00 16.0.25409.12005
+ * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint\Publishing;
 
@@ -231,5 +231,33 @@ class SitePage extends ClientObject
     public function setPublicationRecipients($value)
     {
         return $this->setProperty("PublicationRecipients", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getCampaignMetadata()
+    {
+        return $this->getProperty("CampaignMetadata");
+    }
+    /**
+     * @var string
+     */
+    public function setCampaignMetadata($value)
+    {
+        return $this->setProperty("CampaignMetadata", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getSourceDynamicSectionId()
+    {
+        return $this->getProperty("SourceDynamicSectionId");
+    }
+    /**
+     * @var string
+     */
+    public function setSourceDynamicSectionId($value)
+    {
+        return $this->setProperty("SourceDynamicSectionId", $value, true);
     }
 }

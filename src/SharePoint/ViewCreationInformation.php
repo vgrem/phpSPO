@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Generated 2021-03-12T16:05:00+00:00 16.0.21103.12002
+ * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
  */
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
 use Office365\Runtime\ServerTypeInfo;
-
 /**
  * Specifies 
  * the properties used to create a new list view.
@@ -51,7 +50,6 @@ class ViewCreationInformation extends ClientValue
         $this->RowLimit = 30;
         parent::__construct();
     }
-
     /**
      * @return ServerTypeInfo
      */
@@ -59,7 +57,6 @@ class ViewCreationInformation extends ClientValue
     {
         return new ServerTypeInfo("SP", "View");
     }
-
     public $baseViewId;
     /**
      * @var string
@@ -81,4 +78,8 @@ class ViewCreationInformation extends ClientValue
      * @var string
      */
     public $ColumnWidth;
+    /**
+     * @var string
+     */
+    public $CustomFormatter;
 }
