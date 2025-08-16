@@ -7,11 +7,11 @@ namespace Office365\Directory\Groups;
 
 use Office365\Directory\DirectoryObject;
 use Office365\Directory\Licenses\LicenseProcessingState;
-use Office365\OneDrive\Drive;
-use Office365\OneDrive\DriveCollection;
-use Office365\OneDrive\SiteCollection;
+use Office365\OneDrive\Drives\Drive;
+use Office365\OneDrive\Drives\DriveCollection;
+use Office365\OneDrive\Sites\SiteCollection;
 use Office365\OneNote\Onenote;
-use Office365\Outlook\Calendar;
+use Office365\Outlook\Calendars\Calendar;
 use Office365\Outlook\ProfilePhoto;
 use Office365\Planner\PlannerGroup;
 use Office365\Runtime\ResourcePath;

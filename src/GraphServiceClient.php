@@ -4,7 +4,7 @@ namespace Office365;
 
 
 use Office365\Directory\Applications\Application;
-use Office365\Directory\Groups\Group;
+use Office365\Directory\Groups\GroupCollection;
 use Office365\Directory\Groups\GroupSetting;
 use Office365\Directory\Users\User;
 use Office365\Directory\Users\UserCollection;
@@ -150,10 +150,10 @@ class GraphServiceClient extends ClientRuntimeContext
     }
 
     /**
-     * @return EntityCollection
+     * @return GroupCollection
      */
     public function getGroups(){
-        return new EntityCollection($this,new ResourcePath("groups"), Group::class);
+        return new GroupCollection($this,new ResourcePath("groups"));
     }
 
     /**
