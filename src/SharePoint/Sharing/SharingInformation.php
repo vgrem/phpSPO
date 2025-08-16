@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
+ * Generated  2025-08-15T21:03:47+00:00 16.0.26330.12011
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -920,5 +920,19 @@ class SharingInformation extends ClientObject
     public function setisMultiTenantOrganization($value)
     {
         return $this->setProperty("isMultiTenantOrganization", $value, true);
+    }
+    /**
+     * @return UniqueAccessGroupsWrapper
+     */
+    public function getuniqueAccessGroups()
+    {
+        return $this->getProperty("uniqueAccessGroups");
+    }
+    /**
+     * @var UniqueAccessGroupsWrapper
+     */
+    public function setuniqueAccessGroups($value)
+    {
+        return $this->setProperty("uniqueAccessGroups", $value, true);
     }
 }

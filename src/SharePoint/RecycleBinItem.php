@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-10-28T19:27:51+00:00 16.0.25409.12005
+ * Generated  2025-08-15T21:03:47+00:00 16.0.26330.12011
  */
 namespace Office365\SharePoint;
 
@@ -395,5 +395,19 @@ class RecycleBinItem extends ClientObject
     public function setUniqueId($value)
     {
         return $this->setProperty("UniqueId", $value, true);
+    }
+    /**
+     * @return string
+     */
+    public function getRecycleBinListId()
+    {
+        return $this->getProperty("RecycleBinListId");
+    }
+    /**
+     * @var string
+     */
+    public function setRecycleBinListId($value)
+    {
+        return $this->setProperty("RecycleBinListId", $value, true);
     }
 }

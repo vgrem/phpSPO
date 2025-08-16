@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
+ * Generated  2025-08-15T21:03:47+00:00 16.0.26330.12011
  */
 namespace Office365\SharePoint\Publishing;
 
 use Office365\Runtime\ClientObject;
+use Office365\SharePoint\CoAuthConfiguration;
+
 class SitePage extends ClientObject
 {
     /**
@@ -259,5 +261,33 @@ class SitePage extends ClientObject
     public function setSourceDynamicSectionId($value)
     {
         return $this->setProperty("SourceDynamicSectionId", $value, true);
+    }
+    /**
+     * @return AmplifyPublishingHistory
+     */
+    public function getAmplifyPublishingHistory()
+    {
+        return $this->getProperty("AmplifyPublishingHistory");
+    }
+    /**
+     * @var AmplifyPublishingHistory
+     */
+    public function setAmplifyPublishingHistory($value)
+    {
+        return $this->setProperty("AmplifyPublishingHistory", $value, true);
+    }
+    /**
+     * @return CoAuthConfiguration
+     */
+    public function getCoAuthTenantConfiguration()
+    {
+        return $this->getProperty("CoAuthTenantConfiguration");
+    }
+    /**
+     * @var CoAuthConfiguration
+     */
+    public function setCoAuthTenantConfiguration($value)
+    {
+        return $this->setProperty("CoAuthTenantConfiguration", $value, true);
     }
 }

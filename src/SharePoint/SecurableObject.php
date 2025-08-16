@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2019-11-16T17:57:50+00:00 16.0.19506.12022
+ * Generated  2025-08-15T21:03:47+00:00 16.0.26330.12011
  */
 namespace Office365\SharePoint;
 
@@ -31,9 +31,7 @@ class SecurableObject extends Entity
      */
     public function getRoleAssignments()
     {
-        return $this->getProperty('RoleAssignments',
-            new RoleAssignmentCollection($this->getContext(),
-                new ResourcePath("roleAssignments", $this->getResourcePath())));
+        return $this->getProperty('RoleAssignments', new RoleAssignmentCollection($this->getContext(), new ResourcePath("roleAssignments", $this->getResourcePath())));
     }
     /**
      * Gets a Boolean value indicating whether the object has unique security or
@@ -52,11 +50,8 @@ class SecurableObject extends Entity
      */
     public function getFirstUniqueAncestorSecurableObject()
     {
-        return $this->getProperty("FirstUniqueAncestorSecurableObject",
-            new SecurableObject($this->getContext(),
-                new ResourcePath("FirstUniqueAncestorSecurableObject", $this->getResourcePath())));
+        return $this->getProperty("FirstUniqueAncestorSecurableObject", new SecurableObject($this->getContext(), new ResourcePath("FirstUniqueAncestorSecurableObject", $this->getResourcePath())));
     }
-
     /**
      * Specifies
      * whether the role assignments are
@@ -69,5 +64,19 @@ class SecurableObject extends Entity
     public function setHasUniqueRoleAssignments($value)
     {
         return $this->setProperty("HasUniqueRoleAssignments", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getShieldAddRoleAssignmentPushdown()
+    {
+        return $this->getProperty("ShieldAddRoleAssignmentPushdown");
+    }
+    /**
+     * @var bool
+     */
+    public function setShieldAddRoleAssignmentPushdown($value)
+    {
+        return $this->setProperty("ShieldAddRoleAssignmentPushdown", $value, true);
     }
 }

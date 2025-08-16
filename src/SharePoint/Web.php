@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
+ * Generated  2025-08-15T21:03:47+00:00 16.0.26330.12011
  */
 namespace Office365\SharePoint;
 
@@ -2456,5 +2456,61 @@ class Web extends SecurableObject
     public function setThemeApplicationActionHistory($value)
     {
         return $this->setProperty("ThemeApplicationActionHistory", $value, true);
+    }
+    /**
+     * @return FontOption
+     */
+    public function getFontOptionForSiteFooterNav()
+    {
+        return $this->getProperty("FontOptionForSiteFooterNav");
+    }
+    /**
+     * @var FontOption
+     */
+    public function setFontOptionForSiteFooterNav($value)
+    {
+        return $this->setProperty("FontOptionForSiteFooterNav", $value, true);
+    }
+    /**
+     * @return FontOption
+     */
+    public function getFontOptionForSiteFooterTitle()
+    {
+        return $this->getProperty("FontOptionForSiteFooterTitle");
+    }
+    /**
+     * @var FontOption
+     */
+    public function setFontOptionForSiteFooterTitle($value)
+    {
+        return $this->setProperty("FontOptionForSiteFooterTitle", $value, true);
+    }
+    /**
+     * @return FontOption
+     */
+    public function getFontOptionForSiteNav()
+    {
+        return $this->getProperty("FontOptionForSiteNav");
+    }
+    /**
+     * @var FontOption
+     */
+    public function setFontOptionForSiteNav($value)
+    {
+        return $this->setProperty("FontOptionForSiteNav", $value, true);
+    }
+    /**
+     * @return FontOption
+     */
+    public function getFontOptionForSiteTitle()
+    {
+        return $this->getProperty("FontOptionForSiteTitle");
+    }
+    /**
+     * @var FontOption
+     */
+    public function setFontOptionForSiteTitle($value)
+    {
+        return $this->setProperty("FontOptionForSiteTitle", $value, true);
     }
 }

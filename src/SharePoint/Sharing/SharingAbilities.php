@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-02-24T10:21:51+00:00 16.0.24607.12008
+ * Generated  2025-08-15T21:03:47+00:00 16.0.26330.12011
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -32,4 +32,12 @@ class SharingAbilities extends ClientValue
      * @var bool
      */
     public $canStopSharing;
+    /**
+     * @var MainLinkAbilities
+     */
+    public $mainLinkAbilities;
+    /**
+     * @var SharingSettingsAbilities
+     */
+    public $sharingSettingsAbilities;
 }

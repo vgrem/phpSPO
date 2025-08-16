@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
+ * Generated  2025-08-15T21:03:47+00:00 16.0.26330.12011
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -36,4 +36,8 @@ class InheritedFrom extends ClientValue
      * @var SharePointIds
      */
     public $sharepointIds;
+    /**
+     * @var string
+     */
+    public $itemType;
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-06-08T09:12:30+00:00 16.0.24922.12004
+ * Generated  2025-08-15T21:03:47+00:00 16.0.26330.12011
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -45,4 +45,8 @@ class PermissionCollection extends ClientValue
      * @var integer
      */
     public $totalNumberOfPrincipals;
+    /**
+     * @var MainAccessInformation
+     */
+    public $mainAccess;
 }

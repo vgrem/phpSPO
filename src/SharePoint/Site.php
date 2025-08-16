@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
+ * Generated  2025-08-15T21:03:47+00:00 16.0.26330.12011
  */
 namespace Office365\SharePoint;
 
@@ -1571,5 +1571,33 @@ class Site extends BaseEntity
     public function setUnifiedDomainUrl($value)
     {
         return $this->setProperty("UnifiedDomainUrl", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getIsRestrictedContentDiscoveryforCopilotAndAgentsEnabled()
+    {
+        return $this->getProperty("IsRestrictedContentDiscoveryforCopilotAndAgentsEnabled");
+    }
+    /**
+     * @var bool
+     */
+    public function setIsRestrictedContentDiscoveryforCopilotAndAgentsEnabled($value)
+    {
+        return $this->setProperty("IsRestrictedContentDiscoveryforCopilotAndAgentsEnabled", $value, true);
+    }
+    /**
+     * @return RestrictContentOrgWidePolicyUpdate
+     */
+    public function getRestrictContentOrgWideSearchUpdate()
+    {
+        return $this->getProperty("RestrictContentOrgWideSearchUpdate");
+    }
+    /**
+     * @var RestrictContentOrgWidePolicyUpdate
+     */
+    public function setRestrictContentOrgWideSearchUpdate($value)
+    {
+        return $this->setProperty("RestrictContentOrgWideSearchUpdate", $value, true);
     }
 }

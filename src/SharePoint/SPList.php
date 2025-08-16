@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-10-28T19:27:51+00:00 16.0.25409.12005
+ * Generated  2025-08-15T21:03:47+00:00 16.0.26330.12011
  */
 namespace Office365\SharePoint;
 
@@ -1713,5 +1713,19 @@ class SPList extends SecurableObject
     public function setExcludeFromOfflineMode($value)
     {
         return $this->setProperty("ExcludeFromOfflineMode", $value, true);
+    }
+    /**
+     * @return bool
+     */
+    public function getShowOneTabOnly()
+    {
+        return $this->getProperty("ShowOneTabOnly");
+    }
+    /**
+     * @var bool
+     */
+    public function setShowOneTabOnly($value)
+    {
+        return $this->setProperty("ShowOneTabOnly", $value, true);
     }
 }
