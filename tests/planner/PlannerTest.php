@@ -6,6 +6,7 @@ namespace Office365\planner;
 use Office365\Directory\Groups\Group;
 use Office365\GraphTestCase;
 use Office365\Planner\Plans\PlannerPlan;
+use Office365\Runtime\Http\RequestException;
 
 class PlannerTest extends GraphTestCase
 {
@@ -18,7 +19,11 @@ class PlannerTest extends GraphTestCase
     {
         $grpName = "TestGroup_" . rand(1, 100000);
         parent::setUpBeforeClass();
+
         self::$targetGroup = self::$graphClient->getGroups()->createM365($grpName)->executeQuery();
+        $user = self::$graphClient->getMe();
+        self::$targetGroup->addMemberUser($user)->executeQuery();
+        sleep(3);
     }
 
     public static function tearDownAfterClass(): void
@@ -40,13 +45,13 @@ class PlannerTest extends GraphTestCase
         self::assertNotNull($result->getResourcePath());
     }
 
-    /*public function testCreateGroupPlan()
+    public function testCreateGroupPlan()
     {
         $planTitle = "TestPlan_" . rand(1, 100000);
         $result = self::$targetGroup->getPlanner()->getPlans()->create($planTitle)->executeQuery();
         self::assertNotNull($result->getResourcePath());
         return $result;
-    }*/
+    }
 
     public function testGetGroupPlans()
     {
@@ -58,9 +63,13 @@ class PlannerTest extends GraphTestCase
      * @depends testCreateGroupPlan
      * @param PlannerPlan $plan
      */
-    /*public function testDeleteGroupPlan(PlannerPlan $plan)
+    public function testDeleteGroupPlan(PlannerPlan $plan)
     {
         $plan->deleteObject()->executeQuery();
-    }*/
+
+        $this->expectException(RequestException::class);
+        $this->expectExceptionCode(404);
+        $plan->get()->executeQuery();
+    }
 
 }

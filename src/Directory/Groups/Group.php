@@ -7,6 +7,8 @@ namespace Office365\Directory\Groups;
 
 use Office365\Directory\DirectoryObject;
 use Office365\Directory\Licenses\LicenseProcessingState;
+use Office365\Directory\Users\User;
+use Office365\EntityCollection;
 use Office365\OneDrive\Drives\Drive;
 use Office365\OneDrive\Drives\DriveCollection;
 use Office365\OneDrive\Sites\SiteCollection;
@@ -14,6 +16,7 @@ use Office365\OneNote\Onenote;
 use Office365\Outlook\Calendars\Calendar;
 use Office365\Outlook\ProfilePhoto;
 use Office365\Planner\PlannerGroup;
+use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
 use Office365\Teams\Team;
 
@@ -22,6 +25,32 @@ use Office365\Teams\Team;
  */
 class Group extends DirectoryObject
 {
+
+    /**
+     @param string $uid
+     * Add members
+     */
+    public function addMember($uid)
+    {
+        $payload = [
+            "@odata.id" => "https://graph.microsoft.com/v1.0/directoryObjects/{$uid}",
+        ];
+        $qry = new InvokePostMethodQuery($this->getMembers(),"\$ref",null,null, $payload);
+        $this->getContext()->addQuery($qry);
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function addMemberUser(User $user): Group
+    {
+        $user->ensureProperty("Id",function () use($user){
+            $this->addMember($user->getId());
+        });
+        return $this;
+    }
 
     /**
      * Create a new team under a group.
@@ -35,7 +64,7 @@ class Group extends DirectoryObject
      * Describes a classification for the group (such as low, medium or high business impact). Valid values for this property are defined by creating a ClassificationList [setting](groupsetting.md) value, based on the [template definition](groupsettingtemplate.md).<br><br>Returned by default.
      * @return string
      */
-    public function getClassification()
+    public function getClassification(): string
     {
         return $this->getProperty("Classification");
     }
@@ -519,5 +548,27 @@ class Group extends DirectoryObject
     public function setHideFromAddressLists($value)
     {
         $this->setProperty("HideFromAddressLists", $value, true);
+    }
+
+    /**
+     * List group members
+     * @return EntityCollection
+     */
+    public function getMembers()
+    {
+        return $this->getProperty("members",
+            new EntityCollection($this->getContext(),
+                new ResourcePath("members",$this->getResourcePath()),DirectoryObject::class));
+    }
+
+    /**
+     * List group owners
+     * @return EntityCollection
+     */
+    public function getOwners()
+    {
+        return $this->getProperty("owners",
+            new EntityCollection($this->getContext(),
+                new ResourcePath("owners",$this->getResourcePath()),DirectoryObject::class));
     }
 }

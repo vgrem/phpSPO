@@ -5,7 +5,6 @@ namespace Office365\Planner\Plans;
 
 use Office365\EntityCollection;
 use Office365\Runtime\ClientRuntimeContext;
-use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\ResourcePath;
 
 class PlannerPlanCollection extends EntityCollection {
@@ -32,12 +31,9 @@ class PlannerPlanCollection extends EntityCollection {
     public function create($title){
         /** @var PlannerPlan $returnType */
         $containerUrl = $this->getContainerUrl();
-        $returnType = $this->add();
+        $returnType = $this->getContext()->getPlanner()->getPlans()->add();
         $returnType->setTitle($title);
         $returnType->setProperty("container", ["url" => $containerUrl]);
-        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function (RequestOptions $request){
-            $request->Url = $this->getContext()->getServiceRootUrl() . "/planner/plans";
-        });
         return $returnType;
     }
 

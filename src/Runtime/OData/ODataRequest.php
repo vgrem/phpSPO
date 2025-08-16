@@ -264,7 +264,7 @@ class ODataRequest extends ClientRequest
      * @param ODataFormat $format
      * @return bool
      */
-    private function isValidProperty($key,$value,$format)
+    private function isValidProperty(&$key,$value,$format)
     {
         if ($format instanceof JsonLightFormat) {
             if (is_array($value) && array_key_exists($format->DeferredTag, $value))
@@ -274,6 +274,12 @@ class ODataRequest extends ClientRequest
             );
             return !in_array($key, $propsToExclude);
         } else if ($format instanceof JsonFormat) {
+
+            if ($key === "$format->ControlFamilyTag.etag"){
+                $key = "etag";
+                return true;
+            }
+
             return fnmatch("$format->ControlFamilyTag.*", $key) !== true
                 && fnmatch("*$format->ControlFamilyTag.*", $key) !== true
                 && fnmatch("$format->TypeTag.*", $key) !== true

@@ -11,6 +11,7 @@ use Office365\Directory\Users\UserCollection;
 use Office365\OneDrive\DriveItems\DriveItem;
 use Office365\OneDrive\Drives\DriveCollection;
 use Office365\OneDrive\Sites\Site;
+use Office365\Planner\Planner;
 use Office365\Reports\ReportRoot;
 use Office365\Runtime\Auth\AADTokenProvider;
 use Office365\Runtime\Auth\ClientCredential;
@@ -161,6 +162,15 @@ class GraphServiceClient extends ClientRuntimeContext
      */
     public function getGroupSettings(){
         return new EntityCollection($this,new ResourcePath("groupSettings"), GroupSetting::class);
+    }
+
+    /**
+     *  Entry-point to the Planner resource. Read-only.
+     * @return Planner
+     */
+    public function getPlanner()
+    {
+        return new Planner($this, new ResourcePath("planner"));
     }
 
     /**
