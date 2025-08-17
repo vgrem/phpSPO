@@ -6,8 +6,7 @@
 namespace Office365\Planner;
 
 use Office365\Entity;
-use Office365\EntityCollection;
-use Office365\Planner\Plans\PlannerPlan;
+use Office365\Planner\Plans\PlannerPlanCollection;
 use Office365\Planner\Tasks\PlannerTaskCollection;
 use Office365\Runtime\ResourcePath;
 
@@ -24,12 +23,12 @@ class PlannerUser extends Entity
     }
 
     /**
-     * @return EntityCollection
+     * @return PlannerPlanCollection
      */
     public function getPlans()
     {
         return $this->getProperty("Plans",
-            new EntityCollection($this->getContext(),
-                new ResourcePath("Plans", $this->getResourcePath()),PlannerPlan::class));
+            new PlannerPlanCollection($this->getContext(),
+                new ResourcePath("Plans", $this->getResourcePath()),$this));
     }
 }

@@ -15,6 +15,7 @@
 use Office365\Directory\Groups\Group;
 use Office365\GraphServiceClient;
 use Office365\Planner\Plans\PlannerPlan;
+use Office365\Planner\Tasks\PlannerTask;
 
 require_once '../vendor/autoload.php';
 
@@ -26,12 +27,33 @@ $groups = $client->getGroups()->get()->top(10)->filter("groupTypes/any(c:c eq 'U
 
 /** @var Group $grp */
 foreach ($groups as $grp) {
-    echo sprintf("\nProcessing group: %s \n", $grp->getProperty("DisplayName"));
+    $groupName = $grp->getProperty("DisplayName");
+    echo "\nChecking group: {$groupName}\n";
+
     $plans = $grp->getPlanner()->getPlans()->get()->executeQuery();
 
     /** @var PlannerPlan $plan */
     foreach ($plans as $plan) {
-        echo sprintf("\tPlan: %s \n", $plan->getProperty("Title"));
+        $planName = $plan->getProperty("Title");
+        echo "  - Plan: {$planName}\n";
+
+        // Get all tasks in this plan
+        $tasks = $plan->getTasks()->get()->executeQuery();
+
+        /** @var PlannerTask $task */
+        foreach ($tasks as $task) {
+            $assignments = $task->getAssignments();
+
+            // Check each assignment to see if it matches our target users
+            foreach ($assignments as $userId => $assignment) {
+
+                echo "  - Assignment: {$userId}\n";
+
+            }
+        }
+
+
+
     }
 }
 

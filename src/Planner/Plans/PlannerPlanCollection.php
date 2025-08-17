@@ -30,14 +30,13 @@ class PlannerPlanCollection extends EntityCollection {
      */
     public function create($title){
         /** @var PlannerPlan $returnType */
-        $containerUrl = $this->getContainerUrl();
         $returnType = $this->getContext()->getPlanner()->getPlans()->add();
         $returnType->setTitle($title);
-        $returnType->setProperty("container", ["url" => $containerUrl]);
+        $returnType->setProperty("container", $this->getContainer());
         return $returnType;
     }
 
-    public function getContainerUrl()
+    public function getContainer()
     {
         if ($this->parent === null) {
             throw new \RuntimeException("Parent resource is not available");
@@ -48,7 +47,7 @@ class PlannerPlanCollection extends EntityCollection {
             $resourceUrl = substr($resourceUrl, 0, -8);
         }
 
-        return $resourceUrl;
+        return ["url" => $resourceUrl];
     }
 
 }

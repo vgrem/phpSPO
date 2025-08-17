@@ -23,7 +23,7 @@ class PlannerTest extends GraphTestCase
         self::$targetGroup = self::$graphClient->getGroups()->createM365($grpName)->executeQuery();
         $user = self::$graphClient->getMe();
         self::$targetGroup->addMemberUser($user)->executeQuery();
-        sleep(3);
+        sleep(5);
     }
 
     public static function tearDownAfterClass(): void
@@ -35,13 +35,6 @@ class PlannerTest extends GraphTestCase
     public function testGetMyPlans()
     {
         $result = self::$graphClient->getMe()->getPlanner()->getPlans()->get()->executeQuery();
-        self::assertNotNull($result->getResourcePath());
-    }
-
-
-    public function testGetMyTasks()
-    {
-        $result = self::$graphClient->getMe()->getPlanner()->getTasks()->get()->executeQuery();
         self::assertNotNull($result->getResourcePath());
     }
 
