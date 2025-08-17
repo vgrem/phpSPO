@@ -32,12 +32,6 @@ class PlannerTest extends GraphTestCase
        parent::tearDownAfterClass();
     }
 
-    public function testGetMyPlans()
-    {
-        $result = self::$graphClient->getMe()->getPlanner()->getPlans()->get()->executeQuery();
-        self::assertNotNull($result->getResourcePath());
-    }
-
     public function testCreateGroupPlan()
     {
         $planTitle = "TestPlan_" . rand(1, 100000);

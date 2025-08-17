@@ -16,6 +16,23 @@ use Office365\Runtime\ResourcePath;
  */
 class PlannerTask extends Entity
 {
+
+    /**
+     * @return string
+     */
+    public function getCreatedDateTime()
+    {
+        return $this->getProperty("CreatedDateTime");
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompletedDateTime()
+    {
+        return $this->getProperty("CompletedDateTime");
+    }
+
     /**
      * Identity of the user that created the task.
      * @return IdentitySet

@@ -6,7 +6,6 @@
 namespace Office365\Planner\Plans;
 
 use Office365\Entity;
-use Office365\Planner\PlannerCategoryDescriptions;
 use Office365\Planner\PlannerUserIds;
 
 /**

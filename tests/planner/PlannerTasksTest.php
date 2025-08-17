@@ -20,8 +20,8 @@ class PlannerTasksTest extends GraphTestCase
     {
         $title = "TestPlan_" . rand(1, 100000);
         parent::setUpBeforeClass();
-        $currentUser = self::$graphClient->getUsers()->getByUserPrincipalName(self::$settings['UserName']);
-        self::$targetPlan = $currentUser->getPlanner()->getPlans()->create($title)->executeQuery();
+        $user = self::$graphClient->getUsers()->getByUserPrincipalName(self::$settings['UserName']);
+        self::$targetPlan = $user->getPlanner()->getPlans()->create($title)->executeQuery();
     }
 
     public static function tearDownAfterClass(): void
