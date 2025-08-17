@@ -18,9 +18,9 @@ class PlannerUser extends Entity
      */
     public function getTasks()
     {
-        return $this->getProperty("tasks",
+        return $this->getProperty("Tasks",
             new PlannerTaskCollection($this->getContext(),
-                new ResourcePath("tasks", $this->getResourcePath())));
+                new ResourcePath("Tasks", $this->getResourcePath())));
     }
 
     /**
@@ -28,8 +28,8 @@ class PlannerUser extends Entity
      */
     public function getPlans()
     {
-        return $this->getProperty("plans",
+        return $this->getProperty("Plans",
             new EntityCollection($this->getContext(),
-                new ResourcePath("plans", $this->getResourcePath()),PlannerPlan::class));
+                new ResourcePath("Plans", $this->getResourcePath()),PlannerPlan::class));
     }
 }

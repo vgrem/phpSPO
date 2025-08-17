@@ -7,6 +7,7 @@ namespace Office365\Planner\Plans;
 
 use Office365\Directory\Identities\IdentitySet;
 use Office365\Entity;
+use Office365\Planner\Tasks\PlannerTaskCollection;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\ResourcePath;
 /**
@@ -81,6 +82,19 @@ class PlannerPlan extends Entity
             new PlannerPlanDetails($this->getContext(),new ResourcePath("Details", $this->getResourcePath())));
     }
 
+    /**
+     * @return PlannerTaskCollection
+     */
+    public function getTasks()
+    {
+        return $this->getProperty("Tasks",
+            new PlannerTaskCollection($this->getContext(),
+                new ResourcePath("Tasks", $this->getResourcePath()), $this));
+    }
+
+    /**
+     * @return $this
+     */
     public function deleteObject()
     {
         parent::deleteObject();

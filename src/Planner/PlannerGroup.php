@@ -16,9 +16,9 @@ class PlannerGroup extends Entity
      */
     public function getPlans()
     {
-        return $this->getProperty("plans",
+        return $this->getProperty("Plans",
             new PlannerPlanCollection($this->getContext(),
-                new ResourcePath("plans", $this->getResourcePath()), $this));
+                new ResourcePath("Plans", $this->getResourcePath()), $this));
     }
 
 }
