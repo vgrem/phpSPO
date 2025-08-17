@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Planner Plan and Task Report
+ * Get Plans with Tasks Report
  *
  * This script:
  * 1. Retrieves all Planner plans associated with the group
@@ -67,9 +67,9 @@ foreach ($plans as $plan) {
             $planData['tasks'][] = [
                 'task_id' => $task->getId(),
                 'task_title' => $task->getTitle(),
-                'assignments' => $task->getAssignments(),
-                'created_date' => $task->getCreatedDateTime(),
-                'completed_date' => $task->getCompletedDateTime(),
+                'task_assignments' => $task->getAssignments(),
+                'task_created_date' => $task->getCreatedDateTime(),
+                'task_completed_date' => $task->getCompletedDateTime(),
             ];
         }
 
