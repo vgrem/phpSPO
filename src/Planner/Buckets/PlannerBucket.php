@@ -6,9 +6,12 @@
 namespace Office365\Planner\Buckets;
 
 use Office365\Entity;
+use Office365\Planner\Tasks\PlannerTaskCollection;
+use Office365\Runtime\ResourcePath;
 
 /**
- * The **plannerBucket** resource represents a bucket (or "custom column") for tasks in a plan in Office 365. It is contained in a [plannerPlan](plannerplan.md) and can have a collection of [plannerTasks](plannertask.md).
+ * The **plannerBucket** resource represents a bucket (or "custom column") for tasks in a plan in Office 365.
+ * It is contained in a [plannerPlan](plannerplan.md) and can have a collection of [plannerTasks](plannertask.md).
  */
 class PlannerBucket extends Entity
 {
@@ -62,5 +65,15 @@ class PlannerBucket extends Entity
     public function setOrderHint($value)
     {
         $this->setProperty("OrderHint", $value, true);
+    }
+
+    /**
+     * @return PlannerTaskCollection
+     */
+    public function getTasks()
+    {
+        return $this->getProperty("Tasks",
+            new PlannerTaskCollection($this->getContext(),
+                new ResourcePath("Tasks", $this->getResourcePath()), $this));
     }
 }

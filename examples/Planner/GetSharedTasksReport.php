@@ -1,14 +1,19 @@
 <?php
 
 /**
+ * Planner Plan and Task Report
  *
- * Description:
- * - List all groups containing Planner plans
- * - Identify plans accessible to the specific group
- * - Extract all tasks from qualifying plans
+ * This script:
+ * 1. Retrieves all Planner plans associated with the group
+ * 2. Extracts all tasks for each plan with relevant details
+ * 3. Returns structured JSON output containing plans with their tasks
  *
- * Permissions:
- * Accessing group plans requires both Group.Read.All and Tasks.Read.All permissions.
+ * Required Permissions:
+ * - Group.Read.All (to read group information)
+ * - Tasks.Read.All (to read Planner tasks)
+ *
+ * Note: The service principal/app registration must have these permissions granted
+ * with admin consent in the Azure AD portal.
  */
 
 
@@ -21,12 +26,18 @@ require_once '../vendor/autoload.php';
 $settings = include('../../tests/Settings.php');
 $client = GraphServiceClient::withClientSecret($settings['TenantName'], $settings['ClientId'], $settings['ClientSecret']);
 
+$groupName = "TestSharedGroup";
 
 // 1. Get the specific group
 $groups = $client->getGroups()
-    ->filter("displayName eq 'PlanGroup'")
+    ->filter("displayName eq '$groupName'")
     ->get()
     ->executeQuery();
+
+if (count($groups->getData()) === 0) {
+    throw new Exception("Group '$groupName' not found");
+}
+
 
 // 2. Get all plans in this group
 $plans = $groups[0]->getPlanner()

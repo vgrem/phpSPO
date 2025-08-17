@@ -15,13 +15,23 @@ use Office365\Runtime\ResourcePath;
 class EntityCollection extends ClientObjectCollection
 {
     /**
+     * @var Entity|null
+     */
+    private $parent;
+
+    /**
      * @param ClientRuntimeContext $ctx
      * @param ResourcePath|null $resourcePath
      * @param null $itemTypeName
      */
-    public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null, $itemTypeName = null)
+    public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null, $itemTypeName = null, $parent=null)
     {
         parent::__construct($ctx, $resourcePath, $itemTypeName);
+        $this->parent = $parent;
+    }
+
+    public function getParent(){
+        return $this->parent;
     }
 
     /**

@@ -9,15 +9,9 @@ use Office365\Runtime\ResourcePath;
 
 class PlannerPlanCollection extends EntityCollection {
 
-    /**
-     * @var mixed|null
-     */
-    private $parent;
-
     public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null, $parent=null)
     {
-        parent::__construct($ctx, $resourcePath, PlannerPlan::class);
-        $this->parent = $parent;
+        parent::__construct($ctx, $resourcePath, PlannerPlan::class, $parent);
     }
 
     /**
@@ -36,12 +30,16 @@ class PlannerPlanCollection extends EntityCollection {
         return $returnType;
     }
 
+    /**
+     * Returns the container of the plan.
+     * @return array
+     */
     public function getContainer()
     {
-        if ($this->parent === null) {
+        if ($this->getParent() === null) {
             throw new \RuntimeException("Parent resource is not available");
         }
-        $resourceUrl = $this->parent->getResourceUrl();
+        $resourceUrl = $this->getParent()->getResourceUrl();
 
         if (str_ends_with($resourceUrl, '/Planner')) {
             $resourceUrl = substr($resourceUrl, 0, -8);

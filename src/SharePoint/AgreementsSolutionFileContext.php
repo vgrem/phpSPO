@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2025-08-15T21:03:47+00:00 16.0.26330.12011
+ * Generated  2025-08-17T18:16:20+00:00 16.0.26330.12012
  */
 namespace Office365\SharePoint;
 
@@ -72,4 +72,28 @@ class AgreementsSolutionFileContext extends ClientValue
      * @var string
      */
     public $WebUrl;
+    /**
+     * @var EffectiveBasePermissions
+     */
+    public $EffectiveBasePermissions;
+    /**
+     * @var LibraryDetails
+     */
+    public $FieldLibrary;
+    /**
+     * @var LibraryDetails
+     */
+    public $ModernTemplateLibrary;
+    /**
+     * @var LibraryDetails
+     */
+    public $ParentLibrary;
+    /**
+     * @var LibraryDetails
+     */
+    public $SnippetLibrary;
+    /**
+     * @var DestinationLibraryInfo
+     */
+    public $TargetLibrary;
 }
