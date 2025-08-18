@@ -6,18 +6,18 @@
 namespace Office365\SharePoint\Publishing;
 
 use Office365\Runtime\ClientValue;
-class SharePointPublishingStatusResponse extends ClientValue
+class DynamicFaqSingalsData extends ClientValue
 {
     /**
      * @var string
      */
-    public $SiteId;
+    public $Id;
     /**
      * @var string
      */
-    public $WebId;
+    public $SubmittedAt;
     /**
-     * @var SharePointPublishingStatus
+     * @var string
      */
-    public $Status;
+    public $SubmittedQuestion;
 }

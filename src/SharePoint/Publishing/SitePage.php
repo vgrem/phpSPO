@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Generated  2025-08-15T21:03:47+00:00 16.0.26330.12011
+ * Generated  2025-08-18T13:00:23+00:00 16.0.26330.12013
  */
 namespace Office365\SharePoint\Publishing;
 
 use Office365\Runtime\ClientObject;
 use Office365\SharePoint\CoAuthConfiguration;
-
 class SitePage extends ClientObject
 {
     /**
@@ -289,5 +288,19 @@ class SitePage extends ClientObject
     public function setCoAuthTenantConfiguration($value)
     {
         return $this->setProperty("CoAuthTenantConfiguration", $value, true);
+    }
+    /**
+     * @return SitePageCoAuthState
+     */
+    public function getCoAuthState()
+    {
+        return $this->getProperty("CoAuthState");
+    }
+    /**
+     * @var SitePageCoAuthState
+     */
+    public function setCoAuthState($value)
+    {
+        return $this->setProperty("CoAuthState", $value, true);
     }
 }

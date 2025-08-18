@@ -100,7 +100,7 @@ function generateOutlookServicesModel()
     generateFiles($model);
 }
 
-function generateMicrosoftGraphModel()
+function generateGraphModel()
 {
     $options = loadSettingsFromFile('./Settings.MicrosoftGraph.json');
     $options['docs'] = new MSGraphDocsService();
@@ -152,8 +152,8 @@ try {
         case "OutlookServices":
             generateOutlookServicesModel();
             break;
-        case "MicrosoftGraph":
-            generateMicrosoftGraphModel();
+        case "Graph":
+            generateGraphModel();
             break;
     }
 

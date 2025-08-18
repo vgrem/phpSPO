@@ -6,18 +6,26 @@
 namespace Office365\SharePoint\Publishing;
 
 use Office365\Runtime\ClientValue;
-class SharePointPublishingStatusResponse extends ClientValue
+class TeamsPublishingStatus extends ClientValue
 {
     /**
      * @var string
      */
-    public $SiteId;
+    public $AudienceId;
+    /**
+     * @var integer
+     */
+    public $ErrorCode;
     /**
      * @var string
      */
-    public $WebId;
+    public $ErrorMessage;
     /**
-     * @var SharePointPublishingStatus
+     * @var integer
+     */
+    public $HttpStatusCode;
+    /**
+     * @var integer
      */
     public $Status;
 }

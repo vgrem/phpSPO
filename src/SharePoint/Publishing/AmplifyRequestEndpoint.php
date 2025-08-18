@@ -6,18 +6,14 @@
 namespace Office365\SharePoint\Publishing;
 
 use Office365\Runtime\ClientValue;
-class SharePointPublishingStatusResponse extends ClientValue
+class AmplifyRequestEndpoint extends ClientValue
 {
     /**
      * @var string
      */
-    public $SiteId;
+    public $Data;
     /**
-     * @var string
+     * @var integer
      */
-    public $WebId;
-    /**
-     * @var SharePointPublishingStatus
-     */
-    public $Status;
+    public $EndpointType;
 }

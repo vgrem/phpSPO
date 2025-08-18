@@ -6,18 +6,18 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class Audience extends ClientValue
+class DestinationLibraryInfo extends ClientValue
 {
     /**
      * @var string
      */
-    public $Id;
+    public $LibraryId;
     /**
      * @var string
      */
-    public $Title;
+    public $SiteId;
     /**
      * @var string
      */
-    public $Email;
+    public $WebId;
 }

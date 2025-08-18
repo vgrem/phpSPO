@@ -253,6 +253,7 @@ class ODataModel
      */
     public function getTypeInfo($typeName)
     {
+
         if (array_key_exists($typeName, $this->options['typeMappings'])) {
             $typeName = $this->options['typeMappings'][$typeName];
         }
@@ -271,17 +272,27 @@ class ODataModel
             $typeName = $itemTypeName . "Collection";
             $collection = true;
         }
+
         $parts = explode('.', $typeName);
-        $parts[0] = $this->options['rootNamespace'];
-        $typeAlias = array_pop($parts);
-        $namespace = implode("\\",array_filter($parts));
-        $filePath = implode(DIRECTORY_SEPARATOR,array_filter([str_replace($this->options['rootNamespace'],"",$namespace),$typeAlias . ".php"]));
+        $className = array_pop($parts);
+
+        $namespaceSegments = array_filter($parts);
+        foreach ($this->options['namespaceTypes'] as $nsType) {
+            if (($key = array_search($nsType, $namespaceSegments)) !== false) {
+                unset($namespaceSegments[$key]);
+            }
+        }
+        $relativeNamespace = implode('\\', $namespaceSegments);
+        $fullNamespace = trim($this->options['rootNamespace'] . '\\' . $relativeNamespace, '\\');
+        $filePath = implode(DIRECTORY_SEPARATOR,array_filter([$this->options['outputPath'], $relativeNamespace,$className . ".php"]));
+
+
 
         return array(
-            'alias' => $typeAlias,
-            'name' => implode("\\",[$namespace,$typeAlias]),
-            'file' => implode(DIRECTORY_SEPARATOR,[$this->options['outputPath'],$filePath]),
-            'namespace' => $namespace,
+            'alias' => $className,
+            'name' => implode("\\",[$fullNamespace,$className]),
+            'file' => $filePath,
+            'namespace' => $fullNamespace,
             'primitive' => false,
             'collection' => $collection
         );

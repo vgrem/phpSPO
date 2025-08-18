@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
+ * Generated  2025-08-18T13:04:30+00:00 16.0.26330.12013
  */
 namespace Office365\SharePoint\Publishing;
 
@@ -84,4 +84,8 @@ class SitePageFieldsData extends ClientValue
      * @var string
      */
     public $WebTranspileContent;
+    /**
+     * @var SitePageCoAuthState
+     */
+    public $CoAuthState;
 }

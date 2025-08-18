@@ -6,18 +6,14 @@
 namespace Office365\SharePoint;
 
 use Office365\Runtime\ClientValue;
-class Audience extends ClientValue
+class EffectiveBasePermissions extends ClientValue
 {
     /**
      * @var string
      */
-    public $Id;
+    public $High;
     /**
      * @var string
      */
-    public $Title;
-    /**
-     * @var string
-     */
-    public $Email;
+    public $Low;
 }
