@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2025-08-17T18:16:20+00:00 16.0.26330.12012
+ * Generated  2025-08-19T15:30:13+00:00 16.0.26330.12013
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -22,4 +22,16 @@ class MainLinkAbilities extends ClientValue
      * @var mixed
      */
     public $mainLinkRoleAbilities;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $canGetLink;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $canManageLink;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $canResetLink;
 }

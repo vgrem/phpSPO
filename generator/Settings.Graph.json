@@ -114,5 +114,9 @@
     ],
     "typeMappings": {
         "Microsoft.Graph.List" : "Microsoft.Graph.SharePointList"
-    }
+    },
+    "namespaceTypes": [
+       "Microsoft.Graph"
+    ]
+
 }

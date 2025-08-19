@@ -5,9 +5,9 @@
  */
 namespace Office365\SharePoint\Publishing;
 
-use Office365\Runtime\ClientObject;
+use Office365\SharePoint\BaseEntity;
 
 
-class EmbedService extends ClientObject
+class EmbedService extends BaseEntity
 {
 }

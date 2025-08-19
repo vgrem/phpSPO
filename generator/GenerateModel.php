@@ -6,7 +6,7 @@ use Office365\Generator\Builders\TemplateContext;
 use Office365\Generator\Builders\TypeBuilder;
 use Office365\Generator\Documentation\MSGraphDocsService;
 use Office365\Generator\Documentation\SharePointSpecsService;
-use Office365\Runtime\Auth\UserCredentials;
+use Office365\Runtime\Auth\ClientCredential;
 use Office365\Runtime\Http\RequestException;
 use Office365\Runtime\OData\MetadataResolver;
 use Office365\Runtime\OData\ODataModel;
@@ -102,7 +102,7 @@ function generateOutlookServicesModel()
 
 function generateGraphModel()
 {
-    $options = loadSettingsFromFile('./Settings.MicrosoftGraph.json');
+    $options = loadSettingsFromFile('./Settings.Graph.json');
     $options['docs'] = new MSGraphDocsService();
     $reader = new ODataV4Reader();
     $model = $reader->generateModel($options);
@@ -120,9 +120,9 @@ function saveMetadataFile($xml, $metadataPath){
 
 
 function syncSharePointMetadataFile($fileName){
-    $Settings = include('../tests/Settings.php');
-    $credentials = new UserCredentials($Settings['UserName'], $Settings['Password']);
-    $ctx = (new ClientContext($Settings['Url']))->withCredentials($credentials);
+    $settings = include('../tests/Settings.php');
+    $credentials = new ClientCredential($settings['ClientId'], $settings['ClientSecret']); //new UserCredentials($Settings['UserName'], $Settings['Password']);
+    $ctx = (new ClientContext($settings['Url']))->withCredentials($credentials);
     $ctx->requestFormDigest()->executeQuery();
     $latestVersion = $ctx->getContextWebInformation()->LibraryVersion;
 

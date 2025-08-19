@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-03-17T10:39:33+00:00 16.0.24628.12008
+ * Generated  2025-08-19T15:30:13+00:00 16.0.26330.12013
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -46,4 +46,8 @@ class LinkInfo extends ClientValue
      * @var InheritedFrom
      */
     public $inheritedFrom;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $linkStatus;
 }
