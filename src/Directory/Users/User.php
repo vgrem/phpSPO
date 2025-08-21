@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Modified: 2020-05-27T07:36:43+00:00
+ *  2025-08-21T20:32:26+00:00 
  */
 namespace Office365\Directory\Users;
-
 
 use Office365\Directory\DirectoryObject;
 use Office365\EntityCollection;
 use Office365\Insights\OfficeGraphInsights;
 use Office365\OneDrive\Drives\Drive;
 use Office365\OneDrive\Drives\DriveCollection;
+use Office365\OneDrive\Sites\SiteCollection;
 use Office365\OneNote\Onenote;
 use Office365\Outlook\Calendars\Calendar;
 use Office365\Outlook\Calendars\CalendarGroup;
@@ -19,18 +19,17 @@ use Office365\Outlook\Events\Event;
 use Office365\Outlook\MailboxSettings;
 use Office365\Outlook\MailFolder;
 use Office365\Outlook\Messages\Message;
+use Office365\Outlook\OutlookUser;
 use Office365\Outlook\ProfilePhoto;
 use Office365\Planner\PlannerUser;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\ResourcePath;
 use Office365\Teams\TeamCollection;
-
 /**
  *  "Represents an Azure AD user account. Inherits from directoryObject."
  */
 class User extends DirectoryObject
 {
-
     /**
      * Send the message specified in the request body. The message is saved in the Sent Items folder by default.
      * @param Message $message
@@ -46,7 +45,6 @@ class User extends DirectoryObject
         $this->getContext()->addQuery($action);
         return $this;
     }
-
     /**
      *  **true** if the account is enabled; otherwise, **false**. This property is required when a user is created. Supports $filter.    
      * @return bool
@@ -818,7 +816,6 @@ class User extends DirectoryObject
     {
         return $this->getProperty("Schools");
     }
-
     /**
      * A list for the user to enumerate the schools they have attended.
      *
@@ -851,10 +848,8 @@ class User extends DirectoryObject
      */
     public function getManager()
     {
-        return $this->getProperty("Manager",
-            new DirectoryObject($this->getContext(), new ResourcePath("Manager", $this->getResourcePath())));
+        return $this->getProperty("Manager", new DirectoryObject($this->getContext(), new ResourcePath("Manager", $this->getResourcePath())));
     }
-
     /**
      * Specifies the password profile for the user. The profile contains the user’s password. This property is required when a user is created. The password in the profile must satisfy minimum requirements as specified by the **passwordPolicies** property. By default, a strong password is required.
      * @return PasswordProfile
@@ -863,7 +858,6 @@ class User extends DirectoryObject
     {
         return $this->getProperty("PasswordProfile", new PasswordProfile());
     }
-
     /**
      * Specifies the password profile for the user. The profile contains the user’s password. This property is required when a user is created. The password in the profile must satisfy minimum requirements as specified by the **passwordPolicies** property. By default, a strong password is required.
      *
@@ -890,24 +884,20 @@ class User extends DirectoryObject
     {
         $this->setProperty("MailboxSettings", $value, true);
     }
-
     /**
      * The user's primary calendar. Read-only.
      * @return Calendar
      */
     public function getCalendar()
     {
-        return $this->getProperty("Calendar",
-            new Calendar($this->getContext(), new ResourcePath("Calendar", $this->getResourcePath())));
+        return $this->getProperty("Calendar", new Calendar($this->getContext(), new ResourcePath("Calendar", $this->getResourcePath())));
     }
     /**
      * @return InferenceClassification
      */
     public function getInferenceClassification()
     {
-        return $this->getProperty("InferenceClassification",
-            new InferenceClassification($this->getContext(),
-                new ResourcePath("InferenceClassification", $this->getResourcePath())));
+        return $this->getProperty("InferenceClassification", new InferenceClassification($this->getContext(), new ResourcePath("InferenceClassification", $this->getResourcePath())));
     }
     /**
      *  The user's profile photo. Read-only.
@@ -915,8 +905,7 @@ class User extends DirectoryObject
      */
     public function getPhoto()
     {
-        return $this->getProperty("Photo",
-            new ProfilePhoto($this->getContext(), new ResourcePath("Photo", $this->getResourcePath())));
+        return $this->getProperty("Photo", new ProfilePhoto($this->getContext(), new ResourcePath("Photo", $this->getResourcePath())));
     }
     /**
      * The user's OneDrive. Read-only.
@@ -924,8 +913,7 @@ class User extends DirectoryObject
      */
     public function getDrive()
     {
-        return $this->getProperty("Drive",
-            new Drive($this->getContext(), new ResourcePath("Drive", $this->getResourcePath())));
+        return $this->getProperty("Drive", new Drive($this->getContext(), new ResourcePath("Drive", $this->getResourcePath())));
     }
     /**
      *  Entry-point to the Planner resource that might exist for a user. Read-only.
@@ -933,8 +921,7 @@ class User extends DirectoryObject
      */
     public function getPlanner()
     {
-        return $this->getProperty("Planner",
-            new PlannerUser($this->getContext(), new ResourcePath("Planner", $this->getResourcePath())));
+        return $this->getProperty("Planner", new PlannerUser($this->getContext(), new ResourcePath("Planner", $this->getResourcePath())));
     }
     /**
      *  Read-only. Nullable.
@@ -942,16 +929,14 @@ class User extends DirectoryObject
      */
     public function getInsights()
     {
-        return $this->getProperty("Insights",
-            new OfficeGraphInsights($this->getContext(), new ResourcePath("Insights", $this->getResourcePath())));
+        return $this->getProperty("Insights", new OfficeGraphInsights($this->getContext(), new ResourcePath("Insights", $this->getResourcePath())));
     }
     /**
      * @return UserSettings
      */
     public function getSettings()
     {
-        return $this->getProperty("Settings",
-            new UserSettings($this->getContext(), new ResourcePath("Settings", $this->getResourcePath())));
+        return $this->getProperty("Settings", new UserSettings($this->getContext(), new ResourcePath("Settings", $this->getResourcePath())));
     }
     /**
      *  Read-only.
@@ -959,8 +944,7 @@ class User extends DirectoryObject
      */
     public function getOnenote()
     {
-        return $this->getProperty("Onenote",
-            new Onenote($this->getContext(), new ResourcePath("Onenote", $this->getResourcePath())));
+        return $this->getProperty("Onenote", new Onenote($this->getContext(), new ResourcePath("Onenote", $this->getResourcePath())));
     }
     /**
      *  A collection of drives available for this user. Read-only. 
@@ -968,79 +952,71 @@ class User extends DirectoryObject
      */
     public function getDrives()
     {
-        return $this->getProperty("Drives",
-            new DriveCollection($this->getContext(), new ResourcePath("Drives", $this->getResourcePath())));
+        return $this->getProperty("Drives", new DriveCollection($this->getContext(), new ResourcePath("Drives", $this->getResourcePath())));
     }
-
     /**
      * @return EntityCollection
      */
     public function getEvents()
     {
-        return $this->getProperty("Events",
-            new EntityCollection($this->getContext(),
-                new ResourcePath("Events", $this->getResourcePath()),Event::class));
+        return $this->getProperty("Events", new EntityCollection($this->getContext(), new ResourcePath("Events", $this->getResourcePath()), Event::class));
     }
-
     /**
      * @return EntityCollection
      */
     public function getContacts()
     {
-        return $this->getProperty("Contacts",
-            new EntityCollection($this->getContext(),
-                new ResourcePath("Contacts", $this->getResourcePath()),Contact::class));
+        return $this->getProperty("Contacts", new EntityCollection($this->getContext(), new ResourcePath("Contacts", $this->getResourcePath()), Contact::class));
     }
-
-
     /**
      * @return EntityCollection
      */
     public function getMessages()
     {
-        return $this->getProperty("Messages",
-            new EntityCollection($this->getContext(),
-                new ResourcePath("Messages", $this->getResourcePath()),Message::class));
+        return $this->getProperty("Messages", new EntityCollection($this->getContext(), new ResourcePath("Messages", $this->getResourcePath()), Message::class));
     }
-
     /**
      * @return TeamCollection
      */
     public function getJoinedTeams()
     {
-        return $this->getProperty("JoinedTeams",
-            new TeamCollection($this->getContext(),new ResourcePath("joinedTeams", $this->getResourcePath())));
+        return $this->getProperty("JoinedTeams", new TeamCollection($this->getContext(), new ResourcePath("joinedTeams", $this->getResourcePath())));
     }
-
     /**
      * @return EntityCollection
      */
     public function getMailFolders()
     {
-        return $this->getProperty("MailFolders",
-            new EntityCollection($this->getContext(),
-                new ResourcePath("MailFolders", $this->getResourcePath()),MailFolder::class));
+        return $this->getProperty("MailFolders", new EntityCollection($this->getContext(), new ResourcePath("MailFolders", $this->getResourcePath()), MailFolder::class));
     }
-
     /**
      * Get all the user's calendars
      * @return EntityCollection
      */
     public function getCalendars()
     {
-        return $this->getProperty("Calendars",
-            new EntityCollection($this->getContext(),
-                new ResourcePath("Calendars", $this->getResourcePath()),Calendar::class));
+        return $this->getProperty("Calendars", new EntityCollection($this->getContext(), new ResourcePath("Calendars", $this->getResourcePath()), Calendar::class));
     }
-
     /**
      * Get the user's calendar groups.
      * @return EntityCollection
      */
     public function getCalendarGroups()
     {
-        return $this->getProperty("CalendarGroups",
-            new EntityCollection($this->getContext(),
-                new ResourcePath("CalendarGroups", $this->getResourcePath()),CalendarGroup::class));
+        return $this->getProperty("CalendarGroups", new EntityCollection($this->getContext(), new ResourcePath("CalendarGroups", $this->getResourcePath()), CalendarGroup::class));
+    }
+    /**
+     * @return OutlookUser
+     */
+    public function getOutlook()
+    {
+        return $this->getProperty("Outlook", new OutlookUser($this->getContext(), new ResourcePath("Outlook", $this->getResourcePath())));
+    }
+    /**
+     * @return SiteCollection
+     */
+    public function getFollowedSites()
+    {
+        return $this->getProperty("FollowedSites", new SiteCollection($this->getContext(), new ResourcePath("FollowedSites", $this->getResourcePath())));
     }
 }

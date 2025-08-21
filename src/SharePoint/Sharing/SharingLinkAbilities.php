@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated 2021-08-22T15:28:03+00:00 16.0.21611.12002
+ * Generated  2025-08-19T18:34:41+00:00 16.0.26330.12013
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -95,4 +95,36 @@ class SharingLinkAbilities extends ClientValue
      * @var SharingAbilityStatus
      */
     public $canDeleteReviewLink;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $canDeleteRestrictedViewLink;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $canDeleteSubmitOnlyLink;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $canGetRestrictedViewLink;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $canGetSubmitOnlyLink;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $canManageRestrictedViewLink;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $canManageSubmitOnlyLink;
+    /**
+     * @var SharingLinkExpirationAbilityStatus
+     */
+    public $submitOnlylinkExpiration;
+    /**
+     * @var SharingAbilityStatus
+     */
+    public $supportsRestrictToExistingRelationships;
 }

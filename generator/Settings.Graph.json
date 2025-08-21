@@ -1,14 +1,15 @@
 {
     "metadataPath" : "./metadata/MicrosoftGraph.xml",
-    "outputPath": "..\\src\\Common",
+    "outputPath": "..\/src",
     "templatePath": "./templates/microsoftgraph",
     "includeDocAnnotations": true,
-    "rootNamespace": "Office365\\Common",
+    "rootNamespace": "Office365",
     "entityRootNamespace": "microsoft.graph",
     "version": null,
     "timestamp": null,
     "placeholder": "",
     "ignoredTypes": [
+        "Microsoft.Graph.Entity",
         "Microsoft.Graph.Android*",
         "Microsoft.Graph.Comms*",
         "Microsoft.Graph.Device*",
@@ -115,8 +116,40 @@
     "typeMappings": {
         "Microsoft.Graph.List" : "Microsoft.Graph.SharePointList"
     },
-    "namespaceTypes": [
+    "entityNamespaces": [
        "Microsoft.Graph"
-    ]
+    ],
+    "modelFileMappings": {
+      "Graph.User" : "../src/Directory/Users/User.php",
+      "Microsoft.Graph.User" : "../src/Directory/Users/User.php",
+      "Microsoft.Graph.Recipient": "../src/Outlook/Recipient.php",
+      "Graph.Recipient": "../src/Outlook/Recipient.php",
+      "Microsoft.Graph.Site": "../src/OneDrive/Sites/Site.php",
+      "Graph.Site": "../src/OneDrive/Sites/Site.php",
+      "Microsoft.Graph.Group": "../src/Directory/Groups/Group.php",
+      "Microsoft.Graph.ContentType": "../src/OneDrive/ContentTypes/ContentType.php",
+      "Graph.ListItemCollection": "../src/OneDrive/ListItems/ListItemCollection.php",
+      "Microsoft.Graph.ListItem": "../src/OneDrive/ListItems/ListItem.php",
+      "Graph.ContentTypeInfo": "../src/OneDrive/ContentTypes/ContentTypeInfo.php",
+      "Graph.File": "../src/OneDrive/DriveItems/File.php",
+      "Microsoft.Graph.File": "../src/OneDrive/DriveItems/File.php",
+      "Graph.Folder": "../src/OneDrive/DriveItems/Folder.php",
+      "Microsoft.Graph.Folder": "../src/OneDrive/DriveItems/Folder.php",
+      "Graph.SearchResult": "../src/OneDrive/SearchResult.php",
+      "Microsoft.Graph.SearchResult": "../src/OneDrive/SearchResult.php",
+      "Graph.ListItem": "../src/OneDrive/ListItems/ListItem.php",
+      "Graph.PermissionCollection": "../src/OneDrive/PermissionCollection.php",
+      "Microsoft.Graph.TimeZoneInformation": "../src/Outlook/TimeZoneInformation.php",
+      "Microsoft.Graph.Attachment": "../src/Outlook/Messages/Attachment.php",
+      "Microsoft.Graph.UploadSession": "../src/OneDrive/UploadSession.php",
+      "Microsoft.Graph.ContentTypeInfo": "../src/OneDrive/ContentTypes/ContentTypeInfo.php",
+      "Microsoft.Graph.ListItemVersion": "../src/OneDrive/ListItems/ListItemVersion.php",
+      "Microsoft.Graph.RoleDefinition": "../src/Directory/Permissions/RoleDefinition.php",
+      "Graph.RoleDefinition": "../src/Directory/Permissions/RoleDefinition.php",
+      "Microsoft.Graph.RoleAssignment": "../src/Directory/Permissions/RoleAssignment.php",
+      "Graph.ResourceVisualization": "../src/OneDrive/ResourceVisualization.php",
+      "Microsoft.Graph.ResourceVisualization": "../src/OneDrive/ResourceVisualization.php",
+      "Graph.Entity": "../src/Entity.php"
+    }
 
 }

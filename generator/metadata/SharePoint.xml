@@ -1059,8 +1059,15 @@
       <ComplexType Name="FileVersionBatchDeleteParameters">
         <Property Name="BatchDeleteMode" Type="Edm.Int32" Nullable="false"/>
         <Property Name="DeleteOlderThanDays" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="FileTypeSelections" Type="SP.VersionPolicySelectionParameters"/>
         <Property Name="MajorVersionLimit" Type="Edm.Int32" Nullable="false"/>
         <Property Name="MajorWithMinorVersionsLimit" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="SyncListPolicy" Type="Edm.Boolean" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="VersionPolicySelectionParameters">
+        <Property Name="FileTypesSelected" Type="Collection(Edm.String)"/>
+        <Property Name="SelectAllFileTypes" Type="Edm.Boolean" Nullable="false"/>
+        <Property Name="SelectDefault" Type="Edm.Boolean" Nullable="false"/>
       </ComplexType>
       <ComplexType Name="FolderColoringInformation">
         <Property Name="ColorHex" Type="Edm.String"/>
@@ -2283,6 +2290,7 @@
           <PropertyRef Name="Name"/>
         </Key>
         <Property Name="ActivityCapabilities" Type="Microsoft.SharePoint.Activities.ActivityCapabilities"/>
+        <Property Name="Archived" Type="Edm.Boolean" Nullable="false"/>
         <Property Name="CheckInComment" Type="Edm.String"/>
         <Property Name="CheckOutType" Type="Edm.Int32" Nullable="false"/>
         <Property Name="ComplianceInfo" Type="SP.ListItemComplianceInfo"/>
@@ -6334,6 +6342,10 @@
           <Parameter Name="this" Type="Microsoft.Office.Server.ContentCenter.SPMachineLearningHub"/>
           <Parameter Name="docLibId" Type="Edm.Guid" Nullable="false"/>
         </FunctionImport>
+        <FunctionImport Name="GetAutofillCustomModelDefaultParameters" ReturnType="Edm.String" IsSideEffecting="false" IsBindable="true">
+          <Parameter Name="this" Type="Microsoft.Office.Server.ContentCenter.SPMachineLearningHub"/>
+          <Parameter Name="customModelId" Type="Edm.String"/>
+        </FunctionImport>
         <FunctionImport Name="GetAutofillCustomModelSettings" ReturnType="Collection(SP.SyntexCustomModelSetting)" IsSideEffecting="false" IsBindable="true">
           <Parameter Name="this" Type="Microsoft.Office.Server.ContentCenter.SPMachineLearningHub"/>
         </FunctionImport>
@@ -6396,7 +6408,9 @@
           <Parameter Name="autofillPrompt" Type="Edm.String"/>
           <Parameter Name="isEnabled" Type="Edm.Boolean" Nullable="false"/>
           <Parameter Name="customModelId" Type="Edm.String"/>
+          <Parameter Name="customParametersJson" Type="Edm.String"/>
           <Parameter Name="analyzeImageWithVision" Type="Edm.Boolean"/>
+          <Parameter Name="analyzeImageDetailLevel" Type="Edm.String"/>
           <Parameter Name="autofillColumnType" Type="Edm.String"/>
         </FunctionImport>
         <FunctionImport Name="SetMachineLearningFlags" IsBindable="true">
@@ -13943,6 +13957,10 @@
           <Parameter Name="targetFieldName" Type="Edm.String"/>
           <Parameter Name="beginsWithSearchString" Type="Edm.String"/>
           <Parameter Name="pagingInfo" Type="Edm.String"/>
+        </FunctionImport>
+        <FunctionImport Name="SetColumnMapping" IsBindable="true">
+          <Parameter Name="this" Type="SP.List"/>
+          <Parameter Name="columnMapping" Type="Edm.String"/>
         </FunctionImport>
         <FunctionImport Name="SetContentAssemblyTemplateReadOnly" IsBindable="true">
           <Parameter Name="this" Type="SP.List"/>
@@ -22554,6 +22572,15 @@
       <Annotations Target="SP.Publishing.EmailPublishingStatus">
         <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
       </Annotations>
+      <Annotations Target="Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResult">
+        <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
+      </Annotations>
+      <Annotations Target="Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyEndpointInfo">
+        <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
+      </Annotations>
+      <Annotations Target="Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyExtraProperty">
+        <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
+      </Annotations>
       <Annotations Target="SP.Publishing.SharePointPublishingStatusResponse">
         <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
       </Annotations>
@@ -22942,15 +22969,6 @@
         <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
       </Annotations>
       <Annotations Target="Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResults">
-        <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
-      </Annotations>
-      <Annotations Target="Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResult">
-        <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
-      </Annotations>
-      <Annotations Target="Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyEndpointInfo">
-        <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
-      </Annotations>
-      <Annotations Target="Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyExtraProperty">
         <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
       </Annotations>
       <Annotations Target="Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyAnywhereResults">
@@ -24169,6 +24187,9 @@
         <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
       </Annotations>
       <Annotations Target="SP.FileVersionBatchDeleteParameters">
+        <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
+      </Annotations>
+      <Annotations Target="SP.VersionPolicySelectionParameters">
         <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
       </Annotations>
       <Annotations Target="SP.FontPackageCreationParameters">
@@ -27949,6 +27970,9 @@
       <Annotations Target="SP.ApiData/GetAutofillColumnSettings(Microsoft.Office.Server.ContentCenter.SPMachineLearningHub, Edm.Guid)">
         <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
       </Annotations>
+      <Annotations Target="SP.ApiData/GetAutofillCustomModelDefaultParameters(Microsoft.Office.Server.ContentCenter.SPMachineLearningHub, Edm.String)">
+        <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
+      </Annotations>
       <Annotations Target="SP.ApiData/GetAutofillCustomModelSettings(Microsoft.Office.Server.ContentCenter.SPMachineLearningHub)">
         <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
       </Annotations>
@@ -27988,7 +28012,7 @@
       <Annotations Target="SP.ApiData/SetAutofillColumnSettings(Microsoft.Office.Server.ContentCenter.SPMachineLearningHub, Edm.Guid, Edm.String)">
         <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
       </Annotations>
-      <Annotations Target="SP.ApiData/SetColumnLLMInfo(Microsoft.Office.Server.ContentCenter.SPMachineLearningHub, Edm.Guid, Edm.Guid, Edm.String, Edm.Boolean, Edm.String, Edm.Boolean, Edm.String)">
+      <Annotations Target="SP.ApiData/SetColumnLLMInfo(Microsoft.Office.Server.ContentCenter.SPMachineLearningHub, Edm.Guid, Edm.Guid, Edm.String, Edm.Boolean, Edm.String, Edm.String, Edm.Boolean, Edm.String, Edm.String)">
         <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
       </Annotations>
       <Annotations Target="SP.ApiData/SetMachineLearningFlags(Microsoft.Office.Server.ContentCenter.SPMachineLearningHub, Edm.Guid, Edm.Int32)">
@@ -30203,6 +30227,9 @@
         <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
       </Annotations>
       <Annotations Target="SP.ApiData/PublishMappedView(SP.List, Edm.Guid, Edm.Int32)">
+        <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
+      </Annotations>
+      <Annotations Target="SP.ApiData/SetColumnMapping(SP.List, Edm.String)">
         <ValueAnnotation Term="Com.Microsoft.VisualStudio.CodeGen.IsBeta" Bool="true"/>
       </Annotations>
       <Annotations Target="SP.ApiData/SetExemptFromBlockDownloadOfNonViewableFiles(SP.List, Edm.Boolean)">
@@ -35683,6 +35710,7 @@
       <ComplexType Name="EmailPublishingStatus">
         <Property Name="DestinationURL" Type="Edm.String"/>
         <Property Name="ErrorCode" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="Errors" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResult)"/>
         <Property Name="Status" Type="Edm.Int32" Nullable="false"/>
       </ComplexType>
       <ComplexType Name="SharePointPublishingStatusResponse">
@@ -35696,6 +35724,7 @@
         <Property Name="DestinationPageURL" Type="Edm.String"/>
         <Property Name="DestinationPageVersion" Type="Edm.String"/>
         <Property Name="ErrorCode" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="Errors" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResult)"/>
         <Property Name="Status" Type="Edm.Int32" Nullable="false"/>
       </ComplexType>
       <ComplexType Name="TeamsPublishingStatusResponse">
@@ -35706,6 +35735,7 @@
         <Property Name="AudienceId" Type="Edm.String"/>
         <Property Name="ErrorCode" Type="Edm.Int32" Nullable="false"/>
         <Property Name="ErrorMessage" Type="Edm.String"/>
+        <Property Name="Errors" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResult)"/>
         <Property Name="HttpStatusCode" Type="Edm.Int32" Nullable="false"/>
         <Property Name="Status" Type="Edm.Int32" Nullable="false"/>
       </ComplexType>
@@ -35713,6 +35743,7 @@
         <Property Name="DestinationId" Type="Edm.String"/>
         <Property Name="ErrorCode" Type="Edm.Int32" Nullable="false"/>
         <Property Name="ErrorMessage" Type="Edm.String"/>
+        <Property Name="Errors" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResult)"/>
         <Property Name="Status" Type="Edm.Int32" Nullable="false"/>
       </ComplexType>
       <ComplexType Name="AmplifyPublishingHistory">
@@ -36859,6 +36890,44 @@
         <End Type="SP.Publishing.VideoServiceManager" Role="SpotlightVideosPartner" Multiplicity="0..1"/>
       </Association>
     </Schema>
+    <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" Namespace="Microsoft.SharePoint.Publishing.Amplify.Client">
+      <ComplexType Name="ClientAmplifyResult">
+        <Property Name="canvasElement" Type="Edm.String"/>
+        <Property Name="code" Type="Edm.String"/>
+        <Property Name="endpoint" Type="Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyEndpointInfo"/>
+        <Property Name="eventId" Type="Edm.String"/>
+        <Property Name="expected" Type="Edm.Boolean"/>
+        <Property Name="extraProperties" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyExtraProperty)"/>
+        <Property Name="internalDescription" Type="Edm.String"/>
+        <Property Name="origin" Type="Edm.String"/>
+        <Property Name="stage" Type="Edm.String"/>
+        <Property Name="statusIndicative" Type="Edm.Boolean" Nullable="false"/>
+        <Property Name="step" Type="Edm.String"/>
+        <Property Name="timestampUTC" Type="Edm.String"/>
+        <Property Name="upstreamErrorCode" Type="Edm.String"/>
+        <Property Name="upstreamHttpStatusCode" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="ClientAmplifyEndpointInfo">
+        <Property Name="endpointSubType" Type="Edm.String"/>
+        <Property Name="endpointType" Type="Edm.String"/>
+        <Property Name="extraProperties" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyExtraProperty)"/>
+        <Property Name="href" Type="Edm.String"/>
+        <Property Name="id" Type="Edm.String"/>
+        <Property Name="name" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="ClientAmplifyExtraProperty">
+        <Property Name="name" Type="Edm.String"/>
+        <Property Name="value" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="ClientAmplifyResults">
+        <Property Name="errors" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResult)"/>
+        <Property Name="messages" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResult)"/>
+        <Property Name="warnings" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResult)"/>
+      </ComplexType>
+      <ComplexType Name="ClientAmplifyAnywhereResults" BaseType="Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResults">
+        <Property Name="publishingStatusResponse" Type="SP.Publishing.PublishingStatusResponse"/>
+      </ComplexType>
+    </Schema>
     <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" Namespace="SP.Publishing.PortalLaunch">
       <ComplexType Name="PortalLaunchSetupWrapper"/>
       <ComplexType Name="PortalLaunchWaveGroup">
@@ -36993,44 +37062,6 @@
         <Property Name="Status" Type="Edm.String"/>
         <Property Name="Title" Type="Edm.String"/>
         <Property Name="Url" Type="Edm.String"/>
-      </ComplexType>
-    </Schema>
-    <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" Namespace="Microsoft.SharePoint.Publishing.Amplify.Client">
-      <ComplexType Name="ClientAmplifyResults">
-        <Property Name="errors" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResult)"/>
-        <Property Name="messages" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResult)"/>
-        <Property Name="warnings" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResult)"/>
-      </ComplexType>
-      <ComplexType Name="ClientAmplifyResult">
-        <Property Name="canvasElement" Type="Edm.String"/>
-        <Property Name="code" Type="Edm.String"/>
-        <Property Name="endpoint" Type="Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyEndpointInfo"/>
-        <Property Name="eventId" Type="Edm.String"/>
-        <Property Name="expected" Type="Edm.Boolean"/>
-        <Property Name="extraProperties" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyExtraProperty)"/>
-        <Property Name="internalDescription" Type="Edm.String"/>
-        <Property Name="origin" Type="Edm.String"/>
-        <Property Name="stage" Type="Edm.String"/>
-        <Property Name="statusIndicative" Type="Edm.Boolean" Nullable="false"/>
-        <Property Name="step" Type="Edm.String"/>
-        <Property Name="timestampUTC" Type="Edm.String"/>
-        <Property Name="upstreamErrorCode" Type="Edm.String"/>
-        <Property Name="upstreamHttpStatusCode" Type="Edm.Int32"/>
-      </ComplexType>
-      <ComplexType Name="ClientAmplifyEndpointInfo">
-        <Property Name="endpointSubType" Type="Edm.String"/>
-        <Property Name="endpointType" Type="Edm.String"/>
-        <Property Name="extraProperties" Type="Collection(Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyExtraProperty)"/>
-        <Property Name="href" Type="Edm.String"/>
-        <Property Name="id" Type="Edm.String"/>
-        <Property Name="name" Type="Edm.String"/>
-      </ComplexType>
-      <ComplexType Name="ClientAmplifyExtraProperty">
-        <Property Name="name" Type="Edm.String"/>
-        <Property Name="value" Type="Edm.String"/>
-      </ComplexType>
-      <ComplexType Name="ClientAmplifyAnywhereResults" BaseType="Microsoft.SharePoint.Publishing.Amplify.Client.ClientAmplifyResults">
-        <Property Name="publishingStatusResponse" Type="SP.Publishing.PublishingStatusResponse"/>
       </ComplexType>
     </Schema>
     <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" Namespace="Microsoft.Office.Server.Search.REST">
@@ -40757,9 +40788,11 @@
         <Property Name="themeJson" Type="Edm.String"/>
       </ComplexType>
       <ComplexType Name="LLMColumnInfo">
+        <Property Name="AnalyzeImageDetailLevel" Type="Edm.String"/>
         <Property Name="AnalyzeImageWithVision" Type="Edm.Boolean" Nullable="false"/>
         <Property Name="AutofillColumnType" Type="Edm.String"/>
         <Property Name="CustomModelId" Type="Edm.String"/>
+        <Property Name="CustomParametersJson" Type="Edm.String"/>
         <Property Name="IsEnabled" Type="Edm.Boolean" Nullable="false"/>
         <Property Name="Prompt" Type="Edm.String"/>
       </ComplexType>

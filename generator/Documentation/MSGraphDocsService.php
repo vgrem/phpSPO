@@ -43,7 +43,7 @@ class MSGraphDocsService
 
     /**
      * @param array $typeSchema
-     * @return array
+     * @return array|null
      * @throws RequestException
      */
     public function resolveAnnotations(&$typeSchema)
