@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Modified: 2020-05-24T22:08:35+00:00
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\Directory\Users;
 
 use Office365\Entity;
+use Office365\Runtime\ResourcePath;
+use Office365\Teams\ShiftPreferences;
 
 /**
  *  "The current user settings for content discovery. "
@@ -49,5 +51,12 @@ class UserSettings extends Entity
     public function setContributionToContentDiscoveryAsOrganizationDisabled($value)
     {
         $this->setProperty("ContributionToContentDiscoveryAsOrganizationDisabled", $value, true);
+    }
+    /**
+     * @return ShiftPreferences
+     */
+    public function getShiftPreferences()
+    {
+        return $this->getProperty("ShiftPreferences", new ShiftPreferences($this->getContext(), new ResourcePath("ShiftPreferences", $this->getResourcePath())));
     }
 }

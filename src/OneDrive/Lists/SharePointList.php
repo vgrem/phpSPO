@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Modified: 2020-05-26T22:35:11+00:00 
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\OneDrive\Lists;
 
@@ -11,6 +11,8 @@ use Office365\OneDrive\ListItems\ListItemCollection;
 use Office365\OneDrive\SharepointIds;
 use Office365\OneDrive\DriveItems\SystemFacet;
 use Office365\Runtime\ResourcePath;
+use Office365\SharePoint\ContentTypeCollection;
+
 /**
  *  "The list resource represents a list in a site."
  */
@@ -35,8 +37,7 @@ class SharePointList extends Entity
      */
     public function getDrive()
     {
-        return $this->getProperty("Drive",
-            new Drive($this->getContext(), new ResourcePath("Drive", $this->getResourcePath())));
+        return $this->getProperty("Drive", new Drive($this->getContext(), new ResourcePath("Drive", $this->getResourcePath())));
     }
     /**
      * @return ListInfo
@@ -85,7 +86,13 @@ class SharePointList extends Entity
      */
     public function getItems()
     {
-        return $this->getProperty("Items",
-            new ListItemCollection($this->getContext(), new ResourcePath("Items", $this->getResourcePath())));
+        return $this->getProperty("Items", new ListItemCollection($this->getContext(), new ResourcePath("Items", $this->getResourcePath())));
+    }
+    /**
+     * @return ContentTypeCollection
+     */
+    public function getContentTypes()
+    {
+        return $this->getProperty("ContentTypes", new ContentTypeCollection($this->getContext(), new ResourcePath("ContentTypes", $this->getResourcePath())));
     }
 }

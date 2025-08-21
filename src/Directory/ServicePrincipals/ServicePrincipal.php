@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Modified: 2020-05-29T07:19:37+00:00
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\Directory\ServicePrincipals;
 
+use Office365\Directory\Applications\InformationalUrl;
 use Office365\Entity;
-
-
 /**
  * Represents an instance of an application in a directory. Inherits from [directoryObject](directoryobject.md).
  */
@@ -276,5 +275,19 @@ class ServicePrincipal extends Entity
     public function setTokenEncryptionKeyId($value)
     {
         $this->setProperty("TokenEncryptionKeyId", $value, true);
+    }
+    /**
+     * @return InformationalUrl
+     */
+    public function getInfo()
+    {
+        return $this->getProperty("Info");
+    }
+    /**
+     * @var InformationalUrl
+     */
+    public function setInfo($value)
+    {
+        return $this->setProperty("Info", $value, true);
     }
 }

@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Modified: 2020-05-29T07:19:37+00:00 
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\Outlook\Calendars;
 
 use Office365\Entity;
-
 class CalendarSharingMessage extends Entity
 {
     /**
@@ -42,5 +41,19 @@ class CalendarSharingMessage extends Entity
     public function setSuggestedCalendarName($value)
     {
         $this->setProperty("SuggestedCalendarName", $value, true);
+    }
+    /**
+     * @return CalendarSharingMessageAction
+     */
+    public function getSharingMessageAction()
+    {
+        return $this->getProperty("SharingMessageAction");
+    }
+    /**
+     * @var CalendarSharingMessageAction
+     */
+    public function setSharingMessageAction($value)
+    {
+        return $this->setProperty("SharingMessageAction", $value, true);
     }
 }

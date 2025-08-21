@@ -1,19 +1,22 @@
 <?php
 
 /**
- * Modified: 2020-05-27T07:36:43+00:00 
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\OneDrive\Sites;
-
 
 use Office365\OneDrive\BaseItem;
 use Office365\OneDrive\Drives\Drive;
 use Office365\OneDrive\Drives\DriveCollection;
 use Office365\OneDrive\ItemAnalytics;
+use Office365\OneDrive\PublicError;
 use Office365\OneDrive\Root;
 use Office365\OneDrive\SharepointIds;
 use Office365\OneNote\Onenote;
 use Office365\Runtime\ResourcePath;
+use Office365\SharePoint\ContentTypeCollection;
+use Office365\SharePoint\ListCollection;
+
 /**
  * The **site** resource provides metadata and relationships for a SharePoint site.
  */
@@ -38,16 +41,14 @@ class Site extends BaseItem
      */
     public function getDrive()
     {
-        return $this->getProperty("Drive",
-            new Drive($this->getContext(), new ResourcePath("Drive", $this->getResourcePath())));
+        return $this->getProperty("Drive", new Drive($this->getContext(), new ResourcePath("Drive", $this->getResourcePath())));
     }
     /**
      * @return Onenote
      */
     public function getOnenote()
     {
-        return $this->getProperty("Onenote",
-            new Onenote($this->getContext(), new ResourcePath("Onenote", $this->getResourcePath())));
+        return $this->getProperty("Onenote", new Onenote($this->getContext(), new ResourcePath("Onenote", $this->getResourcePath())));
     }
     /**
      * @return Root
@@ -96,8 +97,7 @@ class Site extends BaseItem
      */
     public function getAnalytics()
     {
-        return $this->getProperty("Analytics",
-            new ItemAnalytics($this->getContext(), new ResourcePath("Analytics", $this->getResourcePath())));
+        return $this->getProperty("Analytics", new ItemAnalytics($this->getContext(), new ResourcePath("Analytics", $this->getResourcePath())));
     }
     /**
      * @return SiteCollection
@@ -111,10 +111,34 @@ class Site extends BaseItem
      */
     public function getDrives()
     {
-        return $this->getProperty("Drives",
-            new DriveCollection($this->getContext(), new ResourcePath("Drives", $this->getResourcePath())));
+        return $this->getProperty("Drives", new DriveCollection($this->getContext(), new ResourcePath("Drives", $this->getResourcePath())));
     }
-
-
-
+    /**
+     * @return PublicError
+     */
+    public function getError()
+    {
+        return $this->getProperty("Error");
+    }
+    /**
+     * @var PublicError
+     */
+    public function setError($value)
+    {
+        return $this->setProperty("Error", $value, true);
+    }
+    /**
+     * @return ContentTypeCollection
+     */
+    public function getContentTypes()
+    {
+        return $this->getProperty("ContentTypes", new ContentTypeCollection($this->getContext(), new ResourcePath("ContentTypes", $this->getResourcePath())));
+    }
+    /**
+     * @return ListCollection
+     */
+    public function getLists()
+    {
+        return $this->getProperty("Lists", new ListCollection($this->getContext(), new ResourcePath("Lists", $this->getResourcePath())));
+    }
 }

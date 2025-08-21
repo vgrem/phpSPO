@@ -1,11 +1,12 @@
 <?php
 
 /**
- * Modified: 2020-05-29T07:19:37+00:00 
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\Outlook\Calendars;
 
 use Office365\Entity;
+use Office365\Outlook\EmailAddress;
 
 /**
  *  "The permissions of a user with whom the calendar is shared."
@@ -49,5 +50,19 @@ class CalendarPermission extends Entity
     public function setIsInsideOrganization($value)
     {
         $this->setProperty("IsInsideOrganization", $value, true);
+    }
+    /**
+     * @return EmailAddress
+     */
+    public function getEmailAddress()
+    {
+        return $this->getProperty("EmailAddress");
+    }
+    /**
+     * @var EmailAddress
+     */
+    public function setEmailAddress($value)
+    {
+        return $this->setProperty("EmailAddress", $value, true);
     }
 }

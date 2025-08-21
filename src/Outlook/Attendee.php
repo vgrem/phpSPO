@@ -1,9 +1,11 @@
 <?php
 
 /**
- * Modified: 2020-05-26T22:10:14+00:00 
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\Outlook;
+
+use Office365\Teams\TimeSlot;
 
 class Attendee extends Recipient
 {
@@ -11,4 +13,8 @@ class Attendee extends Recipient
      * @var ResponseStatus
      */
     public $Status;
+    /**
+     * @var TimeSlot
+     */
+    public $ProposedNewTime;
 }

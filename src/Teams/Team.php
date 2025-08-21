@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Modified: 2020-05-26T22:12:31+00:00 
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\Teams;
 
@@ -12,8 +12,6 @@ use Office365\EntityCollection;
 use Office365\Runtime\Actions\InvokePostMethodQuery;
 use Office365\Runtime\Http\RequestOptions;
 use Office365\Runtime\ResourcePath;
-
-
 /**
  *  "A team in Microsoft Teams is a collection of channels. "
  */
@@ -27,7 +25,6 @@ class Team extends Entity
     {
         return $this->getProperty("WebUrl");
     }
-
     /**
      *  A hyperlink that will go to the team in the Microsoft Teams client. This is the URL that you get when you right-click a team in the Microsoft Teams client and select **Get link to team**. This URL should be treated as an opaque blob, and not parsed.
      *
@@ -46,7 +43,6 @@ class Team extends Entity
     {
         return $this->getProperty("IsArchived");
     }
-
     /**
      * Whether this team is in read-only mode.
      *
@@ -65,7 +61,6 @@ class Team extends Entity
     {
         return $this->getProperty("MemberSettings", new TeamMemberSettings());
     }
-
     /**
      * Settings to configure whether members can perform certain actions, for example, create channels and add bots, in the team.
      *
@@ -84,7 +79,6 @@ class Team extends Entity
     {
         return $this->getProperty("GuestSettings", new TeamGuestSettings());
     }
-
     /**
      * Settings to configure whether guests can create, update, or delete channels in the team.
      *
@@ -103,7 +97,6 @@ class Team extends Entity
     {
         return $this->getProperty("MessagingSettings", new TeamMessagingSettings());
     }
-
     /**
      * Settings to configure messaging and mentions in the team.
      *
@@ -122,7 +115,6 @@ class Team extends Entity
     {
         return $this->getProperty("FunSettings", new TeamFunSettings());
     }
-
     /**
      * Settings to configure use of Giphy, memes, and stickers in the team.
      *
@@ -133,40 +125,29 @@ class Team extends Entity
     {
         return $this->setProperty("FunSettings", $value, true);
     }
-
     /**
      * @return EntityCollection
      */
     public function getMembers()
     {
-        return $this->getProperty("Members",
-            new EntityCollection($this->getContext(),
-                new ResourcePath("Members",$this->getResourcePath()),DirectoryObject::class));
+        return $this->getProperty("Members", new EntityCollection($this->getContext(), new ResourcePath("Members", $this->getResourcePath()), DirectoryObject::class));
     }
-
-
     /**
      * @param User $user
      * @param string[] $roles
      * @return Entity
      */
-    public function addMember($user, $roles){
+    public function addMember($user, $roles)
+    {
         $returnType = new Entity($this->getContext());
         $this->getMembers()->addChild($returnType);
-
-        $user->ensureProperty("Id",function () use ($user, $returnType, $roles){
-            $payload = array(
-                "@odata.type" => "#microsoft.graph.aadUserConversationMember",
-                "roles" => $roles,
-                "user@odata.bind" => "https://graph.microsoft.com/v1.0/users('{$user->getId()}')"
-            );
-            $qry = new InvokePostMethodQuery($this->getMembers(),null,null,null,$payload);
+        $user->ensureProperty("Id", function () use ($user, $returnType, $roles) {
+            $payload = array("@odata.type" => "#microsoft.graph.aadUserConversationMember", "roles" => $roles, "user@odata.bind" => "https://graph.microsoft.com/v1.0/users('{$user->getId()}')");
+            $qry = new InvokePostMethodQuery($this->getMembers(), null, null, null, $payload);
             $this->getContext()->addQueryAndResultObject($qry, $returnType);
-
         });
         return $returnType;
     }
-
     /**
      * Deletes a Team
      * @return self
@@ -174,10 +155,23 @@ class Team extends Entity
     public function deleteObject()
     {
         parent::deleteObject();
-        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function (RequestOptions $request){
-            $request->Url = str_replace ( "teams" , "groups", $request->Url );
+        $this->getContext()->getPendingRequest()->beforeExecuteRequestOnce(function (RequestOptions $request) {
+            $request->Url = str_replace("teams", "groups", $request->Url);
         });
         return $this;
     }
-
+    /**
+     * @return Schedule
+     */
+    public function getSchedule()
+    {
+        return $this->getProperty("Schedule", new Schedule($this->getContext(), new ResourcePath("Schedule", $this->getResourcePath())));
+    }
+    /**
+     * @return Channel
+     */
+    public function getPrimaryChannel()
+    {
+        return $this->getProperty("PrimaryChannel", new Channel($this->getContext(), new ResourcePath("PrimaryChannel", $this->getResourcePath())));
+    }
 }

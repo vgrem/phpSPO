@@ -1,12 +1,14 @@
 <?php
 
 /**
- * Modified: 2020-05-26T22:10:14+00:00 
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\Outlook;
 
 use Office365\Entity;
+use Office365\Outlook\Messages\AttachmentCollection;
 use Office365\Runtime\ResourcePath;
+
 /**
  *  "Represents an individual Post item within a conversationThread entity."
  */
@@ -136,5 +138,12 @@ class Post extends Entity
             $this->setProperty("InReplyTo", new Post($this->getContext(), new ResourcePath("InReplyTo", $this->getResourcePath())));
         }
         return $this->getProperty("InReplyTo");
+    }
+    /**
+     * @return AttachmentCollection
+     */
+    public function getAttachments()
+    {
+        return $this->getProperty("Attachments", new AttachmentCollection($this->getContext(), new ResourcePath("Attachments", $this->getResourcePath())));
     }
 }

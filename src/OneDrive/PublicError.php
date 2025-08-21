@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Modified: 2020-05-29T07:19:37+00:00
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\OneDrive;
 
@@ -20,4 +20,8 @@ class PublicError extends ClientValue
      * @var string
      */
     public $Target;
+    /**
+     * @var PublicInnerError
+     */
+    public $InnerError;
 }

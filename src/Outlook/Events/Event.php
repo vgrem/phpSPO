@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Modified: 2020-05-29T07:19:37+00:00
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\Outlook\Events;
-
 
 use Office365\Entity;
 use Office365\Outlook\Attendee;
@@ -13,11 +12,14 @@ use Office365\Outlook\DateTimeTimeZone;
 use Office365\Outlook\EmailAddress;
 use Office365\Outlook\ItemBody;
 use Office365\Outlook\Location;
+use Office365\Outlook\Messages\AttachmentCollection;
 use Office365\Outlook\PatternedRecurrence;
 use Office365\Outlook\Recipient;
 use Office365\Outlook\ResponseStatus;
 use Office365\Runtime\ClientValueCollection;
 use Office365\Runtime\ResourcePath;
+use Office365\Teams\OnlineMeetingInfo;
+
 /**
  *  "An event in a calendar."
  */
@@ -31,7 +33,6 @@ class Event extends Entity
     {
         return $this->getProperty("OriginalStartTimeZone");
     }
-
     /**
      * The start time zone that was set when the event was created. A value of `tzone://Microsoft/Custom` indicates that a legacy custom time zone was set in desktop Outlook.
      *
@@ -42,7 +43,6 @@ class Event extends Entity
     {
         return $this->setProperty("OriginalStartTimeZone", $value, true);
     }
-
     /**
      * The end time zone that was set when the event was created. A value of `tzone://Microsoft/Custom` indicates that a legacy custom time zone was set in desktop Outlook.
      * @return string
@@ -51,7 +51,6 @@ class Event extends Entity
     {
         return $this->getProperty("OriginalEndTimeZone");
     }
-
     /**
      * The end time zone that was set when the event was created. A value of `tzone://Microsoft/Custom` indicates that a legacy custom time zone was set in desktop Outlook.
      * @var string
@@ -60,7 +59,6 @@ class Event extends Entity
     {
         $this->setProperty("OriginalEndTimeZone", $value, true);
     }
-
     /**
      * A unique identifier that is shared by all instances of an event across different calendars. Read-only.
      * @return string
@@ -69,7 +67,6 @@ class Event extends Entity
     {
         return $this->getProperty("ICalUId");
     }
-
     /**
      * A unique identifier that is shared by all instances of an event across different calendars. Read-only.
      * @var string
@@ -78,7 +75,6 @@ class Event extends Entity
     {
         $this->setProperty("ICalUId", $value, true);
     }
-
     /**
      * The number of minutes before the event start time that the reminder alert occurs.
      * @return integer
@@ -87,7 +83,6 @@ class Event extends Entity
     {
         return $this->getProperty("ReminderMinutesBeforeStart");
     }
-
     /**
      * The number of minutes before the event start time that the reminder alert occurs.
      * @var integer
@@ -96,7 +91,6 @@ class Event extends Entity
     {
         $this->setProperty("ReminderMinutesBeforeStart", $value, true);
     }
-
     /**
      * Set to true if an alert is set to remind the user of the event.
      * @return bool
@@ -105,7 +99,6 @@ class Event extends Entity
     {
         return $this->getProperty("IsReminderOn");
     }
-
     /**
      * Set to true if an alert is set to remind the user of the event.
      * @var bool
@@ -114,7 +107,6 @@ class Event extends Entity
     {
         $this->setProperty("IsReminderOn", $value, true);
     }
-
     /**
      * Set to true if the event has attachments.
      * @return bool
@@ -123,7 +115,6 @@ class Event extends Entity
     {
         return $this->getProperty("HasAttachments");
     }
-
     /**
      * Set to true if the event has attachments.
      * @var bool
@@ -132,7 +123,6 @@ class Event extends Entity
     {
         $this->setProperty("HasAttachments", $value, true);
     }
-
     /**
      * The text of the event's subject line.
      * @return string
@@ -141,7 +131,6 @@ class Event extends Entity
     {
         return $this->getProperty("Subject");
     }
-
     /**
      * The text of the event's subject line.
      * @var string
@@ -150,7 +139,6 @@ class Event extends Entity
     {
         $this->setProperty("Subject", $value, true);
     }
-
     /**
      * The preview of the message associated with the event. It is in text format.
      * @return string
@@ -159,7 +147,6 @@ class Event extends Entity
     {
         return $this->getProperty("BodyPreview");
     }
-
     /**
      * The preview of the message associated with the event. It is in text format.
      *
@@ -170,7 +157,6 @@ class Event extends Entity
     {
         return $this->setProperty("BodyPreview", $value, true);
     }
-
     /**
      * Set to true if the event lasts all day.
      * @return bool
@@ -179,7 +165,6 @@ class Event extends Entity
     {
         return $this->getProperty("IsAllDay");
     }
-
     /**
      * Set to true if the event lasts all day.
      * @var bool
@@ -188,7 +173,6 @@ class Event extends Entity
     {
         $this->setProperty("IsAllDay", $value, true);
     }
-
     /**
      * Set to true if the event has been canceled.
      * @return bool
@@ -197,7 +181,6 @@ class Event extends Entity
     {
         return $this->getProperty("IsCancelled");
     }
-
     /**
      * Set to true if the event has been canceled.
      * @var bool
@@ -206,7 +189,6 @@ class Event extends Entity
     {
         $this->setProperty("IsCancelled", $value, true);
     }
-
     /**
      * Set to true if the calendar owner (specified by the **owner** property of the [calendar](calendar.md)) is the organizer of the event (specified by the **organizer** property of the **event**). This also applies if a delegate organized the event on behalf of the owner.
      * @return bool
@@ -215,7 +197,6 @@ class Event extends Entity
     {
         return $this->getProperty("IsOrganizer");
     }
-
     /**
      * Set to true if the calendar owner (specified by the **owner** property of the [calendar](calendar.md)) is the organizer of the event (specified by the **organizer** property of the **event**). This also applies if a delegate organized the event on behalf of the owner.
      * @var bool
@@ -224,7 +205,6 @@ class Event extends Entity
     {
         $this->setProperty("IsOrganizer", $value, true);
     }
-
     /**
      * Set to true if the sender would like a response when the event is accepted or declined.
      * @return bool
@@ -233,7 +213,6 @@ class Event extends Entity
     {
         return $this->getProperty("ResponseRequested");
     }
-
     /**
      * Set to true if the sender would like a response when the event is accepted or declined.
      * @var bool
@@ -242,7 +221,6 @@ class Event extends Entity
     {
         $this->setProperty("ResponseRequested", $value, true);
     }
-
     /**
      * The ID for the recurring series master item, if this event is part of a recurring series.
      * @return string
@@ -251,7 +229,6 @@ class Event extends Entity
     {
         return $this->getProperty("SeriesMasterId");
     }
-
     /**
      * The ID for the recurring series master item, if this event is part of a recurring series.
      * @var string
@@ -260,7 +237,6 @@ class Event extends Entity
     {
         $this->setProperty("SeriesMasterId", $value, true);
     }
-
     /**
      * The organizer of the event.
      * @return Recipient
@@ -269,7 +245,6 @@ class Event extends Entity
     {
         return $this->getProperty("Organizer", new Recipient());
     }
-
     /**
      * The organizer of the event.
      * @var Recipient
@@ -278,7 +253,6 @@ class Event extends Entity
     {
         $this->setProperty("Organizer", $value, true);
     }
-
     /**
      * The URL to open the event in Outlook on the web.<br/><br/>Outlook on the web opens the event in the browser if you are signed in to your mailbox. Otherwise, Outlook on the web prompts you to sign in.<br/><br/>This URL can be accessed from within an iFrame.
      * @return string
@@ -287,7 +261,6 @@ class Event extends Entity
     {
         return $this->getProperty("WebLink");
     }
-
     /**
      * The URL to open the event in Outlook on the web.<br/><br/>Outlook on the web opens the event in the browser if you are signed in to your mailbox. Otherwise, Outlook on the web prompts you to sign in.<br/><br/>This URL can be accessed from within an iFrame.
      * @var string
@@ -296,7 +269,6 @@ class Event extends Entity
     {
         $this->setProperty("WebLink", $value, true);
     }
-
     /**
      * A URL for an online meeting. The property is set only when an organizer specifies an event as an online meeting such as a Skype meeting. Read-only.
      * @return string
@@ -305,7 +277,6 @@ class Event extends Entity
     {
         return $this->getProperty("OnlineMeetingUrl");
     }
-
     /**
      * A URL for an online meeting. The property is set only when an organizer specifies an event as an online meeting such as a Skype meeting. Read-only.
      * @var string
@@ -314,7 +285,6 @@ class Event extends Entity
     {
         $this->setProperty("OnlineMeetingUrl", $value, true);
     }
-
     /**
      * The date, time, and time zone that the event starts. By default, the start time is in UTC.
      * @return DateTimeTimeZone
@@ -323,7 +293,6 @@ class Event extends Entity
     {
         return $this->getProperty("Start", new DateTimeTimeZone());
     }
-
     /**
      * The date, time, and time zone that the event starts. By default, the start time is in UTC.
      *
@@ -334,7 +303,6 @@ class Event extends Entity
     {
         return $this->setProperty("Start", $value, true);
     }
-
     /**
      * The date, time, and time zone that the event ends. By default, the end time is in UTC.
      * @return DateTimeTimeZone
@@ -343,7 +311,6 @@ class Event extends Entity
     {
         return $this->getProperty("End", new DateTimeTimeZone());
     }
-
     /**
      * The date, time, and time zone that the event ends. By default, the end time is in UTC.
      * @var DateTimeTimeZone
@@ -352,17 +319,14 @@ class Event extends Entity
     {
         $this->setProperty("End", $value, true);
     }
-
     /**
      * The calendar that contains the event. Navigation property. Read-only.
      * @return Calendar
      */
     public function getCalendar()
     {
-        return $this->getProperty("Calendar",
-            new Calendar($this->getContext(), new ResourcePath("Calendar", $this->getResourcePath())));
+        return $this->getProperty("Calendar", new Calendar($this->getContext(), new ResourcePath("Calendar", $this->getResourcePath())));
     }
-
     /**
      * Indicates the type of response sent in response to an event message.
      * @return ResponseStatus
@@ -371,7 +335,6 @@ class Event extends Entity
     {
         return $this->getProperty("ResponseStatus", new ResponseStatus());
     }
-
     /**
      * Indicates the type of response sent in response to an event message.
      * @var ResponseStatus
@@ -380,7 +343,6 @@ class Event extends Entity
     {
         $this->setProperty("ResponseStatus", $value, true);
     }
-
     /**
      * The body of the message associated with the event. It can be in HTML or text format.
      * @return ItemBody
@@ -389,7 +351,6 @@ class Event extends Entity
     {
         return $this->getProperty("Body", new ItemBody());
     }
-
     /**
      * The body of the message associated with the event. It can be in HTML or text format.
      * @var ItemBody
@@ -398,7 +359,6 @@ class Event extends Entity
     {
         $this->setProperty("Body", $value, true);
     }
-
     /**
      * The location of the event.
      * @return Location
@@ -407,7 +367,6 @@ class Event extends Entity
     {
         return $this->getProperty("Location", new Location());
     }
-
     /**
      * The location of the event.
      *
@@ -418,7 +377,6 @@ class Event extends Entity
     {
         return $this->setProperty("Location", $value);
     }
-
     /**
      * The recurrence pattern for the event.
      * @return PatternedRecurrence
@@ -427,7 +385,6 @@ class Event extends Entity
     {
         return $this->getProperty("Recurrence", new PatternedRecurrence());
     }
-
     /**
      * The recurrence pattern for the event.
      * @var PatternedRecurrence
@@ -436,7 +393,6 @@ class Event extends Entity
     {
         $this->setProperty("Recurrence", $value, true);
     }
-
     /**
      *  `True` if this event has online meeting information, `false` otherwise. Default is false. Optional.
      * @return bool
@@ -445,7 +401,6 @@ class Event extends Entity
     {
         return $this->getProperty("IsOnlineMeeting");
     }
-
     /**
      *  `True` if this event has online meeting information, `false` otherwise. Default is false. Optional.
      * @var bool
@@ -454,7 +409,6 @@ class Event extends Entity
     {
         $this->setProperty("IsOnlineMeeting", $value, true);
     }
-
     /**
      * @return bool
      */
@@ -462,7 +416,6 @@ class Event extends Entity
     {
         return $this->getProperty("AllowNewTimeProposals");
     }
-
     /**
      * @var bool
      */
@@ -470,8 +423,6 @@ class Event extends Entity
     {
         $this->setProperty("AllowNewTimeProposals", $value, true);
     }
-
-
     /**
      * @return ClientValueCollection
      */
@@ -479,20 +430,39 @@ class Event extends Entity
     {
         return $this->getProperty("Attendees", new ClientValueCollection(Attendee::class));
     }
-
-
     /**
      * @param EmailAddress[]|Attendee[] $values
      */
     public function setAttendees($values)
     {
         $values = array_map(function ($value) {
-            if ($value instanceof EmailAddress)
+            if ($value instanceof EmailAddress) {
                 return new Attendee($value);
-            else
+            } else {
                 return $value;
+            }
         }, $values);
-        return $this->setProperty("Attendees", ClientValueCollection::fromArray(Attendee::class,$values));
+        return $this->setProperty("Attendees", ClientValueCollection::fromArray(Attendee::class, $values));
     }
-
+    /**
+     * @return OnlineMeetingInfo
+     */
+    public function getOnlineMeeting()
+    {
+        return $this->getProperty("OnlineMeeting");
+    }
+    /**
+     * @var OnlineMeetingInfo
+     */
+    public function setOnlineMeeting($value)
+    {
+        return $this->setProperty("OnlineMeeting", $value, true);
+    }
+    /**
+     * @return AttachmentCollection
+     */
+    public function getAttachments()
+    {
+        return $this->getProperty("Attachments", new AttachmentCollection($this->getContext(), new ResourcePath("Attachments", $this->getResourcePath())));
+    }
 }

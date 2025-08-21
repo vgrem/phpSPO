@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Modified: 2020-05-26T22:30:38+00:00 
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\OneDrive\Drives;
-
 
 use Office365\Directory\Identities\IdentitySet;
 use Office365\OneDrive\BaseItem;
@@ -26,7 +25,6 @@ class Drive extends BaseItem
     {
         return $this->getProperty("DriveType");
     }
-
     /**
      * @return self
      * @var string
@@ -42,7 +40,6 @@ class Drive extends BaseItem
     {
         return $this->getProperty("Owner", new IdentitySet());
     }
-
     /**
      *
      * @return self
@@ -59,7 +56,6 @@ class Drive extends BaseItem
     {
         return $this->getProperty("Quota", new Quota());
     }
-
     /**
      *
      * @return self
@@ -102,31 +98,34 @@ class Drive extends BaseItem
      */
     public function getList()
     {
-        return $this->getProperty("List",
-            new SharePointList($this->getContext(), new ResourcePath("List", $this->getResourcePath())));
+        return $this->getProperty("List", new SharePointList($this->getContext(), new ResourcePath("List", $this->getResourcePath())));
     }
     /**
      * @return DriveItem
      */
     public function getRoot()
     {
-        return $this->getProperty("Root",
-            new DriveItem($this->getContext(), new ResourcePath("Root", $this->getResourcePath())));
+        return $this->getProperty("Root", new DriveItem($this->getContext(), new ResourcePath("Root", $this->getResourcePath())));
     }
     /**
      * @return DriveItemCollection
      */
     public function getItems()
     {
-        return $this->getProperty("Items",
-            new DriveItemCollection($this->getContext(), new ResourcePath("Items", $this->getResourcePath())));
+        return $this->getProperty("Items", new DriveItemCollection($this->getContext(), new ResourcePath("Items", $this->getResourcePath())));
     }
     /**
      * @return DriveItemCollection
      */
     public function getSpecial()
     {
-        return $this->getProperty("Special",
-            new DriveItemCollection($this->getContext(), new ResourcePath("Special", $this->getResourcePath())));
+        return $this->getProperty("Special", new DriveItemCollection($this->getContext(), new ResourcePath("Special", $this->getResourcePath())));
+    }
+    /**
+     * @return DriveItemCollection
+     */
+    public function getFollowing()
+    {
+        return $this->getProperty("Following", new DriveItemCollection($this->getContext(), new ResourcePath("Following", $this->getResourcePath())));
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Modified: 2020-05-25T06:42:59+00:00 
+ *  2025-08-21T20:35:45+00:00 
  */
 namespace Office365\OneDrive\DriveItems;
 
@@ -72,4 +72,12 @@ class RemoteItem extends ClientValue
      * @var SpecialFolder
      */
     public $SpecialFolder;
+    /**
+     * @var Image
+     */
+    public $Image;
+    /**
+     * @var Video
+     */
+    public $Video;
 }
