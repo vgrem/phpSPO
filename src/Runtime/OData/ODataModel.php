@@ -289,7 +289,7 @@ class ODataModel
 
         $filePath = implode(DIRECTORY_SEPARATOR,array_filter([$this->options['outputPath'], $relativeNamespace,$className . ".php"]));
         if (!file_exists($filePath)) {
-            $filePath = $this->resolveFile($typeName); //?? $filePath;
+            $filePath = $this->resolveFile($typeName) ?? $filePath;
 
             $relativeNamespace = str_replace(
                     "/", "\\",

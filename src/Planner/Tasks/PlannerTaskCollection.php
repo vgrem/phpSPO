@@ -11,15 +11,10 @@ use Office365\Runtime\ResourcePath;
 
 class PlannerTaskCollection extends EntityCollection {
 
-    /**
-     * @var Entity|null
-     */
-    private $parent;
 
     public function __construct(ClientRuntimeContext $ctx, ?ResourcePath $resourcePath = null, ?Entity $parent=null)
     {
-        parent::__construct($ctx, $resourcePath, PlannerTask::class);
-        $this->parent = $parent;
+        parent::__construct($ctx, $resourcePath, PlannerTask::class, $parent);
     }
 
     /**
@@ -33,7 +28,7 @@ class PlannerTaskCollection extends EntityCollection {
      */
     public function create($title, $planId=null, $bucketId=null, $assignments=[]){
         /** @var PlannerTask $returnType */
-        if ($this->parent === null && $planId === null) {
+        if ($this->getParent() === null && $planId === null) {
             throw new \Exception("planId is mandatory when creating a task without a parent");
         }
 
@@ -47,10 +42,11 @@ class PlannerTaskCollection extends EntityCollection {
         }
 
         $qry = new CreateEntityQuery($returnType);
+        $container = $this->getParent();
 
-        if ($this->parent instanceof PlannerPlan) {
-            $this->parent->ensureProperty("Id", function () use ($qry, $returnType) {
-                $returnType->setProperty("planId", $this->parent->getId());
+        if ($container instanceof PlannerPlan) {
+            $container->ensureProperty("Id", function () use ($container, $qry, $returnType) {
+                $returnType->setProperty("planId", $container->getId());
                 $this->getContext()->addQueryAndResultObject($qry,$returnType);
             });
         }

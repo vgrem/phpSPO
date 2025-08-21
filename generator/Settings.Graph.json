@@ -149,7 +149,8 @@
       "Microsoft.Graph.RoleAssignment": "../src/Directory/Permissions/RoleAssignment.php",
       "Graph.ResourceVisualization": "../src/OneDrive/ResourceVisualization.php",
       "Microsoft.Graph.ResourceVisualization": "../src/OneDrive/ResourceVisualization.php",
-      "Graph.Entity": "../src/Entity.php"
+      "Graph.Entity": "../src/Entity.php",
+      "Graph.AttachmentCollection": "../src/Outlook/Messages/AttachmentCollection.php"
     }
 
 }
