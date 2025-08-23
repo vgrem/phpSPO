@@ -15986,7 +15986,6 @@
           <Parameter Name="fileOffset" Type="Edm.Int64" Nullable="false"/>
           <Parameter Name="checksum" Type="Edm.String"/>
           <Parameter Name="stream" Type="Edm.Stream"/>
-          <Parameter Name="sandboxId" Type="Edm.Guid" Nullable="false"/>
         </FunctionImport>
         <FunctionImport Name="SP_File_GetContentVerFromTag" ReturnType="Edm.Int32" IsSideEffecting="false">
           <Parameter Name="contentTag" Type="Edm.String"/>

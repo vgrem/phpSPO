@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Modified: 2020-05-26T22:12:31+00:00
+ *  2025-08-22T05:41:05+00:00 
  */
 namespace Office365\Teams;
 
+use Office365\Communications\ParticipantInfo;
+use Office365\Communications\RecordingInfo;
 use Office365\Entity;
-
 /**
  * Represents the participant type.
  */
@@ -59,5 +60,19 @@ class Participant extends Entity
     public function setInfo($value)
     {
         $this->setProperty("Info", $value, true);
+    }
+    /**
+     * @return RecordingInfo
+     */
+    public function getRecordingInfo()
+    {
+        return $this->getProperty("RecordingInfo");
+    }
+    /**
+     * @var RecordingInfo
+     */
+    public function setRecordingInfo($value)
+    {
+        return $this->setProperty("RecordingInfo", $value, true);
     }
 }

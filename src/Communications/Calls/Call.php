@@ -1,10 +1,11 @@
 <?php
 
 /**
- * Modified: 2020-05-29T07:19:37+00:00 
+ *  2025-08-22T05:41:05+00:00 
  */
 namespace Office365\Communications\Calls;
 
+use Office365\Communications\IncomingContext;
 use Office365\Communications\MediaConfig;
 use Office365\Communications\MeetingInfo;
 use Office365\Communications\ParticipantInfo;
@@ -12,7 +13,6 @@ use Office365\Communications\ResultInfo;
 use Office365\Communications\ToneInfo;
 use Office365\Entity;
 use Office365\Teams\ChatInfo;
-
 /**
  *  "The **call** resource is created when there is an incoming call for the application or the application creates a new outgoing call via a `POST` on `app/calls`."
  */
@@ -238,5 +238,19 @@ class Call extends Entity
     public function setCallChainId($value)
     {
         $this->setProperty("CallChainId", $value, true);
+    }
+    /**
+     * @return IncomingContext
+     */
+    public function getIncomingContext()
+    {
+        return $this->getProperty("IncomingContext");
+    }
+    /**
+     * @var IncomingContext
+     */
+    public function setIncomingContext($value)
+    {
+        return $this->setProperty("IncomingContext", $value, true);
     }
 }

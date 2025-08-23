@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2024-04-20T08:07:39+00:00 16.0.24803.12007
+ * Generated  2025-08-23T09:07:29+00:00 16.0.26406.12013
  */
 namespace Office365\SharePoint;
 
@@ -24,4 +24,12 @@ class FileVersionBatchDeleteParameters extends ClientValue
      * @var integer
      */
     public $MajorWithMinorVersionsLimit;
+    /**
+     * @var bool
+     */
+    public $SyncListPolicy;
+    /**
+     * @var VersionPolicySelectionParameters
+     */
+    public $FileTypeSelections;
 }

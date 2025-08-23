@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2025-08-19T18:34:41+00:00 16.0.26330.12013
+ * Generated  2025-08-23T09:07:29+00:00 16.0.26406.12013
  */
 namespace Office365\SharePoint\Sharing;
 
@@ -12,4 +12,8 @@ class SharingEntityResult extends ClientValue
      * @var string
      */
     public $Key;
+    /**
+     * @var SharingEntityResultDescription
+     */
+    public $Description;
 }

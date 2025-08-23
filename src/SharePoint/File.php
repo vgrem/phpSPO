@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Generated  2025-06-14T08:50:37+00:00 16.0.26121.12017
+ * Generated  2025-08-23T09:04:07+00:00 16.0.26406.12013
  */
 namespace Office365\SharePoint;
 
@@ -1071,5 +1071,19 @@ class File extends SecurableObject
     public function getWeb()
     {
         return $this->getProperty("Web", new Web($this->getContext(), new ResourcePath("Web", $this->getResourcePath())));
+    }
+    /**
+     * @return bool
+     */
+    public function getArchived()
+    {
+        return $this->getProperty("Archived");
+    }
+    /**
+     * @var bool
+     */
+    public function setArchived($value)
+    {
+        return $this->setProperty("Archived", $value, true);
     }
 }

@@ -6,8 +6,8 @@
     "docsRoot": "https:\/\/docs.microsoft.com\/en-us\/openspecs\/sharepoint_protocols\/ms-csomspt\/",
     "rootNamespace": "Office365\\SharePoint",
     "entityRootNamespace": "SP",
-    "version": "16.0.26406.12010",
-    "timestamp": "2025-08-21T16:12:47+00:00",
+    "version": "16.0.26406.12013",
+    "timestamp": "2025-08-23T08:42:56+00:00",
     "placeholder": "Generated ",
     "typeMappings": {
         "SP.List": "SP.SPList",

@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Modified: 2020-05-29T07:19:37+00:00
+ *  2025-08-22T05:43:25+00:00 
  */
 namespace Office365\Teams;
-
 
 /**
  * A unit of non-work in a schedule.
@@ -24,5 +23,33 @@ class TimeOff extends ChangeTrackedEntity
     public function setUserId($value)
     {
         $this->setProperty("UserId", $value, true);
+    }
+    /**
+     * @return TimeOffItem
+     */
+    public function getSharedTimeOff()
+    {
+        return $this->getProperty("SharedTimeOff");
+    }
+    /**
+     * @var TimeOffItem
+     */
+    public function setSharedTimeOff($value)
+    {
+        return $this->setProperty("SharedTimeOff", $value, true);
+    }
+    /**
+     * @return TimeOffItem
+     */
+    public function getDraftTimeOff()
+    {
+        return $this->getProperty("DraftTimeOff");
+    }
+    /**
+     * @var TimeOffItem
+     */
+    public function setDraftTimeOff($value)
+    {
+        return $this->setProperty("DraftTimeOff", $value, true);
     }
 }

@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Modified: 2020-05-26T22:10:14+00:00 
+ *  2025-08-22T05:43:25+00:00 
  */
 namespace Office365\Teams;
 
-
 use Office365\Entity;
+use Office365\OneDrive\DriveItems\DriveItem;
+use Office365\Runtime\ResourcePath;
 
 /**
  *  "A channel is a collection of messages within a team. "
@@ -76,5 +77,12 @@ class Channel extends Entity
     public function setWebUrl($value)
     {
         $this->setProperty("WebUrl", $value, true);
+    }
+    /**
+     * @return DriveItem
+     */
+    public function getFilesFolder()
+    {
+        return $this->getProperty("FilesFolder", new DriveItem($this->getContext(), new ResourcePath("FilesFolder", $this->getResourcePath())));
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Modified: 2020-05-29T07:19:37+00:00 
+ *  2025-08-22T05:43:25+00:00 
  */
 namespace Office365\Teams;
 
@@ -12,4 +12,8 @@ class ChatMessagePolicyViolation extends ClientValue
      * @var string
      */
     public $JustificationText;
+    /**
+     * @var ChatMessagePolicyViolationPolicyTip
+     */
+    public $PolicyTip;
 }

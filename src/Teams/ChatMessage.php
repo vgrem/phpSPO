@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Modified: 2020-05-29T07:19:37+00:00 
+ *  2025-08-22T05:43:25+00:00 
  */
 namespace Office365\Teams;
 
+use Office365\Directory\Identities\IdentitySet;
 use Office365\Entity;
+use Office365\Outlook\ItemBody;
 
 /**
  * Represents an individual chat message within a [channel](./channel.md) or (in beta) [chat](/graph/api/resources/chat?view=graph-rest-beta). The chat message can be a root chat message or part of a reply thread that is defined by the **replyToId** property in the chat message.
@@ -123,5 +125,47 @@ class ChatMessage extends Entity
     public function setWebUrl($value)
     {
         $this->setProperty("WebUrl", $value, true);
+    }
+    /**
+     * @return IdentitySet
+     */
+    public function getFrom()
+    {
+        return $this->getProperty("From");
+    }
+    /**
+     * @var IdentitySet
+     */
+    public function setFrom($value)
+    {
+        return $this->setProperty("From", $value, true);
+    }
+    /**
+     * @return ItemBody
+     */
+    public function getBody()
+    {
+        return $this->getProperty("Body");
+    }
+    /**
+     * @var ItemBody
+     */
+    public function setBody($value)
+    {
+        return $this->setProperty("Body", $value, true);
+    }
+    /**
+     * @return ChatMessagePolicyViolation
+     */
+    public function getPolicyViolation()
+    {
+        return $this->getProperty("PolicyViolation");
+    }
+    /**
+     * @var ChatMessagePolicyViolation
+     */
+    public function setPolicyViolation($value)
+    {
+        return $this->setProperty("PolicyViolation", $value, true);
     }
 }

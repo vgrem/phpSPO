@@ -5,7 +5,8 @@
  * Refer https://docs.microsoft.com/en-us/sharepoint/dev/apis/site-creation-rest for docs
  */
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+
+require_once '../../../vendor/autoload.php';
 $settings = include(__DIR__ . '/../../../tests/Settings.php');
 
 use Office365\Runtime\Auth\ClientCredential;

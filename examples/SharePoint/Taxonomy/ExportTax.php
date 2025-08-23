@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../vendor/autoload.php';
+require_once '../../../vendor/autoload.php';
 
 use Office365\Runtime\Auth\ClientCredential;
 use Office365\SharePoint\ClientContext;

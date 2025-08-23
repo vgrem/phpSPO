@@ -1,13 +1,13 @@
 <?php
 
 /**
- *  2025-08-21T20:52:59+00:00 
+ *  2025-08-22T05:38:57+00:00 
  */
 namespace Office365\Intune;
 
 use Office365\Directory\Applications\MimeContent;
 use Office365\Entity;
-
+use Office365\Runtime\ResourcePath;
 
 class ManagedEBook extends Entity
 {
@@ -94,5 +94,12 @@ class ManagedEBook extends Entity
     public function setPrivacyInformationUrl($value)
     {
         return $this->setProperty("PrivacyInformationUrl", $value, true);
+    }
+    /**
+     * @return EBookInstallSummary
+     */
+    public function getInstallSummary()
+    {
+        return $this->getProperty("InstallSummary", new EBookInstallSummary($this->getContext(), new ResourcePath("InstallSummary", $this->getResourcePath())));
     }
 }

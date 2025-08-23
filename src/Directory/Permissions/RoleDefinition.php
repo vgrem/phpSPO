@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Modified: 2020-05-26T22:10:14+00:00
+ *  2025-08-22T05:38:57+00:00 
  */
 namespace Office365\Directory\Permissions;
 
 use Office365\Entity;
+use Office365\Runtime\ResourcePath;
+use Office365\SharePoint\RoleAssignmentCollection;
 
 class RoleDefinition extends Entity
 {
@@ -59,5 +61,12 @@ class RoleDefinition extends Entity
     public function setIsBuiltIn($value)
     {
         $this->setProperty("IsBuiltIn", $value, true);
+    }
+    /**
+     * @return RoleAssignmentCollection
+     */
+    public function getRoleAssignments()
+    {
+        return $this->getProperty("RoleAssignments", new RoleAssignmentCollection($this->getContext(), new ResourcePath("RoleAssignments", $this->getResourcePath())));
     }
 }
