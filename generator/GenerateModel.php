@@ -40,7 +40,7 @@ function generateTypeFile(array $typeSchema, array $options)
     }
 }
 
-function ensureFolder(&$path)
+function ensureFolder(string &$path)
 {
     if (!is_dir($path)) {
         mkdir($path, 0777, true);
@@ -68,7 +68,7 @@ function generateFiles(ODataModel $model)
  * @param string $fileName
  * @return array
  */
-function loadSettingsFromFile($fileName)
+function loadSettingsFromFile(string $fileName): array
 {
     $settings = json_decode(file_get_contents($fileName), true);
     $settings['timestamp'] = date('c');
@@ -119,7 +119,7 @@ function saveMetadataFile($xml, $metadataPath){
 }
 
 
-function syncSharePointMetadataFile($fileName){
+function syncSharePointMetadataFile(string $fileName){
     $settings = include('../tests/Settings.php');
     $credentials = new ClientCredential($settings['ClientId'], $settings['ClientSecret']); //new UserCredentials($Settings['UserName'], $Settings['Password']);
     $ctx = (new ClientContext($settings['Url']))->withCredentials($credentials);

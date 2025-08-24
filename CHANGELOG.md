@@ -8,6 +8,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.2.0] - 2025-08-17
+
+### Added
+
+- Planner API: Enhanced support for Microsoft Graph Planner API
+
+### Fixed
+
+-  #352: Fix OneDrive file upload session retry logic (by @it-can)
+-  #350: Improve error handling for SharePoint API requests (by @VincentFoulon80)
+-  PR #348: Fix metadata handling in file uploads (by @JensDeMuynck)
+-  PR #129: Fix OneDrive large file upload session
+
+
+
 ## [3.1.2] - 2024-04-21
 
 ### Added
