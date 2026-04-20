@@ -59,10 +59,33 @@ class ServiceOperationPath extends ResourcePath implements ICSOMCallable
 
     private static function escapeValue($value)
     {
-        if (is_string($value))
+        if (is_string($value)) {
+            /**
+             * Given value that is a path, like `/sites/Site/O'Reilly`, needs to be enclosed within quotes:
+             * ```
+             * GET https://{site_url}/_api/web/GetFolderByServerRelativeUrl('/sites/Site/O'Reilly')/Files
+             * ```
+             * because the quote within the name of the folder `O'Reilly` is messing up where the argument ends,
+             * it needs to be escaped, like so:
+             * ```
+             * GET https://{site_url}/_api/web/GetFolderByServerRelativeUrl('/sites/Site/O''Reilly')/Files
+             * ```
+             * before sending it to the API.
+             *
+             *
+             * `rawurlencode`ing it doesn't solve the issue, the URL is decoded before it is evaluated by the API it seems.
+             *
+             *
+             * Sources:
+             * - https://sharepoint.stackexchange.com/questions/154590/getfilebyserverrelativeurl-fails-when-the-filename-contains-a-quote
+             * - https://web.archive.org/web/20230325070719/http://www.sharepointnadeem.com/2012/06/special-characters-in-rest-query-filter.html
+             */
+            $value = str_replace('%27', '%27%27', $value);
+            $value = str_replace("'", "''", $value);
             $value = "'" . $value . "'";
-        elseif (is_bool($value))
+        } elseif (is_bool($value)) {
             $value = var_export($value, true);
+        }
         return $value;
     }
 
